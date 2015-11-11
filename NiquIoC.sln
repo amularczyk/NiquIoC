@@ -11,25 +11,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleContainer", "SampleCo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NiquIoC.Test", "NiquIoC.Test\NiquIoC.Test.csproj", "{7154955D-3D68-47DC-A9A8-3EB2FCDDE5D4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerformanceTests", "PerformanceTests\PerformanceTests.csproj", "{0FD42737-ADEA-4C5C-8BEF-A5F62C92CA40}"
+EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 5
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://niqu.visualstudio.com/defaultcollection
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = NiquIoC\\NiquIoC.csproj
-		SccProjectName1 = NiquIoC
-		SccLocalPath1 = NiquIoC
-		SccProjectUniqueName2 = SampleContainer\\SampleContainer.csproj
-		SccProjectName2 = SampleContainer
-		SccLocalPath2 = SampleContainer
-		SccProjectUniqueName3 = Test\\SampleContainer.Test.csproj
-		SccProjectName3 = Test
-		SccLocalPath3 = Test
-		SccProjectUniqueName4 = NiquIoC.Test\\NiquIoC.Test.csproj
-		SccProjectName4 = NiquIoC.Test
-		SccLocalPath4 = NiquIoC.Test
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -51,6 +35,10 @@ Global
 		{7154955D-3D68-47DC-A9A8-3EB2FCDDE5D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7154955D-3D68-47DC-A9A8-3EB2FCDDE5D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7154955D-3D68-47DC-A9A8-3EB2FCDDE5D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FD42737-ADEA-4C5C-8BEF-A5F62C92CA40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FD42737-ADEA-4C5C-8BEF-A5F62C92CA40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FD42737-ADEA-4C5C-8BEF-A5F62C92CA40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FD42737-ADEA-4C5C-8BEF-A5F62C92CA40}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
