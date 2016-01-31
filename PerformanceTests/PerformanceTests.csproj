@@ -50,11 +50,16 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="BasicPerformanceTests.cs" />
     <Compile Include="Classes\Test_A.cs" />
     <Compile Include="ClassATests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NiquIoCWithFasterflect\NiquIoCWithFasterflect.csproj">
+      <Project>{2eba3394-84d6-4108-a8a6-c8681a897e7f}</Project>
+      <Name>NiquIoCWithFasterflect</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NiquIoC\NiquIoC.csproj">
       <Project>{6e444464-c09e-4be8-b6ae-ca743f7cb9ce}</Project>
       <Name>NiquIoC</Name>

@@ -83,7 +83,7 @@ namespace NiquIoC
 
         private object CreateInstance(Type type)
         {
-            return CreateInstance2(type);
+            return CreateInstance1(type);
         }
 
         private object CreateInstance1(Type type)
