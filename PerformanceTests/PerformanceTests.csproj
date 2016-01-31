@@ -35,14 +35,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Hiro, Version=1.0.5.30528, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Magisterka\Hiro-master\build\Debug\Hiro.dll</HintPath>
-    </Reference>
-    <Reference Include="Hiro.Containers, Version=1.0.2.30526, Culture=neutral, PublicKeyToken=f0efb83db47c0105, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Magisterka\Hiro-master\build\Debug\Hiro.Containers.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <Choose>
@@ -63,6 +55,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NiquIoC\NiquIoC.csproj">
+      <Project>{6e444464-c09e-4be8-b6ae-ca743f7cb9ce}</Project>
+      <Name>NiquIoC</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SampleContainer\SampleContainer.csproj">
       <Project>{956396ea-8b6c-4548-8468-89b04b435088}</Project>
       <Name>SampleContainer</Name>
