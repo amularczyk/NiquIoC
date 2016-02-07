@@ -1,5 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 
 namespace NiquIoC.Test
 {
