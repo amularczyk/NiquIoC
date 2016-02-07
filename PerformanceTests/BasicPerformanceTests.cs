@@ -4,7 +4,6 @@ using SampleContainer;
 using PerformanceTests.Classes;
 using System.Diagnostics;
 using System.Linq;
-using NiquIoC;
 
 namespace PerformanceTests
 {

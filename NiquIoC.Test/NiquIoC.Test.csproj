@@ -57,12 +57,6 @@
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\NiquIoC\NiquIoC.csproj">
-      <Project>{6e444464-c09e-4be8-b6ae-ca743f7cb9ce}</Project>
-      <Name>NiquIoC</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

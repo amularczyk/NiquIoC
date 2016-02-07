@@ -6,7 +6,7 @@ using PerformanceTests.Classes;
 using System.Diagnostics;
 using System.Linq;
 using Autofac;
-using NiquIoC;
+using Microsoft.Practices.Unity;
 
 namespace PerformanceTests
 {
@@ -309,6 +309,59 @@ namespace PerformanceTests
             cb.RegisterType<Test_A9>().As<ITest_A9>();
             cb.RegisterType<Test_A10>().As<ITest_A10>();
             var c = cb.Build();
+            sw.Stop();
+
+            Debug.WriteLine(string.Format("Register: {0} Ticks.", sw.ElapsedTicks));
+            sw.Reset();
+
+            ITest_A10 lastValue = null;
+            for (int i = 0; i < 100; i++)
+            {
+                sw.Start();
+                var test = c.Resolve<ITest_A10>();
+                sw.Stop();
+
+                Assert.AreNotEqual(test, lastValue);
+                lastValue = test;
+
+                sw2.Start();
+                Check(test);
+                sw2.Stop();
+            }
+
+            Debug.WriteLine(string.Format("Resolve: {0} Ticks.", sw.ElapsedTicks));
+            Debug.WriteLine(string.Format("Resolve: {0} Milliseconds.", sw.ElapsedMilliseconds));
+
+            Debug.WriteLine(string.Format("Checking: {0} Ticks.", sw2.ElapsedTicks));
+            Debug.WriteLine(string.Format("Checking: {0} Milliseconds.", sw2.ElapsedMilliseconds));
+        }
+
+        [TestMethod]
+        public void UnityTest()
+        {
+            //Register: 13795 Ticks.
+            //Resolve: 1752101 Ticks.
+            //Resolve: 691 Milliseconds.
+            //Checking: 22515 Ticks.
+            //Checking: 8 Milliseconds.
+
+            var c = new Microsoft.Practices.Unity.UnityContainer();
+
+            Stopwatch sw = new Stopwatch();
+            Stopwatch sw2 = new Stopwatch();
+
+            sw.Start();
+            c.RegisterType<ITest_A0, Test_A0>();
+            c.RegisterType<ITest_A1, Test_A1>();
+            c.RegisterType<ITest_A2, Test_A2>();
+            c.RegisterType<ITest_A3, Test_A3>();
+            c.RegisterType<ITest_A4, Test_A4>();
+            c.RegisterType<ITest_A5, Test_A5>();
+            c.RegisterType<ITest_A6, Test_A6>();
+            c.RegisterType<ITest_A7, Test_A7>();
+            c.RegisterType<ITest_A8, Test_A8>();
+            c.RegisterType<ITest_A9, Test_A9>();
+            c.RegisterType<ITest_A10, Test_A10>();
             sw.Stop();
 
             Debug.WriteLine(string.Format("Register: {0} Ticks.", sw.ElapsedTicks));
