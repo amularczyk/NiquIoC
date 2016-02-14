@@ -99,10 +99,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NiquIoCWithFasterflect\NiquIoCWithFasterflect.csproj">
-      <Project>{2eba3394-84d6-4108-a8a6-c8681a897e7f}</Project>
-      <Name>NiquIoCWithFasterflect</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SampleContainer\SampleContainer.csproj">
       <Project>{956396ea-8b6c-4548-8468-89b04b435088}</Project>
       <Name>SampleContainer</Name>
