@@ -12,8 +12,8 @@ namespace SampleContainer
         void RegisterType<T>(bool singleton)
             where T : class;
 
-        void RegisterType<From, To>(bool singleton)
-            where To : From;
+        void RegisterType<TFrom, TTo>(bool singleton)
+            where TTo : TFrom;
 
         void RegisterInstance<T>(T instance);
 

@@ -7,10 +7,9 @@ namespace SampleContainer
 {
     public class UpperIntermediateContainerWithCache : IContainer
     {
-        private Dictionary<Type, Tuple<bool, object>> _classContainer;
-        private Dictionary<Type, Tuple<bool, Type, object>> _interfaceContainer;
-
-        private Dictionary<Type, Tuple<ConstructorInfo, List<ParameterInfo>>> _cache; 
+        private readonly Dictionary<Type, Tuple<ConstructorInfo, List<ParameterInfo>>> _cache;
+        private readonly Dictionary<Type, Tuple<bool, object>> _classContainer;
+        private readonly Dictionary<Type, Tuple<bool, Type, object>> _interfaceContainer;
 
         public UpperIntermediateContainerWithCache()
         {
@@ -22,53 +21,53 @@ namespace SampleContainer
         #region IContainer
 
         public void RegisterType<T>(bool singleton)
-                    where T : class
+            where T : class
         {
-            if (!_classContainer.ContainsKey(typeof(T)))
+            if (!_classContainer.ContainsKey(typeof (T)))
             {
-                _classContainer.Add(typeof(T), Tuple.Create(singleton, (object)null));
+                _classContainer.Add(typeof (T), Tuple.Create(singleton, (object) null));
             }
             else
             {
-                _classContainer[typeof(T)] = Tuple.Create(singleton, (object)null);
+                _classContainer[typeof (T)] = Tuple.Create(singleton, (object) null);
             }
         }
 
-        public void RegisterType<From, To>(bool singleton)
-            where To : From
+        public void RegisterType<TFrom, TTo>(bool singleton)
+            where TTo : TFrom
         {
-            if (!_interfaceContainer.ContainsKey(typeof(From)))
+            if (!_interfaceContainer.ContainsKey(typeof (TFrom)))
             {
-                _interfaceContainer.Add(typeof(From), Tuple.Create(singleton, typeof(To), (object)null));
+                _interfaceContainer.Add(typeof (TFrom), Tuple.Create(singleton, typeof (TTo), (object) null));
             }
             else
             {
-                _interfaceContainer[typeof(From)] = Tuple.Create(singleton, typeof(To), (object)null);
+                _interfaceContainer[typeof (TFrom)] = Tuple.Create(singleton, typeof (TTo), (object) null);
             }
         }
 
         public void RegisterInstance<T>(T instance)
         {
-            if (typeof(T).IsInterface)
+            if (typeof (T).IsInterface)
             {
-                if (!_interfaceContainer.ContainsKey(typeof(T)))
+                if (!_interfaceContainer.ContainsKey(typeof (T)))
                 {
-                    _interfaceContainer.Add(typeof(T), Tuple.Create(true, instance.GetType(), (object)instance));
+                    _interfaceContainer.Add(typeof (T), Tuple.Create(true, instance.GetType(), (object) instance));
                 }
                 else
                 {
-                    _interfaceContainer[typeof(T)] = Tuple.Create(true, instance.GetType(), (object)instance);
+                    _interfaceContainer[typeof (T)] = Tuple.Create(true, instance.GetType(), (object) instance);
                 }
             }
             else
             {
-                if (!_classContainer.ContainsKey(typeof(T)))
+                if (!_classContainer.ContainsKey(typeof (T)))
                 {
-                    _classContainer.Add(typeof(T), Tuple.Create(true, (object)instance));
+                    _classContainer.Add(typeof (T), Tuple.Create(true, (object) instance));
                 }
                 else
                 {
-                    _classContainer[typeof(T)] = Tuple.Create(true, (object)instance);
+                    _classContainer[typeof (T)] = Tuple.Create(true, (object) instance);
                 }
             }
         }
@@ -76,7 +75,7 @@ namespace SampleContainer
         public T Resolve<T>()
         {
             Dictionary<Type, bool> resolvedTypes = new Dictionary<Type, bool>();
-            var instance = (T)Resolve(typeof(T), resolvedTypes);
+            var instance = (T) Resolve(typeof (T), resolvedTypes);
             resolvedTypes = null;
             return instance;
         }
@@ -84,12 +83,11 @@ namespace SampleContainer
         public void BuildUp<T>(T instance)
         {
             Dictionary<Type, bool> resolvedTypes = new Dictionary<Type, bool>();
-            ResolveProperty(instance, typeof(T), resolvedTypes);
+            ResolveProperty(instance, typeof (T), resolvedTypes);
             resolvedTypes = null;
         }
 
         #endregion
-
 
         #region Private Methods
 
@@ -111,10 +109,7 @@ namespace SampleContainer
 
                         return value;
                     }
-                    else
-                    {
-                        return CreateInstance(result.Item2, resolvedTypes);
-                    }
+                    return CreateInstance(result.Item2, resolvedTypes);
                 }
             }
             else
@@ -133,10 +128,7 @@ namespace SampleContainer
 
                         return value;
                     }
-                    else
-                    {
-                        return CreateInstance(type, resolvedTypes);
-                    }
+                    return CreateInstance(type, resolvedTypes);
                 }
             }
 
@@ -171,7 +163,8 @@ namespace SampleContainer
                 var allConstructors = type.GetConstructors();
 
                 int maxParameter = -1;
-                IEnumerable<ConstructorInfo> goodConstructors = allConstructors.Where(c => c.GetCustomAttributes(typeof (DependencyConstrutor), false).Any()).ToList();
+                IEnumerable<ConstructorInfo> goodConstructors =
+                    allConstructors.Where(c => c.GetCustomAttributes(typeof (DependencyConstrutor), false).Any()).ToList();
                 if (!goodConstructors.Any())
                 {
                     maxParameter = allConstructors.Max(c => c.GetParameters().Count());
@@ -202,16 +195,13 @@ namespace SampleContainer
 
                     return obj;
                 }
-                else
-                {
-                    throw new InvalidOperationException("Brak odpowiedniego konstruktora");
-                }
+                throw new InvalidOperationException("Brak odpowiedniego konstruktora");
             }
         }
 
         private void ResolveProperty(object obj, Type type, Dictionary<Type, bool> resolvedTypes)
         {
-            var properties = type.GetProperties().Where(p => p.GetCustomAttributes(typeof(DependencyProperty), false).Any() && p.SetMethod != null);
+            var properties = type.GetProperties().Where(p => p.GetCustomAttributes(typeof (DependencyProperty), false).Any() && p.SetMethod != null);
 
             foreach (var property in properties)
             {
@@ -225,7 +215,7 @@ namespace SampleContainer
             {
                 if (!resolvedTypes[type])
                 {
-                    throw new InvalidOperationException("Cycle in class " + type.ToString());
+                    throw new InvalidOperationException("Cycle in class " + type);
                 }
             }
             else
