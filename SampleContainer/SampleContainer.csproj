@@ -46,6 +46,7 @@
     <Compile Include="Attributes.cs" />
     <Compile Include="BeginnerContainer.cs" />
     <Compile Include="EmitTmp.cs" />
+    <Compile Include="EmitTmp2.cs" />
     <Compile Include="IContainer.cs" />
     <Compile Include="IntermediateContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

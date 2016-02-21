@@ -16,6 +16,15 @@ namespace Test
         }
 
         [TestMethod]
+        public void TestT()
+        {
+            EmitTmp tmp = new EmitTmp();
+
+            var t = tmp.FooT();
+            Assert.IsNotNull(t);
+        }
+
+        [TestMethod]
         public void Test2()
         {
             EmitTmp tmp = new EmitTmp();
@@ -32,6 +41,29 @@ namespace Test
             var t = tmp.Foo3();
             Assert.IsNotNull(t);
             Assert.IsNotNull(t.Bar);
+        }
+
+        [TestMethod]
+        public void Test4()
+        {
+            EmitTmp tmp = new EmitTmp();
+
+            var t = tmp.Foo4();
+            Assert.IsNotNull(t);
+            Assert.IsNotNull(t.Bar);
+            Assert.IsNotNull(t.Bar2);
+            Assert.IsNotNull(t.Bar2.Bar);
+        }
+
+        [TestMethod]
+        public void Test5()
+        {
+            EmitTmp tmp = new EmitTmp();
+
+            var t = tmp.Foo5();
+            Assert.IsNotNull(t);
+            Assert.IsNotNull(t.Bar);
+            Assert.IsNotNull(t.Bar4);
         }
     }
 }
