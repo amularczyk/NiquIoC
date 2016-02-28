@@ -161,6 +161,93 @@ namespace SampleContainer
 
             return (Bar5)create.Invoke(null, null);
         }
+
+        public Bar5 Foo6()
+        {
+            var b = new Bar();
+            var t = b.GetType();
+            var i = t.GetConstructor(Type.EmptyTypes);
+            var b4 = new Bar4();
+            var t4 = b4.GetType();
+            var i4 = t4.GetConstructor(Type.EmptyTypes);
+            var b5 = new Bar5(b, b4);
+            var t5 = b5.GetType();
+            var i5 = t5.GetConstructor(new Type[] { typeof(Bar), typeof(Bar4) });
+
+            DynamicMethod create = new DynamicMethod("Create", typeof(Bar5), Type.EmptyTypes, true);
+
+            ILGenerator ilgen = create.GetILGenerator();
+
+            ilgen.DeclareLocal(typeof(int));
+            ilgen.DeclareLocal(typeof(object));
+
+            ilgen.Emit(OpCodes.Ldc_I4_0); // [0]
+            ilgen.Emit(OpCodes.Stloc_0); //[nothing]
+
+            ilgen.Emit(OpCodes.Ldc_I4_0);
+            ilgen.Emit(OpCodes.Stloc_0); // [args][index]
+            ilgen.Emit(OpCodes.Newobj, i);
+            ilgen.Emit(OpCodes.Ldc_I4_0);
+            ilgen.Emit(OpCodes.Ldelem_Ref); // [item-in-args-at-index]
+            ilgen.Emit(OpCodes.Castclass, typeof(Bar)); //Cast to Type t
+
+
+            ilgen.Emit(OpCodes.Ldc_I4_1);
+            ilgen.Emit(OpCodes.Stloc_0); // [args][index]
+            ilgen.Emit(OpCodes.Newobj, i4);
+            ilgen.Emit(OpCodes.Ldc_I4_1);
+            ilgen.Emit(OpCodes.Ldelem_Ref); // [item-in-args-at-index]
+            ilgen.Emit(OpCodes.Castclass, typeof(Bar4)); //Cast to Type t
+
+            ilgen.Emit(OpCodes.Newobj, i5);
+            ilgen.Emit(OpCodes.Stloc_1); // nothing
+            ilgen.Emit(OpCodes.Ldloc_1); //[new-object]
+            ilgen.Emit(OpCodes.Ret);
+
+            return (Bar5)create.Invoke(null, null);
+        }
+
+        public Bar5 Foo7()
+        {
+            var i5 = typeof(Bar5).GetConstructors()[0];
+            
+            DynamicMethod create = new DynamicMethod("Create", typeof(Bar5), new[] { typeof(object[]) }, true);
+
+            ILGenerator ilgen = create.GetILGenerator();
+
+            ilgen.DeclareLocal(typeof(int));
+            ilgen.DeclareLocal(typeof(object));
+
+            ilgen.Emit(OpCodes.Ldc_I4_0); // [0]
+            ilgen.Emit(OpCodes.Stloc_0); //[nothing]
+
+            ilgen.Emit(OpCodes.Ldc_I4_0);
+            ilgen.Emit(OpCodes.Stloc_0); // [args][index]
+            ilgen.Emit(OpCodes.Ldarg_0); //[args]
+            ilgen.Emit(OpCodes.Ldc_I4_0);
+            ilgen.Emit(OpCodes.Ldelem_Ref); // [item-in-args-at-index]
+            //ilgen.Emit(OpCodes.Castclass, typeof(Bar)); //Cast to Type t
+            ilgen.Emit(OpCodes.Unbox_Any, typeof(Bar)); // same as a cast if ref-type
+
+
+            ilgen.Emit(OpCodes.Ldc_I4_1);
+            ilgen.Emit(OpCodes.Stloc_0); // [args][index]
+            ilgen.Emit(OpCodes.Ldarg_0); //[args]
+            ilgen.Emit(OpCodes.Ldc_I4_1);
+            ilgen.Emit(OpCodes.Ldelem_Ref); // [item-in-args-at-index]
+            //ilgen.Emit(OpCodes.Castclass, typeof(Bar4)); //Cast to Type t
+            ilgen.Emit(OpCodes.Unbox_Any, typeof(Bar4)); // same as a cast if ref-type
+
+            ilgen.Emit(OpCodes.Newobj, i5);
+            ilgen.Emit(OpCodes.Stloc_1); // nothing
+            ilgen.Emit(OpCodes.Ldloc_1); //[new-object]
+            ilgen.Emit(OpCodes.Ret);
+
+
+            Func<object[], object> factoryMethod = (Func<object[], object>)create.CreateDelegate(typeof(Func<object[], object>));
+
+            return (Bar5)factoryMethod(new object[] { new Bar(), new Bar4() });
+        }
     }
 
     public class Bar
