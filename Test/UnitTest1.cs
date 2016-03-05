@@ -122,6 +122,16 @@ namespace Test
             Assert.IsNotNull(obj.Bar);
             Assert.IsNotNull(obj.Bar4);
         }
+
+        [TestMethod]
+        public void Test31()
+        {
+            var obj = (Bar5)EmitTmp4.Create<Bar5>();
+
+            Assert.IsNotNull(obj);
+            Assert.IsNotNull(obj.Bar);
+            Assert.IsNotNull(obj.Bar4);
+        }
     }
     class SomeClass
     {
