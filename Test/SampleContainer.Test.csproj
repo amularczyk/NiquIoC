@@ -59,6 +59,7 @@
     <Compile Include="ClassDefinitions.cs" />
     <Compile Include="ServiceLocatorTests.cs" />
     <Compile Include="UnitTest1.cs" />
+    <Compile Include="UpperIntermediateContainerWithEmitTests.cs" />
     <Compile Include="UpperIntermediateContainerWithCacheTests.cs" />
     <Compile Include="UpperIntermediateContainerTests.cs" />
     <Compile Include="IntermediateContainerTests.cs" />

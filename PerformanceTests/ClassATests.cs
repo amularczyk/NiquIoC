@@ -15,7 +15,7 @@ namespace PerformanceTests
     [TestClass]
     public class ClassATests
     {
-        private static readonly int _testCase = 1000;
+        private static readonly int _testCase = 100;
         private static readonly string _fileName = Directory.GetCurrentDirectory() + "PerforamceTests_" + DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + ".txt";
 
         private static void Check(ITestA10 testA10)
@@ -42,6 +42,16 @@ namespace PerformanceTests
             Assert.IsNotNull(testA10.TestA9.TestA2);
             Assert.IsNotNull(testA10.TestA9.TestA1);
             Assert.IsNotNull(testA10.TestA9.TestA0);
+
+            Assert.AreNotSame(testA10.TestA8, testA10.TestA9.TestA8);
+            Assert.AreNotSame(testA10.TestA7, testA10.TestA9.TestA7);
+            Assert.AreNotSame(testA10.TestA6, testA10.TestA9.TestA6);
+            Assert.AreNotSame(testA10.TestA5, testA10.TestA9.TestA5);
+            Assert.AreNotSame(testA10.TestA4, testA10.TestA9.TestA4);
+            Assert.AreNotSame(testA10.TestA3, testA10.TestA9.TestA3);
+            Assert.AreNotSame(testA10.TestA2, testA10.TestA9.TestA2);
+            Assert.AreNotSame(testA10.TestA1, testA10.TestA9.TestA1);
+            Assert.AreNotSame(testA10.TestA0, testA10.TestA9.TestA0);
 
             Assert.IsNotNull(testA10.TestA9.TestA8.TestA7);
             Assert.IsNotNull(testA10.TestA9.TestA8.TestA6);
@@ -158,6 +168,70 @@ namespace PerformanceTests
             WriteLine("\nUpperIntermediateContainerWithCache");
 
             var c = new UpperIntermediateContainerWithCache();
+
+            Stopwatch sw = new Stopwatch();
+            Stopwatch sw2 = new Stopwatch();
+
+            sw.Start();
+            c.RegisterType<ITestA0, TestA0>(false);
+            c.RegisterType<ITestA1, TestA1>(false);
+            c.RegisterType<ITestA2, TestA2>(false);
+            c.RegisterType<ITestA3, TestA3>(false);
+            c.RegisterType<ITestA4, TestA4>(false);
+            c.RegisterType<ITestA5, TestA5>(false);
+            c.RegisterType<ITestA6, TestA6>(false);
+            c.RegisterType<ITestA7, TestA7>(false);
+            c.RegisterType<ITestA8, TestA8>(false);
+            c.RegisterType<ITestA9, TestA9>(false);
+            c.RegisterType<ITestA10, TestA10>(false);
+            sw.Stop();
+
+            WriteLine("Register: {0} Ticks.", sw.ElapsedTicks);
+            sw.Reset();
+
+            sw.Start();
+            var lastValue = c.Resolve<ITestA10>();
+            sw.Stop();
+
+            sw2.Start();
+            Check(lastValue);
+            sw2.Stop();
+
+            WriteLine("First resolve: {0} Ticks.", sw.ElapsedTicks);
+            WriteLine("First resolve: {0} Milliseconds.", sw.ElapsedMilliseconds);
+            sw.Reset();
+
+            WriteLine("First checking: {0} Ticks.", sw2.ElapsedTicks);
+            WriteLine("First checking: {0} Milliseconds.", sw2.ElapsedMilliseconds);
+            sw2.Reset();
+
+            for (int i = 0; i < _testCase; i++)
+            {
+                sw.Start();
+                var test = c.Resolve<ITestA10>();
+                sw.Stop();
+
+                Assert.AreNotEqual(test, lastValue);
+                lastValue = test;
+
+                sw2.Start();
+                Check(test);
+                sw2.Stop();
+            }
+
+            WriteLine("Next {0} resolve: {1} Ticks.", _testCase, sw.ElapsedTicks);
+            WriteLine("Next {0} resolve: {1} Milliseconds.", _testCase, sw.ElapsedMilliseconds);
+
+            WriteLine("Next {0} checking: {1} Ticks.", _testCase, sw2.ElapsedTicks);
+            WriteLine("Next {0} checking: {1} Milliseconds.", _testCase, sw2.ElapsedMilliseconds);
+        }
+
+        [TestMethod]
+        public void UpperIntermediateContainerWithEmitTest()
+        {
+            WriteLine("\nUpperIntermediateContainerWithEmit");
+
+            var c = new UpperIntermediateContainerWithEmit();
 
             Stopwatch sw = new Stopwatch();
             Stopwatch sw2 = new Stopwatch();
