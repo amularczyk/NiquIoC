@@ -15,6 +15,6 @@ namespace NiquIoC
 
         public Type ReturnType { get; }
 
-        public object Instance { get; }
+        public object Instance { get; set; }
     }
 }

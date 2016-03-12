@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using NiquIoC.Attributes;
+using NiquIoC.Exceptions;
 
 namespace NiquIoC
 {
@@ -10,21 +11,19 @@ namespace NiquIoC
     {
         public Container()
         {
-            _classContainer = new Dictionary<Type, RegisterTypeInfo>();
-            _interfaceContainer = new Dictionary<Type, RegisterTypeInfo>();
-            _constructorInfoForType = new Dictionary<Type, Tuple<ConstructorInfo, List<ParameterInfo>>>();
-            _createObjectFunctionForConstructor = new Dictionary<ConstructorInfo, Func<object[], object>>();
-            _propertiesInfoForType = new Dictionary<Type, List<PropertyInfo>>();
+            _typeContainer = new Dictionary<Type, RegisterTypeInfo>();
+            _constructorInfoForTypeCache = new Dictionary<Type, Tuple<ConstructorInfo, List<ParameterInfo>>>();
+            _createObjectFunctionForConstructorCache = new Dictionary<ConstructorInfo, Func<object[], object>>();
+            _propertiesInfoForTypeCache = new Dictionary<Type, List<PropertyInfo>>();
         }
 
         #region Private Fields
 
-        private readonly Dictionary<Type, RegisterTypeInfo> _classContainer;
-        private readonly Dictionary<Type, RegisterTypeInfo> _interfaceContainer;
+        private readonly IDictionary<Type, RegisterTypeInfo> _typeContainer;
 
-        private readonly Dictionary<Type, Tuple<ConstructorInfo, List<ParameterInfo>>> _constructorInfoForType;
-        private readonly Dictionary<Type, List<PropertyInfo>> _propertiesInfoForType;
-        private readonly Dictionary<ConstructorInfo, Func<object[], object>> _createObjectFunctionForConstructor;
+        private readonly IDictionary<Type, Tuple<ConstructorInfo, List<ParameterInfo>>> _constructorInfoForTypeCache;
+        private readonly IDictionary<Type, List<PropertyInfo>> _propertiesInfoForTypeCache;
+        private readonly IDictionary<ConstructorInfo, Func<object[], object>> _createObjectFunctionForConstructorCache;
 
         #endregion
 
@@ -33,53 +32,18 @@ namespace NiquIoC
         public void RegisterType<T>(bool isSingleton)
             where T : class
         {
-            if (!_classContainer.ContainsKey(typeof (T)))
-            {
-                _classContainer.Add(typeof (T), new RegisterTypeInfo(isSingleton, typeof (T), null));
-            }
-            else
-            {
-                _classContainer[typeof (T)] = new RegisterTypeInfo(isSingleton, typeof (T), null);
-            }
+            RegisterType(typeof(T), typeof(T), isSingleton);
         }
 
         public void RegisterType<TFrom, TTo>(bool isSingleton)
             where TTo : TFrom
         {
-            if (!_interfaceContainer.ContainsKey(typeof (TFrom)))
-            {
-                _interfaceContainer.Add(typeof (TFrom), new RegisterTypeInfo(isSingleton, typeof (TTo), null));
-            }
-            else
-            {
-                _interfaceContainer[typeof (TFrom)] = new RegisterTypeInfo(isSingleton, typeof (TTo), null);
-            }
+            RegisterType(typeof(TFrom), typeof(TTo), isSingleton);
         }
 
         public void RegisterInstance<T>(T instance)
         {
-            if (typeof (T).IsInterface)
-            {
-                if (!_interfaceContainer.ContainsKey(typeof (T)))
-                {
-                    _interfaceContainer.Add(typeof (T), new RegisterTypeInfo(true, instance.GetType(), instance));
-                }
-                else
-                {
-                    _interfaceContainer[typeof (T)] = new RegisterTypeInfo(true, instance.GetType(), instance);
-                }
-            }
-            else
-            {
-                if (!_classContainer.ContainsKey(typeof (T)))
-                {
-                    _classContainer.Add(typeof (T), new RegisterTypeInfo(true, typeof (T), instance));
-                }
-                else
-                {
-                    _classContainer[typeof (T)] = new RegisterTypeInfo(true, typeof (T), instance);
-                }
-            }
+            RegisterInstance(typeof (T), typeof (T).IsInterface ? instance.GetType() : typeof (T), instance);
         }
 
         public T Resolve<T>()
@@ -99,64 +63,75 @@ namespace NiquIoC
 
         #region Private Methods
 
-        private object Resolve(Type type, Dictionary<Type, bool> resolvedTypes)
+        private void RegisterType(Type typeFrom, Type typeTo, bool isSingleton)
         {
-            if (type.IsInterface)
+            Register(typeFrom, typeTo, isSingleton, null);
+        }
+
+        private void RegisterInstance(Type typeFrom, Type typeTo, object instance)
+        {
+            Register(typeFrom, typeTo, true, instance);
+        }
+
+        private void Register(Type typeFrom, Type typeTo, bool isSingleton, object instance)
+        {
+            if (!_typeContainer.ContainsKey(typeFrom))
             {
-                if (_interfaceContainer.ContainsKey(type))
-                {
-                    RegisterTypeInfo result = _interfaceContainer[type];
-
-                    if (!result.IsSingleton)
-                        return CreateInstance(result.ReturnType, resolvedTypes);
-
-
-                    object value = result.Instance;
-                    if (value == null)
-                    {
-                        value = CreateInstance(result.ReturnType, resolvedTypes);
-                        _interfaceContainer[type] = new RegisterTypeInfo(result.IsSingleton, result.ReturnType, value);
-                    }
-
-                    return value;
-
-                }
+                _typeContainer.Add(typeFrom, new RegisterTypeInfo(isSingleton, typeTo, instance));
             }
             else
             {
-                if (_classContainer.ContainsKey(type))
+                _typeContainer[typeFrom] = new RegisterTypeInfo(isSingleton, typeTo, instance);
+            }
+        }
+
+        private object Resolve(Type type, Dictionary<Type, bool> resolvedTypes)
+        {
+            try
+            {
+                RegisterTypeInfo result = _typeContainer[type];
+
+                if (!result.IsSingleton)
                 {
-                    RegisterTypeInfo result = _classContainer[type];
+                    return CreateInstance(result.ReturnType, resolvedTypes);
+                }
 
-                    if (!result.IsSingleton)
-                        return CreateInstance(type, resolvedTypes);
-
-                    object value = result.ReturnType;
-                    if (value == null)
-                    {
-                        value = CreateInstance(type, resolvedTypes);
-                        _classContainer[type] = new RegisterTypeInfo(result.IsSingleton, type, value);
-                    }
-
+                if (result.Instance != null)
+                {
+                    return result.Instance;
+                }
+                else
+                {
+                    object value = CreateInstance(result.ReturnType, resolvedTypes);
+                    result.Instance = value;
                     return value;
-
                 }
             }
-
-            throw new InvalidOperationException("Brak rejestracji podanej klasy");
+            catch (NoProperConstructorException)
+            {
+                throw;
+            }
+            catch (CycleForTypeException)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                throw new TypeNotRegisteredException();
+            }
         }
 
         private object CreateInstance(Type type, Dictionary<Type, bool> resolvedTypes)
         {
-            CheckResolvingTypes(resolvedTypes, type);
+            CheckCycleForType(resolvedTypes, type);
 
-            if (!_constructorInfoForType.ContainsKey(type))
+            if (!_constructorInfoForTypeCache.ContainsKey(type))
             {
-                CreateCacheConstructorForType(type, resolvedTypes);
+                CreateConstructorInfoForTypeCache(type, resolvedTypes);
             }
 
-            ConstructorInfo ctor = _constructorInfoForType[type].Item1;
-            List<ParameterInfo> ctorParameters = _constructorInfoForType[type].Item2;
+            ConstructorInfo ctor = _constructorInfoForTypeCache[type].Item1;
+            List<ParameterInfo> ctorParameters = _constructorInfoForTypeCache[type].Item2;
             int ctorParametersCount = ctorParameters.Count;
 
             var parameters = new object[ctorParametersCount];
@@ -164,26 +139,27 @@ namespace NiquIoC
             {
                 parameters[i] = Resolve(ctorParameters[i].ParameterType, resolvedTypes);
             }
+            resolvedTypes[type] = true; //When object of correct type was created - it means there is no cycle for this type, so we mark this type
 
-            if (!_createObjectFunctionForConstructor.ContainsKey(ctor))
+            if (!_createObjectFunctionForConstructorCache.ContainsKey(ctor))
             {
                 Func<object[], object> factoryMethod = EmitHelper.CreateObjectFunction(ctor);
-                _createObjectFunctionForConstructor.Add(ctor, factoryMethod);
+                _createObjectFunctionForConstructorCache.Add(ctor, factoryMethod);
             }
 
-            object obj = _createObjectFunctionForConstructor[ctor](parameters);
-            resolvedTypes[type] = true;
+            object obj = _createObjectFunctionForConstructorCache[ctor](parameters);
             ResolveProperty(obj, type, resolvedTypes);
 
             return obj;
         }
 
-        private void CreateCacheConstructorForType(Type type, Dictionary<Type, bool> resolvedTypes)
+        private void CreateConstructorInfoForTypeCache(Type type, Dictionary<Type, bool> resolvedTypes)
         {
             ConstructorInfo[] allConstructors = type.GetConstructors();
 
             int maxParameter = -1;
             IList<ConstructorInfo> goodConstructors = allConstructors.Where(c => c.GetCustomAttributes(typeof (DependencyConstrutor), false).Any()).ToList();
+
             if (!goodConstructors.Any())
             {
                 maxParameter = allConstructors.Max(c => c.GetParameters().Length);
@@ -205,39 +181,42 @@ namespace NiquIoC
                     parameters[i] = Resolve(consParameters[i].ParameterType, resolvedTypes);
                 }
 
-                _constructorInfoForType.Add(type, Tuple.Create(constructor, consParameters));
+                _constructorInfoForTypeCache.Add(type, Tuple.Create(constructor, consParameters));
             }
             else
             {
-                throw new InvalidOperationException("Brak odpowiedniego konstruktora");
+                throw new NoProperConstructorException();
             }
         }
 
         private void ResolveProperty(object obj, Type type, Dictionary<Type, bool> resolvedTypes)
         {
-            if (!_propertiesInfoForType.ContainsKey(type))
+            if (!_propertiesInfoForTypeCache.ContainsKey(type))
             {
-                _propertiesInfoForType.Add(type, type.GetProperties().Where(p => p.GetCustomAttributes(typeof (DependencyProperty), false).Any() && p.SetMethod != null).ToList());
+                _propertiesInfoForTypeCache.Add(type, type.GetProperties().Where(p => p.GetCustomAttributes(typeof (DependencyProperty), false).Any() && p.SetMethod != null).ToList());
             }
 
-            List<PropertyInfo> properties = _propertiesInfoForType[type];
+            List<PropertyInfo> properties = _propertiesInfoForTypeCache[type];
             foreach (PropertyInfo property in properties)
             {
                 property.SetValue(obj, Resolve(property.PropertyType, resolvedTypes));
             }
         }
 
-        private void CheckResolvingTypes(Dictionary<Type, bool> resolvedTypes, Type type)
+        private void CheckCycleForType(Dictionary<Type, bool> resolvedTypes, Type type)
         {
             if (resolvedTypes.ContainsKey(type))
             {
+                //When value for type is true - it means that we checked this type and it does not have cycle. 
+                //When value for type is false - it means that this type has cycle.
                 if (!resolvedTypes[type])
                 {
-                    throw new InvalidOperationException("Cycle in class " + type);
+                    throw new CycleForTypeException(type);
                 }
             }
             else
             {
+                //We add a new type with value false - it means that we are checking this type.
                 resolvedTypes.Add(type, false);
             }
         }

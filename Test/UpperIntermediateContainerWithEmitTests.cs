@@ -88,7 +88,7 @@ namespace SampleContainer.Test
             c.RegisterType<FooTwoAttrUIC>(false);
             c.RegisterType<BarUIC>(false);
 
-            var foo = c.Resolve<FooAttrUIC>();
+            var foo = c.Resolve<FooTwoAttrUIC>();
         }
 
         [TestMethod]
