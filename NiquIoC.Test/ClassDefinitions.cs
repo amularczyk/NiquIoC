@@ -2,118 +2,133 @@
 
 namespace NiquIoC.Test
 {
-    internal class Bar
+    internal class EmptyClass
     {
     }
 
-    internal interface IFoo
+    internal interface ISampleClass
     {
-        Bar Bar { get; }
+        EmptyClass EmptyClass { get; }
     }
 
-    internal class Foo : IFoo
+    internal class SampleClass : ISampleClass
     {
-        public Foo()
+        public SampleClass(EmptyClass emptyClass)
         {
+            EmptyClass = emptyClass;
         }
 
-        public Foo(Bar bar)
-        {
-            Bar = bar;
-        }
-
-        public Bar Bar { get; }
+        public EmptyClass EmptyClass { get; }
     }
 
-    internal class FooAttr : IFoo
+    internal class SampleClassWithDependencyConstrutor : ISampleClass
     {
         [DependencyConstrutor]
-        public FooAttr(Bar bar, string text)
+        public SampleClassWithDependencyConstrutor(EmptyClass emptyClass)
         {
-            Bar = bar;
+            EmptyClass = emptyClass;
+        }
+        
+        public EmptyClass EmptyClass { get; }
+    }
+
+    internal class SampleClassWithTwoDependencyConstrutor : ISampleClass
+    {
+        [DependencyConstrutor]
+        public SampleClassWithTwoDependencyConstrutor(EmptyClass emptyClass)
+        {
+            EmptyClass = emptyClass;
+        }
+
+        [DependencyConstrutor]
+        public SampleClassWithTwoDependencyConstrutor()
+        {
+        }
+
+        public EmptyClass EmptyClass { get; }
+    }
+    
+    internal class SampleClassWithSimpleType
+    {
+        public SampleClassWithSimpleType(string text)
+        {
             Text = text;
         }
 
-        public string Text { get; private set; }
-        public Bar Bar { get; }
+        public string Text { get; }
     }
 
-    internal class FooTwoAttr : IFoo
+    internal class FirstClassWithCycleInConstructor
     {
-        [DependencyConstrutor]
-        public FooTwoAttr(Bar bar)
+        public FirstClassWithCycleInConstructor(SecondClassWithCycleInConstructor secondClassWith)
         {
-            Bar = bar;
+            SecondClassWith = secondClassWith;
         }
 
-        [DependencyConstrutor]
-        public FooTwoAttr()
+        public SecondClassWithCycleInConstructor SecondClassWith { get; private set; }
+    }
+
+    internal class SecondClassWithCycleInConstructor
+    {
+        public SecondClassWithCycleInConstructor(FirstClassWithCycleInConstructor firstClassWith)
         {
+            FirstClassWith = firstClassWith;
         }
 
-        public Bar Bar { get; }
+        public FirstClassWithCycleInConstructor FirstClassWith { get; private set; }
     }
 
-    internal class FooCycle
+    internal interface ISampleClassWithManyDependencyProperties
     {
-        public FooCycle(BarCycle bar)
-        {
-            Bar = bar;
-        }
+        EmptyClass EmptyClass { get; set; }
 
-        public BarCycle Bar { get; private set; }
+        ISampleClass SampleClass { get; set; }
     }
 
-    internal class BarCycle
-    {
-        public BarCycle(FooCycle foo)
-        {
-            Foo = foo;
-        }
-
-        public FooCycle Foo { get; private set; }
-    }
-
-    internal interface IFooProp
-    {
-        Bar Bar { get; set; }
-    }
-
-    internal class FooProp : IFooProp
+    internal class SampleClassWithManyDependencyProperties : ISampleClassWithManyDependencyProperties
     {
         [DependencyProperty]
-        public Bar Bar { get; set; }
-    }
-
-    internal interface IFooManyProp
-    {
-        Bar Bar { get; set; }
-
-        IFooProp FooProp { get; set; }
-    }
-
-    internal class FooManyProp : IFooManyProp
-    {
-        [DependencyProperty]
-        public Bar Bar { get; set; }
+        public EmptyClass EmptyClass { get; set; }
 
         [DependencyProperty]
-        public IFooProp FooProp { get; set; }
+        public ISampleClass SampleClass { get; set; }
     }
 
-    internal interface IFooPropNoSet
+    internal interface ISampleClassWithDependencyProperty
     {
-        Bar Bar { get; }
+        EmptyClass EmptyClass { get; set; }
     }
 
-    internal class FooPropNoSet : IFooPropNoSet
+    internal class SampleClassWithDependencyProperty : ISampleClassWithDependencyProperty
     {
-        public FooPropNoSet()
+        [DependencyProperty]
+        public EmptyClass EmptyClass { get; set; }
+    }
+
+    internal interface ISampleClassWithNestedDependencyProperty
+    {
+        ISampleClassWithDependencyProperty SampleClassWithDependencyProperty { get; set; }
+    }
+
+    internal class SampleClassWithNestedDependencyProperty : ISampleClassWithNestedDependencyProperty
+    {
+        [DependencyProperty]
+        public ISampleClassWithDependencyProperty SampleClassWithDependencyProperty { get; set; }
+    }
+
+    internal interface ISampleClassWithDependencyPropertyWithoutSetMethod
+    {
+        EmptyClass EmptyClass { get; }
+    }
+
+    internal class SampleClassWithDependencyPropertyWithoutSetMethod : ISampleClassWithDependencyPropertyWithoutSetMethod
+    {
+        public SampleClassWithDependencyPropertyWithoutSetMethod()
         {
-            Bar = null;
+            EmptyClass = null;
         }
 
         [DependencyProperty]
-        public Bar Bar { get; }
+        public EmptyClass EmptyClass { get; }
     }
 }

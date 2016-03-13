@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerformanceTests", "Perform
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleContainer", "SampleContainer\SampleContainer.csproj", "{956396EA-8B6C-4548-8468-89B04B435088}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleContainer.Test", "Test\SampleContainer.Test.csproj", "{71A600DC-F310-42D3-884C-2F8DDF60C137}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleContainer.Test", "SampleContainer.Test\SampleContainer.Test.csproj", "{71A600DC-F310-42D3-884C-2F8DDF60C137}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
