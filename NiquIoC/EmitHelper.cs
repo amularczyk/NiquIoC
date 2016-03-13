@@ -8,36 +8,28 @@ namespace NiquIoC
     {
         internal static Func<object[], object> CreateObjectFunction(ConstructorInfo ctor)
         {
-            var dm = new DynamicMethod($"_CreateObjectFactory_{Guid.NewGuid()}", typeof (object), new[] {typeof (object[])}, true);
-            ILGenerator ilgen = dm.GetILGenerator();
-            ilgen.DeclareLocal(typeof (int));
-            ilgen.DeclareLocal(typeof (object));
-
-            ilgen.Emit(OpCodes.Ldc_I4_0);
-            ilgen.Emit(OpCodes.Stloc_0);
-
-            ParameterInfo[] parameters = ctor.GetParameters();
+            //this method return a function that provide fast creation of a new instastance for given constructorInfo
+            var dm = new DynamicMethod($"_CreateObjectFactory_{Guid.NewGuid()}", typeof (object), new[] {typeof (object[])}, true); //we create a dynamic method
+            ILGenerator ilgen = dm.GetILGenerator();    //we get the IL Generator from dynamic method
+            
+            ParameterInfo[] parameters = ctor.GetParameters();  //we get constructor parameters
             for (var i = 0; i < parameters.Length; i++)
             {
-                EmitIntOntoStack(ilgen, i);
-                ilgen.Emit(OpCodes.Stloc_0);
-                ilgen.Emit(OpCodes.Ldarg_0);
-                EmitIntOntoStack(ilgen, i);
-                ilgen.Emit(OpCodes.Ldelem_Ref);
+                ilgen.Emit(OpCodes.Ldarg_0);    //first we put a correct parameter onto the stack
+                EmitIntOntoStack(ilgen, i);     //next we put a correct index onto the stack again
+                ilgen.Emit(OpCodes.Ldelem_Ref); //then we take an index and a parameter from the stack and we put the parameter in an array in a correct index
                 Type paramType = parameters[i].ParameterType;
-                if (paramType != typeof (object))
-                {
-                    ilgen.Emit(OpCodes.Castclass, paramType);
-                }
+                ilgen.Emit(OpCodes.Castclass, paramType);   //finally we cast the parameter to the correct type
             }
-            ilgen.Emit(OpCodes.Newobj, ctor);
-            ilgen.Emit(OpCodes.Ret);
+            ilgen.Emit(OpCodes.Newobj, ctor);   //at the end we create a new object that takes an array of parameters as constructor parameters
+            ilgen.Emit(OpCodes.Ret);            //we return created object
 
             return (Func<object[], object>) dm.CreateDelegate(typeof (Func<object[], object>));
         }
 
         private static void EmitIntOntoStack(ILGenerator il, int value)
         {
+            //this method helps put an int value onto the stack
             switch (value)
             {
                 case -1:

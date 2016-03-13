@@ -9,12 +9,13 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SampleContainer</RootNamespace>
     <AssemblyName>SampleContainer</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -45,10 +46,6 @@
   <ItemGroup>
     <Compile Include="Attributes.cs" />
     <Compile Include="BeginnerContainer.cs" />
-    <Compile Include="Tests\EmitTmp4.cs" />
-    <Compile Include="Tests\EmitTmp3.cs" />
-    <Compile Include="Tests\EmitTmp.cs" />
-    <Compile Include="Tests\EmitTmp2.cs" />
     <Compile Include="IContainer.cs" />
     <Compile Include="IntermediateContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

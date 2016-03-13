@@ -6,9 +6,9 @@
     <ProjectGuid>{71A600DC-F310-42D3-884C-2F8DDF60C137}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Test</RootNamespace>
-    <AssemblyName>Test</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <RootNamespace>SampleContainer.Test</RootNamespace>
+    <AssemblyName>SampleContainer.Test</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -20,6 +20,7 @@
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -58,7 +59,6 @@
   <ItemGroup>
     <Compile Include="ClassDefinitions.cs" />
     <Compile Include="ServiceLocatorTests.cs" />
-    <Compile Include="UnitTest1.cs" />
     <Compile Include="UpperIntermediateContainerWithEmitTests.cs" />
     <Compile Include="UpperIntermediateContainerWithCacheTests.cs" />
     <Compile Include="UpperIntermediateContainerTests.cs" />
