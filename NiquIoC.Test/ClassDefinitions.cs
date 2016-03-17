@@ -131,4 +131,32 @@ namespace NiquIoC.Test
         [DependencyProperty]
         public EmptyClass EmptyClass { get; }
     }
+
+    internal interface ISampleClassWithMethod
+    {
+        EmptyClass EmptyClass { get; }
+
+        void FillEmptyClass(EmptyClass emptyClass);
+    }
+
+    internal class SampleClassWithDependencyMethod : ISampleClassWithMethod
+    {
+        public EmptyClass EmptyClass { get; private set; }
+
+        [DependencyMethod]
+        public void FillEmptyClass(EmptyClass emptyClass)
+        {
+            EmptyClass = emptyClass;
+        }
+    }
+
+    internal class SampleClassWithoutDependencyMethod : ISampleClassWithMethod
+    {
+        public EmptyClass EmptyClass { get; private set; }
+        
+        public void FillEmptyClass(EmptyClass emptyClass)
+        {
+            EmptyClass = emptyClass;
+        }
+    }
 }

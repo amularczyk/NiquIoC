@@ -92,6 +92,31 @@ namespace NiquIoC.Test
         }
 
         [TestMethod]
+        public void Resolve_ClassWithDependencyMethod_Success()
+        {
+            IContainer c = GetContainer();
+            c.RegisterType<EmptyClass>(false);
+            c.RegisterType<ISampleClassWithMethod, SampleClassWithDependencyMethod>(false);
+
+            var sampleClass = c.Resolve<ISampleClassWithMethod>();
+
+            Assert.IsNotNull(sampleClass);
+            Assert.IsNotNull(sampleClass.EmptyClass);
+        }
+        [TestMethod]
+        public void Resolve_ClassWithoutDependencyMethod_Fail()
+        {
+            IContainer c = GetContainer();
+            c.RegisterType<EmptyClass>(false);
+            c.RegisterType<ISampleClassWithMethod, SampleClassWithoutDependencyMethod>(false);
+
+            var sampleClass = c.Resolve<ISampleClassWithMethod>();
+
+            Assert.IsNotNull(sampleClass);
+            Assert.IsNull(sampleClass.EmptyClass);
+        }
+
+        [TestMethod]
         public void Resolve_ClassWithConstructorWithParameter_Success()
         {
             IContainer c = GetContainer();

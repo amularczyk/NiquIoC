@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\DependencyConstrutor.cs" />
+    <Compile Include="Attributes\DependencyMethod.cs" />
     <Compile Include="Attributes\DependencyProperty.cs" />
     <Compile Include="Container.cs" />
     <Compile Include="EmitHelper.cs" />

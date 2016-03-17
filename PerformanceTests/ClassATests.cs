@@ -43,15 +43,15 @@ namespace PerformanceTests
             Assert.IsNotNull(testA10.TestA9.TestA1);
             Assert.IsNotNull(testA10.TestA9.TestA0);
 
-            //Assert.AreNotSame(testA10.TestA8, testA10.TestA9.TestA8);
-            //Assert.AreNotSame(testA10.TestA7, testA10.TestA9.TestA7);
-            //Assert.AreNotSame(testA10.TestA6, testA10.TestA9.TestA6);
-            //Assert.AreNotSame(testA10.TestA5, testA10.TestA9.TestA5);
-            //Assert.AreNotSame(testA10.TestA4, testA10.TestA9.TestA4);
-            //Assert.AreNotSame(testA10.TestA3, testA10.TestA9.TestA3);
-            //Assert.AreNotSame(testA10.TestA2, testA10.TestA9.TestA2);
-            //Assert.AreNotSame(testA10.TestA1, testA10.TestA9.TestA1);
-            //Assert.AreNotSame(testA10.TestA0, testA10.TestA9.TestA0);
+            Assert.AreNotSame(testA10.TestA8, testA10.TestA9.TestA8);
+            Assert.AreNotSame(testA10.TestA7, testA10.TestA9.TestA7);
+            Assert.AreNotSame(testA10.TestA6, testA10.TestA9.TestA6);
+            Assert.AreNotSame(testA10.TestA5, testA10.TestA9.TestA5);
+            Assert.AreNotSame(testA10.TestA4, testA10.TestA9.TestA4);
+            Assert.AreNotSame(testA10.TestA3, testA10.TestA9.TestA3);
+            Assert.AreNotSame(testA10.TestA2, testA10.TestA9.TestA2);
+            Assert.AreNotSame(testA10.TestA1, testA10.TestA9.TestA1);
+            Assert.AreNotSame(testA10.TestA0, testA10.TestA9.TestA0);
 
             Assert.IsNotNull(testA10.TestA9.TestA8.TestA7);
             Assert.IsNotNull(testA10.TestA9.TestA8.TestA6);
@@ -365,18 +365,18 @@ namespace PerformanceTests
             sw.Start();
             var c = new Container(x =>
             {
-                x.For<ITestA0>().Use<TestA0>();
-                x.For<ITestA0>().Use<TestA0>();
-                x.For<ITestA1>().Use<TestA1>();
-                x.For<ITestA2>().Use<TestA2>();
-                x.For<ITestA3>().Use<TestA3>();
-                x.For<ITestA4>().Use<TestA4>();
-                x.For<ITestA5>().Use<TestA5>();
-                x.For<ITestA6>().Use<TestA6>();
-                x.For<ITestA7>().Use<TestA7>();
-                x.For<ITestA8>().Use<TestA8>();
-                x.For<ITestA9>().Use<TestA9>();
-                x.For<ITestA10>().Use<TestA10>();
+                x.For<ITestA0>().Use<TestA0>().Transient();
+                x.For<ITestA0>().Use<TestA0>().Transient();
+                x.For<ITestA1>().Use<TestA1>().Transient();
+                x.For<ITestA2>().Use<TestA2>().Transient();
+                x.For<ITestA3>().Use<TestA3>().Transient();
+                x.For<ITestA4>().Use<TestA4>().Transient();
+                x.For<ITestA5>().Use<TestA5>().Transient();
+                x.For<ITestA6>().Use<TestA6>().Transient();
+                x.For<ITestA7>().Use<TestA7>().Transient();
+                x.For<ITestA8>().Use<TestA8>().Transient();
+                x.For<ITestA9>().Use<TestA9>().Transient();
+                x.For<ITestA10>().Use<TestA10>().Transient();
             });
             sw.Stop();
 

@@ -14,8 +14,10 @@ namespace NiquIoC
             _registeredTypeCache = new Dictionary<Type, RegisterTypeInfo>();
 
             _constructorInfoForTypeCache = new Dictionary<Type, Tuple<ConstructorInfo, List<ParameterInfo>>>();
-            _propertiesInfoForTypeCache = new Dictionary<Type, List<PropertyInfo>>();
             _createObjectFunctionForConstructorCache = new Dictionary<ConstructorInfo, Func<object[], object>>();
+            _propertiesInfoForTypeCache = new Dictionary<Type, List<PropertyInfo>>();
+            _methodsInfoForTypeCache = new Dictionary<Type, List<MethodInfo>>();
+            _parametersInfoForMethodCache = new Dictionary<MethodInfo, List<ParameterInfo>>();
         }
 
         #region Private Fields
@@ -23,8 +25,10 @@ namespace NiquIoC
         private readonly IDictionary<Type, RegisterTypeInfo> _registeredTypeCache;
 
         private readonly IDictionary<Type, Tuple<ConstructorInfo, List<ParameterInfo>>> _constructorInfoForTypeCache;
-        private readonly IDictionary<Type, List<PropertyInfo>> _propertiesInfoForTypeCache;
         private readonly IDictionary<ConstructorInfo, Func<object[], object>> _createObjectFunctionForConstructorCache;
+        private readonly IDictionary<Type, List<PropertyInfo>> _propertiesInfoForTypeCache;
+        private readonly IDictionary<Type, List<MethodInfo>> _methodsInfoForTypeCache;
+        private readonly IDictionary<MethodInfo, List<ParameterInfo>> _parametersInfoForMethodCache;
 
         #endregion
 
@@ -141,7 +145,8 @@ namespace NiquIoC
             }
 
             object obj = _createObjectFunctionForConstructorCache[ctor](parameters);
-            ResolveProperties(obj, type, resolvedTypes);  //when we have a new instance of the type, we have to resolve the properties yet
+            ResolveProperties(obj, type, resolvedTypes);  //when we have a new instance of the type, we have to resolve the properties also
+            ResolveMethods(obj, type, resolvedTypes);   //when we have a new instance of the type, we have to resolve the methods also
 
             return obj;
         }
@@ -183,6 +188,32 @@ namespace NiquIoC
             foreach (PropertyInfo property in properties)   //we are filling the required properties
             {
                 property.SetValue(obj, Resolve(property.PropertyType, resolvedTypes));
+            }
+        }
+
+        private void ResolveMethods(object obj, Type type, Dictionary<Type, bool> resolvedTypes)
+        {
+            if (!_methodsInfoForTypeCache.ContainsKey(type)) //if we do not have a methods info in the cache, we create it
+            {
+                _methodsInfoForTypeCache.Add(type, type.GetMethods().Where(p => p.GetCustomAttributes(typeof(DependencyMethod), false).Any()).ToList());
+            }
+
+            List<MethodInfo> methods = _methodsInfoForTypeCache[type];
+            foreach (MethodInfo method in methods)   //we are filling the required methods
+            {
+                if (!_parametersInfoForMethodCache.ContainsKey(method))
+                {
+                    _parametersInfoForMethodCache.Add(method, method.GetParameters().ToList());
+                }
+
+                List<ParameterInfo> methodParameters = _parametersInfoForMethodCache[method];
+                int ctorParametersCount = methodParameters.Count;
+                var parameters = new object[ctorParametersCount];
+                for (var i = 0; i < ctorParametersCount; i++)   //we create as array with the parameters of the method and we fill it
+                {
+                    parameters[i] = Resolve(methodParameters[i].ParameterType, resolvedTypes);
+                }
+                method.Invoke(obj, parameters);
             }
         }
 
