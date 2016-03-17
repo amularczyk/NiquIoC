@@ -13,10 +13,10 @@ using StructureMap;
 namespace PerformanceTests
 {
     [TestClass]
-    public class ClassATests
+    public class ClassATransientTests
     {
         private static readonly int _testCase = 100;
-        private static readonly string _fileName = Directory.GetCurrentDirectory() + "PerforamceTests_" + DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + ".txt";
+        private static readonly string _fileName = Directory.GetCurrentDirectory() + "PerforamceTests_Transient_" + DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + ".txt";
 
         private static void Check(ITestA10 testA10)
         {
@@ -43,15 +43,15 @@ namespace PerformanceTests
             Assert.IsNotNull(testA10.TestA9.TestA1);
             Assert.IsNotNull(testA10.TestA9.TestA0);
 
-            Assert.AreNotSame(testA10.TestA8, testA10.TestA9.TestA8);
-            Assert.AreNotSame(testA10.TestA7, testA10.TestA9.TestA7);
-            Assert.AreNotSame(testA10.TestA6, testA10.TestA9.TestA6);
-            Assert.AreNotSame(testA10.TestA5, testA10.TestA9.TestA5);
-            Assert.AreNotSame(testA10.TestA4, testA10.TestA9.TestA4);
-            Assert.AreNotSame(testA10.TestA3, testA10.TestA9.TestA3);
-            Assert.AreNotSame(testA10.TestA2, testA10.TestA9.TestA2);
-            Assert.AreNotSame(testA10.TestA1, testA10.TestA9.TestA1);
-            Assert.AreNotSame(testA10.TestA0, testA10.TestA9.TestA0);
+            Assert.AreNotEqual(testA10.TestA8, testA10.TestA9.TestA8);
+            Assert.AreNotEqual(testA10.TestA7, testA10.TestA9.TestA7);
+            Assert.AreNotEqual(testA10.TestA6, testA10.TestA9.TestA6);
+            Assert.AreNotEqual(testA10.TestA5, testA10.TestA9.TestA5);
+            Assert.AreNotEqual(testA10.TestA4, testA10.TestA9.TestA4);
+            Assert.AreNotEqual(testA10.TestA3, testA10.TestA9.TestA3);
+            Assert.AreNotEqual(testA10.TestA2, testA10.TestA9.TestA2);
+            Assert.AreNotEqual(testA10.TestA1, testA10.TestA9.TestA1);
+            Assert.AreNotEqual(testA10.TestA0, testA10.TestA9.TestA0);
 
             Assert.IsNotNull(testA10.TestA9.TestA8.TestA7);
             Assert.IsNotNull(testA10.TestA9.TestA8.TestA6);
@@ -365,18 +365,18 @@ namespace PerformanceTests
             sw.Start();
             var c = new Container(x =>
             {
-                x.For<ITestA0>().Use<TestA0>().Transient();
-                x.For<ITestA0>().Use<TestA0>().Transient();
-                x.For<ITestA1>().Use<TestA1>().Transient();
-                x.For<ITestA2>().Use<TestA2>().Transient();
-                x.For<ITestA3>().Use<TestA3>().Transient();
-                x.For<ITestA4>().Use<TestA4>().Transient();
-                x.For<ITestA5>().Use<TestA5>().Transient();
-                x.For<ITestA6>().Use<TestA6>().Transient();
-                x.For<ITestA7>().Use<TestA7>().Transient();
-                x.For<ITestA8>().Use<TestA8>().Transient();
-                x.For<ITestA9>().Use<TestA9>().Transient();
-                x.For<ITestA10>().Use<TestA10>().Transient();
+                x.For<ITestA0>().Use<TestA0>().AlwaysUnique();
+                x.For<ITestA0>().Use<TestA0>().AlwaysUnique();
+                x.For<ITestA1>().Use<TestA1>().AlwaysUnique();
+                x.For<ITestA2>().Use<TestA2>().AlwaysUnique();
+                x.For<ITestA3>().Use<TestA3>().AlwaysUnique();
+                x.For<ITestA4>().Use<TestA4>().AlwaysUnique();
+                x.For<ITestA5>().Use<TestA5>().AlwaysUnique();
+                x.For<ITestA6>().Use<TestA6>().AlwaysUnique();
+                x.For<ITestA7>().Use<TestA7>().AlwaysUnique();
+                x.For<ITestA8>().Use<TestA8>().AlwaysUnique();
+                x.For<ITestA9>().Use<TestA9>().AlwaysUnique();
+                x.For<ITestA10>().Use<TestA10>().AlwaysUnique();
             });
             sw.Stop();
 

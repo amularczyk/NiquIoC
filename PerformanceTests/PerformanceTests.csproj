@@ -92,8 +92,9 @@
   </Choose>
   <ItemGroup>
     <Compile Include="BasicPerformanceTests.cs" />
+    <Compile Include="ClassASingletonTests.cs" />
     <Compile Include="Classes\Test_A.cs" />
-    <Compile Include="ClassATests.cs" />
+    <Compile Include="ClassATransientTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
