@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NiquIoC.Exceptions;
+using NiquIoC.Interfaces;
 
 namespace NiquIoC.Test
 {
@@ -40,7 +41,7 @@ namespace NiquIoC.Test
         public void Resolve_ClassWithConstructorWithoutParametersRegistered_Success()
         {
             IContainer c = GetContainer();
-            c.RegisterType<EmptyClass>(false);
+            c.RegisterType<EmptyClass>();
 
             var sampleClass = c.Resolve<EmptyClass>();
 
@@ -51,9 +52,9 @@ namespace NiquIoC.Test
         public void Resolve_ClassWithManyDependencyProperties_Success()
         {
             IContainer c = GetContainer();
-            c.RegisterType<EmptyClass>(false);
-            c.RegisterType<ISampleClass, SampleClass>(false);
-            c.RegisterType<ISampleClassWithManyDependencyProperties, SampleClassWithManyDependencyProperties>(false);
+            c.RegisterType<EmptyClass>();
+            c.RegisterType<ISampleClass, SampleClass>();
+            c.RegisterType<ISampleClassWithManyDependencyProperties, SampleClassWithManyDependencyProperties>();
 
             var sampleClass = c.Resolve<ISampleClassWithManyDependencyProperties>();
 
@@ -67,9 +68,9 @@ namespace NiquIoC.Test
         public void Resolve_ClassWithNestedDependencyProperty_Success()
         {
             IContainer c = GetContainer();
-            c.RegisterType<EmptyClass>(false);
-            c.RegisterType<ISampleClassWithDependencyProperty, SampleClassWithDependencyProperty>(false);
-            c.RegisterType<ISampleClassWithNestedDependencyProperty, SampleClassWithNestedDependencyProperty>(false);
+            c.RegisterType<EmptyClass>();
+            c.RegisterType<ISampleClassWithDependencyProperty, SampleClassWithDependencyProperty>();
+            c.RegisterType<ISampleClassWithNestedDependencyProperty, SampleClassWithNestedDependencyProperty>();
 
             var sampleClass = c.Resolve<ISampleClassWithNestedDependencyProperty>();
 
@@ -82,8 +83,8 @@ namespace NiquIoC.Test
         public void Resolve_ClassWithDependencyPropertyWithoutSetMethod_Success()
         {
             IContainer c = GetContainer();
-            c.RegisterType<EmptyClass>(false);
-            c.RegisterType<ISampleClassWithDependencyPropertyWithoutSetMethod, SampleClassWithDependencyPropertyWithoutSetMethod>(false);
+            c.RegisterType<EmptyClass>();
+            c.RegisterType<ISampleClassWithDependencyPropertyWithoutSetMethod, SampleClassWithDependencyPropertyWithoutSetMethod>();
 
             var sampleClass = c.Resolve<ISampleClassWithDependencyPropertyWithoutSetMethod>();
 
@@ -95,22 +96,36 @@ namespace NiquIoC.Test
         public void Resolve_ClassWithDependencyMethod_Success()
         {
             IContainer c = GetContainer();
-            c.RegisterType<EmptyClass>(false);
-            c.RegisterType<ISampleClassWithMethod, SampleClassWithDependencyMethod>(false);
+            c.RegisterType<EmptyClass>();
+            c.RegisterType<ISampleClassWithMethod, SampleClassWithDependencyMethod>();
 
             var sampleClass = c.Resolve<ISampleClassWithMethod>();
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNotNull(sampleClass.EmptyClass);
         }
+
         [TestMethod]
         public void Resolve_ClassWithoutDependencyMethod_Fail()
         {
             IContainer c = GetContainer();
-            c.RegisterType<EmptyClass>(false);
-            c.RegisterType<ISampleClassWithMethod, SampleClassWithoutDependencyMethod>(false);
+            c.RegisterType<EmptyClass>();
+            c.RegisterType<ISampleClassWithMethod, SampleClassWithoutDependencyMethod>();
 
             var sampleClass = c.Resolve<ISampleClassWithMethod>();
+
+            Assert.IsNotNull(sampleClass);
+            Assert.IsNull(sampleClass.EmptyClass);
+        }
+
+        [TestMethod]
+        public void Resolve_ClassWithDependencyMethodWithReturnType_Fail()
+        {
+            IContainer c = GetContainer();
+            c.RegisterType<EmptyClass>();
+            c.RegisterType<ISampleClassWithMethodWithReturnType, SampleClassWithDependencyMethodWithReturnType>();
+
+            var sampleClass = c.Resolve<ISampleClassWithMethodWithReturnType>();
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNull(sampleClass.EmptyClass);
@@ -120,8 +135,8 @@ namespace NiquIoC.Test
         public void Resolve_ClassWithConstructorWithParameter_Success()
         {
             IContainer c = GetContainer();
-            c.RegisterType<EmptyClass>(false);
-            c.RegisterType<SampleClass>(false);
+            c.RegisterType<EmptyClass>();
+            c.RegisterType<SampleClass>();
 
             var sampleClass = c.Resolve<SampleClass>();
 
@@ -134,7 +149,7 @@ namespace NiquIoC.Test
         public void Resolve_MissingRegistration_Fail()
         {
             IContainer c = GetContainer();
-            c.RegisterType<SampleClass>(false);
+            c.RegisterType<SampleClass>();
 
             var sampleClass = c.Resolve<SampleClass>();
 
@@ -147,7 +162,7 @@ namespace NiquIoC.Test
             IContainer c = GetContainer();
             const string text = "Text";
             c.RegisterInstance(text);
-            c.RegisterType<SampleClassWithSimpleType>(false);
+            c.RegisterType<SampleClassWithSimpleType>();
 
             var sampleClassWithSimpleType = c.Resolve<SampleClassWithSimpleType>();
 
@@ -161,7 +176,7 @@ namespace NiquIoC.Test
         public void Resolve_MissingRegistrationOfSimpleType_Fail()
         {
             IContainer c = GetContainer();
-            c.RegisterType<SampleClassWithSimpleType>(false);
+            c.RegisterType<SampleClassWithSimpleType>();
 
             var sampleClass = c.Resolve<SampleClassWithSimpleType>();
 
@@ -172,8 +187,8 @@ namespace NiquIoC.Test
         public void Resolve_ClassWithConstructorWithAttributeDependencyConstrutor_Success()
         {
             IContainer c = GetContainer();
-            c.RegisterType<EmptyClass>(false);
-            c.RegisterType<SampleClassWithDependencyConstrutor>(false);
+            c.RegisterType<EmptyClass>();
+            c.RegisterType<SampleClassWithDependencyConstrutor>();
 
             var sampleClass = c.Resolve<SampleClassWithDependencyConstrutor>();
 
@@ -186,8 +201,8 @@ namespace NiquIoC.Test
         public void Resolve_ClassWithTwoConstructorsWithAttributeDependencyConstrutor_Fail()
         {
             IContainer c = GetContainer();
-            c.RegisterType<EmptyClass>(false);
-            c.RegisterType<SampleClassWithTwoDependencyConstrutor>(false);
+            c.RegisterType<EmptyClass>();
+            c.RegisterType<SampleClassWithTwoDependencyConstrutor>();
 
             var sampleClass = c.Resolve<SampleClassWithTwoDependencyConstrutor>();
 
@@ -199,8 +214,8 @@ namespace NiquIoC.Test
         public void Resolve_ClassWithCycleInConstructor_Fail()
         {
             IContainer c = GetContainer();
-            c.RegisterType<SecondClassWithCycleInConstructor>(false);
-            c.RegisterType<FirstClassWithCycleInConstructor>(false);
+            c.RegisterType<SecondClassWithCycleInConstructor>();
+            c.RegisterType<FirstClassWithCycleInConstructor>();
 
             var sampleClass = c.Resolve<FirstClassWithCycleInConstructor>();
 
@@ -211,8 +226,8 @@ namespace NiquIoC.Test
         public void Resolve_ClassRegisteredAsNotSingleton_Success()
         {
             IContainer c = GetContainer();
-            c.RegisterType<EmptyClass>(false);
-            c.RegisterType<SampleClass>(false);
+            c.RegisterType<EmptyClass>();
+            c.RegisterType<SampleClass>();
 
             var sampleClass1 = c.Resolve<SampleClass>();
             var sampleClass2 = c.Resolve<SampleClass>();
@@ -229,8 +244,8 @@ namespace NiquIoC.Test
         public void Resolve_ClassRegisteredAsSingleton_Success()
         {
             IContainer c = GetContainer();
-            c.RegisterType<SampleClass>(true);
-            c.RegisterType<EmptyClass>(true);
+            c.RegisterType<SampleClass>().AsSingleton();
+            c.RegisterType<EmptyClass>().AsSingleton();
 
             var sampleClass1 = c.Resolve<SampleClass>();
             var sampleClass2 = c.Resolve<SampleClass>();
@@ -247,11 +262,11 @@ namespace NiquIoC.Test
         public void Resolve_ClassReRegistered_Success()
         {
             IContainer c = GetContainer();
-            c.RegisterType<EmptyClass>(true);
-            c.RegisterType<SampleClass>(true);
+            c.RegisterType<EmptyClass>().AsSingleton();
+            c.RegisterType<SampleClass>().AsSingleton();
 
             var sampleClass1 = c.Resolve<SampleClass>();
-            c.RegisterType<SampleClass>(true);
+            c.RegisterType<SampleClass>().AsSingleton();
             var sampleClass2 = c.Resolve<SampleClass>();
 
             Assert.IsNotNull(sampleClass1);
@@ -266,8 +281,8 @@ namespace NiquIoC.Test
         public void Resolve_InterfaceRegisteredAsNotSingleton_Success()
         {
             IContainer c = GetContainer();
-            c.RegisterType<EmptyClass>(false);
-            c.RegisterType<ISampleClass, SampleClass>(false);
+            c.RegisterType<EmptyClass>();
+            c.RegisterType<ISampleClass, SampleClass>();
 
             var sampleClass1 = c.Resolve<ISampleClass>();
             var sampleClass2 = c.Resolve<ISampleClass>();
@@ -284,8 +299,8 @@ namespace NiquIoC.Test
         public void Resolve_InterfaceRegisteredAsSingleton_Success()
         {
             IContainer c = GetContainer();
-            c.RegisterType<EmptyClass>(true);
-            c.RegisterType<ISampleClass, SampleClass>(true);
+            c.RegisterType<EmptyClass>().AsSingleton();
+            c.RegisterType<ISampleClass, SampleClass>().AsSingleton();
 
             var sampleClass1 = c.Resolve<ISampleClass>();
             var sampleClass2 = c.Resolve<ISampleClass>();
@@ -302,11 +317,11 @@ namespace NiquIoC.Test
         public void Resolve_InterfaceReRegistered_Success()
         {
             IContainer c = GetContainer();
-            c.RegisterType<EmptyClass>(true);
-            c.RegisterType<ISampleClass, SampleClass>(true);
+            c.RegisterType<EmptyClass>().AsSingleton();
+            c.RegisterType<ISampleClass, SampleClass>().AsSingleton();
 
             var sampleClass1 = c.Resolve<ISampleClass>();
-            c.RegisterType<ISampleClass, SampleClass>(true);
+            c.RegisterType<ISampleClass, SampleClass>().AsSingleton();
             var sampleClass2 = c.Resolve<ISampleClass>();
 
             Assert.IsNotNull(sampleClass1);
@@ -321,7 +336,7 @@ namespace NiquIoC.Test
         public void BuildUp_DependencyProperty_Success()
         {
             IContainer c = GetContainer();
-            c.RegisterType<EmptyClass>(false);
+            c.RegisterType<EmptyClass>();
             var sampleClass = new SampleClassWithDependencyProperty();
 
             Assert.IsNotNull(sampleClass);
@@ -330,6 +345,35 @@ namespace NiquIoC.Test
             c.BuildUp(sampleClass);
 
             Assert.IsNotNull(sampleClass.EmptyClass);
+        }
+
+        [TestMethod]
+        public void BuildUp_DependencyMethod_Success()
+        {
+            IContainer c = GetContainer();
+            c.RegisterType<EmptyClass>();
+            var sampleClass = new SampleClassWithDependencyMethod();
+
+            Assert.IsNotNull(sampleClass);
+            Assert.IsNull(sampleClass.EmptyClass);
+
+            c.BuildUp(sampleClass);
+
+            Assert.IsNotNull(sampleClass.EmptyClass);
+        }
+
+        [TestMethod]
+        public void Resolve_FactoryObject_Success()
+        {
+            IContainer c = GetContainer();
+            var emptyClass = new EmptyClass();
+            c.RegisterType<ISampleClass>(() => new SampleClass(emptyClass));
+            
+            ISampleClass sampleClass1 = new SampleClass(emptyClass);
+            var sampleClass2 = c.Resolve<ISampleClass>();
+
+            Assert.AreNotEqual(sampleClass1, sampleClass2);
+            Assert.AreEqual(emptyClass, sampleClass2.EmptyClass);
         }
     }
 }

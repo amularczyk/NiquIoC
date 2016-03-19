@@ -48,13 +48,14 @@
     <Compile Include="Attributes\DependencyMethod.cs" />
     <Compile Include="Attributes\DependencyProperty.cs" />
     <Compile Include="Container.cs" />
-    <Compile Include="EmitHelper.cs" />
+    <Compile Include="ContainerMember.cs" />
+    <Compile Include="Helpers\EmitHelper.cs" />
     <Compile Include="Exceptions\CycleForTypeException.cs" />
     <Compile Include="Exceptions\NoProperConstructorException.cs" />
     <Compile Include="Exceptions\TypeNotRegisteredException.cs" />
-    <Compile Include="IContainer.cs" />
+    <Compile Include="Interfaces\IContainer.cs" />
+    <Compile Include="Interfaces\IContainerMember.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RegisterTypeInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

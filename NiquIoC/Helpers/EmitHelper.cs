@@ -2,14 +2,15 @@
 using System.Reflection;
 using System.Reflection.Emit;
 
-namespace NiquIoC
+namespace NiquIoC.Helpers
 {
     internal static class EmitHelper
     {
+        //http://stackoverflow.com/questions/8219343/reflection-emit-create-object-with-parameters
         internal static Func<object[], object> CreateObjectFunction(ConstructorInfo ctor)
         {
             //this method return a function that provide fast creation of a new instastance for given constructorInfo
-            var dm = new DynamicMethod($"_CreateObjectFactory_{Guid.NewGuid()}", typeof (object), new[] {typeof (object[])}, true); //we create a dynamic method
+            var dm = new DynamicMethod($"Create_{ctor.DeclaringType?.FullName.Replace('.', '_')}", typeof (object), new[] {typeof (object[])}, true); //we create a dynamic method
             ILGenerator ilgen = dm.GetILGenerator();    //we get the IL Generator from dynamic method
             
             ParameterInfo[] parameters = ctor.GetParameters();  //we get constructor parameters

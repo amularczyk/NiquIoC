@@ -159,4 +159,23 @@ namespace NiquIoC.Test
             EmptyClass = emptyClass;
         }
     }
+
+    internal interface ISampleClassWithMethodWithReturnType
+    {
+        EmptyClass EmptyClass { get; }
+
+        bool FillEmptyClass(EmptyClass emptyClass);
+    }
+
+    internal class SampleClassWithDependencyMethodWithReturnType : ISampleClassWithMethodWithReturnType
+    {
+        public EmptyClass EmptyClass { get; private set; }
+
+        [DependencyMethod]
+        public bool FillEmptyClass(EmptyClass emptyClass)
+        {
+            EmptyClass = emptyClass;
+            return true;
+        }
+    }
 }
