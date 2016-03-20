@@ -58,12 +58,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ClassDefinitions.cs" />
-    <Compile Include="ServiceLocatorTests.cs" />
-    <Compile Include="UpperIntermediateContainerWithEmitTests.cs" />
-    <Compile Include="UpperIntermediateContainerWithCacheTests.cs" />
-    <Compile Include="UpperIntermediateContainerTests.cs" />
-    <Compile Include="IntermediateContainerTests.cs" />
-    <Compile Include="BeginnerContainerTests.cs" />
+    <Compile Include="PoorContainerWithCacheTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

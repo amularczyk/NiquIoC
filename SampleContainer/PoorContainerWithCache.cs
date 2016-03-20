@@ -6,7 +6,7 @@ using System.Reflection.Emit;
 
 namespace SampleContainer
 {
-    public class UpperIntermediateContainerWithEmit : IContainer
+    public class PoorContainerWithCache : IContainer
     {
         private readonly Dictionary<Type, Tuple<ConstructorInfo, List<ParameterInfo>>> _cache;
         private readonly Dictionary<Type, List<PropertyInfo>> _cacheProperty;
@@ -14,7 +14,7 @@ namespace SampleContainer
         private readonly Dictionary<ConstructorInfo, Func<object[], object>> _createCache;
         private readonly Dictionary<Type, Tuple<bool, Type, object>> _interfaceContainer;
 
-        public UpperIntermediateContainerWithEmit()
+        public PoorContainerWithCache()
         {
             _classContainer = new Dictionary<Type, Tuple<bool, object>>();
             _interfaceContainer = new Dictionary<Type, Tuple<bool, Type, object>>();

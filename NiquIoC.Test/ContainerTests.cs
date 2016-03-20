@@ -369,10 +369,24 @@ namespace NiquIoC.Test
             var emptyClass = new EmptyClass();
             c.RegisterType<ISampleClass>(() => new SampleClass(emptyClass));
             
-            ISampleClass sampleClass1 = new SampleClass(emptyClass);
+            var sampleClass1 = c.Resolve<ISampleClass>();
             var sampleClass2 = c.Resolve<ISampleClass>();
 
             Assert.AreNotEqual(sampleClass1, sampleClass2);
+            Assert.AreEqual(emptyClass, sampleClass2.EmptyClass);
+        }
+
+        [TestMethod]
+        public void Resolve_FactoryObjectAsSingleton_Success()
+        {
+            IContainer c = GetContainer();
+            var emptyClass = new EmptyClass();
+            c.RegisterType<ISampleClass>(() => new SampleClass(emptyClass)).AsSingleton();
+
+            var sampleClass1 = c.Resolve<ISampleClass>();
+            var sampleClass2 = c.Resolve<ISampleClass>();
+
+            Assert.AreEqual(sampleClass1, sampleClass2);
             Assert.AreEqual(emptyClass, sampleClass2.EmptyClass);
         }
     }

@@ -4,11 +4,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace SampleContainer.Test
 {
     [TestClass]
-    public class UpperIntermediateContainerWithCacheTests
+    public class PoorContainerWithCacheTests
     {
         private IContainer GetContainer()
         {
-            return new UpperIntermediateContainerWithCache();
+            return new PoorContainerWithCache();
         }
 
         [TestMethod]
@@ -88,7 +88,7 @@ namespace SampleContainer.Test
             c.RegisterType<FooTwoAttrUIC>(false);
             c.RegisterType<BarUIC>(false);
 
-            var foo = c.Resolve<FooAttrUIC>();
+            var foo = c.Resolve<FooTwoAttrUIC>();
         }
 
         [TestMethod]

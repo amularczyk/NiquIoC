@@ -91,7 +91,6 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="BasicPerformanceTests.cs" />
     <Compile Include="ClassASingletonTests.cs" />
     <Compile Include="Classes\Test_A.cs" />
     <Compile Include="ClassATransientTests.cs" />

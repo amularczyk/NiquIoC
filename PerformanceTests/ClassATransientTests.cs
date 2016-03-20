@@ -9,6 +9,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PerformanceTests.Classes;
 using SampleContainer;
 using StructureMap;
+using IContainer = Autofac.IContainer;
 
 namespace PerformanceTests
 {
@@ -95,18 +96,18 @@ namespace PerformanceTests
         private static void WriteLine(string text, params object[] args)
         {
             using (var file = new StreamWriter(_fileName, true))
+            {
                 file.WriteLine(text, args);
+            }
         }
 
         [TestMethod]
-        public void UpperIntermediateContainerTest()
+        public void PoorContainerWithCacheTest()
         {
-            WriteLine("\nUpperIntermediateContainer");
+            WriteLine("\nPoorContainerWithCache");
 
-            var c = new UpperIntermediateContainer();
-
-            Stopwatch sw = new Stopwatch();
-            Stopwatch sw2 = new Stopwatch();
+            var c = new PoorContainerWithCache();
+            var sw = new Stopwatch();
 
             sw.Start();
             c.RegisterType<ITestA0, TestA0>(false);
@@ -122,26 +123,19 @@ namespace PerformanceTests
             c.RegisterType<ITestA10, TestA10>(false);
             sw.Stop();
 
-            WriteLine("Register: {0} Ticks.", sw.ElapsedTicks);
+            WriteLine("Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
             sw.Reset();
 
             sw.Start();
             var lastValue = c.Resolve<ITestA10>();
             sw.Stop();
-
-            sw2.Start();
+            
             Check(lastValue);
-            sw2.Stop();
-
-            WriteLine("First resolve: {0} Ticks.", sw.ElapsedTicks);
+            
             WriteLine("First resolve: {0} Milliseconds.", sw.ElapsedMilliseconds);
             sw.Reset();
 
-            WriteLine("First checking: {0} Ticks.", sw2.ElapsedTicks);
-            WriteLine("First checking: {0} Milliseconds.", sw2.ElapsedMilliseconds);
-            sw2.Reset();
-
-            for (int i = 0; i < _testCase; i++)
+            for (var i = 0; i < _testCase; i++)
             {
                 sw.Start();
                 var test = c.Resolve<ITestA10>();
@@ -149,145 +143,11 @@ namespace PerformanceTests
 
                 Assert.AreNotEqual(test, lastValue);
                 lastValue = test;
-
-                sw2.Start();
+                
                 Check(test);
-                sw2.Stop();
             }
-
-            WriteLine("Next {0} resolve: {1} Ticks.", _testCase, sw.ElapsedTicks);
+            
             WriteLine("Next {0} resolve: {1} Milliseconds.", _testCase, sw.ElapsedMilliseconds);
-
-            WriteLine("Next {0} checking: {1} Ticks.", _testCase, sw2.ElapsedTicks);
-            WriteLine("Next {0} checking: {1} Milliseconds.", _testCase, sw2.ElapsedMilliseconds);
-        }
-
-        [TestMethod]
-        public void UpperIntermediateContainerWithCacheTest()
-        {
-            WriteLine("\nUpperIntermediateContainerWithCache");
-
-            var c = new UpperIntermediateContainerWithCache();
-
-            Stopwatch sw = new Stopwatch();
-            Stopwatch sw2 = new Stopwatch();
-
-            sw.Start();
-            c.RegisterType<ITestA0, TestA0>(false);
-            c.RegisterType<ITestA1, TestA1>(false);
-            c.RegisterType<ITestA2, TestA2>(false);
-            c.RegisterType<ITestA3, TestA3>(false);
-            c.RegisterType<ITestA4, TestA4>(false);
-            c.RegisterType<ITestA5, TestA5>(false);
-            c.RegisterType<ITestA6, TestA6>(false);
-            c.RegisterType<ITestA7, TestA7>(false);
-            c.RegisterType<ITestA8, TestA8>(false);
-            c.RegisterType<ITestA9, TestA9>(false);
-            c.RegisterType<ITestA10, TestA10>(false);
-            sw.Stop();
-
-            WriteLine("Register: {0} Ticks.", sw.ElapsedTicks);
-            sw.Reset();
-
-            sw.Start();
-            var lastValue = c.Resolve<ITestA10>();
-            sw.Stop();
-
-            sw2.Start();
-            Check(lastValue);
-            sw2.Stop();
-
-            WriteLine("First resolve: {0} Ticks.", sw.ElapsedTicks);
-            WriteLine("First resolve: {0} Milliseconds.", sw.ElapsedMilliseconds);
-            sw.Reset();
-
-            WriteLine("First checking: {0} Ticks.", sw2.ElapsedTicks);
-            WriteLine("First checking: {0} Milliseconds.", sw2.ElapsedMilliseconds);
-            sw2.Reset();
-
-            for (int i = 0; i < _testCase; i++)
-            {
-                sw.Start();
-                var test = c.Resolve<ITestA10>();
-                sw.Stop();
-
-                Assert.AreNotEqual(test, lastValue);
-                lastValue = test;
-
-                sw2.Start();
-                Check(test);
-                sw2.Stop();
-            }
-
-            WriteLine("Next {0} resolve: {1} Ticks.", _testCase, sw.ElapsedTicks);
-            WriteLine("Next {0} resolve: {1} Milliseconds.", _testCase, sw.ElapsedMilliseconds);
-
-            WriteLine("Next {0} checking: {1} Ticks.", _testCase, sw2.ElapsedTicks);
-            WriteLine("Next {0} checking: {1} Milliseconds.", _testCase, sw2.ElapsedMilliseconds);
-        }
-
-        [TestMethod]
-        public void UpperIntermediateContainerWithEmitTest()
-        {
-            WriteLine("\nUpperIntermediateContainerWithEmit");
-
-            var c = new UpperIntermediateContainerWithEmit();
-
-            Stopwatch sw = new Stopwatch();
-            Stopwatch sw2 = new Stopwatch();
-
-            sw.Start();
-            c.RegisterType<ITestA0, TestA0>(false);
-            c.RegisterType<ITestA1, TestA1>(false);
-            c.RegisterType<ITestA2, TestA2>(false);
-            c.RegisterType<ITestA3, TestA3>(false);
-            c.RegisterType<ITestA4, TestA4>(false);
-            c.RegisterType<ITestA5, TestA5>(false);
-            c.RegisterType<ITestA6, TestA6>(false);
-            c.RegisterType<ITestA7, TestA7>(false);
-            c.RegisterType<ITestA8, TestA8>(false);
-            c.RegisterType<ITestA9, TestA9>(false);
-            c.RegisterType<ITestA10, TestA10>(false);
-            sw.Stop();
-
-            WriteLine("Register: {0} Ticks.", sw.ElapsedTicks);
-            sw.Reset();
-
-            sw.Start();
-            var lastValue = c.Resolve<ITestA10>();
-            sw.Stop();
-
-            sw2.Start();
-            Check(lastValue);
-            sw2.Stop();
-
-            WriteLine("First resolve: {0} Ticks.", sw.ElapsedTicks);
-            WriteLine("First resolve: {0} Milliseconds.", sw.ElapsedMilliseconds);
-            sw.Reset();
-
-            WriteLine("First checking: {0} Ticks.", sw2.ElapsedTicks);
-            WriteLine("First checking: {0} Milliseconds.", sw2.ElapsedMilliseconds);
-            sw2.Reset();
-
-            for (int i = 0; i < _testCase; i++)
-            {
-                sw.Start();
-                var test = c.Resolve<ITestA10>();
-                sw.Stop();
-
-                Assert.AreNotEqual(test, lastValue);
-                lastValue = test;
-
-                sw2.Start();
-                Check(test);
-                sw2.Stop();
-            }
-
-            WriteLine("Next {0} resolve: {1} Ticks.", _testCase, sw.ElapsedTicks);
-            WriteLine("Next {0} resolve: {1} Milliseconds.", _testCase, sw.ElapsedMilliseconds);
-
-            WriteLine("Next {0} checking: {1} Ticks.", _testCase, sw2.ElapsedTicks);
-            WriteLine("Next {0} checking: {1} Milliseconds.", _testCase, sw2.ElapsedMilliseconds);
         }
 
         [TestMethod]
@@ -296,9 +156,7 @@ namespace PerformanceTests
             WriteLine("\nWindsorContainer");
 
             var c = new WindsorContainer();
-
-            Stopwatch sw = new Stopwatch();
-            Stopwatch sw2 = new Stopwatch();
+            var sw = new Stopwatch();
 
             sw.Start();
             c.Register(Component.For<ITestA0>().ImplementedBy<TestA0>().LifeStyle.Transient);
@@ -314,26 +172,19 @@ namespace PerformanceTests
             c.Register(Component.For<ITestA10>().ImplementedBy<TestA10>().LifeStyle.Transient);
             sw.Stop();
 
-            WriteLine("Register: {0} Ticks.", sw.ElapsedTicks);
+            WriteLine("Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
             sw.Reset();
 
             sw.Start();
             var lastValue = c.Resolve<ITestA10>();
             sw.Stop();
-
-            sw2.Start();
+            
             Check(lastValue);
-            sw2.Stop();
-
-            WriteLine("First resolve: {0} Ticks.", sw.ElapsedTicks);
+            
             WriteLine("First resolve: {0} Milliseconds.", sw.ElapsedMilliseconds);
             sw.Reset();
 
-            WriteLine("First checking: {0} Ticks.", sw2.ElapsedTicks);
-            WriteLine("First checking: {0} Milliseconds.", sw2.ElapsedMilliseconds);
-            sw2.Reset();
-
-            for (int i = 0; i < _testCase; i++)
+            for (var i = 0; i < _testCase; i++)
             {
                 sw.Start();
                 var test = c.Resolve<ITestA10>();
@@ -341,17 +192,11 @@ namespace PerformanceTests
 
                 Assert.AreNotEqual(test, lastValue);
                 lastValue = test;
-
-                sw2.Start();
+                
                 Check(test);
-                sw2.Stop();
             }
-
-            WriteLine("Next {0} resolve: {1} Ticks.", _testCase, sw.ElapsedTicks);
+            
             WriteLine("Next {0} resolve: {1} Milliseconds.", _testCase, sw.ElapsedMilliseconds);
-
-            WriteLine("Next {0} checking: {1} Ticks.", _testCase, sw2.ElapsedTicks);
-            WriteLine("Next {0} checking: {1} Milliseconds.", _testCase, sw2.ElapsedMilliseconds);
         }
 
         [TestMethod]
@@ -359,8 +204,7 @@ namespace PerformanceTests
         {
             WriteLine("\nStructureMap");
 
-            Stopwatch sw = new Stopwatch();
-            Stopwatch sw2 = new Stopwatch();
+            var sw = new Stopwatch();
 
             sw.Start();
             var c = new Container(x =>
@@ -380,26 +224,19 @@ namespace PerformanceTests
             });
             sw.Stop();
 
-            WriteLine("Register: {0} Ticks.", sw.ElapsedTicks);
+            WriteLine("Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
             sw.Reset();
 
             sw.Start();
             var lastValue = c.GetInstance<ITestA10>();
             sw.Stop();
-
-            sw2.Start();
+            
             Check(lastValue);
-            sw2.Stop();
-
-            WriteLine("First resolve: {0} Ticks.", sw.ElapsedTicks);
+            
             WriteLine("First resolve: {0} Milliseconds.", sw.ElapsedMilliseconds);
             sw.Reset();
 
-            WriteLine("First checking: {0} Ticks.", sw2.ElapsedTicks);
-            WriteLine("First checking: {0} Milliseconds.", sw2.ElapsedMilliseconds);
-            sw2.Reset();
-
-            for (int i = 0; i < _testCase; i++)
+            for (var i = 0; i < _testCase; i++)
             {
                 sw.Start();
                 var test = c.GetInstance<ITestA10>();
@@ -407,17 +244,11 @@ namespace PerformanceTests
 
                 Assert.AreNotEqual(test, lastValue);
                 lastValue = test;
-
-                sw2.Start();
+                
                 Check(test);
-                sw2.Stop();
             }
 
-            WriteLine("Next {0} resolve: {1} Ticks.", _testCase, sw.ElapsedTicks);
             WriteLine("Next {0} resolve: {1} Milliseconds.", _testCase, sw.ElapsedMilliseconds);
-
-            WriteLine("Next {0} checking: {1} Ticks.", _testCase, sw2.ElapsedTicks);
-            WriteLine("Next {0} checking: {1} Milliseconds.", _testCase, sw2.ElapsedMilliseconds);
         }
 
         [TestMethod]
@@ -426,9 +257,7 @@ namespace PerformanceTests
             WriteLine("\nAutofac");
 
             var cb = new ContainerBuilder();
-
-            Stopwatch sw = new Stopwatch();
-            Stopwatch sw2 = new Stopwatch();
+            var sw = new Stopwatch();
 
             sw.Start();
             cb.RegisterType<TestA0>().As<ITestA0>();
@@ -442,29 +271,22 @@ namespace PerformanceTests
             cb.RegisterType<TestA8>().As<ITestA8>();
             cb.RegisterType<TestA9>().As<ITestA9>();
             cb.RegisterType<TestA10>().As<ITestA10>();
-            var c = cb.Build();
+            IContainer c = cb.Build();
             sw.Stop();
 
-            WriteLine("Register: {0} Ticks.", sw.ElapsedTicks);
+            WriteLine("Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
             sw.Reset();
 
             sw.Start();
             var lastValue = c.Resolve<ITestA10>();
             sw.Stop();
-
-            sw2.Start();
+            
             Check(lastValue);
-            sw2.Stop();
-
-            WriteLine("First resolve: {0} Ticks.", sw.ElapsedTicks);
+            
             WriteLine("First resolve: {0} Milliseconds.", sw.ElapsedMilliseconds);
             sw.Reset();
 
-            WriteLine("First checking: {0} Ticks.", sw2.ElapsedTicks);
-            WriteLine("First checking: {0} Milliseconds.", sw2.ElapsedMilliseconds);
-            sw2.Reset();
-
-            for (int i = 0; i < _testCase; i++)
+            for (var i = 0; i < _testCase; i++)
             {
                 sw.Start();
                 var test = c.Resolve<ITestA10>();
@@ -472,17 +294,11 @@ namespace PerformanceTests
 
                 Assert.AreNotEqual(test, lastValue);
                 lastValue = test;
-
-                sw2.Start();
+                
                 Check(test);
-                sw2.Stop();
             }
-
-            WriteLine("Next {0} resolve: {1} Ticks.", _testCase, sw.ElapsedTicks);
+            
             WriteLine("Next {0} resolve: {1} Milliseconds.", _testCase, sw.ElapsedMilliseconds);
-
-            WriteLine("Next {0} checking: {1} Ticks.", _testCase, sw2.ElapsedTicks);
-            WriteLine("Next {0} checking: {1} Milliseconds.", _testCase, sw2.ElapsedMilliseconds);
         }
 
         [TestMethod]
@@ -491,9 +307,7 @@ namespace PerformanceTests
             WriteLine("\nUnity");
 
             var c = new UnityContainer();
-
-            Stopwatch sw = new Stopwatch();
-            Stopwatch sw2 = new Stopwatch();
+            var sw = new Stopwatch();
 
             sw.Start();
             c.RegisterType<ITestA0, TestA0>();
@@ -509,26 +323,19 @@ namespace PerformanceTests
             c.RegisterType<ITestA10, TestA10>();
             sw.Stop();
 
-            WriteLine("Register: {0} Ticks.", sw.ElapsedTicks);
+            WriteLine("Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
             sw.Reset();
 
             sw.Start();
             var lastValue = c.Resolve<ITestA10>();
             sw.Stop();
-
-            sw2.Start();
+            
             Check(lastValue);
-            sw2.Stop();
-
-            WriteLine("First resolve: {0} Ticks.", sw.ElapsedTicks);
+            
             WriteLine("First resolve: {0} Milliseconds.", sw.ElapsedMilliseconds);
             sw.Reset();
 
-            WriteLine("First checking: {0} Ticks.", sw2.ElapsedTicks);
-            WriteLine("First checking: {0} Milliseconds.", sw2.ElapsedMilliseconds);
-            sw2.Reset();
-
-            for (int i = 0; i < _testCase; i++)
+            for (var i = 0; i < _testCase; i++)
             {
                 sw.Start();
                 var test = c.Resolve<ITestA10>();
@@ -536,17 +343,11 @@ namespace PerformanceTests
 
                 Assert.AreNotEqual(test, lastValue);
                 lastValue = test;
-
-                sw2.Start();
+                
                 Check(test);
-                sw2.Stop();
             }
-
-            WriteLine("Next {0} resolve: {1} Ticks.", _testCase, sw.ElapsedTicks);
+            
             WriteLine("Next {0} resolve: {1} Milliseconds.", _testCase, sw.ElapsedMilliseconds);
-
-            WriteLine("Next {0} checking: {1} Ticks.", _testCase, sw2.ElapsedTicks);
-            WriteLine("Next {0} checking: {1} Milliseconds.", _testCase, sw2.ElapsedMilliseconds);
         }
 
         [TestMethod]
@@ -555,44 +356,35 @@ namespace PerformanceTests
             WriteLine("\nNiquIoC");
 
             var c = new NiquIoC.Container();
-
-            Stopwatch sw = new Stopwatch();
-            Stopwatch sw2 = new Stopwatch();
+            var sw = new Stopwatch();
 
             sw.Start();
-            c.RegisterType<ITestA0, TestA0>(false);
-            c.RegisterType<ITestA1, TestA1>(false);
-            c.RegisterType<ITestA2, TestA2>(false);
-            c.RegisterType<ITestA3, TestA3>(false);
-            c.RegisterType<ITestA4, TestA4>(false);
-            c.RegisterType<ITestA5, TestA5>(false);
-            c.RegisterType<ITestA6, TestA6>(false);
-            c.RegisterType<ITestA7, TestA7>(false);
-            c.RegisterType<ITestA8, TestA8>(false);
-            c.RegisterType<ITestA9, TestA9>(false);
-            c.RegisterType<ITestA10, TestA10>(false);
+            c.RegisterType<ITestA0, TestA0>();
+            c.RegisterType<ITestA1, TestA1>();
+            c.RegisterType<ITestA2, TestA2>();
+            c.RegisterType<ITestA3, TestA3>();
+            c.RegisterType<ITestA4, TestA4>();
+            c.RegisterType<ITestA5, TestA5>();
+            c.RegisterType<ITestA6, TestA6>();
+            c.RegisterType<ITestA7, TestA7>();
+            c.RegisterType<ITestA8, TestA8>();
+            c.RegisterType<ITestA9, TestA9>();
+            c.RegisterType<ITestA10, TestA10>();
             sw.Stop();
 
-            WriteLine("Register: {0} Ticks.", sw.ElapsedTicks);
+            WriteLine("Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
             sw.Reset();
 
             sw.Start();
             var lastValue = c.Resolve<ITestA10>();
             sw.Stop();
 
-            sw2.Start();
             Check(lastValue);
-            sw2.Stop();
 
-            WriteLine("First resolve: {0} Ticks.", sw.ElapsedTicks);
             WriteLine("First resolve: {0} Milliseconds.", sw.ElapsedMilliseconds);
             sw.Reset();
 
-            WriteLine("First checking: {0} Ticks.", sw2.ElapsedTicks);
-            WriteLine("First checking: {0} Milliseconds.", sw2.ElapsedMilliseconds);
-            sw2.Reset();
-
-            for (int i = 0; i < _testCase; i++)
+            for (var i = 0; i < _testCase; i++)
             {
                 sw.Start();
                 var test = c.Resolve<ITestA10>();
@@ -601,16 +393,10 @@ namespace PerformanceTests
                 Assert.AreNotEqual(test, lastValue);
                 lastValue = test;
 
-                sw2.Start();
                 Check(test);
-                sw2.Stop();
             }
 
-            WriteLine("Next {0} resolve: {1} Ticks.", _testCase, sw.ElapsedTicks);
             WriteLine("Next {0} resolve: {1} Milliseconds.", _testCase, sw.ElapsedMilliseconds);
-
-            WriteLine("Next {0} checking: {1} Ticks.", _testCase, sw2.ElapsedTicks);
-            WriteLine("Next {0} checking: {1} Milliseconds.", _testCase, sw2.ElapsedMilliseconds);
         }
     }
 }
