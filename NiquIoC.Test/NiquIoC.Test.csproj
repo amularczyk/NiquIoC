@@ -55,8 +55,18 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="ClassDefinitions.cs" />
-    <Compile Include="ContainerTests.cs" />
+    <Compile Include="ClassDefinitions\ClassBasicDefinitions.cs" />
+    <Compile Include="ClassDefinitions\ClassWithDependencyConstrutorDefinitions.cs" />
+    <Compile Include="ClassDefinitions\ClassWithDependencyPropertyDefinitions.cs" />
+    <Compile Include="ClassDefinitions\ClassWithDependencyMethodDefinitions.cs" />
+    <Compile Include="ContainerRegisterTypeWithDependencyConstrutorTests.cs" />
+    <Compile Include="ContainerRegisterTypeWithDependencyMethodTests.cs" />
+    <Compile Include="ContainerRegisterInstanceTests.cs" />
+    <Compile Include="ContainerBuildUpTests.cs" />
+    <Compile Include="ContainerRegisterTypeByFactoryObjectTests.cs" />
+    <Compile Include="ContainerRegisterTypeInterfaceTests.cs" />
+    <Compile Include="ContainerRegisterTypeWithDependencyPropertyTests.cs" />
+    <Compile Include="ContainerBasicTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
