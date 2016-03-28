@@ -7,6 +7,7 @@ namespace NiquIoC.Helpers
     internal static class EmitHelper
     {
         //http://stackoverflow.com/questions/8219343/reflection-emit-create-object-with-parameters
+        //http://stackoverflow.com/questions/13478933/reflection-emit-to-create-class-instance
         internal static Func<object[], object> CreateObjectFunction(ConstructorInfo ctor)
         {
             //this method return a function that provide fast creation of a new instastance for given constructorInfo
