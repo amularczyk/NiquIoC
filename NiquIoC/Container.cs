@@ -14,7 +14,7 @@ namespace NiquIoC
         public Container()
         {
             _registeredTypeCache = new Dictionary<Type, ContainerMember>();
-
+            _noCycleForTypeCache = new Dictionary<Type, bool>();
             _constructorInfoForTypeCache = new Dictionary<Type, Tuple<ConstructorInfo, List<ParameterInfo>>>();
             _createObjectFunctionForConstructorCache = new Dictionary<ConstructorInfo, Func<object[], object>>();
             _propertiesInfoForTypeCache = new Dictionary<Type, List<PropertyInfo>>();
@@ -25,7 +25,7 @@ namespace NiquIoC
         #region Private Fields
 
         private readonly IDictionary<Type, ContainerMember> _registeredTypeCache;
-
+        private readonly IDictionary<Type, bool> _noCycleForTypeCache;
         private readonly IDictionary<Type, Tuple<ConstructorInfo, List<ParameterInfo>>> _constructorInfoForTypeCache;
         private readonly IDictionary<ConstructorInfo, Func<object[], object>> _createObjectFunctionForConstructorCache;
         private readonly IDictionary<Type, List<PropertyInfo>> _propertiesInfoForTypeCache;
@@ -61,16 +61,14 @@ namespace NiquIoC
 
         public T Resolve<T>()
         {
-            var resolvedTypes = new Dictionary<Type, bool>(); //to check cycles for the types
-            var instance = (T) Resolve(typeof(T), resolvedTypes);
+            var instance = (T) Resolve(typeof(T));
             return instance;
         }
 
         public void BuildUp<T>(T instance)
         {
-            var resolvedTypes = new Dictionary<Type, bool>(); //to check cycles for the types
-            ResolveProperties(instance, typeof(T), resolvedTypes);
-            ResolveMethods(instance, typeof(T), resolvedTypes);
+            ResolveProperties(instance, typeof(T));
+            ResolveMethods(instance, typeof(T));
         }
 
         #endregion
@@ -106,7 +104,7 @@ namespace NiquIoC
             return containerMember;
         }
 
-        private object Resolve(Type type, Dictionary<Type, bool> resolvedTypes)
+        private object Resolve(Type type)
         {
             try
             {
@@ -114,7 +112,7 @@ namespace NiquIoC
 
                 if (!result.IsSingleton) //if type is not registered as singleton we return a new instance all the time
                 {
-                    return ReturnInstance(result, resolvedTypes);
+                    return ReturnInstance(result);
                 }
 
                 if (result.Instance != null) //for singleton if we created an instance earlier, we return this value
@@ -122,7 +120,7 @@ namespace NiquIoC
                     return result.Instance;
                 }
 
-                object value = ReturnInstance(result, resolvedTypes);
+                object value = ReturnInstance(result);
                 result.Instance = value;
                 return value;
             }
@@ -132,19 +130,19 @@ namespace NiquIoC
             }
         }
 
-        private object ReturnInstance(ContainerMember result, Dictionary<Type, bool> resolvedTypes)
+        private object ReturnInstance(ContainerMember result)
         {
             if (_registeredTypeCache[result.RegisteredType].ObjectFactory != null)
             {
                 return _registeredTypeCache[result.RegisteredType].ObjectFactory();
             }
 
-            return CreateInstance(result.ReturnType, resolvedTypes);
+            return CreateInstance(result.ReturnType);
         }
 
-        private object CreateInstance(Type type, Dictionary<Type, bool> resolvedTypes)
+        private object CreateInstance(Type type)
         {
-            CheckCycleForType(resolvedTypes, type); //at the beginning we check cycle for the type
+            bool check = CheckCycleForType(type); //at the beginning we check cycle for the type
 
             if (!_constructorInfoForTypeCache.ContainsKey(type)) //if we do not have constructor info in the cache for a given type, we create it
             {
@@ -158,9 +156,13 @@ namespace NiquIoC
             var parameters = new object[ctorParametersCount];
             for (var i = 0; i < ctorParametersCount; i++) //we create as array with the parameters of the constructor and we fill it
             {
-                parameters[i] = Resolve(ctorParameters[i].ParameterType, resolvedTypes);
+                parameters[i] = Resolve(ctorParameters[i].ParameterType);
             }
-            resolvedTypes[type] = true; //we can mark the type, because it does not have cycle
+
+            if (!check)
+            {
+                _noCycleForTypeCache[type] = true; //we can mark the type, because it does not have cycle
+            }
 
             if (!_createObjectFunctionForConstructorCache.ContainsKey(ctor)) //if we do not have a create object function in the cache, we create it
             {
@@ -169,8 +171,8 @@ namespace NiquIoC
             }
 
             object obj = _createObjectFunctionForConstructorCache[ctor](parameters);
-            ResolveProperties(obj, type, resolvedTypes); //when we have a new instance of the type, we have to resolve the properties also
-            ResolveMethods(obj, type, resolvedTypes); //when we have a new instance of the type, we have to resolve the methods also
+            ResolveProperties(obj, type); //when we have a new instance of the type, we have to resolve the properties also
+            ResolveMethods(obj, type); //when we have a new instance of the type, we have to resolve the methods also
 
             return obj;
         }
@@ -201,7 +203,7 @@ namespace NiquIoC
             }
         }
 
-        private void ResolveProperties(object obj, Type type, Dictionary<Type, bool> resolvedTypes)
+        private void ResolveProperties(object obj, Type type)
         {
             if (!_propertiesInfoForTypeCache.ContainsKey(type)) //if we do not have a properties info in the cache, we create it
             {
@@ -212,11 +214,11 @@ namespace NiquIoC
             List<PropertyInfo> properties = _propertiesInfoForTypeCache[type];
             foreach (PropertyInfo property in properties) //we are filling the required properties
             {
-                property.SetValue(obj, Resolve(property.PropertyType, resolvedTypes));
+                property.SetValue(obj, Resolve(property.PropertyType));
             }
         }
 
-        private void ResolveMethods(object obj, Type type, Dictionary<Type, bool> resolvedTypes)
+        private void ResolveMethods(object obj, Type type)
         {
             if (!_methodsInfoForTypeCache.ContainsKey(type)) //if we do not have a methods info in the cache, we create it
             {
@@ -237,27 +239,29 @@ namespace NiquIoC
                 var parameters = new object[ctorParametersCount];
                 for (var i = 0; i < ctorParametersCount; i++) //we create as array with the parameters of the method and we fill it
                 {
-                    parameters[i] = Resolve(methodParameters[i].ParameterType, resolvedTypes);
+                    parameters[i] = Resolve(methodParameters[i].ParameterType);
                 }
                 method.Invoke(obj, parameters);
             }
         }
 
-        private void CheckCycleForType(Dictionary<Type, bool> resolvedTypes, Type type)
+        private bool CheckCycleForType(Type type)
         {
-            if (resolvedTypes.ContainsKey(type))
+            if (_noCycleForTypeCache.ContainsKey(type))
             {
                 //if a value for the type is true - it means that we checked this type and it does not have cycle
                 //if a value for the type is false - it means that this type has cycle
-                if (!resolvedTypes[type])
+                if (!_noCycleForTypeCache[type])
                 {
                     throw new CycleForTypeException(type);
                 }
+                return true;
             }
             else
             {
                 //we add a new type with a value false - it means that we are checking this type
-                resolvedTypes.Add(type, false);
+                _noCycleForTypeCache.Add(type, false);
+                return false;
             }
         }
 

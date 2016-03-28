@@ -7,7 +7,6 @@ using Castle.Windsor;
 using Microsoft.Practices.Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PerformanceTests.Classes;
-using SampleContainer;
 using StructureMap;
 using IContainer = Autofac.IContainer;
 
@@ -16,8 +15,8 @@ namespace PerformanceTests
     [TestClass]
     public class ClassASingletonTests
     {
-        private static readonly int _testCase = 100;
-        private static readonly string _fileName = Directory.GetCurrentDirectory() + "PerforamceTests_Singleton_" + DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + ".txt";
+        private static readonly int _testCasesNumber = 100;
+        private static readonly string _fileName = Directory.GetCurrentDirectory() + "PerforamceTests_A_Singleton_" + DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + ".txt";
 
         private static void Check(ITestA10 testA10)
         {
@@ -78,82 +77,47 @@ namespace PerformanceTests
             Assert.IsNotNull(testA10.TestA9.TestA8.TestA7.TestA6.TestA1);
             Assert.IsNotNull(testA10.TestA9.TestA8.TestA7.TestA6.TestA0);
 
-            Assert.IsNotNull(testA10.TestA9.TestA8.TestA7.TestA6.TestA4.TestA3);
-            Assert.IsNotNull(testA10.TestA9.TestA8.TestA7.TestA6.TestA4.TestA2);
-            Assert.IsNotNull(testA10.TestA9.TestA8.TestA7.TestA6.TestA4.TestA1);
-            Assert.IsNotNull(testA10.TestA9.TestA8.TestA7.TestA6.TestA4.TestA0);
+            Assert.IsNotNull(testA10.TestA9.TestA8.TestA7.TestA6.TestA5.TestA4);
+            Assert.IsNotNull(testA10.TestA9.TestA8.TestA7.TestA6.TestA5.TestA3);
+            Assert.IsNotNull(testA10.TestA9.TestA8.TestA7.TestA6.TestA5.TestA2);
+            Assert.IsNotNull(testA10.TestA9.TestA8.TestA7.TestA6.TestA5.TestA1);
+            Assert.IsNotNull(testA10.TestA9.TestA8.TestA7.TestA6.TestA5.TestA0);
 
-            Assert.IsNotNull(testA10.TestA9.TestA8.TestA7.TestA6.TestA4.TestA3.TestA2);
-            Assert.IsNotNull(testA10.TestA9.TestA8.TestA7.TestA6.TestA4.TestA3.TestA1);
-            Assert.IsNotNull(testA10.TestA9.TestA8.TestA7.TestA6.TestA4.TestA3.TestA0);
+            Assert.IsNotNull(testA10.TestA9.TestA8.TestA7.TestA6.TestA5.TestA4.TestA3);
+            Assert.IsNotNull(testA10.TestA9.TestA8.TestA7.TestA6.TestA5.TestA4.TestA2);
+            Assert.IsNotNull(testA10.TestA9.TestA8.TestA7.TestA6.TestA5.TestA4.TestA1);
+            Assert.IsNotNull(testA10.TestA9.TestA8.TestA7.TestA6.TestA5.TestA4.TestA0);
 
-            Assert.IsNotNull(testA10.TestA9.TestA8.TestA7.TestA6.TestA4.TestA3.TestA2.TestA1);
-            Assert.IsNotNull(testA10.TestA9.TestA8.TestA7.TestA6.TestA4.TestA3.TestA2.TestA0);
+            Assert.IsNotNull(testA10.TestA9.TestA8.TestA7.TestA6.TestA5.TestA4.TestA3.TestA2);
+            Assert.IsNotNull(testA10.TestA9.TestA8.TestA7.TestA6.TestA5.TestA4.TestA3.TestA1);
+            Assert.IsNotNull(testA10.TestA9.TestA8.TestA7.TestA6.TestA5.TestA4.TestA3.TestA0);
 
-            Assert.IsNotNull(testA10.TestA9.TestA8.TestA7.TestA6.TestA4.TestA3.TestA2.TestA1.TestA0);
+            Assert.IsNotNull(testA10.TestA9.TestA8.TestA7.TestA6.TestA5.TestA4.TestA3.TestA2.TestA1);
+            Assert.IsNotNull(testA10.TestA9.TestA8.TestA7.TestA6.TestA5.TestA4.TestA3.TestA2.TestA0);
+
+            Assert.IsNotNull(testA10.TestA9.TestA8.TestA7.TestA6.TestA5.TestA4.TestA3.TestA2.TestA1.TestA0);
         }
 
         private static void WriteLine(string text, params object[] args)
         {
             using (var file = new StreamWriter(_fileName, true))
-                file.WriteLine(text, args);
-        }
-        
-        [TestMethod]
-        public void PoorContainerWithCacheTest()
-        {
-            WriteLine("\nPoorContainerWithCache");
-
-            var c = new PoorContainerWithCache();
-            var sw = new Stopwatch();
-
-            sw.Start();
-            c.RegisterType<ITestA0, TestA0>(true);
-            c.RegisterType<ITestA1, TestA1>(true);
-            c.RegisterType<ITestA2, TestA2>(true);
-            c.RegisterType<ITestA3, TestA3>(true);
-            c.RegisterType<ITestA4, TestA4>(true);
-            c.RegisterType<ITestA5, TestA5>(true);
-            c.RegisterType<ITestA6, TestA6>(true);
-            c.RegisterType<ITestA7, TestA7>(true);
-            c.RegisterType<ITestA8, TestA8>(true);
-            c.RegisterType<ITestA9, TestA9>(true);
-            c.RegisterType<ITestA10, TestA10>(true);
-            sw.Stop();
-
-            WriteLine("Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
-            sw.Reset();
-
-            sw.Start();
-            var lastValue = c.Resolve<ITestA10>();
-            sw.Stop();
-            
-            Check(lastValue);
-            
-            WriteLine("First resolve: {0} Milliseconds.", sw.ElapsedMilliseconds);
-            sw.Reset();
-
-            for (var i = 0; i < _testCase; i++)
             {
-                sw.Start();
-                var test = c.Resolve<ITestA10>();
-                sw.Stop();
-
-                Assert.AreEqual(test, lastValue);
-                lastValue = test;
-                
-                Check(test);
+                file.WriteLine(text, args);
             }
-            
-            WriteLine("Next {0} resolve: {1} Milliseconds.", _testCase, sw.ElapsedMilliseconds);
         }
 
         [TestMethod]
-        public void WindsorContainerTest()
+        public void WindsorTest()
         {
-            WriteLine("\nWindsorContainer");
+            WriteLine("\nWindsor");
 
             var c = new WindsorContainer();
+            WindsorRegister(c);
+            WindsorResolve(c, _testCasesNumber);
+        }
+
+        private void WindsorRegister(WindsorContainer c)
+        {
             var sw = new Stopwatch();
 
             sw.Start();
@@ -172,17 +136,19 @@ namespace PerformanceTests
 
             WriteLine("Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
             sw.Reset();
+        }
+
+        private void WindsorResolve(WindsorContainer c, int testCasesNumber)
+        {
+            var sw = new Stopwatch();
 
             sw.Start();
             var lastValue = c.Resolve<ITestA10>();
             sw.Stop();
-            
+
             Check(lastValue);
 
-            WriteLine("First resolve: {0} Milliseconds.", sw.ElapsedMilliseconds);
-            sw.Reset();
-
-            for (var i = 0; i < _testCase; i++)
+            for (var i = 0; i < testCasesNumber - 1; i++)
             {
                 sw.Start();
                 var test = c.Resolve<ITestA10>();
@@ -190,11 +156,11 @@ namespace PerformanceTests
 
                 Assert.AreEqual(test, lastValue);
                 lastValue = test;
-                
+
                 Check(test);
             }
-            
-            WriteLine("Next {0} resolve: {1} Milliseconds.", _testCase, sw.ElapsedMilliseconds);
+
+            WriteLine("{0} resolve: {1} Milliseconds.", testCasesNumber, sw.ElapsedMilliseconds);
         }
 
         [TestMethod]
@@ -202,10 +168,17 @@ namespace PerformanceTests
         {
             WriteLine("\nStructureMap");
 
+            var c = new Container();
+            StructureMapRegister(c);
+            StructureMapResolve(c, _testCasesNumber);
+        }
+
+        private void StructureMapRegister(Container c)
+        {
             var sw = new Stopwatch();
 
             sw.Start();
-            var c = new Container(x =>
+            c.Configure(x =>
             {
                 x.For<ITestA0>().Use<TestA0>().Singleton();
                 x.For<ITestA0>().Use<TestA0>().Singleton();
@@ -224,17 +197,19 @@ namespace PerformanceTests
 
             WriteLine("Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
             sw.Reset();
+        }
+
+        private void StructureMapResolve(Container c, int testCasesNumber)
+        {
+            var sw = new Stopwatch();
 
             sw.Start();
             var lastValue = c.GetInstance<ITestA10>();
             sw.Stop();
-            
-            Check(lastValue);
-            
-            WriteLine("First resolve: {0} Milliseconds.", sw.ElapsedMilliseconds);
-            sw.Reset();
 
-            for (var i = 0; i < _testCase; i++)
+            Check(lastValue);
+
+            for (var i = 0; i < testCasesNumber - 1; i++)
             {
                 sw.Start();
                 var test = c.GetInstance<ITestA10>();
@@ -242,11 +217,11 @@ namespace PerformanceTests
 
                 Assert.AreEqual(test, lastValue);
                 lastValue = test;
-                
+
                 Check(test);
             }
-            
-            WriteLine("Next {0} resolve: {1} Milliseconds.", _testCase, sw.ElapsedMilliseconds);
+
+            WriteLine("{0} resolve: {1} Milliseconds.", testCasesNumber, sw.ElapsedMilliseconds);
         }
 
         [TestMethod]
@@ -255,6 +230,12 @@ namespace PerformanceTests
             WriteLine("\nAutofac");
 
             var cb = new ContainerBuilder();
+            IContainer c = AutofacRegister(cb);
+            AutofacResolve(c, _testCasesNumber);
+        }
+
+        private IContainer AutofacRegister(ContainerBuilder cb)
+        {
             var sw = new Stopwatch();
 
             sw.Start();
@@ -275,16 +256,20 @@ namespace PerformanceTests
             WriteLine("Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
             sw.Reset();
 
+            return c;
+        }
+
+        private void AutofacResolve(IContainer c, int testCasesNumber)
+        {
+            var sw = new Stopwatch();
+
             sw.Start();
             var lastValue = c.Resolve<ITestA10>();
             sw.Stop();
-            
-            Check(lastValue);
-            
-            WriteLine("First resolve: {0} Milliseconds.", sw.ElapsedMilliseconds);
-            sw.Reset();
 
-            for (var i = 0; i < _testCase; i++)
+            Check(lastValue);
+
+            for (var i = 0; i < testCasesNumber - 1; i++)
             {
                 sw.Start();
                 var test = c.Resolve<ITestA10>();
@@ -292,11 +277,11 @@ namespace PerformanceTests
 
                 Assert.AreEqual(test, lastValue);
                 lastValue = test;
-                
+
                 Check(test);
             }
-            
-            WriteLine("Next {0} resolve: {1} Milliseconds.", _testCase, sw.ElapsedMilliseconds);
+
+            WriteLine("{0} resolve: {1} Milliseconds.", testCasesNumber, sw.ElapsedMilliseconds);
         }
 
         [TestMethod]
@@ -305,8 +290,13 @@ namespace PerformanceTests
             WriteLine("\nUnity");
 
             var c = new UnityContainer();
+            UnityRegister(c);
+            UnityResolve(c, _testCasesNumber);
+        }
+
+        private void UnityRegister(UnityContainer c)
+        {
             var sw = new Stopwatch();
-            
 
             sw.Start();
             c.RegisterType<ITestA0, TestA0>(new ContainerControlledLifetimeManager());
@@ -324,17 +314,19 @@ namespace PerformanceTests
 
             WriteLine("Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
             sw.Reset();
+        }
+
+        private void UnityResolve(UnityContainer c, int testCasesNumber)
+        {
+            var sw = new Stopwatch();
 
             sw.Start();
             var lastValue = c.Resolve<ITestA10>();
             sw.Stop();
-            
-            Check(lastValue);
-            
-            WriteLine("First resolve: {0} Milliseconds.", sw.ElapsedMilliseconds);
-            sw.Reset();
 
-            for (var i = 0; i < _testCase; i++)
+            Check(lastValue);
+
+            for (var i = 0; i < testCasesNumber - 1; i++)
             {
                 sw.Start();
                 var test = c.Resolve<ITestA10>();
@@ -342,11 +334,11 @@ namespace PerformanceTests
 
                 Assert.AreEqual(test, lastValue);
                 lastValue = test;
-                
+
                 Check(test);
             }
-            
-            WriteLine("Next {0} resolve: {1} Milliseconds.", _testCase, sw.ElapsedMilliseconds);
+
+            WriteLine("{0} resolve: {1} Milliseconds.", testCasesNumber, sw.ElapsedMilliseconds);
         }
 
         [TestMethod]
@@ -355,6 +347,12 @@ namespace PerformanceTests
             WriteLine("\nNiquIoC");
 
             var c = new NiquIoC.Container();
+            NiquIoCRegister(c);
+            NiquIoCResolve(c, _testCasesNumber);
+        }
+
+        private void NiquIoCRegister(NiquIoC.Container c)
+        {
             var sw = new Stopwatch();
 
             sw.Start();
@@ -373,17 +371,19 @@ namespace PerformanceTests
 
             WriteLine("Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
             sw.Reset();
+        }
+
+        private void NiquIoCResolve(NiquIoC.Container c, int testCasesNumber)
+        {
+            var sw = new Stopwatch();
 
             sw.Start();
             var lastValue = c.Resolve<ITestA10>();
             sw.Stop();
-            
-            Check(lastValue);
-            
-            WriteLine("First resolve: {0} Milliseconds.", sw.ElapsedMilliseconds);
-            sw.Reset();
 
-            for (var i = 0; i < _testCase; i++)
+            Check(lastValue);
+
+            for (var i = 0; i < testCasesNumber - 1; i++)
             {
                 sw.Start();
                 var test = c.Resolve<ITestA10>();
@@ -391,11 +391,11 @@ namespace PerformanceTests
 
                 Assert.AreEqual(test, lastValue);
                 lastValue = test;
-                
+
                 Check(test);
             }
-            
-            WriteLine("Next {0} resolve: {1} Milliseconds.", _testCase, sw.ElapsedMilliseconds);
+
+            WriteLine("{0} resolve: {1} Milliseconds.", testCasesNumber, sw.ElapsedMilliseconds);
         }
     }
 }

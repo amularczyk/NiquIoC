@@ -64,8 +64,9 @@
       <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NiquIoC">
-      <HintPath>..\NiquIoC\bin\Debug\NiquIoC.dll</HintPath>
+    <Reference Include="NiquIoC, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\NiquIoC\bin\Release\NiquIoC.dll</HintPath>
     </Reference>
     <Reference Include="StructureMap, Version=4.0.1.318, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\structuremap.4.0.1.318\lib\net40\StructureMap.dll</HintPath>
@@ -91,19 +92,16 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="ClassBSingletonTests.cs" />
     <Compile Include="ClassASingletonTests.cs" />
+    <Compile Include="ClassBTransientTests.cs" />
     <Compile Include="Classes\Test_A.cs" />
     <Compile Include="ClassATransientTests.cs" />
+    <Compile Include="Classes\Test_B.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SampleContainer\SampleContainer.csproj">
-      <Project>{956396ea-8b6c-4548-8468-89b04b435088}</Project>
-      <Name>SampleContainer</Name>
-    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
