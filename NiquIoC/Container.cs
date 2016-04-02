@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices.ComTypes;
 using NiquIoC.Attributes;
 using NiquIoC.Exceptions;
 using NiquIoC.Helpers;

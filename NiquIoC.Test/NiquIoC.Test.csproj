@@ -59,6 +59,7 @@
     <Compile Include="ClassDefinitions\ClassWithDependencyConstrutorDefinitions.cs" />
     <Compile Include="ClassDefinitions\ClassWithDependencyPropertyDefinitions.cs" />
     <Compile Include="ClassDefinitions\ClassWithDependencyMethodDefinitions.cs" />
+    <Compile Include="ContainerReRegistereTests.cs" />
     <Compile Include="ContainerRegisterTypeWithDependencyConstrutorTests.cs" />
     <Compile Include="ContainerRegisterTypeWithDependencyMethodTests.cs" />
     <Compile Include="ContainerRegisterInstanceTests.cs" />

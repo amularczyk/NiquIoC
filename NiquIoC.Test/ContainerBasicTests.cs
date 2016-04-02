@@ -103,24 +103,5 @@ namespace NiquIoC.Test
             Assert.AreEqual(sampleClass1, sampleClass2);
             Assert.AreEqual(sampleClass1.EmptyClass, sampleClass2.EmptyClass);
         }
-
-        [TestMethod]
-        public void ClassReRegistered_Success()
-        {
-            IContainer c = new Container();
-            c.RegisterType<EmptyClass>().AsSingleton();
-            c.RegisterType<SampleClass>().AsSingleton();
-
-            var sampleClass1 = c.Resolve<SampleClass>();
-            c.RegisterType<SampleClass>().AsSingleton();
-            var sampleClass2 = c.Resolve<SampleClass>();
-
-            Assert.IsNotNull(sampleClass1);
-            Assert.IsNotNull(sampleClass1.EmptyClass);
-            Assert.IsNotNull(sampleClass2);
-            Assert.IsNotNull(sampleClass2.EmptyClass);
-            Assert.AreNotEqual(sampleClass1, sampleClass2);
-            Assert.AreEqual(sampleClass1.EmptyClass, sampleClass2.EmptyClass);
-        }
     }
 }
