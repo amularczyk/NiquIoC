@@ -9,6 +9,7 @@ using LightInject;
 using Microsoft.Practices.Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PerformanceTests.Classes;
+using SimpleInjector;
 
 namespace PerformanceTests
 {
@@ -104,6 +105,65 @@ namespace PerformanceTests
             {
                 file.WriteLine(text, args);
             }
+        }
+
+
+        [TestMethod]
+        public void SimpleInjectorTest()
+        {
+            WriteLine("\nSimpleInjector");
+
+            var c = new SimpleInjector.Container();
+            SimpleInjectorRegister(c);
+            SimpleInjectorResolve(c, _testCasesNumber);
+            c.Dispose();
+        }
+
+        private void SimpleInjectorRegister(SimpleInjector.Container c)
+        {
+            var sw = new Stopwatch();
+
+            sw.Start();
+            c.Register<ITestA0, TestA0>(Lifestyle.Singleton);
+            c.Register<ITestA1, TestA1>(Lifestyle.Singleton);
+            c.Register<ITestA2, TestA2>(Lifestyle.Singleton);
+            c.Register<ITestA3, TestA3>(Lifestyle.Singleton);
+            c.Register<ITestA4, TestA4>(Lifestyle.Singleton);
+            c.Register<ITestA5, TestA5>(Lifestyle.Singleton);
+            c.Register<ITestA6, TestA6>(Lifestyle.Singleton);
+            c.Register<ITestA7, TestA7>(Lifestyle.Singleton);
+            c.Register<ITestA8, TestA8>(Lifestyle.Singleton);
+            c.Register<ITestA9, TestA9>(Lifestyle.Singleton);
+            c.Register<ITestA10, TestA10>(Lifestyle.Singleton);
+            sw.Stop();
+
+            WriteLine("Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
+            sw.Reset();
+        }
+
+        private void SimpleInjectorResolve(SimpleInjector.Container c, int testCasesNumber)
+        {
+            var sw = new Stopwatch();
+
+            sw.Start();
+            var lastValue = c.GetInstance<ITestA10>();
+            sw.Stop();
+
+            Check(lastValue);
+
+            for (var i = 0; i < testCasesNumber - 1; i++)
+            {
+                sw.Start();
+                var test = c.GetInstance<ITestA10>();
+                sw.Stop();
+
+                Assert.AreEqual(test, lastValue);
+                lastValue = test;
+
+                Check(test);
+            }
+
+            WriteLine("{0} resolve: {1} Milliseconds.", testCasesNumber, sw.ElapsedMilliseconds);
         }
 
 
