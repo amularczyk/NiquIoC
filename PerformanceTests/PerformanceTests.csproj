@@ -107,6 +107,12 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DryIoc\DryIoc.csproj">
+      <Project>{9946a13c-9436-4263-806e-bd1b344a13fb}</Project>
+      <Name>DryIoc</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

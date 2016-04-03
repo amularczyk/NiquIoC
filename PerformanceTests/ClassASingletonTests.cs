@@ -4,12 +4,11 @@ using System.IO;
 using Autofac;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
+using DryIoc;
 using LightInject;
 using Microsoft.Practices.Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PerformanceTests.Classes;
-using StructureMap;
-using IContainer = Autofac.IContainer;
 
 namespace PerformanceTests
 {
@@ -105,6 +104,65 @@ namespace PerformanceTests
             {
                 file.WriteLine(text, args);
             }
+        }
+
+
+        [TestMethod]
+        public void DryIocTest()
+        {
+            WriteLine("\nDryIoc");
+
+            var c = new DryIoc.Container();
+            DryIocRegister(c);
+            DryIocResolve(c, _testCasesNumber);
+            c.Dispose();
+        }
+
+        private void DryIocRegister(DryIoc.Container c)
+        {
+            var sw = new Stopwatch();
+
+            sw.Start();
+            c.Register<ITestA0, TestA0>(Reuse.Singleton);
+            c.Register<ITestA1, TestA1>(Reuse.Singleton);
+            c.Register<ITestA2, TestA2>(Reuse.Singleton);
+            c.Register<ITestA3, TestA3>(Reuse.Singleton);
+            c.Register<ITestA4, TestA4>(Reuse.Singleton);
+            c.Register<ITestA5, TestA5>(Reuse.Singleton);
+            c.Register<ITestA6, TestA6>(Reuse.Singleton);
+            c.Register<ITestA7, TestA7>(Reuse.Singleton);
+            c.Register<ITestA8, TestA8>(Reuse.Singleton);
+            c.Register<ITestA9, TestA9>(Reuse.Singleton);
+            c.Register<ITestA10, TestA10>(Reuse.Singleton);
+            sw.Stop();
+
+            WriteLine("Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
+            sw.Reset();
+        }
+
+        private void DryIocResolve(DryIoc.Container c, int testCasesNumber)
+        {
+            var sw = new Stopwatch();
+
+            sw.Start();
+            var lastValue = c.Resolve<ITestA10>();
+            sw.Stop();
+
+            Check(lastValue);
+
+            for (var i = 0; i < testCasesNumber - 1; i++)
+            {
+                sw.Start();
+                var test = c.Resolve<ITestA10>();
+                sw.Stop();
+
+                Assert.AreEqual(test, lastValue);
+                lastValue = test;
+
+                Check(test);
+            }
+
+            WriteLine("{0} resolve: {1} Milliseconds.", testCasesNumber, sw.ElapsedMilliseconds);
         }
 
 
@@ -231,13 +289,13 @@ namespace PerformanceTests
         {
             WriteLine("\nStructureMap");
 
-            var c = new Container();
+            var c = new StructureMap.Container();
             StructureMapRegister(c);
             StructureMapResolve(c, _testCasesNumber);
             c.Dispose();
         }
 
-        private void StructureMapRegister(Container c)
+        private void StructureMapRegister(StructureMap.Container c)
         {
             var sw = new Stopwatch();
 
@@ -263,7 +321,7 @@ namespace PerformanceTests
             sw.Reset();
         }
 
-        private void StructureMapResolve(Container c, int testCasesNumber)
+        private void StructureMapResolve(StructureMap.Container c, int testCasesNumber)
         {
             var sw = new Stopwatch();
 
@@ -295,12 +353,12 @@ namespace PerformanceTests
             WriteLine("\nAutofac");
 
             var cb = new ContainerBuilder();
-            IContainer c = AutofacRegister(cb);
+            Autofac.IContainer c = AutofacRegister(cb);
             AutofacResolve(c, _testCasesNumber);
             c.Dispose();
         }
 
-        private IContainer AutofacRegister(ContainerBuilder cb)
+        private Autofac.IContainer AutofacRegister(ContainerBuilder cb)
         {
             var sw = new Stopwatch();
 
@@ -316,7 +374,7 @@ namespace PerformanceTests
             cb.RegisterType<TestA8>().As<ITestA8>().SingleInstance();
             cb.RegisterType<TestA9>().As<ITestA9>().SingleInstance();
             cb.RegisterType<TestA10>().As<ITestA10>().SingleInstance();
-            IContainer c = cb.Build();
+            Autofac.IContainer c = cb.Build();
             sw.Stop();
 
             WriteLine("Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
@@ -325,7 +383,7 @@ namespace PerformanceTests
             return c;
         }
 
-        private void AutofacResolve(IContainer c, int testCasesNumber)
+        private void AutofacResolve(Autofac.IContainer c, int testCasesNumber)
         {
             var sw = new Stopwatch();
 
