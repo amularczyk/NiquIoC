@@ -13,10 +13,10 @@ using PerformanceTests.Classes;
 namespace PerformanceTests
 {
     [TestClass]
-    public class ClassATransientTests
+    public class ClassATransient_100_Tests
     {
         private static readonly int _testCasesNumber = 100;
-        private static readonly string _fileName = Directory.GetCurrentDirectory() + "PerforamceTests_A_Transient_" + DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + ".txt";
+        private static readonly string _fileName = Directory.GetCurrentDirectory() + "PerforamceTests_A_100_Transient_" + DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + ".txt";
 
         private static void Check(ITestA10 testA10)
         {

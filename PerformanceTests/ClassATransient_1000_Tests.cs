@@ -9,15 +9,14 @@ using LightInject;
 using Microsoft.Practices.Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PerformanceTests.Classes;
-using SimpleInjector;
 
 namespace PerformanceTests
 {
     [TestClass]
-    public class ClassASingletonTests
+    public class ClassATransient_1000_Tests
     {
-        private static readonly int _testCasesNumber = 100;
-        private static readonly string _fileName = Directory.GetCurrentDirectory() + "PerforamceTests_A_Singleton_" + DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + ".txt";
+        private static readonly int _testCasesNumber = 1000;
+        private static readonly string _fileName = Directory.GetCurrentDirectory() + "PerforamceTests_A_1000_Transient_" + DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + ".txt";
 
         private static void Check(ITestA10 testA10)
         {
@@ -44,15 +43,15 @@ namespace PerformanceTests
             Assert.IsNotNull(testA10.TestA9.TestA1);
             Assert.IsNotNull(testA10.TestA9.TestA0);
 
-            Assert.AreEqual(testA10.TestA8, testA10.TestA9.TestA8);
-            Assert.AreEqual(testA10.TestA7, testA10.TestA9.TestA7);
-            Assert.AreEqual(testA10.TestA6, testA10.TestA9.TestA6);
-            Assert.AreEqual(testA10.TestA5, testA10.TestA9.TestA5);
-            Assert.AreEqual(testA10.TestA4, testA10.TestA9.TestA4);
-            Assert.AreEqual(testA10.TestA3, testA10.TestA9.TestA3);
-            Assert.AreEqual(testA10.TestA2, testA10.TestA9.TestA2);
-            Assert.AreEqual(testA10.TestA1, testA10.TestA9.TestA1);
-            Assert.AreEqual(testA10.TestA0, testA10.TestA9.TestA0);
+            Assert.AreNotEqual(testA10.TestA8, testA10.TestA9.TestA8);
+            Assert.AreNotEqual(testA10.TestA7, testA10.TestA9.TestA7);
+            Assert.AreNotEqual(testA10.TestA6, testA10.TestA9.TestA6);
+            Assert.AreNotEqual(testA10.TestA5, testA10.TestA9.TestA5);
+            Assert.AreNotEqual(testA10.TestA4, testA10.TestA9.TestA4);
+            Assert.AreNotEqual(testA10.TestA3, testA10.TestA9.TestA3);
+            Assert.AreNotEqual(testA10.TestA2, testA10.TestA9.TestA2);
+            Assert.AreNotEqual(testA10.TestA1, testA10.TestA9.TestA1);
+            Assert.AreNotEqual(testA10.TestA0, testA10.TestA9.TestA0);
 
             Assert.IsNotNull(testA10.TestA9.TestA8.TestA7);
             Assert.IsNotNull(testA10.TestA9.TestA8.TestA6);
@@ -124,17 +123,17 @@ namespace PerformanceTests
             var sw = new Stopwatch();
 
             sw.Start();
-            c.Register<ITestA0, TestA0>(Lifestyle.Singleton);
-            c.Register<ITestA1, TestA1>(Lifestyle.Singleton);
-            c.Register<ITestA2, TestA2>(Lifestyle.Singleton);
-            c.Register<ITestA3, TestA3>(Lifestyle.Singleton);
-            c.Register<ITestA4, TestA4>(Lifestyle.Singleton);
-            c.Register<ITestA5, TestA5>(Lifestyle.Singleton);
-            c.Register<ITestA6, TestA6>(Lifestyle.Singleton);
-            c.Register<ITestA7, TestA7>(Lifestyle.Singleton);
-            c.Register<ITestA8, TestA8>(Lifestyle.Singleton);
-            c.Register<ITestA9, TestA9>(Lifestyle.Singleton);
-            c.Register<ITestA10, TestA10>(Lifestyle.Singleton);
+            c.Register<ITestA0, TestA0>();
+            c.Register<ITestA1, TestA1>();
+            c.Register<ITestA2, TestA2>();
+            c.Register<ITestA3, TestA3>();
+            c.Register<ITestA4, TestA4>();
+            c.Register<ITestA5, TestA5>();
+            c.Register<ITestA6, TestA6>();
+            c.Register<ITestA7, TestA7>();
+            c.Register<ITestA8, TestA8>();
+            c.Register<ITestA9, TestA9>();
+            c.Register<ITestA10, TestA10>();
             sw.Stop();
 
             WriteLine("Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
@@ -157,7 +156,7 @@ namespace PerformanceTests
                 var test = c.GetInstance<ITestA10>();
                 sw.Stop();
 
-                Assert.AreEqual(test, lastValue);
+                Assert.AreNotEqual(test, lastValue);
                 lastValue = test;
 
                 Check(test);
@@ -183,17 +182,17 @@ namespace PerformanceTests
             var sw = new Stopwatch();
 
             sw.Start();
-            c.Register<ITestA0, TestA0>(Reuse.Singleton);
-            c.Register<ITestA1, TestA1>(Reuse.Singleton);
-            c.Register<ITestA2, TestA2>(Reuse.Singleton);
-            c.Register<ITestA3, TestA3>(Reuse.Singleton);
-            c.Register<ITestA4, TestA4>(Reuse.Singleton);
-            c.Register<ITestA5, TestA5>(Reuse.Singleton);
-            c.Register<ITestA6, TestA6>(Reuse.Singleton);
-            c.Register<ITestA7, TestA7>(Reuse.Singleton);
-            c.Register<ITestA8, TestA8>(Reuse.Singleton);
-            c.Register<ITestA9, TestA9>(Reuse.Singleton);
-            c.Register<ITestA10, TestA10>(Reuse.Singleton);
+            c.Register<ITestA0, TestA0>();
+            c.Register<ITestA1, TestA1>();
+            c.Register<ITestA2, TestA2>();
+            c.Register<ITestA3, TestA3>();
+            c.Register<ITestA4, TestA4>();
+            c.Register<ITestA5, TestA5>();
+            c.Register<ITestA6, TestA6>();
+            c.Register<ITestA7, TestA7>();
+            c.Register<ITestA8, TestA8>();
+            c.Register<ITestA9, TestA9>();
+            c.Register<ITestA10, TestA10>();
             sw.Stop();
 
             WriteLine("Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
@@ -216,7 +215,7 @@ namespace PerformanceTests
                 var test = c.Resolve<ITestA10>();
                 sw.Stop();
 
-                Assert.AreEqual(test, lastValue);
+                Assert.AreNotEqual(test, lastValue);
                 lastValue = test;
 
                 Check(test);
@@ -242,17 +241,17 @@ namespace PerformanceTests
             var sw = new Stopwatch();
 
             sw.Start();
-            c.Register<ITestA0, TestA0>(new PerContainerLifetime());
-            c.Register<ITestA1, TestA1>(new PerContainerLifetime());
-            c.Register<ITestA2, TestA2>(new PerContainerLifetime());
-            c.Register<ITestA3, TestA3>(new PerContainerLifetime());
-            c.Register<ITestA4, TestA4>(new PerContainerLifetime());
-            c.Register<ITestA5, TestA5>(new PerContainerLifetime());
-            c.Register<ITestA6, TestA6>(new PerContainerLifetime());
-            c.Register<ITestA7, TestA7>(new PerContainerLifetime());
-            c.Register<ITestA8, TestA8>(new PerContainerLifetime());
-            c.Register<ITestA9, TestA9>(new PerContainerLifetime());
-            c.Register<ITestA10, TestA10>(new PerContainerLifetime());
+            c.Register<ITestA0, TestA0>();
+            c.Register<ITestA1, TestA1>();
+            c.Register<ITestA2, TestA2>();
+            c.Register<ITestA3, TestA3>();
+            c.Register<ITestA4, TestA4>();
+            c.Register<ITestA5, TestA5>();
+            c.Register<ITestA6, TestA6>();
+            c.Register<ITestA7, TestA7>();
+            c.Register<ITestA8, TestA8>();
+            c.Register<ITestA9, TestA9>();
+            c.Register<ITestA10, TestA10>();
             sw.Stop();
 
             WriteLine("Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
@@ -275,7 +274,7 @@ namespace PerformanceTests
                 var test = c.GetInstance<ITestA10>();
                 sw.Stop();
 
-                Assert.AreEqual(test, lastValue);
+                Assert.AreNotEqual(test, lastValue);
                 lastValue = test;
 
                 Check(test);
@@ -301,17 +300,17 @@ namespace PerformanceTests
             var sw = new Stopwatch();
 
             sw.Start();
-            c.Register(Component.For<ITestA0>().ImplementedBy<TestA0>().LifeStyle.Singleton);
-            c.Register(Component.For<ITestA1>().ImplementedBy<TestA1>().LifeStyle.Singleton);
-            c.Register(Component.For<ITestA2>().ImplementedBy<TestA2>().LifeStyle.Singleton);
-            c.Register(Component.For<ITestA3>().ImplementedBy<TestA3>().LifeStyle.Singleton);
-            c.Register(Component.For<ITestA4>().ImplementedBy<TestA4>().LifeStyle.Singleton);
-            c.Register(Component.For<ITestA5>().ImplementedBy<TestA5>().LifeStyle.Singleton);
-            c.Register(Component.For<ITestA6>().ImplementedBy<TestA6>().LifeStyle.Singleton);
-            c.Register(Component.For<ITestA7>().ImplementedBy<TestA7>().LifeStyle.Singleton);
-            c.Register(Component.For<ITestA8>().ImplementedBy<TestA8>().LifeStyle.Singleton);
-            c.Register(Component.For<ITestA9>().ImplementedBy<TestA9>().LifeStyle.Singleton);
-            c.Register(Component.For<ITestA10>().ImplementedBy<TestA10>().LifeStyle.Singleton);
+            c.Register(Component.For<ITestA0>().ImplementedBy<TestA0>().LifeStyle.Transient);
+            c.Register(Component.For<ITestA1>().ImplementedBy<TestA1>().LifeStyle.Transient);
+            c.Register(Component.For<ITestA2>().ImplementedBy<TestA2>().LifeStyle.Transient);
+            c.Register(Component.For<ITestA3>().ImplementedBy<TestA3>().LifeStyle.Transient);
+            c.Register(Component.For<ITestA4>().ImplementedBy<TestA4>().LifeStyle.Transient);
+            c.Register(Component.For<ITestA5>().ImplementedBy<TestA5>().LifeStyle.Transient);
+            c.Register(Component.For<ITestA6>().ImplementedBy<TestA6>().LifeStyle.Transient);
+            c.Register(Component.For<ITestA7>().ImplementedBy<TestA7>().LifeStyle.Transient);
+            c.Register(Component.For<ITestA8>().ImplementedBy<TestA8>().LifeStyle.Transient);
+            c.Register(Component.For<ITestA9>().ImplementedBy<TestA9>().LifeStyle.Transient);
+            c.Register(Component.For<ITestA10>().ImplementedBy<TestA10>().LifeStyle.Transient);
             sw.Stop();
 
             WriteLine("Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
@@ -334,7 +333,7 @@ namespace PerformanceTests
                 var test = c.Resolve<ITestA10>();
                 sw.Stop();
 
-                Assert.AreEqual(test, lastValue);
+                Assert.AreNotEqual(test, lastValue);
                 lastValue = test;
 
                 Check(test);
@@ -362,18 +361,18 @@ namespace PerformanceTests
             sw.Start();
             c.Configure(x =>
             {
-                x.For<ITestA0>().Use<TestA0>().Singleton();
-                x.For<ITestA0>().Use<TestA0>().Singleton();
-                x.For<ITestA1>().Use<TestA1>().Singleton();
-                x.For<ITestA2>().Use<TestA2>().Singleton();
-                x.For<ITestA3>().Use<TestA3>().Singleton();
-                x.For<ITestA4>().Use<TestA4>().Singleton();
-                x.For<ITestA5>().Use<TestA5>().Singleton();
-                x.For<ITestA6>().Use<TestA6>().Singleton();
-                x.For<ITestA7>().Use<TestA7>().Singleton();
-                x.For<ITestA8>().Use<TestA8>().Singleton();
-                x.For<ITestA9>().Use<TestA9>().Singleton();
-                x.For<ITestA10>().Use<TestA10>().Singleton();
+                x.For<ITestA0>().Use<TestA0>().AlwaysUnique();
+                x.For<ITestA0>().Use<TestA0>().AlwaysUnique();
+                x.For<ITestA1>().Use<TestA1>().AlwaysUnique();
+                x.For<ITestA2>().Use<TestA2>().AlwaysUnique();
+                x.For<ITestA3>().Use<TestA3>().AlwaysUnique();
+                x.For<ITestA4>().Use<TestA4>().AlwaysUnique();
+                x.For<ITestA5>().Use<TestA5>().AlwaysUnique();
+                x.For<ITestA6>().Use<TestA6>().AlwaysUnique();
+                x.For<ITestA7>().Use<TestA7>().AlwaysUnique();
+                x.For<ITestA8>().Use<TestA8>().AlwaysUnique();
+                x.For<ITestA9>().Use<TestA9>().AlwaysUnique();
+                x.For<ITestA10>().Use<TestA10>().AlwaysUnique();
             });
             sw.Stop();
 
@@ -397,7 +396,7 @@ namespace PerformanceTests
                 var test = c.GetInstance<ITestA10>();
                 sw.Stop();
 
-                Assert.AreEqual(test, lastValue);
+                Assert.AreNotEqual(test, lastValue);
                 lastValue = test;
 
                 Check(test);
@@ -423,17 +422,17 @@ namespace PerformanceTests
             var sw = new Stopwatch();
 
             sw.Start();
-            cb.RegisterType<TestA0>().As<ITestA0>().SingleInstance();
-            cb.RegisterType<TestA1>().As<ITestA1>().SingleInstance();
-            cb.RegisterType<TestA2>().As<ITestA2>().SingleInstance();
-            cb.RegisterType<TestA3>().As<ITestA3>().SingleInstance();
-            cb.RegisterType<TestA4>().As<ITestA4>().SingleInstance();
-            cb.RegisterType<TestA5>().As<ITestA5>().SingleInstance();
-            cb.RegisterType<TestA6>().As<ITestA6>().SingleInstance();
-            cb.RegisterType<TestA7>().As<ITestA7>().SingleInstance();
-            cb.RegisterType<TestA8>().As<ITestA8>().SingleInstance();
-            cb.RegisterType<TestA9>().As<ITestA9>().SingleInstance();
-            cb.RegisterType<TestA10>().As<ITestA10>().SingleInstance();
+            cb.RegisterType<TestA0>().As<ITestA0>();
+            cb.RegisterType<TestA1>().As<ITestA1>();
+            cb.RegisterType<TestA2>().As<ITestA2>();
+            cb.RegisterType<TestA3>().As<ITestA3>();
+            cb.RegisterType<TestA4>().As<ITestA4>();
+            cb.RegisterType<TestA5>().As<ITestA5>();
+            cb.RegisterType<TestA6>().As<ITestA6>();
+            cb.RegisterType<TestA7>().As<ITestA7>();
+            cb.RegisterType<TestA8>().As<ITestA8>();
+            cb.RegisterType<TestA9>().As<ITestA9>();
+            cb.RegisterType<TestA10>().As<ITestA10>();
             Autofac.IContainer c = cb.Build();
             sw.Stop();
 
@@ -459,7 +458,7 @@ namespace PerformanceTests
                 var test = c.Resolve<ITestA10>();
                 sw.Stop();
 
-                Assert.AreEqual(test, lastValue);
+                Assert.AreNotEqual(test, lastValue);
                 lastValue = test;
 
                 Check(test);
@@ -485,17 +484,17 @@ namespace PerformanceTests
             var sw = new Stopwatch();
 
             sw.Start();
-            c.RegisterType<ITestA0, TestA0>(new ContainerControlledLifetimeManager());
-            c.RegisterType<ITestA1, TestA1>(new ContainerControlledLifetimeManager());
-            c.RegisterType<ITestA2, TestA2>(new ContainerControlledLifetimeManager());
-            c.RegisterType<ITestA3, TestA3>(new ContainerControlledLifetimeManager());
-            c.RegisterType<ITestA4, TestA4>(new ContainerControlledLifetimeManager());
-            c.RegisterType<ITestA5, TestA5>(new ContainerControlledLifetimeManager());
-            c.RegisterType<ITestA6, TestA6>(new ContainerControlledLifetimeManager());
-            c.RegisterType<ITestA7, TestA7>(new ContainerControlledLifetimeManager());
-            c.RegisterType<ITestA8, TestA8>(new ContainerControlledLifetimeManager());
-            c.RegisterType<ITestA9, TestA9>(new ContainerControlledLifetimeManager());
-            c.RegisterType<ITestA10, TestA10>(new ContainerControlledLifetimeManager());
+            c.RegisterType<ITestA0, TestA0>();
+            c.RegisterType<ITestA1, TestA1>();
+            c.RegisterType<ITestA2, TestA2>();
+            c.RegisterType<ITestA3, TestA3>();
+            c.RegisterType<ITestA4, TestA4>();
+            c.RegisterType<ITestA5, TestA5>();
+            c.RegisterType<ITestA6, TestA6>();
+            c.RegisterType<ITestA7, TestA7>();
+            c.RegisterType<ITestA8, TestA8>();
+            c.RegisterType<ITestA9, TestA9>();
+            c.RegisterType<ITestA10, TestA10>();
             sw.Stop();
 
             WriteLine("Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
@@ -518,7 +517,7 @@ namespace PerformanceTests
                 var test = c.Resolve<ITestA10>();
                 sw.Stop();
 
-                Assert.AreEqual(test, lastValue);
+                Assert.AreNotEqual(test, lastValue);
                 lastValue = test;
 
                 Check(test);
@@ -543,17 +542,17 @@ namespace PerformanceTests
             var sw = new Stopwatch();
 
             sw.Start();
-            c.RegisterType<ITestA0, TestA0>().AsSingleton();
-            c.RegisterType<ITestA1, TestA1>().AsSingleton();
-            c.RegisterType<ITestA2, TestA2>().AsSingleton();
-            c.RegisterType<ITestA3, TestA3>().AsSingleton();
-            c.RegisterType<ITestA4, TestA4>().AsSingleton();
-            c.RegisterType<ITestA5, TestA5>().AsSingleton();
-            c.RegisterType<ITestA6, TestA6>().AsSingleton();
-            c.RegisterType<ITestA7, TestA7>().AsSingleton();
-            c.RegisterType<ITestA8, TestA8>().AsSingleton();
-            c.RegisterType<ITestA9, TestA9>().AsSingleton();
-            c.RegisterType<ITestA10, TestA10>().AsSingleton();
+            c.RegisterType<ITestA0, TestA0>();
+            c.RegisterType<ITestA1, TestA1>();
+            c.RegisterType<ITestA2, TestA2>();
+            c.RegisterType<ITestA3, TestA3>();
+            c.RegisterType<ITestA4, TestA4>();
+            c.RegisterType<ITestA5, TestA5>();
+            c.RegisterType<ITestA6, TestA6>();
+            c.RegisterType<ITestA7, TestA7>();
+            c.RegisterType<ITestA8, TestA8>();
+            c.RegisterType<ITestA9, TestA9>();
+            c.RegisterType<ITestA10, TestA10>();
             sw.Stop();
 
             WriteLine("Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
@@ -576,7 +575,7 @@ namespace PerformanceTests
                 var test = c.Resolve<ITestA10>();
                 sw.Stop();
 
-                Assert.AreEqual(test, lastValue);
+                Assert.AreNotEqual(test, lastValue);
                 lastValue = test;
 
                 Check(test);

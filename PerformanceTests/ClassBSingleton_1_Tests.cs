@@ -14,10 +14,10 @@ using SimpleInjector;
 namespace PerformanceTests
 {
     [TestClass]
-    public class ClassBSingletonTests
+    public class ClassBSingleton_1_Tests
     {
         private static readonly int _testCasesNumber = 1;
-        private static readonly string _fileName = Directory.GetCurrentDirectory() + "PerforamceTests_B_Singleton_" + DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + ".txt";
+        private static readonly string _fileName = Directory.GetCurrentDirectory() + "PerforamceTests_B_1_Singleton_" + DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + ".txt";
 
         private static void Check(ITestB50 testB50)
         {

@@ -34,9 +34,6 @@ namespace NiquIoC.Helpers
             //this method helps put an int value onto the stack
             switch (value)
             {
-                case -1:
-                    il.Emit(OpCodes.Ldc_I4_M1);
-                    break;
                 case 0:
                     il.Emit(OpCodes.Ldc_I4_0);
                     break;
@@ -65,7 +62,7 @@ namespace NiquIoC.Helpers
                     il.Emit(OpCodes.Ldc_I4_8);
                     break;
                 default:
-                    if (value >= -128 && value <= 127)
+                    if (value <= 127)
                     {
                         il.Emit(OpCodes.Ldc_I4_S, (sbyte) value);
                     }
