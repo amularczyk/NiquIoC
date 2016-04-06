@@ -103,6 +103,8 @@
     <Compile Include="ClassATransient_1000_Tests.cs" />
     <Compile Include="ClassATransient_100_Tests.cs" />
     <Compile Include="ClassATransient_10_Tests.cs" />
+    <Compile Include="ClassCTransient_1000_Tests.cs" />
+    <Compile Include="ClassCSingleton_100_Tests.cs" />
     <Compile Include="ClassCTransient_100_Tests.cs" />
     <Compile Include="ClassCTransient_10_Tests.cs" />
     <Compile Include="ClassCTransient_1_Tests.cs" />

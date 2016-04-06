@@ -16,7 +16,7 @@ namespace PerformanceTests
     public class ClassCTransient_100_Tests
     {
         private static readonly int _testCasesNumber = 100;
-        private static readonly string _fileName = Directory.GetCurrentDirectory() + "PerforamceTests_C_1_Transient_" + DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + ".txt";
+        private static readonly string _fileName = Directory.GetCurrentDirectory() + "PerforamceTests_C_100_Transient_" + DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + ".txt";
 
         private static void Check(ITestC test)
         {
