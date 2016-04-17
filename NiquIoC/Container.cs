@@ -12,7 +12,7 @@ namespace NiquIoC
 {
     public class Container : IContainer
     {
-        //ToDo: Move filling all caches to register.
+        //ToDo: WarmUp?
         public Container()
         {
             _registeredTypeCache = new Dictionary<Type, ContainerMember>();

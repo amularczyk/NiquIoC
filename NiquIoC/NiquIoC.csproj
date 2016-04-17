@@ -53,6 +53,7 @@
     <Compile Include="Exceptions\CycleForTypeException.cs" />
     <Compile Include="Exceptions\NoProperConstructorException.cs" />
     <Compile Include="Exceptions\TypeNotRegisteredException.cs" />
+    <Compile Include="Helpers\EmitTmp.cs" />
     <Compile Include="Interfaces\IContainer.cs" />
     <Compile Include="Interfaces\IContainerMember.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
