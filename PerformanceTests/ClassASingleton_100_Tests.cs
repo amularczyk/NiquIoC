@@ -10,6 +10,8 @@ using Microsoft.Practices.Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PerformanceTests.Classes;
 using SimpleInjector;
+using Container = SimpleInjector.Container;
+using IContainer = Autofac.IContainer;
 
 namespace PerformanceTests
 {
@@ -113,13 +115,13 @@ namespace PerformanceTests
         {
             WriteLine("\nSimpleInjector");
 
-            var c = new SimpleInjector.Container();
+            var c = new Container();
             SimpleInjectorRegister(c);
             SimpleInjectorResolve(c, _testCasesNumber);
             c.Dispose();
         }
 
-        private void SimpleInjectorRegister(SimpleInjector.Container c)
+        private void SimpleInjectorRegister(Container c)
         {
             var sw = new Stopwatch();
 
@@ -141,7 +143,7 @@ namespace PerformanceTests
             sw.Reset();
         }
 
-        private void SimpleInjectorResolve(SimpleInjector.Container c, int testCasesNumber)
+        private void SimpleInjectorResolve(Container c, int testCasesNumber)
         {
             var sw = new Stopwatch();
 
@@ -413,12 +415,12 @@ namespace PerformanceTests
             WriteLine("\nAutofac");
 
             var cb = new ContainerBuilder();
-            Autofac.IContainer c = AutofacRegister(cb);
+            var c = AutofacRegister(cb);
             AutofacResolve(c, _testCasesNumber);
             c.Dispose();
         }
 
-        private Autofac.IContainer AutofacRegister(ContainerBuilder cb)
+        private IContainer AutofacRegister(ContainerBuilder cb)
         {
             var sw = new Stopwatch();
 
@@ -434,7 +436,7 @@ namespace PerformanceTests
             cb.RegisterType<TestA8>().As<ITestA8>().SingleInstance();
             cb.RegisterType<TestA9>().As<ITestA9>().SingleInstance();
             cb.RegisterType<TestA10>().As<ITestA10>().SingleInstance();
-            Autofac.IContainer c = cb.Build();
+            var c = cb.Build();
             sw.Stop();
 
             WriteLine("Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
@@ -443,7 +445,7 @@ namespace PerformanceTests
             return c;
         }
 
-        private void AutofacResolve(Autofac.IContainer c, int testCasesNumber)
+        private void AutofacResolve(IContainer c, int testCasesNumber)
         {
             var sw = new Stopwatch();
 
