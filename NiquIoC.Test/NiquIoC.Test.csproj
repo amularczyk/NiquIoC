@@ -61,17 +61,25 @@
     <Compile Include="ClassDefinitions\ClassWithDependencyConstrutorDefinitions.cs" />
     <Compile Include="ClassDefinitions\ClassWithDependencyPropertyDefinitions.cs" />
     <Compile Include="ClassDefinitions\ClassWithDependencyMethodDefinitions.cs" />
-    <Compile Include="ContainerReRegistereTests.cs" />
-    <Compile Include="ContainerRegisterTypeWithDependencyConstrutorTests.cs" />
-    <Compile Include="ContainerRegisterTypeWithDependencyMethodTests.cs" />
-    <Compile Include="ContainerRegisterInstanceTests.cs" />
-    <Compile Include="ContainerBuildUpTests.cs" />
-    <Compile Include="ContainerRegisterTypeByFactoryObjectTests.cs" />
-    <Compile Include="ContainerRegisterTypeInterfaceTests.cs" />
-    <Compile Include="ContainerRegisterTypeWithDependencyPropertyTests.cs" />
-    <Compile Include="ContainerBasicTests.cs" />
+    <Compile Include="OneBigEmitFunction\ContainerBasicTests.cs" />
+    <Compile Include="OneBigEmitFunction\ContainerBuildUpTests.cs" />
+    <Compile Include="OneBigEmitFunction\ContainerRegisterInstanceTests.cs" />
+    <Compile Include="OneBigEmitFunction\ContainerRegisterTypeByFactoryObjectTests.cs" />
+    <Compile Include="OneBigEmitFunction\ContainerRegisterTypeInterfaceTests.cs" />
+    <Compile Include="OneBigEmitFunction\ContainerRegisterTypeWithDependencyConstrutorTests.cs" />
+    <Compile Include="OneBigEmitFunction\ContainerRegisterTypeWithDependencyMethodTests.cs" />
+    <Compile Include="OneBigEmitFunction\ContainerRegisterTypeWithDependencyPropertyTests.cs" />
+    <Compile Include="OneBigEmitFunction\ContainerReRegistereTests.cs" />
+    <Compile Include="ManyEmitFunctions\ContainerReRegistereTests.cs" />
+    <Compile Include="ManyEmitFunctions\ContainerRegisterTypeWithDependencyConstrutorTests.cs" />
+    <Compile Include="ManyEmitFunctions\ContainerRegisterTypeWithDependencyMethodTests.cs" />
+    <Compile Include="ManyEmitFunctions\ContainerRegisterInstanceTests.cs" />
+    <Compile Include="ManyEmitFunctions\ContainerBuildUpTests.cs" />
+    <Compile Include="ManyEmitFunctions\ContainerRegisterTypeByFactoryObjectTests.cs" />
+    <Compile Include="ManyEmitFunctions\ContainerRegisterTypeInterfaceTests.cs" />
+    <Compile Include="ManyEmitFunctions\ContainerRegisterTypeWithDependencyPropertyTests.cs" />
+    <Compile Include="ManyEmitFunctions\ContainerBasicTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="EmitNewIdeaTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NiquIoC\NiquIoC.csproj">

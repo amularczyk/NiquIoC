@@ -1,8 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NiquIoC.Exceptions;
-using NiquIoC.Interfaces;
+using NiquIoC.Test.ClassDefinitions;
 
-namespace NiquIoC.Test
+namespace NiquIoC.Test.OneBigEmitFunction
 {
     [TestClass]
     public class ContainerRegisterInstanceTests
@@ -10,11 +10,11 @@ namespace NiquIoC.Test
         [TestMethod]
         public void EmptyClass_Success()
         {
-            IContainer c = new Container();
+            var c = new Container();
             var emptyClass1 = new EmptyClass();
             c.RegisterInstance(emptyClass1);
 
-            var emptyClass2 = c.Resolve<EmptyClass>();
+            var emptyClass2 = c.Resolve2<EmptyClass>();
 
             Assert.AreEqual(emptyClass1, emptyClass2);
         }
@@ -22,12 +22,12 @@ namespace NiquIoC.Test
         [TestMethod]
         public void ClassNeededByOtherClass_Success()
         {
-            IContainer c = new Container();
+            var c = new Container();
             var emptyClass = new EmptyClass();
             c.RegisterType<ISampleClass, SampleClass>();
             c.RegisterInstance(emptyClass);
 
-            var sampleClass = c.Resolve<ISampleClass>();
+            var sampleClass = c.Resolve2<ISampleClass>();
 
             Assert.IsNotNull(sampleClass);
             Assert.AreEqual(emptyClass, sampleClass.EmptyClass);
@@ -36,12 +36,12 @@ namespace NiquIoC.Test
         [TestMethod]
         public void ClassWithConstructorWithSimpleType_Success()
         {
-            IContainer c = new Container();
+            var c = new Container();
             const string text = "Text";
             c.RegisterInstance(text);
             c.RegisterType<SampleClassWithSimpleType>();
 
-            var sampleClassWithSimpleType = c.Resolve<SampleClassWithSimpleType>();
+            var sampleClassWithSimpleType = c.Resolve2<SampleClassWithSimpleType>();
 
             Assert.IsNotNull(sampleClassWithSimpleType);
             Assert.IsNotNull(sampleClassWithSimpleType.Text);
@@ -52,10 +52,10 @@ namespace NiquIoC.Test
         [ExpectedException(typeof(TypeNotRegisteredException))]
         public void Resolve_MissingRegistrationOfSimpleType_Fail()
         {
-            IContainer c = new Container();
+            var c = new Container();
             c.RegisterType<SampleClassWithSimpleType>();
 
-            var sampleClassWithSimpleType = c.Resolve<SampleClassWithSimpleType>();
+            var sampleClassWithSimpleType = c.Resolve2<SampleClassWithSimpleType>();
 
             Assert.IsNull(sampleClassWithSimpleType);
         }

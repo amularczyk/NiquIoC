@@ -1,8 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NiquIoC.Exceptions;
-using NiquIoC.Interfaces;
+using NiquIoC.Test.ClassDefinitions;
 
-namespace NiquIoC.Test
+namespace NiquIoC.Test.ManyEmitFunctions
 {
     [TestClass]
     public class ContainerRegisterTypeInterfaceTests
@@ -10,7 +9,7 @@ namespace NiquIoC.Test
         [TestMethod]
         public void InterfaceRegisteredAsNotSingleton_Success()
         {
-            IContainer c = new Container();
+            var c = new Container();
             c.RegisterType<EmptyClass>();
             c.RegisterType<ISampleClass, SampleClass>();
 
@@ -28,7 +27,7 @@ namespace NiquIoC.Test
         [TestMethod]
         public void InterfaceRegisteredAsSingleton_Success()
         {
-            IContainer c = new Container();
+            var c = new Container();
             c.RegisterType<EmptyClass>().AsSingleton();
             c.RegisterType<ISampleClass, SampleClass>().AsSingleton();
 
@@ -46,7 +45,7 @@ namespace NiquIoC.Test
         [TestMethod]
         public void InterfaceReRegistered_Success()
         {
-            IContainer c = new Container();
+            var c = new Container();
             c.RegisterType<EmptyClass>().AsSingleton();
             c.RegisterType<ISampleClass, SampleClass>().AsSingleton();
 

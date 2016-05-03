@@ -1,8 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NiquIoC.Exceptions;
-using NiquIoC.Interfaces;
+using NiquIoC.Test.ClassDefinitions;
 
-namespace NiquIoC.Test
+namespace NiquIoC.Test.OneBigEmitFunction
 {
     [TestClass]
     public class ContainerReRegistereTests
@@ -10,15 +9,15 @@ namespace NiquIoC.Test
         [TestMethod]
         public void ClassReRegisteredFromSingletonToSingleton_Success()
         {
-            IContainer c = new Container();
+            var c = new Container();
             c.RegisterType<EmptyClass>().AsSingleton();
-            var emptyClass1 = c.Resolve<EmptyClass>();
-            var emptyClass2 = c.Resolve<EmptyClass>();
+            var emptyClass1 = c.Resolve2<EmptyClass>();
+            var emptyClass2 = c.Resolve2<EmptyClass>();
 
             c.RegisterType<EmptyClass>().AsSingleton();
-            var emptyClass3 = c.Resolve<EmptyClass>();
-            var emptyClass4 = c.Resolve<EmptyClass>();
-            
+            var emptyClass3 = c.Resolve2<EmptyClass>();
+            var emptyClass4 = c.Resolve2<EmptyClass>();
+
             Assert.AreEqual(emptyClass1, emptyClass2);
             Assert.AreEqual(emptyClass3, emptyClass4);
             Assert.AreNotEqual(emptyClass1, emptyClass3);
@@ -27,15 +26,15 @@ namespace NiquIoC.Test
         [TestMethod]
         public void ClassReRegisteredFromSingletonToTransient_Success()
         {
-            IContainer c = new Container();
+            var c = new Container();
             c.RegisterType<EmptyClass>().AsSingleton();
-            var emptyClass1 = c.Resolve<EmptyClass>();
-            var emptyClass2 = c.Resolve<EmptyClass>();
+            var emptyClass1 = c.Resolve2<EmptyClass>();
+            var emptyClass2 = c.Resolve2<EmptyClass>();
 
             c.RegisterType<EmptyClass>().AsTransient();
-            var emptyClass3 = c.Resolve<EmptyClass>();
-            var emptyClass4 = c.Resolve<EmptyClass>();
-            
+            var emptyClass3 = c.Resolve2<EmptyClass>();
+            var emptyClass4 = c.Resolve2<EmptyClass>();
+
             Assert.AreEqual(emptyClass1, emptyClass2);
             Assert.AreNotEqual(emptyClass3, emptyClass4);
             Assert.AreNotEqual(emptyClass1, emptyClass3);
@@ -45,15 +44,15 @@ namespace NiquIoC.Test
         [TestMethod]
         public void ClassReRegisteredFromTransientToSingleton_Success()
         {
-            IContainer c = new Container();
+            var c = new Container();
             c.RegisterType<EmptyClass>().AsTransient();
-            var emptyClass1 = c.Resolve<EmptyClass>();
-            var emptyClass2 = c.Resolve<EmptyClass>();
+            var emptyClass1 = c.Resolve2<EmptyClass>();
+            var emptyClass2 = c.Resolve2<EmptyClass>();
 
             c.RegisterType<EmptyClass>().AsSingleton();
-            var emptyClass3 = c.Resolve<EmptyClass>();
-            var emptyClass4 = c.Resolve<EmptyClass>();
-            
+            var emptyClass3 = c.Resolve2<EmptyClass>();
+            var emptyClass4 = c.Resolve2<EmptyClass>();
+
             Assert.AreNotEqual(emptyClass1, emptyClass2);
             Assert.AreEqual(emptyClass3, emptyClass4);
             Assert.AreNotEqual(emptyClass1, emptyClass3);
@@ -63,16 +62,16 @@ namespace NiquIoC.Test
         [TestMethod]
         public void ClassReRegisteredFromInstanceToInstance_Success()
         {
-            IContainer c = new Container();
+            var c = new Container();
             var emptyClass = new EmptyClass();
-            c.RegisterInstance<EmptyClass>(emptyClass);
-            var emptyClass1 = c.Resolve<EmptyClass>();
-            var emptyClass2 = c.Resolve<EmptyClass>();
+            c.RegisterInstance(emptyClass);
+            var emptyClass1 = c.Resolve2<EmptyClass>();
+            var emptyClass2 = c.Resolve2<EmptyClass>();
 
             var emptyClass3 = new EmptyClass();
-            c.RegisterInstance<EmptyClass>(emptyClass3);
-            var emptyClass4 = c.Resolve<EmptyClass>();
-            var emptyClass5 = c.Resolve<EmptyClass>();
+            c.RegisterInstance(emptyClass3);
+            var emptyClass4 = c.Resolve2<EmptyClass>();
+            var emptyClass5 = c.Resolve2<EmptyClass>();
 
             Assert.AreEqual(emptyClass, emptyClass1);
             Assert.AreEqual(emptyClass1, emptyClass2);
@@ -84,15 +83,15 @@ namespace NiquIoC.Test
         [TestMethod]
         public void ClassReRegisteredFromObjectFactoryToObjectFactory_Success()
         {
-            IContainer c = new Container();
+            var c = new Container();
             var emptyClass = new EmptyClass();
             c.RegisterType<EmptyClass>(() => emptyClass);
-            var emptyClass1 = c.Resolve<EmptyClass>();
-            var emptyClass2 = c.Resolve<EmptyClass>();
+            var emptyClass1 = c.Resolve2<EmptyClass>();
+            var emptyClass2 = c.Resolve2<EmptyClass>();
 
             c.RegisterType<EmptyClass>(() => new EmptyClass());
-            var emptyClass3 = c.Resolve<EmptyClass>();
-            var emptyClass4 = c.Resolve<EmptyClass>();
+            var emptyClass3 = c.Resolve2<EmptyClass>();
+            var emptyClass4 = c.Resolve2<EmptyClass>();
 
             Assert.AreEqual(emptyClass, emptyClass1);
             Assert.AreEqual(emptyClass1, emptyClass2);
@@ -104,15 +103,15 @@ namespace NiquIoC.Test
         [TestMethod]
         public void ClassReRegisteredFromInstanceToObjectFactory_Success()
         {
-            IContainer c = new Container();
+            var c = new Container();
             var emptyClass = new EmptyClass();
-            c.RegisterInstance<EmptyClass>(emptyClass);
-            var emptyClass1 = c.Resolve<EmptyClass>();
-            var emptyClass2 = c.Resolve<EmptyClass>();
+            c.RegisterInstance(emptyClass);
+            var emptyClass1 = c.Resolve2<EmptyClass>();
+            var emptyClass2 = c.Resolve2<EmptyClass>();
 
             c.RegisterType<EmptyClass>(() => new EmptyClass());
-            var emptyClass3 = c.Resolve<EmptyClass>();
-            var emptyClass4 = c.Resolve<EmptyClass>();
+            var emptyClass3 = c.Resolve2<EmptyClass>();
+            var emptyClass4 = c.Resolve2<EmptyClass>();
 
             Assert.AreEqual(emptyClass, emptyClass1);
             Assert.AreEqual(emptyClass1, emptyClass2);
@@ -124,15 +123,15 @@ namespace NiquIoC.Test
         [TestMethod]
         public void ClassReRegisteredFromObjectFactoryToInstance_Success()
         {
-            IContainer c = new Container();
+            var c = new Container();
             c.RegisterType<EmptyClass>(() => new EmptyClass());
-            var emptyClass1 = c.Resolve<EmptyClass>();
-            var emptyClass2 = c.Resolve<EmptyClass>();
+            var emptyClass1 = c.Resolve2<EmptyClass>();
+            var emptyClass2 = c.Resolve2<EmptyClass>();
 
             var emptyClass = new EmptyClass();
-            c.RegisterInstance<EmptyClass>(emptyClass);
-            var emptyClass3 = c.Resolve<EmptyClass>();
-            var emptyClass4 = c.Resolve<EmptyClass>();
+            c.RegisterInstance(emptyClass);
+            var emptyClass3 = c.Resolve2<EmptyClass>();
+            var emptyClass4 = c.Resolve2<EmptyClass>();
 
             Assert.AreNotEqual(emptyClass1, emptyClass2);
             Assert.AreEqual(emptyClass, emptyClass3);
@@ -144,14 +143,14 @@ namespace NiquIoC.Test
         [TestMethod]
         public void ClassReRegisteredFromSingletonToObjectFactory_Success()
         {
-            IContainer c = new Container();
+            var c = new Container();
             c.RegisterType<EmptyClass>().AsSingleton();
-            var emptyClass1 = c.Resolve<EmptyClass>();
-            var emptyClass2 = c.Resolve<EmptyClass>();
+            var emptyClass1 = c.Resolve2<EmptyClass>();
+            var emptyClass2 = c.Resolve2<EmptyClass>();
 
             c.RegisterType<EmptyClass>(() => new EmptyClass());
-            var emptyClass3 = c.Resolve<EmptyClass>();
-            var emptyClass4 = c.Resolve<EmptyClass>();
+            var emptyClass3 = c.Resolve2<EmptyClass>();
+            var emptyClass4 = c.Resolve2<EmptyClass>();
 
             Assert.AreEqual(emptyClass1, emptyClass2);
             Assert.AreNotEqual(emptyClass3, emptyClass4);
@@ -162,15 +161,15 @@ namespace NiquIoC.Test
         [TestMethod]
         public void ClassReRegisteredFromTransientToInstance_Success()
         {
-            IContainer c = new Container();
+            var c = new Container();
             c.RegisterType<EmptyClass>().AsTransient();
-            var emptyClass1 = c.Resolve<EmptyClass>();
-            var emptyClass2 = c.Resolve<EmptyClass>();
+            var emptyClass1 = c.Resolve2<EmptyClass>();
+            var emptyClass2 = c.Resolve2<EmptyClass>();
 
             var emptyClass = new EmptyClass();
-            c.RegisterInstance<EmptyClass>(emptyClass);
-            var emptyClass3 = c.Resolve<EmptyClass>();
-            var emptyClass4 = c.Resolve<EmptyClass>();
+            c.RegisterInstance(emptyClass);
+            var emptyClass3 = c.Resolve2<EmptyClass>();
+            var emptyClass4 = c.Resolve2<EmptyClass>();
 
             Assert.AreNotEqual(emptyClass1, emptyClass2);
             Assert.AreEqual(emptyClass, emptyClass3);

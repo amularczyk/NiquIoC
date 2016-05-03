@@ -1,8 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NiquIoC.Exceptions;
-using NiquIoC.Interfaces;
+using NiquIoC.Test.ClassDefinitions;
 
-namespace NiquIoC.Test
+namespace NiquIoC.Test.ManyEmitFunctions
 {
     [TestClass]
     public class ContainerRegisterTypeByFactoryObjectTests
@@ -10,10 +9,10 @@ namespace NiquIoC.Test
         [TestMethod]
         public void FactoryObjectReturnNewObject_Success()
         {
-            IContainer c = new Container();
+            var c = new Container();
             var emptyClass = new EmptyClass();
             c.RegisterType<ISampleClass>(() => new SampleClass(emptyClass));
-            
+
             var sampleClass1 = c.Resolve<ISampleClass>();
             var sampleClass2 = c.Resolve<ISampleClass>();
 
@@ -25,7 +24,7 @@ namespace NiquIoC.Test
         [TestMethod]
         public void FactoryObjectReturnNewObjectRegisteredAsSingleton_Success()
         {
-            IContainer c = new Container();
+            var c = new Container();
             var emptyClass = new EmptyClass();
             c.RegisterType<ISampleClass>(() => new SampleClass(emptyClass)).AsSingleton();
 
@@ -40,7 +39,7 @@ namespace NiquIoC.Test
         [TestMethod]
         public void FactoryObjectReturnTheSameObject_Success()
         {
-            IContainer c = new Container();
+            var c = new Container();
             var emptyClass = new EmptyClass();
             var sampleClass = new SampleClass(emptyClass);
             c.RegisterType<ISampleClass>(() => sampleClass);

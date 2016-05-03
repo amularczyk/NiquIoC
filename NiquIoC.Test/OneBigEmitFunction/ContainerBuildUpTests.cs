@@ -1,8 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NiquIoC.Exceptions;
-using NiquIoC.Interfaces;
+using NiquIoC.Test.ClassDefinitions;
 
-namespace NiquIoC.Test
+namespace NiquIoC.Test.OneBigEmitFunction
 {
     [TestClass]
     public class ContainerBuildUpTests
@@ -10,7 +9,7 @@ namespace NiquIoC.Test
         [TestMethod]
         public void ClassWithDependencyProperty_Success()
         {
-            IContainer c = new Container();
+            var c = new Container();
             c.RegisterType<EmptyClass>();
             var sampleClass = new SampleClassWithDependencyProperty();
 
@@ -21,10 +20,11 @@ namespace NiquIoC.Test
 
             Assert.IsNotNull(sampleClass.EmptyClass);
         }
+
         [TestMethod]
         public void ClassWithDependencyProperty_Fail()
         {
-            IContainer c = new Container();
+            var c = new Container();
             c.RegisterType<EmptyClass>();
             var sampleClass = new SampleClassWithoutDependencyProperty();
 
@@ -39,7 +39,7 @@ namespace NiquIoC.Test
         [TestMethod]
         public void ClassWithDependencyMethod_Success()
         {
-            IContainer c = new Container();
+            var c = new Container();
             c.RegisterType<EmptyClass>();
             var sampleClass = new SampleClassWithDependencyMethod();
 
@@ -54,7 +54,7 @@ namespace NiquIoC.Test
         [TestMethod]
         public void ClassWithDependencyMethod_Fail()
         {
-            IContainer c = new Container();
+            var c = new Container();
             c.RegisterType<EmptyClass>();
             var sampleClass = new SampleClassWithoutDependencyMethod();
 

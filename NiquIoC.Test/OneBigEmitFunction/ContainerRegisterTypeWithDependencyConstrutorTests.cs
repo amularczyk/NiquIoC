@@ -1,8 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NiquIoC.Exceptions;
-using NiquIoC.Interfaces;
+using NiquIoC.Test.ClassDefinitions;
 
-namespace NiquIoC.Test
+namespace NiquIoC.Test.OneBigEmitFunction
 {
     [TestClass]
     public class ContainerRegisterTypeWithDependencyConstrutorTests
@@ -10,25 +10,25 @@ namespace NiquIoC.Test
         [TestMethod]
         public void ClassWithConstructorWithAttributeDependencyConstrutor_Success()
         {
-            IContainer c = new Container();
+            var c = new Container();
             c.RegisterType<EmptyClass>();
             c.RegisterType<SampleClassWithDependencyConstrutor>();
 
-            var sampleClass = c.Resolve<SampleClassWithDependencyConstrutor>();
+            var sampleClass = c.Resolve2<SampleClassWithDependencyConstrutor>();
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNotNull(sampleClass.EmptyClass);
         }
 
         [TestMethod]
-        [ExpectedException(typeof (NoProperConstructorException))]
+        [ExpectedException(typeof(NoProperConstructorException))]
         public void ClassWithTwoConstructorsWithAttributeDependencyConstrutor_Fail()
         {
-            IContainer c = new Container();
+            var c = new Container();
             c.RegisterType<EmptyClass>();
             c.RegisterType<SampleClassWithTwoDependencyConstrutor>();
 
-            var sampleClass = c.Resolve<SampleClassWithTwoDependencyConstrutor>();
+            var sampleClass = c.Resolve2<SampleClassWithTwoDependencyConstrutor>();
 
             Assert.IsNull(sampleClass);
         }

@@ -1,8 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NiquIoC.Exceptions;
-using NiquIoC.Interfaces;
+using NiquIoC.Test.ClassDefinitions;
 
-namespace NiquIoC.Test
+namespace NiquIoC.Test.ManyEmitFunctions
 {
     [TestClass]
     public class ContainerRegisterTypeWithDependencyPropertyTests
@@ -10,7 +9,7 @@ namespace NiquIoC.Test
         [TestMethod]
         public void ClassWithManyDependencyProperties_Success()
         {
-            IContainer c = new Container();
+            var c = new Container();
             c.RegisterType<EmptyClass>();
             c.RegisterType<ISampleClass, SampleClass>();
             c.RegisterType<ISampleClassWithManyDependencyProperties, SampleClassWithManyDependencyProperties>();
@@ -26,7 +25,7 @@ namespace NiquIoC.Test
         [TestMethod]
         public void ClassWithNestedDependencyProperty_Success()
         {
-            IContainer c = new Container();
+            var c = new Container();
             c.RegisterType<EmptyClass>();
             c.RegisterType<ISampleClassWithDependencyProperty, SampleClassWithDependencyProperty>();
             c.RegisterType<ISampleClassWithNestedDependencyProperty, SampleClassWithNestedDependencyProperty>();
@@ -41,7 +40,7 @@ namespace NiquIoC.Test
         [TestMethod]
         public void ClassWithDependencyPropertyWithoutSetMethod_Success()
         {
-            IContainer c = new Container();
+            var c = new Container();
             c.RegisterType<EmptyClass>();
             c.RegisterType<ISampleClassWithDependencyPropertyWithoutSetMethod, SampleClassWithDependencyPropertyWithoutSetMethod>();
 

@@ -1,17 +1,17 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NiquIoC.Exceptions;
-using NiquIoC.Interfaces;
+using NiquIoC.Test.ClassDefinitions;
 
-namespace NiquIoC.Test
+namespace NiquIoC.Test.ManyEmitFunctions
 {
     [TestClass]
     public class ContainerBasicTests
     {
         [TestMethod]
-        [ExpectedException(typeof (TypeNotRegisteredException))]
+        [ExpectedException(typeof(TypeNotRegisteredException))]
         public void ClassNotRegistered_Fail()
         {
-            IContainer c = new Container();
+            var c = new Container();
 
             var sampleClass = c.Resolve<EmptyClass>();
 
@@ -21,19 +21,19 @@ namespace NiquIoC.Test
         [TestMethod]
         public void ClassWithConstructorWithoutParametersRegistered_Success()
         {
-            IContainer c = new Container();
+            var c = new Container();
             c.RegisterType<EmptyClass>();
 
             var sampleClass = c.Resolve<EmptyClass>();
 
             Assert.IsNotNull(sampleClass);
         }
-        
+
 
         [TestMethod]
         public void ClassWithConstructorWithParameter_Success()
         {
-            IContainer c = new Container();
+            var c = new Container();
             c.RegisterType<EmptyClass>();
             c.RegisterType<SampleClass>();
 
@@ -44,22 +44,22 @@ namespace NiquIoC.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof (TypeNotRegisteredException))]
+        [ExpectedException(typeof(TypeNotRegisteredException))]
         public void MissingRegistration_Fail()
         {
-            IContainer c = new Container();
+            var c = new Container();
             c.RegisterType<SampleClass>();
 
             var sampleClass = c.Resolve<SampleClass>();
 
             Assert.IsNull(sampleClass);
         }
-        
+
         [TestMethod]
-        [ExpectedException(typeof (CycleForTypeException))]
+        [ExpectedException(typeof(CycleForTypeException))]
         public void ClassWithCycleInConstructor_Fail()
         {
-            IContainer c = new Container();
+            var c = new Container();
             c.RegisterType<SecondClassWithCycleInConstructor>();
             c.RegisterType<FirstClassWithCycleInConstructor>();
 
@@ -71,7 +71,7 @@ namespace NiquIoC.Test
         [TestMethod]
         public void ClassRegisteredAsNotSingleton_Success()
         {
-            IContainer c = new Container();
+            var c = new Container();
             c.RegisterType<EmptyClass>();
             c.RegisterType<SampleClass>();
 
@@ -89,7 +89,7 @@ namespace NiquIoC.Test
         [TestMethod]
         public void ClassRegisteredAsSingleton_Success()
         {
-            IContainer c = new Container();
+            var c = new Container();
             c.RegisterType<SampleClass>().AsSingleton();
             c.RegisterType<EmptyClass>().AsSingleton();
 

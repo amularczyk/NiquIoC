@@ -1,6 +1,4 @@
-﻿using NiquIoC.Attributes;
-
-namespace NiquIoC.Test
+﻿namespace NiquIoC.Test.ClassDefinitions
 {
     internal class EmptyClass
     {

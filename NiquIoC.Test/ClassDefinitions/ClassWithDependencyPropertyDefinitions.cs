@@ -1,6 +1,6 @@
 ﻿using NiquIoC.Attributes;
 
-namespace NiquIoC.Test
+namespace NiquIoC.Test.ClassDefinitions
 {
     internal interface ISampleClassWithManyDependencyProperties
     {
