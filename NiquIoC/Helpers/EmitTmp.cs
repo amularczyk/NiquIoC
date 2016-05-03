@@ -1,10 +1,40 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
 using System.Reflection.Emit;
 
 namespace NiquIoC.Helpers
 {
     public static class EmitTmp
     {
+        public static Func<object> CreateFullObjectFunction(ConstructorInfo ctor, Dictionary<Type, ConstructorInfo> ctorDictionary)
+        {
+            var dm = new DynamicMethod($"Create_{ctor.DeclaringType?.FullName.Replace('.', '_')}", typeof(object), Type.EmptyTypes, true);
+            ILGenerator ilgen = dm.GetILGenerator();
+
+            ParameterInfo[] parameters = ctor.GetParameters();
+            for (var i = 0; i < parameters.Length; i++)
+            {
+                var ctorParam = ctorDictionary[parameters[i].ParameterType];
+                CreateFullObjectFunctionPrivate(ctorParam, ctorDictionary, ilgen);
+            }
+            ilgen.Emit(OpCodes.Newobj, ctor);
+            ilgen.Emit(OpCodes.Ret);
+
+            return (Func<object>)dm.CreateDelegate(typeof(Func<object>));
+        }
+
+        private static void CreateFullObjectFunctionPrivate(ConstructorInfo ctor, Dictionary<Type, ConstructorInfo> ctorDictionary, ILGenerator ilgen)
+        {
+            ParameterInfo[] parameters = ctor.GetParameters();
+            for (var i = 0; i < parameters.Length; i++)
+            {
+                var ctorParam = ctorDictionary[parameters[i].ParameterType];
+                CreateFullObjectFunctionPrivate(ctorParam, ctorDictionary, ilgen);
+            }
+            ilgen.Emit(OpCodes.Newobj, ctor);
+        }
+
         public static A FooA()
         {
             var ctor = typeof(A).GetConstructors()[0];
