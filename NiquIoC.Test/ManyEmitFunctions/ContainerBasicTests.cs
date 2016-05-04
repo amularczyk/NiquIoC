@@ -8,7 +8,7 @@ namespace NiquIoC.Test.ManyEmitFunctions
     public class ContainerBasicTests
     {
         [TestMethod]
-        [ExpectedException(typeof(TypeNotRegisteredException))]
+        [ExpectedException(typeof(TypeNotRegisteredException), "Type NiquIoC.Test.ClassDefinitions.EmptyClass has not been registered.")]
         public void ClassNotRegistered_Fail()
         {
             var c = new Container();
@@ -44,7 +44,7 @@ namespace NiquIoC.Test.ManyEmitFunctions
         }
 
         [TestMethod]
-        [ExpectedException(typeof(TypeNotRegisteredException))]
+        [ExpectedException(typeof(TypeNotRegisteredException), "Type NiquIoC.Test.ClassDefinitions.EmptyClass has not been registered.")]
         public void MissingRegistration_Fail()
         {
             var c = new Container();
@@ -64,6 +64,19 @@ namespace NiquIoC.Test.ManyEmitFunctions
             c.RegisterType<FirstClassWithCycleInConstructor>();
 
             var sampleClass = c.Resolve<FirstClassWithCycleInConstructor>();
+
+            Assert.IsNull(sampleClass);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(CycleForTypeException))]
+        public void ClassWithCycleInConstructorInRegisteredType_Fail()
+        {
+            var c = new Container();
+            c.RegisterType<ISecondClassWithCycleInConstructor, SecondClassWithCycleInConstructorInRegisteredType>();
+            c.RegisterType<IFirstClassWithCycleInConstructor, FirstClassWithCycleInConstructorInRegisteredType>();
+
+            var sampleClass = c.Resolve<IFirstClassWithCycleInConstructor>();
 
             Assert.IsNull(sampleClass);
         }

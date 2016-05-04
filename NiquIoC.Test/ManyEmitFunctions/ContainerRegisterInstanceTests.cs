@@ -49,7 +49,7 @@ namespace NiquIoC.Test.ManyEmitFunctions
         }
 
         [TestMethod]
-        [ExpectedException(typeof(TypeNotRegisteredException))]
+        [ExpectedException(typeof(TypeNotRegisteredException), "Type System.String has not been registered.")]
         public void Resolve_MissingRegistrationOfSimpleType_Fail()
         {
             var c = new Container();
