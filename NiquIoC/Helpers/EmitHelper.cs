@@ -76,25 +76,23 @@ namespace NiquIoC.Helpers
             }
         }
 
-        internal static Func<object> CreateFullObjectFunction(Type type, IReadOnlyDictionary<Type, ContainerConstructorInfo> constructorInfoForTypesCache,
+        internal static Func<object> CreateFullObjectFunction(ContainerMember containerMember, IReadOnlyDictionary<Type, ContainerMember> registeredTypesCache,
             IReadOnlyDictionary<Type, object> signletonsCache)
         {
-            var constructorInfoForType = constructorInfoForTypesCache.GetValue(type);
-
-            var dm = new DynamicMethod($"Create_{constructorInfoForType.Constructor.DeclaringType?.FullName.Replace('.', '_')}", typeof(object), Type.EmptyTypes, true);
+            var dm = new DynamicMethod($"Create_{containerMember.Constructor.DeclaringType?.FullName.Replace('.', '_')}", typeof(object), Type.EmptyTypes, true);
             var ilgen = dm.GetILGenerator();
 
-            foreach (var parameter in constructorInfoForType.Parameters)
+            foreach (var parameter in containerMember.Parameters)
             {
-                CreateFullObjectFunctionPrivate(parameter.ParameterType, constructorInfoForTypesCache, signletonsCache, ilgen);
+                CreateFullObjectFunctionPrivate(parameter.ParameterType, registeredTypesCache, signletonsCache, ilgen);
             }
-            ilgen.Emit(OpCodes.Newobj, constructorInfoForType.Constructor);
+            ilgen.Emit(OpCodes.Newobj, containerMember.Constructor);
             ilgen.Emit(OpCodes.Ret);
 
             return (Func<object>) dm.CreateDelegate(typeof(Func<object>));
         }
 
-        private static void CreateFullObjectFunctionPrivate(Type type, IReadOnlyDictionary<Type, ContainerConstructorInfo> constructorInfoForTypesCache,
+        private static void CreateFullObjectFunctionPrivate(Type type, IReadOnlyDictionary<Type, ContainerMember> registeredTypesCache,
             IReadOnlyDictionary<Type, object> signletonsCache, ILGenerator ilgen)
         {
             if (signletonsCache.ContainsKey(type))
@@ -104,11 +102,11 @@ namespace NiquIoC.Helpers
             }
             else
             {
-                var constructorInfoForType = constructorInfoForTypesCache.GetValue(type);
+                var constructorInfoForType = registeredTypesCache.GetValue(type);
 
                 foreach (var parameter in constructorInfoForType.Parameters)
                 {
-                    CreateFullObjectFunctionPrivate(parameter.ParameterType, constructorInfoForTypesCache, signletonsCache, ilgen);
+                    CreateFullObjectFunctionPrivate(parameter.ParameterType, registeredTypesCache, signletonsCache, ilgen);
                 }
 
                 ilgen.Emit(OpCodes.Newobj, constructorInfoForType.Constructor);

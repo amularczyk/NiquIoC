@@ -48,7 +48,6 @@
     <Compile Include="Attributes\DependencyMethod.cs" />
     <Compile Include="Attributes\DependencyProperty.cs" />
     <Compile Include="Container.cs" />
-    <Compile Include="ContainerConstructorInfo.cs" />
     <Compile Include="ContainerMember.cs" />
     <Compile Include="Extensions\DictionaryExtension.cs" />
     <Compile Include="Helpers\EmitHelper.cs" />

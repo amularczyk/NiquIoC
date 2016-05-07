@@ -69,6 +69,19 @@ namespace NiquIoC.Test.OneBigEmitFunction
         }
 
         [TestMethod]
+        [ExpectedException(typeof(CycleForTypeException))]
+        public void ClassWithCycleInConstructorInRegisteredType_Fail()
+        {
+            var c = new Container();
+            c.RegisterType<ISecondClassWithCycleInConstructor, SecondClassWithCycleInConstructorInRegisteredType>();
+            c.RegisterType<IFirstClassWithCycleInConstructor, FirstClassWithCycleInConstructorInRegisteredType>();
+
+            var sampleClass = c.Resolve2<IFirstClassWithCycleInConstructor>();
+
+            Assert.IsNull(sampleClass);
+        }
+
+        [TestMethod]
         public void ClassRegisteredAsNotSingleton_Success()
         {
             var c = new Container();
@@ -102,6 +115,34 @@ namespace NiquIoC.Test.OneBigEmitFunction
             Assert.IsNotNull(sampleClass2.EmptyClass);
             Assert.AreEqual(sampleClass1, sampleClass2);
             Assert.AreEqual(sampleClass1.EmptyClass, sampleClass2.EmptyClass);
+        }
+
+
+        [TestMethod]
+        public void ClassWithConstructorWithInterface_Success()
+        {
+            var c = new Container();
+            c.RegisterType<EmptyClass>();
+            c.RegisterType<ISampleClass, SampleClass>();
+            c.RegisterType<SampleClassWithInterface>();
+
+            var sampleClassWithSimpleType = c.Resolve2<SampleClassWithInterface>();
+
+            Assert.IsNotNull(sampleClassWithSimpleType);
+            Assert.IsNotNull(sampleClassWithSimpleType.SampleClass);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(TypeNotRegisteredException), "Type NiquIoC.Test.ClassDefinitions.ISampleClass has not been registered.")]
+        public void Resolve_MissingRegistrationOfInterface_Fail()
+        {
+            var c = new Container();
+            c.RegisterType<EmptyClass>();
+            c.RegisterType<SampleClassWithInterface>();
+
+            var sampleClassWithSimpleType = c.Resolve2<SampleClassWithInterface>();
+
+            Assert.IsNull(sampleClassWithSimpleType);
         }
     }
 }

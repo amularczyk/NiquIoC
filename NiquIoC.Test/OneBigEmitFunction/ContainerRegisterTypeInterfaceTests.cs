@@ -43,7 +43,7 @@ namespace NiquIoC.Test.OneBigEmitFunction
         }
 
         [TestMethod]
-        public void InterfaceReRegistered_Success()
+        public void InterfaceReRegisteredAsSingleton_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsSingleton();

@@ -80,6 +80,7 @@
     <Compile Include="ManyEmitFunctions\ContainerRegisterTypeWithDependencyPropertyTests.cs" />
     <Compile Include="ManyEmitFunctions\ContainerBasicTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UnitTest1.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NiquIoC\NiquIoC.csproj">

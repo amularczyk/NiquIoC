@@ -48,7 +48,5 @@ namespace NiquIoC.Interfaces
         /// <typeparam name="T"></typeparam>
         /// <param name="instance"></param>
         void BuildUp<T>(T instance);
-
-        void WarmUp();
     }
 }

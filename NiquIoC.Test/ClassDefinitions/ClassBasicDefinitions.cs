@@ -29,6 +29,16 @@
         public EmptyClass EmptyClass { get; }
     }
 
+    internal class SampleClassWithInterface
+    {
+        public SampleClassWithInterface(ISampleClass sampleClass)
+        {
+            SampleClass = sampleClass;
+        }
+
+        public ISampleClass SampleClass { get; }
+    }
+
     internal class SampleClassWithSimpleType
     {
         public SampleClassWithSimpleType(string text)
