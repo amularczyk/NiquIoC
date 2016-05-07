@@ -18,7 +18,17 @@
 
         public EmptyClass EmptyClass { get; }
     }
-    
+
+    internal class SampleClassOther : ISampleClass
+    {
+        public SampleClassOther(EmptyClass emptyClass)
+        {
+            EmptyClass = emptyClass;
+        }
+
+        public EmptyClass EmptyClass { get; }
+    }
+
     internal class SampleClassWithSimpleType
     {
         public SampleClassWithSimpleType(string text)

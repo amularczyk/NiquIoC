@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using NiquIoC.Attributes;
 using NiquIoC.Exceptions;
+using NiquIoC.Extensions;
 using NiquIoC.Helpers;
 using NiquIoC.Interfaces;
 
@@ -14,26 +15,28 @@ namespace NiquIoC
         //ToDo: WarmUp?
         public Container()
         {
-            _registeredTypeCache = new Dictionary<Type, ContainerMember>();
-            _noCycleForTypeCache = new Dictionary<Type, bool>();
-            _constructorInfoForTypeCache = new Dictionary<Type, ContainerConstructorInfo>();
+            _registeredTypesCache = new Dictionary<Type, ContainerMember>();
+            _noCycleForTypesCache = new Dictionary<Type, bool>();
+            _constructorInfoForTypesCache = new Dictionary<Type, ContainerConstructorInfo>();
             _createObjectFunctionForConstructorCache = new Dictionary<ConstructorInfo, Func<object[], object>>();
             _createObjectFunctionForConstructorCache2 = new Dictionary<Type, Func<object>>();
-            _propertiesInfoForTypeCache = new Dictionary<Type, IList<PropertyInfo>>();
-            _methodsInfoForTypeCache = new Dictionary<Type, IList<MethodInfo>>();
-            _parametersInfoForMethodCache = new Dictionary<MethodInfo, IList<ParameterInfo>>();
+            _propertiesInfoForTypesCache = new Dictionary<Type, List<PropertyInfo>>();
+            _methodsInfoForTypesCache = new Dictionary<Type, List<MethodInfo>>();
+            _parametersInfoForMethodCache = new Dictionary<MethodInfo, List<ParameterInfo>>();
+            _signletonsCache = new Dictionary<Type, object>();
         }
 
         #region Private Fields
 
-        private readonly IDictionary<Type, ContainerMember> _registeredTypeCache;
-        private readonly IDictionary<Type, bool> _noCycleForTypeCache;
-        private readonly IDictionary<Type, ContainerConstructorInfo> _constructorInfoForTypeCache;
-        private readonly IDictionary<ConstructorInfo, Func<object[], object>> _createObjectFunctionForConstructorCache;
-        private readonly IDictionary<Type, Func<object>> _createObjectFunctionForConstructorCache2;
-        private readonly IDictionary<Type, IList<PropertyInfo>> _propertiesInfoForTypeCache;
-        private readonly IDictionary<Type, IList<MethodInfo>> _methodsInfoForTypeCache;
-        private readonly IDictionary<MethodInfo, IList<ParameterInfo>> _parametersInfoForMethodCache;
+        private readonly Dictionary<Type, ContainerMember> _registeredTypesCache;
+        private readonly Dictionary<Type, bool> _noCycleForTypesCache;
+        private readonly Dictionary<Type, ContainerConstructorInfo> _constructorInfoForTypesCache;
+        private readonly Dictionary<ConstructorInfo, Func<object[], object>> _createObjectFunctionForConstructorCache;
+        private readonly Dictionary<Type, Func<object>> _createObjectFunctionForConstructorCache2;
+        private readonly Dictionary<Type, List<PropertyInfo>> _propertiesInfoForTypesCache;
+        private readonly Dictionary<Type, List<MethodInfo>> _methodsInfoForTypesCache;
+        private readonly Dictionary<MethodInfo, List<ParameterInfo>> _parametersInfoForMethodCache;
+        private readonly Dictionary<Type, object> _signletonsCache;
 
         #endregion
 
@@ -78,20 +81,25 @@ namespace NiquIoC
             ResolveMethods(instance, typeof(T));
         }
 
+        public void WarmUp()
+        {
+            CreateAllSingletons();
+        }
+
         #endregion
 
         #region Private Methods
 
         private IContainerMember RegisterType(Type typeFrom, Type typeTo)
         {
-            if (_constructorInfoForTypeCache.ContainsKey(typeTo))
+            if (_constructorInfoForTypesCache.ContainsKey(typeTo))
             {
-                _constructorInfoForTypeCache.Remove(typeTo);
+                _constructorInfoForTypesCache.Remove(typeTo);
             }
 
-            if (_noCycleForTypeCache.ContainsKey(typeFrom))
+            if (_noCycleForTypesCache.ContainsKey(typeFrom))
             {
-                _noCycleForTypeCache.Remove(typeFrom);
+                _noCycleForTypesCache.Remove(typeFrom);
             }
 
             if (_createObjectFunctionForConstructorCache2.ContainsKey(typeTo))
@@ -116,105 +124,106 @@ namespace NiquIoC
         {
             //if the type is not registered yet, we add new value to the cache
             //if the type is registered, we change the value in the cache
-            _registeredTypeCache[containerMember.RegisteredType] = containerMember;
+            _registeredTypesCache[containerMember.RegisteredType] = containerMember;
 
             return containerMember;
         }
 
         private object Resolve(Type type)
         {
-            var result = GetContainerMember(type); //getting a value from the cache for the correct type
+            var containerMember = _registeredTypesCache.GetValue(type); //getting a value from the cache for the correct type
 
-            if (result.ObjectFactory == null) //we do not need to create cache or check cycle for object factory
+            if (containerMember.ObjectFactory == null) //we do not need to create cache or check cycle for object factory
             {
-                if (!_constructorInfoForTypeCache.ContainsKey(result.ReturnType)) //if we do not have constructor info in the cache for a given type, we create it
+                if (!_constructorInfoForTypesCache.ContainsKey(containerMember.ReturnType)) //if we do not have constructor info in the cache for a given type, we create it
                 {
-                    CreateConstructorInfoForTypeCache(result.ReturnType);
+                    CreateConstructorInfoForTypesCache(containerMember.ReturnType);
                 }
 
-                CheckCycleForType(result.ReturnType); //at the beginning we check cycle for the type
+                CheckCycleForType(containerMember.ReturnType); //at the beginning we check cycle for the type
             }
 
-            return Resolve(result);
+            return Resolve(containerMember);
         }
 
-        private object Resolve(ContainerMember result)
+        private object Resolve(ContainerMember containerMember)
         {
-            if (!result.IsSingleton) //if type is not registered as singleton we return a new instance all the time
+            if (!containerMember.IsSingleton) //if type is not registered as singleton we return a new instance all the time
             {
-                return ReturnInstance(result);
+                return ReturnInstance(containerMember);
             }
 
-            if (result.Instance != null) //for singleton if we created an instance earlier, we return this value
+            if (containerMember.Instance != null) //for singleton if we created an instance earlier, we return this value
             {
-                return result.Instance;
+                return containerMember.Instance;
             }
 
-            var value = ReturnInstance(result);
-            result.Instance = value;
+            var value = ReturnInstance(containerMember);
+            containerMember.Instance = value;
 
             return value;
         }
 
         private object Resolve2(Type type)
         {
-            var result = GetContainerMember(type); //getting a value from the cache for the correct type
+            var containerMember = _registeredTypesCache.GetValue(type); //getting a value from the cache for the correct type
 
-            if (result.ObjectFactory == null) //we do not need to create cache or check cycle for object factory
+            if (containerMember.ObjectFactory == null) //we do not need to create cache or check cycle for object factory
             {
-                if (!_constructorInfoForTypeCache.ContainsKey(result.ReturnType)) //if we do not have constructor info in the cache for a given type, we create it
+                if (!_constructorInfoForTypesCache.ContainsKey(containerMember.ReturnType)) //if we do not have constructor info in the cache for a given type, we create it
                 {
-                    CreateConstructorInfoForTypeCache(result.ReturnType);
+                    CreateConstructorInfoForTypesCache(containerMember.ReturnType);
                 }
 
-                CheckCycleForType(result.ReturnType); //at the beginning we check cycle for the type
+                CheckCycleForType(containerMember.ReturnType); //at the beginning we check cycle for the type
             }
 
-            return Resolve2(result);
+            return Resolve2(containerMember);
         }
 
-        private object Resolve2(ContainerMember result)
+        private object Resolve2(ContainerMember containerMember)
         {
-            if (!result.IsSingleton) //if type is not registered as singleton we return a new instance all the time
+            if (!containerMember.IsSingleton) //if type is not registered as singleton we return a new instance all the time
             {
-                return ReturnInstance2(result);
+                return ReturnInstance2(containerMember);
             }
 
-            if (result.Instance != null) //for singleton if we created an instance earlier, we return this value
+            if (containerMember.Instance != null) //for singleton if we created an instance earlier, we return this value
             {
-                return result.Instance;
+                return containerMember.Instance;
             }
 
-            var value = ReturnInstance2(result);
-            result.Instance = value;
+            var value = ReturnInstance2(containerMember);
+            containerMember.Instance = value;
 
             return value;
         }
 
-        private object ReturnInstance(IContainerMember result)
+        private object ReturnInstance(ContainerMember containerMember)
         {
-            return _registeredTypeCache[result.RegisteredType].ObjectFactory != null
-                ? _registeredTypeCache[result.RegisteredType].ObjectFactory()
-                : CreateInstance(result.ReturnType);
+            return _registeredTypesCache[containerMember.RegisteredType].ObjectFactory != null
+                ? _registeredTypesCache[containerMember.RegisteredType].ObjectFactory()
+                : CreateInstance(containerMember.ReturnType);
         }
 
-        private object ReturnInstance2(IContainerMember result)
+        private object ReturnInstance2(ContainerMember containerMember)
         {
-            return _registeredTypeCache[result.RegisteredType].ObjectFactory != null
-                ? _registeredTypeCache[result.RegisteredType].ObjectFactory()
-                : CreateInstance2(result.ReturnType);
+            return _registeredTypesCache[containerMember.RegisteredType].ObjectFactory != null
+                ? _registeredTypesCache[containerMember.RegisteredType].ObjectFactory()
+                : CreateInstance2(containerMember.ReturnType);
         }
 
         private object CreateInstance(Type type)
         {
-            var ctor = _constructorInfoForTypeCache[type].Constructor;
-            var ctorParameters = _constructorInfoForTypeCache[type].Parameters;
+            var ctor = _constructorInfoForTypesCache[type].Constructor;
+            var ctorParameters = _constructorInfoForTypesCache[type].Parameters;
             var ctorParametersCount = ctorParameters.Count;
 
             var parameters = new object[ctorParametersCount];
             for (var i = 0; i < ctorParametersCount; i++) //we create as array with the parameters of the constructor and we fill it
             {
-                parameters[i] = Resolve(ctorParameters[i].ParameterType);
+                var parameterContainerMember = _registeredTypesCache.GetValue(ctorParameters[i].ParameterType);
+                parameters[i] = Resolve(parameterContainerMember);
             }
 
             if (!_createObjectFunctionForConstructorCache.ContainsKey(ctor)) //if we do not have a create object function in the cache, we create it
@@ -232,14 +241,9 @@ namespace NiquIoC
 
         private object CreateInstance2(Type type)
         {
-            if (!_constructorInfoForTypeCache.ContainsKey(type)) //if we do not have constructor info in the cache for a given type, we create it
-            {
-                CreateConstructorInfoForTypeCache(type);
-            }
-
             if (!_createObjectFunctionForConstructorCache2.ContainsKey(type)) //if we do not have a create object function in the cache, we create it
             {
-                var factoryMethod = EmitHelper.CreateFullObjectFunction(type, _constructorInfoForTypeCache);
+                var factoryMethod = EmitHelper.CreateFullObjectFunction(type, _constructorInfoForTypesCache, _signletonsCache);
                 _createObjectFunctionForConstructorCache2.Add(type, factoryMethod);
             }
 
@@ -250,7 +254,7 @@ namespace NiquIoC
             return obj;
         }
 
-        private void CreateConstructorInfoForTypeCache(Type type) //this function recursively create cache for constructor info and constructor parameters for given type
+        private void CreateConstructorInfoForTypesCache(Type type) //this function recursively create cache for constructor info and constructor parameters for given type
         {
             var allConstructors = type.GetConstructors();
 
@@ -265,25 +269,25 @@ namespace NiquIoC
 
             if (goodConstructors.Count == 1) //if there is only one good constructor, then we add information about it to cache
             {
-                var constructor = goodConstructors.First();
-                var consParameters = (IList<ParameterInfo>) constructor.GetParameters();
+                var constructor = goodConstructors[0];
+                var consParameters = constructor.GetParameters().ToList();
 
-                _constructorInfoForTypeCache.Add(type, new ContainerConstructorInfo(constructor, consParameters));
+                _constructorInfoForTypesCache.Add(type, new ContainerConstructorInfo(constructor, consParameters));
 
                 foreach (var consParameter in consParameters)
                 {
                     var parameterType = consParameter.ParameterType;
-                    if (_registeredTypeCache.ContainsKey(parameterType))
+                    if (_registeredTypesCache.ContainsKey(parameterType))
                     {
-                        if (parameterType.IsInterface)  //if a type is interface than we get return type for it
+                        if (parameterType.IsInterface) //if a type is interface than we get return type for it
                         {
-                            parameterType = _registeredTypeCache[parameterType].ReturnType;
+                            parameterType = _registeredTypesCache.GetValue(parameterType).ReturnType;
                         }
 
                         //if we do not have constructor info in the cache for a given parameter type, we create it
-                        if (!_constructorInfoForTypeCache.ContainsKey(parameterType))
+                        if (!_constructorInfoForTypesCache.ContainsKey(parameterType))
                         {
-                            CreateConstructorInfoForTypeCache(parameterType);
+                            CreateConstructorInfoForTypesCache(parameterType);
                         }
                     }
                 }
@@ -296,13 +300,13 @@ namespace NiquIoC
 
         private void ResolveProperties(object obj, Type type)
         {
-            if (!_propertiesInfoForTypeCache.ContainsKey(type)) //if we do not have a properties info in the cache, we create it
+            if (!_propertiesInfoForTypesCache.ContainsKey(type)) //if we do not have a properties info in the cache, we create it
             {
-                _propertiesInfoForTypeCache.Add(type,
+                _propertiesInfoForTypesCache.Add(type,
                     type.GetProperties().Where(p => p.GetCustomAttributes(typeof(DependencyProperty), false).Any() && p.SetMethod != null).ToList());
             }
 
-            var properties = _propertiesInfoForTypeCache[type];
+            var properties = _propertiesInfoForTypesCache[type];
             foreach (var property in properties) //we are filling the required properties
             {
                 property.SetValue(obj, Resolve(property.PropertyType));
@@ -311,13 +315,13 @@ namespace NiquIoC
 
         private void ResolveMethods(object obj, Type type)
         {
-            if (!_methodsInfoForTypeCache.ContainsKey(type)) //if we do not have a methods info in the cache, we create it
+            if (!_methodsInfoForTypesCache.ContainsKey(type)) //if we do not have a methods info in the cache, we create it
             {
-                _methodsInfoForTypeCache.Add(type,
+                _methodsInfoForTypesCache.Add(type,
                     type.GetMethods().Where(p => p.ReturnType == typeof(void) && p.GetCustomAttributes(typeof(DependencyMethod), false).Any()).ToList());
             }
 
-            var methods = _methodsInfoForTypeCache[type];
+            var methods = _methodsInfoForTypesCache[type];
             foreach (var method in methods) //we are filling the required methods
             {
                 if (!_parametersInfoForMethodCache.ContainsKey(method))
@@ -338,42 +342,45 @@ namespace NiquIoC
 
         private void CheckCycleForType(Type type) //this function recursively check cycle for constructor and constructor parameters for given type
         {
-            if (_noCycleForTypeCache.ContainsKey(type))
+            if (_noCycleForTypesCache.ContainsKey(type))
             {
-                if (!_noCycleForTypeCache[type])
+                if (!_noCycleForTypesCache[type])
                 {
                     throw new CycleForTypeException(type);
                 }
                 return;
             }
 
-            if (!_registeredTypeCache.ContainsKey(type) && !_constructorInfoForTypeCache.ContainsKey(type))
+            if (_constructorInfoForTypesCache.ContainsKey(type) || _registeredTypesCache.ContainsKey(type))
             {
-                return;
+                _noCycleForTypesCache.Add(type, false);
+
+                var parameters = _constructorInfoForTypesCache.ContainsKey(type)
+                    ? _constructorInfoForTypesCache[type].Parameters
+                    : _constructorInfoForTypesCache[_registeredTypesCache.GetValue(type).ReturnType].Parameters;
+                foreach (var parameter in parameters)
+                {
+                    CheckCycleForType(parameter.ParameterType);
+                }
+
+                _noCycleForTypesCache[type] = true;
             }
-
-            _noCycleForTypeCache.Add(type, false);
-
-            var parameters = _constructorInfoForTypeCache.ContainsKey(type)
-                ? _constructorInfoForTypeCache[type].Parameters
-                : _constructorInfoForTypeCache[GetContainerMember(type).ReturnType].Parameters;
-            foreach (var parameter in parameters)
-            {
-                CheckCycleForType(parameter.ParameterType);
-            }
-
-            _noCycleForTypeCache[type] = true;
         }
 
-        private ContainerMember GetContainerMember(Type type)
+        private void CreateAllSingletons()
         {
-            try
+            foreach (var registeredType in _registeredTypesCache.Where(r => r.Value.Instance != null).ToList())
             {
-                return _registeredTypeCache[type];
+                _signletonsCache.Add(registeredType.Key, registeredType.Value.Instance);
             }
-            catch (KeyNotFoundException)
+
+            foreach (var registeredType in _registeredTypesCache.Where(r => r.Value.IsSingleton && r.Value.Instance == null).ToList())
             {
-                throw new TypeNotRegisteredException(type);
+                var containerMember = registeredType.Value;
+
+                var value = ReturnInstance(containerMember);
+                containerMember.Instance = value;
+                _signletonsCache.Add(registeredType.Key, value);
             }
         }
 

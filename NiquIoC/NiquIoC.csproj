@@ -50,6 +50,7 @@
     <Compile Include="Container.cs" />
     <Compile Include="ContainerConstructorInfo.cs" />
     <Compile Include="ContainerMember.cs" />
+    <Compile Include="Extensions\DictionaryExtension.cs" />
     <Compile Include="Helpers\EmitHelper.cs" />
     <Compile Include="Exceptions\CycleForTypeException.cs" />
     <Compile Include="Exceptions\NoProperConstructorException.cs" />

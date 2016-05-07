@@ -24,8 +24,8 @@ namespace NiquIoC.Test.OneBigEmitFunction
         {
             var c = new Container();
             var emptyClass = new EmptyClass();
-            c.RegisterType<ISampleClass, SampleClass>();
             c.RegisterInstance(emptyClass);
+            c.RegisterType<ISampleClass, SampleClass>();
 
             var sampleClass = c.Resolve2<ISampleClass>();
 
