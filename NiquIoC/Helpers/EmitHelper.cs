@@ -79,7 +79,7 @@ namespace NiquIoC.Helpers
         internal static Func<object> CreateFullObjectFunction(ContainerMember containerMember, IReadOnlyDictionary<Type, ContainerMember> registeredTypesCache,
             IReadOnlyDictionary<Type, object> signletonsCache)
         {
-            var dm = new DynamicMethod($"Create_{containerMember.Constructor.DeclaringType?.FullName.Replace('.', '_')}", typeof(object), Type.EmptyTypes, true);
+            var dm = new DynamicMethod($"Create_{containerMember.Constructor.DeclaringType?.FullName.Replace('.', '_')}", typeof(object), Type.EmptyTypes, typeof(Container).Module, true);
             var ilgen = dm.GetILGenerator();
 
             foreach (var parameter in containerMember.Parameters)
