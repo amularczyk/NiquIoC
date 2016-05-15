@@ -18,10 +18,10 @@ namespace NiquIoC
             _registeredTypesCache = new Dictionary<Type, ContainerMember>();
 
             _createObjectFunctionForConstructorCache = new Dictionary<ConstructorInfo, Func<object[], object>>();
-            _createObjectFunctionForConstructorCache2 = new Dictionary<Type, Func<object>>();
+            _createObjectFunctionForConstructorCache2 = new Dictionary<Type, Func<object[], object>>();
 
             _parametersInfoForMethodCache = new Dictionary<MethodInfo, List<ParameterInfo>>();
-            _signletonsCache = new Dictionary<Type, object>();
+            _signletonsIndexCache = new Dictionary<Type, int>();
 
             _warmedUp = false;
         }
@@ -31,10 +31,11 @@ namespace NiquIoC
         private readonly Dictionary<Type, ContainerMember> _registeredTypesCache;
 
         private readonly Dictionary<ConstructorInfo, Func<object[], object>> _createObjectFunctionForConstructorCache;
-        private readonly Dictionary<Type, Func<object>> _createObjectFunctionForConstructorCache2;
+        private readonly Dictionary<Type, Func<object[], object>> _createObjectFunctionForConstructorCache2;
 
         private readonly Dictionary<MethodInfo, List<ParameterInfo>> _parametersInfoForMethodCache;
-        private readonly Dictionary<Type, object> _signletonsCache;
+        private readonly Dictionary<Type, int> _signletonsIndexCache;
+        private object[] _signletonsCache;
 
         private bool _warmedUp;
 
@@ -72,11 +73,6 @@ namespace NiquIoC
 
         public T Resolve2<T>()
         {
-            if (!_warmedUp)
-            {
-                WarmUp();
-            }
-
             return (T) Resolve2(typeof(T));
         }
 
@@ -106,7 +102,7 @@ namespace NiquIoC
             if (_registeredTypesCache.ContainsKey(typeFrom))
             {
                 _registeredTypesCache.Remove(typeFrom);
-                _signletonsCache.Clear();
+                _signletonsIndexCache.Clear();
                 _warmedUp = false;
 
                 if (_createObjectFunctionForConstructorCache2.ContainsKey(typeTo))
@@ -186,6 +182,11 @@ namespace NiquIoC
                 CheckCycleForType(containerMember); //at the beginning we check cycle for the type
             }
 
+            if (!_warmedUp)
+            {
+                WarmUp();
+            }
+
             return Resolve2(containerMember);
         }
 
@@ -250,11 +251,11 @@ namespace NiquIoC
         {
             if (!_createObjectFunctionForConstructorCache2.ContainsKey(containerMember.ReturnType)) //if we do not have a create object function in the cache, we create it
             {
-                var factoryMethod = EmitHelper.CreateFullObjectFunction(containerMember, _registeredTypesCache, _signletonsCache);
+                var factoryMethod = EmitHelper.CreateFullObjectFunction(containerMember, _registeredTypesCache, _signletonsIndexCache);
                 _createObjectFunctionForConstructorCache2.Add(containerMember.ReturnType, factoryMethod);
             }
 
-            var obj = _createObjectFunctionForConstructorCache2[containerMember.ReturnType]();
+            var obj = _createObjectFunctionForConstructorCache2[containerMember.ReturnType](_signletonsCache);
             BuildUp(obj, containerMember); //when we have a new instance of the type, we have to resolve the properties and the methods also
 
             return obj;
@@ -418,12 +419,17 @@ namespace NiquIoC
 
         private void CreateAllSingletons()
         {
+            var index = 0;
+            var singletons = new List<object>();
+
             foreach (var registeredType in _registeredTypesCache.Where(r => r.Value.Instance != null).ToList())
             {
-                _signletonsCache.Add(registeredType.Key, registeredType.Value.Instance);
+                singletons.Add(registeredType.Value.Instance);
+                _signletonsIndexCache.Add(registeredType.Key, index++);
                 if (registeredType.Key != registeredType.Value.ReturnType)
                 {
-                    _signletonsCache.Add(registeredType.Value.ReturnType, registeredType.Value.Instance);
+                    singletons.Add(registeredType.Value.Instance);
+                    _signletonsIndexCache.Add(registeredType.Value.ReturnType, index++);
                 }
             }
 
@@ -431,13 +437,18 @@ namespace NiquIoC
             {
                 var containerMember = registeredType.Value;
 
-                containerMember.Instance = ReturnInstance(containerMember);
-                _signletonsCache.Add(registeredType.Key, registeredType.Value.Instance);
+                _signletonsCache = singletons.ToArray();
+                containerMember.Instance = ReturnInstance2(containerMember);
+                singletons.Add(registeredType.Value.Instance);
+                _signletonsIndexCache.Add(registeredType.Key, index++);
                 if (registeredType.Key != registeredType.Value.ReturnType)
                 {
-                    _signletonsCache.Add(registeredType.Value.ReturnType, registeredType.Value.Instance);
+                    singletons.Add(registeredType.Value.Instance);
+                    _signletonsIndexCache.Add(registeredType.Value.ReturnType, index++);
                 }
             }
+
+            _signletonsCache = singletons.ToArray();
         }
 
         #endregion

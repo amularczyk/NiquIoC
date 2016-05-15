@@ -177,5 +177,49 @@ namespace NiquIoC.Test.OneBigEmitFunction
             Assert.AreNotEqual(emptyClass1, emptyClass3);
             Assert.AreNotEqual(emptyClass1, emptyClass4);
         }
+
+        [TestMethod]
+        public void InterfaceReRegisteredFromOneClassToTheOtherSingleton_Success()
+        {
+            var c = new Container();
+            c.RegisterType<EmptyClass>().AsTransient();
+
+            c.RegisterType<ISampleClass, SampleClass>().AsSingleton();
+            var sampleClass1 = c.Resolve2<ISampleClass>();
+            var sampleClass2 = c.Resolve2<ISampleClass>();
+
+            c.RegisterType<ISampleClass, SampleClassOther>().AsSingleton();
+            var sampleClass3 = c.Resolve2<ISampleClass>();
+            var sampleClass4 = c.Resolve2<ISampleClass>();
+
+            Assert.AreEqual(sampleClass1, sampleClass2);
+            Assert.AreEqual(sampleClass3, sampleClass4);
+            Assert.AreNotEqual(sampleClass1, sampleClass3);
+            Assert.AreEqual(sampleClass1.GetType(), sampleClass2.GetType());
+            Assert.AreEqual(sampleClass3.GetType(), sampleClass4.GetType());
+            Assert.AreNotEqual(sampleClass1.GetType(), sampleClass3.GetType());
+        }
+
+        [TestMethod]
+        public void InterfaceReRegisteredFromOneClassToTheOtherTransient_Success()
+        {
+            var c = new Container();
+            c.RegisterType<EmptyClass>().AsTransient();
+
+            c.RegisterType<ISampleClass, SampleClass>().AsTransient();
+            var sampleClass1 = c.Resolve2<ISampleClass>();
+            var sampleClass2 = c.Resolve2<ISampleClass>();
+
+            c.RegisterType<ISampleClass, SampleClassOther>().AsTransient();
+            var sampleClass3 = c.Resolve2<ISampleClass>();
+            var sampleClass4 = c.Resolve2<ISampleClass>();
+
+            Assert.AreNotEqual(sampleClass1, sampleClass2);
+            Assert.AreNotEqual(sampleClass3, sampleClass4);
+            Assert.AreNotEqual(sampleClass1, sampleClass3);
+            Assert.AreEqual(sampleClass1.GetType(), sampleClass2.GetType());
+            Assert.AreEqual(sampleClass3.GetType(), sampleClass4.GetType());
+            Assert.AreNotEqual(sampleClass1.GetType(), sampleClass3.GetType());
+        }
     }
 }

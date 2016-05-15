@@ -76,29 +76,32 @@ namespace NiquIoC.Helpers
             }
         }
 
-        internal static Func<object> CreateFullObjectFunction(ContainerMember containerMember, IReadOnlyDictionary<Type, ContainerMember> registeredTypesCache,
-            IReadOnlyDictionary<Type, object> signletonsCache)
+        internal static Func<object[], object> CreateFullObjectFunction(ContainerMember containerMember, IReadOnlyDictionary<Type, ContainerMember> registeredTypesCache,
+            IReadOnlyDictionary<Type, int> signletonsIndexCache)
         {
-            var dm = new DynamicMethod($"Create_{containerMember.Constructor.DeclaringType?.FullName.Replace('.', '_')}", typeof(object), Type.EmptyTypes, typeof(Container).Module, true);
+            var dm = new DynamicMethod($"Create_{containerMember.Constructor.DeclaringType?.FullName.Replace('.', '_')}", typeof(object), new[] {typeof(object[])},
+                typeof(Container).Module, true);
             var ilgen = dm.GetILGenerator();
 
             foreach (var parameter in containerMember.Parameters)
             {
-                CreateFullObjectFunctionPrivate(parameter.ParameterType, registeredTypesCache, signletonsCache, ilgen);
+                CreateFullObjectFunctionPrivate(parameter.ParameterType, registeredTypesCache, signletonsIndexCache, ilgen);
             }
             ilgen.Emit(OpCodes.Newobj, containerMember.Constructor);
             ilgen.Emit(OpCodes.Ret);
 
-            return (Func<object>) dm.CreateDelegate(typeof(Func<object>));
+            return (Func<object[], object>) dm.CreateDelegate(typeof(Func<object[], object>));
         }
 
         private static void CreateFullObjectFunctionPrivate(Type type, IReadOnlyDictionary<Type, ContainerMember> registeredTypesCache,
-            IReadOnlyDictionary<Type, object> signletonsCache, ILGenerator ilgen)
+            IReadOnlyDictionary<Type, int> signletonsIndexCache, ILGenerator ilgen)
         {
-            if (signletonsCache.ContainsKey(type))
+            if (signletonsIndexCache.ContainsKey(type))
             {
-                //Func<object> func = () => signletonsCache[type];
-                //ilgen.Emit(OpCodes.Call, func.Method);
+                ilgen.Emit(OpCodes.Ldarg_0);
+                EmitIntOntoStack(ilgen, signletonsIndexCache[type]);
+                ilgen.Emit(OpCodes.Ldelem_Ref);
+                ilgen.Emit(OpCodes.Castclass, type);
             }
             else
             {
@@ -106,7 +109,7 @@ namespace NiquIoC.Helpers
 
                 foreach (var parameter in constructorInfoForType.Parameters)
                 {
-                    CreateFullObjectFunctionPrivate(parameter.ParameterType, registeredTypesCache, signletonsCache, ilgen);
+                    CreateFullObjectFunctionPrivate(parameter.ParameterType, registeredTypesCache, signletonsIndexCache, ilgen);
                 }
 
                 ilgen.Emit(OpCodes.Newobj, constructorInfoForType.Constructor);
