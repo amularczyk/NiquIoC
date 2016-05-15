@@ -7,9 +7,10 @@ using PerformanceTests.Classes;
 
 namespace PerformanceTests.TestsAutofac
 {
+    [TestClass]
     public class ClassA
     {
-        private static readonly string _fileName = Directory.GetCurrentDirectory() + "" + DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + ".txt";
+        private static readonly string _fileName = Directory.GetCurrentDirectory() + "TestsAutofac" + DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + ".txt";
 
         [TestMethod]
         public void Resolve100_SingletonRegister()
@@ -81,7 +82,7 @@ namespace PerformanceTests.TestsAutofac
             cb.RegisterType<TestA7>().As<ITestA7>().SingleInstance();
             cb.RegisterType<TestA8>().As<ITestA8>().SingleInstance();
             cb.RegisterType<TestA9>().As<ITestA9>().SingleInstance();
-            cb.RegisterType<TestA10>().As<ITestA10>().SingleInstance();
+            cb.RegisterType<TestA>().As<ITestA>().SingleInstance();
             var c = cb.Build();
             sw.Stop();
 
@@ -106,7 +107,7 @@ namespace PerformanceTests.TestsAutofac
             cb.RegisterType<TestA7>().As<ITestA7>();
             cb.RegisterType<TestA8>().As<ITestA8>();
             cb.RegisterType<TestA9>().As<ITestA9>();
-            cb.RegisterType<TestA10>().As<ITestA10>();
+            cb.RegisterType<TestA>().As<ITestA>();
             var c = cb.Build();
             sw.Stop();
 
@@ -121,15 +122,15 @@ namespace PerformanceTests.TestsAutofac
             var sw = new Stopwatch();
 
             sw.Start();
-            var lastValue = c.Resolve<ITestA10>();
+            var lastValue = c.Resolve<ITestA>();
             sw.Stop();
 
-            Helper.Check(lastValue, true);
+            Helper.Check(lastValue, singleton);
 
             for (var i = 0; i < testCasesNumber - 1; i++)
             {
                 sw.Start();
-                var test = c.Resolve<ITestA10>();
+                var test = c.Resolve<ITestA>();
                 sw.Stop();
 
                 if (singleton)
@@ -141,7 +142,7 @@ namespace PerformanceTests.TestsAutofac
                     Assert.AreNotEqual(test, lastValue);
                 }
 
-                Helper.Check(test, true);
+                Helper.Check(test, singleton);
                 lastValue = test;
             }
 

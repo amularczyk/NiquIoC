@@ -7,9 +7,10 @@ using StructureMap;
 
 namespace PerformanceTests.TestsStructureMap
 {
+    [TestClass]
     public class ClassA
     {
-        private static readonly string _fileName = Directory.GetCurrentDirectory() + "" + DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + ".txt";
+        private static readonly string _fileName = Directory.GetCurrentDirectory() + "TestsStructureMap" + DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + ".txt";
 
         [TestMethod]
         public void Resolve100_SingletonRegister()
@@ -84,7 +85,7 @@ namespace PerformanceTests.TestsStructureMap
                 x.For<ITestA7>().Use<TestA7>().Singleton();
                 x.For<ITestA8>().Use<TestA8>().Singleton();
                 x.For<ITestA9>().Use<TestA9>().Singleton();
-                x.For<ITestA10>().Use<TestA10>().Singleton();
+                x.For<ITestA>().Use<TestA>().Singleton();
             });
             sw.Stop();
 
@@ -110,7 +111,7 @@ namespace PerformanceTests.TestsStructureMap
                 x.For<ITestA7>().Use<TestA7>().AlwaysUnique();
                 x.For<ITestA8>().Use<TestA8>().AlwaysUnique();
                 x.For<ITestA9>().Use<TestA9>().AlwaysUnique();
-                x.For<ITestA10>().Use<TestA10>().AlwaysUnique();
+                x.For<ITestA>().Use<TestA>().AlwaysUnique();
             });
             sw.Stop();
 
@@ -123,15 +124,15 @@ namespace PerformanceTests.TestsStructureMap
             var sw = new Stopwatch();
 
             sw.Start();
-            var lastValue = c.GetInstance<ITestA10>();
+            var lastValue = c.GetInstance<ITestA>();
             sw.Stop();
 
-            Helper.Check(lastValue, true);
+            Helper.Check(lastValue, singleton);
 
             for (var i = 0; i < testCasesNumber - 1; i++)
             {
                 sw.Start();
-                var test = c.GetInstance<ITestA10>();
+                var test = c.GetInstance<ITestA>();
                 sw.Stop();
 
                 if (singleton)
@@ -143,7 +144,7 @@ namespace PerformanceTests.TestsStructureMap
                     Assert.AreNotEqual(test, lastValue);
                 }
 
-                Helper.Check(test, true);
+                Helper.Check(test, singleton);
                 lastValue = test;
             }
 

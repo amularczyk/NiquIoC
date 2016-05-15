@@ -1805,7 +1805,7 @@
     }
 
 
-    public interface ITestB50
+    public interface ITestB
     {
         ITestB40 TestB40 { get; }
         ITestB41 TestB41 { get; }
@@ -1819,9 +1819,9 @@
         ITestB49 TestB49 { get; }
     }
 
-    public class TestB50 : ITestB50
+    public class TestB : ITestB
     {
-        public TestB50(ITestB40 testB40, ITestB41 testB41, ITestB42 testB42, ITestB43 testB43, ITestB44 testB44, ITestB45 testB45, ITestB46 testB46, ITestB47 testB47,
+        public TestB(ITestB40 testB40, ITestB41 testB41, ITestB42 testB42, ITestB43 testB43, ITestB44 testB44, ITestB45 testB45, ITestB46 testB46, ITestB47 testB47,
             ITestB48 testB48, ITestB49 testB49)
         {
             TestB40 = testB40;

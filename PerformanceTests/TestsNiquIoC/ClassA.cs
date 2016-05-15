@@ -7,9 +7,10 @@ using NiquIoC;
 
 namespace PerformanceTests.TestsNiquIoC
 {
+    [TestClass]
     public class ClassA
     {
-        private static readonly string _fileName = Directory.GetCurrentDirectory() + "" + DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + ".txt";
+        private static readonly string _fileName = Directory.GetCurrentDirectory() + "TestsNiquIoC" + DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + ".txt";
 
         [TestMethod]
         public void Resolve100_SingletonRegister()
@@ -76,7 +77,7 @@ namespace PerformanceTests.TestsNiquIoC
             c.RegisterType<ITestA7, TestA7>().AsSingleton();
             c.RegisterType<ITestA8, TestA8>().AsSingleton();
             c.RegisterType<ITestA9, TestA9>().AsSingleton();
-            c.RegisterType<ITestA10, TestA10>().AsSingleton();
+            c.RegisterType<ITestA, TestA>().AsSingleton();
             sw.Stop();
 
             Helper.WriteLine(_fileName, "Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
@@ -98,7 +99,7 @@ namespace PerformanceTests.TestsNiquIoC
             c.RegisterType<ITestA7, TestA7>();
             c.RegisterType<ITestA8, TestA8>();
             c.RegisterType<ITestA9, TestA9>();
-            c.RegisterType<ITestA10, TestA10>();
+            c.RegisterType<ITestA, TestA>();
             sw.Stop();
 
             Helper.WriteLine(_fileName, "Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
@@ -110,15 +111,15 @@ namespace PerformanceTests.TestsNiquIoC
             var sw = new Stopwatch();
 
             sw.Start();
-            var lastValue = c.Resolve<ITestA10>();
+            var lastValue = c.Resolve<ITestA>();
             sw.Stop();
 
-            Helper.Check(lastValue, true);
+            Helper.Check(lastValue, singleton);
 
             for (var i = 0; i < testCasesNumber - 1; i++)
             {
                 sw.Start();
-                var test = c.Resolve<ITestA10>();
+                var test = c.Resolve<ITestA>();
                 sw.Stop();
 
                 if (singleton)
@@ -130,7 +131,7 @@ namespace PerformanceTests.TestsNiquIoC
                     Assert.AreNotEqual(test, lastValue);
                 }
 
-                Helper.Check(test, true);
+                Helper.Check(test, singleton);
                 lastValue = test;
             }
 

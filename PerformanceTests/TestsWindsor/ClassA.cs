@@ -8,9 +8,10 @@ using PerformanceTests.Classes;
 
 namespace PerformanceTests.TestsWindsor
 {
+    [TestClass]
     public class ClassA
     {
-        private static readonly string _fileName = Directory.GetCurrentDirectory() + "" + DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + ".txt";
+        private static readonly string _fileName = Directory.GetCurrentDirectory() + "TestsWindsor" + DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + ".txt";
 
         [TestMethod]
         public void Resolve100_SingletonRegister()
@@ -82,7 +83,7 @@ namespace PerformanceTests.TestsWindsor
             c.Register(Component.For<ITestA7>().ImplementedBy<TestA7>().LifeStyle.Singleton);
             c.Register(Component.For<ITestA8>().ImplementedBy<TestA8>().LifeStyle.Singleton);
             c.Register(Component.For<ITestA9>().ImplementedBy<TestA9>().LifeStyle.Singleton);
-            c.Register(Component.For<ITestA10>().ImplementedBy<TestA10>().LifeStyle.Singleton);
+            c.Register(Component.For<ITestA>().ImplementedBy<TestA>().LifeStyle.Singleton);
             sw.Stop();
 
             Helper.WriteLine(_fileName, "Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
@@ -104,7 +105,7 @@ namespace PerformanceTests.TestsWindsor
             c.Register(Component.For<ITestA7>().ImplementedBy<TestA7>().LifeStyle.Transient);
             c.Register(Component.For<ITestA8>().ImplementedBy<TestA8>().LifeStyle.Transient);
             c.Register(Component.For<ITestA9>().ImplementedBy<TestA9>().LifeStyle.Transient);
-            c.Register(Component.For<ITestA10>().ImplementedBy<TestA10>().LifeStyle.Transient);
+            c.Register(Component.For<ITestA>().ImplementedBy<TestA>().LifeStyle.Transient);
             sw.Stop();
 
             Helper.WriteLine(_fileName, "Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
@@ -116,15 +117,15 @@ namespace PerformanceTests.TestsWindsor
             var sw = new Stopwatch();
 
             sw.Start();
-            var lastValue = c.Resolve<ITestA10>();
+            var lastValue = c.Resolve<ITestA>();
             sw.Stop();
 
-            Helper.Check(lastValue, true);
+            Helper.Check(lastValue, singleton);
 
             for (var i = 0; i < testCasesNumber - 1; i++)
             {
                 sw.Start();
-                var test = c.Resolve<ITestA10>();
+                var test = c.Resolve<ITestA>();
                 sw.Stop();
 
                 if (singleton)
@@ -136,7 +137,7 @@ namespace PerformanceTests.TestsWindsor
                     Assert.AreNotEqual(test, lastValue);
                 }
 
-                Helper.Check(test, true);
+                Helper.Check(test, singleton);
                 lastValue = test;
             }
 

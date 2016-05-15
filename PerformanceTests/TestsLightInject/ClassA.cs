@@ -7,9 +7,10 @@ using PerformanceTests.Classes;
 
 namespace PerformanceTests.TestsLightInject
 {
+    [TestClass]
     public class ClassA
     {
-        private static readonly string _fileName = Directory.GetCurrentDirectory() + "" + DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + ".txt";
+        private static readonly string _fileName = Directory.GetCurrentDirectory() + "TestsLightInject" + DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + ".txt";
 
         [TestMethod]
         public void Resolve100_SingletonRegister()
@@ -81,7 +82,7 @@ namespace PerformanceTests.TestsLightInject
             c.Register<ITestA7, TestA7>(new PerContainerLifetime());
             c.Register<ITestA8, TestA8>(new PerContainerLifetime());
             c.Register<ITestA9, TestA9>(new PerContainerLifetime());
-            c.Register<ITestA10, TestA10>(new PerContainerLifetime());
+            c.Register<ITestA, TestA>(new PerContainerLifetime());
             sw.Stop();
 
             Helper.WriteLine(_fileName, "Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
@@ -103,7 +104,7 @@ namespace PerformanceTests.TestsLightInject
             c.Register<ITestA7, TestA7>();
             c.Register<ITestA8, TestA8>();
             c.Register<ITestA9, TestA9>();
-            c.Register<ITestA10, TestA10>();
+            c.Register<ITestA, TestA>();
             sw.Stop();
 
             Helper.WriteLine(_fileName, "Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
@@ -115,15 +116,15 @@ namespace PerformanceTests.TestsLightInject
             var sw = new Stopwatch();
 
             sw.Start();
-            var lastValue = c.GetInstance<ITestA10>();
+            var lastValue = c.GetInstance<ITestA>();
             sw.Stop();
 
-            Helper.Check(lastValue, true);
+            Helper.Check(lastValue, singleton);
 
             for (var i = 0; i < testCasesNumber - 1; i++)
             {
                 sw.Start();
-                var test = c.GetInstance<ITestA10>();
+                var test = c.GetInstance<ITestA>();
                 sw.Stop();
 
                 if (singleton)
@@ -135,7 +136,7 @@ namespace PerformanceTests.TestsLightInject
                     Assert.AreNotEqual(test, lastValue);
                 }
 
-                Helper.Check(test, true);
+                Helper.Check(test, singleton);
                 lastValue = test;
             }
 

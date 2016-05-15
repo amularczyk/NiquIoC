@@ -7,9 +7,10 @@ using PerformanceTests.Classes;
 
 namespace PerformanceTests.TestsUnity
 {
+    [TestClass]
     public class ClassA
     {
-        private static readonly string _fileName = Directory.GetCurrentDirectory() + "" + DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + ".txt";
+        private static readonly string _fileName = Directory.GetCurrentDirectory() + "TestsUnity" + DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + ".txt";
 
         [TestMethod]
         public void Resolve100_SingletonRegister()
@@ -81,7 +82,7 @@ namespace PerformanceTests.TestsUnity
             c.RegisterType<ITestA7, TestA7>(new ContainerControlledLifetimeManager());
             c.RegisterType<ITestA8, TestA8>(new ContainerControlledLifetimeManager());
             c.RegisterType<ITestA9, TestA9>(new ContainerControlledLifetimeManager());
-            c.RegisterType<ITestA10, TestA10>(new ContainerControlledLifetimeManager());
+            c.RegisterType<ITestA, TestA>(new ContainerControlledLifetimeManager());
             sw.Stop();
 
             Helper.WriteLine(_fileName, "Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
@@ -103,7 +104,7 @@ namespace PerformanceTests.TestsUnity
             c.RegisterType<ITestA7, TestA7>();
             c.RegisterType<ITestA8, TestA8>();
             c.RegisterType<ITestA9, TestA9>();
-            c.RegisterType<ITestA10, TestA10>();
+            c.RegisterType<ITestA, TestA>();
             sw.Stop();
 
             Helper.WriteLine(_fileName, "Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
@@ -115,15 +116,15 @@ namespace PerformanceTests.TestsUnity
             var sw = new Stopwatch();
 
             sw.Start();
-            var lastValue = c.Resolve<ITestA10>();
+            var lastValue = c.Resolve<ITestA>();
             sw.Stop();
 
-            Helper.Check(lastValue, true);
+            Helper.Check(lastValue, singleton);
 
             for (var i = 0; i < testCasesNumber - 1; i++)
             {
                 sw.Start();
-                var test = c.Resolve<ITestA10>();
+                var test = c.Resolve<ITestA>();
                 sw.Stop();
 
                 if (singleton)
@@ -135,7 +136,7 @@ namespace PerformanceTests.TestsUnity
                     Assert.AreNotEqual(test, lastValue);
                 }
 
-                Helper.Check(test, true);
+                Helper.Check(test, singleton);
                 lastValue = test;
             }
 

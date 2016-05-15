@@ -253,7 +253,7 @@
         public ITestA8 TestA8 { get; }
     }
 
-    public interface ITestA10
+    public interface ITestA
     {
         ITestA0 TestA0 { get; }
         ITestA1 TestA1 { get; }
@@ -267,9 +267,9 @@
         ITestA9 TestA9 { get; }
     }
 
-    public class TestA10 : ITestA10
+    public class TestA : ITestA
     {
-        public TestA10(ITestA0 testA0, ITestA1 testA1, ITestA2 testA2, ITestA3 testA3, ITestA4 testA4, ITestA5 testA5, ITestA6 testA6,
+        public TestA(ITestA0 testA0, ITestA1 testA1, ITestA2 testA2, ITestA3 testA3, ITestA4 testA4, ITestA5 testA5, ITestA6 testA6,
             ITestA7 testA7, ITestA8 testA8, ITestA9 testA9)
         {
             TestA0 = testA0;
