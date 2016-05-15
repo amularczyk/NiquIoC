@@ -6,11 +6,11 @@ namespace PerformanceTests
 {
     public static class Helper
     {
-        public static void WriteLine(string filePath, string text, params object[] args)
+        public static void WriteLine(string filePath, string text)
         {
             using (var file = new StreamWriter(filePath, true))
             {
-                file.WriteLine(text, args);
+                file.WriteLine(text);
             }
         }
 

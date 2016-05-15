@@ -112,7 +112,7 @@ namespace PerformanceTests.TestsWindsor
             c.Register(Component.For<ITestC>().ImplementedBy<TestC>().LifeStyle.Singleton);
             sw.Stop();
 
-            Helper.WriteLine(_fileName, "Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
+            Helper.WriteLine(_fileName, $"Register: {sw.ElapsedMilliseconds} Milliseconds.");
             sw.Reset();
         }
 
@@ -160,7 +160,7 @@ namespace PerformanceTests.TestsWindsor
             c.Register(Component.For<ITestC>().ImplementedBy<TestC>().LifeStyle.Transient);
             sw.Stop();
 
-            Helper.WriteLine(_fileName, "Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
+            Helper.WriteLine(_fileName, $"Register: {sw.ElapsedMilliseconds} Milliseconds.");
             sw.Reset();
         }
 
@@ -193,7 +193,7 @@ namespace PerformanceTests.TestsWindsor
                 lastValue = test;
             }
 
-            Helper.WriteLine(_fileName, "{0} resolve: {1} Milliseconds.", testCasesNumber, sw.ElapsedMilliseconds);
+            Helper.WriteLine(_fileName, $"{testCasesNumber} resolve: {sw.ElapsedMilliseconds} Milliseconds." );
         }
     }
 }

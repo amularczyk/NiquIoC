@@ -105,7 +105,7 @@ namespace PerformanceTests.TestsNiquIoC
             c.RegisterType<ITestB, TestB>().AsSingleton();
             sw.Stop();
 
-            Helper.WriteLine(_fileName, "Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
+            Helper.WriteLine(_fileName, $"Register: {sw.ElapsedMilliseconds} Milliseconds.");
             sw.Reset();
         }
 
@@ -172,7 +172,7 @@ namespace PerformanceTests.TestsNiquIoC
             c.RegisterType<ITestB, TestB>();
             sw.Stop();
 
-            Helper.WriteLine(_fileName, "Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
+            Helper.WriteLine(_fileName, $"Register: {sw.ElapsedMilliseconds} Milliseconds.");
             sw.Reset();
         }
 
@@ -205,7 +205,7 @@ namespace PerformanceTests.TestsNiquIoC
                 lastValue = test;
             }
 
-            Helper.WriteLine(_fileName, "{0} resolve: {1} Milliseconds.", testCasesNumber, sw.ElapsedMilliseconds);
+            Helper.WriteLine(_fileName, $"{testCasesNumber} resolve: {sw.ElapsedMilliseconds} Milliseconds." );
         }
     }
 }

@@ -111,7 +111,7 @@ namespace PerformanceTests.TestsStructureMap
             });
             sw.Stop();
 
-            Helper.WriteLine(_fileName, "Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
+            Helper.WriteLine(_fileName, $"Register: {sw.ElapsedMilliseconds} Milliseconds.");
             sw.Reset();
         }
 
@@ -181,7 +181,7 @@ namespace PerformanceTests.TestsStructureMap
             });
             sw.Stop();
 
-            Helper.WriteLine(_fileName, "Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
+            Helper.WriteLine(_fileName, $"Register: {sw.ElapsedMilliseconds} Milliseconds.");
             sw.Reset();
         }
 
@@ -214,7 +214,7 @@ namespace PerformanceTests.TestsStructureMap
                 lastValue = test;
             }
 
-            Helper.WriteLine(_fileName, "{0} resolve: {1} Milliseconds.", testCasesNumber, sw.ElapsedMilliseconds);
+            Helper.WriteLine(_fileName, $"{testCasesNumber} resolve: {sw.ElapsedMilliseconds} Milliseconds." );
         }
     }
 }

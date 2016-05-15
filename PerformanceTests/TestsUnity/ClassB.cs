@@ -108,7 +108,7 @@ namespace PerformanceTests.TestsUnity
             c.RegisterType<ITestB, TestB>(new ContainerControlledLifetimeManager());
             sw.Stop();
 
-            Helper.WriteLine(_fileName, "Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
+            Helper.WriteLine(_fileName, $"Register: {sw.ElapsedMilliseconds} Milliseconds.");
             sw.Reset();
         }
 
@@ -175,7 +175,7 @@ namespace PerformanceTests.TestsUnity
             c.RegisterType<ITestB, TestB>();
             sw.Stop();
 
-            Helper.WriteLine(_fileName, "Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
+            Helper.WriteLine(_fileName, $"Register: {sw.ElapsedMilliseconds} Milliseconds.");
             sw.Reset();
         }
 
@@ -208,7 +208,7 @@ namespace PerformanceTests.TestsUnity
                 lastValue = test;
             }
 
-            Helper.WriteLine(_fileName, "{0} resolve: {1} Milliseconds.", testCasesNumber, sw.ElapsedMilliseconds);
+            Helper.WriteLine(_fileName, $"{testCasesNumber} resolve: {sw.ElapsedMilliseconds} Milliseconds." );
         }
     }
 }
