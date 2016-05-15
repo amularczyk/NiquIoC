@@ -105,7 +105,7 @@ namespace PerformanceTests
             Assert.IsNotNull(test.TestCa10.TestCa9.TestCa8.TestCa7.TestCa6.TestCa5.TestCa4.TestCa3.TestCa2.TestCa1.TestCa0);
         }
 
-        private static void WriteLine(string text, params object[] args)
+        private static void WriteLine(string filePath, string text, params object[] args)
         {
             using (var file = new StreamWriter(_fileName, true))
             {
@@ -117,7 +117,7 @@ namespace PerformanceTests
         [TestMethod]
         public void SimpleInjectorTest()
         {
-            WriteLine("\nSimpleInjector");
+            Helper.WriteLine(_fileName, "SimpleInjector");
 
             var c = new Container();
             SimpleInjectorRegister(c);
@@ -169,7 +169,7 @@ namespace PerformanceTests
             c.Register<ITestC, TestC>(Lifestyle.Singleton);
             sw.Stop();
 
-            WriteLine("Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
+            Helper.WriteLine(_fileName, "Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
             sw.Reset();
         }
 
@@ -195,14 +195,14 @@ namespace PerformanceTests
                 Check(test);
             }
 
-            WriteLine("{0} resolve: {1} Milliseconds.", testCasesNumber, sw.ElapsedMilliseconds);
+            Helper.WriteLine(_fileName, "{0} resolve: {1} Milliseconds.", testCasesNumber, sw.ElapsedMilliseconds);
         }
 
 
         [TestMethod]
         public void DryIocTest()
         {
-            WriteLine("\nDryIoc");
+            Helper.WriteLine(_fileName, "DryIoc");
 
             var c = new DryIoc.Container();
             DryIocRegister(c);
@@ -254,7 +254,7 @@ namespace PerformanceTests
             c.Register<ITestC, TestC>(Reuse.Singleton);
             sw.Stop();
 
-            WriteLine("Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
+            Helper.WriteLine(_fileName, "Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
             sw.Reset();
         }
 
@@ -280,14 +280,14 @@ namespace PerformanceTests
                 Check(test);
             }
 
-            WriteLine("{0} resolve: {1} Milliseconds.", testCasesNumber, sw.ElapsedMilliseconds);
+            Helper.WriteLine(_fileName, "{0} resolve: {1} Milliseconds.", testCasesNumber, sw.ElapsedMilliseconds);
         }
 
 
         [TestMethod]
         public void LightInjectTest()
         {
-            WriteLine("\nLightInject");
+            Helper.WriteLine(_fileName, "LightInject");
 
             var c = new ServiceContainer();
             LightInjectRegister(c);
@@ -339,7 +339,7 @@ namespace PerformanceTests
             c.Register<ITestC, TestC>(new PerContainerLifetime());
             sw.Stop();
 
-            WriteLine("Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
+            Helper.WriteLine(_fileName, "Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
             sw.Reset();
         }
 
@@ -365,14 +365,14 @@ namespace PerformanceTests
                 Check(test);
             }
 
-            WriteLine("{0} resolve: {1} Milliseconds.", testCasesNumber, sw.ElapsedMilliseconds);
+            Helper.WriteLine(_fileName, "{0} resolve: {1} Milliseconds.", testCasesNumber, sw.ElapsedMilliseconds);
         }
 
 
         [TestMethod]
         public void WindsorTest()
         {
-            WriteLine("\nWindsor");
+            Helper.WriteLine(_fileName, "Windsor");
 
             var c = new WindsorContainer();
             WindsorRegister(c);
@@ -424,7 +424,7 @@ namespace PerformanceTests
             c.Register(Component.For<ITestC>().ImplementedBy<TestC>().LifeStyle.Singleton);
             sw.Stop();
 
-            WriteLine("Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
+            Helper.WriteLine(_fileName, "Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
             sw.Reset();
         }
 
@@ -450,14 +450,14 @@ namespace PerformanceTests
                 Check(test);
             }
 
-            WriteLine("{0} resolve: {1} Milliseconds.", testCasesNumber, sw.ElapsedMilliseconds);
+            Helper.WriteLine(_fileName, "{0} resolve: {1} Milliseconds.", testCasesNumber, sw.ElapsedMilliseconds);
         }
 
 
         [TestMethod]
         public void StructureMapTest()
         {
-            WriteLine("\nStructureMap");
+            Helper.WriteLine(_fileName, "StructureMap");
 
             var c = new StructureMap.Container();
             StructureMapRegister(c);
@@ -515,7 +515,7 @@ namespace PerformanceTests
             });
             sw.Stop();
 
-            WriteLine("Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
+            Helper.WriteLine(_fileName, "Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
             sw.Reset();
         }
 
@@ -541,14 +541,14 @@ namespace PerformanceTests
                 Check(test);
             }
 
-            WriteLine("{0} resolve: {1} Milliseconds.", testCasesNumber, sw.ElapsedMilliseconds);
+            Helper.WriteLine(_fileName, "{0} resolve: {1} Milliseconds.", testCasesNumber, sw.ElapsedMilliseconds);
         }
 
 
         [TestMethod]
         public void AutofacTest()
         {
-            WriteLine("\nAutofac");
+            Helper.WriteLine(_fileName, "Autofac");
 
             var cb = new ContainerBuilder();
             var c = AutofacRegister(cb);
@@ -602,7 +602,7 @@ namespace PerformanceTests
             var c = cb.Build();
             sw.Stop();
 
-            WriteLine("Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
+            Helper.WriteLine(_fileName, "Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
             sw.Reset();
 
             return c;
@@ -630,14 +630,14 @@ namespace PerformanceTests
                 Check(test);
             }
 
-            WriteLine("{0} resolve: {1} Milliseconds.", testCasesNumber, sw.ElapsedMilliseconds);
+            Helper.WriteLine(_fileName, "{0} resolve: {1} Milliseconds.", testCasesNumber, sw.ElapsedMilliseconds);
         }
 
 
         [TestMethod]
         public void UnityTest()
         {
-            WriteLine("\nUnity");
+            Helper.WriteLine(_fileName, "Unity");
 
             var c = new UnityContainer();
             UnityRegister(c);
@@ -689,7 +689,7 @@ namespace PerformanceTests
             c.RegisterType<ITestC, TestC>(new ContainerControlledLifetimeManager());
             sw.Stop();
 
-            WriteLine("Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
+            Helper.WriteLine(_fileName, "Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
             sw.Reset();
         }
 
@@ -715,14 +715,14 @@ namespace PerformanceTests
                 Check(test);
             }
 
-            WriteLine("{0} resolve: {1} Milliseconds.", testCasesNumber, sw.ElapsedMilliseconds);
+            Helper.WriteLine(_fileName, "{0} resolve: {1} Milliseconds.", testCasesNumber, sw.ElapsedMilliseconds);
         }
 
 
         [TestMethod]
         public void NiquIoCTest()
         {
-            WriteLine("\nNiquIoC");
+            Helper.WriteLine(_fileName, "NiquIoC");
 
             var c = new NiquIoC.Container();
             NiquIoCRegister(c);
@@ -773,7 +773,7 @@ namespace PerformanceTests
             c.RegisterType<ITestC, TestC>().AsSingleton();
             sw.Stop();
 
-            WriteLine("Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
+            Helper.WriteLine(_fileName, "Register: {0} Milliseconds.", sw.ElapsedMilliseconds);
             sw.Reset();
         }
 
@@ -799,7 +799,7 @@ namespace PerformanceTests
                 Check(test);
             }
 
-            WriteLine("{0} resolve: {1} Milliseconds.", testCasesNumber, sw.ElapsedMilliseconds);
+            Helper.WriteLine(_fileName, "{0} resolve: {1} Milliseconds.", testCasesNumber, sw.ElapsedMilliseconds);
         }
     }
 }
