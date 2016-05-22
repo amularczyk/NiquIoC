@@ -7,7 +7,7 @@ namespace NiquIoC.Test.ManyEmitFunctions
     public class ContainerBuildUpTests
     {
         [TestMethod]
-        public void ClassWithDependencyProperty_Success()
+        public void RegisteredClassWithDependencyPropertyWithoutBuildUp_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
@@ -15,44 +15,10 @@ namespace NiquIoC.Test.ManyEmitFunctions
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNull(sampleClass.EmptyClass);
-
-            c.BuildUp(sampleClass);
-
-            Assert.IsNotNull(sampleClass.EmptyClass);
         }
 
         [TestMethod]
-        public void ClassWithDependencyProperty_Fail()
-        {
-            var c = new Container();
-            c.RegisterType<EmptyClass>();
-            var sampleClass = new SampleClassWithoutDependencyProperty();
-
-            Assert.IsNotNull(sampleClass);
-            Assert.IsNull(sampleClass.EmptyClass);
-
-            c.BuildUp(sampleClass);
-
-            Assert.IsNull(sampleClass.EmptyClass);
-        }
-
-        [TestMethod]
-        public void ClassWithDependencyMethod_Success()
-        {
-            var c = new Container();
-            c.RegisterType<EmptyClass>();
-            var sampleClass = new SampleClassWithDependencyMethod();
-
-            Assert.IsNotNull(sampleClass);
-            Assert.IsNull(sampleClass.EmptyClass);
-
-            c.BuildUp(sampleClass);
-
-            Assert.IsNotNull(sampleClass.EmptyClass);
-        }
-
-        [TestMethod]
-        public void ClassWithDependencyMethod_Fail()
+        public void RegisteredClassWithDependencyMethodWithoutBuildUp_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
@@ -60,10 +26,67 @@ namespace NiquIoC.Test.ManyEmitFunctions
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNull(sampleClass.EmptyClass);
+        }
+
+        [TestMethod]
+        public void RegisteredClassWithDependencyProperty_Success()
+        {
+            var c = new Container();
+            c.RegisterType<EmptyClass>();
+            var sampleClass = new SampleClassWithDependencyProperty();
+
+            c.BuildUp(sampleClass);
+
+            Assert.IsNotNull(sampleClass.EmptyClass);
+        }
+
+        [TestMethod]
+        public void RegisteredClassWithDependencyProperty_Fail()
+        {
+            var c = new Container();
+            c.RegisterType<EmptyClass>();
+            var sampleClass = new SampleClassWithoutDependencyProperty();
 
             c.BuildUp(sampleClass);
 
             Assert.IsNull(sampleClass.EmptyClass);
+        }
+
+        [TestMethod]
+        public void RegisteredClassWithDependencyMethod_Success()
+        {
+            var c = new Container();
+            c.RegisterType<EmptyClass>();
+            var sampleClass = new SampleClassWithDependencyMethod();
+
+            c.BuildUp(sampleClass);
+
+            Assert.IsNotNull(sampleClass.EmptyClass);
+        }
+
+        [TestMethod]
+        public void RegisteredClassWithDependencyMethod_Fail()
+        {
+            var c = new Container();
+            c.RegisterType<EmptyClass>();
+            var sampleClass = new SampleClassWithoutDependencyMethod();
+
+            c.BuildUp(sampleClass);
+
+            Assert.IsNull(sampleClass.EmptyClass);
+        }
+
+        [TestMethod]
+        public void RegisteredClassWithDependencyPropertyAndDependencyMethod_Success()
+        {
+            var c = new Container();
+            c.RegisterType<EmptyClass>();
+            var sampleClass = new SampleClassWithDependencyPropertyAndDependencyMethod();
+
+            c.BuildUp(sampleClass);
+
+            Assert.IsNotNull(sampleClass.EmptyClassFromDependencyProperty);
+            Assert.IsNotNull(sampleClass.EmptyClassFromDependencyMethod);
         }
     }
 }

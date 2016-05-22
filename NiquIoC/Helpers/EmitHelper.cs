@@ -76,32 +76,38 @@ namespace NiquIoC.Helpers
             }
         }
 
-        internal static Func<object[], object> CreateFullObjectFunction(ContainerMember containerMember, IReadOnlyDictionary<Type, ContainerMember> registeredTypesCache,
-            IReadOnlyDictionary<Type, int> signletonsIndexCache)
+        internal static Func<object[], Func<object>[], object> CreateFullObjectFunction(ContainerMember containerMember, IReadOnlyDictionary<Type, ContainerMember> registeredTypesCache,
+            IReadOnlyDictionary<Type, int> signletonsIndexCache, IReadOnlyDictionary<Type, int> objectFactoryIndexCache)
         {
-            var dm = new DynamicMethod($"Create_{containerMember.Constructor.DeclaringType?.FullName.Replace('.', '_')}", typeof(object), new[] {typeof(object[])},
-                typeof(Container).Module, true);
+            var dm = new DynamicMethod($"Create_{containerMember.Constructor.DeclaringType?.FullName.Replace('.', '_')}",
+                typeof(object), new[] {typeof(object[]), typeof(Func<object>[]) }, typeof(Container).Module, true);
             var ilgen = dm.GetILGenerator();
 
             foreach (var parameter in containerMember.Parameters)
             {
-                CreateFullObjectFunctionPrivate(parameter.ParameterType, registeredTypesCache, signletonsIndexCache, ilgen);
+                CreateFullObjectFunctionPrivate(parameter.ParameterType, registeredTypesCache, signletonsIndexCache, objectFactoryIndexCache, ilgen);
             }
             ilgen.Emit(OpCodes.Newobj, containerMember.Constructor);
             ilgen.Emit(OpCodes.Ret);
 
-            return (Func<object[], object>) dm.CreateDelegate(typeof(Func<object[], object>));
+            return (Func<object[], Func<object>[], object>) dm.CreateDelegate(typeof(Func<object[], Func<object>[], object>));
         }
 
         private static void CreateFullObjectFunctionPrivate(Type type, IReadOnlyDictionary<Type, ContainerMember> registeredTypesCache,
-            IReadOnlyDictionary<Type, int> signletonsIndexCache, ILGenerator ilgen)
+            IReadOnlyDictionary<Type, int> signletonsIndexCache, IReadOnlyDictionary<Type, int> objectFactoryIndexCache, ILGenerator ilgen)
         {
             if (signletonsIndexCache.ContainsKey(type))
             {
                 ilgen.Emit(OpCodes.Ldarg_0);
                 EmitIntOntoStack(ilgen, signletonsIndexCache[type]);
                 ilgen.Emit(OpCodes.Ldelem_Ref);
-                ilgen.Emit(OpCodes.Castclass, type);
+            }
+            else if (objectFactoryIndexCache.ContainsKey(type))
+            {
+                ilgen.Emit(OpCodes.Ldarg_1);
+                EmitIntOntoStack(ilgen, objectFactoryIndexCache[type]);
+                ilgen.Emit(OpCodes.Ldelem_Ref);
+                ilgen.Emit(OpCodes.Call, typeof(Func<object>).GetMethod("Invoke", Type.EmptyTypes));
             }
             else
             {
@@ -109,7 +115,7 @@ namespace NiquIoC.Helpers
 
                 foreach (var parameter in constructorInfoForType.Parameters)
                 {
-                    CreateFullObjectFunctionPrivate(parameter.ParameterType, registeredTypesCache, signletonsIndexCache, ilgen);
+                    CreateFullObjectFunctionPrivate(parameter.ParameterType, registeredTypesCache, signletonsIndexCache, objectFactoryIndexCache, ilgen);
                 }
 
                 ilgen.Emit(OpCodes.Newobj, constructorInfoForType.Constructor);

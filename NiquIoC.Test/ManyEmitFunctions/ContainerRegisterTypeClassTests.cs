@@ -5,7 +5,7 @@ using NiquIoC.Test.ClassDefinitions;
 namespace NiquIoC.Test.ManyEmitFunctions
 {
     [TestClass]
-    public class ContainerBasicTests
+    public class ContainerRegisterTypeClassTests
     {
         [TestMethod]
         [ExpectedException(typeof(TypeNotRegisteredException), "Type NiquIoC.Test.ClassDefinitions.EmptyClass has not been registered.")]
@@ -19,7 +19,7 @@ namespace NiquIoC.Test.ManyEmitFunctions
         }
 
         [TestMethod]
-        public void ClassWithConstructorWithoutParametersRegistered_Success()
+        public void RegisteredClassWithConstructorWithoutParameters_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
@@ -29,9 +29,8 @@ namespace NiquIoC.Test.ManyEmitFunctions
             Assert.IsNotNull(sampleClass);
         }
 
-
         [TestMethod]
-        public void ClassWithConstructorWithParameter_Success()
+        public void RegisteredClassWithConstructorWithParameter_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
@@ -45,7 +44,7 @@ namespace NiquIoC.Test.ManyEmitFunctions
 
         [TestMethod]
         [ExpectedException(typeof(TypeNotRegisteredException), "Type NiquIoC.Test.ClassDefinitions.EmptyClass has not been registered.")]
-        public void MissingRegistration_Fail()
+        public void InternalClassNotRegistered_Fail()
         {
             var c = new Container();
             c.RegisterType<SampleClass>();
@@ -56,8 +55,8 @@ namespace NiquIoC.Test.ManyEmitFunctions
         }
 
         [TestMethod]
-        [ExpectedException(typeof(CycleForTypeException))]
-        public void ClassWithCycleInConstructor_Fail()
+        [ExpectedException(typeof(CycleForTypeException), "Appeared cycle when resolving constructor for object of type NiquIoC.Test.ClassDefinitions.FirstClassWithCycleInConstructor")]
+        public void RegisteredClassWithCycleInConstructor_Fail()
         {
             var c = new Container();
             c.RegisterType<SecondClassWithCycleInConstructor>();
@@ -69,20 +68,7 @@ namespace NiquIoC.Test.ManyEmitFunctions
         }
 
         [TestMethod]
-        [ExpectedException(typeof(CycleForTypeException))]
-        public void ClassWithCycleInConstructorInRegisteredType_Fail()
-        {
-            var c = new Container();
-            c.RegisterType<ISecondClassWithCycleInConstructor, SecondClassWithCycleInConstructorInRegisteredType>();
-            c.RegisterType<IFirstClassWithCycleInConstructor, FirstClassWithCycleInConstructorInRegisteredType>();
-
-            var sampleClass = c.Resolve<IFirstClassWithCycleInConstructor>();
-
-            Assert.IsNull(sampleClass);
-        }
-
-        [TestMethod]
-        public void ClassRegisteredAsNotSingleton_Success()
+        public void RegisteredClassAsTransient_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
@@ -100,7 +86,7 @@ namespace NiquIoC.Test.ManyEmitFunctions
         }
 
         [TestMethod]
-        public void ClassRegisteredAsSingleton_Success()
+        public void RegisteredClassAsSingleton_Success()
         {
             var c = new Container();
             c.RegisterType<SampleClass>().AsSingleton();
@@ -115,33 +101,6 @@ namespace NiquIoC.Test.ManyEmitFunctions
             Assert.IsNotNull(sampleClass2.EmptyClass);
             Assert.AreEqual(sampleClass1, sampleClass2);
             Assert.AreEqual(sampleClass1.EmptyClass, sampleClass2.EmptyClass);
-        }
-        
-        [TestMethod]
-        public void ClassWithConstructorWithInterface_Success()
-        {
-            var c = new Container();
-            c.RegisterType<EmptyClass>();
-            c.RegisterType<ISampleClass, SampleClass>();
-            c.RegisterType<SampleClassWithInterface>();
-
-            var sampleClassWithSimpleType = c.Resolve<SampleClassWithInterface>();
-
-            Assert.IsNotNull(sampleClassWithSimpleType);
-            Assert.IsNotNull(sampleClassWithSimpleType.SampleClass);
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(TypeNotRegisteredException), "Type NiquIoC.Test.ClassDefinitions.ISampleClass has not been registered.")]
-        public void Resolve_MissingRegistrationOfInterface_Fail()
-        {
-            var c = new Container();
-            c.RegisterType<EmptyClass>();
-            c.RegisterType<SampleClassWithInterface>();
-
-            var sampleClassWithSimpleType = c.Resolve<SampleClassWithInterface>();
-
-            Assert.IsNull(sampleClassWithSimpleType);
         }
     }
 }

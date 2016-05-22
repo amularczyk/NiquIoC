@@ -28,4 +28,31 @@ namespace NiquIoC.Test.ClassDefinitions
 
         public EmptyClass EmptyClass { get; }
     }
+
+    internal class SampleClassWithInterfaceAsParameterWithDependencyConstrutor : ISampleClassWithInterfaceAsParameter
+    {
+        [DependencyConstrutor]
+        public SampleClassWithInterfaceAsParameterWithDependencyConstrutor(IEmptyClass emptyClass)
+        {
+            EmptyClass = emptyClass;
+        }
+
+        public IEmptyClass EmptyClass { get; }
+    }
+
+    internal class SampleClassWithInterfaceAsParameterWithTwoDependencyConstrutor : ISampleClassWithInterfaceAsParameter
+    {
+        [DependencyConstrutor]
+        public SampleClassWithInterfaceAsParameterWithTwoDependencyConstrutor(IEmptyClass emptyClass)
+        {
+            EmptyClass = emptyClass;
+        }
+
+        [DependencyConstrutor]
+        public SampleClassWithInterfaceAsParameterWithTwoDependencyConstrutor()
+        {
+        }
+
+        public IEmptyClass EmptyClass { get; }
+    }
 }

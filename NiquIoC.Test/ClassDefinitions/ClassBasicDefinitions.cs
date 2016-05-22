@@ -1,6 +1,10 @@
 ﻿namespace NiquIoC.Test.ClassDefinitions
 {
-    internal class EmptyClass
+    internal interface IEmptyClass
+    {
+    }
+
+    internal class EmptyClass : IEmptyClass
     {
     }
 
@@ -19,6 +23,21 @@
         public EmptyClass EmptyClass { get; }
     }
 
+    internal interface ISampleClassWithInterfaceAsParameter
+    {
+        IEmptyClass EmptyClass { get; }
+    }
+
+    internal class SampleClassWithInterfaceAsParameter : ISampleClassWithInterfaceAsParameter
+    {
+        public SampleClassWithInterfaceAsParameter(IEmptyClass emptyClass)
+        {
+            EmptyClass = emptyClass;
+        }
+
+        public IEmptyClass EmptyClass { get; }
+    }
+
     internal class SampleClassOther : ISampleClass
     {
         public SampleClassOther(EmptyClass emptyClass)
@@ -27,16 +46,6 @@
         }
 
         public EmptyClass EmptyClass { get; }
-    }
-
-    internal class SampleClassWithInterface
-    {
-        public SampleClassWithInterface(ISampleClass sampleClass)
-        {
-            SampleClass = sampleClass;
-        }
-
-        public ISampleClass SampleClass { get; }
     }
 
     internal class SampleClassWithSimpleType

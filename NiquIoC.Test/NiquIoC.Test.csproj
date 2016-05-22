@@ -61,6 +61,8 @@
     <Compile Include="ClassDefinitions\ClassWithDependencyConstrutorDefinitions.cs" />
     <Compile Include="ClassDefinitions\ClassWithDependencyPropertyDefinitions.cs" />
     <Compile Include="ClassDefinitions\ClassWithDependencyMethodDefinitions.cs" />
+    <Compile Include="ManyEmitFunctions\ContainerWithDifferentKindOfRegistersForInterface.cs" />
+    <Compile Include="ManyEmitFunctions\ContainerWithDifferentKindOfRegistersForClass.cs" />
     <Compile Include="OneBigEmitFunction\ContainerBasicTests.cs" />
     <Compile Include="OneBigEmitFunction\ContainerBuildUpTests.cs" />
     <Compile Include="OneBigEmitFunction\ContainerRegisterInstanceTests.cs" />
@@ -78,7 +80,7 @@
     <Compile Include="ManyEmitFunctions\ContainerRegisterTypeByFactoryObjectTests.cs" />
     <Compile Include="ManyEmitFunctions\ContainerRegisterTypeInterfaceTests.cs" />
     <Compile Include="ManyEmitFunctions\ContainerRegisterTypeWithDependencyPropertyTests.cs" />
-    <Compile Include="ManyEmitFunctions\ContainerBasicTests.cs" />
+    <Compile Include="ManyEmitFunctions\ContainerRegisterTypeClassTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

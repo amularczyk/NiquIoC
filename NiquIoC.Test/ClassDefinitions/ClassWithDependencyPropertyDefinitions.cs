@@ -60,4 +60,20 @@ namespace NiquIoC.Test.ClassDefinitions
         [DependencyProperty]
         public EmptyClass EmptyClass { get; }
     }
+
+    internal interface ISampleClassWithDependencyPropertyWithoutSetMethodWithInterface
+    {
+        IEmptyClass EmptyClass { get; }
+    }
+
+    internal class SampleClassWithDependencyPropertyWithoutSetMethodWithInterface : ISampleClassWithDependencyPropertyWithoutSetMethodWithInterface
+    {
+        public SampleClassWithDependencyPropertyWithoutSetMethodWithInterface()
+        {
+            EmptyClass = null;
+        }
+
+        [DependencyProperty]
+        public IEmptyClass EmptyClass { get; }
+    }
 }

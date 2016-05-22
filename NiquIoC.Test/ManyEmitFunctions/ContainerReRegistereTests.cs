@@ -7,6 +7,25 @@ namespace NiquIoC.Test.ManyEmitFunctions
     public class ContainerReRegistereTests
     {
         [TestMethod]
+        public void InterfaceReRegisteredAsSingleton_Success()
+        {
+            var c = new Container();
+            c.RegisterType<EmptyClass>().AsSingleton();
+            c.RegisterType<ISampleClass, SampleClass>().AsSingleton();
+
+            var sampleClass1 = c.Resolve<ISampleClass>();
+            c.RegisterType<ISampleClass, SampleClass>().AsSingleton();
+            var sampleClass2 = c.Resolve<ISampleClass>();
+
+            Assert.IsNotNull(sampleClass1);
+            Assert.IsNotNull(sampleClass1.EmptyClass);
+            Assert.IsNotNull(sampleClass2);
+            Assert.IsNotNull(sampleClass2.EmptyClass);
+            Assert.AreNotEqual(sampleClass1, sampleClass2);
+            Assert.AreEqual(sampleClass1.EmptyClass, sampleClass2.EmptyClass);
+        }
+
+        [TestMethod]
         public void ClassReRegisteredFromSingletonToSingleton_Success()
         {
             var c = new Container();

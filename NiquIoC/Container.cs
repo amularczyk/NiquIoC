@@ -18,10 +18,13 @@ namespace NiquIoC
             _registeredTypesCache = new Dictionary<Type, ContainerMember>();
 
             _createObjectFunctionForConstructorCache = new Dictionary<ConstructorInfo, Func<object[], object>>();
-            _createObjectFunctionForConstructorCache2 = new Dictionary<Type, Func<object[], object>>();
+            _createObjectFunctionForConstructorCache2 = new Dictionary<Type, Func<object[], Func<object>[], object>>();
 
             _parametersInfoForMethodCache = new Dictionary<MethodInfo, List<ParameterInfo>>();
             _signletonsIndexCache = new Dictionary<Type, int>();
+            _objectFactoryIndexCache = new Dictionary<Type, int>();
+
+            _objectFactoryCache = new List<Func<Object>>();
 
             _warmedUp = false;
         }
@@ -31,12 +34,15 @@ namespace NiquIoC
         private readonly Dictionary<Type, ContainerMember> _registeredTypesCache;
 
         private readonly Dictionary<ConstructorInfo, Func<object[], object>> _createObjectFunctionForConstructorCache;
-        private readonly Dictionary<Type, Func<object[], object>> _createObjectFunctionForConstructorCache2;
+        private readonly Dictionary<Type, Func<object[], Func<object>[], object>> _createObjectFunctionForConstructorCache2;
 
         private readonly Dictionary<MethodInfo, List<ParameterInfo>> _parametersInfoForMethodCache;
         private readonly Dictionary<Type, int> _signletonsIndexCache;
+        private readonly Dictionary<Type, int> _objectFactoryIndexCache;
         private object[] _signletonsCache;
+        private readonly List<Func<object>> _objectFactoryCache;
 
+        private int _index = 0;
         private bool _warmedUp;
 
         #endregion
@@ -52,6 +58,15 @@ namespace NiquIoC
         public IContainerMember RegisterType<T>(Func<object> objectFactory)
             where T : class
         {
+            if (_objectFactoryIndexCache.ContainsKey(typeof(T)))
+            {
+                _objectFactoryCache[_objectFactoryIndexCache[typeof(T)]] = objectFactory;
+            }
+            else
+            {
+                _objectFactoryCache.Add(objectFactory);
+                _objectFactoryIndexCache.Add(typeof(T), _index++);
+            }
             return RegisterObjectFactory(typeof(T), typeof(T), objectFactory);
         }
 
@@ -251,14 +266,22 @@ namespace NiquIoC
         {
             if (!_createObjectFunctionForConstructorCache2.ContainsKey(containerMember.ReturnType)) //if we do not have a create object function in the cache, we create it
             {
-                var factoryMethod = EmitHelper.CreateFullObjectFunction(containerMember, _registeredTypesCache, _signletonsIndexCache);
+                var factoryMethod = EmitHelper.CreateFullObjectFunction(containerMember, _registeredTypesCache, _signletonsIndexCache, _objectFactoryIndexCache);
                 _createObjectFunctionForConstructorCache2.Add(containerMember.ReturnType, factoryMethod);
             }
 
-            var obj = _createObjectFunctionForConstructorCache2[containerMember.ReturnType](_signletonsCache);
-            BuildUp(obj, containerMember); //when we have a new instance of the type, we have to resolve the properties and the methods also
+            try
+            {
+                var obj = _createObjectFunctionForConstructorCache2[containerMember.ReturnType](_signletonsCache, _objectFactoryCache.ToArray());
+                BuildUp(obj, containerMember); //when we have a new instance of the type, we have to resolve the properties and the methods also
 
-            return obj;
+                return obj;
+            }
+            catch (Exception ex)
+            {
+                
+                throw;
+            }
         }
 
         private void BuildUp(object obj, Type type)
@@ -315,7 +338,7 @@ namespace NiquIoC
             }
             else //otherwise we throw suitable exception
             {
-                throw new NoProperConstructorException();
+                throw new NoProperConstructorException(containerMember.ReturnType);
             }
         }
 
