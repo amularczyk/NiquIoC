@@ -5,7 +5,7 @@ using NiquIoC.Test.ClassDefinitions;
 namespace NiquIoC.Test.ManyEmitFunctions
 {
     [TestClass]
-    public class ContainerRegisterTypeClassTests
+    public class RegisterTypeClassTests
     {
         [TestMethod]
         [ExpectedException(typeof(TypeNotRegisteredException), "Type NiquIoC.Test.ClassDefinitions.EmptyClass has not been registered.")]

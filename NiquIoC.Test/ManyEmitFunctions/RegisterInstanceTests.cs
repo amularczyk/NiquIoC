@@ -5,7 +5,7 @@ using NiquIoC.Test.ClassDefinitions;
 namespace NiquIoC.Test.ManyEmitFunctions
 {
     [TestClass]
-    public class ContainerRegisterInstanceTests
+    public class RegisterInstanceTests
     {
         [TestMethod]
         public void EmptyClass_Success()

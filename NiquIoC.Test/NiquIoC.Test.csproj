@@ -63,6 +63,7 @@
     <Compile Include="ClassDefinitions\ClassWithDependencyMethodDefinitions.cs" />
     <Compile Include="ManyEmitFunctions\ContainerWithDifferentKindOfRegistersForInterface.cs" />
     <Compile Include="ManyEmitFunctions\ContainerWithDifferentKindOfRegistersForClass.cs" />
+    <Compile Include="ManyEmitFunctions\ReRegistereInterfaceTests.cs" />
     <Compile Include="OneBigEmitFunction\ContainerBasicTests.cs" />
     <Compile Include="OneBigEmitFunction\ContainerBuildUpTests.cs" />
     <Compile Include="OneBigEmitFunction\ContainerRegisterInstanceTests.cs" />
@@ -72,15 +73,15 @@
     <Compile Include="OneBigEmitFunction\ContainerRegisterTypeWithDependencyMethodTests.cs" />
     <Compile Include="OneBigEmitFunction\ContainerRegisterTypeWithDependencyPropertyTests.cs" />
     <Compile Include="OneBigEmitFunction\ContainerReRegistereTests.cs" />
-    <Compile Include="ManyEmitFunctions\ContainerReRegistereTests.cs" />
-    <Compile Include="ManyEmitFunctions\ContainerRegisterTypeWithDependencyConstrutorTests.cs" />
-    <Compile Include="ManyEmitFunctions\ContainerRegisterTypeWithDependencyMethodTests.cs" />
-    <Compile Include="ManyEmitFunctions\ContainerRegisterInstanceTests.cs" />
-    <Compile Include="ManyEmitFunctions\ContainerBuildUpTests.cs" />
-    <Compile Include="ManyEmitFunctions\ContainerRegisterTypeByFactoryObjectTests.cs" />
-    <Compile Include="ManyEmitFunctions\ContainerRegisterTypeInterfaceTests.cs" />
-    <Compile Include="ManyEmitFunctions\ContainerRegisterTypeWithDependencyPropertyTests.cs" />
-    <Compile Include="ManyEmitFunctions\ContainerRegisterTypeClassTests.cs" />
+    <Compile Include="ManyEmitFunctions\ReRegistereClassTests.cs" />
+    <Compile Include="ManyEmitFunctions\RegisterTypeWithDependencyConstrutorTests.cs" />
+    <Compile Include="ManyEmitFunctions\RegisterTypeWithDependencyMethodTests.cs" />
+    <Compile Include="ManyEmitFunctions\RegisterInstanceTests.cs" />
+    <Compile Include="ManyEmitFunctions\BuildUpTests.cs" />
+    <Compile Include="ManyEmitFunctions\RegisterTypeByFactoryObjectTests.cs" />
+    <Compile Include="ManyEmitFunctions\RegisterTypeInterfaceTests.cs" />
+    <Compile Include="ManyEmitFunctions\RegisterTypeWithDependencyPropertyTests.cs" />
+    <Compile Include="ManyEmitFunctions\RegisterTypeClassTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

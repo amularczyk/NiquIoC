@@ -4,7 +4,7 @@ using NiquIoC.Test.ClassDefinitions;
 namespace NiquIoC.Test.ManyEmitFunctions
 {
     [TestClass]
-    public class ContainerRegisterTypeWithDependencyPropertyTests
+    public class RegisterTypeWithDependencyPropertyTests
     {
         [TestMethod]
         public void RegisterClassWithManyDependencyProperties_Success()

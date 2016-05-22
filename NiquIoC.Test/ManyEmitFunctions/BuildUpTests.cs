@@ -4,7 +4,7 @@ using NiquIoC.Test.ClassDefinitions;
 namespace NiquIoC.Test.ManyEmitFunctions
 {
     [TestClass]
-    public class ContainerBuildUpTests
+    public class BuildUpTests
     {
         [TestMethod]
         public void RegisteredClassWithDependencyPropertyWithoutBuildUp_Success()

@@ -5,7 +5,7 @@ using NiquIoC.Test.ClassDefinitions;
 namespace NiquIoC.Test.ManyEmitFunctions
 {
     [TestClass]
-    public class ContainerRegisterTypeWithDependencyConstrutorTests
+    public class RegisterTypeWithDependencyConstrutorTests
     {
         [TestMethod]
         public void RegisteredClassWithConstructorWithAttributeDependencyConstrutor_Success()

@@ -4,7 +4,7 @@ using NiquIoC.Test.ClassDefinitions;
 namespace NiquIoC.Test.ManyEmitFunctions
 {
     [TestClass]
-    public class ContainerRegisterTypeByFactoryObjectTests
+    public class RegisterTypeByFactoryObjectTests
     {
         [TestMethod]
         public void FactoryObjectReturnNewObject_Success()
