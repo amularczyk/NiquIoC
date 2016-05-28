@@ -2,10 +2,10 @@
 using NiquIoC.Exceptions;
 using NiquIoC.Test.ClassDefinitions;
 
-namespace NiquIoC.Test.ManyEmitFunctions
+namespace NiquIoC.Test.Resolve.Transient
 {
     [TestClass]
-    public class RegisterTypeInterfaceTests
+    public class RegisterTypeTransientForInterfaceTests
     {
         [TestMethod]
         [ExpectedException(typeof(TypeNotRegisteredException), "Type NiquIoC.Test.ClassDefinitions.IEmptyClass has not been registered.")]
@@ -30,16 +30,15 @@ namespace NiquIoC.Test.ManyEmitFunctions
         }
 
         [TestMethod]
-        public void RegisteredInterfaceAsClassWithConstructorWithParameter_Success()
+        [ExpectedException(typeof(TypeNotRegisteredException), "Type NiquIoC.Test.ClassDefinitions.EmptyClass has not been registered.")]
+        public void InternalInterfaceNotRegistered_Fail()
         {
             var c = new Container();
-            c.RegisterType<EmptyClass>();
-            c.RegisterType<ISampleClass, SampleClass>();
+            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>();
 
-            var sampleClass = c.Resolve<ISampleClass>();
+            var sampleClass = c.Resolve<ISampleClassWithInterfaceAsParameter>();
 
-            Assert.IsNotNull(sampleClass);
-            Assert.IsNotNull(sampleClass.EmptyClass);
+            Assert.IsNull(sampleClass);
         }
 
         [TestMethod]
@@ -56,30 +55,6 @@ namespace NiquIoC.Test.ManyEmitFunctions
         }
 
         [TestMethod]
-        [ExpectedException(typeof(TypeNotRegisteredException), "Type NiquIoC.Test.ClassDefinitions.EmptyClass has not been registered.")]
-        public void InternalClassNotRegistered_Fail()
-        {
-            var c = new Container();
-            c.RegisterType<ISampleClass, SampleClass>();
-
-            var sampleClass = c.Resolve<ISampleClass>();
-
-            Assert.IsNull(sampleClass);
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(TypeNotRegisteredException), "Type NiquIoC.Test.ClassDefinitions.IEmptyClass has not been registered.")]
-        public void InternalInterfaceNotRegistered_Fail()
-        {
-            var c = new Container();
-            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>();
-
-            var sampleClass = c.Resolve<ISampleClassWithInterfaceAsParameter>();
-
-            Assert.IsNull(sampleClass);
-        }
-
-        [TestMethod]
         [ExpectedException(typeof(CycleForTypeException), "Appeared cycle when resolving constructor for object of type NiquIoC.Test.ClassDefinitions.FirstClassWithCycleInConstructorInRegisteredType")]
         public void RegisteredInterfaceAsClassWithCycleInConstructor_Fail()
         {
@@ -93,14 +68,14 @@ namespace NiquIoC.Test.ManyEmitFunctions
         }
 
         [TestMethod]
-        public void RegisteredInterfaceAsTransient_Success()
+        public void DifferentObjects_RegisteredInterface_Success()
         {
             var c = new Container();
-            c.RegisterType<EmptyClass>();
-            c.RegisterType<ISampleClass, SampleClass>();
+            c.RegisterType<IEmptyClass, EmptyClass>();
+            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>();
 
-            var sampleClass1 = c.Resolve<ISampleClass>();
-            var sampleClass2 = c.Resolve<ISampleClass>();
+            var sampleClass1 = c.Resolve<ISampleClassWithInterfaceAsParameter>();
+            var sampleClass2 = c.Resolve<ISampleClassWithInterfaceAsParameter>();
 
             Assert.IsNotNull(sampleClass1);
             Assert.IsNotNull(sampleClass1.EmptyClass);
@@ -108,24 +83,6 @@ namespace NiquIoC.Test.ManyEmitFunctions
             Assert.IsNotNull(sampleClass2.EmptyClass);
             Assert.AreNotEqual(sampleClass1, sampleClass2);
             Assert.AreNotEqual(sampleClass1.EmptyClass, sampleClass2.EmptyClass);
-        }
-
-        [TestMethod]
-        public void RegisteredInterfaceAsSingleton_Success()
-        {
-            var c = new Container();
-            c.RegisterType<EmptyClass>().AsSingleton();
-            c.RegisterType<ISampleClass, SampleClass>().AsSingleton();
-
-            var sampleClass1 = c.Resolve<ISampleClass>();
-            var sampleClass2 = c.Resolve<ISampleClass>();
-
-            Assert.IsNotNull(sampleClass1);
-            Assert.IsNotNull(sampleClass1.EmptyClass);
-            Assert.IsNotNull(sampleClass2);
-            Assert.IsNotNull(sampleClass2.EmptyClass);
-            Assert.AreEqual(sampleClass1, sampleClass2);
-            Assert.AreEqual(sampleClass1.EmptyClass, sampleClass2.EmptyClass);
         }
     }
 }

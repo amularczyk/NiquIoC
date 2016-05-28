@@ -57,11 +57,11 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="BuildUpForInterfaceWithDependencyMethodTests.cs" />
-    <Compile Include="BuildUpForInterfaceWithDependencyPropertyAndDependencyMethod.cs" />
-    <Compile Include="BuildUpForClassWithDependencyPropertyAndDependencyMethod.cs" />
-    <Compile Include="BuildUpForClassWithDependencyMethodTests.cs" />
-    <Compile Include="BuildUpForInterfaceWithDependencyPropertyTestsy.cs" />
+    <Compile Include="BuildUp\BuildUpForInterfaceWithDependencyMethodTests.cs" />
+    <Compile Include="BuildUp\BuildUpForInterfaceWithDependencyPropertyAndDependencyMethod.cs" />
+    <Compile Include="BuildUp\BuildUpForClassWithDependencyPropertyAndDependencyMethod.cs" />
+    <Compile Include="BuildUp\BuildUpForClassWithDependencyMethodTests.cs" />
+    <Compile Include="BuildUp\BuildUpForInterfaceWithDependencyPropertyTestsy.cs" />
     <Compile Include="ClassDefinitions\ClassBasicDefinitions.cs" />
     <Compile Include="ClassDefinitions\ClassWithInterfaceDependencyMethodDefinitions.cs" />
     <Compile Include="ClassDefinitions\ClassWithInterfaceDependencyPropertyAndDependencyMethod.cs" />
@@ -70,19 +70,25 @@
     <Compile Include="ClassDefinitions\ClassWithClassDependencyPropertyAndDependencyMethod.cs" />
     <Compile Include="ClassDefinitions\ClassWithClassDependencyPropertyDefinitions.cs" />
     <Compile Include="ClassDefinitions\ClassWithClassDependencyMethodDefinitions.cs" />
-    <Compile Include="ManyEmitFunctions\ContainerWithDifferentKindOfRegistersForInterface.cs" />
-    <Compile Include="ManyEmitFunctions\ContainerWithDifferentKindOfRegistersForClass.cs" />
-    <Compile Include="ManyEmitFunctions\ReRegistereInterfaceTests.cs" />
-    <Compile Include="ManyEmitFunctions\ReRegistereClassTests.cs" />
-    <Compile Include="ManyEmitFunctions\RegisterTypeWithDependencyConstrutorTests.cs" />
-    <Compile Include="ManyEmitFunctions\RegisterTypeWithDependencyMethodTests.cs" />
-    <Compile Include="ManyEmitFunctions\RegisterInstanceTests.cs" />
-    <Compile Include="BuildUpForClassWithDependencyPropertyTests.cs" />
-    <Compile Include="ManyEmitFunctions\RegisterTypeByFactoryObjectTests.cs" />
-    <Compile Include="ManyEmitFunctions\RegisterTypeInterfaceTests.cs" />
-    <Compile Include="ManyEmitFunctions\RegisterTypeWithDependencyPropertyTests.cs" />
-    <Compile Include="ManyEmitFunctions\RegisterTypeClassTests.cs" />
+    <Compile Include="Resolve\ContainerWithDifferentKindOfRegistersForInterface.cs" />
+    <Compile Include="Resolve\ContainerWithDifferentKindOfRegistersForClass.cs" />
+    <Compile Include="Resolve\ReRegistereInterfaceTests.cs" />
+    <Compile Include="Resolve\ReRegistereClassTests.cs" />
+    <Compile Include="Resolve\RegisterTypeWithDependencyConstrutorTests.cs" />
+    <Compile Include="Resolve\RegisterTypeWithDependencyMethodTests.cs" />
+    <Compile Include="Resolve\RegisterInstanceTests.cs" />
+    <Compile Include="BuildUp\BuildUpForClassWithDependencyPropertyTests.cs" />
+    <Compile Include="Resolve\RegisterTypeByFactoryObjectTests.cs" />
+    <Compile Include="Resolve\Singleton\RegisterTypeSingletonForClassWithInterfaceTests.cs" />
+    <Compile Include="Resolve\Singleton\RegisterTypeSingletonForInterfaceTests.cs" />
+    <Compile Include="Resolve\Singleton\RegisterTypeSingletonForInterfaceWithClassTests.cs" />
+    <Compile Include="Resolve\Transient\RegisterTypeTransientForClassWithInterfaceTests.cs" />
+    <Compile Include="Resolve\Transient\RegisterTypeTransientForInterfaceWithClassTests.cs" />
+    <Compile Include="Resolve\Transient\RegisterTypeTransientForInterfaceTests.cs" />
+    <Compile Include="Resolve\RegisterTypeWithDependencyPropertyTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resolve\Singleton\RegisterTypeSingletonForClassTests.cs" />
+    <Compile Include="Resolve\Transient\RegisterTypeTransientForClassTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NiquIoC\NiquIoC.csproj">

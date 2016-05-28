@@ -60,51 +60,81 @@
 
     internal class FirstClassWithCycleInConstructor
     {
-        public FirstClassWithCycleInConstructor(SecondClassWithCycleInConstructor secondClassWith)
+        public FirstClassWithCycleInConstructor(SecondClassWithCycleInConstructor secondClass)
         {
-            SecondClassWith = secondClassWith;
+            SecondClass = secondClass;
         }
 
-        public SecondClassWithCycleInConstructor SecondClassWith { get; private set; }
+        public SecondClassWithCycleInConstructor SecondClass { get; private set; }
     }
 
     internal class SecondClassWithCycleInConstructor
     {
-        public SecondClassWithCycleInConstructor(FirstClassWithCycleInConstructor firstClassWith)
+        public SecondClassWithCycleInConstructor(FirstClassWithCycleInConstructor firstClass)
         {
-            FirstClassWith = firstClassWith;
+            FirstClass = firstClass;
         }
 
-        public FirstClassWithCycleInConstructor FirstClassWith { get; private set; }
+        public FirstClassWithCycleInConstructor FirstClass { get; private set; }
     }
 
     internal interface IFirstClassWithCycleInConstructor
     {
-        ISecondClassWithCycleInConstructor SecondClassWith { get; }
+        ISecondClassWithCycleInConstructor SecondClass { get; }
     }
 
     internal class FirstClassWithCycleInConstructorInRegisteredType : IFirstClassWithCycleInConstructor
     {
-        public FirstClassWithCycleInConstructorInRegisteredType(ISecondClassWithCycleInConstructor secondClassWith)
+        public FirstClassWithCycleInConstructorInRegisteredType(ISecondClassWithCycleInConstructor secondClass)
         {
-            SecondClassWith = secondClassWith;
+            SecondClass = secondClass;
         }
 
-        public ISecondClassWithCycleInConstructor SecondClassWith { get; private set; }
+        public ISecondClassWithCycleInConstructor SecondClass { get; private set; }
     }
 
     internal interface ISecondClassWithCycleInConstructor
     {
-        IFirstClassWithCycleInConstructor FirstClassWith { get; }
+        IFirstClassWithCycleInConstructor FirstClass { get; }
     }
 
     internal class SecondClassWithCycleInConstructorInRegisteredType : ISecondClassWithCycleInConstructor
     {
-        public SecondClassWithCycleInConstructorInRegisteredType(IFirstClassWithCycleInConstructor firstClassWith)
+        public SecondClassWithCycleInConstructorInRegisteredType(IFirstClassWithCycleInConstructor firstClass)
         {
-            FirstClassWith = firstClassWith;
+            FirstClass = firstClass;
         }
 
-        public IFirstClassWithCycleInConstructor FirstClassWith { get; private set; }
+        public IFirstClassWithCycleInConstructor FirstClass { get; private set; }
+    }
+
+    internal interface IClassWithCycleInConstructor
+    {
+        FirstClassWithCycleInConstructor FirstClass { get; }
+    }
+
+    internal class ClassWithCycleInConstructorInRegisteredType : IClassWithCycleInConstructor
+    {
+        public ClassWithCycleInConstructorInRegisteredType(FirstClassWithCycleInConstructor firstClass)
+        {
+            FirstClass = firstClass;
+        }
+
+        public FirstClassWithCycleInConstructor FirstClass { get; private set; }
+    }
+
+    internal interface IInterfaceWithCycleInConstructor
+    {
+        IFirstClassWithCycleInConstructor FirstClass { get; }
+    }
+
+    internal class InterfaceWithCycleInConstructorInRegisteredType : IInterfaceWithCycleInConstructor
+    {
+        public InterfaceWithCycleInConstructorInRegisteredType(IFirstClassWithCycleInConstructor firstClass)
+        {
+            FirstClass = firstClass;
+        }
+
+        public IFirstClassWithCycleInConstructor FirstClass { get; private set; }
     }
 }

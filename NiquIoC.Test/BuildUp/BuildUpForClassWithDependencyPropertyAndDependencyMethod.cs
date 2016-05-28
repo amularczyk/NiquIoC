@@ -1,17 +1,17 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NiquIoC.Test.ClassDefinitions;
 
-namespace NiquIoC.Test
+namespace NiquIoC.Test.BuildUp
 {
     [TestClass]
-    public class BuildUpForInterfaceWithDependencyPropertyAndDependencyMethod
+    public class BuildUpForClassWithDependencyPropertyAndDependencyMethod
     {
         [TestMethod]
         public void RegisteredClassWithDependencyPropertyAndDependencyMethod_Success()
         {
             var c = new Container();
-            c.RegisterType<IEmptyClass, EmptyClass>();
-            var sampleClass = new SampleClassWithInterfaceDependencyPropertyAndDependencyMethod();
+            c.RegisterType<EmptyClass>();
+            var sampleClass = new SampleClassWithClassDependencyPropertyAndDependencyMethod();
 
             c.BuildUp(sampleClass);
 
