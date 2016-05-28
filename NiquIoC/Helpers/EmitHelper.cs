@@ -23,7 +23,7 @@ namespace NiquIoC.Helpers
                 EmitIntOntoStack(ilgen, i); //next we put a correct index onto the stack again
                 ilgen.Emit(OpCodes.Ldelem_Ref); //then we take an index and a parameter from the stack and we put the parameter in an array in a correct index
                 var paramType = parameters[i].ParameterType;
-                ilgen.Emit(OpCodes.Castclass, paramType); //finally we cast the parameter to the correct type
+                ilgen.Emit(paramType.IsValueType ? OpCodes.Unbox_Any : OpCodes.Castclass, paramType); //finally we cast the parameter to the correct type
             }
             ilgen.Emit(OpCodes.Newobj, ctor); //at the end we create a new object that takes an array of parameters as constructor parameters
             ilgen.Emit(OpCodes.Ret); //we return created object

@@ -7,7 +7,6 @@ namespace NiquIoC.Test.Resolve.Transient
     [TestClass]
     public class RegisterTypeForInterfaceTests
     {
-
         [TestMethod]
         public void RegisteredInterfaceAsClassWithConstructorWithoutParameters_Success()
         {
@@ -29,6 +28,30 @@ namespace NiquIoC.Test.Resolve.Transient
             var sampleClass = c.Resolve<ISampleClassWithInterfaceAsParameter>();
 
             Assert.IsNull(sampleClass);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(TypeNotRegisteredException), "Type System.String has not been registered.")]
+        public void InternalStringTypeNotRegistered_Fail()
+        {
+            var c = new Container();
+            c.RegisterType<ISampleClassWithStringType, SampleClassWithStringType>();
+
+            var sampleClassWithSimpleType = c.Resolve<ISampleClassWithStringType>();
+
+            Assert.IsNull(sampleClassWithSimpleType);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(TypeNotRegisteredException), "Type System.Int32 has not been registered.")]
+        public void InternalIntTypeNotRegistered_Fail()
+        {
+            var c = new Container();
+            c.RegisterType<ISampleClassWithIntType, SampleClassWithIntType>();
+
+            var sampleClassWithSimpleType = c.Resolve<ISampleClassWithIntType>();
+
+            Assert.IsNull(sampleClassWithSimpleType);
         }
 
         [TestMethod]

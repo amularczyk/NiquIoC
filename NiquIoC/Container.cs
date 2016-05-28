@@ -24,13 +24,12 @@ namespace NiquIoC
             _signletonsIndexCache = new Dictionary<Type, int>();
             _objectFactoryIndexCache = new Dictionary<Type, int>();
 
-            _objectFactoryCache = new List<Func<Object>>();
+            _objectFactoryCache = new List<Func<object>>();
 
             _warmedUp = false;
         }
 
         #region Private Fields
-
         private readonly Dictionary<Type, ContainerMember> _registeredTypesCache;
 
         private readonly Dictionary<ConstructorInfo, Func<object[], object>> _createObjectFunctionForConstructorCache;
@@ -42,13 +41,11 @@ namespace NiquIoC
         private object[] _signletonsCache;
         private readonly List<Func<object>> _objectFactoryCache;
 
-        private int _index = 0;
+        private int _index;
         private bool _warmedUp;
-
         #endregion
 
         #region IContainer
-
         public IContainerMember RegisterType<T>()
             where T : class
         {
@@ -107,11 +104,9 @@ namespace NiquIoC
 
             _warmedUp = true;
         }
-
         #endregion
 
         #region Private Methods
-
         private IContainerMember RegisterType(Type typeFrom, Type typeTo)
         {
             if (_registeredTypesCache.ContainsKey(typeFrom))
@@ -131,7 +126,7 @@ namespace NiquIoC
 
         private IContainerMember RegisterInstance(Type typeFrom, Type typeTo, object instance)
         {
-            return Register(new ContainerMember(instance) {RegisteredType = typeFrom, ReturnType = typeTo});
+            return Register(new ContainerMember(instance) {RegisteredType = typeFrom, ReturnType = typeTo, CycleInConstructor = false});
         }
 
         private IContainerMember RegisterObjectFactory(Type typeFrom, Type typeTo, Func<object> objectFactory)
@@ -270,18 +265,10 @@ namespace NiquIoC
                 _createObjectFunctionForConstructorCache2.Add(containerMember.ReturnType, factoryMethod);
             }
 
-            try
-            {
-                var obj = _createObjectFunctionForConstructorCache2[containerMember.ReturnType](_signletonsCache, _objectFactoryCache.ToArray());
-                BuildUp(obj, containerMember); //when we have a new instance of the type, we have to resolve the properties and the methods also
+            var obj = _createObjectFunctionForConstructorCache2[containerMember.ReturnType](_signletonsCache, _objectFactoryCache.ToArray());
+            BuildUp(obj, containerMember); //when we have a new instance of the type, we have to resolve the properties and the methods also
 
-                return obj;
-            }
-            catch (Exception ex)
-            {
-                
-                throw;
-            }
+            return obj;
         }
 
         private void BuildUp(object obj, Type type)
@@ -329,7 +316,8 @@ namespace NiquIoC
                     {
                         var parameterContainerMember = _registeredTypesCache[parameterType];
 
-                        if (parameterContainerMember.Constructor == null) //if we do not have constructor info in the cache for a given parameter type, we create it
+                        if (parameterContainerMember.Constructor == null
+                            && parameterContainerMember.Instance == null) //if we do not have constructor info in the cache for a given parameter type, we create it
                         {
                             CreateConstructorInfoForTypesCache(parameterContainerMember);
                         }
@@ -391,7 +379,7 @@ namespace NiquIoC
                 method.Invoke(obj, parameters);
             }
         }
-        
+
         private void ResolveMethods(object obj, Type type)
         {
             var methodsInfo = type.GetMethods().Where(p => p.ReturnType == typeof(void) && p.GetCustomAttributes(typeof(DependencyMethod), false).Any()).ToList();
@@ -418,14 +406,14 @@ namespace NiquIoC
         {
             if (containerMember.CycleInConstructor.HasValue)
             {
-                if (!containerMember.CycleInConstructor.Value)
+                if (containerMember.CycleInConstructor.Value)
                 {
                     throw new CycleForTypeException(containerMember.ReturnType);
                 }
                 return;
             }
 
-            containerMember.CycleInConstructor = false;
+            containerMember.CycleInConstructor = true;
 
             foreach (var parameter in containerMember.Parameters)
             {
@@ -436,7 +424,7 @@ namespace NiquIoC
                 }
             }
 
-            containerMember.CycleInConstructor = true;
+            containerMember.CycleInConstructor = false;
         }
 
         private void CreateAllSingletons()
@@ -472,7 +460,6 @@ namespace NiquIoC
 
             _signletonsCache = singletons.ToArray();
         }
-
         #endregion
     }
 }

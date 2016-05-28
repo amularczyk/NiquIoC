@@ -11,7 +11,7 @@ namespace NiquIoC.Test.ManyEmitFunctions
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
-            c.RegisterType<ISampleClass, SampleClass>();
+            c.RegisterType<SampleClass>();
             c.RegisterType<SampleClassWithManyClassDependencyProperties>();
 
             var sampleClass = c.Resolve<SampleClassWithManyClassDependencyProperties>();
@@ -27,7 +27,7 @@ namespace NiquIoC.Test.ManyEmitFunctions
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
-            c.RegisterType<ISampleClassWithClassProperty, SampleClassWithClassDependencyProperty>();
+            c.RegisterType<SampleClassWithClassDependencyProperty>();
             c.RegisterType<SampleClassWithNestedClassDependencyProperty>();
 
             var sampleClass = c.Resolve<SampleClassWithNestedClassDependencyProperty>();
@@ -55,7 +55,7 @@ namespace NiquIoC.Test.ManyEmitFunctions
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
-            c.RegisterType<ISampleClass, SampleClass>();
+            c.RegisterType<SampleClass>();
             c.RegisterType<ISampleClassWithManyClassDependencyProperties, SampleClassWithManyClassDependencyProperties>();
 
             var sampleClass = c.Resolve<ISampleClassWithManyClassDependencyProperties>();
@@ -71,7 +71,7 @@ namespace NiquIoC.Test.ManyEmitFunctions
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
-            c.RegisterType<ISampleClassWithClassProperty, SampleClassWithClassDependencyProperty>();
+            c.RegisterType<SampleClassWithClassDependencyProperty>();
             c.RegisterType<ISampleClassWithNestedClassDependencyProperty, SampleClassWithNestedClassDependencyProperty>();
 
             var sampleClass = c.Resolve<ISampleClassWithNestedClassDependencyProperty>();

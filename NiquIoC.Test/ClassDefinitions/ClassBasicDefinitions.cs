@@ -48,14 +48,34 @@
         public EmptyClass EmptyClass { get; }
     }
 
-    internal class SampleClassWithSimpleType
+    internal interface ISampleClassWithStringType
     {
-        public SampleClassWithSimpleType(string text)
+        string Text { get; }
+    }
+
+    internal class SampleClassWithStringType : ISampleClassWithStringType
+    {
+        public SampleClassWithStringType(string text)
         {
             Text = text;
         }
 
         public string Text { get; }
+    }
+
+    internal interface ISampleClassWithIntType
+    {
+        int Value { get; }
+    }
+
+    internal class SampleClassWithIntType : ISampleClassWithIntType
+    {
+        public SampleClassWithIntType(int value)
+        {
+            Value = value;
+        }
+
+        public int Value { get; }
     }
 
     internal class FirstClassWithCycleInConstructor

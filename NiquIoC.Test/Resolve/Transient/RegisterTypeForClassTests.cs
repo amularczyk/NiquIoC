@@ -31,6 +31,30 @@ namespace NiquIoC.Test.Resolve.Transient
         }
 
         [TestMethod]
+        [ExpectedException(typeof(TypeNotRegisteredException), "Type System.String has not been registered.")]
+        public void InternalStringTypeNotRegistered_Fail()
+        {
+            var c = new Container();
+            c.RegisterType<SampleClassWithStringType>();
+
+            var sampleClassWithSimpleType = c.Resolve<SampleClassWithStringType>();
+
+            Assert.IsNull(sampleClassWithSimpleType);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(TypeNotRegisteredException), "Type System.Int32 has not been registered.")]
+        public void InternalIntTypeNotRegistered_Fail()
+        {
+            var c = new Container();
+            c.RegisterType<SampleClassWithIntType>();
+
+            var sampleClassWithSimpleType = c.Resolve<SampleClassWithIntType>();
+
+            Assert.IsNull(sampleClassWithSimpleType);
+        }
+
+        [TestMethod]
         public void RegisteredClassWithConstructorWithParameter_Success()
         {
             var c = new Container();

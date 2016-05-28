@@ -2,13 +2,13 @@
 using NiquIoC.Exceptions;
 using NiquIoC.Test.ClassDefinitions;
 
-namespace NiquIoC.Test.ManyEmitFunctions
+namespace NiquIoC.Test.Resolve
 {
     [TestClass]
-    public class RegisterInstanceTests
+    public class RegisterClassInstanceTests
     {
         [TestMethod]
-        public void EmptyClass_Success()
+        public void RegisterInstanceOfEmptyClass_Success()
         {
             var c = new Container();
             var emptyClass1 = new EmptyClass();
@@ -20,28 +20,28 @@ namespace NiquIoC.Test.ManyEmitFunctions
         }
 
         [TestMethod]
-        public void ClassNeededByOtherClass_Success()
+        public void RegisterInstanceOfClassNeededByOtherClass_Success()
         {
             var c = new Container();
             var emptyClass = new EmptyClass();
-            c.RegisterType<ISampleClass, SampleClass>();
+            c.RegisterType<SampleClass>();
             c.RegisterInstance(emptyClass);
 
-            var sampleClass = c.Resolve<ISampleClass>();
+            var sampleClass = c.Resolve<SampleClass>();
 
             Assert.IsNotNull(sampleClass);
             Assert.AreEqual(emptyClass, sampleClass.EmptyClass);
         }
 
         [TestMethod]
-        public void ClassWithConstructorWithSimpleType_Success()
+        public void RegisterInstanceOfClassWithConstructorWithStringType_Success()
         {
             var c = new Container();
-            const string text = "Text";
+            var text = "Text";
             c.RegisterInstance(text);
-            c.RegisterType<SampleClassWithSimpleType>();
+            c.RegisterType<SampleClassWithStringType>();
 
-            var sampleClassWithSimpleType = c.Resolve<SampleClassWithSimpleType>();
+            var sampleClassWithSimpleType = c.Resolve<SampleClassWithStringType>();
 
             Assert.IsNotNull(sampleClassWithSimpleType);
             Assert.IsNotNull(sampleClassWithSimpleType.Text);
@@ -49,15 +49,18 @@ namespace NiquIoC.Test.ManyEmitFunctions
         }
 
         [TestMethod]
-        [ExpectedException(typeof(TypeNotRegisteredException), "Type System.String has not been registered.")]
-        public void Resolve_MissingRegistrationOfSimpleType_Fail()
+        public void RegisterInstanceOfClassWithConstructorWithIntType_Success()
         {
             var c = new Container();
-            c.RegisterType<SampleClassWithSimpleType>();
+            var value = 2;
+            c.RegisterInstance(value);
+            c.RegisterType<SampleClassWithIntType>();
 
-            var sampleClassWithSimpleType = c.Resolve<SampleClassWithSimpleType>();
+            var sampleClassWithSimpleType = c.Resolve<SampleClassWithIntType>();
 
-            Assert.IsNull(sampleClassWithSimpleType);
+            Assert.IsNotNull(sampleClassWithSimpleType);
+            Assert.IsNotNull(sampleClassWithSimpleType.Value);
+            Assert.AreEqual(sampleClassWithSimpleType.Value, value);
         }
     }
 }
