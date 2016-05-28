@@ -391,8 +391,7 @@ namespace NiquIoC
                 method.Invoke(obj, parameters);
             }
         }
-
-
+        
         private void ResolveMethods(object obj, Type type)
         {
             var methodsInfo = type.GetMethods().Where(p => p.ReturnType == typeof(void) && p.GetCustomAttributes(typeof(DependencyMethod), false).Any()).ToList();

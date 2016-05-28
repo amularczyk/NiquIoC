@@ -11,9 +11,9 @@ namespace NiquIoC.Test.ManyEmitFunctions
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
-            c.RegisterType<SampleClassWithDependencyMethod>();
+            c.RegisterType<SampleClassWithClassDependencyMethod>();
 
-            var sampleClass = c.Resolve<SampleClassWithDependencyMethod>();
+            var sampleClass = c.Resolve<SampleClassWithClassDependencyMethod>();
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNotNull(sampleClass.EmptyClass);
@@ -24,9 +24,9 @@ namespace NiquIoC.Test.ManyEmitFunctions
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
-            c.RegisterType<SampleClassWithoutDependencyMethod>();
+            c.RegisterType<SampleClassWithoutClassDependencyMethod>();
 
-            var sampleClass = c.Resolve<SampleClassWithoutDependencyMethod>();
+            var sampleClass = c.Resolve<SampleClassWithoutClassDependencyMethod>();
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNull(sampleClass.EmptyClass);
@@ -37,9 +37,9 @@ namespace NiquIoC.Test.ManyEmitFunctions
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
-            c.RegisterType<SampleClassWithDependencyMethodWithReturnType>();
+            c.RegisterType<SampleClassWithClassDependencyMethodWithReturnType>();
 
-            var sampleClass = c.Resolve<SampleClassWithDependencyMethodWithReturnType>();
+            var sampleClass = c.Resolve<SampleClassWithClassDependencyMethodWithReturnType>();
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNull(sampleClass.EmptyClass);
@@ -50,9 +50,9 @@ namespace NiquIoC.Test.ManyEmitFunctions
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
-            c.RegisterType<ISampleClassWithMethod, SampleClassWithDependencyMethod>();
+            c.RegisterType<ISampleClassWithClassMethod, SampleClassWithClassDependencyMethod>();
 
-            var sampleClass = c.Resolve<ISampleClassWithMethod>();
+            var sampleClass = c.Resolve<ISampleClassWithClassMethod>();
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNotNull(sampleClass.EmptyClass);
@@ -63,9 +63,9 @@ namespace NiquIoC.Test.ManyEmitFunctions
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
-            c.RegisterType<ISampleClassWithMethod, SampleClassWithoutDependencyMethod>();
+            c.RegisterType<ISampleClassWithClassMethod, SampleClassWithoutClassDependencyMethod>();
 
-            var sampleClass = c.Resolve<ISampleClassWithMethod>();
+            var sampleClass = c.Resolve<ISampleClassWithClassMethod>();
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNull(sampleClass.EmptyClass);
@@ -76,9 +76,9 @@ namespace NiquIoC.Test.ManyEmitFunctions
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
-            c.RegisterType<ISampleClassWithMethodWithReturnType, SampleClassWithDependencyMethodWithReturnType>();
+            c.RegisterType<ISampleClassWithClassMethodWithReturnType, SampleClassWithClassDependencyMethodWithReturnType>();
 
-            var sampleClass = c.Resolve<ISampleClassWithMethodWithReturnType>();
+            var sampleClass = c.Resolve<ISampleClassWithClassMethodWithReturnType>();
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNull(sampleClass.EmptyClass);
@@ -90,9 +90,9 @@ namespace NiquIoC.Test.ManyEmitFunctions
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();
-            c.RegisterType<ISampleClassWithMethodWithInterface, SampleClassWithDependencyMethodWithInterface>();
+            c.RegisterType<ISampleClassWithClassMethodWithInterface, SampleClassWithClassDependencyMethodWithInterface>();
 
-            var sampleClass = c.Resolve<ISampleClassWithMethodWithInterface>();
+            var sampleClass = c.Resolve<ISampleClassWithClassMethodWithInterface>();
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNotNull(sampleClass.EmptyClass);
@@ -103,9 +103,9 @@ namespace NiquIoC.Test.ManyEmitFunctions
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
-            c.RegisterType<ISampleClassWithMethodWithInterface, SampleClassWithoutDependencyMethodWithInterface>();
+            c.RegisterType<ISampleClassWithClassMethodWithInterface, SampleClassWithoutClassDependencyMethodWithInterface>();
 
-            var sampleClass = c.Resolve<ISampleClassWithMethodWithInterface>();
+            var sampleClass = c.Resolve<ISampleClassWithClassMethodWithInterface>();
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNull(sampleClass.EmptyClass);
@@ -116,9 +116,9 @@ namespace NiquIoC.Test.ManyEmitFunctions
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();
-            c.RegisterType<ISampleClassWithMethodWithInterfaceWithReturnType, SampleClassWithDependencyMethodWithInterfaceWithReturnType>();
+            c.RegisterType<ISampleClassWithClassMethodWithInterfaceWithReturnType, SampleClassWithClassDependencyMethodWithInterfaceWithReturnType>();
 
-            var sampleClass = c.Resolve<ISampleClassWithMethodWithInterfaceWithReturnType>();
+            var sampleClass = c.Resolve<ISampleClassWithClassMethodWithInterfaceWithReturnType>();
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNull(sampleClass.EmptyClass);

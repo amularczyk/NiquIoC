@@ -12,9 +12,9 @@ namespace NiquIoC.Test.ManyEmitFunctions
             var c = new Container();
             c.RegisterType<EmptyClass>();
             c.RegisterType<ISampleClass, SampleClass>();
-            c.RegisterType<SampleClassWithManyDependencyProperties>();
+            c.RegisterType<SampleClassWithManyClassDependencyProperties>();
 
-            var sampleClass = c.Resolve<SampleClassWithManyDependencyProperties>();
+            var sampleClass = c.Resolve<SampleClassWithManyClassDependencyProperties>();
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNotNull(sampleClass.EmptyClass);
@@ -27,14 +27,14 @@ namespace NiquIoC.Test.ManyEmitFunctions
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
-            c.RegisterType<ISampleClassWithDependencyProperty, SampleClassWithDependencyProperty>();
-            c.RegisterType<SampleClassWithNestedDependencyProperty>();
+            c.RegisterType<ISampleClassWithClassProperty, SampleClassWithClassDependencyProperty>();
+            c.RegisterType<SampleClassWithNestedClassDependencyProperty>();
 
-            var sampleClass = c.Resolve<SampleClassWithNestedDependencyProperty>();
+            var sampleClass = c.Resolve<SampleClassWithNestedClassDependencyProperty>();
 
             Assert.IsNotNull(sampleClass);
-            Assert.IsNotNull(sampleClass.SampleClassWithDependencyProperty);
-            Assert.IsNotNull(sampleClass.SampleClassWithDependencyProperty.EmptyClass);
+            Assert.IsNotNull(sampleClass.SampleClassWithClassDependencyProperty);
+            Assert.IsNotNull(sampleClass.SampleClassWithClassDependencyProperty.EmptyClass);
         }
 
         [TestMethod]
@@ -42,9 +42,9 @@ namespace NiquIoC.Test.ManyEmitFunctions
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
-            c.RegisterType<SampleClassWithDependencyPropertyWithoutSetMethod>();
+            c.RegisterType<SampleClassWithClassDependencyPropertyWithoutSetMethod>();
 
-            var sampleClass = c.Resolve<SampleClassWithDependencyPropertyWithoutSetMethod>();
+            var sampleClass = c.Resolve<SampleClassWithClassDependencyPropertyWithoutSetMethod>();
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNull(sampleClass.EmptyClass);
@@ -56,9 +56,9 @@ namespace NiquIoC.Test.ManyEmitFunctions
             var c = new Container();
             c.RegisterType<EmptyClass>();
             c.RegisterType<ISampleClass, SampleClass>();
-            c.RegisterType<ISampleClassWithManyDependencyProperties, SampleClassWithManyDependencyProperties>();
+            c.RegisterType<ISampleClassWithManyClassDependencyProperties, SampleClassWithManyClassDependencyProperties>();
 
-            var sampleClass = c.Resolve<ISampleClassWithManyDependencyProperties>();
+            var sampleClass = c.Resolve<ISampleClassWithManyClassDependencyProperties>();
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNotNull(sampleClass.EmptyClass);
@@ -71,14 +71,14 @@ namespace NiquIoC.Test.ManyEmitFunctions
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
-            c.RegisterType<ISampleClassWithDependencyProperty, SampleClassWithDependencyProperty>();
-            c.RegisterType<ISampleClassWithNestedDependencyProperty, SampleClassWithNestedDependencyProperty>();
+            c.RegisterType<ISampleClassWithClassProperty, SampleClassWithClassDependencyProperty>();
+            c.RegisterType<ISampleClassWithNestedClassDependencyProperty, SampleClassWithNestedClassDependencyProperty>();
 
-            var sampleClass = c.Resolve<ISampleClassWithNestedDependencyProperty>();
+            var sampleClass = c.Resolve<ISampleClassWithNestedClassDependencyProperty>();
 
             Assert.IsNotNull(sampleClass);
-            Assert.IsNotNull(sampleClass.SampleClassWithDependencyProperty);
-            Assert.IsNotNull(sampleClass.SampleClassWithDependencyProperty.EmptyClass);
+            Assert.IsNotNull(sampleClass.SampleClassWithClassDependencyProperty);
+            Assert.IsNotNull(sampleClass.SampleClassWithClassDependencyProperty.EmptyClass);
         }
 
         [TestMethod]
@@ -86,9 +86,9 @@ namespace NiquIoC.Test.ManyEmitFunctions
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
-            c.RegisterType<ISampleClassWithDependencyPropertyWithoutSetMethod, SampleClassWithDependencyPropertyWithoutSetMethod>();
+            c.RegisterType<ISampleClassWithClassDependencyPropertyWithoutSetMethod, SampleClassWithClassDependencyPropertyWithoutSetMethod>();
 
-            var sampleClass = c.Resolve<ISampleClassWithDependencyPropertyWithoutSetMethod>();
+            var sampleClass = c.Resolve<ISampleClassWithClassDependencyPropertyWithoutSetMethod>();
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNull(sampleClass.EmptyClass);
@@ -99,9 +99,9 @@ namespace NiquIoC.Test.ManyEmitFunctions
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();
-            c.RegisterType<ISampleClassWithDependencyPropertyWithoutSetMethodWithInterface, SampleClassWithDependencyPropertyWithoutSetMethodWithInterface>();
+            c.RegisterType<ISampleClassWithClassDependencyPropertyWithoutSetMethodWithInterface, SampleClassWithClassDependencyPropertyWithoutSetMethodWithInterface>();
 
-            var sampleClass = c.Resolve<ISampleClassWithDependencyPropertyWithoutSetMethodWithInterface>();
+            var sampleClass = c.Resolve<ISampleClassWithClassDependencyPropertyWithoutSetMethodWithInterface>();
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNull(sampleClass.EmptyClass);

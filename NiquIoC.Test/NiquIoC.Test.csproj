@@ -57,27 +57,27 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="BuildUpForInterfaceWithDependencyMethodTests.cs" />
+    <Compile Include="BuildUpForInterfaceWithDependencyPropertyAndDependencyMethod.cs" />
+    <Compile Include="BuildUpForClassWithDependencyPropertyAndDependencyMethod.cs" />
+    <Compile Include="BuildUpForClassWithDependencyMethodTests.cs" />
+    <Compile Include="BuildUpForInterfaceWithDependencyPropertyTestsy.cs" />
     <Compile Include="ClassDefinitions\ClassBasicDefinitions.cs" />
+    <Compile Include="ClassDefinitions\ClassWithInterfaceDependencyMethodDefinitions.cs" />
+    <Compile Include="ClassDefinitions\ClassWithInterfaceDependencyPropertyAndDependencyMethod.cs" />
+    <Compile Include="ClassDefinitions\ClassWithInterfaceDependencyPropertyDefinitions.cs" />
     <Compile Include="ClassDefinitions\ClassWithDependencyConstrutorDefinitions.cs" />
-    <Compile Include="ClassDefinitions\ClassWithDependencyPropertyDefinitions.cs" />
-    <Compile Include="ClassDefinitions\ClassWithDependencyMethodDefinitions.cs" />
+    <Compile Include="ClassDefinitions\ClassWithClassDependencyPropertyAndDependencyMethod.cs" />
+    <Compile Include="ClassDefinitions\ClassWithClassDependencyPropertyDefinitions.cs" />
+    <Compile Include="ClassDefinitions\ClassWithClassDependencyMethodDefinitions.cs" />
     <Compile Include="ManyEmitFunctions\ContainerWithDifferentKindOfRegistersForInterface.cs" />
     <Compile Include="ManyEmitFunctions\ContainerWithDifferentKindOfRegistersForClass.cs" />
     <Compile Include="ManyEmitFunctions\ReRegistereInterfaceTests.cs" />
-    <Compile Include="OneBigEmitFunction\ContainerBasicTests.cs" />
-    <Compile Include="OneBigEmitFunction\ContainerBuildUpTests.cs" />
-    <Compile Include="OneBigEmitFunction\ContainerRegisterInstanceTests.cs" />
-    <Compile Include="OneBigEmitFunction\ContainerRegisterTypeByFactoryObjectTests.cs" />
-    <Compile Include="OneBigEmitFunction\ContainerRegisterTypeInterfaceTests.cs" />
-    <Compile Include="OneBigEmitFunction\ContainerRegisterTypeWithDependencyConstrutorTests.cs" />
-    <Compile Include="OneBigEmitFunction\ContainerRegisterTypeWithDependencyMethodTests.cs" />
-    <Compile Include="OneBigEmitFunction\ContainerRegisterTypeWithDependencyPropertyTests.cs" />
-    <Compile Include="OneBigEmitFunction\ContainerReRegistereTests.cs" />
     <Compile Include="ManyEmitFunctions\ReRegistereClassTests.cs" />
     <Compile Include="ManyEmitFunctions\RegisterTypeWithDependencyConstrutorTests.cs" />
     <Compile Include="ManyEmitFunctions\RegisterTypeWithDependencyMethodTests.cs" />
     <Compile Include="ManyEmitFunctions\RegisterInstanceTests.cs" />
-    <Compile Include="ManyEmitFunctions\BuildUpTests.cs" />
+    <Compile Include="BuildUpForClassWithDependencyPropertyTests.cs" />
     <Compile Include="ManyEmitFunctions\RegisterTypeByFactoryObjectTests.cs" />
     <Compile Include="ManyEmitFunctions\RegisterTypeInterfaceTests.cs" />
     <Compile Include="ManyEmitFunctions\RegisterTypeWithDependencyPropertyTests.cs" />
