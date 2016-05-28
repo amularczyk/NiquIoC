@@ -5,19 +5,8 @@ using NiquIoC.Test.ClassDefinitions;
 namespace NiquIoC.Test.Resolve.Transient
 {
     [TestClass]
-    public class RegisterTypeTransientForClassTests
+    public class RegisterTypeForClassTests
     {
-        [TestMethod]
-        [ExpectedException(typeof(TypeNotRegisteredException), "Type NiquIoC.Test.ClassDefinitions.EmptyClass has not been registered.")]
-        public void ClassNotRegistered_Fail()
-        {
-            var c = new Container();
-
-            var sampleClass = c.Resolve<EmptyClass>();
-
-            Assert.IsNull(sampleClass);
-        }
-
         [TestMethod]
         public void RegisteredClassWithConstructorWithoutParameters_Success()
         {

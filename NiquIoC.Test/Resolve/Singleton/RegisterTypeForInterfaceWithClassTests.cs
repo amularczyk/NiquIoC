@@ -5,50 +5,28 @@ using NiquIoC.Test.ClassDefinitions;
 namespace NiquIoC.Test.Resolve.Singleton
 {
     [TestClass]
-    public class RegisterTypeSingletonForClassTests
+    public class RegisterTypeForInterfaceWithClassTests
     {
-        [TestMethod]
-        [ExpectedException(typeof(TypeNotRegisteredException), "Type NiquIoC.Test.ClassDefinitions.EmptyClass has not been registered.")]
-        public void ClassNotRegistered_Fail()
-        {
-            var c = new Container();
-
-            var sampleClass = c.Resolve<EmptyClass>();
-
-            Assert.IsNull(sampleClass);
-        }
-
-        [TestMethod]
-        public void RegisteredClassWithConstructorWithoutParameters_Success()
-        {
-            var c = new Container();
-            c.RegisterType<EmptyClass>().AsSingleton();
-
-            var sampleClass = c.Resolve<EmptyClass>();
-
-            Assert.IsNotNull(sampleClass);
-        }
-
         [TestMethod]
         [ExpectedException(typeof(TypeNotRegisteredException), "Type NiquIoC.Test.ClassDefinitions.EmptyClass has not been registered.")]
         public void InternalClassNotRegistered_Fail()
         {
             var c = new Container();
-            c.RegisterType<SampleClass>().AsSingleton();
+            c.RegisterType<ISampleClass, SampleClass>().AsSingleton();
 
-            var sampleClass = c.Resolve<SampleClass>();
+            var sampleClass = c.Resolve<ISampleClass>();
 
             Assert.IsNull(sampleClass);
         }
 
         [TestMethod]
-        public void RegisteredClassWithConstructorWithParameter_Success()
+        public void RegisteredInterfaceAsClassWithConstructorWithParameter_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsSingleton();
-            c.RegisterType<SampleClass>().AsSingleton();
+            c.RegisterType<ISampleClass, SampleClass>().AsSingleton();
 
-            var sampleClass = c.Resolve<SampleClass>();
+            var sampleClass = c.Resolve<ISampleClass>();
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNotNull(sampleClass.EmptyClass);
@@ -56,26 +34,27 @@ namespace NiquIoC.Test.Resolve.Singleton
 
         [TestMethod]
         [ExpectedException(typeof(CycleForTypeException), "Appeared cycle when resolving constructor for object of type NiquIoC.Test.ClassDefinitions.FirstClassWithCycleInConstructor")]
-        public void RegisteredClassWithCycleInConstructor_Fail()
+        public void RegisteredInterfaceAsClassWithCycleInConstructor_Fail()
         {
             var c = new Container();
-            c.RegisterType<SecondClassWithCycleInConstructor>().AsSingleton();
             c.RegisterType<FirstClassWithCycleInConstructor>().AsSingleton();
+            c.RegisterType<SecondClassWithCycleInConstructor>().AsSingleton();
+            c.RegisterType<IClassWithCycleInConstructor, ClassWithCycleInConstructorInRegisteredType>().AsSingleton();
 
-            var sampleClass = c.Resolve<FirstClassWithCycleInConstructor>();
+            var sampleClass = c.Resolve<IClassWithCycleInConstructor>();
 
             Assert.IsNull(sampleClass);
         }
 
         [TestMethod]
-        public void SameObjects_RegisteredClass_Success()
+        public void SameObjects_RegisteredInterfaceWithClass_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsSingleton();
-            c.RegisterType<SampleClass>().AsSingleton();
+            c.RegisterType<ISampleClass, SampleClass>().AsSingleton();
 
-            var sampleClass1 = c.Resolve<SampleClass>();
-            var sampleClass2 = c.Resolve<SampleClass>();
+            var sampleClass1 = c.Resolve<ISampleClass>();
+            var sampleClass2 = c.Resolve<ISampleClass>();
 
             Assert.IsNotNull(sampleClass1);
             Assert.IsNotNull(sampleClass1.EmptyClass);

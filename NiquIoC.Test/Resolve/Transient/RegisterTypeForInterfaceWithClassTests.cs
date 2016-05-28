@@ -5,7 +5,7 @@ using NiquIoC.Test.ClassDefinitions;
 namespace NiquIoC.Test.Resolve.Transient
 {
     [TestClass]
-    public class RegisterTypeTransientForInterfaceWithClassTests
+    public class RegisterTypeForInterfaceWithClassTests
     {
         [TestMethod]
         [ExpectedException(typeof(TypeNotRegisteredException), "Type NiquIoC.Test.ClassDefinitions.EmptyClass has not been registered.")]

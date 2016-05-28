@@ -28,6 +28,20 @@ namespace NiquIoC.Test.ClassDefinitions
 
         public EmptyClass EmptyClass { get; }
     }
+    internal interface ISampleClassWithNestedClass
+    {
+        SampleClassWithDependencyConstrutor SampleClassWithDependencyConstrutor { get; }
+    }
+
+    internal class SampleClassWithNestedClassWithDependencyConstrutor : ISampleClassWithNestedClass
+    {
+        public SampleClassWithNestedClassWithDependencyConstrutor(SampleClassWithDependencyConstrutor sampleClassWithDependencyConstrutor)
+        {
+            SampleClassWithDependencyConstrutor = sampleClassWithDependencyConstrutor;
+        }
+
+        public SampleClassWithDependencyConstrutor SampleClassWithDependencyConstrutor { get; }
+    }
 
     internal class SampleClassWithInterfaceAsParameterWithDependencyConstrutor : ISampleClassWithInterfaceAsParameter
     {
@@ -54,5 +68,21 @@ namespace NiquIoC.Test.ClassDefinitions
         }
 
         public IEmptyClass EmptyClass { get; }
+    }
+    
+    internal interface ISampleClassISampleClassWithInterfaceAsParameter
+    {
+        ISampleClassWithInterfaceAsParameter SampleClassWithInterfaceAsParameter { get; }
+    }
+
+    internal class SampleClassWithNestedInterfaceAsParameterWithDependencyConstrutor : ISampleClassISampleClassWithInterfaceAsParameter
+    {
+        [DependencyConstrutor]
+        public SampleClassWithNestedInterfaceAsParameterWithDependencyConstrutor(ISampleClassWithInterfaceAsParameter sampleClassWithInterfaceAsParameter)
+        {
+            SampleClassWithInterfaceAsParameter = sampleClassWithInterfaceAsParameter;
+        }
+
+        public ISampleClassWithInterfaceAsParameter SampleClassWithInterfaceAsParameter { get; }
     }
 }

@@ -5,16 +5,28 @@ using NiquIoC.Test.ClassDefinitions;
 namespace NiquIoC.Test.Resolve.Transient
 {
     [TestClass]
-    public class RegisterTypeTransientForClassWithInterfaceTests
+    public class RegisterTypeForInterfaceTests
     {
+
+        [TestMethod]
+        public void RegisteredInterfaceAsClassWithConstructorWithoutParameters_Success()
+        {
+            var c = new Container();
+            c.RegisterType<IEmptyClass, EmptyClass>();
+
+            var sampleClass = c.Resolve<IEmptyClass>();
+
+            Assert.IsNotNull(sampleClass);
+        }
+
         [TestMethod]
         [ExpectedException(typeof(TypeNotRegisteredException), "Type NiquIoC.Test.ClassDefinitions.EmptyClass has not been registered.")]
         public void InternalInterfaceNotRegistered_Fail()
         {
             var c = new Container();
-            c.RegisterType<SampleClassWithInterfaceAsParameter>();
+            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>();
 
-            var sampleClass = c.Resolve<SampleClassWithInterfaceAsParameter>();
+            var sampleClass = c.Resolve<ISampleClassWithInterfaceAsParameter>();
 
             Assert.IsNull(sampleClass);
         }
@@ -24,9 +36,9 @@ namespace NiquIoC.Test.Resolve.Transient
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();
-            c.RegisterType<SampleClassWithInterfaceAsParameter>();
+            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>();
 
-            var sampleClass = c.Resolve<SampleClassWithInterfaceAsParameter>();
+            var sampleClass = c.Resolve<ISampleClassWithInterfaceAsParameter>();
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNotNull(sampleClass.EmptyClass);
@@ -39,22 +51,21 @@ namespace NiquIoC.Test.Resolve.Transient
             var c = new Container();
             c.RegisterType<ISecondClassWithCycleInConstructor, SecondClassWithCycleInConstructorInRegisteredType>();
             c.RegisterType<IFirstClassWithCycleInConstructor, FirstClassWithCycleInConstructorInRegisteredType>();
-            c.RegisterType<InterfaceWithCycleInConstructorInRegisteredType>();
 
-            var sampleClass = c.Resolve<InterfaceWithCycleInConstructorInRegisteredType>();
+            var sampleClass = c.Resolve<IFirstClassWithCycleInConstructor>();
 
             Assert.IsNull(sampleClass);
         }
 
         [TestMethod]
-        public void DifferentObjects_RegisteredClassWithInterface_Success()
+        public void DifferentObjects_RegisteredInterface_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();
-            c.RegisterType<SampleClassWithInterfaceAsParameter>();
+            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>();
 
-            var sampleClass1 = c.Resolve<SampleClassWithInterfaceAsParameter>();
-            var sampleClass2 = c.Resolve<SampleClassWithInterfaceAsParameter>();
+            var sampleClass1 = c.Resolve<ISampleClassWithInterfaceAsParameter>();
+            var sampleClass2 = c.Resolve<ISampleClassWithInterfaceAsParameter>();
 
             Assert.IsNotNull(sampleClass1);
             Assert.IsNotNull(sampleClass1.EmptyClass);

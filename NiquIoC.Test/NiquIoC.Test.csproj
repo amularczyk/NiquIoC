@@ -74,21 +74,25 @@
     <Compile Include="Resolve\ContainerWithDifferentKindOfRegistersForClass.cs" />
     <Compile Include="Resolve\ReRegistereInterfaceTests.cs" />
     <Compile Include="Resolve\ReRegistereClassTests.cs" />
-    <Compile Include="Resolve\RegisterTypeWithDependencyConstrutorTests.cs" />
+    <Compile Include="Resolve\Transient\RegisterTypeForClassWithDependencyConstrutorWithInterfaceTests.cs" />
+    <Compile Include="Resolve\Transient\RegisterTypeForInterfaceWithDependencyConstrutorTests.cs" />
+    <Compile Include="Resolve\Transient\RegisterTypeForInterfaceWithDependencyConstrutorWithClassTests.cs" />
+    <Compile Include="Resolve\Transient\RegisterTypeForClassWithDependencyConstrutorTests.cs" />
     <Compile Include="Resolve\RegisterTypeWithDependencyMethodTests.cs" />
     <Compile Include="Resolve\RegisterInstanceTests.cs" />
     <Compile Include="BuildUp\BuildUpForClassWithDependencyPropertyTests.cs" />
     <Compile Include="Resolve\RegisterTypeByFactoryObjectTests.cs" />
-    <Compile Include="Resolve\Singleton\RegisterTypeSingletonForClassWithInterfaceTests.cs" />
-    <Compile Include="Resolve\Singleton\RegisterTypeSingletonForInterfaceTests.cs" />
-    <Compile Include="Resolve\Singleton\RegisterTypeSingletonForInterfaceWithClassTests.cs" />
-    <Compile Include="Resolve\Transient\RegisterTypeTransientForClassWithInterfaceTests.cs" />
-    <Compile Include="Resolve\Transient\RegisterTypeTransientForInterfaceWithClassTests.cs" />
-    <Compile Include="Resolve\Transient\RegisterTypeTransientForInterfaceTests.cs" />
+    <Compile Include="Resolve\Singleton\RegisterTypeForClassWithInterfaceTests.cs" />
+    <Compile Include="Resolve\Singleton\RegisterTypeForInterfaceTests.cs" />
+    <Compile Include="Resolve\Singleton\RegisterTypeForInterfaceWithClassTests.cs" />
+    <Compile Include="Resolve\Transient\RegisterTypeForClassWithInterfaceTests.cs" />
+    <Compile Include="Resolve\Transient\RegisterTypeForInterfaceWithClassTests.cs" />
+    <Compile Include="Resolve\Transient\RegisterTypeForInterfaceTests.cs" />
     <Compile Include="Resolve\RegisterTypeWithDependencyPropertyTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resolve\Singleton\RegisterTypeSingletonForClassTests.cs" />
-    <Compile Include="Resolve\Transient\RegisterTypeTransientForClassTests.cs" />
+    <Compile Include="Resolve\Singleton\RegisterTypeForClassTests.cs" />
+    <Compile Include="Resolve\Transient\RegisterTypeForClassTests.cs" />
+    <Compile Include="Resolve\CommonTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NiquIoC\NiquIoC.csproj">
