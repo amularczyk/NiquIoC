@@ -29,5 +29,17 @@ namespace NiquIoC.Test.Resolve
 
             Assert.IsNull(sampleClass);
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(WrongInterfaceRegistrationException), "For interface type NiquIoC.Test.ClassDefinitions.IEmptyClass you must specify a class which implements it.")]
+        public void MissingClassThatImplementsInterfaceInRegister_Fail()
+        {
+            var c = new Container();
+            c.RegisterType<IEmptyClass>();
+
+            var sampleClass = c.Resolve<IEmptyClass>();
+
+            Assert.IsNull(sampleClass);
+        }
     }
 }

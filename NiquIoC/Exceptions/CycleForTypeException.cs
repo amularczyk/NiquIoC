@@ -11,6 +11,6 @@ namespace NiquIoC.Exceptions
 
         private readonly Type _type;
 
-        public override string Message => $"Appeared cycle when resolving constructor for object of type {_type}";
+        public override string Message => $"Appeared cycle when resolving constructor for object of type {_type.FullName}.";
     }
 }

@@ -49,22 +49,29 @@ namespace NiquIoC
         public IContainerMember RegisterType<T>()
             where T : class
         {
-            return RegisterType(typeof(T), typeof(T));
+            var type = typeof(T);
+            if (type.IsInterface)
+            {
+                throw new WrongInterfaceRegistrationException(type);
+            }
+
+            return RegisterType(type, type);
         }
 
         public IContainerMember RegisterType<T>(Func<object> objectFactory)
             where T : class
         {
-            if (_objectFactoryIndexCache.ContainsKey(typeof(T)))
+            var type = typeof(T);
+            if (_objectFactoryIndexCache.ContainsKey(type))
             {
-                _objectFactoryCache[_objectFactoryIndexCache[typeof(T)]] = objectFactory;
+                _objectFactoryCache[_objectFactoryIndexCache[type]] = objectFactory;
             }
             else
             {
                 _objectFactoryCache.Add(objectFactory);
-                _objectFactoryIndexCache.Add(typeof(T), _index++);
+                _objectFactoryIndexCache.Add(type, _index++);
             }
-            return RegisterObjectFactory(typeof(T), typeof(T), objectFactory);
+            return RegisterObjectFactory(type, type, objectFactory);
         }
 
         public IContainerMember RegisterType<TFrom, TTo>()
@@ -75,7 +82,8 @@ namespace NiquIoC
 
         public IContainerMember RegisterInstance<T>(T instance)
         {
-            return RegisterInstance(typeof(T), typeof(T).IsInterface ? instance.GetType() : typeof(T), instance);
+            var type = typeof(T);
+            return RegisterInstance(type, type.IsInterface ? instance.GetType() : type, instance);
         }
 
         public T Resolve<T>()
@@ -131,7 +139,7 @@ namespace NiquIoC
 
         private IContainerMember RegisterObjectFactory(Type typeFrom, Type typeTo, Func<object> objectFactory)
         {
-            return Register(new ContainerMember(objectFactory) {RegisteredType = typeFrom, ReturnType = typeTo});
+            return Register(new ContainerMember(objectFactory) {RegisteredType = typeFrom, ReturnType = typeTo, CycleInConstructor = false });
         }
 
         private IContainerMember Register(ContainerMember containerMember)
@@ -317,7 +325,8 @@ namespace NiquIoC
                         var parameterContainerMember = _registeredTypesCache[parameterType];
 
                         if (parameterContainerMember.Constructor == null
-                            && parameterContainerMember.Instance == null) //if we do not have constructor info in the cache for a given parameter type, we create it
+                            && parameterContainerMember.Instance == null
+                            && parameterContainerMember.ObjectFactory == null) //if we do not have constructor info in the cache for a given parameter type, we create it
                         {
                             CreateConstructorInfoForTypesCache(parameterContainerMember);
                         }

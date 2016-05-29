@@ -10,6 +10,6 @@ namespace NiquIoC.Exceptions
         }
 
         private readonly Type _type;
-        public override string Message => $"Lack of proper constructor for type {_type}. There should be only one constructor with attribute DependencyConstrutor or with max number of parameters.";
+        public override string Message => $"Lack of proper constructor for type {_type.FullName}. There should be only one constructor with attribute DependencyConstrutor or with max number of parameters.";
     }
 }

@@ -1,11 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NiquIoC.Exceptions;
 using NiquIoC.Test.ClassDefinitions;
 
-namespace NiquIoC.Test.ManyEmitFunctions
+namespace NiquIoC.Test.Resolve.MixObjectsLifeTime
 {
     [TestClass]
-    public class ContainerWithDifferentKindOfRegistersForInterface
+    public class RegisterTypeForInterfaceTests
     {
         [TestMethod]
         public void RegisteredMainClassTransientAndInternalClassSingleton_Success()

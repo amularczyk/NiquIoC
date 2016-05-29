@@ -1,10 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NiquIoC.Test.ClassDefinitions;
 
-namespace NiquIoC.Test.ManyEmitFunctions
+namespace NiquIoC.Test.Resolve.Transient
 {
     [TestClass]
-    public class RegisterTypeByFactoryObjectTests
+    public class RegisterTypeByFactoryObjectForInterfaceWithClassTests
     {
         [TestMethod]
         public void FactoryObjectReturnNewObject_Success()
@@ -22,11 +22,12 @@ namespace NiquIoC.Test.ManyEmitFunctions
         }
 
         [TestMethod]
-        public void FactoryObjectReturnNewObjectRegisteredAsSingleton_Success()
+        public void FactoryObjectReturnTheSameObject_Success()
         {
             var c = new Container();
             var emptyClass = new EmptyClass();
-            c.RegisterType<ISampleClass>(() => new SampleClass(emptyClass)).AsSingleton();
+            ISampleClass sampleClass = new SampleClass(emptyClass);
+            c.RegisterType<ISampleClass>(() => sampleClass);
 
             var sampleClass1 = c.Resolve<ISampleClass>();
             var sampleClass2 = c.Resolve<ISampleClass>();
@@ -37,19 +38,32 @@ namespace NiquIoC.Test.ManyEmitFunctions
         }
 
         [TestMethod]
-        public void FactoryObjectReturnTheSameObject_Success()
+        public void NestedFactoryObjectReturnNewObject_Success()
         {
             var c = new Container();
-            var emptyClass = new EmptyClass();
-            var sampleClass = new SampleClass(emptyClass);
-            c.RegisterType<ISampleClass>(() => sampleClass);
+            c.RegisterType<EmptyClass>(() => new EmptyClass());
+            c.RegisterType<ISampleClass, SampleClass>();
 
             var sampleClass1 = c.Resolve<ISampleClass>();
             var sampleClass2 = c.Resolve<ISampleClass>();
 
-            Assert.AreEqual(sampleClass1, sampleClass2);
-            Assert.AreEqual(emptyClass, sampleClass1.EmptyClass);
-            Assert.AreEqual(emptyClass, sampleClass2.EmptyClass);
+            Assert.AreNotEqual(sampleClass1, sampleClass2);
+            Assert.AreNotEqual(sampleClass1.EmptyClass, sampleClass2.EmptyClass);
+        }
+
+        [TestMethod]
+        public void NestedFactoryObjectReturnTheSameObject_Success()
+        {
+            var c = new Container();
+            var emptyClass = new EmptyClass();
+            c.RegisterType<EmptyClass>(() => emptyClass);
+            c.RegisterType<ISampleClass, SampleClass>();
+
+            var sampleClass1 = c.Resolve<ISampleClass>();
+            var sampleClass2 = c.Resolve<ISampleClass>();
+
+            Assert.AreNotEqual(sampleClass1, sampleClass2);
+            Assert.AreEqual(sampleClass1.EmptyClass, sampleClass2.EmptyClass);
         }
     }
 }

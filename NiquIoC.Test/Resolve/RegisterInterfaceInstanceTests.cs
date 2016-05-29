@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NiquIoC.Exceptions;
 using NiquIoC.Test.ClassDefinitions;
 
 namespace NiquIoC.Test.Resolve
