@@ -98,8 +98,8 @@ namespace NiquIoC
 
         public void BuildUp<T>(T instance)
         {
-            //TODO: use instace.GetType() instead of typeof(T)?
-            BuildUp(instance, typeof(T));
+            var type = typeof(T);
+            BuildUp(instance, type.IsInterface ? instance.GetType() : type);
         }
 
         public void WarmUp(bool full = false)

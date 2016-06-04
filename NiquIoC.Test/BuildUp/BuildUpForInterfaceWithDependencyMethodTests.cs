@@ -12,7 +12,7 @@ namespace NiquIoC.Test.BuildUp
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();
-            var sampleClass = new SampleClassWithoutInterfaceDependencyMethod();
+            ISampleClassWithInterfaceMethod sampleClass = new SampleClassWithoutInterfaceDependencyMethod();
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNull(sampleClass.EmptyClass);
@@ -23,7 +23,7 @@ namespace NiquIoC.Test.BuildUp
         public void RegisteredClassWithDependencyMethodWithoutRegisteredNestedClass_Failed()
         {
             var c = new Container();
-            var sampleClass = new SampleClassWithInterfaceDependencyMethod();
+            ISampleClassWithInterfaceMethod sampleClass = new SampleClassWithInterfaceDependencyMethod();
 
             c.BuildUp(sampleClass);
         }
@@ -33,7 +33,7 @@ namespace NiquIoC.Test.BuildUp
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();
-            var sampleClass = new SampleClassWithInterfaceDependencyMethod();
+            ISampleClassWithInterfaceMethod sampleClass = new SampleClassWithInterfaceDependencyMethod();
 
             c.BuildUp(sampleClass);
 
@@ -45,7 +45,7 @@ namespace NiquIoC.Test.BuildUp
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();
-            var sampleClass = new SampleClassWithoutInterfaceDependencyMethod();
+            ISampleClassWithInterfaceMethod sampleClass = new SampleClassWithoutInterfaceDependencyMethod();
 
             c.BuildUp(sampleClass);
 
@@ -57,7 +57,7 @@ namespace NiquIoC.Test.BuildUp
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();
-            var sampleClass = new SampleClassWithInterfaceDependencyMethodWithReturnType();
+            ISampleClassWithInterfaceMethodWithReturnType sampleClass = new SampleClassWithInterfaceDependencyMethodWithReturnType();
 
             c.BuildUp(sampleClass);
 
@@ -70,7 +70,7 @@ namespace NiquIoC.Test.BuildUp
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();
             c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>();
-            var sampleClass = new SampleClassWithManyInterfaceDependencyMethods();
+            ISampleClassWithManyInterfaceDependencyMethods sampleClass = new SampleClassWithManyInterfaceDependencyMethods();
 
             c.BuildUp(sampleClass);
 
@@ -84,7 +84,7 @@ namespace NiquIoC.Test.BuildUp
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();
             c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>();
-            var sampleClass = new SampleClassWithManyInterfaceParametersInDependencyMethod();
+            ISampleClassWithManyInterfaceParametersInDependencyMethod sampleClass = new SampleClassWithManyInterfaceParametersInDependencyMethod();
 
             c.BuildUp(sampleClass);
 
@@ -98,7 +98,7 @@ namespace NiquIoC.Test.BuildUp
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();
             c.RegisterType<ISampleClassWithInterfaceMethod, SampleClassWithInterfaceDependencyMethod>();
-            var sampleClass = new SampleClassWithNestedInterfaceDependencyMethod();
+            ISampleClassWithNestedInterfaceDependencyMethod sampleClass = new SampleClassWithNestedInterfaceDependencyMethod();
 
             c.BuildUp(sampleClass);
 
