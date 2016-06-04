@@ -73,13 +73,16 @@
     <Compile Include="Resolve\MixObjectsLifeTime\RegisterTypeForInterfaceTests.cs" />
     <Compile Include="Resolve\MixObjectsLifeTime\RegisterTypeForClassTests.cs" />
     <Compile Include="Resolve\MixObjectsLifeTime\RegisterTypeByFactoryObjectForClassTests.cs" />
+    <Compile Include="Resolve\MixObjectsLifeTime\ReRegistereClassTests.cs" />
+    <Compile Include="Resolve\MixObjectsLifeTime\ReRegistereInterfaceTests.cs" />
     <Compile Include="Resolve\RegisterInterfaceInstanceTests.cs" />
-    <Compile Include="Resolve\ReRegistereInterfaceTests.cs" />
-    <Compile Include="Resolve\ReRegistereClassTests.cs" />
+    <Compile Include="Resolve\Singleton\ReRegistereInterfaceTests.cs" />
+    <Compile Include="Resolve\Transient\ReRegistereInterfaceTests.cs" />
     <Compile Include="Resolve\Singleton\RegisterTypeByFactoryObjectForClassTests.cs" />
     <Compile Include="Resolve\Singleton\RegisterTypeByFactoryObjectForClassWithInterfaceTests.cs" />
     <Compile Include="Resolve\Singleton\RegisterTypeByFactoryObjectForInterfaceTests.cs" />
     <Compile Include="Resolve\Singleton\RegisterTypeByFactoryObjectForInterfaceWithClassTests.cs" />
+    <Compile Include="Resolve\Singleton\ReRegistereClassTests.cs" />
     <Compile Include="Resolve\Transient\RegisterTypeByFactoryObjectForInterfaceWithClassTests.cs" />
     <Compile Include="Resolve\Transient\RegisterTypeByFactoryObjectForClassWithInterfaceTests.cs" />
     <Compile Include="Resolve\Transient\RegisterTypeByFactoryObjectForInterfaceTests.cs" />
@@ -102,6 +105,7 @@
     <Compile Include="Resolve\Singleton\RegisterTypeForClassTests.cs" />
     <Compile Include="Resolve\Transient\RegisterTypeForClassTests.cs" />
     <Compile Include="Resolve\CommonTests.cs" />
+    <Compile Include="Resolve\Transient\ReRegistereClassTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NiquIoC\NiquIoC.csproj">
