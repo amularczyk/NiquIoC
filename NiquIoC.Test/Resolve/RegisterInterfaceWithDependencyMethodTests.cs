@@ -2,105 +2,97 @@
 using NiquIoC.Exceptions;
 using NiquIoC.Test.ClassDefinitions;
 
-namespace NiquIoC.Test.BuildUp
+namespace NiquIoC.Test.Resolve
 {
     [TestClass]
-    public class BuildUpForInterfaceWithDependencyMethodTests
+    public class RegisterInterfaceWithDependencyMethodTests
     {
         [TestMethod]
-        public void RegisteredClassWithDependencyMethodWithoutBuildUp_Success()
+        [ExpectedException(typeof(TypeNotRegisteredException), "Type NiquIoC.Test.ClassDefinitions.IEmptyClass has not been registered.")]
+        public void RegisteredClassWithDependencyMethodWithoutRegisteredNestedClass_Failed()
+        {
+            var c = new Container();
+            c.RegisterType<ISampleClassWithInterfaceMethod, SampleClassWithInterfaceDependencyMethod>();
+
+            var sampleClass = c.Resolve<ISampleClassWithInterfaceMethod>();
+        }
+
+        [TestMethod]
+        public void RegisterInterfaceAsClassWithDependencyMethod_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();
-            var sampleClass = new SampleClassWithoutInterfaceDependencyMethod();
+            c.RegisterType<ISampleClassWithInterfaceMethod, SampleClassWithInterfaceDependencyMethod>();
+
+            var sampleClass = c.Resolve<ISampleClassWithInterfaceMethod>();
+
+            Assert.IsNotNull(sampleClass);
+            Assert.IsNotNull(sampleClass.EmptyClass);
+        }
+
+        [TestMethod]
+        public void RegisterInterfaceAsClassWithoutDependencyMethod_Fail()
+        {
+            var c = new Container();
+            c.RegisterType<IEmptyClass, EmptyClass>();
+            c.RegisterType<ISampleClassWithInterfaceMethod, SampleClassWithoutInterfaceDependencyMethod>();
+
+            var sampleClass = c.Resolve<ISampleClassWithInterfaceMethod>();
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNull(sampleClass.EmptyClass);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(TypeNotRegisteredException), "Type NiquIoC.Test.ClassDefinitions.IEmptyClass has not been registered.")]
-        public void RegisteredClassWithDependencyMethodWithoutRegisteredNestedClass_Failed()
-        {
-            var c = new Container();
-            var sampleClass = new SampleClassWithInterfaceDependencyMethod();
-
-            c.BuildUp(sampleClass);
-        }
-
-        [TestMethod]
-        public void RegisteredClassWithDependencyMethod_Success()
+        public void RegisterInterfaceAsClassWithDependencyMethodWithReturnType_Fail()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();
-            var sampleClass = new SampleClassWithInterfaceDependencyMethod();
+            c.RegisterType<ISampleClassWithInterfaceMethodWithReturnType, SampleClassWithInterfaceDependencyMethodWithReturnType>();
 
-            c.BuildUp(sampleClass);
+            var sampleClass = c.Resolve<ISampleClassWithInterfaceMethodWithReturnType>();
 
-            Assert.IsNotNull(sampleClass.EmptyClass);
-        }
-
-        [TestMethod]
-        public void RegisteredClassWithoutDependencyMethod_Success()
-        {
-            var c = new Container();
-            c.RegisterType<IEmptyClass, EmptyClass>();
-            var sampleClass = new SampleClassWithoutInterfaceDependencyMethod();
-
-            c.BuildUp(sampleClass);
-
+            Assert.IsNotNull(sampleClass);
             Assert.IsNull(sampleClass.EmptyClass);
         }
 
         [TestMethod]
-        public void RegisteredClassWithDependencyMethodWithReturnType_Failed()
-        {
-            var c = new Container();
-            c.RegisterType<IEmptyClass, EmptyClass>();
-            var sampleClass = new SampleClassWithInterfaceDependencyMethodWithReturnType();
-
-            c.BuildUp(sampleClass);
-
-            Assert.IsNull(sampleClass.EmptyClass);
-        }
-
-        [TestMethod]
-        public void RegisteredClassWithManyInterfaceDependencyMethods_Success()
+        public void RegisterInterfaceAsClassWithManyInterfaceDependencyMethods_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();
             c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>();
-            var sampleClass = new SampleClassWithManyInterfaceDependencyMethods();
+            c.RegisterType<ISampleClassWithManyInterfaceDependencyMethods, SampleClassWithManyInterfaceDependencyMethods>();
 
-            c.BuildUp(sampleClass);
+            var sampleClass = c.Resolve<ISampleClassWithManyInterfaceDependencyMethods>();
 
             Assert.IsNotNull(sampleClass.EmptyClass);
             Assert.IsNotNull(sampleClass.SampleClassWithInterfaceAsParameter);
         }
 
         [TestMethod]
-        public void RegisteredClassWithManyInterfaceParametersInDependencyMethod_Success()
+        public void RegisterInterfaceAsClassWithManyInterfaceParametersInDependencyMethod_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();
             c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>();
-            var sampleClass = new SampleClassWithManyInterfaceParametersInDependencyMethod();
+            c.RegisterType<ISampleClassWithManyInterfaceParametersInDependencyMethod, SampleClassWithManyInterfaceParametersInDependencyMethod>();
 
-            c.BuildUp(sampleClass);
+            var sampleClass = c.Resolve<ISampleClassWithManyInterfaceParametersInDependencyMethod>();
 
             Assert.IsNotNull(sampleClass.EmptyClass);
             Assert.IsNotNull(sampleClass.SampleClassWithInterfaceAsParameter);
         }
 
         [TestMethod]
-        public void RegisteredClassWithNestedInterfaceDependencyMethod_Success()
+        public void RegisterInterfaceAsClassWithNestedInterfaceDependencyMethod_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();
             c.RegisterType<ISampleClassWithInterfaceMethod, SampleClassWithInterfaceDependencyMethod>();
-            var sampleClass = new SampleClassWithNestedInterfaceDependencyMethod();
+            c.RegisterType<ISampleClassWithNestedInterfaceDependencyMethod, SampleClassWithNestedInterfaceDependencyMethod>();
 
-            c.BuildUp(sampleClass);
+            var sampleClass = c.Resolve<ISampleClassWithNestedInterfaceDependencyMethod>();
 
             Assert.IsNotNull(sampleClass.SampleClassWithInterfaceDependencyMethod);
             Assert.IsNotNull(sampleClass.SampleClassWithInterfaceDependencyMethod.EmptyClass);

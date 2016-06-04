@@ -2,30 +2,19 @@
 using NiquIoC.Exceptions;
 using NiquIoC.Test.ClassDefinitions;
 
-namespace NiquIoC.Test.BuildUp
+namespace NiquIoC.Test.Resolve
 {
     [TestClass]
-    public class BuildUpForInterfaceWithDependencyPropertyTests
+    public class RegisterInterfaceWithDependencyPropertyTests
     {
-        [TestMethod]
-        public void RegisteredClassWithDependencyPropertyWithoutBuildUp_Success()
-        {
-            var c = new Container();
-            c.RegisterType<IEmptyClass, EmptyClass>();
-            var sampleClass = new SampleClassWithInterfaceDependencyProperty();
-
-            Assert.IsNotNull(sampleClass);
-            Assert.IsNull(sampleClass.EmptyClass);
-        }
-
         [TestMethod]
         [ExpectedException(typeof(TypeNotRegisteredException), "Type NiquIoC.Test.ClassDefinitions.EmptyClass has not been registered.")]
         public void RegisteredClassWithDependencyPropertyWithoutRegisteredNestedClass_Success()
         {
             var c = new Container();
-            var sampleClass = new SampleClassWithInterfaceDependencyProperty();
+            c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithInterfaceDependencyProperty>();
 
-            c.BuildUp(sampleClass);
+            var sampleClass = c.Resolve<ISampleClassWithInterfaceProperty>();
 
             Assert.IsNotNull(sampleClass.EmptyClass);
         }
@@ -35,9 +24,9 @@ namespace NiquIoC.Test.BuildUp
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();
-            var sampleClass = new SampleClassWithInterfaceDependencyProperty();
+            c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithInterfaceDependencyProperty>();
 
-            c.BuildUp(sampleClass);
+            var sampleClass = c.Resolve<ISampleClassWithInterfaceProperty>();
 
             Assert.IsNotNull(sampleClass.EmptyClass);
         }
@@ -47,9 +36,9 @@ namespace NiquIoC.Test.BuildUp
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();
-            var sampleClass = new SampleClassWithoutInterfaceDependencyProperty();
+            c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithoutInterfaceDependencyProperty>();
 
-            c.BuildUp(sampleClass);
+            var sampleClass = c.Resolve<ISampleClassWithInterfaceProperty>();
 
             Assert.IsNull(sampleClass.EmptyClass);
         }
@@ -60,9 +49,9 @@ namespace NiquIoC.Test.BuildUp
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();
             c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>();
-            var sampleClass = new SampleClassWithManyInterfaceDependencyProperties();
+            c.RegisterType<ISampleClassWithManyInterfaceDependencyProperties, SampleClassWithManyInterfaceDependencyProperties>();
 
-            c.BuildUp(sampleClass);
+            var sampleClass = c.Resolve<ISampleClassWithManyInterfaceDependencyProperties>();
 
             Assert.IsNotNull(sampleClass.EmptyClass);
             Assert.IsNotNull(sampleClass.SampleClassWithInterfaceAsParameter);
@@ -74,23 +63,22 @@ namespace NiquIoC.Test.BuildUp
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();
             c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithInterfaceDependencyProperty>();
-            var sampleClass = new SampleClassWithNestedInterfaceDependencyProperty();
+            c.RegisterType<ISampleClassWithNestedInterfaceDependencyProperty, SampleClassWithNestedInterfaceDependencyProperty>();
 
-            c.BuildUp(sampleClass);
+            var sampleClass = c.Resolve<ISampleClassWithNestedInterfaceDependencyProperty>();
 
             Assert.IsNotNull(sampleClass.SampleClassWithInterfaceDependencyProperty);
             Assert.IsNotNull(sampleClass.SampleClassWithInterfaceDependencyProperty.EmptyClass);
         }
-
 
         [TestMethod]
         public void RegisterInterfaceAsClassWithDependencyPropertyWithoutSetMethodWithInterface_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();
-            var sampleClass = new SampleClassWithClassDependencyPropertyWithoutSetMethodWithInterface();
+            c.RegisterType<ISampleClassWithClassDependencyPropertyWithoutSetMethodWithInterface, SampleClassWithClassDependencyPropertyWithoutSetMethodWithInterface>();
 
-            c.BuildUp(sampleClass);
+            var sampleClass = c.Resolve<ISampleClassWithClassDependencyPropertyWithoutSetMethodWithInterface>();
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNull(sampleClass.EmptyClass);

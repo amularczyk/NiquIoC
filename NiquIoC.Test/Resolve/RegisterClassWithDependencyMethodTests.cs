@@ -2,65 +2,57 @@
 using NiquIoC.Exceptions;
 using NiquIoC.Test.ClassDefinitions;
 
-namespace NiquIoC.Test.BuildUp
+namespace NiquIoC.Test.Resolve
 {
     [TestClass]
-    public class BuildUpForClassWithDependencyMethodTests
+    public class RegisterClassWithDependencyMethodTests
     {
         [TestMethod]
-        public void RegisteredClassWithDependencyMethodWithoutBuildUp_Success()
+        [ExpectedException(typeof(TypeNotRegisteredException), "Type NiquIoC.Test.ClassDefinitions.EmptyClass has not been registered.")]
+        public void RegisteredClassWithDependencyMethodWithoutRegisteredNestedClass_Failed()
+        {
+            var c = new Container();
+            c.RegisterType<SampleClassWithClassDependencyMethod>();
+
+            var sampleClass = c.Resolve<SampleClassWithClassDependencyMethod>();
+        }
+
+        [TestMethod]
+        public void RegisterClassWithDependencyMethod_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
-            var sampleClass = new SampleClassWithoutClassDependencyMethod();
+            c.RegisterType<SampleClassWithClassDependencyMethod>();
+
+            var sampleClass = c.Resolve<SampleClassWithClassDependencyMethod>();
+
+            Assert.IsNotNull(sampleClass);
+            Assert.IsNotNull(sampleClass.EmptyClass);
+        }
+
+        [TestMethod]
+        public void RegisterClassWithoutDependencyMethod_Fail()
+        {
+            var c = new Container();
+            c.RegisterType<EmptyClass>();
+            c.RegisterType<SampleClassWithoutClassDependencyMethod>();
+
+            var sampleClass = c.Resolve<SampleClassWithoutClassDependencyMethod>();
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNull(sampleClass.EmptyClass);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(TypeNotRegisteredException), "Type NiquIoC.Test.ClassDefinitions.EmptyClass has not been registered.")]
-        public void RegisteredClassWithDependencyMethodWithoutRegisteredNestedClass_Failed()
-        {
-            var c = new Container();
-            var sampleClass = new SampleClassWithClassDependencyMethod();
-
-            c.BuildUp(sampleClass);
-        }
-
-        [TestMethod]
-        public void RegisteredClassWithDependencyMethod_Success()
+        public void RegisterClassWithDependencyMethodWithReturnType_Fail()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
-            var sampleClass = new SampleClassWithClassDependencyMethod();
+            c.RegisterType<SampleClassWithClassDependencyMethodWithReturnType>();
 
-            c.BuildUp(sampleClass);
+            var sampleClass = c.Resolve<SampleClassWithClassDependencyMethodWithReturnType>();
 
-            Assert.IsNotNull(sampleClass.EmptyClass);
-        }
-
-        [TestMethod]
-        public void RegisteredClassWithoutDependencyMethod_Success()
-        {
-            var c = new Container();
-            c.RegisterType<EmptyClass>();
-            var sampleClass = new SampleClassWithoutClassDependencyMethod();
-
-            c.BuildUp(sampleClass);
-
-            Assert.IsNull(sampleClass.EmptyClass);
-        }
-
-        [TestMethod]
-        public void RegisteredClassWithDependencyMethodWithReturnType_Failed()
-        {
-            var c = new Container();
-            c.RegisterType<EmptyClass>();
-            var sampleClass = new SampleClassWithClassDependencyMethodWithReturnType();
-
-            c.BuildUp(sampleClass);
-
+            Assert.IsNotNull(sampleClass);
             Assert.IsNull(sampleClass.EmptyClass);
         }
 
@@ -70,9 +62,9 @@ namespace NiquIoC.Test.BuildUp
             var c = new Container();
             c.RegisterType<EmptyClass>();
             c.RegisterType<SampleClass>();
-            var sampleClass = new SampleClassWithManyClassDependencyMethods();
+            c.RegisterType<SampleClassWithManyClassDependencyMethods>();
 
-            c.BuildUp(sampleClass);
+            var sampleClass = c.Resolve<SampleClassWithManyClassDependencyMethods>();
 
             Assert.IsNotNull(sampleClass.EmptyClass);
             Assert.IsNotNull(sampleClass.SampleClass);
@@ -84,9 +76,9 @@ namespace NiquIoC.Test.BuildUp
             var c = new Container();
             c.RegisterType<EmptyClass>();
             c.RegisterType<SampleClass>();
-            var sampleClass = new SampleClassWithManyClassParametersInDependencyMethod();
+            c.RegisterType<SampleClassWithManyClassParametersInDependencyMethod>();
 
-            c.BuildUp(sampleClass);
+            var sampleClass = c.Resolve<SampleClassWithManyClassParametersInDependencyMethod>();
 
             Assert.IsNotNull(sampleClass.EmptyClass);
             Assert.IsNotNull(sampleClass.SampleClass);
@@ -98,9 +90,9 @@ namespace NiquIoC.Test.BuildUp
             var c = new Container();
             c.RegisterType<EmptyClass>();
             c.RegisterType<SampleClassWithClassDependencyMethod>();
-            var sampleClass = new SampleClassWithNestedClassDependencyMethod();
+            c.RegisterType<SampleClassWithNestedClassDependencyMethod>();
 
-            c.BuildUp(sampleClass);
+            var sampleClass = c.Resolve<SampleClassWithNestedClassDependencyMethod>();
 
             Assert.IsNotNull(sampleClass.SampleClassWithClassDependencyMethod);
             Assert.IsNotNull(sampleClass.SampleClassWithClassDependencyMethod.EmptyClass);

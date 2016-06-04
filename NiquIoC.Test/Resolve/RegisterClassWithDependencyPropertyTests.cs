@@ -2,30 +2,19 @@
 using NiquIoC.Exceptions;
 using NiquIoC.Test.ClassDefinitions;
 
-namespace NiquIoC.Test.BuildUp
+namespace NiquIoC.Test.Resolve
 {
     [TestClass]
-    public class BuildUpForClassWithDependencyPropertyTests
+    public class RegisterClassWithDependencyPropertyTests
     {
-        [TestMethod]
-        public void RegisteredClassWithDependencyPropertyWithoutBuildUp_Success()
-        {
-            var c = new Container();
-            c.RegisterType<EmptyClass>();
-            var sampleClass = new SampleClassWithClassDependencyProperty();
-
-            Assert.IsNotNull(sampleClass);
-            Assert.IsNull(sampleClass.EmptyClass);
-        }
-
         [TestMethod]
         [ExpectedException(typeof(TypeNotRegisteredException), "Type NiquIoC.Test.ClassDefinitions.EmptyClass has not been registered.")]
         public void RegisteredClassWithDependencyPropertyWithoutRegisteredNestedClass_Success()
         {
             var c = new Container();
-            var sampleClass = new SampleClassWithClassDependencyProperty();
+            c.RegisterType<SampleClassWithClassDependencyProperty>();
 
-            c.BuildUp(sampleClass);
+            var sampleClass = c.Resolve<SampleClassWithClassDependencyProperty>();
 
             Assert.IsNotNull(sampleClass.EmptyClass);
         }
@@ -35,9 +24,9 @@ namespace NiquIoC.Test.BuildUp
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
-            var sampleClass = new SampleClassWithClassDependencyProperty();
+            c.RegisterType<SampleClassWithClassDependencyProperty>();
 
-            c.BuildUp(sampleClass);
+            var sampleClass = c.Resolve<SampleClassWithClassDependencyProperty>();
 
             Assert.IsNotNull(sampleClass.EmptyClass);
         }
@@ -47,9 +36,9 @@ namespace NiquIoC.Test.BuildUp
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
-            var sampleClass = new SampleClassWithoutClassDependencyProperty();
+            c.RegisterType<SampleClassWithoutClassDependencyProperty>();
 
-            c.BuildUp(sampleClass);
+            var sampleClass = c.Resolve<SampleClassWithoutClassDependencyProperty>();
 
             Assert.IsNull(sampleClass.EmptyClass);
         }
@@ -60,9 +49,9 @@ namespace NiquIoC.Test.BuildUp
             var c = new Container();
             c.RegisterType<EmptyClass>();
             c.RegisterType<SampleClass>();
-            var sampleClass = new SampleClassWithManyClassDependencyProperties();
+            c.RegisterType<SampleClassWithManyClassDependencyProperties>();
 
-            c.BuildUp(sampleClass);
+            var sampleClass = c.Resolve<SampleClassWithManyClassDependencyProperties>();
 
             Assert.IsNotNull(sampleClass.EmptyClass);
             Assert.IsNotNull(sampleClass.SampleClass);
@@ -74,9 +63,9 @@ namespace NiquIoC.Test.BuildUp
             var c = new Container();
             c.RegisterType<EmptyClass>();
             c.RegisterType<SampleClassWithClassDependencyProperty>();
-            var sampleClass = new SampleClassWithNestedClassDependencyProperty();
+            c.RegisterType<SampleClassWithNestedClassDependencyProperty>();
 
-            c.BuildUp(sampleClass);
+            var sampleClass = c.Resolve<SampleClassWithNestedClassDependencyProperty>();
 
             Assert.IsNotNull(sampleClass.SampleClassWithClassDependencyProperty);
             Assert.IsNotNull(sampleClass.SampleClassWithClassDependencyProperty.EmptyClass);
@@ -87,9 +76,9 @@ namespace NiquIoC.Test.BuildUp
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
-            var sampleClass = new SampleClassWithClassDependencyPropertyWithoutSetMethod();
+            c.RegisterType<SampleClassWithClassDependencyPropertyWithoutSetMethod>();
 
-            c.BuildUp(sampleClass);
+            var sampleClass = c.Resolve<SampleClassWithClassDependencyPropertyWithoutSetMethod>();
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNull(sampleClass.EmptyClass);

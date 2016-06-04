@@ -98,6 +98,7 @@ namespace NiquIoC
 
         public void BuildUp<T>(T instance)
         {
+            //TODO: use instace.GetType() instead of typeof(T)?
             BuildUp(instance, typeof(T));
         }
 
