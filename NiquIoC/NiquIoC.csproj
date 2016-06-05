@@ -49,6 +49,7 @@
     <Compile Include="Attributes\DependencyProperty.cs" />
     <Compile Include="Container.cs" />
     <Compile Include="ContainerMember.cs" />
+    <Compile Include="Enums\ResolveKind.cs" />
     <Compile Include="Exceptions\WrongInterfaceRegistrationException.cs" />
     <Compile Include="Extensions\DictionaryExtension.cs" />
     <Compile Include="Helpers\EmitHelper.cs" />

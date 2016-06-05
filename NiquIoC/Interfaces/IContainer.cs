@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NiquIoC.Enums;
+using System;
 
 namespace NiquIoC.Interfaces
 {
@@ -41,7 +42,7 @@ namespace NiquIoC.Interfaces
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        T Resolve<T>();
+        T Resolve<T>(ResolveKind resolveKind);
 
         /// <summary>
         /// </summary>

@@ -101,6 +101,7 @@ namespace NiquIoC.Helpers
                 ilgen.Emit(OpCodes.Ldarg_0);
                 EmitIntOntoStack(ilgen, signletonsIndexCache[type]);
                 ilgen.Emit(OpCodes.Ldelem_Ref);
+                ilgen.Emit(type.IsValueType ? OpCodes.Unbox_Any : OpCodes.Castclass, type);
             }
             else if (objectFactoryIndexCache.ContainsKey(type))
             {
@@ -108,6 +109,7 @@ namespace NiquIoC.Helpers
                 EmitIntOntoStack(ilgen, objectFactoryIndexCache[type]);
                 ilgen.Emit(OpCodes.Ldelem_Ref);
                 ilgen.Emit(OpCodes.Call, typeof(Func<object>).GetMethod("Invoke", Type.EmptyTypes));
+                ilgen.Emit(type.IsValueType ? OpCodes.Unbox_Any : OpCodes.Castclass, type);
             }
             else
             {
