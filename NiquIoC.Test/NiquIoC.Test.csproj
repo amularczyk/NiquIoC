@@ -70,6 +70,9 @@
     <Compile Include="ClassDefinitions\ClassWithClassDependencyPropertyAndDependencyMethod.cs" />
     <Compile Include="ClassDefinitions\ClassWithClassDependencyPropertyDefinitions.cs" />
     <Compile Include="ClassDefinitions\ClassWithClassDependencyMethodDefinitions.cs" />
+    <Compile Include="ClassDefinitions\GenericClassDefinitions.cs" />
+    <Compile Include="Resolve\MixObjectsLifeTime\RegisterGenericTypeForClassTests.cs" />
+    <Compile Include="Resolve\MixObjectsLifeTime\RegisterGenericTypeForInterfaceTests.cs" />
     <Compile Include="Resolve\RegisterClassWithDependencyPropertyTests.cs" />
     <Compile Include="Resolve\RegisterInterfaceWithDependencyPropertyTestsy.cs" />
     <Compile Include="Resolve\MixObjectsLifeTime\RegisterTypeForInterfaceTests.cs" />
@@ -79,7 +82,10 @@
     <Compile Include="Resolve\MixObjectsLifeTime\ReRegistereInterfaceTests.cs" />
     <Compile Include="Resolve\RegisterInterfaceInstanceTests.cs" />
     <Compile Include="Resolve\RegisterInterfaceWithDependencyMethodTests.cs" />
+    <Compile Include="Resolve\Singleton\RegisterGenericTypeForClassTests.cs" />
+    <Compile Include="Resolve\Singleton\RegisterGenericTypeForInterfaceTests.cs" />
     <Compile Include="Resolve\Singleton\ReRegistereInterfaceTests.cs" />
+    <Compile Include="Resolve\Transient\RegisterGenericTypeForInterfaceTests.cs" />
     <Compile Include="Resolve\Transient\ReRegistereInterfaceTests.cs" />
     <Compile Include="Resolve\Singleton\RegisterTypeByFactoryObjectForClassTests.cs" />
     <Compile Include="Resolve\Singleton\RegisterTypeByFactoryObjectForClassWithInterfaceTests.cs" />
@@ -108,6 +114,7 @@
     <Compile Include="Resolve\Transient\RegisterTypeForClassTests.cs" />
     <Compile Include="Resolve\CommonTests.cs" />
     <Compile Include="Resolve\Transient\ReRegistereClassTests.cs" />
+    <Compile Include="Resolve\Transient\RegisterGenericTypeForClassTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NiquIoC\NiquIoC.csproj">

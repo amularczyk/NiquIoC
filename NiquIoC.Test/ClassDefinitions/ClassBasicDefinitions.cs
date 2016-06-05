@@ -48,6 +48,21 @@
         public EmptyClass EmptyClass { get; }
     }
 
+    internal interface ISampleClassOtherWithInterfaceAsParameter
+    {
+        IEmptyClass EmptyClass { get; }
+    }
+
+    internal class SampleClassOtherWithInterfaceAsParameter : ISampleClassOtherWithInterfaceAsParameter
+    {
+        public SampleClassOtherWithInterfaceAsParameter(IEmptyClass emptyClass)
+        {
+            EmptyClass = emptyClass;
+        }
+
+        public IEmptyClass EmptyClass { get; }
+    }
+
     internal interface ISampleClassWithStringType
     {
         string Text { get; }
