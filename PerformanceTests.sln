@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerformanceTests", "PerformanceTests\PerformanceTests.csproj", "{0FD42737-ADEA-4C5C-8BEF-A5F62C92CA40}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DryIoc", "DryIoc\DryIoc.csproj", "{9946A13C-9436-4263-806E-BD1B344A13FB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerformanceCalculator", "PerformanceCalculator\PerformanceCalculator.csproj", "{0688F11B-4BCD-4EDD-B0EC-0EF51B96BB07}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{0FD42737-ADEA-4C5C-8BEF-A5F62C92CA40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0FD42737-ADEA-4C5C-8BEF-A5F62C92CA40}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0FD42737-ADEA-4C5C-8BEF-A5F62C92CA40}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0FD42737-ADEA-4C5C-8BEF-A5F62C92CA40}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9946A13C-9436-4263-806E-BD1B344A13FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9946A13C-9436-4263-806E-BD1B344A13FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9946A13C-9436-4263-806E-BD1B344A13FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9946A13C-9436-4263-806E-BD1B344A13FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0688F11B-4BCD-4EDD-B0EC-0EF51B96BB07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0688F11B-4BCD-4EDD-B0EC-0EF51B96BB07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0688F11B-4BCD-4EDD-B0EC-0EF51B96BB07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0688F11B-4BCD-4EDD-B0EC-0EF51B96BB07}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
