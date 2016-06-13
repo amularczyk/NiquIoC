@@ -14,10 +14,10 @@ namespace PerformanceCalculator.TestsAutofac
             var results = new List<TestResult>
             {
                 DoTest(new TestCaseA(), 100, true),
-                DoTest(new TestCaseA(), 1, false),
-                DoTest(new TestCaseA(), 10, false),
-                DoTest(new TestCaseA(), 100, false),
-                DoTest(new TestCaseA(), 1000, false)
+                //DoTest(new TestCaseA(), 1, false),
+                //DoTest(new TestCaseA(), 10, false),
+                //DoTest(new TestCaseA(), 100, false),
+                //DoTest(new TestCaseA(), 1000, false)
             };
 
 

@@ -12,8 +12,8 @@ namespace PerformanceCalculator
 
         private static void Main(string[] args)
         {
-            AutofacPerformance(10);
-            Console.ReadLine();
+            AutofacPerformance(1);
+            //Console.ReadLine();
         }
 
         private static void AutofacPerformance(int count)
@@ -27,7 +27,7 @@ namespace PerformanceCalculator
             }
 
             WriteFirstTestResults(_fileName, testsResults.First());
-            WriteTestsResults(_fileName, testsResults.Skip(1));
+            //WriteTestsResults(_fileName, testsResults.Skip(1));
         }
 
         private static void WriteFirstTestResults(string fileName, IEnumerable<TestResult> testResults)
