@@ -8,42 +8,75 @@ namespace PerformanceCalculator
 {
     internal class Program
     {
-        private static readonly string _fileName = Directory.GetCurrentDirectory() + "TestsAutofac" + DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + ".txt";
-
-        private static void Main(string[] args)
+        private static int Main(string[] args)
         {
-            AutofacPerformance(1);
-            //Console.ReadLine();
-        }
+            var argsCount = 7;
 
-        private static void AutofacPerformance(int count)
-        {
-            var testsResults = new List<IEnumerable<TestResult>>();
-
-            var foo = new AutofacPerformance();
-            for (var i = 0; i < count; i++)
+            if (args.Length != argsCount)
             {
-                testsResults.Add(foo.DoTests());
+                return 1;
             }
 
-            WriteFirstTestResults(_fileName, testsResults.First());
-            //WriteTestsResults(_fileName, testsResults.Skip(1));
+            var name = args[0];
+            var singleton = false;
+            var count = 1;
+            var testCase = "A";
+            
+            for (var i = 1; i < argsCount; i += 2)
+            {
+                switch (args[i])
+                {
+                    case "-r":
+                        singleton = args[i + 1] == "s";
+                        break;
+                    case "-c":
+                        count = Convert.ToInt32(args[i + 1]);
+                        break;
+                    case "-t":
+                        testCase = args[i + 1];
+                        break;
+                }
+            }
+
+            IPerformance performance;
+            switch (name)
+            {
+                case "Autofac":
+                    performance = new AutofacPerformance();
+                    break;
+
+                default:
+                    throw new InvalidOperationException();
+            }
+
+            TestResult testResult;
+            switch (testCase)
+            {
+                case "A":
+                    testResult = performance.DoTestA(count, singleton);
+                    break;
+
+                case "B":
+                    testResult = performance.DoTestB(count, singleton);
+                    break;
+
+                case "C":
+                    testResult = performance.DoTestC(count, singleton);
+                    break;
+
+                default:
+                    throw new InvalidOperationException();
+            }
+
+            WriteFirstTestResults(testResult);
+            
+            return 0;
         }
 
-        private static void WriteFirstTestResults(string fileName, IEnumerable<TestResult> testResults)
+        private static void WriteFirstTestResults(TestResult testResult)
         {
-            foreach (var testResult in testResults)
-            {
-                Helper.WriteLine(fileName, $"{testResult.Singleton}\t{testResult.TestCasesNumber}\t{testResult.RegisterTime}\t{testResult.ResolveTime}");
-            }
-        }
-
-        private static void WriteTestsResults(string fileName, IEnumerable<IEnumerable<TestResult>> testsResults)
-        {
-            foreach (var groupedTestResults in testsResults.SelectMany(t => t).GroupBy(t => new { Singleton = t.Singleton, TestCasesNumber = t.TestCasesNumber }))
-            {
-                Helper.WriteLine(fileName, $"{groupedTestResults.Key.Singleton}\t{groupedTestResults.Key.TestCasesNumber}\t{groupedTestResults.Average(t => t.RegisterTime)}\t{groupedTestResults.Average(t => t.ResolveTime)}");
-            }
+            var registerType = testResult.Singleton ? "s" : "t";
+            Console.Write($"{registerType} {testResult.TestCasesNumber} {testResult.RegisterTime} {testResult.ResolveTime}");
         }
     }
 }

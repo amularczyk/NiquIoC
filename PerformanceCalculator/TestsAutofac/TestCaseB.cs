@@ -6,45 +6,12 @@ using PerformanceCalculator.Classes;
 
 namespace PerformanceCalculator.TestsAutofac
 {
-    public class ClassB
+    public class TestCaseB : ITestCase
     {
-        private static readonly string _fileName = Directory.GetCurrentDirectory() + "TestsAutofac" + DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + ".txt";
-        
-        public void Resolve1_SingletonRegister()
+        public object SingletonRegister(object container)
         {
-            Helper.WriteLine(_fileName, "Autofac");
+            var cb = (ContainerBuilder)container;
 
-            var cb = new ContainerBuilder();
-            var c = SingletonRegister(cb);
-            Resolve(c, 1, true);
-            c.Dispose();
-        }
-        
-        public void Resolve1_TransientRegister()
-        {
-            Helper.WriteLine(_fileName, "Autofac");
-
-            var cb = new ContainerBuilder();
-            var c = TransientRegister(cb);
-            Resolve(c, 1, false);
-            c.Dispose();
-        }
-        
-        public void Resolve10_TransientRegister()
-        {
-            Helper.WriteLine(_fileName, "Autofac");
-
-            var cb = new ContainerBuilder();
-            var c = TransientRegister(cb);
-            Resolve(c, 10, false);
-            c.Dispose();
-        }
-
-        private IContainer SingletonRegister(ContainerBuilder cb)
-        {
-            var sw = new Stopwatch();
-
-            sw.Start();
             cb.RegisterType<TestB00>().As<ITestB00>().SingleInstance();
             cb.RegisterType<TestB01>().As<ITestB01>().SingleInstance();
             cb.RegisterType<TestB02>().As<ITestB02>().SingleInstance();
@@ -102,19 +69,14 @@ namespace PerformanceCalculator.TestsAutofac
 
             cb.RegisterType<TestB>().As<ITestB>().SingleInstance();
             var c = cb.Build();
-            sw.Stop();
-
-            Helper.WriteLine(_fileName, $"Register: {sw.ElapsedMilliseconds} Milliseconds.");
-            sw.Reset();
 
             return c;
         }
 
-        private IContainer TransientRegister(ContainerBuilder cb)
+        public object TransientRegister(object container)
         {
-            var sw = new Stopwatch();
+            var cb = (ContainerBuilder)container;
 
-            sw.Start();
             cb.RegisterType<TestB00>().As<ITestB00>();
             cb.RegisterType<TestB01>().As<ITestB01>();
             cb.RegisterType<TestB02>().As<ITestB02>();
@@ -172,44 +134,18 @@ namespace PerformanceCalculator.TestsAutofac
 
             cb.RegisterType<TestB>().As<ITestB>();
             var c = cb.Build();
-            sw.Stop();
-
-            Helper.WriteLine(_fileName, $"Register: {sw.ElapsedMilliseconds} Milliseconds.");
-            sw.Reset();
 
             return c;
         }
 
-        private void Resolve(IContainer c, int testCasesNumber, bool singleton)
+        public void Resolve(object container, int testCasesNumber, bool singleton)
         {
-            var sw = new Stopwatch();
+            var c = (IContainer)container;
 
-            sw.Start();
-            var lastValue = c.Resolve<ITestB>();
-            sw.Stop();
-
-            Helper.Check(lastValue, singleton);
-
-            for (var i = 0; i < testCasesNumber - 1; i++)
+            for (var i = 0; i < testCasesNumber; i++)
             {
-                sw.Start();
-                var test = c.Resolve<ITestB>();
-                sw.Stop();
-
-                if (singleton)
-                {
-                    Assert.AreEqual(test, lastValue);
-                }
-                else
-                {
-                    Assert.AreNotEqual(test, lastValue);
-                }
-
-                Helper.Check(test, singleton);
-                lastValue = test;
+                c.Resolve<ITestB>();
             }
-
-            Helper.WriteLine(_fileName, $"{testCasesNumber} resolve: {sw.ElapsedMilliseconds} Milliseconds." );
         }
     }
 }

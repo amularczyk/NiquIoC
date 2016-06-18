@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DryIoc", "DryIoc\DryIoc.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerformanceCalculator", "PerformanceCalculator\PerformanceCalculator.csproj", "{0688F11B-4BCD-4EDD-B0EC-0EF51B96BB07}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foo", "Foo\Foo.csproj", "{ECC73847-2AC3-44D2-A12F-66DABA788B3D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerformanceCalculatorRunner", "PerformanceCalculatorRunner\PerformanceCalculatorRunner.csproj", "{9C3E4CC3-8D83-4D9A-B59B-8E583C8B5B52}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{0688F11B-4BCD-4EDD-B0EC-0EF51B96BB07}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0688F11B-4BCD-4EDD-B0EC-0EF51B96BB07}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0688F11B-4BCD-4EDD-B0EC-0EF51B96BB07}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ECC73847-2AC3-44D2-A12F-66DABA788B3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ECC73847-2AC3-44D2-A12F-66DABA788B3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ECC73847-2AC3-44D2-A12F-66DABA788B3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ECC73847-2AC3-44D2-A12F-66DABA788B3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C3E4CC3-8D83-4D9A-B59B-8E583C8B5B52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C3E4CC3-8D83-4D9A-B59B-8E583C8B5B52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C3E4CC3-8D83-4D9A-B59B-8E583C8B5B52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C3E4CC3-8D83-4D9A-B59B-8E583C8B5B52}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

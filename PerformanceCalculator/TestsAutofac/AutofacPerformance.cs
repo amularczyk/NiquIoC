@@ -7,53 +7,21 @@ using Autofac;
 
 namespace PerformanceCalculator.TestsAutofac
 {
-    public class AutofacPerformance : IPerformance
+    public class AutofacPerformance : Performance
     {
-        public IEnumerable<TestResult> DoTests()
+        public override TestResult DoTestA(int testCasesNumber, bool singleton)
         {
-            var results = new List<TestResult>
-            {
-                DoTest(new TestCaseA(), 100, true),
-                //DoTest(new TestCaseA(), 1, false),
-                //DoTest(new TestCaseA(), 10, false),
-                //DoTest(new TestCaseA(), 100, false),
-                //DoTest(new TestCaseA(), 1000, false)
-            };
-
-
-            return results;
+            return DoTest(new TestCaseA(), testCasesNumber, singleton);
         }
 
-        public TestResult DoTest(ITestCase testCase, int testCasesNumber, bool singleton)
+        public override TestResult DoTestB(int testCasesNumber, bool singleton)
         {
-            var result = new TestResult() { Singleton = singleton, TestCasesNumber = testCasesNumber };
-            var sw = new Stopwatch();
+            return DoTest(new TestCaseB(), testCasesNumber, singleton);
+        }
 
-            var cb = new ContainerBuilder();
-            IContainer c;
-            if (singleton)
-            {
-                sw.Start();
-                c = (IContainer)testCase.SingletonRegister(cb);
-                sw.Stop();
-            }
-            else
-            {
-                sw.Start();
-                c = (IContainer)testCase.TransientRegister(cb); ;
-                sw.Stop();
-            }
-            result.RegisterTime = sw.ElapsedMilliseconds;
-
-            sw.Reset();
-            sw.Start();
-            testCase.Resolve(c, testCasesNumber, singleton);
-            sw.Stop();
-            result.ResolveTime = sw.ElapsedMilliseconds;
-
-            c.Dispose();
-
-            return result;
+        public override TestResult DoTestC(int testCasesNumber, bool singleton)
+        {
+            return DoTest(new TestCaseC(), testCasesNumber, singleton);
         }
     }
 }

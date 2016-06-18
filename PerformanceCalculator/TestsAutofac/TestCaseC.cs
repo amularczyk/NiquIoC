@@ -6,65 +6,12 @@ using PerformanceCalculator.Classes;
 
 namespace PerformanceCalculator.TestsAutofac
 {
-    public class ClassC
+    public class TestCaseC : ITestCase
     {
-        private static readonly string _fileName = Directory.GetCurrentDirectory() + "TestsAutofac" + DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + ".txt";
-        
-        public void Resolve100_SingletonRegister()
+        public object SingletonRegister(object container)
         {
-            Helper.WriteLine(_fileName, "Autofac");
-
-            var cb = new ContainerBuilder();
-            var c = SingletonRegister(cb);
-            Resolve(c, 100, true);
-            c.Dispose();
-        }
-        
-        public void Resolve1_TransientRegister()
-        {
-            Helper.WriteLine(_fileName, "Autofac");
-
-            var cb = new ContainerBuilder();
-            var c = TransientRegister(cb);
-            Resolve(c, 1, false);
-            c.Dispose();
-        }
-        
-        public void Resolve10_TransientRegister()
-        {
-            Helper.WriteLine(_fileName, "Autofac");
-
-            var cb = new ContainerBuilder();
-            var c = TransientRegister(cb);
-            Resolve(c, 10, false);
-            c.Dispose();
-        }
-        
-        public void Resolve100_TransientRegister()
-        {
-            Helper.WriteLine(_fileName, "Autofac");
+            var cb = (ContainerBuilder)container;
             
-            var cb = new ContainerBuilder();
-            var c = TransientRegister(cb);
-            Resolve(c, 100, false);
-            c.Dispose();
-        }
-        
-        public void Resolve1000_TransientRegister()
-        {
-            Helper.WriteLine(_fileName, "Autofac");
-
-            var cb = new ContainerBuilder();
-            var c = TransientRegister(cb);
-            Resolve(c, 1000, false);
-            c.Dispose();
-        }
-
-        private IContainer SingletonRegister(ContainerBuilder cb)
-        {
-            var sw = new Stopwatch();
-
-            sw.Start();
             cb.RegisterType<TestCa0>().As<ITestCa0>().SingleInstance();
             cb.RegisterType<TestCa1>().As<ITestCa1>().SingleInstance();
             cb.RegisterType<TestCa2>().As<ITestCa2>().SingleInstance();
@@ -102,21 +49,15 @@ namespace PerformanceCalculator.TestsAutofac
             cb.RegisterType<TestCc10>().As<ITestCc10>().SingleInstance();
 
             cb.RegisterType<TestC>().As<ITestC>().SingleInstance();
-
             var c = cb.Build();
-            sw.Stop();
-
-            Helper.WriteLine(_fileName, $"Register: {sw.ElapsedMilliseconds} Milliseconds.");
-            sw.Reset();
 
             return c;
         }
 
-        private IContainer TransientRegister(ContainerBuilder cb)
+        public object TransientRegister(object container)
         {
-            var sw = new Stopwatch();
+            var cb = (ContainerBuilder)container;
 
-            sw.Start();
             cb.RegisterType<TestCa0>().As<ITestCa0>();
             cb.RegisterType<TestCa1>().As<ITestCa1>();
             cb.RegisterType<TestCa2>().As<ITestCa2>();
@@ -154,46 +95,19 @@ namespace PerformanceCalculator.TestsAutofac
             cb.RegisterType<TestCc10>().As<ITestCc10>();
 
             cb.RegisterType<TestC>().As<ITestC>();
-
             var c = cb.Build();
-            sw.Stop();
-
-            Helper.WriteLine(_fileName, $"Register: {sw.ElapsedMilliseconds} Milliseconds.");
-            sw.Reset();
 
             return c;
         }
 
-        private void Resolve(IContainer c, int testCasesNumber, bool singleton)
+        public void Resolve(object container, int testCasesNumber, bool singleton)
         {
-            var sw = new Stopwatch();
+            var c = (IContainer)container;
 
-            sw.Start();
-            var lastValue = c.Resolve<ITestC>();
-            sw.Stop();
-
-            Helper.Check(lastValue, singleton);
-
-            for (var i = 0; i < testCasesNumber - 1; i++)
+            for (var i = 0; i < testCasesNumber; i++)
             {
-                sw.Start();
-                var test = c.Resolve<ITestC>();
-                sw.Stop();
-
-                if (singleton)
-                {
-                    Assert.AreEqual(test, lastValue);
-                }
-                else
-                {
-                    Assert.AreNotEqual(test, lastValue);
-                }
-
-                Helper.Check(test, singleton);
-                lastValue = test;
+                c.Resolve<ITestC>();
             }
-
-            Helper.WriteLine(_fileName, $"{testCasesNumber} resolve: {sw.ElapsedMilliseconds} Milliseconds." );
         }
     }
 }

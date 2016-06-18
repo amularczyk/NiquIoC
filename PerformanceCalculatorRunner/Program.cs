@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Foo
+namespace PerformanceCalculatorRunner
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main()
         {
             var repetitionsNumber = 3;
 

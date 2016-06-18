@@ -92,6 +92,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assert.cs" />
+    <Compile Include="Performance.cs" />
     <Compile Include="TestCases\Test_A.cs" />
     <Compile Include="TestCases\Test_B.cs" />
     <Compile Include="TestCases\Test_C.cs" />
@@ -103,8 +104,8 @@
     <Compile Include="TestResult.cs" />
     <Compile Include="TestsAutofac\AutofacPerformance.cs" />
     <Compile Include="TestsAutofac\TestCaseA.cs" />
-    <Compile Include="TestsAutofac\ClassB.cs" />
-    <Compile Include="TestsAutofac\ClassC.cs" />
+    <Compile Include="TestsAutofac\TestCaseB.cs" />
+    <Compile Include="TestsAutofac\TestCaseC.cs" />
     <Compile Include="TestsDryIoc\ClassA.cs" />
     <Compile Include="TestsDryIoc\ClassB.cs" />
     <Compile Include="TestsDryIoc\ClassC.cs" />
