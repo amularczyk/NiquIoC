@@ -1,4 +1,4 @@
-﻿namespace PerformanceCalculator.Classes
+﻿namespace PerformanceCalculator.TestCases
 {
     public interface ITestCa0
     {

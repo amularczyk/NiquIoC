@@ -1,14 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using Autofac;
+using PerformanceCalculator.Interfaces;
 
 namespace PerformanceCalculator
 {
-    public abstract class Performance : IPerformance
+    internal abstract class Performance : IPerformance
     {
         public TestResult DoTest(ITestCase testCase, int testCasesNumber, bool singleton)
         {
-            var result = new TestResult() { Singleton = singleton, TestCasesNumber = testCasesNumber };
+            var result = new TestResult { Singleton = singleton, TestCasesNumber = testCasesNumber };
             var sw = new Stopwatch();
 
             var cb = new ContainerBuilder();
@@ -22,7 +22,7 @@ namespace PerformanceCalculator
             else
             {
                 sw.Start();
-                c = (IContainer)testCase.TransientRegister(cb); ;
+                c = (IContainer)testCase.TransientRegister(cb);
                 sw.Stop();
             }
             result.RegisterTime = sw.ElapsedMilliseconds;

@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using PerformanceCalculator.TestsAutofac;
+using PerformanceCalculator.Containers.TestsAutofac;
+using PerformanceCalculator.Interfaces;
 
 namespace PerformanceCalculator
 {
@@ -21,7 +19,7 @@ namespace PerformanceCalculator
             var singleton = false;
             var count = 1;
             var testCase = "A";
-            
+
             for (var i = 1; i < argsCount; i += 2)
             {
                 switch (args[i])
@@ -69,7 +67,7 @@ namespace PerformanceCalculator
             }
 
             WriteFirstTestResults(testResult);
-            
+
             return 0;
         }
 
