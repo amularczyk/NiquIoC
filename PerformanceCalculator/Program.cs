@@ -4,7 +4,7 @@ using PerformanceCalculator.Interfaces;
 
 namespace PerformanceCalculator
 {
-    internal class Program
+    public class Program
     {
         private static int Main(string[] args)
         {

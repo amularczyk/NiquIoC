@@ -98,7 +98,6 @@
     <Compile Include="Containers\TestsStructureMap\StructureMapPerformance.cs" />
     <Compile Include="Containers\TestsUnity\UnityPerformance.cs" />
     <Compile Include="Containers\TestsWindsor\WindsorPerformance.cs" />
-    <Compile Include="Performance.cs" />
     <Compile Include="TestCases\Test_A.cs" />
     <Compile Include="TestCases\Test_B.cs" />
     <Compile Include="TestCases\Test_C.cs" />

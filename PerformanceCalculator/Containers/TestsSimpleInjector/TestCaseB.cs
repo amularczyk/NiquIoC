@@ -4,7 +4,7 @@ using SimpleInjector;
 
 namespace PerformanceCalculator.Containers.TestsSimpleInjector
 {
-    internal class TestCaseB : ITestCase
+    public class TestCaseB : ITestCase
     {
         public object SingletonRegister(object container)
         {

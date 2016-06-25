@@ -4,7 +4,7 @@ using PerformanceCalculator.TestCases;
 
 namespace PerformanceCalculator.Containers.TestsLightInject
 {
-    internal class TestCaseB : ITestCase
+    public class TestCaseB : ITestCase
     {
         public object SingletonRegister(object container)
         {

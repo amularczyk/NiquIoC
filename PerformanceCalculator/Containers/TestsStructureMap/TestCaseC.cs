@@ -4,7 +4,7 @@ using StructureMap;
 
 namespace PerformanceCalculator.Containers.TestsStructureMap
 {
-    internal class TestCaseC : ITestCase
+    public class TestCaseC : ITestCase
     {
         public object SingletonRegister(object container)
         {

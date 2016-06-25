@@ -4,7 +4,7 @@ using PerformanceCalculator.TestCases;
 
 namespace PerformanceCalculator.Containers.TestsAutofac
 {
-    internal class TestCaseA : ITestCase
+    public class TestCaseA : ITestCase
     {
         public object SingletonRegister(object container)
         {

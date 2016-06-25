@@ -5,7 +5,7 @@ using PerformanceCalculator.TestCases;
 
 namespace PerformanceCalculator.Containers.TestsNiquIoC_Full
 {
-    internal class TestCaseA : ITestCase
+    public class TestCaseA : ITestCase
     {
         public object SingletonRegister(object container)
         {

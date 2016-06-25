@@ -1,18 +1,53 @@
-﻿namespace PerformanceCalculator.Containers.TestsLightInject
+﻿using System.Diagnostics;
+using LightInject;
+using PerformanceCalculator.Interfaces;
+
+namespace PerformanceCalculator.Containers.TestsLightInject
 {
-    internal class LightInjectPerformance : Performance
+    public class LightInjectPerformance : IPerformance
     {
-        public override TestResult DoTestA(int testCasesNumber, bool singleton)
+        public TestResult DoTest(ITestCase testCase, int testCasesNumber, bool singleton)
+        {
+            var result = new TestResult { Singleton = singleton, TestCasesNumber = testCasesNumber };
+            var sw = new Stopwatch();
+
+            var c = new ServiceContainer();
+            if (singleton)
+            {
+                sw.Start();
+                c = (ServiceContainer)testCase.SingletonRegister(c);
+                sw.Stop();
+            }
+            else
+            {
+                sw.Start();
+                c = (ServiceContainer)testCase.TransientRegister(c);
+                sw.Stop();
+            }
+            result.RegisterTime = sw.ElapsedMilliseconds;
+
+            sw.Reset();
+            sw.Start();
+            testCase.Resolve(c, testCasesNumber, singleton);
+            sw.Stop();
+            result.ResolveTime = sw.ElapsedMilliseconds;
+
+            c.Dispose();
+
+            return result;
+        }
+
+        public TestResult DoTestA(int testCasesNumber, bool singleton)
         {
             return DoTest(new TestsAutofac.TestCaseA(), testCasesNumber, singleton);
         }
 
-        public override TestResult DoTestB(int testCasesNumber, bool singleton)
+        public TestResult DoTestB(int testCasesNumber, bool singleton)
         {
             return DoTest(new TestCaseB(), testCasesNumber, singleton);
         }
 
-        public override TestResult DoTestC(int testCasesNumber, bool singleton)
+        public TestResult DoTestC(int testCasesNumber, bool singleton)
         {
             return DoTest(new TestCaseC(), testCasesNumber, singleton);
         }
