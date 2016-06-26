@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using PerformanceCalculator;
 using PerformanceCalculator.Common;
 
 namespace PerformanceCalculatorRunner
@@ -12,7 +11,7 @@ namespace PerformanceCalculatorRunner
     {
         private static void Main()
         {
-            var repetitionsNumber = 10;
+            var repetitionsNumber = 1;
 
             var results = new Dictionary<string, List<FinalTestResult>>
             {
@@ -89,8 +88,8 @@ namespace PerformanceCalculatorRunner
                 body12.Append(ReturnStringResult(result, 11));
                 body13.Append(ReturnStringResult(result, 12));
             }
-            
-            using (var file = new StreamWriter("TestResults.csv"))
+
+            using (var file = new StreamWriter($"PerformanceCalculator_{DateTime.Now.ToString("yyyy_MM_dd_hh_mm")}.csv"))
             {
                 file.WriteLine(header);
                 file.WriteLine(header2);
@@ -112,11 +111,13 @@ namespace PerformanceCalculatorRunner
 
         private static string ReturnStringResult(KeyValuePair<string, List<FinalTestResult>> result, int index)
         {
-            return $"{result.Value[index].MinRegisterTime};{result.Value[index].MaxRegisterTime};{result.Value[index].AvgRegisterTime};{result.Value[index].MinResolveTime};{result.Value[index].MaxResolveTime};{result.Value[index].AvgResolveTime};";
+            return
+                $"{result.Value[index].MinRegisterTime};{result.Value[index].MaxRegisterTime};{result.Value[index].AvgRegisterTime};{result.Value[index].MinResolveTime};{result.Value[index].MaxResolveTime};{result.Value[index].AvgResolveTime};";
         }
 
         private static List<List<TestResult>> RunAutofacPeformanceTests(int repetitionsNumber)
         {
+            Console.WriteLine("Autofac - Start");
             var testResults = new List<List<TestResult>>
             {
                 new List<TestResult>(),
@@ -124,16 +125,14 @@ namespace PerformanceCalculatorRunner
                 new List<TestResult>(),
                 new List<TestResult>(),
                 new List<TestResult>(),
-
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-
                 new List<TestResult>(),
                 new List<TestResult>(),
                 new List<TestResult>(),
                 new List<TestResult>(),
                 new List<TestResult>(),
+                new List<TestResult>(),
+                new List<TestResult>(),
+                new List<TestResult>()
             };
 
             for (var i = 0; i < repetitionsNumber; i++)
@@ -155,6 +154,7 @@ namespace PerformanceCalculatorRunner
                 testResults[12].Add(ConvertToTestResult(RunAutofacPeformanceTests(false, 1000, TestCaseName.C)));
             }
 
+            Console.WriteLine("Autofac - End");
             return testResults;
         }
 
@@ -165,6 +165,7 @@ namespace PerformanceCalculatorRunner
 
         private static List<List<TestResult>> RunDryIocPeformanceTests(int repetitionsNumber)
         {
+            Console.WriteLine("DryIoc - Start");
             var testResults = new List<List<TestResult>>
             {
                 new List<TestResult>(),
@@ -172,16 +173,14 @@ namespace PerformanceCalculatorRunner
                 new List<TestResult>(),
                 new List<TestResult>(),
                 new List<TestResult>(),
-
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-
                 new List<TestResult>(),
                 new List<TestResult>(),
                 new List<TestResult>(),
                 new List<TestResult>(),
                 new List<TestResult>(),
+                new List<TestResult>(),
+                new List<TestResult>(),
+                new List<TestResult>()
             };
 
             for (var i = 0; i < repetitionsNumber; i++)
@@ -203,6 +202,7 @@ namespace PerformanceCalculatorRunner
                 testResults[12].Add(ConvertToTestResult(RunDryIocPeformanceTests(false, 1000, TestCaseName.C)));
             }
 
+            Console.WriteLine("DryIoc - End");
             return testResults;
         }
 
@@ -213,6 +213,7 @@ namespace PerformanceCalculatorRunner
 
         private static List<List<TestResult>> RunLightInjectPeformanceTests(int repetitionsNumber)
         {
+            Console.WriteLine("LightInject - Start");
             var testResults = new List<List<TestResult>>
             {
                 new List<TestResult>(),
@@ -220,16 +221,14 @@ namespace PerformanceCalculatorRunner
                 new List<TestResult>(),
                 new List<TestResult>(),
                 new List<TestResult>(),
-
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-
                 new List<TestResult>(),
                 new List<TestResult>(),
                 new List<TestResult>(),
                 new List<TestResult>(),
                 new List<TestResult>(),
+                new List<TestResult>(),
+                new List<TestResult>(),
+                new List<TestResult>()
             };
 
             for (var i = 0; i < repetitionsNumber; i++)
@@ -251,6 +250,7 @@ namespace PerformanceCalculatorRunner
                 testResults[12].Add(ConvertToTestResult(RunLightInjectPeformanceTests(false, 1000, TestCaseName.C)));
             }
 
+            Console.WriteLine("LightInject - End");
             return testResults;
         }
 
@@ -261,6 +261,7 @@ namespace PerformanceCalculatorRunner
 
         private static List<List<TestResult>> RunNiquIoCPeformanceTests(int repetitionsNumber)
         {
+            Console.WriteLine("NiquIoC - Start");
             var testResults = new List<List<TestResult>>
             {
                 new List<TestResult>(),
@@ -268,16 +269,14 @@ namespace PerformanceCalculatorRunner
                 new List<TestResult>(),
                 new List<TestResult>(),
                 new List<TestResult>(),
-
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-
                 new List<TestResult>(),
                 new List<TestResult>(),
                 new List<TestResult>(),
                 new List<TestResult>(),
                 new List<TestResult>(),
+                new List<TestResult>(),
+                new List<TestResult>(),
+                new List<TestResult>()
             };
 
             for (var i = 0; i < repetitionsNumber; i++)
@@ -299,6 +298,7 @@ namespace PerformanceCalculatorRunner
                 testResults[12].Add(ConvertToTestResult(RunNiquIoCPeformanceTests(false, 1000, TestCaseName.C)));
             }
 
+            Console.WriteLine("NiquIoC - End");
             return testResults;
         }
 
@@ -309,6 +309,7 @@ namespace PerformanceCalculatorRunner
 
         private static List<List<TestResult>> RunNiquIoCFullPeformanceTests(int repetitionsNumber)
         {
+            Console.WriteLine("NiquIoCFull - Start");
             var testResults = new List<List<TestResult>>
             {
                 new List<TestResult>(),
@@ -316,16 +317,14 @@ namespace PerformanceCalculatorRunner
                 new List<TestResult>(),
                 new List<TestResult>(),
                 new List<TestResult>(),
-
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-
                 new List<TestResult>(),
                 new List<TestResult>(),
                 new List<TestResult>(),
                 new List<TestResult>(),
                 new List<TestResult>(),
+                new List<TestResult>(),
+                new List<TestResult>(),
+                new List<TestResult>()
             };
 
             for (var i = 0; i < repetitionsNumber; i++)
@@ -347,6 +346,7 @@ namespace PerformanceCalculatorRunner
                 testResults[12].Add(ConvertToTestResult(RunNiquIoCFullPeformanceTests(false, 1000, TestCaseName.C)));
             }
 
+            Console.WriteLine("NiquIoCFull - End");
             return testResults;
         }
 
@@ -357,6 +357,7 @@ namespace PerformanceCalculatorRunner
 
         private static List<List<TestResult>> RunSimpleInjectorPeformanceTests(int repetitionsNumber)
         {
+            Console.WriteLine("SimpleInjector - Start");
             var testResults = new List<List<TestResult>>
             {
                 new List<TestResult>(),
@@ -364,16 +365,14 @@ namespace PerformanceCalculatorRunner
                 new List<TestResult>(),
                 new List<TestResult>(),
                 new List<TestResult>(),
-
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-
                 new List<TestResult>(),
                 new List<TestResult>(),
                 new List<TestResult>(),
                 new List<TestResult>(),
                 new List<TestResult>(),
+                new List<TestResult>(),
+                new List<TestResult>(),
+                new List<TestResult>()
             };
 
             for (var i = 0; i < repetitionsNumber; i++)
@@ -395,6 +394,7 @@ namespace PerformanceCalculatorRunner
                 testResults[12].Add(ConvertToTestResult(RunSimpleInjectorPeformanceTests(false, 1000, TestCaseName.C)));
             }
 
+            Console.WriteLine("SimpleInjector - End");
             return testResults;
         }
 
@@ -405,6 +405,7 @@ namespace PerformanceCalculatorRunner
 
         private static List<List<TestResult>> RunStructureMapPeformanceTests(int repetitionsNumber)
         {
+            Console.WriteLine("StructureMap - Start");
             var testResults = new List<List<TestResult>>
             {
                 new List<TestResult>(),
@@ -412,16 +413,14 @@ namespace PerformanceCalculatorRunner
                 new List<TestResult>(),
                 new List<TestResult>(),
                 new List<TestResult>(),
-
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-
                 new List<TestResult>(),
                 new List<TestResult>(),
                 new List<TestResult>(),
                 new List<TestResult>(),
                 new List<TestResult>(),
+                new List<TestResult>(),
+                new List<TestResult>(),
+                new List<TestResult>()
             };
 
             for (var i = 0; i < repetitionsNumber; i++)
@@ -443,6 +442,7 @@ namespace PerformanceCalculatorRunner
                 testResults[12].Add(ConvertToTestResult(RunStructureMapPeformanceTests(false, 1000, TestCaseName.C)));
             }
 
+            Console.WriteLine("StructureMap - End");
             return testResults;
         }
 
@@ -453,6 +453,7 @@ namespace PerformanceCalculatorRunner
 
         private static List<List<TestResult>> RunUnityPeformanceTests(int repetitionsNumber)
         {
+            Console.WriteLine("Unity - Start");
             var testResults = new List<List<TestResult>>
             {
                 new List<TestResult>(),
@@ -460,16 +461,14 @@ namespace PerformanceCalculatorRunner
                 new List<TestResult>(),
                 new List<TestResult>(),
                 new List<TestResult>(),
-
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-
                 new List<TestResult>(),
                 new List<TestResult>(),
                 new List<TestResult>(),
                 new List<TestResult>(),
                 new List<TestResult>(),
+                new List<TestResult>(),
+                new List<TestResult>(),
+                new List<TestResult>()
             };
 
             for (var i = 0; i < repetitionsNumber; i++)
@@ -491,6 +490,7 @@ namespace PerformanceCalculatorRunner
                 testResults[12].Add(ConvertToTestResult(RunUnityPeformanceTests(false, 1000, TestCaseName.C)));
             }
 
+            Console.WriteLine("Unity - End");
             return testResults;
         }
 
@@ -501,6 +501,7 @@ namespace PerformanceCalculatorRunner
 
         private static List<List<TestResult>> RunWindsorPeformanceTests(int repetitionsNumber)
         {
+            Console.WriteLine("Windsor - Start");
             var testResults = new List<List<TestResult>>
             {
                 new List<TestResult>(),
@@ -508,16 +509,14 @@ namespace PerformanceCalculatorRunner
                 new List<TestResult>(),
                 new List<TestResult>(),
                 new List<TestResult>(),
-
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-
                 new List<TestResult>(),
                 new List<TestResult>(),
                 new List<TestResult>(),
                 new List<TestResult>(),
                 new List<TestResult>(),
+                new List<TestResult>(),
+                new List<TestResult>(),
+                new List<TestResult>()
             };
 
             for (var i = 0; i < repetitionsNumber; i++)
@@ -539,6 +538,7 @@ namespace PerformanceCalculatorRunner
                 testResults[12].Add(ConvertToTestResult(RunWindsorPeformanceTests(false, 1000, TestCaseName.C)));
             }
 
+            Console.WriteLine("Windsor - End");
             return testResults;
         }
 
@@ -558,7 +558,7 @@ namespace PerformanceCalculatorRunner
             var results = result.Split(' ');
             var testResult = new TestResult
             {
-                Singleton = results[0] == "s" ? true : false,
+                Singleton = results[0] == "s",
                 TestCasesNumber = Convert.ToInt32(results[1]),
                 RegisterTime = Convert.ToInt64(results[2]),
                 ResolveTime = Convert.ToInt64(results[3])
@@ -582,7 +582,7 @@ namespace PerformanceCalculatorRunner
                     MaxRegisterTime = testResult.Max(t => t.RegisterTime),
                     MaxResolveTime = testResult.Max(t => t.ResolveTime),
                     AvgRegisterTime = (long)Math.Round(testResult.Average(t => t.RegisterTime), 0),
-                    AvgResolveTime = (long)Math.Round(testResult.Average(t => t.ResolveTime), 0),
+                    AvgResolveTime = (long)Math.Round(testResult.Average(t => t.ResolveTime), 0)
                 });
             }
 
