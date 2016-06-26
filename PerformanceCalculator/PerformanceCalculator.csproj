@@ -87,6 +87,7 @@
     <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Containers\Performance.cs" />
     <Compile Include="Containers\TestsDryIoc\DryIocPerformance.cs" />
     <Compile Include="Containers\TestsLightInject\LightInjectPerformance.cs" />
     <Compile Include="Containers\TestsNiquIoC_Full\NiquIoCFullPerformance.cs" />
@@ -105,7 +106,6 @@
     <Compile Include="Interfaces\IPerformance.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestResult.cs" />
     <Compile Include="Containers\TestsAutofac\AutofacPerformance.cs" />
     <Compile Include="Containers\TestsAutofac\TestCaseA.cs" />
     <Compile Include="Containers\TestsAutofac\TestCaseB.cs" />
@@ -140,6 +140,10 @@
     <ProjectReference Include="..\DryIoc\DryIoc.csproj">
       <Project>{9946a13c-9436-4263-806e-bd1b344a13fb}</Project>
       <Name>DryIoc</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PerformanceCalculator.Common\PerformanceCalculator.Common.csproj">
+      <Project>{f8a9c60e-8402-4ab5-8c43-1ad21d6b6cf5}</Project>
+      <Name>PerformanceCalculator.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

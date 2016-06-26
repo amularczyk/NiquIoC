@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerformanceCalculatorRunner
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerformanceCalculator.Tests", "PerformanceCalculator.Tests\PerformanceCalculator.Tests.csproj", "{092E8B80-CEEA-434A-9F72-BB5B0423930C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerformanceCalculator.Common", "PerformanceCalculator.Common\PerformanceCalculator.Common.csproj", "{F8A9C60E-8402-4AB5-8C43-1AD21D6B6CF5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{092E8B80-CEEA-434A-9F72-BB5B0423930C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{092E8B80-CEEA-434A-9F72-BB5B0423930C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{092E8B80-CEEA-434A-9F72-BB5B0423930C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8A9C60E-8402-4AB5-8C43-1AD21D6B6CF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8A9C60E-8402-4AB5-8C43-1AD21D6B6CF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8A9C60E-8402-4AB5-8C43-1AD21D6B6CF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8A9C60E-8402-4AB5-8C43-1AD21D6B6CF5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

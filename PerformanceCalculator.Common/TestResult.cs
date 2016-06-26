@@ -1,4 +1,4 @@
-﻿namespace PerformanceCalculator
+﻿namespace PerformanceCalculator.Common
 {
     public class TestResult
     {

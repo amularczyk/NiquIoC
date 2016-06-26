@@ -49,7 +49,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="LightInject, Version=4.0.9.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\LightInject.4.0.9\lib\net45\LightInject.dll</HintPath>
+      <HintPath>..\packages\LightInject.4.0.9\lib\net46\LightInject.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -94,7 +94,9 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework">
+          <Private>False</Private>
+        </Reference>
       </ItemGroup>
     </Otherwise>
   </Choose>
@@ -102,27 +104,36 @@
     <Compile Include="Containers\TestsAutofac\TestCaseATests.cs" />
     <Compile Include="Containers\TestsAutofac\TestCaseBTests.cs" />
     <Compile Include="Containers\TestsAutofac\TestCaseCTests.cs" />
+    <Compile Include="Containers\TestsAutofac\AutofacPerformanceTests.cs" />
+    <Compile Include="Containers\TestsDryIoc\DryIocPerformanceTests.cs" />
     <Compile Include="Containers\TestsDryIoc\TestCaseCTests.cs" />
     <Compile Include="Containers\TestsDryIoc\TestCaseBTests.cs" />
     <Compile Include="Containers\TestsDryIoc\TestCaseATests.cs" />
+    <Compile Include="Containers\TestsLightInject\LightInjectPerformanceTests.cs" />
     <Compile Include="Containers\TestsLightInject\TestCaseCTests.cs" />
     <Compile Include="Containers\TestsLightInject\TestCaseBTests.cs" />
     <Compile Include="Containers\TestsLightInject\TestCaseATests.cs" />
+    <Compile Include="Containers\TestsNiquIoC\NiquIoCPerformanceTests.cs" />
     <Compile Include="Containers\TestsNiquIoC\TestCaseCTests.cs" />
     <Compile Include="Containers\TestsNiquIoC\TestCaseBTests.cs" />
     <Compile Include="Containers\TestsNiquIoC\TestCaseATests.cs" />
+    <Compile Include="Containers\TestsNiquIoC_Full\NiquIoCFullPerformanceTests.cs" />
     <Compile Include="Containers\TestsNiquIoC_Full\TestCaseCTests.cs" />
     <Compile Include="Containers\TestsNiquIoC_Full\TestCaseBTests.cs" />
     <Compile Include="Containers\TestsNiquIoC_Full\TestCaseATests.cs" />
+    <Compile Include="Containers\TestsSimpleInjector\SimpleInjectorPerformanceTests.cs" />
     <Compile Include="Containers\TestsSimpleInjector\TestCaseCTests.cs" />
     <Compile Include="Containers\TestsSimpleInjector\TestCaseBTests.cs" />
     <Compile Include="Containers\TestsSimpleInjector\TestCaseATests.cs" />
+    <Compile Include="Containers\TestsStructureMap\StructureMapPerformanceTests.cs" />
     <Compile Include="Containers\TestsStructureMap\TestCaseCTests.cs" />
     <Compile Include="Containers\TestsStructureMap\TestCaseBTests.cs" />
     <Compile Include="Containers\TestsStructureMap\TestCaseATests.cs" />
+    <Compile Include="Containers\TestsUnity\UnityPerformanceTests.cs" />
     <Compile Include="Containers\TestsUnity\TestCaseCTests.cs" />
     <Compile Include="Containers\TestsUnity\TestCaseBTests.cs" />
     <Compile Include="Containers\TestsUnity\TestCaseATests.cs" />
+    <Compile Include="Containers\TestsWindsor\WindsorPerformanceTests.cs" />
     <Compile Include="Containers\TestsWindsor\TestCaseCTests.cs" />
     <Compile Include="Containers\TestsWindsor\TestCaseBTests.cs" />
     <Compile Include="Containers\TestsWindsor\TestCaseATests.cs" />
@@ -133,6 +144,10 @@
     <ProjectReference Include="..\DryIoc\DryIoc.csproj">
       <Project>{9946a13c-9436-4263-806e-bd1b344a13fb}</Project>
       <Name>DryIoc</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PerformanceCalculator.Common\PerformanceCalculator.Common.csproj">
+      <Project>{f8a9c60e-8402-4ab5-8c43-1ad21d6b6cf5}</Project>
+      <Name>PerformanceCalculator.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\PerformanceCalculator\PerformanceCalculator.csproj">
       <Project>{0688f11b-4bcd-4edd-b0ec-0ef51b96bb07}</Project>

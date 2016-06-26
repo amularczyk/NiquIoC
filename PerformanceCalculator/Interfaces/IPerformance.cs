@@ -1,4 +1,6 @@
-﻿namespace PerformanceCalculator.Interfaces
+﻿using PerformanceCalculator.Common;
+
+namespace PerformanceCalculator.Interfaces
 {
     public interface IPerformance
     {

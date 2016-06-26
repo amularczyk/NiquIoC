@@ -140,7 +140,7 @@ namespace PerformanceCalculator.Containers.TestsSimpleInjector
 
             for (var i = 0; i < testCasesNumber; i++)
             {
-                c.GetInstance<ITestA>();
+                c.GetInstance<ITestB>();
             }
         }
     }
