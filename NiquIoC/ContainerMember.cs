@@ -28,6 +28,11 @@ namespace NiquIoC
 
         public void AsCustomObjectLifetimeManager(IObjectLifetimeManager objectLifetimeManager)
         {
+            if (!CreateCache && objectLifetimeManager.ObjectFactory == null)
+            {
+                objectLifetimeManager.ObjectFactory = ObjectLifetimeManager.ObjectFactory;
+            }
+
             ObjectLifetimeManager = objectLifetimeManager;
         }
 

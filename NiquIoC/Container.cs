@@ -54,19 +54,15 @@ namespace NiquIoC
             where T : class
         {
             var type = typeof(T);
-            var objectLifetimeManager = new TransientObjectLifetimeManager();
-            objectLifetimeManager.SetObject(objectFactory);
 
-            return RegisterType(type, type, objectLifetimeManager, false);
+            return RegisterType(type, type, new TransientObjectLifetimeManager { ObjectFactory = objectFactory }, false);
         }
 
         public IContainerMember RegisterInstance<T>(T instance)
         {
             var type = typeof(T);
-            var objectLifetimeManager = new SingletonObjectLifetimeManager();
-            objectLifetimeManager.SetObject(() => instance);
 
-            return RegisterType(type, type.IsInterface ? instance.GetType() : type, objectLifetimeManager, false);
+            return RegisterType(type, type.IsInterface ? instance.GetType() : type, new SingletonObjectLifetimeManager { ObjectFactory = () => instance }, false);
         }
 
         public T Resolve<T>(ResolveKind resolveKind = ResolveKind.PartialEmitFunction)
@@ -191,12 +187,12 @@ namespace NiquIoC
 
         private object ResolvePartialEmitFunction(ContainerMember containerMember)
         {
-            if (!containerMember.ObjectLifetimeManager.IsObjectSetted)
+            if (containerMember.ObjectLifetimeManager.ObjectFactory == null)
             {
-                containerMember.ObjectLifetimeManager.SetObject(() => CreateInstancePartialEmitFunction(containerMember));
+                containerMember.ObjectLifetimeManager.ObjectFactory = () => CreateInstancePartialEmitFunction(containerMember);
             }
 
-            return containerMember.ObjectLifetimeManager.GetObject();
+            return containerMember.ObjectLifetimeManager.GetInstance();
         }
 
         private object ResolveFullEmitFunction(Type type)
@@ -224,12 +220,12 @@ namespace NiquIoC
 
         private object ResolveFullEmitFunction(ContainerMember containerMember)
         {
-            if (!containerMember.ObjectLifetimeManager.IsObjectSetted)
+            if (containerMember.ObjectLifetimeManager.ObjectFactory == null)
             {
-                containerMember.ObjectLifetimeManager.SetObject(() => CreateInstanceFullEmitFunction(containerMember));
+                containerMember.ObjectLifetimeManager.ObjectFactory = () => CreateInstanceFullEmitFunction(containerMember);
             }
 
-            return containerMember.ObjectLifetimeManager.GetObject();
+            return containerMember.ObjectLifetimeManager.GetInstance();
         }
 
         private object CreateInstancePartialEmitFunction(ContainerMember containerMember)

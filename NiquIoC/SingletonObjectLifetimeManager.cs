@@ -7,25 +7,14 @@ namespace NiquIoC
     public class SingletonObjectLifetimeManager : IObjectLifetimeManager
     {
         private object _obj;
-        private Func<object> _objFunc;
-        public bool IsObjectSetted { get; private set; }
 
-        public SingletonObjectLifetimeManager()
-        {
-            IsObjectSetted = false;
-        }
+        public Func<object> ObjectFactory { get; set; }
 
-        public void SetObject(Func<object> objFunc)
-        {
-            _objFunc = objFunc;
-            IsObjectSetted = true;
-        }
-
-        public object GetObject()
+        public object GetInstance()
         {
             if (_obj == null)
             {
-                _obj = _objFunc();
+                _obj = ObjectFactory();
             }
 
             return _obj;
