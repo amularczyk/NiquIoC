@@ -7,38 +7,29 @@ namespace NiquIoC
 {
     internal class ContainerMember : IContainerMember
     {
-        public ContainerMember()
+        public ContainerMember(IObjectLifetimeManager objectLifetimeManager)
         {
-            IsSingleton = false;
+            if (objectLifetimeManager == null)
+                throw new ArgumentNullException(); //ToDo: Exception
+            
+            ObjectLifetimeManager = objectLifetimeManager;
+            CreateCache = true;
         }
-
-        public ContainerMember(object instance)
-        {
-            IsSingleton = true;
-            Instance = instance;
-        }
-
-        public ContainerMember(Func<object> objectFactory)
-        {
-            IsSingleton = false;
-            ObjectFactory = objectFactory;
-        }
-
-        public object Instance { get; set; }
-
-        public Func<object> ObjectFactory { get; set; }
 
         public void AsSingleton()
         {
-            IsSingleton = true;
+            AsCustomObjectLifetimeManager(new SingletonObjectLifetimeManager());
         }
 
         public void AsTransient()
         {
-            IsSingleton = false;
+            AsCustomObjectLifetimeManager(new TransientObjectLifetimeManager());
         }
 
-        public bool IsSingleton { get; private set; }
+        public void AsCustomObjectLifetimeManager(IObjectLifetimeManager objectLifetimeManager)
+        {
+            ObjectLifetimeManager = objectLifetimeManager;
+        }
 
         public Type RegisteredType { get; set; }
 
@@ -53,5 +44,9 @@ namespace NiquIoC
         internal List<MethodInfo> MethodsInfo { get; set; }
 
         internal bool? CycleInConstructor { get; set; }
+
+        public IObjectLifetimeManager ObjectLifetimeManager { get; private set; }
+
+        internal bool CreateCache { get; set; }
     }
 }

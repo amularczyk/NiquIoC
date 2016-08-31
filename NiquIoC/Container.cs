@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using NiquIoC.Attributes;
+using NiquIoC.Enums;
 using NiquIoC.Exceptions;
 using NiquIoC.Extensions;
 using NiquIoC.Helpers;
 using NiquIoC.Interfaces;
-using NiquIoC.Enums;
 
 namespace NiquIoC
 {
@@ -22,10 +22,6 @@ namespace NiquIoC
             _createFullEmitFunctionForConstructorCache = new Dictionary<Type, Func<object[], Func<object>[], object>>();
 
             _parametersInfoForMethodCache = new Dictionary<MethodInfo, List<ParameterInfo>>();
-            _signletonsIndexCache = new Dictionary<Type, int>();
-            _objectFactoryIndexCache = new Dictionary<Type, int>();
-
-            _objectFactoryCache = new List<Func<object>>();
 
             _warmedUp = false;
         }
@@ -37,12 +33,7 @@ namespace NiquIoC
         private readonly Dictionary<Type, Func<object[], Func<object>[], object>> _createFullEmitFunctionForConstructorCache;
 
         private readonly Dictionary<MethodInfo, List<ParameterInfo>> _parametersInfoForMethodCache;
-        private readonly Dictionary<Type, int> _signletonsIndexCache;
-        private readonly Dictionary<Type, int> _objectFactoryIndexCache;
-        private object[] _signletonsCache;
-        private readonly List<Func<object>> _objectFactoryCache;
-
-        private int _index;
+        
         private bool _warmedUp;
         #endregion
 
@@ -50,41 +41,32 @@ namespace NiquIoC
         public IContainerMember RegisterType<T>()
             where T : class
         {
-            var type = typeof(T);
-            if (type.IsInterface)
-            {
-                throw new WrongInterfaceRegistrationException(type);
-            }
+            return RegisterType<T>(new TransientObjectLifetimeManager());
+        }
 
-            return RegisterType(type, type);
+        public IContainerMember RegisterType<TFrom, TTo>()
+            where TTo : TFrom
+        {
+            return RegisterType<TFrom, TTo>(new TransientObjectLifetimeManager());
         }
 
         public IContainerMember RegisterType<T>(Func<object> objectFactory)
             where T : class
         {
             var type = typeof(T);
-            if (_objectFactoryIndexCache.ContainsKey(type))
-            {
-                _objectFactoryCache[_objectFactoryIndexCache[type]] = objectFactory;
-            }
-            else
-            {
-                _objectFactoryCache.Add(objectFactory);
-                _objectFactoryIndexCache.Add(type, _index++);
-            }
-            return RegisterObjectFactory(type, type, objectFactory);
-        }
+            var objectLifetimeManager = new TransientObjectLifetimeManager();
+            objectLifetimeManager.SetObject(objectFactory);
 
-        public IContainerMember RegisterType<TFrom, TTo>()
-            where TTo : TFrom
-        {
-            return RegisterType(typeof(TFrom), typeof(TTo));
+            return RegisterType(type, type, objectLifetimeManager, false);
         }
 
         public IContainerMember RegisterInstance<T>(T instance)
         {
             var type = typeof(T);
-            return RegisterInstance(type, type.IsInterface ? instance.GetType() : type, instance);
+            var objectLifetimeManager = new SingletonObjectLifetimeManager();
+            objectLifetimeManager.SetObject(() => instance);
+
+            return RegisterType(type, type.IsInterface ? instance.GetType() : type, objectLifetimeManager, false);
         }
 
         public T Resolve<T>(ResolveKind resolveKind = ResolveKind.PartialEmitFunction)
@@ -108,38 +90,56 @@ namespace NiquIoC
             BuildUp(instance, type.IsInterface ? instance.GetType() : type);
         }
 
-        public void WarmUp(bool full = false)
+        public void WarmUp(bool full = false) //ToDo !!
         {
-            foreach (var registeredType in _registeredTypesCache)
-            {
-                if (registeredType.Value.ObjectFactory == null && registeredType.Value.Instance == null)
-                {
-                    if (registeredType.Value.Constructor == null)
-                    {
-                        CreateConstructorInfoForTypesCache(registeredType.Value);
-                    }
+            //foreach (var registeredType in _registeredTypesCache)
+            //{
+            //    if (registeredType.Value.ObjectFactory == null && registeredType.Value.Instance == null)
+            //    {
+            //        if (registeredType.Value.Constructor == null)
+            //        {
+            //            CreateConstructorInfoForTypesCache(registeredType.Value);
+            //        }
 
-                    CheckCycleForType(registeredType.Value);
-                }
-            }
-            CreateAllSingletons();
+            //        CheckCycleForType(registeredType.Value);
+            //    }
+            //}
+            //CreateAllSingletons();
 
-            if (full)
-            {
-                //TODO: Genereta all caches (including createObjectFunction)
-            }
+            //if (full)
+            //{
+            //    //TODO: Genereta all caches (including createObjectFunction)
+            //}
 
-            _warmedUp = true;
+            //_warmedUp = true;
         }
         #endregion
 
         #region Private Methods
-        private IContainerMember RegisterType(Type typeFrom, Type typeTo)
+
+        private IContainerMember RegisterType<T>(IObjectLifetimeManager objectLifetimeManager)
+            where T : class
+        {
+            var type = typeof(T);
+            if (type.IsInterface)
+            {
+                throw new WrongInterfaceRegistrationException(type);
+            }
+
+            return RegisterType(type, type, objectLifetimeManager);
+        }
+
+        private IContainerMember RegisterType<TFrom, TTo>(IObjectLifetimeManager objectLifetimeManager)
+            where TTo : TFrom
+        {
+            return RegisterType(typeof(TFrom), typeof(TTo), objectLifetimeManager);
+        }
+
+        private IContainerMember RegisterType(Type typeFrom, Type typeTo, IObjectLifetimeManager objectLifetimeManager)
         {
             if (_registeredTypesCache.ContainsKey(typeFrom))
             {
                 _registeredTypesCache.Remove(typeFrom);
-                _signletonsIndexCache.Clear();
                 _warmedUp = false;
 
                 if (_createFullEmitFunctionForConstructorCache.ContainsKey(typeTo))
@@ -148,17 +148,18 @@ namespace NiquIoC
                 }
             }
 
-            return Register(new ContainerMember {RegisteredType = typeFrom, ReturnType = typeTo});
+            return Register(new ContainerMember(objectLifetimeManager) { RegisteredType = typeFrom, ReturnType = typeTo });
         }
 
-        private IContainerMember RegisterInstance(Type typeFrom, Type typeTo, object instance)
+        private IContainerMember RegisterType(Type typeFrom, Type typeTo, IObjectLifetimeManager objectLifetimeManager, bool createCache)
         {
-            return Register(new ContainerMember(instance) {RegisteredType = typeFrom, ReturnType = typeTo, CycleInConstructor = false});
-        }
+            var containerMember = new ContainerMember(objectLifetimeManager) { RegisteredType = typeFrom, ReturnType = typeTo, CreateCache = createCache };
+            if (!createCache)
+            {
+                containerMember.CycleInConstructor = false;
+            }
 
-        private IContainerMember RegisterObjectFactory(Type typeFrom, Type typeTo, Func<object> objectFactory)
-        {
-            return Register(new ContainerMember(objectFactory) {RegisteredType = typeFrom, ReturnType = typeTo, CycleInConstructor = false });
+            return Register(containerMember);
         }
 
         private IContainerMember Register(ContainerMember containerMember)
@@ -174,7 +175,8 @@ namespace NiquIoC
         {
             var containerMember = _registeredTypesCache.GetValue(type); //getting a value from the cache for the correct type
 
-            if (containerMember.ObjectFactory == null && containerMember.Instance == null) //we do not need to create cache or check cycle for object factory or instance
+            //ToDo: Comments
+            if (!containerMember.CycleInConstructor.HasValue) //we do not need to create cache or check cycle for object factory or instance
             {
                 if (containerMember.Constructor == null) //if we do not have constructor info in the cache for a given type, we create it
                 {
@@ -189,27 +191,20 @@ namespace NiquIoC
 
         private object ResolvePartialEmitFunction(ContainerMember containerMember)
         {
-            if (!containerMember.IsSingleton) //if type is not registered as singleton we return a new instance all the time
+            if (!containerMember.ObjectLifetimeManager.IsObjectSetted)
             {
-                return ReturnInstancePartialEmitFunction(containerMember);
+                containerMember.ObjectLifetimeManager.SetObject(() => CreateInstancePartialEmitFunction(containerMember));
             }
 
-            if (containerMember.Instance != null) //for singleton if we created an instance earlier, we return this value
-            {
-                return containerMember.Instance;
-            }
-
-            var value = ReturnInstancePartialEmitFunction(containerMember);
-            containerMember.Instance = value;
-
-            return value;
+            return containerMember.ObjectLifetimeManager.GetObject();
         }
 
         private object ResolveFullEmitFunction(Type type)
         {
             var containerMember = _registeredTypesCache.GetValue(type); //getting a value from the cache for the correct type
 
-            if (containerMember.ObjectFactory == null && containerMember.Instance == null) //we do not need to create cache or check cycle for object factory
+            //ToDo: Comments
+            if (!containerMember.CycleInConstructor.HasValue) //we do not need to create cache or check cycle for object factory or instance
             {
                 if (containerMember.Constructor == null) //if we do not have constructor info in the cache for a given type, we create it
                 {
@@ -229,34 +224,12 @@ namespace NiquIoC
 
         private object ResolveFullEmitFunction(ContainerMember containerMember)
         {
-            if (!containerMember.IsSingleton) //if type is not registered as singleton we return a new instance all the time
+            if (!containerMember.ObjectLifetimeManager.IsObjectSetted)
             {
-                return ReturnInstanceFullEmitFunction(containerMember);
+                containerMember.ObjectLifetimeManager.SetObject(() => CreateInstanceFullEmitFunction(containerMember));
             }
 
-            if (containerMember.Instance != null) //for singleton if we created an instance earlier, we return this value
-            {
-                return containerMember.Instance;
-            }
-
-            var value = ReturnInstanceFullEmitFunction(containerMember);
-            containerMember.Instance = value;
-
-            return value;
-        }
-
-        private object ReturnInstancePartialEmitFunction(ContainerMember containerMember)
-        {
-            return _registeredTypesCache[containerMember.RegisteredType].ObjectFactory != null
-                ? _registeredTypesCache[containerMember.RegisteredType].ObjectFactory()
-                : CreateInstancePartialEmitFunction(containerMember);
-        }
-
-        private object ReturnInstanceFullEmitFunction(ContainerMember containerMember)
-        {
-            return _registeredTypesCache[containerMember.RegisteredType].ObjectFactory != null
-                ? _registeredTypesCache[containerMember.RegisteredType].ObjectFactory()
-                : CreateInstanceFullEmitFunction(containerMember);
+            return containerMember.ObjectLifetimeManager.GetObject();
         }
 
         private object CreateInstancePartialEmitFunction(ContainerMember containerMember)
@@ -284,18 +257,20 @@ namespace NiquIoC
             return obj;
         }
 
-        private object CreateInstanceFullEmitFunction(ContainerMember containerMember)
+        private object CreateInstanceFullEmitFunction(ContainerMember containerMember) //ToDo !!
         {
-            if (!_createFullEmitFunctionForConstructorCache.ContainsKey(containerMember.ReturnType)) //if we do not have a create object function in the cache, we create it
-            {
-                var factoryMethod = EmitHelper.CreateFullObjectFunction(containerMember, _registeredTypesCache, _signletonsIndexCache, _objectFactoryIndexCache);
-                _createFullEmitFunctionForConstructorCache.Add(containerMember.ReturnType, factoryMethod);
-            }
+            //if (!_createFullEmitFunctionForConstructorCache.ContainsKey(containerMember.ReturnType)) //if we do not have a create object function in the cache, we create it
+            //{
+            //    var factoryMethod = EmitHelper.CreateFullObjectFunction(containerMember, _registeredTypesCache, _signletonsIndexCache, _objectFactoryIndexCache);
+            //    _createFullEmitFunctionForConstructorCache.Add(containerMember.ReturnType, factoryMethod);
+            //}
 
-            var obj = _createFullEmitFunctionForConstructorCache[containerMember.ReturnType](_signletonsCache, _objectFactoryCache.ToArray());
-            BuildUp(obj, containerMember); //when we have a new instance of the type, we have to resolve the properties and the methods also
+            //var obj = _createFullEmitFunctionForConstructorCache[containerMember.ReturnType](_signletonsCache, _objectFactoryCache.ToArray());
+            //BuildUp(obj, containerMember); //when we have a new instance of the type, we have to resolve the properties and the methods also
 
-            return obj;
+            //return obj;
+
+            return null;
         }
 
         private void BuildUp(object obj, Type type)
@@ -343,9 +318,7 @@ namespace NiquIoC
                     {
                         var parameterContainerMember = _registeredTypesCache[parameterType];
 
-                        if (parameterContainerMember.Constructor == null
-                            && parameterContainerMember.Instance == null
-                            && parameterContainerMember.ObjectFactory == null) //if we do not have constructor info in the cache for a given parameter type, we create it
+                        if (parameterContainerMember.Constructor == null && parameterContainerMember.CreateCache) //if we do not have constructor info in the cache for a given parameter type, we create it
                         {
                             CreateConstructorInfoForTypesCache(parameterContainerMember);
                         }
@@ -453,40 +426,6 @@ namespace NiquIoC
             }
 
             containerMember.CycleInConstructor = false;
-        }
-
-        private void CreateAllSingletons()
-        {
-            var index = 0;
-            var singletons = new List<object>();
-
-            foreach (var registeredType in _registeredTypesCache.Where(r => r.Value.Instance != null).ToList())
-            {
-                singletons.Add(registeredType.Value.Instance);
-                _signletonsIndexCache.Add(registeredType.Key, index++);
-                if (registeredType.Key != registeredType.Value.ReturnType)
-                {
-                    singletons.Add(registeredType.Value.Instance);
-                    _signletonsIndexCache.Add(registeredType.Value.ReturnType, index++);
-                }
-            }
-
-            foreach (var registeredType in _registeredTypesCache.Where(r => r.Value.IsSingleton && r.Value.Instance == null).ToList())
-            {
-                var containerMember = registeredType.Value;
-
-                _signletonsCache = singletons.ToArray();
-                containerMember.Instance = ReturnInstanceFullEmitFunction(containerMember);
-                singletons.Add(registeredType.Value.Instance);
-                _signletonsIndexCache.Add(registeredType.Key, index++);
-                if (registeredType.Key != registeredType.Value.ReturnType)
-                {
-                    singletons.Add(registeredType.Value.Instance);
-                    _signletonsIndexCache.Add(registeredType.Value.ReturnType, index++);
-                }
-            }
-
-            _signletonsCache = singletons.ToArray();
         }
         #endregion
     }

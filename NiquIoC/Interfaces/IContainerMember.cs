@@ -8,7 +8,7 @@ namespace NiquIoC.Interfaces
 
         void AsTransient();
 
-        bool IsSingleton { get; }
+        void AsCustomObjectLifetimeManager(IObjectLifetimeManager objectLifetimeManager);
 
         Type RegisteredType { get; }
 
