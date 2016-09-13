@@ -250,7 +250,7 @@ namespace NiquIoC
 
             if (!_createPartialEmitFunctionForConstructorCache.ContainsKey(ctor)) //if we do not have a create object function in the cache, we create it
             {
-                var factoryMethod = EmitHelper.CreateObjectFunction(ctor);
+                var factoryMethod = PartialObjectFunction.CreateObjectFunction(ctor);
                 _createPartialEmitFunctionForConstructorCache.Add(ctor, factoryMethod);
             }
 
@@ -260,11 +260,12 @@ namespace NiquIoC
             return obj;
         }
 
-        private object CreateInstanceFullEmitFunction(ContainerMember containerMember) //ToDo !!
+        //ToDo: internal
+        internal object CreateInstanceFullEmitFunction(ContainerMember containerMember) //ToDo !!
         {
             if (!_createFullEmitFunctionForConstructorCache.ContainsKey(containerMember.ReturnType)) //if we do not have a create object function in the cache, we create it
             {
-                var factoryMethod = EmitHelper.CreateFullObjectFunction(containerMember, _registeredTypesCache);
+                var factoryMethod = FullObjectFunction.CreateObjectFunction(this, containerMember, _registeredTypesCache);
                 _createFullEmitFunctionForConstructorCache.Add(containerMember.ReturnType, factoryMethod);
             }
 

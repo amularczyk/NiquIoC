@@ -7,20 +7,28 @@ namespace NiquIoC
     public class SingletonObjectLifetimeManager : IObjectLifetimeManager
     {
         private object _instance;
-        private Func<object> _objectFactory;
-        
-        public Func<object> ObjectFactory
+        private object _obj;
+
+        public SingletonObjectLifetimeManager()
         {
-            get { return _objectFactory; }
-            set
-            {
-                _objectFactory = value;
-                _instance = _objectFactory();
-            }
+            _obj = new object();
         }
+
+        public Func<object> ObjectFactory { get; set; }
 
         public object GetInstance()
         {
+            if (_instance == null)
+            {
+                lock (_obj)
+                {
+                    if (_instance == null)
+                    {
+                        _instance = ObjectFactory();
+                    }
+                }
+            }
+
             return _instance;
         }
     }
