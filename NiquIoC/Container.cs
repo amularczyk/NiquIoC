@@ -17,24 +17,28 @@ namespace NiquIoC
         public Container()
         {
             _registeredTypesCache = new Dictionary<Type, ContainerMember>();
+            _typesIndexCache = new Dictionary<int, Type>();
 
             _createPartialEmitFunctionForConstructorCache = new Dictionary<ConstructorInfo, Func<object[], object>>();
-            _createFullEmitFunctionForConstructorCache = new Dictionary<Type, Func<object[], Func<object>[], object>>();
+            _createFullEmitFunctionForConstructorCache = new Dictionary<Type, Func<Dictionary<Type, ContainerMember>, Dictionary<int, Type>, object>>();
 
             _parametersInfoForMethodCache = new Dictionary<MethodInfo, List<ParameterInfo>>();
 
             _warmedUp = false;
+            _typeIndex = 0;
         }
 
         #region Private Fields
         private readonly Dictionary<Type, ContainerMember> _registeredTypesCache;
+        private readonly Dictionary<int, Type> _typesIndexCache;
 
         private readonly Dictionary<ConstructorInfo, Func<object[], object>> _createPartialEmitFunctionForConstructorCache;
-        private readonly Dictionary<Type, Func<object[], Func<object>[], object>> _createFullEmitFunctionForConstructorCache;
+        private readonly Dictionary<Type, Func<Dictionary<Type, ContainerMember>, Dictionary<int, Type>, object>> _createFullEmitFunctionForConstructorCache;
 
         private readonly Dictionary<MethodInfo, List<ParameterInfo>> _parametersInfoForMethodCache;
         
         private bool _warmedUp;
+        private int _typeIndex;
         #endregion
 
         #region IContainer
@@ -162,7 +166,10 @@ namespace NiquIoC
         {
             //if the type is not registered yet, we add new value to the cache
             //if the type is registered, we change the value in the cache
+            containerMember.TypeIndex = _typeIndex;
             _registeredTypesCache[containerMember.RegisteredType] = containerMember;
+            _typesIndexCache[_typeIndex] = containerMember.RegisteredType;
+            _typeIndex++;
 
             return containerMember;
         }
@@ -255,18 +262,16 @@ namespace NiquIoC
 
         private object CreateInstanceFullEmitFunction(ContainerMember containerMember) //ToDo !!
         {
-            //if (!_createFullEmitFunctionForConstructorCache.ContainsKey(containerMember.ReturnType)) //if we do not have a create object function in the cache, we create it
-            //{
-            //    var factoryMethod = EmitHelper.CreateFullObjectFunction(containerMember, _registeredTypesCache, _signletonsIndexCache, _objectFactoryIndexCache);
-            //    _createFullEmitFunctionForConstructorCache.Add(containerMember.ReturnType, factoryMethod);
-            //}
+            if (!_createFullEmitFunctionForConstructorCache.ContainsKey(containerMember.ReturnType)) //if we do not have a create object function in the cache, we create it
+            {
+                var factoryMethod = EmitHelper.CreateFullObjectFunction(containerMember, _registeredTypesCache);
+                _createFullEmitFunctionForConstructorCache.Add(containerMember.ReturnType, factoryMethod);
+            }
 
-            //var obj = _createFullEmitFunctionForConstructorCache[containerMember.ReturnType](_signletonsCache, _objectFactoryCache.ToArray());
-            //BuildUp(obj, containerMember); //when we have a new instance of the type, we have to resolve the properties and the methods also
+            var obj = _createFullEmitFunctionForConstructorCache[containerMember.ReturnType](_registeredTypesCache, _typesIndexCache);
+            BuildUp(obj, containerMember); //when we have a new instance of the type, we have to resolve the properties and the methods also
 
-            //return obj;
-
-            return null;
+            return obj;
         }
 
         private void BuildUp(object obj, Type type)

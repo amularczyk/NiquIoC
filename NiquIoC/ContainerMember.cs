@@ -53,5 +53,6 @@ namespace NiquIoC
         public IObjectLifetimeManager ObjectLifetimeManager { get; private set; }
 
         internal bool CreateCache { get; set; }
+        public int TypeIndex { get; set; }
     }
 }
