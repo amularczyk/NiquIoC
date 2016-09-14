@@ -1,15 +1,16 @@
 ﻿using System;
-using System.Reflection;
 using System.Reflection.Emit;
+using NiquIoC.Helpers;
 
-namespace NiquIoC.Helpers
+namespace NiquIoC
 {
     public class PartialObjectFunction
     {
         //http://stackoverflow.com/questions/8219343/reflection-emit-create-object-with-parameters
         //http://stackoverflow.com/questions/13478933/reflection-emit-to-create-class-instance
-        internal static Func<object[], object> CreateObjectFunction(ConstructorInfo ctor)
+        internal static Func<object[], object> CreateObjectFunction(ContainerMember containerMember)
         {
+            var ctor = containerMember.Constructor;
             //this method return a function that provide fast creation of a new instastance for given constructorInfo
             var dm = new DynamicMethod($"Create_{ctor.DeclaringType?.FullName.Replace('.', '_')}", typeof(object), new[] { typeof(object[]) }, true); //we create a dynamic method
             var ilgen = dm.GetILGenerator(); //we get the IL Generator from dynamic method

@@ -6,7 +6,6 @@ using NiquIoC.Attributes;
 using NiquIoC.Enums;
 using NiquIoC.Exceptions;
 using NiquIoC.Extensions;
-using NiquIoC.Helpers;
 using NiquIoC.Interfaces;
 
 namespace NiquIoC
@@ -17,28 +16,20 @@ namespace NiquIoC
         public Container()
         {
             _registeredTypesCache = new Dictionary<Type, ContainerMember>();
-            _typesIndexCache = new Dictionary<int, Type>();
-
-            _createPartialEmitFunctionForConstructorCache = new Dictionary<ConstructorInfo, Func<object[], object>>();
-            _createFullEmitFunctionForConstructorCache = new Dictionary<Type, Func<Dictionary<Type, ContainerMember>, Dictionary<int, Type>, object>>();
 
             _parametersInfoForMethodCache = new Dictionary<MethodInfo, List<ParameterInfo>>();
 
-            _warmedUp = false;
-            _typeIndex = 0;
+            _partialEmitFunctionResolve = new PartialEmitFunctionResolve(_registeredTypesCache);
+            _fullEmitFunctionResolve = new FullEmitFunctionResolve(_registeredTypesCache);
         }
 
         #region Private Fields
         private readonly Dictionary<Type, ContainerMember> _registeredTypesCache;
-        private readonly Dictionary<int, Type> _typesIndexCache;
-
-        private readonly Dictionary<ConstructorInfo, Func<object[], object>> _createPartialEmitFunctionForConstructorCache;
-        private readonly Dictionary<Type, Func<Dictionary<Type, ContainerMember>, Dictionary<int, Type>, object>> _createFullEmitFunctionForConstructorCache;
 
         private readonly Dictionary<MethodInfo, List<ParameterInfo>> _parametersInfoForMethodCache;
-        
-        private bool _warmedUp;
-        private int _typeIndex;
+
+        private readonly IResolve _partialEmitFunctionResolve;
+        private readonly IResolve _fullEmitFunctionResolve;
         #endregion
 
         #region IContainer
@@ -71,17 +62,7 @@ namespace NiquIoC
 
         public T Resolve<T>(ResolveKind resolveKind = ResolveKind.PartialEmitFunction)
         {
-            switch (resolveKind)
-            {
-                case ResolveKind.PartialEmitFunction:
-                    return (T)ResolvePartialEmitFunction(typeof(T));
-
-                case ResolveKind.FullEmitFunction:
-                    return (T)ResolveFullEmitFunction(typeof(T));
-
-                default:
-                    throw new NotImplementedException($"ResolveKind {resolveKind} is not implemented.");
-            }
+            return (T)Resolve(typeof(T), resolveKind);
         }
 
         public void BuildUp<T>(T instance)
@@ -89,33 +70,36 @@ namespace NiquIoC
             var type = typeof(T);
             BuildUp(instance, type.IsInterface ? instance.GetType() : type);
         }
-
-        public void WarmUp(bool full = false) //ToDo !!
-        {
-            //foreach (var registeredType in _registeredTypesCache)
-            //{
-            //    if (registeredType.Value.ObjectFactory == null && registeredType.Value.Instance == null)
-            //    {
-            //        if (registeredType.Value.Constructor == null)
-            //        {
-            //            CreateConstructorInfoForTypesCache(registeredType.Value);
-            //        }
-
-            //        CheckCycleForType(registeredType.Value);
-            //    }
-            //}
-            //CreateAllSingletons();
-
-            //if (full)
-            //{
-            //    //TODO: Genereta all caches (including createObjectFunction)
-            //}
-
-            //_warmedUp = true;
-        }
         #endregion
 
         #region Private Methods
+        private object Resolve(Type type, ResolveKind resolveKind)
+        {
+            var containerMember = _registeredTypesCache.GetValue(type); //getting a value from the cache for the correct type
+
+            //ToDo: Comments
+            if (!containerMember.CycleInConstructor.HasValue) //we do not need to create cache or check cycle for object factory or instance
+            {
+                if (containerMember.Constructor == null) //if we do not have constructor info in the cache for a given type, we create it
+                {
+                    CreateConstructorInfoForTypesCache(containerMember);
+                }
+
+                CheckCycleForType(containerMember); //at the beginning we check cycle for the type
+            }
+
+            switch (resolveKind)
+            {
+                case ResolveKind.PartialEmitFunction:
+                    return _partialEmitFunctionResolve.Resolve(containerMember, obj => BuildUp(obj, containerMember));
+
+                case ResolveKind.FullEmitFunction:
+                    return _fullEmitFunctionResolve.Resolve(containerMember, obj => BuildUp(obj, containerMember));
+
+                default:
+                    throw new NotImplementedException($"ResolveKind {resolveKind} is not implemented.");
+            }
+        }
 
         private IContainerMember RegisterType<T>(IObjectLifetimeManager objectLifetimeManager)
             where T : class
@@ -140,15 +124,17 @@ namespace NiquIoC
             if (_registeredTypesCache.ContainsKey(typeFrom))
             {
                 _registeredTypesCache.Remove(typeFrom);
-                _warmedUp = false;
 
-                if (_createFullEmitFunctionForConstructorCache.ContainsKey(typeTo))
-                {
-                    _createFullEmitFunctionForConstructorCache.Remove(typeTo);
-                }
+                ClearCacheInResolves(typeTo);
             }
 
             return Register(new ContainerMember(objectLifetimeManager) { RegisteredType = typeFrom, ReturnType = typeTo });
+        }
+
+        private void ClearCacheInResolves(Type type)
+        {
+            _partialEmitFunctionResolve.ClearCache(type);
+            _fullEmitFunctionResolve.ClearCache(type);
         }
 
         private IContainerMember RegisterType(Type typeFrom, Type typeTo, IObjectLifetimeManager objectLifetimeManager, bool createCache)
@@ -166,114 +152,11 @@ namespace NiquIoC
         {
             //if the type is not registered yet, we add new value to the cache
             //if the type is registered, we change the value in the cache
-            containerMember.TypeIndex = _typeIndex;
             _registeredTypesCache[containerMember.RegisteredType] = containerMember;
-            _typesIndexCache[_typeIndex] = containerMember.RegisteredType;
-            _typeIndex++;
 
             return containerMember;
         }
 
-        private object ResolvePartialEmitFunction(Type type)
-        {
-            var containerMember = _registeredTypesCache.GetValue(type); //getting a value from the cache for the correct type
-
-            //ToDo: Comments
-            if (!containerMember.CycleInConstructor.HasValue) //we do not need to create cache or check cycle for object factory or instance
-            {
-                if (containerMember.Constructor == null) //if we do not have constructor info in the cache for a given type, we create it
-                {
-                    CreateConstructorInfoForTypesCache(containerMember);
-                }
-
-                CheckCycleForType(containerMember); //at the beginning we check cycle for the type
-            }
-
-            return ResolvePartialEmitFunction(containerMember);
-        }
-
-        private object ResolvePartialEmitFunction(ContainerMember containerMember)
-        {
-            if (containerMember.ObjectLifetimeManager.ObjectFactory == null)
-            {
-                containerMember.ObjectLifetimeManager.ObjectFactory = () => CreateInstancePartialEmitFunction(containerMember);
-            }
-
-            return containerMember.ObjectLifetimeManager.GetInstance();
-        }
-
-        private object ResolveFullEmitFunction(Type type)
-        {
-            var containerMember = _registeredTypesCache.GetValue(type); //getting a value from the cache for the correct type
-
-            //ToDo: Comments
-            if (!containerMember.CycleInConstructor.HasValue) //we do not need to create cache or check cycle for object factory or instance
-            {
-                if (containerMember.Constructor == null) //if we do not have constructor info in the cache for a given type, we create it
-                {
-                    CreateConstructorInfoForTypesCache(containerMember);
-                }
-
-                CheckCycleForType(containerMember); //at the beginning we check cycle for the type
-            }
-
-            if (!_warmedUp)
-            {
-                WarmUp();
-            }
-
-            return ResolveFullEmitFunction(containerMember);
-        }
-
-        private object ResolveFullEmitFunction(ContainerMember containerMember)
-        {
-            if (containerMember.ObjectLifetimeManager.ObjectFactory == null)
-            {
-                containerMember.ObjectLifetimeManager.ObjectFactory = () => CreateInstanceFullEmitFunction(containerMember);
-            }
-
-            return containerMember.ObjectLifetimeManager.GetInstance();
-        }
-
-        private object CreateInstancePartialEmitFunction(ContainerMember containerMember)
-        {
-            var ctor = containerMember.Constructor;
-            var ctorParameters = containerMember.Parameters;
-            var ctorParametersCount = ctorParameters.Count;
-
-            var parameters = new object[ctorParametersCount];
-            for (var i = 0; i < ctorParametersCount; i++) //we create as array with the parameters of the constructor and we fill it
-            {
-                var parameterContainerMember = _registeredTypesCache.GetValue(ctorParameters[i].ParameterType);
-                parameters[i] = ResolvePartialEmitFunction(parameterContainerMember);
-            }
-
-            if (!_createPartialEmitFunctionForConstructorCache.ContainsKey(ctor)) //if we do not have a create object function in the cache, we create it
-            {
-                var factoryMethod = PartialObjectFunction.CreateObjectFunction(ctor);
-                _createPartialEmitFunctionForConstructorCache.Add(ctor, factoryMethod);
-            }
-
-            var obj = _createPartialEmitFunctionForConstructorCache[ctor](parameters);
-            BuildUp(obj, containerMember); //when we have a new instance of the type, we have to resolve the properties and the methods also
-
-            return obj;
-        }
-
-        //ToDo: internal
-        internal object CreateInstanceFullEmitFunction(ContainerMember containerMember) //ToDo !!
-        {
-            if (!_createFullEmitFunctionForConstructorCache.ContainsKey(containerMember.ReturnType)) //if we do not have a create object function in the cache, we create it
-            {
-                var factoryMethod = FullObjectFunction.CreateObjectFunction(this, containerMember, _registeredTypesCache);
-                _createFullEmitFunctionForConstructorCache.Add(containerMember.ReturnType, factoryMethod);
-            }
-
-            var obj = _createFullEmitFunctionForConstructorCache[containerMember.ReturnType](_registeredTypesCache, _typesIndexCache);
-            BuildUp(obj, containerMember); //when we have a new instance of the type, we have to resolve the properties and the methods also
-
-            return obj;
-        }
 
         private void BuildUp(object obj, Type type)
         {
@@ -294,8 +177,79 @@ namespace NiquIoC
             ResolveMethods(obj, containerMember);
         }
 
-        private void CreateConstructorInfoForTypesCache(ContainerMember containerMember)
-            //this function recursively create cache for constructor info and constructor parameters for given type
+        private void ResolveProperties(object obj, ContainerMember containerMember)
+        {
+            if (containerMember.PropertiesInfo == null) //if we do not have a properties info in the cache, we create it
+            {
+                containerMember.PropertiesInfo =
+                    containerMember.ReturnType.GetProperties().Where(p => p.GetCustomAttributes(typeof(DependencyProperty), false).Any() && p.SetMethod != null).ToList();
+            }
+
+            foreach (var property in containerMember.PropertiesInfo) //we are filling the required properties
+            {
+                property.SetValue(obj, Resolve(property.PropertyType, ResolveKind.PartialEmitFunction));
+            }
+        }
+
+        private void ResolveProperties(object obj, Type type)
+        {
+            var propertiesInfo = type.GetProperties().Where(p => p.GetCustomAttributes(typeof(DependencyProperty), false).Any() && p.SetMethod != null).ToList();
+
+            foreach (var property in propertiesInfo) //we are filling the required properties
+            {
+                property.SetValue(obj, Resolve(property.PropertyType, ResolveKind.PartialEmitFunction));
+            }
+        }
+
+        private void ResolveMethods(object obj, ContainerMember containerMember)
+        {
+            if (containerMember.MethodsInfo == null) //if we do not have a methods info in the cache, we create it
+            {
+                containerMember.MethodsInfo =
+                    containerMember.ReturnType.GetMethods().Where(p => p.ReturnType == typeof(void) && p.GetCustomAttributes(typeof(DependencyMethod), false).Any()).ToList();
+            }
+
+            foreach (var method in containerMember.MethodsInfo) //we are filling the required methods
+            {
+                if (!_parametersInfoForMethodCache.ContainsKey(method))
+                {
+                    _parametersInfoForMethodCache.Add(method, method.GetParameters().ToList());
+                }
+
+                var methodParameters = _parametersInfoForMethodCache[method];
+                var ctorParametersCount = methodParameters.Count;
+                var parameters = new object[ctorParametersCount];
+                for (var i = 0; i < ctorParametersCount; i++) //we create as array with the parameters of the method and we fill it
+                {
+                    parameters[i] = Resolve(methodParameters[i].ParameterType, ResolveKind.PartialEmitFunction);
+                }
+                method.Invoke(obj, parameters);
+            }
+        }
+
+        private void ResolveMethods(object obj, Type type)
+        {
+            var methodsInfo = type.GetMethods().Where(p => p.ReturnType == typeof(void) && p.GetCustomAttributes(typeof(DependencyMethod), false).Any()).ToList();
+
+            foreach (var method in methodsInfo) //we are filling the required methods
+            {
+                if (!_parametersInfoForMethodCache.ContainsKey(method))
+                {
+                    _parametersInfoForMethodCache.Add(method, method.GetParameters().ToList());
+                }
+
+                var methodParameters = _parametersInfoForMethodCache[method];
+                var ctorParametersCount = methodParameters.Count;
+                var parameters = new object[ctorParametersCount];
+                for (var i = 0; i < ctorParametersCount; i++) //we create as array with the parameters of the method and we fill it
+                {
+                    parameters[i] = Resolve(methodParameters[i].ParameterType, ResolveKind.PartialEmitFunction);
+                }
+                method.Invoke(obj, parameters);
+            }
+        }
+
+        private void CreateConstructorInfoForTypesCache(ContainerMember containerMember) //this function recursively create cache for constructor info and constructor parameters for given type
         {
             var allConstructors = containerMember.ReturnType.GetConstructors();
 
@@ -320,7 +274,8 @@ namespace NiquIoC
                     {
                         var parameterContainerMember = _registeredTypesCache[parameterType];
 
-                        if (parameterContainerMember.Constructor == null && parameterContainerMember.CreateCache) //if we do not have constructor info in the cache for a given parameter type, we create it
+                        if (parameterContainerMember.Constructor == null && parameterContainerMember.CreateCache)
+                            //if we do not have constructor info in the cache for a given parameter type, we create it
                         {
                             CreateConstructorInfoForTypesCache(parameterContainerMember);
                         }
@@ -330,78 +285,6 @@ namespace NiquIoC
             else //otherwise we throw suitable exception
             {
                 throw new NoProperConstructorException(containerMember.ReturnType);
-            }
-        }
-
-        private void ResolveProperties(object obj, ContainerMember containerMember)
-        {
-            if (containerMember.PropertiesInfo == null) //if we do not have a properties info in the cache, we create it
-            {
-                containerMember.PropertiesInfo =
-                    containerMember.ReturnType.GetProperties().Where(p => p.GetCustomAttributes(typeof(DependencyProperty), false).Any() && p.SetMethod != null).ToList();
-            }
-
-            foreach (var property in containerMember.PropertiesInfo) //we are filling the required properties
-            {
-                property.SetValue(obj, ResolvePartialEmitFunction(property.PropertyType));
-            }
-        }
-
-        private void ResolveProperties(object obj, Type type)
-        {
-            var propertiesInfo = type.GetProperties().Where(p => p.GetCustomAttributes(typeof(DependencyProperty), false).Any() && p.SetMethod != null).ToList();
-
-            foreach (var property in propertiesInfo) //we are filling the required properties
-            {
-                property.SetValue(obj, ResolvePartialEmitFunction(property.PropertyType));
-            }
-        }
-
-        private void ResolveMethods(object obj, ContainerMember containerMember)
-        {
-            if (containerMember.MethodsInfo == null) //if we do not have a methods info in the cache, we create it
-            {
-                containerMember.MethodsInfo =
-                    containerMember.ReturnType.GetMethods().Where(p => p.ReturnType == typeof(void) && p.GetCustomAttributes(typeof(DependencyMethod), false).Any()).ToList();
-            }
-
-            foreach (var method in containerMember.MethodsInfo) //we are filling the required methods
-            {
-                if (!_parametersInfoForMethodCache.ContainsKey(method))
-                {
-                    _parametersInfoForMethodCache.Add(method, method.GetParameters().ToList());
-                }
-
-                var methodParameters = _parametersInfoForMethodCache[method];
-                var ctorParametersCount = methodParameters.Count;
-                var parameters = new object[ctorParametersCount];
-                for (var i = 0; i < ctorParametersCount; i++) //we create as array with the parameters of the method and we fill it
-                {
-                    parameters[i] = ResolvePartialEmitFunction(methodParameters[i].ParameterType);
-                }
-                method.Invoke(obj, parameters);
-            }
-        }
-
-        private void ResolveMethods(object obj, Type type)
-        {
-            var methodsInfo = type.GetMethods().Where(p => p.ReturnType == typeof(void) && p.GetCustomAttributes(typeof(DependencyMethod), false).Any()).ToList();
-
-            foreach (var method in methodsInfo) //we are filling the required methods
-            {
-                if (!_parametersInfoForMethodCache.ContainsKey(method))
-                {
-                    _parametersInfoForMethodCache.Add(method, method.GetParameters().ToList());
-                }
-
-                var methodParameters = _parametersInfoForMethodCache[method];
-                var ctorParametersCount = methodParameters.Count;
-                var parameters = new object[ctorParametersCount];
-                for (var i = 0; i < ctorParametersCount; i++) //we create as array with the parameters of the method and we fill it
-                {
-                    parameters[i] = ResolvePartialEmitFunction(methodParameters[i].ParameterType);
-                }
-                method.Invoke(obj, parameters);
             }
         }
 

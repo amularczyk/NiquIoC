@@ -13,5 +13,7 @@ namespace NiquIoC.Interfaces
         Type RegisteredType { get; }
 
         Type ReturnType { get; }
+
+        IObjectLifetimeManager ObjectLifetimeManager { get; }
     }
 }

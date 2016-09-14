@@ -40,6 +40,8 @@ namespace NiquIoC
 
         public Type ReturnType { get; set; }
 
+        public IObjectLifetimeManager ObjectLifetimeManager { get; private set; }
+
         internal ConstructorInfo Constructor { get; set; }
 
         internal List<ParameterInfo> Parameters { get; set; }
@@ -50,9 +52,6 @@ namespace NiquIoC
 
         internal bool? CycleInConstructor { get; set; }
 
-        public IObjectLifetimeManager ObjectLifetimeManager { get; private set; }
-
         internal bool CreateCache { get; set; }
-        public int TypeIndex { get; set; }
     }
 }
