@@ -10,10 +10,10 @@ namespace NiquIoC
         public ContainerMember(IObjectLifetimeManager objectLifetimeManager)
         {
             if (objectLifetimeManager == null)
-                throw new ArgumentNullException(); //ToDo: Exception
+                throw new ArgumentNullException(nameof(objectLifetimeManager));
             
             ObjectLifetimeManager = objectLifetimeManager;
-            CreateCache = true;
+            ShouldCreateCache = true;
         }
 
         public void AsSingleton()
@@ -28,7 +28,7 @@ namespace NiquIoC
 
         public void AsCustomObjectLifetimeManager(IObjectLifetimeManager objectLifetimeManager)
         {
-            if (!CreateCache && objectLifetimeManager.ObjectFactory == null)
+            if (!ShouldCreateCache && objectLifetimeManager.ObjectFactory == null)
             {
                 objectLifetimeManager.ObjectFactory = ObjectLifetimeManager.ObjectFactory;
             }
@@ -50,8 +50,8 @@ namespace NiquIoC
 
         internal List<MethodInfo> MethodsInfo { get; set; }
 
-        internal bool? CycleInConstructor { get; set; }
+        internal bool? IsCycleInConstructor { get; set; }
 
-        internal bool CreateCache { get; set; }
+        internal bool ShouldCreateCache { get; set; }
     }
 }

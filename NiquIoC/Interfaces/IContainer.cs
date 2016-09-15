@@ -47,6 +47,6 @@ namespace NiquIoC.Interfaces
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="instance"></param>
-        void BuildUp<T>(T instance);
+        void BuildUp<T>(T instance, ResolveKind resolveKind);
     }
 }

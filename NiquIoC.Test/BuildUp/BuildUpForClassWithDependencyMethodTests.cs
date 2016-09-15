@@ -7,6 +7,8 @@ namespace NiquIoC.Test.BuildUp
     [TestClass]
     public class BuildUpForClassWithDependencyMethodTests
     {
+        //ToDo: Test that buildUp two objects that nested object is registered as singleton/transinet
+        //ToDo: Test that we first buildUp object then register it (object with cycle in constructor - null for buildUp?)
         [TestMethod]
         public void RegisteredClassWithDependencyMethodWithoutBuildUp_Success()
         {
