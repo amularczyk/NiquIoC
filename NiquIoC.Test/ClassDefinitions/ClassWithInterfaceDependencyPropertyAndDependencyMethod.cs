@@ -2,7 +2,17 @@
 
 namespace NiquIoC.Test.ClassDefinitions
 {
-    internal class SampleClassWithInterfaceDependencyPropertyAndDependencyMethod
+    internal interface ISampleClassWithInterfaceDependencyPropertyAndDependencyMethod
+    {
+        IEmptyClass EmptyClassFromDependencyProperty { get; set; }
+
+        IEmptyClass EmptyClassFromDependencyMethod { get; }
+
+        [DependencyMethod]
+        void FillEmptyClass(IEmptyClass emptyClass);
+    }
+
+    internal class SampleClassWithInterfaceDependencyPropertyAndDependencyMethod : ISampleClassWithInterfaceDependencyPropertyAndDependencyMethod
     {
         [DependencyProperty]
         public IEmptyClass EmptyClassFromDependencyProperty { get; set; }

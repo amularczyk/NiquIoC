@@ -41,5 +41,49 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction
 
             Assert.IsNull(sampleClass);
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(TypeNotRegisteredException), "Type NiquIoC.Test.ClassDefinitions.EmptyClass has not been registered.")]
+        public void BuildUpClassWithDependencyMethodWithoutRegisteredNestedClass_Failed()
+        {
+            var c = new Container();
+            var sampleClass = new SampleClassWithClassDependencyMethod();
+
+            c.BuildUp(sampleClass);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(TypeNotRegisteredException), "Type NiquIoC.Test.ClassDefinitions.EmptyClass has not been registered.")]
+        public void BuildUpClassWithDependencyPropertyWithoutRegisteredNestedClass_Success()
+        {
+            var c = new Container();
+            var sampleClass = new SampleClassWithClassDependencyProperty();
+
+            c.BuildUp(sampleClass);
+
+            Assert.IsNotNull(sampleClass.EmptyClass);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(TypeNotRegisteredException), "Type NiquIoC.Test.ClassDefinitions.IEmptyClass has not been registered.")]
+        public void BuildUpInterfaceWithDependencyMethodWithoutRegisteredNestedClass_Failed()
+        {
+            var c = new Container();
+            ISampleClassWithInterfaceMethod sampleClass = new SampleClassWithInterfaceDependencyMethod();
+
+            c.BuildUp(sampleClass);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(TypeNotRegisteredException), "Type NiquIoC.Test.ClassDefinitions.EmptyClass has not been registered.")]
+        public void BuildUpInterfaceWithDependencyPropertyWithoutRegisteredNestedClass_Success()
+        {
+            var c = new Container();
+            ISampleClassWithInterfaceProperty sampleClass = new SampleClassWithInterfaceDependencyProperty();
+
+            c.BuildUp(sampleClass);
+
+            Assert.IsNotNull(sampleClass.EmptyClass);
+        }
     }
 }

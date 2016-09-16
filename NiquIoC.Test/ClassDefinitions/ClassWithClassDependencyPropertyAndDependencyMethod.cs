@@ -2,6 +2,7 @@
 
 namespace NiquIoC.Test.ClassDefinitions
 {
+
     internal class SampleClassWithClassDependencyPropertyAndDependencyMethod
     {
         [DependencyProperty]

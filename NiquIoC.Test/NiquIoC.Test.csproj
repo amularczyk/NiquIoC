@@ -57,11 +57,11 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="BuildUp\BuildUpForInterfaceWithDependencyMethodTests.cs" />
-    <Compile Include="BuildUp\BuildUpForInterfaceWithDependencyPropertyAndDependencyMethod.cs" />
-    <Compile Include="BuildUp\BuildUpForClassWithDependencyPropertyAndDependencyMethod.cs" />
-    <Compile Include="BuildUp\BuildUpForClassWithDependencyMethodTests.cs" />
-    <Compile Include="BuildUp\BuildUpForInterfaceWithDependencyPropertyTestsy.cs" />
+    <Compile Include="Resolve\PartialEmitFunction\Transient\BuildUpForInterfaceWithDependencyMethodTests.cs" />
+    <Compile Include="Resolve\PartialEmitFunction\Transient\BuildUpForInterfaceWithDependencyPropertyAndDependencyMethod.cs" />
+    <Compile Include="Resolve\PartialEmitFunction\Transient\BuildUpForClassWithDependencyPropertyAndDependencyMethod.cs" />
+    <Compile Include="Resolve\PartialEmitFunction\Transient\BuildUpForClassWithDependencyMethodTests.cs" />
+    <Compile Include="Resolve\PartialEmitFunction\Transient\BuildUpForInterfaceWithDependencyPropertyTestsy.cs" />
     <Compile Include="ClassDefinitions\ClassBasicDefinitions.cs" />
     <Compile Include="ClassDefinitions\ClassWithInterfaceDependencyMethodDefinitions.cs" />
     <Compile Include="ClassDefinitions\ClassWithInterfaceDependencyPropertyAndDependencyMethod.cs" />
@@ -144,7 +144,7 @@
     <Compile Include="Resolve\PartialEmitFunction\Transient\RegisterTypeForClassWithDependencyConstrutorTests.cs" />
     <Compile Include="Resolve\PartialEmitFunction\RegisterClassWithDependencyMethodTests.cs" />
     <Compile Include="Resolve\PartialEmitFunction\RegisterClassInstanceTests.cs" />
-    <Compile Include="BuildUp\BuildUpForClassWithDependencyPropertyTests.cs" />
+    <Compile Include="Resolve\PartialEmitFunction\Transient\BuildUpForClassWithDependencyPropertyTests.cs" />
     <Compile Include="Resolve\PartialEmitFunction\Singleton\RegisterTypeForClassWithInterfaceTests.cs" />
     <Compile Include="Resolve\PartialEmitFunction\Singleton\RegisterTypeForInterfaceTests.cs" />
     <Compile Include="Resolve\PartialEmitFunction\Singleton\RegisterTypeForInterfaceWithClassTests.cs" />

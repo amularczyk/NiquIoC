@@ -42,7 +42,7 @@ namespace NiquIoC
             }
         }
 
-        private object CreateInstanceFunction(ContainerMember containerMember, Action<object> afterObjectCreate) //ToDo !!
+        private object CreateInstanceFunction(ContainerMember containerMember, Action<object> afterObjectCreate)
         {
             if (!_createFullEmitFunctionForConstructorCache.ContainsKey(containerMember.ReturnType)) //if we do not have a create object function in the cache, we create it
             {
