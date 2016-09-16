@@ -119,4 +119,20 @@ namespace NiquIoC.Test.ClassDefinitions
             SampleClassWithClassDependencyMethod = sampleClassWithClassDependencyMethod;
         }
     }
+    
+    internal class SampleClassWithCycleInConstructorWithClassDependencyMethod : ISampleClassWithClassMethod
+    {
+        public SampleClassWithCycleInConstructorWithClassDependencyMethod(SampleClassWithCycleInConstructorWithClassDependencyMethod sampleClass)
+        {
+
+        }
+
+        public EmptyClass EmptyClass { get; private set; }
+
+        [DependencyMethod]
+        public void FillEmptyClass(EmptyClass emptyClass)
+        {
+            EmptyClass = emptyClass;
+        }
+    }
 }

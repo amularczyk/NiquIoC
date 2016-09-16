@@ -166,4 +166,20 @@ namespace NiquIoC.Test.ClassDefinitions
             return true;
         }
     }
+
+    internal class SampleClassWithCycleInConstructorWithInterfaceDependencyMethod : ISampleClassWithInterfaceMethod
+    {
+        public SampleClassWithCycleInConstructorWithInterfaceDependencyMethod(ISampleClassWithInterfaceMethod sampleClass)
+        {
+
+        }
+
+        public IEmptyClass EmptyClass { get; private set; }
+
+        [DependencyMethod]
+        public void FillEmptyClass(IEmptyClass emptyClass)
+        {
+            EmptyClass = emptyClass;
+        }
+    }
 }

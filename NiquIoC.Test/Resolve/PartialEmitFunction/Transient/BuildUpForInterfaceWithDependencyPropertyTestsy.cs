@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NiquIoC.Exceptions;
 using NiquIoC.Test.ClassDefinitions;
 
 namespace NiquIoC.Test.Resolve.PartialEmitFunction.Transient
@@ -44,6 +45,23 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Transient
             Assert.IsNotNull(sampleClass2.EmptyClass);
             Assert.AreNotEqual(sampleClass1, sampleClass2);
             Assert.AreNotEqual(sampleClass1.EmptyClass, sampleClass2.EmptyClass);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(CycleForTypeException), "Appeared cycle when resolving constructor for object of type NiquIoC.Test.ClassDefinitions.SampleClassWithCycleInConstructorWithInterfaceDependencyProperty")]
+        public void ResolveInterfaceWithCycleInConstructorWithClassDependencyMethodAfterBuildUpObjectOfThisInterface_Failed()
+        {
+            var c = new Container();
+            c.RegisterType<IEmptyClass, EmptyClass>();
+            c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithCycleInConstructorWithInterfaceDependencyProperty>();
+            ISampleClassWithInterfaceProperty sampleClass1 = new SampleClassWithCycleInConstructorWithInterfaceDependencyProperty(null);
+
+            c.BuildUp(sampleClass1);
+            var sampleClass2 = c.Resolve<SampleClassWithCycleInConstructorWithInterfaceDependencyProperty>();
+
+            Assert.IsNotNull(sampleClass1);
+            Assert.IsNotNull(sampleClass1.EmptyClass);
+            Assert.IsNull(sampleClass2);
         }
 
         [TestMethod]

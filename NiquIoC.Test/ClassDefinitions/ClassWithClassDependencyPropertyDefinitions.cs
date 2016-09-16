@@ -76,4 +76,15 @@ namespace NiquIoC.Test.ClassDefinitions
         [DependencyProperty]
         public EmptyClass EmptyClass { get; }
     }
+
+    internal class SampleClassWithCycleInConstructorWithClassDependencyProperty : ISampleClassWithClassProperty
+    {
+        public SampleClassWithCycleInConstructorWithClassDependencyProperty(SampleClassWithCycleInConstructorWithClassDependencyProperty sampleClass)
+        {
+
+        }
+
+        [DependencyProperty]
+        public EmptyClass EmptyClass { get; set; }
+    }
 }
