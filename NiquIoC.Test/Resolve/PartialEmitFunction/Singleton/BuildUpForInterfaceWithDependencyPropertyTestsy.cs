@@ -2,7 +2,7 @@
 using NiquIoC.Exceptions;
 using NiquIoC.Test.ClassDefinitions;
 
-namespace NiquIoC.Test.Resolve.PartialEmitFunction.Transient
+namespace NiquIoC.Test.Resolve.PartialEmitFunction.Singleton
 {
     [TestClass]
     public class BuildUpForInterfaceWithDependencyPropertyTests
@@ -11,7 +11,7 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Transient
         public void InterfaceWithoutBuildUpWithDependencyProperty_Success()
         {
             var c = new Container();
-            c.RegisterType<IEmptyClass, EmptyClass>();
+            c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
             ISampleClassWithInterfaceProperty sampleClass = new SampleClassWithInterfaceDependencyProperty();
 
             Assert.IsNotNull(sampleClass);
@@ -22,7 +22,7 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Transient
         public void BuildUpInterfaceWithDependencyProperty_Success()
         {
             var c = new Container();
-            c.RegisterType<IEmptyClass, EmptyClass>();
+            c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
             ISampleClassWithInterfaceProperty sampleClass = new SampleClassWithInterfaceDependencyProperty();
 
             c.BuildUp(sampleClass);
@@ -34,7 +34,7 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Transient
         public void DifferentObjects_BuildUpInterfaceWithDependencyProperty_Success()
         {
             var c = new Container();
-            c.RegisterType<IEmptyClass, EmptyClass>();
+            c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
             ISampleClassWithInterfaceProperty sampleClass1 = new SampleClassWithInterfaceDependencyProperty();
             ISampleClassWithInterfaceProperty sampleClass2 = new SampleClassWithInterfaceDependencyProperty();
 
@@ -44,7 +44,7 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Transient
             Assert.IsNotNull(sampleClass1.EmptyClass);
             Assert.IsNotNull(sampleClass2.EmptyClass);
             Assert.AreNotEqual(sampleClass1, sampleClass2);
-            Assert.AreNotEqual(sampleClass1.EmptyClass, sampleClass2.EmptyClass);
+            Assert.AreEqual(sampleClass1.EmptyClass, sampleClass2.EmptyClass);
         }
 
         [TestMethod]
@@ -52,7 +52,7 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Transient
         public void ResolveInterfaceWithCycleInConstructorWithClassDependencyMethodAfterBuildUpObjectOfThisInterface_Failed()
         {
             var c = new Container();
-            c.RegisterType<IEmptyClass, EmptyClass>();
+            c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
             c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithCycleInConstructorWithInterfaceDependencyProperty>();
             ISampleClassWithInterfaceProperty sampleClass1 = new SampleClassWithCycleInConstructorWithInterfaceDependencyProperty(null);
 
@@ -68,7 +68,7 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Transient
         public void BuildUpInterfaceWithoutDependencyProperty_Success()
         {
             var c = new Container();
-            c.RegisterType<IEmptyClass, EmptyClass>();
+            c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
             ISampleClassWithInterfaceProperty sampleClass = new SampleClassWithoutInterfaceDependencyProperty();
 
             c.BuildUp(sampleClass);
@@ -80,7 +80,7 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Transient
         public void BuildUpInterfaceWithManyInterfaceDependencyProperties_Success()
         {
             var c = new Container();
-            c.RegisterType<IEmptyClass, EmptyClass>();
+            c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
             c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>();
             ISampleClassWithManyInterfaceDependencyProperties sampleClass = new SampleClassWithManyInterfaceDependencyProperties();
 
@@ -94,8 +94,8 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Transient
         public void DifferentObjects_BuildUpInterfaceWithManyInterfaceDependencyProperties_Success()
         {
             var c = new Container();
-            c.RegisterType<IEmptyClass, EmptyClass>();
-            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>();
+            c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
+            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsSingleton();
             ISampleClassWithManyInterfaceDependencyProperties sampleClass1 = new SampleClassWithManyInterfaceDependencyProperties();
             ISampleClassWithManyInterfaceDependencyProperties sampleClass2 = new SampleClassWithManyInterfaceDependencyProperties();
 
@@ -107,15 +107,15 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Transient
             Assert.IsNotNull(sampleClass2.EmptyClass);
             Assert.IsNotNull(sampleClass2.SampleClassWithInterfaceAsParameter);
             Assert.AreNotEqual(sampleClass1, sampleClass2);
-            Assert.AreNotEqual(sampleClass1.EmptyClass, sampleClass2.EmptyClass);
-            Assert.AreNotEqual(sampleClass1.SampleClassWithInterfaceAsParameter, sampleClass2.SampleClassWithInterfaceAsParameter);
+            Assert.AreEqual(sampleClass1.EmptyClass, sampleClass2.EmptyClass);
+            Assert.AreEqual(sampleClass1.SampleClassWithInterfaceAsParameter, sampleClass2.SampleClassWithInterfaceAsParameter);
         }
 
         [TestMethod]
         public void BuildUpInterfaceWithNestedInterfaceDependencyProperty_Success()
         {
             var c = new Container();
-            c.RegisterType<IEmptyClass, EmptyClass>();
+            c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
             c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithInterfaceDependencyProperty>();
             ISampleClassWithNestedInterfaceDependencyProperty sampleClass = new SampleClassWithNestedInterfaceDependencyProperty();
 
@@ -129,8 +129,8 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Transient
         public void DifferentObjects_BuildUpInterfaceWithNestedInterfaceDependencyProperty_Success()
         {
             var c = new Container();
-            c.RegisterType<IEmptyClass, EmptyClass>();
-            c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithInterfaceDependencyProperty>();
+            c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
+            c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithInterfaceDependencyProperty>().AsSingleton();
             ISampleClassWithNestedInterfaceDependencyProperty sampleClass1 = new SampleClassWithNestedInterfaceDependencyProperty();
             ISampleClassWithNestedInterfaceDependencyProperty sampleClass2 = new SampleClassWithNestedInterfaceDependencyProperty();
 
@@ -142,15 +142,15 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Transient
             Assert.IsNotNull(sampleClass2.SampleClassWithInterfaceDependencyProperty);
             Assert.IsNotNull(sampleClass2.SampleClassWithInterfaceDependencyProperty.EmptyClass);
             Assert.AreNotEqual(sampleClass1, sampleClass2);
-            Assert.AreNotEqual(sampleClass1.SampleClassWithInterfaceDependencyProperty, sampleClass2.SampleClassWithInterfaceDependencyProperty);
-            Assert.AreNotEqual(sampleClass1.SampleClassWithInterfaceDependencyProperty.EmptyClass, sampleClass2.SampleClassWithInterfaceDependencyProperty.EmptyClass);
+            Assert.AreEqual(sampleClass1.SampleClassWithInterfaceDependencyProperty, sampleClass2.SampleClassWithInterfaceDependencyProperty);
+            Assert.AreEqual(sampleClass1.SampleClassWithInterfaceDependencyProperty.EmptyClass, sampleClass2.SampleClassWithInterfaceDependencyProperty.EmptyClass);
         }
 
         [TestMethod]
         public void RegisterInterfaceAsClassWithDependencyPropertyWithoutSetMethodWithInterface_Success()
         {
             var c = new Container();
-            c.RegisterType<IEmptyClass, EmptyClass>();
+            c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
             ISampleClassWithClassDependencyPropertyWithoutSetMethodWithInterface sampleClass = new SampleClassWithClassDependencyPropertyWithoutSetMethodWithInterface();
 
             c.BuildUp(sampleClass);

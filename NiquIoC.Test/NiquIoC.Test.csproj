@@ -57,6 +57,12 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Resolve\PartialEmitFunction\Singleton\BuildUpForClassWithDependencyMethodTests.cs" />
+    <Compile Include="Resolve\PartialEmitFunction\Singleton\BuildUpForClassWithDependencyPropertyAndDependencyMethod.cs" />
+    <Compile Include="Resolve\PartialEmitFunction\Singleton\BuildUpForClassWithDependencyPropertyTests.cs" />
+    <Compile Include="Resolve\PartialEmitFunction\Singleton\BuildUpForInterfaceWithDependencyMethodTests.cs" />
+    <Compile Include="Resolve\PartialEmitFunction\Singleton\BuildUpForInterfaceWithDependencyPropertyAndDependencyMethod.cs" />
+    <Compile Include="Resolve\PartialEmitFunction\Singleton\BuildUpForInterfaceWithDependencyPropertyTestsy.cs" />
     <Compile Include="Resolve\PartialEmitFunction\Transient\BuildUpForInterfaceWithDependencyMethodTests.cs" />
     <Compile Include="Resolve\PartialEmitFunction\Transient\BuildUpForInterfaceWithDependencyPropertyAndDependencyMethod.cs" />
     <Compile Include="Resolve\PartialEmitFunction\Transient\BuildUpForClassWithDependencyPropertyAndDependencyMethod.cs" />
