@@ -36,10 +36,6 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction
         {
             var c = new Container();
             c.RegisterType<IEmptyClass>();
-
-            var sampleClass = c.Resolve<IEmptyClass>();
-
-            Assert.IsNull(sampleClass);
         }
 
         [TestMethod]
