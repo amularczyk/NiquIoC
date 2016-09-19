@@ -4,6 +4,7 @@ using NiquIoC.Test.ClassDefinitions;
 
 namespace NiquIoC.Test.Resolve.PartialEmitFunction.Transient
 {
+    //ToDo: Test that nested object has some property/methods to build up
     [TestClass]
     public class RegisterTypeForClassTests
     {

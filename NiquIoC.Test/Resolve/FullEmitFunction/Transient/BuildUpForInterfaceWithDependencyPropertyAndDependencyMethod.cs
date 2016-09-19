@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NiquIoC.Test.ClassDefinitions;
 
-namespace NiquIoC.Test.Resolve.PartialEmitFunction.Transient
+namespace NiquIoC.Test.Resolve.FullEmitFunction.Transient
 {
     [TestClass]
     public class BuildUpForInterfaceWithDependencyPropertyAndDependencyMethod
@@ -13,7 +13,7 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Transient
             c.RegisterType<IEmptyClass, EmptyClass>();
             ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithSameType sampleClass = new SampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithSameType();
 
-            c.BuildUp(sampleClass);
+            c.BuildUp(sampleClass, Enums.ResolveKind.FullEmitFunction);
 
             Assert.IsNotNull(sampleClass.EmptyClassFromDependencyProperty);
             Assert.IsNotNull(sampleClass.EmptyClassFromDependencyMethod);
@@ -28,8 +28,8 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Transient
             ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithSameType sampleClass1 = new SampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithSameType();
             ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithSameType sampleClass2 = new SampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithSameType();
 
-            c.BuildUp(sampleClass1);
-            c.BuildUp(sampleClass2);
+            c.BuildUp(sampleClass1, Enums.ResolveKind.FullEmitFunction);
+            c.BuildUp(sampleClass2, Enums.ResolveKind.FullEmitFunction);
 
             Assert.IsNotNull(sampleClass1.EmptyClassFromDependencyProperty);
             Assert.IsNotNull(sampleClass1.EmptyClassFromDependencyMethod);
@@ -50,7 +50,7 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Transient
             c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>();
             ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes sampleClass = new SampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes();
 
-            c.BuildUp(sampleClass);
+            c.BuildUp(sampleClass, Enums.ResolveKind.FullEmitFunction);
 
             Assert.IsNotNull(sampleClass.EmptyClassFromDependencyProperty);
             Assert.IsNotNull(sampleClass.EmptyClassFromDependencyMethod);
@@ -67,8 +67,8 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Transient
             ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes sampleClass1 = new SampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes();
             ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes sampleClass2 = new SampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes();
 
-            c.BuildUp(sampleClass1);
-            c.BuildUp(sampleClass2);
+            c.BuildUp(sampleClass1, Enums.ResolveKind.FullEmitFunction);
+            c.BuildUp(sampleClass2, Enums.ResolveKind.FullEmitFunction);
 
             Assert.IsNotNull(sampleClass1.EmptyClassFromDependencyProperty);
             Assert.IsNotNull(sampleClass1.EmptyClassFromDependencyMethod);

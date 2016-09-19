@@ -57,6 +57,26 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Resolve\FullEmitFunction\MixObjectsLifeTime\BuildUpForClassWithDependencyMethodTests.cs" />
+    <Compile Include="Resolve\FullEmitFunction\MixObjectsLifeTime\BuildUpForClassWithDependencyPropertyTests.cs" />
+    <Compile Include="Resolve\FullEmitFunction\MixObjectsLifeTime\BuildUpForInterfaceWithDependencyMethodTests.cs" />
+    <Compile Include="Resolve\FullEmitFunction\MixObjectsLifeTime\BuildUpForInterfaceWithDependencyPropertyTestsy.cs" />
+    <Compile Include="Resolve\FullEmitFunction\Singleton\BuildUpForClassWithDependencyMethodTests.cs" />
+    <Compile Include="Resolve\FullEmitFunction\Singleton\BuildUpForClassWithDependencyPropertyAndDependencyMethod.cs" />
+    <Compile Include="Resolve\FullEmitFunction\Singleton\BuildUpForClassWithDependencyPropertyTests.cs" />
+    <Compile Include="Resolve\FullEmitFunction\Singleton\BuildUpForInterfaceWithDependencyMethodTests.cs" />
+    <Compile Include="Resolve\FullEmitFunction\Singleton\BuildUpForInterfaceWithDependencyPropertyAndDependencyMethod.cs" />
+    <Compile Include="Resolve\FullEmitFunction\Singleton\BuildUpForInterfaceWithDependencyPropertyTestsy.cs" />
+    <Compile Include="Resolve\FullEmitFunction\Transient\BuildUpForClassWithDependencyMethodTests.cs" />
+    <Compile Include="Resolve\FullEmitFunction\Transient\BuildUpForClassWithDependencyPropertyAndDependencyMethod.cs" />
+    <Compile Include="Resolve\FullEmitFunction\Transient\BuildUpForClassWithDependencyPropertyTests.cs" />
+    <Compile Include="Resolve\FullEmitFunction\Transient\BuildUpForInterfaceWithDependencyMethodTests.cs" />
+    <Compile Include="Resolve\FullEmitFunction\Transient\BuildUpForInterfaceWithDependencyPropertyAndDependencyMethod.cs" />
+    <Compile Include="Resolve\FullEmitFunction\Transient\BuildUpForInterfaceWithDependencyPropertyTestsy.cs" />
+    <Compile Include="Resolve\PartialEmitFunction\MixObjectsLifeTime\BuildUpForClassWithDependencyMethodTests.cs" />
+    <Compile Include="Resolve\PartialEmitFunction\MixObjectsLifeTime\BuildUpForClassWithDependencyPropertyTests.cs" />
+    <Compile Include="Resolve\PartialEmitFunction\MixObjectsLifeTime\BuildUpForInterfaceWithDependencyMethodTests.cs" />
+    <Compile Include="Resolve\PartialEmitFunction\MixObjectsLifeTime\BuildUpForInterfaceWithDependencyPropertyTestsy.cs" />
     <Compile Include="Resolve\PartialEmitFunction\Singleton\BuildUpForClassWithDependencyMethodTests.cs" />
     <Compile Include="Resolve\PartialEmitFunction\Singleton\BuildUpForClassWithDependencyPropertyAndDependencyMethod.cs" />
     <Compile Include="Resolve\PartialEmitFunction\Singleton\BuildUpForClassWithDependencyPropertyTests.cs" />
