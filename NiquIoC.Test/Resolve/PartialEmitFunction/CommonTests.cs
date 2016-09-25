@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NiquIoC.Exceptions;
 using NiquIoC.Test.ClassDefinitions;
 
@@ -78,6 +77,54 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction
             ISampleClassWithInterfaceProperty sampleClass = new SampleClassWithInterfaceDependencyProperty();
 
             c.BuildUp(sampleClass);
+
+            Assert.IsNotNull(sampleClass.EmptyClass);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(TypeNotRegisteredException), "Type NiquIoC.Test.ClassDefinitions.EmptyClass has not been registered.")]
+        public void RegisteredClassWithDependencyMethodWithoutRegisteredNestedClass_Failed()
+        {
+            var c = new Container();
+            c.RegisterType<SampleClassWithClassDependencyMethod>();
+
+            var sampleClass = c.Resolve<SampleClassWithClassDependencyMethod>();
+
+            Assert.IsNotNull(sampleClass);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(TypeNotRegisteredException), "Type NiquIoC.Test.ClassDefinitions.EmptyClass has not been registered.")]
+        public void RegisteredClassWithDependencyPropertyWithoutRegisteredNestedClass_Success()
+        {
+            var c = new Container();
+            c.RegisterType<SampleClassWithClassDependencyProperty>();
+
+            var sampleClass = c.Resolve<SampleClassWithClassDependencyProperty>();
+
+            Assert.IsNotNull(sampleClass.EmptyClass);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(TypeNotRegisteredException), "Type NiquIoC.Test.ClassDefinitions.IEmptyClass has not been registered.")]
+        public void RegisteredInterfaceWithDependencyMethodWithoutRegisteredNestedClass_Failed()
+        {
+            var c = new Container();
+            c.RegisterType<ISampleClassWithInterfaceMethod, SampleClassWithInterfaceDependencyMethod>();
+
+            var sampleClass = c.Resolve<ISampleClassWithInterfaceMethod>();
+
+            Assert.IsNotNull(sampleClass);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(TypeNotRegisteredException), "Type NiquIoC.Test.ClassDefinitions.EmptyClass has not been registered.")]
+        public void RegisteredInterfaceWithDependencyPropertyWithoutRegisteredNestedClass_Success()
+        {
+            var c = new Container();
+            c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithInterfaceDependencyProperty>();
+
+            var sampleClass = c.Resolve<ISampleClassWithInterfaceProperty>();
 
             Assert.IsNotNull(sampleClass.EmptyClass);
         }

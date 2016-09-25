@@ -1,24 +1,12 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NiquIoC.Exceptions;
+using NiquIoC.Enums;
 using NiquIoC.Test.ClassDefinitions;
 
-namespace NiquIoC.Test.Resolve.PartialEmitFunction
+namespace NiquIoC.Test.Resolve.FullEmitFunction.Transient
 {
     [TestClass]
     public class RegisterInterfaceWithDependencyPropertyTests
     {
-        [TestMethod]
-        [ExpectedException(typeof(TypeNotRegisteredException), "Type NiquIoC.Test.ClassDefinitions.EmptyClass has not been registered.")]
-        public void RegisteredClassWithDependencyPropertyWithoutRegisteredNestedClass_Success()
-        {
-            var c = new Container();
-            c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithInterfaceDependencyProperty>();
-
-            var sampleClass = c.Resolve<ISampleClassWithInterfaceProperty>();
-
-            Assert.IsNotNull(sampleClass.EmptyClass);
-        }
-
         [TestMethod]
         public void RegisteredClassWithDependencyProperty_Success()
         {
@@ -26,7 +14,7 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction
             c.RegisterType<IEmptyClass, EmptyClass>();
             c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithInterfaceDependencyProperty>();
 
-            var sampleClass = c.Resolve<ISampleClassWithInterfaceProperty>();
+            var sampleClass = c.Resolve<ISampleClassWithInterfaceProperty>(ResolveKind.FullEmitFunction);
 
             Assert.IsNotNull(sampleClass.EmptyClass);
         }
@@ -38,7 +26,7 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction
             c.RegisterType<IEmptyClass, EmptyClass>();
             c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithoutInterfaceDependencyProperty>();
 
-            var sampleClass = c.Resolve<ISampleClassWithInterfaceProperty>();
+            var sampleClass = c.Resolve<ISampleClassWithInterfaceProperty>(ResolveKind.FullEmitFunction);
 
             Assert.IsNull(sampleClass.EmptyClass);
         }
@@ -51,7 +39,7 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction
             c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>();
             c.RegisterType<ISampleClassWithManyInterfaceDependencyProperties, SampleClassWithManyInterfaceDependencyProperties>();
 
-            var sampleClass = c.Resolve<ISampleClassWithManyInterfaceDependencyProperties>();
+            var sampleClass = c.Resolve<ISampleClassWithManyInterfaceDependencyProperties>(ResolveKind.FullEmitFunction);
 
             Assert.IsNotNull(sampleClass.EmptyClass);
             Assert.IsNotNull(sampleClass.SampleClassWithInterfaceAsParameter);
@@ -65,7 +53,7 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction
             c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithInterfaceDependencyProperty>();
             c.RegisterType<ISampleClassWithNestedInterfaceDependencyProperty, SampleClassWithNestedInterfaceDependencyProperty>();
 
-            var sampleClass = c.Resolve<ISampleClassWithNestedInterfaceDependencyProperty>();
+            var sampleClass = c.Resolve<ISampleClassWithNestedInterfaceDependencyProperty>(ResolveKind.FullEmitFunction);
 
             Assert.IsNotNull(sampleClass.SampleClassWithInterfaceDependencyProperty);
             Assert.IsNotNull(sampleClass.SampleClassWithInterfaceDependencyProperty.EmptyClass);
@@ -78,7 +66,7 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction
             c.RegisterType<IEmptyClass, EmptyClass>();
             c.RegisterType<ISampleClassWithClassDependencyPropertyWithoutSetMethodWithInterface, SampleClassWithClassDependencyPropertyWithoutSetMethodWithInterface>();
 
-            var sampleClass = c.Resolve<ISampleClassWithClassDependencyPropertyWithoutSetMethodWithInterface>();
+            var sampleClass = c.Resolve<ISampleClassWithClassDependencyPropertyWithoutSetMethodWithInterface>(ResolveKind.FullEmitFunction);
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNull(sampleClass.EmptyClass);

@@ -1,22 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NiquIoC.Exceptions;
 using NiquIoC.Test.ClassDefinitions;
 
-namespace NiquIoC.Test.Resolve.PartialEmitFunction
+namespace NiquIoC.Test.Resolve.PartialEmitFunction.Transient
 {
     [TestClass]
     public class RegisterInterfaceWithDependencyMethodTests
     {
-        [TestMethod]
-        [ExpectedException(typeof(TypeNotRegisteredException), "Type NiquIoC.Test.ClassDefinitions.IEmptyClass has not been registered.")]
-        public void RegisteredClassWithDependencyMethodWithoutRegisteredNestedClass_Failed()
-        {
-            var c = new Container();
-            c.RegisterType<ISampleClassWithInterfaceMethod, SampleClassWithInterfaceDependencyMethod>();
-
-            var sampleClass = c.Resolve<ISampleClassWithInterfaceMethod>();
-        }
-
         [TestMethod]
         public void RegisterInterfaceAsClassWithDependencyMethod_Success()
         {

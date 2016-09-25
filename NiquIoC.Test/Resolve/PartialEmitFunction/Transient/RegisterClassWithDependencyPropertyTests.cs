@@ -1,24 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NiquIoC.Exceptions;
 using NiquIoC.Test.ClassDefinitions;
 
-namespace NiquIoC.Test.Resolve.FullEmitFunction
+namespace NiquIoC.Test.Resolve.PartialEmitFunction.Transient
 {
     [TestClass]
     public class RegisterClassWithDependencyPropertyTests
     {
-        [TestMethod]
-        [ExpectedException(typeof(TypeNotRegisteredException), "Type NiquIoC.Test.ClassDefinitions.EmptyClass has not been registered.")]
-        public void RegisteredClassWithDependencyPropertyWithoutRegisteredNestedClass_Success()
-        {
-            var c = new Container();
-            c.RegisterType<SampleClassWithClassDependencyProperty>();
-
-            var sampleClass = c.Resolve<SampleClassWithClassDependencyProperty>(Enums.ResolveKind.FullEmitFunction);
-
-            Assert.IsNotNull(sampleClass.EmptyClass);
-        }
-
         [TestMethod]
         public void RegisteredClassWithDependencyProperty_Success()
         {
@@ -26,7 +13,7 @@ namespace NiquIoC.Test.Resolve.FullEmitFunction
             c.RegisterType<EmptyClass>();
             c.RegisterType<SampleClassWithClassDependencyProperty>();
 
-            var sampleClass = c.Resolve<SampleClassWithClassDependencyProperty>(Enums.ResolveKind.FullEmitFunction);
+            var sampleClass = c.Resolve<SampleClassWithClassDependencyProperty>();
 
             Assert.IsNotNull(sampleClass.EmptyClass);
         }
@@ -38,7 +25,7 @@ namespace NiquIoC.Test.Resolve.FullEmitFunction
             c.RegisterType<EmptyClass>();
             c.RegisterType<SampleClassWithoutClassDependencyProperty>();
 
-            var sampleClass = c.Resolve<SampleClassWithoutClassDependencyProperty>(Enums.ResolveKind.FullEmitFunction);
+            var sampleClass = c.Resolve<SampleClassWithoutClassDependencyProperty>();
 
             Assert.IsNull(sampleClass.EmptyClass);
         }
@@ -51,7 +38,7 @@ namespace NiquIoC.Test.Resolve.FullEmitFunction
             c.RegisterType<SampleClass>();
             c.RegisterType<SampleClassWithManyClassDependencyProperties>();
 
-            var sampleClass = c.Resolve<SampleClassWithManyClassDependencyProperties>(Enums.ResolveKind.FullEmitFunction);
+            var sampleClass = c.Resolve<SampleClassWithManyClassDependencyProperties>();
 
             Assert.IsNotNull(sampleClass.EmptyClass);
             Assert.IsNotNull(sampleClass.SampleClass);
@@ -65,7 +52,7 @@ namespace NiquIoC.Test.Resolve.FullEmitFunction
             c.RegisterType<SampleClassWithClassDependencyProperty>();
             c.RegisterType<SampleClassWithNestedClassDependencyProperty>();
 
-            var sampleClass = c.Resolve<SampleClassWithNestedClassDependencyProperty>(Enums.ResolveKind.FullEmitFunction);
+            var sampleClass = c.Resolve<SampleClassWithNestedClassDependencyProperty>();
 
             Assert.IsNotNull(sampleClass.SampleClassWithClassDependencyProperty);
             Assert.IsNotNull(sampleClass.SampleClassWithClassDependencyProperty.EmptyClass);
@@ -78,7 +65,7 @@ namespace NiquIoC.Test.Resolve.FullEmitFunction
             c.RegisterType<EmptyClass>();
             c.RegisterType<SampleClassWithClassDependencyPropertyWithoutSetMethod>();
 
-            var sampleClass = c.Resolve<SampleClassWithClassDependencyPropertyWithoutSetMethod>(Enums.ResolveKind.FullEmitFunction);
+            var sampleClass = c.Resolve<SampleClassWithClassDependencyPropertyWithoutSetMethod>();
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNull(sampleClass.EmptyClass);
