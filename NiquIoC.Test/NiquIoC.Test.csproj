@@ -83,6 +83,12 @@
     <Compile Include="Resolve\PartialEmitFunction\Singleton\BuildUpForInterfaceWithDependencyMethodTests.cs" />
     <Compile Include="Resolve\PartialEmitFunction\Singleton\BuildUpForInterfaceWithDependencyPropertyAndDependencyMethodTests.cs" />
     <Compile Include="Resolve\PartialEmitFunction\Singleton\BuildUpForInterfaceWithDependencyPropertyTestsy.cs" />
+    <Compile Include="Resolve\PartialEmitFunction\Singleton\RegisterClassWithDependencyMethodTests.cs" />
+    <Compile Include="Resolve\PartialEmitFunction\Singleton\RegisterClassWithDependencyPropertyAndDependencyMethodTests.cs" />
+    <Compile Include="Resolve\PartialEmitFunction\Singleton\RegisterClassWithDependencyPropertyTests.cs" />
+    <Compile Include="Resolve\PartialEmitFunction\Singleton\RegisterInterfaceWithDependencyMethodTests.cs" />
+    <Compile Include="Resolve\PartialEmitFunction\Singleton\RegisterInterfaceWithDependencyPropertyAndDependencyMethodTests.cs" />
+    <Compile Include="Resolve\PartialEmitFunction\Singleton\RegisterInterfaceWithDependencyPropertyTestsy.cs" />
     <Compile Include="Resolve\PartialEmitFunction\Transient\RegisterClassWithDependencyPropertyAndDependencyMethodTests.cs" />
     <Compile Include="Resolve\PartialEmitFunction\Transient\BuildUpForInterfaceWithDependencyMethodTests.cs" />
     <Compile Include="Resolve\PartialEmitFunction\Transient\RegisterInterfaceWithDependencyPropertyAndDependencyMethodTests.cs" />
