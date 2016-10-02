@@ -47,7 +47,7 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Transient
         }
 
         [TestMethod]
-        public void DifferentObjects_RegisteredClassWithInterface_Success()
+        public void DifferentObjects_RegisterClassWithInterface_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();

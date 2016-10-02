@@ -7,7 +7,7 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Transient
     public class RegisterInterfaceWithDependencyPropertyTests
     {
         [TestMethod]
-        public void RegisteredClassWithDependencyProperty_Success()
+        public void RegisterInterfaceWithDependencyProperty_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();
@@ -19,7 +19,23 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Transient
         }
 
         [TestMethod]
-        public void RegisteredClassWithoutDependencyProperty_Success()
+        public void DifferentObjects_BuildUpInterfaceWithDependencyProperty_Success()
+        {
+            var c = new Container();
+            c.RegisterType<IEmptyClass, EmptyClass>();
+            c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithInterfaceDependencyProperty>();
+
+            var sampleClass1 = c.Resolve<ISampleClassWithInterfaceProperty>();
+            var sampleClass2 = c.Resolve<ISampleClassWithInterfaceProperty>();
+
+            Assert.IsNotNull(sampleClass1.EmptyClass);
+            Assert.IsNotNull(sampleClass2.EmptyClass);
+            Assert.AreNotEqual(sampleClass1, sampleClass2);
+            Assert.AreNotEqual(sampleClass1.EmptyClass, sampleClass2.EmptyClass);
+        }
+
+        [TestMethod]
+        public void RegisterInterfaceWithoutDependencyProperty_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();
@@ -31,7 +47,7 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Transient
         }
 
         [TestMethod]
-        public void RegisteredClassWithManyInterfaceDependencyProperties_Success()
+        public void RegisterInterfaceWithManyInterfaceDependencyProperties_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();
@@ -45,7 +61,27 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Transient
         }
 
         [TestMethod]
-        public void RegisteredClassWithNestedInterfaceDependencyProperty_Success()
+        public void DifferentObjects_BuildUpInterfaceWithManyInterfaceDependencyProperties_Success()
+        {
+            var c = new Container();
+            c.RegisterType<IEmptyClass, EmptyClass>();
+            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>();
+            c.RegisterType<ISampleClassWithManyInterfaceDependencyProperties, SampleClassWithManyInterfaceDependencyProperties>();
+
+            var sampleClass1 = c.Resolve<ISampleClassWithManyInterfaceDependencyProperties>();
+            var sampleClass2 = c.Resolve<ISampleClassWithManyInterfaceDependencyProperties>();
+
+            Assert.IsNotNull(sampleClass1.EmptyClass);
+            Assert.IsNotNull(sampleClass1.SampleClassWithInterfaceAsParameter);
+            Assert.IsNotNull(sampleClass2.EmptyClass);
+            Assert.IsNotNull(sampleClass2.SampleClassWithInterfaceAsParameter);
+            Assert.AreNotEqual(sampleClass1, sampleClass2);
+            Assert.AreNotEqual(sampleClass1.EmptyClass, sampleClass2.EmptyClass);
+            Assert.AreNotEqual(sampleClass1.SampleClassWithInterfaceAsParameter, sampleClass2.SampleClassWithInterfaceAsParameter);
+        }
+
+        [TestMethod]
+        public void RegisterInterfaceWithNestedInterfaceDependencyProperty_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();
@@ -56,6 +92,26 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Transient
 
             Assert.IsNotNull(sampleClass.SampleClassWithInterfaceDependencyProperty);
             Assert.IsNotNull(sampleClass.SampleClassWithInterfaceDependencyProperty.EmptyClass);
+        }
+
+        [TestMethod]
+        public void DifferentObjects_BuildUpInterfaceWithNestedInterfaceDependencyProperty_Success()
+        {
+            var c = new Container();
+            c.RegisterType<IEmptyClass, EmptyClass>();
+            c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithInterfaceDependencyProperty>();
+            c.RegisterType<ISampleClassWithNestedInterfaceDependencyProperty, SampleClassWithNestedInterfaceDependencyProperty>();
+
+            var sampleClass1 = c.Resolve<ISampleClassWithNestedInterfaceDependencyProperty>();
+            var sampleClass2 = c.Resolve<ISampleClassWithNestedInterfaceDependencyProperty>();
+
+            Assert.IsNotNull(sampleClass1.SampleClassWithInterfaceDependencyProperty);
+            Assert.IsNotNull(sampleClass1.SampleClassWithInterfaceDependencyProperty.EmptyClass);
+            Assert.IsNotNull(sampleClass2.SampleClassWithInterfaceDependencyProperty);
+            Assert.IsNotNull(sampleClass2.SampleClassWithInterfaceDependencyProperty.EmptyClass);
+            Assert.AreNotEqual(sampleClass1, sampleClass2);
+            Assert.AreNotEqual(sampleClass1.SampleClassWithInterfaceDependencyProperty, sampleClass2.SampleClassWithInterfaceDependencyProperty);
+            Assert.AreNotEqual(sampleClass1.SampleClassWithInterfaceDependencyProperty.EmptyClass, sampleClass2.SampleClassWithInterfaceDependencyProperty.EmptyClass);
         }
 
         [TestMethod]

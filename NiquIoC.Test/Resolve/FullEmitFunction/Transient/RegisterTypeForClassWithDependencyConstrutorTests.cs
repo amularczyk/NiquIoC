@@ -8,7 +8,7 @@ namespace NiquIoC.Test.Resolve.FullEmitFunction.Transient
     public class RegisterTypeForClassWithDependencyConstrutorTests
     {
         [TestMethod]
-        public void RegisteredClassWithConstructorWithAttributeDependencyConstrutor_Success()
+        public void RegisterClassWithConstructorWithAttributeDependencyConstrutor_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
@@ -22,7 +22,7 @@ namespace NiquIoC.Test.Resolve.FullEmitFunction.Transient
 
         [TestMethod]
         [ExpectedException(typeof(NoProperConstructorException))]
-        public void RegisteredClassWithTwoConstructorsWithAttributeDependencyConstrutor_Fail()
+        public void RegisterClassWithTwoConstructorsWithAttributeDependencyConstrutor_Fail()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
@@ -34,7 +34,7 @@ namespace NiquIoC.Test.Resolve.FullEmitFunction.Transient
         }
 
         [TestMethod]
-        public void RegisteredClassWithNestedClassWithConstructorWithAttributeDependencyConstrutor_Success()
+        public void RegisterClassWithNestedClassWithConstructorWithAttributeDependencyConstrutor_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();

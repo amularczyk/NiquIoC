@@ -8,7 +8,7 @@ namespace NiquIoC.Test.Resolve.FullEmitFunction.Transient
     public class RegisterInterfaceWithDependencyPropertyTests
     {
         [TestMethod]
-        public void RegisteredClassWithDependencyProperty_Success()
+        public void RegisterClassWithDependencyProperty_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();
@@ -20,7 +20,7 @@ namespace NiquIoC.Test.Resolve.FullEmitFunction.Transient
         }
 
         [TestMethod]
-        public void RegisteredClassWithoutDependencyProperty_Success()
+        public void RegisterClassWithoutDependencyProperty_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();
@@ -32,7 +32,7 @@ namespace NiquIoC.Test.Resolve.FullEmitFunction.Transient
         }
 
         [TestMethod]
-        public void RegisteredClassWithManyInterfaceDependencyProperties_Success()
+        public void RegisterClassWithManyInterfaceDependencyProperties_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();
@@ -46,7 +46,7 @@ namespace NiquIoC.Test.Resolve.FullEmitFunction.Transient
         }
 
         [TestMethod]
-        public void RegisteredClassWithNestedInterfaceDependencyProperty_Success()
+        public void RegisterClassWithNestedInterfaceDependencyProperty_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();

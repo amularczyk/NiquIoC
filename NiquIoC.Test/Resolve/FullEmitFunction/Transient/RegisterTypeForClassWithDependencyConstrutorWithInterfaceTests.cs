@@ -34,7 +34,7 @@ namespace NiquIoC.Test.Resolve.FullEmitFunction.Transient
         }
 
         [TestMethod]
-        public void RegisteredClassWithNestedInterfaceAsParameterWithInterfaceAsParameterAndWithConstructorWithAttributeDependencyConstrutor_Success()
+        public void RegisterClassWithNestedInterfaceAsParameterWithInterfaceAsParameterAndWithConstructorWithAttributeDependencyConstrutor_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();

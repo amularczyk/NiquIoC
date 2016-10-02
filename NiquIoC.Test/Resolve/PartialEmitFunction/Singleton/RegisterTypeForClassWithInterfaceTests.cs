@@ -47,7 +47,7 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Singleton
         }
 
         [TestMethod]
-        public void SameObjects_RegisteredClassWithInterface_Success()
+        public void SameObjects_RegisterClassWithInterface_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();

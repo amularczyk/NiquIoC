@@ -1,19 +1,19 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NiquIoC.Test.ClassDefinitions;
 
-namespace NiquIoC.Test.Resolve.FullEmitFunction.Singleton
+namespace NiquIoC.Test.Resolve.PartialEmitFunction.Singleton
 {
     [TestClass]
-    public class BuildUpForInterfaceWithDependencyPropertyAndDependencyMethod
+    public class BuildUpForInterfaceWithDependencyPropertyAndDependencyMethodTests
     {
         [TestMethod]
-        public void RegisteredClassWithDependencyPropertyAndDependencyMethod_Success()
+        public void RegisterClassWithDependencyPropertyAndDependencyMethod_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
             ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithSameType sampleClass = new SampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithSameType();
 
-            c.BuildUp(sampleClass, Enums.ResolveKind.FullEmitFunction);
+            c.BuildUp(sampleClass);
 
             Assert.IsNotNull(sampleClass.EmptyClassFromDependencyProperty);
             Assert.IsNotNull(sampleClass.EmptyClassFromDependencyMethod);
@@ -21,15 +21,15 @@ namespace NiquIoC.Test.Resolve.FullEmitFunction.Singleton
         }
 
         [TestMethod]
-        public void DifferentObjects_RegisteredClassWithDependencyPropertyAndDependencyMethod_Success()
+        public void DifferentObjects_RegisterClassWithDependencyPropertyAndDependencyMethod_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
             ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithSameType sampleClass1 = new SampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithSameType();
             ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithSameType sampleClass2 = new SampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithSameType();
 
-            c.BuildUp(sampleClass1, Enums.ResolveKind.FullEmitFunction);
-            c.BuildUp(sampleClass2, Enums.ResolveKind.FullEmitFunction);
+            c.BuildUp(sampleClass1);
+            c.BuildUp(sampleClass2);
 
             Assert.IsNotNull(sampleClass1.EmptyClassFromDependencyProperty);
             Assert.IsNotNull(sampleClass1.EmptyClassFromDependencyMethod);
@@ -43,14 +43,14 @@ namespace NiquIoC.Test.Resolve.FullEmitFunction.Singleton
         }
 
         [TestMethod]
-        public void RegisteredClassWithDependencyPropertyAndDependencyMethodWithDifferentTypes_Success()
+        public void RegisterClassWithDependencyPropertyAndDependencyMethodWithDifferentTypes_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
             c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsSingleton();
             ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes sampleClass = new SampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes();
 
-            c.BuildUp(sampleClass, Enums.ResolveKind.FullEmitFunction);
+            c.BuildUp(sampleClass);
 
             Assert.IsNotNull(sampleClass.EmptyClassFromDependencyProperty);
             Assert.IsNotNull(sampleClass.EmptyClassFromDependencyMethod);
@@ -59,7 +59,7 @@ namespace NiquIoC.Test.Resolve.FullEmitFunction.Singleton
         }
 
         [TestMethod]
-        public void DifferentObjects_RegisteredClassWithDependencyPropertyAndDependencyMethodWithDifferentTypes_Success()
+        public void DifferentObjects_RegisterClassWithDependencyPropertyAndDependencyMethodWithDifferentTypes_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
@@ -67,8 +67,8 @@ namespace NiquIoC.Test.Resolve.FullEmitFunction.Singleton
             ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes sampleClass1 = new SampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes();
             ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes sampleClass2 = new SampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes();
 
-            c.BuildUp(sampleClass1, Enums.ResolveKind.FullEmitFunction);
-            c.BuildUp(sampleClass2, Enums.ResolveKind.FullEmitFunction);
+            c.BuildUp(sampleClass1);
+            c.BuildUp(sampleClass2);
 
             Assert.IsNotNull(sampleClass1.EmptyClassFromDependencyProperty);
             Assert.IsNotNull(sampleClass1.EmptyClassFromDependencyMethod);

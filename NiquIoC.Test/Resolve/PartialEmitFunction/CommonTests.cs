@@ -83,7 +83,7 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction
 
         [TestMethod]
         [ExpectedException(typeof(TypeNotRegisteredException), "Type NiquIoC.Test.ClassDefinitions.EmptyClass has not been registered.")]
-        public void RegisteredClassWithDependencyMethodWithoutRegisteredNestedClass_Failed()
+        public void RegisterClassWithDependencyMethodWithoutRegisteredNestedClass_Failed()
         {
             var c = new Container();
             c.RegisterType<SampleClassWithClassDependencyMethod>();
@@ -95,7 +95,7 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction
 
         [TestMethod]
         [ExpectedException(typeof(TypeNotRegisteredException), "Type NiquIoC.Test.ClassDefinitions.EmptyClass has not been registered.")]
-        public void RegisteredClassWithDependencyPropertyWithoutRegisteredNestedClass_Success()
+        public void RegisterClassWithDependencyPropertyWithoutRegisteredNestedClass_Success()
         {
             var c = new Container();
             c.RegisterType<SampleClassWithClassDependencyProperty>();

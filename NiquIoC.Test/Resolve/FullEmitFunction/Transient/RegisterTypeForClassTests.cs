@@ -8,7 +8,7 @@ namespace NiquIoC.Test.Resolve.FullEmitFunction.Transient
     public class RegisterTypeForClassTests
     {
         [TestMethod]
-        public void RegisteredClassWithConstructorWithoutParameters_Success()
+        public void RegisterClassWithConstructorWithoutParameters_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
@@ -55,7 +55,7 @@ namespace NiquIoC.Test.Resolve.FullEmitFunction.Transient
         }
 
         [TestMethod]
-        public void RegisteredClassWithConstructorWithParameter_Success()
+        public void RegisterClassWithConstructorWithParameter_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
@@ -69,7 +69,7 @@ namespace NiquIoC.Test.Resolve.FullEmitFunction.Transient
 
         [TestMethod]
         [ExpectedException(typeof(CycleForTypeException), "Appeared cycle when resolving constructor for object of type NiquIoC.Test.ClassDefinitions.FirstClassWithCycleInConstructor")]
-        public void RegisteredClassWithCycleInConstructor_Fail()
+        public void RegisterClassWithCycleInConstructor_Fail()
         {
             var c = new Container();
             c.RegisterType<SecondClassWithCycleInConstructor>();
@@ -81,7 +81,7 @@ namespace NiquIoC.Test.Resolve.FullEmitFunction.Transient
         }
 
         [TestMethod]
-        public void DifferentObjects_RegisteredClass_Success()
+        public void DifferentObjects_RegisterClass_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();

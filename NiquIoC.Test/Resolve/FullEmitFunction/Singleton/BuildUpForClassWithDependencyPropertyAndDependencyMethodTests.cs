@@ -1,19 +1,19 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NiquIoC.Test.ClassDefinitions;
 
-namespace NiquIoC.Test.Resolve.PartialEmitFunction.Singleton
+namespace NiquIoC.Test.Resolve.FullEmitFunction.Singleton
 {
     [TestClass]
-    public class BuildUpForClassWithDependencyPropertyAndDependencyMethod
+    public class BuildUpForClassWithDependencyPropertyAndDependencyMethodTests
     {
         [TestMethod]
-        public void RegisteredClassWithDependencyPropertyAndDependencyMethod_Success()
+        public void RegisterClassWithDependencyPropertyAndDependencyMethod_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsSingleton();
             var sampleClass = new SampleClassWithClassDependencyPropertyAndDependencyMethodWithSameType();
 
-            c.BuildUp(sampleClass);
+            c.BuildUp(sampleClass, Enums.ResolveKind.FullEmitFunction);
 
             Assert.IsNotNull(sampleClass.EmptyClassFromDependencyProperty);
             Assert.IsNotNull(sampleClass.EmptyClassFromDependencyMethod);
@@ -21,15 +21,15 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Singleton
         }
 
         [TestMethod]
-        public void DifferentObjects_RegisteredClassWithDependencyPropertyAndDependencyMethod_Success()
+        public void DifferentObjects_RegisterClassWithDependencyPropertyAndDependencyMethod_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsSingleton();
             var sampleClass1 = new SampleClassWithClassDependencyPropertyAndDependencyMethodWithSameType();
             var sampleClass2 = new SampleClassWithClassDependencyPropertyAndDependencyMethodWithSameType();
 
-            c.BuildUp(sampleClass1);
-            c.BuildUp(sampleClass2);
+            c.BuildUp(sampleClass1, Enums.ResolveKind.FullEmitFunction);
+            c.BuildUp(sampleClass2, Enums.ResolveKind.FullEmitFunction);
 
             Assert.IsNotNull(sampleClass1.EmptyClassFromDependencyProperty);
             Assert.IsNotNull(sampleClass1.EmptyClassFromDependencyMethod);
@@ -43,14 +43,14 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Singleton
         }
 
         [TestMethod]
-        public void RegisteredClassWithDependencyPropertyAndDependencyMethodWithDifferentTypes_Success()
+        public void RegisterClassWithDependencyPropertyAndDependencyMethodWithDifferentTypes_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsSingleton();
             c.RegisterType<SampleClass>().AsSingleton();
             var sampleClass = new SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes();
 
-            c.BuildUp(sampleClass);
+            c.BuildUp(sampleClass, Enums.ResolveKind.FullEmitFunction);
 
             Assert.IsNotNull(sampleClass.EmptyClassFromDependencyProperty);
             Assert.IsNotNull(sampleClass.EmptyClassFromDependencyMethod);
@@ -59,7 +59,7 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Singleton
         }
 
         [TestMethod]
-        public void DifferentObjects_RegisteredClassWithDependencyPropertyAndDependencyMethodWithDifferentTypes_Success()
+        public void DifferentObjects_RegisterClassWithDependencyPropertyAndDependencyMethodWithDifferentTypes_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsSingleton();
@@ -67,8 +67,8 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Singleton
             var sampleClass1 = new SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes();
             var sampleClass2 = new SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes();
 
-            c.BuildUp(sampleClass1);
-            c.BuildUp(sampleClass2);
+            c.BuildUp(sampleClass1, Enums.ResolveKind.FullEmitFunction);
+            c.BuildUp(sampleClass2, Enums.ResolveKind.FullEmitFunction);
 
             Assert.IsNotNull(sampleClass1.EmptyClassFromDependencyProperty);
             Assert.IsNotNull(sampleClass1.EmptyClassFromDependencyMethod);

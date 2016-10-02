@@ -20,6 +20,22 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Transient
         }
 
         [TestMethod]
+        public void DifferentObjects_RegisterClassWithDependencyMethod_Success()
+        {
+            var c = new Container();
+            c.RegisterType<EmptyClass>();
+            c.RegisterType<SampleClassWithClassDependencyMethod>();
+
+            var sampleClass1 = c.Resolve<SampleClassWithClassDependencyMethod>();
+            var sampleClass2 = c.Resolve<SampleClassWithClassDependencyMethod>();
+
+            Assert.IsNotNull(sampleClass1.EmptyClass);
+            Assert.IsNotNull(sampleClass2.EmptyClass);
+            Assert.AreNotEqual(sampleClass1, sampleClass2);
+            Assert.AreNotEqual(sampleClass1.EmptyClass, sampleClass2.EmptyClass);
+        }
+
+        [TestMethod]
         public void RegisterClassWithoutDependencyMethod_Fail()
         {
             var c = new Container();
@@ -46,7 +62,7 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Transient
         }
 
         [TestMethod]
-        public void RegisteredClassWithManyClassDependencyMethods_Success()
+        public void RegisterClassWithManyClassDependencyMethods_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
@@ -60,7 +76,27 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Transient
         }
 
         [TestMethod]
-        public void RegisteredClassWithManyClassParametersInDependencyMethod_Success()
+        public void DifferentObjects_RegisterClassWithManyClassDependencyMethods_Success()
+        {
+            var c = new Container();
+            c.RegisterType<EmptyClass>();
+            c.RegisterType<SampleClass>();
+            c.RegisterType<SampleClassWithManyClassDependencyMethods>();
+
+            var sampleClass1 = c.Resolve<SampleClassWithManyClassDependencyMethods>();
+            var sampleClass2 = c.Resolve<SampleClassWithManyClassDependencyMethods>();
+
+            Assert.IsNotNull(sampleClass1.EmptyClass);
+            Assert.IsNotNull(sampleClass1.SampleClass);
+            Assert.IsNotNull(sampleClass2.EmptyClass);
+            Assert.IsNotNull(sampleClass2.SampleClass);
+            Assert.AreNotEqual(sampleClass1, sampleClass2);
+            Assert.AreNotEqual(sampleClass1.EmptyClass, sampleClass2.EmptyClass);
+            Assert.AreNotEqual(sampleClass1.SampleClass, sampleClass2.SampleClass);
+        }
+
+        [TestMethod]
+        public void RegisterClassWithManyClassParametersInDependencyMethod_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
@@ -74,7 +110,27 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Transient
         }
 
         [TestMethod]
-        public void RegisteredClassWithNestedClassDependencyMethod_Success()
+        public void DifferentObjects_RegisterClassWithManyClassParametersInDependencyMethod_Success()
+        {
+            var c = new Container();
+            c.RegisterType<EmptyClass>();
+            c.RegisterType<SampleClass>();
+            c.RegisterType<SampleClassWithManyClassParametersInDependencyMethod>();
+
+            var sampleClass1 = c.Resolve<SampleClassWithManyClassParametersInDependencyMethod>();
+            var sampleClass2 = c.Resolve<SampleClassWithManyClassParametersInDependencyMethod>();
+
+            Assert.IsNotNull(sampleClass1.EmptyClass);
+            Assert.IsNotNull(sampleClass1.SampleClass);
+            Assert.IsNotNull(sampleClass2.EmptyClass);
+            Assert.IsNotNull(sampleClass2.SampleClass);
+            Assert.AreNotEqual(sampleClass1, sampleClass2);
+            Assert.AreNotEqual(sampleClass1.EmptyClass, sampleClass2.EmptyClass);
+            Assert.AreNotEqual(sampleClass1.SampleClass, sampleClass2.SampleClass);
+        }
+
+        [TestMethod]
+        public void RegisterClassWithNestedClassDependencyMethod_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
@@ -85,6 +141,26 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Transient
 
             Assert.IsNotNull(sampleClass.SampleClassWithClassDependencyMethod);
             Assert.IsNotNull(sampleClass.SampleClassWithClassDependencyMethod.EmptyClass);
+        }
+
+        [TestMethod]
+        public void DifferentObjects_RegisterClassWithNestedClassDependencyMethod_Success()
+        {
+            var c = new Container();
+            c.RegisterType<EmptyClass>();
+            c.RegisterType<SampleClassWithClassDependencyMethod>();
+            c.RegisterType<SampleClassWithNestedClassDependencyMethod>();
+
+            var sampleClass1 = c.Resolve<SampleClassWithNestedClassDependencyMethod>();
+            var sampleClass2 = c.Resolve<SampleClassWithNestedClassDependencyMethod>();
+
+            Assert.IsNotNull(sampleClass1.SampleClassWithClassDependencyMethod);
+            Assert.IsNotNull(sampleClass1.SampleClassWithClassDependencyMethod.EmptyClass);
+            Assert.IsNotNull(sampleClass2.SampleClassWithClassDependencyMethod);
+            Assert.IsNotNull(sampleClass2.SampleClassWithClassDependencyMethod.EmptyClass);
+            Assert.AreNotEqual(sampleClass1, sampleClass2);
+            Assert.AreNotEqual(sampleClass1.SampleClassWithClassDependencyMethod, sampleClass2.SampleClassWithClassDependencyMethod);
+            Assert.AreNotEqual(sampleClass1.SampleClassWithClassDependencyMethod.EmptyClass, sampleClass2.SampleClassWithClassDependencyMethod.EmptyClass);
         }
     }
 }

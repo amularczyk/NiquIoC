@@ -63,7 +63,7 @@ namespace NiquIoC.Test.Resolve.FullEmitFunction.Transient
         }
 
         [TestMethod]
-        public void RegisteredClassWithManyClassDependencyMethods_Success()
+        public void RegisterClassWithManyClassDependencyMethods_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
@@ -77,7 +77,7 @@ namespace NiquIoC.Test.Resolve.FullEmitFunction.Transient
         }
 
         [TestMethod]
-        public void DifferentObjects_RegisteredClassWithManyClassDependencyMethods_Success()
+        public void DifferentObjects_RegisterClassWithManyClassDependencyMethods_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
@@ -97,7 +97,7 @@ namespace NiquIoC.Test.Resolve.FullEmitFunction.Transient
         }
 
         [TestMethod]
-        public void RegisteredClassWithManyClassParametersInDependencyMethod_Success()
+        public void RegisterClassWithManyClassParametersInDependencyMethod_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
@@ -111,7 +111,7 @@ namespace NiquIoC.Test.Resolve.FullEmitFunction.Transient
         }
 
         [TestMethod]
-        public void DifferentObjects_RegisteredClassWithManyClassParametersInDependencyMethod_Success()
+        public void DifferentObjects_RegisterClassWithManyClassParametersInDependencyMethod_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
@@ -131,7 +131,7 @@ namespace NiquIoC.Test.Resolve.FullEmitFunction.Transient
         }
 
         [TestMethod]
-        public void RegisteredClassWithNestedClassDependencyMethod_Success()
+        public void RegisterClassWithNestedClassDependencyMethod_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
@@ -145,7 +145,7 @@ namespace NiquIoC.Test.Resolve.FullEmitFunction.Transient
         }
 
         [TestMethod]
-        public void DifferentObjects_RegisteredClassWithNestedClassDependencyMethod_Success()
+        public void DifferentObjects_RegisterClassWithNestedClassDependencyMethod_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();

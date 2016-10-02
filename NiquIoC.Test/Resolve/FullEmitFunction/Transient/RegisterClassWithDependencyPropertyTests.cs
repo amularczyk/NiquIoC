@@ -8,7 +8,7 @@ namespace NiquIoC.Test.Resolve.FullEmitFunction.Transient
     public class RegisterClassWithDependencyPropertyTests
     {
         [TestMethod]
-        public void RegisteredClassWithDependencyProperty_Success()
+        public void RegisterClassWithDependencyProperty_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
@@ -36,7 +36,7 @@ namespace NiquIoC.Test.Resolve.FullEmitFunction.Transient
         }
 
         [TestMethod]
-        public void RegisteredClassWithoutDependencyProperty_Success()
+        public void RegisterClassWithoutDependencyProperty_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
@@ -48,7 +48,7 @@ namespace NiquIoC.Test.Resolve.FullEmitFunction.Transient
         }
 
         [TestMethod]
-        public void RegisteredClassWithManyClassDependencyProperties_Success()
+        public void RegisterClassWithManyClassDependencyProperties_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
@@ -82,7 +82,7 @@ namespace NiquIoC.Test.Resolve.FullEmitFunction.Transient
         }
 
         [TestMethod]
-        public void RegisteredClassWithNestedClassDependencyProperty_Success()
+        public void RegisterClassWithNestedClassDependencyProperty_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();

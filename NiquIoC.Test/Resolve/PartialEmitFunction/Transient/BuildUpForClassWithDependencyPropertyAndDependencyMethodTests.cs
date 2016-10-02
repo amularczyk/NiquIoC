@@ -4,10 +4,10 @@ using NiquIoC.Test.ClassDefinitions;
 namespace NiquIoC.Test.Resolve.PartialEmitFunction.Transient
 {
     [TestClass]
-    public class BuildUpForClassWithDependencyPropertyAndDependencyMethod
+    public class BuildUpForClassWithDependencyPropertyAndDependencyMethodTests
     {
         [TestMethod]
-        public void RegisteredClassWithDependencyPropertyAndDependencyMethodWithSameType_Success()
+        public void RegisterClassWithDependencyPropertyAndDependencyMethodWithSameType_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
@@ -21,7 +21,7 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Transient
         }
 
         [TestMethod]
-        public void DifferentObjects_RegisteredClassWithDependencyPropertyAndDependencyMethodWithSameType_Success()
+        public void DifferentObjects_RegisterClassWithDependencyPropertyAndDependencyMethodWithSameType_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
@@ -43,7 +43,7 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Transient
         }
 
         [TestMethod]
-        public void RegisteredClassWithDependencyPropertyAndDependencyMethodWithDifferentTypes_Success()
+        public void RegisterClassWithDependencyPropertyAndDependencyMethodWithDifferentTypes_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
@@ -59,7 +59,7 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Transient
         }
 
         [TestMethod]
-        public void DifferentObjects_RegisteredClassWithDependencyPropertyAndDependencyMethodWithDifferentTypes_Success()
+        public void DifferentObjects_RegisterClassWithDependencyPropertyAndDependencyMethodWithDifferentTypes_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();

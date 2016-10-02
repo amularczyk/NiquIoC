@@ -8,7 +8,7 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Singleton
     public class RegisterTypeForClassTests
     {
         [TestMethod]
-        public void RegisteredClassWithConstructorWithoutParameters_Success()
+        public void RegisterClassWithConstructorWithoutParameters_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsSingleton();
@@ -31,7 +31,7 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Singleton
         }
 
         [TestMethod]
-        public void RegisteredClassWithConstructorWithParameter_Success()
+        public void RegisterClassWithConstructorWithParameter_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsSingleton();
@@ -45,7 +45,7 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Singleton
 
         [TestMethod]
         [ExpectedException(typeof(CycleForTypeException), "Appeared cycle when resolving constructor for object of type NiquIoC.Test.ClassDefinitions.FirstClassWithCycleInConstructor")]
-        public void RegisteredClassWithCycleInConstructor_Fail()
+        public void RegisterClassWithCycleInConstructor_Fail()
         {
             var c = new Container();
             c.RegisterType<SecondClassWithCycleInConstructor>().AsSingleton();
@@ -57,7 +57,7 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Singleton
         }
 
         [TestMethod]
-        public void SameObjects_RegisteredClass_Success()
+        public void SameObjects_RegisterClass_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsSingleton();
