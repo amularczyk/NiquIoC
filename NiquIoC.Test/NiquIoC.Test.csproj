@@ -77,6 +77,8 @@
     <Compile Include="Resolve\FullEmitFunction\Transient\BuildUp\BuildUpForInterfaceWithDependencyMethodTests.cs" />
     <Compile Include="Resolve\FullEmitFunction\Transient\BuildUp\BuildUpForInterfaceWithDependencyPropertyAndDependencyMethodTests.cs" />
     <Compile Include="Resolve\FullEmitFunction\Transient\BuildUp\BuildUpForInterfaceWithDependencyPropertyTestsy.cs" />
+    <Compile Include="Resolve\FullEmitFunction\Transient\ResolveWithBuildUp\RegisterClassWithDependencyPropertyAndDependencyMethodTests.cs" />
+    <Compile Include="Resolve\FullEmitFunction\Transient\ResolveWithBuildUp\RegisterInterfaceWithDependencyPropertyAndDependencyMethodTests.cs" />
     <Compile Include="Resolve\PartialEmitFunction\MixObjectsLifeTime\BuildUp\BuildUpForClassWithDependencyMethodTests.cs" />
     <Compile Include="Resolve\PartialEmitFunction\MixObjectsLifeTime\BuildUp\BuildUpForClassWithDependencyPropertyTests.cs" />
     <Compile Include="Resolve\PartialEmitFunction\MixObjectsLifeTime\BuildUp\BuildUpForInterfaceWithDependencyMethodTests.cs" />
