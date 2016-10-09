@@ -71,6 +71,12 @@
     <Compile Include="Resolve\FullEmitFunction\Singleton\DependencyConstrutor\RegisterTypeForClassWithDependencyConstrutorWithInterfaceTests.cs" />
     <Compile Include="Resolve\FullEmitFunction\Singleton\DependencyConstrutor\RegisterTypeForInterfaceWithDependencyConstrutorTests.cs" />
     <Compile Include="Resolve\FullEmitFunction\Singleton\DependencyConstrutor\RegisterTypeForInterfaceWithDependencyConstrutorWithClassTests.cs" />
+    <Compile Include="Resolve\FullEmitFunction\Singleton\ResolveWithBuildUp\RegisterClassWithDependencyMethodTests.cs" />
+    <Compile Include="Resolve\FullEmitFunction\Singleton\ResolveWithBuildUp\RegisterClassWithDependencyPropertyAndDependencyMethodTests.cs" />
+    <Compile Include="Resolve\FullEmitFunction\Singleton\ResolveWithBuildUp\RegisterClassWithDependencyPropertyTests.cs" />
+    <Compile Include="Resolve\FullEmitFunction\Singleton\ResolveWithBuildUp\RegisterInterfaceWithDependencyMethodTests.cs" />
+    <Compile Include="Resolve\FullEmitFunction\Singleton\ResolveWithBuildUp\RegisterInterfaceWithDependencyPropertyAndDependencyMethodTests.cs" />
+    <Compile Include="Resolve\FullEmitFunction\Singleton\ResolveWithBuildUp\RegisterInterfaceWithDependencyPropertyTestsy.cs" />
     <Compile Include="Resolve\FullEmitFunction\Transient\BuildUp\BuildUpForClassWithDependencyMethodTests.cs" />
     <Compile Include="Resolve\FullEmitFunction\Transient\BuildUp\BuildUpForClassWithDependencyPropertyAndDependencyMethodTests.cs" />
     <Compile Include="Resolve\FullEmitFunction\Transient\BuildUp\BuildUpForClassWithDependencyPropertyTests.cs" />
@@ -210,7 +216,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resolve\FullEmitFunction\MixObjectsLifeTime\ResolveWithBuildUp\" />
-    <Folder Include="Resolve\FullEmitFunction\Singleton\ResolveWithBuildUp\" />
     <Folder Include="Resolve\PartialEmitFunction\MixObjectsLifeTime\ResolveWithBuildUp\" />
   </ItemGroup>
   <Choose>
