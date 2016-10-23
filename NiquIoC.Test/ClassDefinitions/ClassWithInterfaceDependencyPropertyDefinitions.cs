@@ -45,6 +45,16 @@ namespace NiquIoC.Test.ClassDefinitions
         public ISampleClassWithInterfaceProperty SampleClassWithInterfaceDependencyProperty { get; set; }
     }
 
+    internal class SampleClassWithClassInConstructorWithNestedInterfaceDependencyProperty : ISampleClassWithNestedInterfaceDependencyProperty
+    {
+        public SampleClassWithClassInConstructorWithNestedInterfaceDependencyProperty(ISampleClassWithInterfaceProperty sampleClassWithInterfaceDependencyProperty)
+        {
+            SampleClassWithInterfaceDependencyProperty = sampleClassWithInterfaceDependencyProperty;
+        }
+
+        public ISampleClassWithInterfaceProperty SampleClassWithInterfaceDependencyProperty { get; set; }
+    }
+
     internal interface ISampleClassWithInterfaceDependencyPropertyWithoutSetMethod
     {
         IEmptyClass EmptyClass { get; }

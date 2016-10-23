@@ -39,6 +39,16 @@ namespace NiquIoC.Test.ClassDefinitions
         SampleClassWithClassDependencyProperty SampleClassWithClassDependencyProperty { get; set; }
     }
 
+    internal class SampleClassWithClassInConstructorWithNestedClassDependencyProperty : ISampleClassWithNestedClassDependencyProperty
+    {
+        public SampleClassWithClassInConstructorWithNestedClassDependencyProperty(SampleClassWithClassDependencyProperty sampleClassWithClassDependencyProperty)
+        {
+            SampleClassWithClassDependencyProperty = sampleClassWithClassDependencyProperty;
+        }
+
+        public SampleClassWithClassDependencyProperty SampleClassWithClassDependencyProperty { get; set; }
+    }
+
     internal class SampleClassWithNestedClassDependencyProperty : ISampleClassWithNestedClassDependencyProperty
     {
         [DependencyProperty]

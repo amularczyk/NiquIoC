@@ -20,7 +20,7 @@ namespace NiquIoC.Test.Resolve.FullEmitFunction.Singleton.ResolveWithBuildUp
         }
 
         [TestMethod]
-        public void DifferentObjects_BuildUpClassWithDependencyProperty_Success()
+        public void DifferentObjects_RegisterClassWithDependencyProperty_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
@@ -62,7 +62,7 @@ namespace NiquIoC.Test.Resolve.FullEmitFunction.Singleton.ResolveWithBuildUp
         }
 
         [TestMethod]
-        public void DifferentObjects_BuildUpClassWithManyClassDependencyProperties_Success()
+        public void DifferentObjects_RegisterClassWithManyClassDependencyProperties_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
@@ -96,7 +96,7 @@ namespace NiquIoC.Test.Resolve.FullEmitFunction.Singleton.ResolveWithBuildUp
         }
 
         [TestMethod]
-        public void DifferentObjects_BuildUpClassWithNestedClassDependencyProperty_Success()
+        public void DifferentObjects_RegisterClassWithNestedClassDependencyProperty_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
@@ -126,6 +126,40 @@ namespace NiquIoC.Test.Resolve.FullEmitFunction.Singleton.ResolveWithBuildUp
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNull(sampleClass.EmptyClass);
+        }
+
+        [TestMethod]
+        public void RegisterClassWithClassInConstructorWithNestedClassDependencyProperty_Success()
+        {
+            var c = new Container();
+            c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
+            c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithInterfaceDependencyProperty>().AsSingleton();
+            c.RegisterType<ISampleClassWithNestedInterfaceDependencyProperty, SampleClassWithClassInConstructorWithNestedInterfaceDependencyProperty>();
+
+            var sampleClass = c.Resolve<ISampleClassWithNestedInterfaceDependencyProperty>(ResolveKind.FullEmitFunction);
+
+            Assert.IsNotNull(sampleClass.SampleClassWithInterfaceDependencyProperty);
+            Assert.IsNotNull(sampleClass.SampleClassWithInterfaceDependencyProperty.EmptyClass);
+        }
+
+        [TestMethod]
+        public void DifferentObjects_RegisterClassWithClassInConstructorWithNestedClassDependencyProperty_Success()
+        {
+            var c = new Container();
+            c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
+            c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithInterfaceDependencyProperty>().AsSingleton();
+            c.RegisterType<ISampleClassWithNestedInterfaceDependencyProperty, SampleClassWithClassInConstructorWithNestedInterfaceDependencyProperty>();
+
+            var sampleClass1 = c.Resolve<ISampleClassWithNestedInterfaceDependencyProperty>(ResolveKind.FullEmitFunction);
+            var sampleClass2 = c.Resolve<ISampleClassWithNestedInterfaceDependencyProperty>(ResolveKind.FullEmitFunction);
+
+            Assert.IsNotNull(sampleClass1.SampleClassWithInterfaceDependencyProperty);
+            Assert.IsNotNull(sampleClass1.SampleClassWithInterfaceDependencyProperty.EmptyClass);
+            Assert.IsNotNull(sampleClass2.SampleClassWithInterfaceDependencyProperty);
+            Assert.IsNotNull(sampleClass2.SampleClassWithInterfaceDependencyProperty.EmptyClass);
+            Assert.AreNotEqual(sampleClass1, sampleClass2);
+            Assert.AreEqual(sampleClass1.SampleClassWithInterfaceDependencyProperty, sampleClass2.SampleClassWithInterfaceDependencyProperty);
+            Assert.AreEqual(sampleClass1.SampleClassWithInterfaceDependencyProperty.EmptyClass, sampleClass2.SampleClassWithInterfaceDependencyProperty.EmptyClass);
         }
     }
 }

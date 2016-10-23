@@ -31,6 +31,30 @@ namespace NiquIoC.Test.Resolve.FullEmitFunction.Singleton
         }
 
         [TestMethod]
+        [ExpectedException(typeof(TypeNotRegisteredException), "Type System.String has not been registered.")]
+        public void InternalStringTypeNotRegistered_Fail()
+        {
+            var c = new Container();
+            c.RegisterType<ISampleClassWithStringType, SampleClassWithStringType>().AsSingleton();
+
+            var sampleClassWithSimpleType = c.Resolve<ISampleClassWithStringType>(Enums.ResolveKind.FullEmitFunction);
+
+            Assert.IsNull(sampleClassWithSimpleType);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(TypeNotRegisteredException), "Type System.Int32 has not been registered.")]
+        public void InternalIntTypeNotRegistered_Fail()
+        {
+            var c = new Container();
+            c.RegisterType<ISampleClassWithIntType, SampleClassWithIntType>().AsSingleton();
+
+            var sampleClassWithSimpleType = c.Resolve<ISampleClassWithIntType>(Enums.ResolveKind.FullEmitFunction);
+
+            Assert.IsNull(sampleClassWithSimpleType);
+        }
+
+        [TestMethod]
         public void RegisteredInterfaceAsClassWithConstructorWithInterfaceAsParameter_Success()
         {
             var c = new Container();

@@ -13,7 +13,6 @@ namespace NiquIoC
     public class Container : IContainer
     {
         //ToDo: WarmUp?
-        //ToDo: ResolveKind in BuildUp method - tests
         public Container()
         {
             _registeredTypesCache = new Dictionary<Type, ContainerMember>();

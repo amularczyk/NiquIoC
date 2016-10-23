@@ -86,7 +86,7 @@ namespace NiquIoC
 
             if (constructorInfoForType.ObjectLifetimeManager.ObjectFactory == null)
             {
-                constructorInfoForType.ObjectLifetimeManager.ObjectFactory = () => CreateInstanceFunction(constructorInfoForType, afterObjectCreate); //ToDo: action - test for it
+                constructorInfoForType.ObjectLifetimeManager.ObjectFactory = () => CreateInstanceFunction(constructorInfoForType, afterObjectCreate);
             }
 
             var localTypeVariable = ilgen.DeclareLocal(typeof(Type));
