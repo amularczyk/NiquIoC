@@ -18,7 +18,7 @@ namespace NiquIoC
             _createPartialEmitFunctionForConstructorCache = new Dictionary<Type, Func<object[], object>>();
         }
 
-        public object Resolve(ContainerMember containerMember, Action<object> afterObjectCreate)
+        public object Resolve(ContainerMember containerMember, Action<object, ContainerMember> afterObjectCreate)
         {
             if (containerMember.ObjectLifetimeManager.ObjectFactory == null)
             {
@@ -36,7 +36,7 @@ namespace NiquIoC
             }
         }
 
-        private object CreateInstanceFunction(ContainerMember containerMember, Action<object> afterObjectCreate)
+        private object CreateInstanceFunction(ContainerMember containerMember, Action<object, ContainerMember> afterObjectCreate)
         {
             var ctorParameters = containerMember.Parameters;
             var ctorParametersCount = ctorParameters.Count;
@@ -55,7 +55,7 @@ namespace NiquIoC
             }
 
             var obj = _createPartialEmitFunctionForConstructorCache[containerMember.ReturnType](parameters);
-            afterObjectCreate(obj); //when we have a new instance of the type, we have to resolve the properties and the methods also
+            afterObjectCreate(obj, containerMember); //when we have a new instance of the type, we have to resolve the properties and the methods also
 
             return obj;
         }

@@ -139,10 +139,10 @@ namespace NiquIoC
             switch (resolveKind) //we call method for given resolve kind
             {
                 case ResolveKind.PartialEmitFunction:
-                    return _partialEmitFunctionResolve.Resolve(containerMember, obj => BuildUp(obj, containerMember, resolveKind));
+                    return _partialEmitFunctionResolve.Resolve(containerMember, (obj, cMember) => BuildUp(obj, cMember, resolveKind));
 
                 case ResolveKind.FullEmitFunction:
-                    return _fullEmitFunctionResolve.Resolve(containerMember, obj => BuildUp(obj, containerMember, resolveKind));
+                    return _fullEmitFunctionResolve.Resolve(containerMember, (obj, cMember) => BuildUp(obj, cMember, resolveKind));
 
                 default:
                     throw new ResolveKindMissingException(resolveKind);

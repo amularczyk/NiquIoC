@@ -24,7 +24,7 @@ namespace NiquIoC
             _createFullEmitFunctionForConstructorCache = new Dictionary<Type, Func<Dictionary<Type, ContainerMember>, Dictionary<int, Type>, object>>();
         }
 
-        public object Resolve(ContainerMember containerMember, Action<object> afterObjectCreate)
+        public object Resolve(ContainerMember containerMember, Action<object, ContainerMember> afterObjectCreate)
         {
             if (containerMember.ObjectLifetimeManager.ObjectFactory == null)
             {
@@ -42,7 +42,7 @@ namespace NiquIoC
             }
         }
 
-        private object CreateInstanceFunction(ContainerMember containerMember, Action<object> afterObjectCreate)
+        private object CreateInstanceFunction(ContainerMember containerMember, Action<object, ContainerMember> afterObjectCreate)
         {
             if (!_createFullEmitFunctionForConstructorCache.ContainsKey(containerMember.ReturnType)) //if we do not have a create object function in the cache, we create it
             {
@@ -58,13 +58,13 @@ namespace NiquIoC
             }
 
             var obj = _createFullEmitFunctionForConstructorCache[containerMember.ReturnType](_registeredTypesCache, _typesIndexCache);
-            afterObjectCreate(obj); //when we have a new instance of the type, we have to resolve the properties and the methods also
+            afterObjectCreate(obj, containerMember); //when we have a new instance of the type, we have to resolve the properties and the methods also
 
             return obj;
         }
 
         private Func<Dictionary<Type, ContainerMember>, Dictionary<int, Type>, object> CreateObjectFunction(ContainerMember containerMember,
-            IReadOnlyDictionary<Type, ContainerMember> registeredTypesCache, Action<object> afterObjectCreate)
+            IReadOnlyDictionary<Type, ContainerMember> registeredTypesCache, Action<object, ContainerMember> afterObjectCreate)
         {
             var dm = new DynamicMethod($"Create_{containerMember.Constructor.DeclaringType?.FullName.Replace('.', '_')}",
                 typeof(object), new[] { typeof(Dictionary<Type, ContainerMember>), typeof(Dictionary<int, Type>) }, typeof(Container).Module, true);
@@ -80,7 +80,7 @@ namespace NiquIoC
             return (Func<Dictionary<Type, ContainerMember>, Dictionary<int, Type>, object>)dm.CreateDelegate(typeof(Func<Dictionary<Type, ContainerMember>, Dictionary<int, Type>, object>));
         }
 
-        private void CreateObjectFunctionPrivate(Type type, IReadOnlyDictionary<Type, ContainerMember> registeredTypesCache, ILGenerator ilgen, Action<object> afterObjectCreate)
+        private void CreateObjectFunctionPrivate(Type type, IReadOnlyDictionary<Type, ContainerMember> registeredTypesCache, ILGenerator ilgen, Action<object, ContainerMember> afterObjectCreate)
         {
             var constructorInfoForType = registeredTypesCache.GetValue(type);
 
