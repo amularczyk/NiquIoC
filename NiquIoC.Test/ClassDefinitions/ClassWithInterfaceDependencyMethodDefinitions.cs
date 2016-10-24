@@ -55,7 +55,7 @@ namespace NiquIoC.Test.ClassDefinitions
 
         void FillEmptyClass(IEmptyClass emptyClass);
 
-        ISampleClassWithInterfaceAsParameter SampleClassWithInterfaceAsParameter { get; set; }
+        ISampleClassWithInterfaceAsParameter SampleClass { get; set; }
 
         void FillSampleClass(ISampleClassWithInterfaceAsParameter emptyClass);
     }
@@ -64,7 +64,7 @@ namespace NiquIoC.Test.ClassDefinitions
     {
         public IEmptyClass EmptyClass { get; set; }
         
-        public ISampleClassWithInterfaceAsParameter SampleClassWithInterfaceAsParameter { get; set; }
+        public ISampleClassWithInterfaceAsParameter SampleClass { get; set; }
 
         [DependencyMethod]
         public void FillEmptyClass(IEmptyClass emptyClass)
@@ -75,7 +75,7 @@ namespace NiquIoC.Test.ClassDefinitions
         [DependencyMethod]
         public void FillSampleClass(ISampleClassWithInterfaceAsParameter sampleClassWithInterfaceAsParameter)
         {
-            SampleClassWithInterfaceAsParameter = sampleClassWithInterfaceAsParameter;
+            SampleClass = sampleClassWithInterfaceAsParameter;
         }
     }
     
@@ -83,7 +83,7 @@ namespace NiquIoC.Test.ClassDefinitions
     {
         IEmptyClass EmptyClass { get; set; }
 
-        ISampleClassWithInterfaceAsParameter SampleClassWithInterfaceAsParameter { get; set; }
+        ISampleClassWithInterfaceAsParameter SampleClass { get; set; }
 
         void FillClasses(IEmptyClass emptyClass, ISampleClassWithInterfaceAsParameter sampleClassWithInterfaceAsParameter);
     }
@@ -92,31 +92,31 @@ namespace NiquIoC.Test.ClassDefinitions
     {
         public IEmptyClass EmptyClass { get; set; }
 
-        public ISampleClassWithInterfaceAsParameter SampleClassWithInterfaceAsParameter { get; set; }
+        public ISampleClassWithInterfaceAsParameter SampleClass { get; set; }
 
         [DependencyMethod]
         public void FillClasses(IEmptyClass emptyClass, ISampleClassWithInterfaceAsParameter sampleClassWithInterfaceAsParameter)
         {
             EmptyClass = emptyClass;
-            SampleClassWithInterfaceAsParameter = sampleClassWithInterfaceAsParameter;
+            SampleClass = sampleClassWithInterfaceAsParameter;
         }
     }
 
     internal interface ISampleClassWithNestedInterfaceDependencyMethod
     {
-        ISampleClassWithInterfaceMethod SampleClassWithInterfaceDependencyMethod { get; set; }
+        ISampleClassWithInterfaceMethod SampleClass { get; set; }
 
         void FillSampleClassWithInterfaceDependencyMethod(ISampleClassWithInterfaceMethod emptyClass);
     }
 
     internal class SampleClassWithNestedInterfaceDependencyMethod : ISampleClassWithNestedInterfaceDependencyMethod
     {
-        public ISampleClassWithInterfaceMethod SampleClassWithInterfaceDependencyMethod { get; set; }
+        public ISampleClassWithInterfaceMethod SampleClass { get; set; }
 
         [DependencyMethod]
         public void FillSampleClassWithInterfaceDependencyMethod(ISampleClassWithInterfaceMethod sampleClassWithInterfaceDependencyMethod)
         {
-            SampleClassWithInterfaceDependencyMethod = sampleClassWithInterfaceDependencyMethod;
+            SampleClass = sampleClassWithInterfaceDependencyMethod;
         }
     }
 

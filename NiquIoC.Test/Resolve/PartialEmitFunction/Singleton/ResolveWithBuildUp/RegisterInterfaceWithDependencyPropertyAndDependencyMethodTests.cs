@@ -51,10 +51,10 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Singleton.ResolveWithBuildUp
 
             var sampleClass = c.Resolve<ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes>();
 
-            Assert.IsNotNull(sampleClass.EmptyClassFromDependencyProperty);
-            Assert.IsNotNull(sampleClass.EmptyClassFromDependencyMethod);
-            Assert.AreNotEqual(sampleClass.EmptyClassFromDependencyProperty, sampleClass.EmptyClassFromDependencyMethod);
-            Assert.AreEqual(sampleClass.EmptyClassFromDependencyProperty.EmptyClass, sampleClass.EmptyClassFromDependencyMethod);
+            Assert.IsNotNull(sampleClass.SampleClass);
+            Assert.IsNotNull(sampleClass.EmptyClass);
+            Assert.AreNotEqual(sampleClass.SampleClass, sampleClass.EmptyClass);
+            Assert.AreEqual(sampleClass.SampleClass.EmptyClass, sampleClass.EmptyClass);
         }
 
         [TestMethod]
@@ -68,17 +68,17 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Singleton.ResolveWithBuildUp
             var sampleClass1 = c.Resolve<ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes>();
             var sampleClass2 = c.Resolve<ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes>();
 
-            Assert.IsNotNull(sampleClass1.EmptyClassFromDependencyProperty);
-            Assert.IsNotNull(sampleClass1.EmptyClassFromDependencyMethod);
-            Assert.AreNotEqual(sampleClass1.EmptyClassFromDependencyProperty, sampleClass1.EmptyClassFromDependencyMethod);
-            Assert.AreEqual(sampleClass1.EmptyClassFromDependencyProperty.EmptyClass, sampleClass1.EmptyClassFromDependencyMethod);
-            Assert.IsNotNull(sampleClass2.EmptyClassFromDependencyProperty);
-            Assert.IsNotNull(sampleClass2.EmptyClassFromDependencyMethod);
-            Assert.AreNotEqual(sampleClass2.EmptyClassFromDependencyProperty, sampleClass2.EmptyClassFromDependencyMethod);
-            Assert.AreEqual(sampleClass2.EmptyClassFromDependencyProperty.EmptyClass, sampleClass2.EmptyClassFromDependencyMethod);
+            Assert.IsNotNull(sampleClass1.SampleClass);
+            Assert.IsNotNull(sampleClass1.EmptyClass);
+            Assert.AreNotEqual(sampleClass1.SampleClass, sampleClass1.EmptyClass);
+            Assert.AreEqual(sampleClass1.SampleClass.EmptyClass, sampleClass1.EmptyClass);
+            Assert.IsNotNull(sampleClass2.SampleClass);
+            Assert.IsNotNull(sampleClass2.EmptyClass);
+            Assert.AreNotEqual(sampleClass2.SampleClass, sampleClass2.EmptyClass);
+            Assert.AreEqual(sampleClass2.SampleClass.EmptyClass, sampleClass2.EmptyClass);
             Assert.AreNotEqual(sampleClass1, sampleClass2);
-            Assert.AreEqual(sampleClass1.EmptyClassFromDependencyProperty, sampleClass2.EmptyClassFromDependencyProperty);
-            Assert.AreEqual(sampleClass1.EmptyClassFromDependencyMethod, sampleClass2.EmptyClassFromDependencyMethod);
+            Assert.AreEqual(sampleClass1.SampleClass, sampleClass2.SampleClass);
+            Assert.AreEqual(sampleClass1.EmptyClass, sampleClass2.EmptyClass);
         }
     }
 }

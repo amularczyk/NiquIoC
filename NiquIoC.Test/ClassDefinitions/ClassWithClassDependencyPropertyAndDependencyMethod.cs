@@ -19,14 +19,14 @@ namespace NiquIoC.Test.ClassDefinitions
     internal class SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes
     {
         [DependencyProperty]
-        public SampleClass EmptyClassFromDependencyProperty { get; set; }
+        public SampleClass SampleClass { get; set; }
 
-        public EmptyClass EmptyClassFromDependencyMethod { get; private set; }
+        public EmptyClass EmptyClass { get; private set; }
 
         [DependencyMethod]
         public void FillEmptyClass(EmptyClass emptyClass)
         {
-            EmptyClassFromDependencyMethod = emptyClass;
+            EmptyClass = emptyClass;
         }
     }
 }

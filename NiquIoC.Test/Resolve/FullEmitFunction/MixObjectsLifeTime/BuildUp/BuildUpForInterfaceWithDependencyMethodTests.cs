@@ -11,13 +11,17 @@ namespace NiquIoC.Test.Resolve.FullEmitFunction.MixObjectsLifeTime.BuildUp
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();
-            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>();
+            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsSingleton();
             ISampleClassWithManyInterfaceDependencyMethods sampleClass = new SampleClassWithManyInterfaceDependencyMethods();
+
 
             c.BuildUp(sampleClass, Enums.ResolveKind.FullEmitFunction);
 
+
             Assert.IsNotNull(sampleClass.EmptyClass);
-            Assert.IsNotNull(sampleClass.SampleClassWithInterfaceAsParameter);
+            Assert.IsNotNull(sampleClass.SampleClass);
+            Assert.IsNotNull(sampleClass.SampleClass.EmptyClass);
+            Assert.AreNotEqual(sampleClass.SampleClass.EmptyClass, sampleClass.EmptyClass);
         }
 
         [TestMethod]
@@ -25,20 +29,29 @@ namespace NiquIoC.Test.Resolve.FullEmitFunction.MixObjectsLifeTime.BuildUp
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();
-            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>();
+            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsSingleton();
             ISampleClassWithManyInterfaceDependencyMethods sampleClass1 = new SampleClassWithManyInterfaceDependencyMethods();
             ISampleClassWithManyInterfaceDependencyMethods sampleClass2 = new SampleClassWithManyInterfaceDependencyMethods();
+
 
             c.BuildUp(sampleClass1, Enums.ResolveKind.FullEmitFunction);
             c.BuildUp(sampleClass2, Enums.ResolveKind.FullEmitFunction);
 
+
             Assert.IsNotNull(sampleClass1.EmptyClass);
-            Assert.IsNotNull(sampleClass1.SampleClassWithInterfaceAsParameter);
+            Assert.IsNotNull(sampleClass1.SampleClass);
+            Assert.IsNotNull(sampleClass1.SampleClass.EmptyClass);
+            Assert.AreNotEqual(sampleClass1.SampleClass.EmptyClass, sampleClass1.EmptyClass);
+
             Assert.IsNotNull(sampleClass2.EmptyClass);
-            Assert.IsNotNull(sampleClass2.SampleClassWithInterfaceAsParameter);
+            Assert.IsNotNull(sampleClass2.SampleClass);
+            Assert.IsNotNull(sampleClass2.SampleClass.EmptyClass);
+            Assert.AreNotEqual(sampleClass2.SampleClass.EmptyClass, sampleClass2.EmptyClass);
+
             Assert.AreNotEqual(sampleClass1, sampleClass2);
             Assert.AreNotEqual(sampleClass1.EmptyClass, sampleClass2.EmptyClass);
-            Assert.AreNotEqual(sampleClass1.SampleClassWithInterfaceAsParameter, sampleClass2.SampleClassWithInterfaceAsParameter);
+            Assert.AreEqual(sampleClass1.SampleClass, sampleClass2.SampleClass);
+            Assert.AreEqual(sampleClass1.SampleClass.EmptyClass, sampleClass2.SampleClass.EmptyClass);
         }
 
         [TestMethod]
@@ -46,13 +59,17 @@ namespace NiquIoC.Test.Resolve.FullEmitFunction.MixObjectsLifeTime.BuildUp
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();
-            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>();
+            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsSingleton();
             ISampleClassWithManyInterfaceParametersInDependencyMethod sampleClass = new SampleClassWithManyInterfaceParametersInDependencyMethod();
+
 
             c.BuildUp(sampleClass, Enums.ResolveKind.FullEmitFunction);
 
+
             Assert.IsNotNull(sampleClass.EmptyClass);
-            Assert.IsNotNull(sampleClass.SampleClassWithInterfaceAsParameter);
+            Assert.IsNotNull(sampleClass.SampleClass);
+            Assert.IsNotNull(sampleClass.SampleClass.EmptyClass);
+            Assert.AreNotEqual(sampleClass.SampleClass.EmptyClass, sampleClass.EmptyClass);
         }
 
         [TestMethod]
@@ -60,55 +77,70 @@ namespace NiquIoC.Test.Resolve.FullEmitFunction.MixObjectsLifeTime.BuildUp
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();
-            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>();
+            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsSingleton();
             ISampleClassWithManyInterfaceParametersInDependencyMethod sampleClass1 = new SampleClassWithManyInterfaceParametersInDependencyMethod();
             ISampleClassWithManyInterfaceParametersInDependencyMethod sampleClass2 = new SampleClassWithManyInterfaceParametersInDependencyMethod();
+
 
             c.BuildUp(sampleClass1, Enums.ResolveKind.FullEmitFunction);
             c.BuildUp(sampleClass2, Enums.ResolveKind.FullEmitFunction);
 
+
             Assert.IsNotNull(sampleClass1.EmptyClass);
-            Assert.IsNotNull(sampleClass1.SampleClassWithInterfaceAsParameter);
+            Assert.IsNotNull(sampleClass1.SampleClass);
+            Assert.IsNotNull(sampleClass1.SampleClass.EmptyClass);
+            Assert.AreNotEqual(sampleClass1.SampleClass.EmptyClass, sampleClass1.EmptyClass);
+
             Assert.IsNotNull(sampleClass2.EmptyClass);
-            Assert.IsNotNull(sampleClass2.SampleClassWithInterfaceAsParameter);
+            Assert.IsNotNull(sampleClass2.SampleClass);
+            Assert.IsNotNull(sampleClass2.SampleClass.EmptyClass);
+            Assert.AreNotEqual(sampleClass2.SampleClass.EmptyClass, sampleClass2.EmptyClass);
+
             Assert.AreNotEqual(sampleClass1, sampleClass2);
             Assert.AreNotEqual(sampleClass1.EmptyClass, sampleClass2.EmptyClass);
-            Assert.AreNotEqual(sampleClass1.SampleClassWithInterfaceAsParameter, sampleClass2.SampleClassWithInterfaceAsParameter);
+            Assert.AreEqual(sampleClass1.SampleClass, sampleClass2.SampleClass);
+            Assert.AreEqual(sampleClass1.SampleClass.EmptyClass, sampleClass2.SampleClass.EmptyClass);
         }
 
         [TestMethod]
         public void BuildUpInterfaceWithNestedInterfaceDependencyMethod_Success()
         {
             var c = new Container();
-            c.RegisterType<IEmptyClass, EmptyClass>();
+            c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
             c.RegisterType<ISampleClassWithInterfaceMethod, SampleClassWithInterfaceDependencyMethod>();
             ISampleClassWithNestedInterfaceDependencyMethod sampleClass = new SampleClassWithNestedInterfaceDependencyMethod();
 
+
             c.BuildUp(sampleClass, Enums.ResolveKind.FullEmitFunction);
 
-            Assert.IsNotNull(sampleClass.SampleClassWithInterfaceDependencyMethod);
-            Assert.IsNotNull(sampleClass.SampleClassWithInterfaceDependencyMethod.EmptyClass);
+
+            Assert.IsNotNull(sampleClass.SampleClass);
+            Assert.IsNotNull(sampleClass.SampleClass.EmptyClass);
         }
 
         [TestMethod]
         public void DifferentObjects_BuildUpInterfaceWithNestedInterfaceDependencyMethod_Success()
         {
             var c = new Container();
-            c.RegisterType<IEmptyClass, EmptyClass>();
+            c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
             c.RegisterType<ISampleClassWithInterfaceMethod, SampleClassWithInterfaceDependencyMethod>();
             ISampleClassWithNestedInterfaceDependencyMethod sampleClass1 = new SampleClassWithNestedInterfaceDependencyMethod();
             ISampleClassWithNestedInterfaceDependencyMethod sampleClass2 = new SampleClassWithNestedInterfaceDependencyMethod();
 
+
             c.BuildUp(sampleClass1, Enums.ResolveKind.FullEmitFunction);
             c.BuildUp(sampleClass2, Enums.ResolveKind.FullEmitFunction);
             
-            Assert.IsNotNull(sampleClass1.SampleClassWithInterfaceDependencyMethod);
-            Assert.IsNotNull(sampleClass1.SampleClassWithInterfaceDependencyMethod.EmptyClass);
-            Assert.IsNotNull(sampleClass2.SampleClassWithInterfaceDependencyMethod);
-            Assert.IsNotNull(sampleClass2.SampleClassWithInterfaceDependencyMethod.EmptyClass);
+
+            Assert.IsNotNull(sampleClass1.SampleClass);
+            Assert.IsNotNull(sampleClass1.SampleClass.EmptyClass);
+
+            Assert.IsNotNull(sampleClass2.SampleClass);
+            Assert.IsNotNull(sampleClass2.SampleClass.EmptyClass);
+
             Assert.AreNotEqual(sampleClass1, sampleClass2);
-            Assert.AreNotEqual(sampleClass1.SampleClassWithInterfaceDependencyMethod, sampleClass2.SampleClassWithInterfaceDependencyMethod);
-            Assert.AreNotEqual(sampleClass1.SampleClassWithInterfaceDependencyMethod.EmptyClass, sampleClass2.SampleClassWithInterfaceDependencyMethod.EmptyClass);
+            Assert.AreNotEqual(sampleClass1.SampleClass, sampleClass2.SampleClass);
+            Assert.AreEqual(sampleClass1.SampleClass.EmptyClass, sampleClass2.SampleClass.EmptyClass);
         }
     }
 }

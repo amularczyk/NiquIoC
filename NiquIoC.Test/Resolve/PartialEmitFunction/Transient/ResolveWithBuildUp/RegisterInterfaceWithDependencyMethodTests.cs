@@ -72,7 +72,7 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Transient.ResolveWithBuildUp
             var sampleClass = c.Resolve<ISampleClassWithManyInterfaceDependencyMethods>();
 
             Assert.IsNotNull(sampleClass.EmptyClass);
-            Assert.IsNotNull(sampleClass.SampleClassWithInterfaceAsParameter);
+            Assert.IsNotNull(sampleClass.SampleClass);
         }
 
         [TestMethod]
@@ -87,12 +87,12 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Transient.ResolveWithBuildUp
             var sampleClass2 = c.Resolve<ISampleClassWithManyInterfaceDependencyMethods>();
 
             Assert.IsNotNull(sampleClass1.EmptyClass);
-            Assert.IsNotNull(sampleClass1.SampleClassWithInterfaceAsParameter);
+            Assert.IsNotNull(sampleClass1.SampleClass);
             Assert.IsNotNull(sampleClass2.EmptyClass);
-            Assert.IsNotNull(sampleClass2.SampleClassWithInterfaceAsParameter);
+            Assert.IsNotNull(sampleClass2.SampleClass);
             Assert.AreNotEqual(sampleClass1, sampleClass2);
             Assert.AreNotEqual(sampleClass1.EmptyClass, sampleClass2.EmptyClass);
-            Assert.AreNotEqual(sampleClass1.SampleClassWithInterfaceAsParameter, sampleClass2.SampleClassWithInterfaceAsParameter);
+            Assert.AreNotEqual(sampleClass1.SampleClass, sampleClass2.SampleClass);
         }
 
         [TestMethod]
@@ -106,7 +106,7 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Transient.ResolveWithBuildUp
             var sampleClass = c.Resolve<ISampleClassWithManyInterfaceParametersInDependencyMethod>();
 
             Assert.IsNotNull(sampleClass.EmptyClass);
-            Assert.IsNotNull(sampleClass.SampleClassWithInterfaceAsParameter);
+            Assert.IsNotNull(sampleClass.SampleClass);
         }
 
         [TestMethod]
@@ -121,12 +121,12 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Transient.ResolveWithBuildUp
             var sampleClass2 = c.Resolve<ISampleClassWithManyInterfaceParametersInDependencyMethod>();
 
             Assert.IsNotNull(sampleClass1.EmptyClass);
-            Assert.IsNotNull(sampleClass1.SampleClassWithInterfaceAsParameter);
+            Assert.IsNotNull(sampleClass1.SampleClass);
             Assert.IsNotNull(sampleClass2.EmptyClass);
-            Assert.IsNotNull(sampleClass2.SampleClassWithInterfaceAsParameter);
+            Assert.IsNotNull(sampleClass2.SampleClass);
             Assert.AreNotEqual(sampleClass1, sampleClass2);
             Assert.AreNotEqual(sampleClass1.EmptyClass, sampleClass2.EmptyClass);
-            Assert.AreNotEqual(sampleClass1.SampleClassWithInterfaceAsParameter, sampleClass2.SampleClassWithInterfaceAsParameter);
+            Assert.AreNotEqual(sampleClass1.SampleClass, sampleClass2.SampleClass);
         }
 
         [TestMethod]
@@ -139,8 +139,8 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Transient.ResolveWithBuildUp
 
             var sampleClass = c.Resolve<ISampleClassWithNestedInterfaceDependencyMethod>();
 
-            Assert.IsNotNull(sampleClass.SampleClassWithInterfaceDependencyMethod);
-            Assert.IsNotNull(sampleClass.SampleClassWithInterfaceDependencyMethod.EmptyClass);
+            Assert.IsNotNull(sampleClass.SampleClass);
+            Assert.IsNotNull(sampleClass.SampleClass.EmptyClass);
         }
 
         [TestMethod]
@@ -154,13 +154,13 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Transient.ResolveWithBuildUp
             var sampleClass1 = c.Resolve<ISampleClassWithNestedInterfaceDependencyMethod>();
             var sampleClass2 = c.Resolve<ISampleClassWithNestedInterfaceDependencyMethod>();
 
-            Assert.IsNotNull(sampleClass1.SampleClassWithInterfaceDependencyMethod);
-            Assert.IsNotNull(sampleClass1.SampleClassWithInterfaceDependencyMethod.EmptyClass);
-            Assert.IsNotNull(sampleClass2.SampleClassWithInterfaceDependencyMethod);
-            Assert.IsNotNull(sampleClass2.SampleClassWithInterfaceDependencyMethod.EmptyClass);
+            Assert.IsNotNull(sampleClass1.SampleClass);
+            Assert.IsNotNull(sampleClass1.SampleClass.EmptyClass);
+            Assert.IsNotNull(sampleClass2.SampleClass);
+            Assert.IsNotNull(sampleClass2.SampleClass.EmptyClass);
             Assert.AreNotEqual(sampleClass1, sampleClass2);
-            Assert.AreNotEqual(sampleClass1.SampleClassWithInterfaceDependencyMethod, sampleClass2.SampleClassWithInterfaceDependencyMethod);
-            Assert.AreNotEqual(sampleClass1.SampleClassWithInterfaceDependencyMethod.EmptyClass, sampleClass2.SampleClassWithInterfaceDependencyMethod.EmptyClass);
+            Assert.AreNotEqual(sampleClass1.SampleClass, sampleClass2.SampleClass);
+            Assert.AreNotEqual(sampleClass1.SampleClass.EmptyClass, sampleClass2.SampleClass.EmptyClass);
         }
     }
 }

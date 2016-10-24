@@ -16,7 +16,6 @@ namespace NiquIoC
         public Container()
         {
             _registeredTypesCache = new Dictionary<Type, ContainerMember>();
-
             _parametersInfoForMethodCache = new Dictionary<MethodInfo, List<ParameterInfo>>();
 
             _partialEmitFunctionResolve = new PartialEmitFunctionResolve(_registeredTypesCache);
@@ -25,7 +24,6 @@ namespace NiquIoC
 
         #region Private Fields
         private readonly Dictionary<Type, ContainerMember> _registeredTypesCache;
-
         private readonly Dictionary<MethodInfo, List<ParameterInfo>> _parametersInfoForMethodCache;
 
         private readonly IResolve _partialEmitFunctionResolve;

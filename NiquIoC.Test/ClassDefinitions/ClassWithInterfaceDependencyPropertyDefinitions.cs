@@ -22,7 +22,7 @@ namespace NiquIoC.Test.ClassDefinitions
     {
         IEmptyClass EmptyClass { get; set; }
 
-        ISampleClassWithInterfaceAsParameter SampleClassWithInterfaceAsParameter { get; set; }
+        ISampleClassWithInterfaceAsParameter SampleClass { get; set; }
     }
 
     internal class SampleClassWithManyInterfaceDependencyProperties : ISampleClassWithManyInterfaceDependencyProperties
@@ -31,7 +31,7 @@ namespace NiquIoC.Test.ClassDefinitions
         public IEmptyClass EmptyClass { get; set; }
 
         [DependencyProperty]
-        public ISampleClassWithInterfaceAsParameter SampleClassWithInterfaceAsParameter { get; set; }
+        public ISampleClassWithInterfaceAsParameter SampleClass { get; set; }
     }
 
     internal interface ISampleClassWithNestedInterfaceDependencyProperty

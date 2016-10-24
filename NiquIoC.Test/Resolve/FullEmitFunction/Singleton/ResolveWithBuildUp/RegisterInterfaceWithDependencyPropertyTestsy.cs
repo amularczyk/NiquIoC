@@ -58,7 +58,7 @@ namespace NiquIoC.Test.Resolve.FullEmitFunction.Singleton.ResolveWithBuildUp
             var sampleClass = c.Resolve<ISampleClassWithManyInterfaceDependencyProperties>(ResolveKind.FullEmitFunction);
 
             Assert.IsNotNull(sampleClass.EmptyClass);
-            Assert.IsNotNull(sampleClass.SampleClassWithInterfaceAsParameter);
+            Assert.IsNotNull(sampleClass.SampleClass);
         }
 
         [TestMethod]
@@ -73,12 +73,12 @@ namespace NiquIoC.Test.Resolve.FullEmitFunction.Singleton.ResolveWithBuildUp
             var sampleClass2 = c.Resolve<ISampleClassWithManyInterfaceDependencyProperties>(ResolveKind.FullEmitFunction);
 
             Assert.IsNotNull(sampleClass1.EmptyClass);
-            Assert.IsNotNull(sampleClass1.SampleClassWithInterfaceAsParameter);
+            Assert.IsNotNull(sampleClass1.SampleClass);
             Assert.IsNotNull(sampleClass2.EmptyClass);
-            Assert.IsNotNull(sampleClass2.SampleClassWithInterfaceAsParameter);
+            Assert.IsNotNull(sampleClass2.SampleClass);
             Assert.AreNotEqual(sampleClass1, sampleClass2);
             Assert.AreEqual(sampleClass1.EmptyClass, sampleClass2.EmptyClass);
-            Assert.AreEqual(sampleClass1.SampleClassWithInterfaceAsParameter, sampleClass2.SampleClassWithInterfaceAsParameter);
+            Assert.AreEqual(sampleClass1.SampleClass, sampleClass2.SampleClass);
         }
 
         [TestMethod]

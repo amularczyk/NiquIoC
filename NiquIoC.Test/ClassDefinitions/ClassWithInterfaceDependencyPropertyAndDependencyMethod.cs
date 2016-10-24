@@ -27,9 +27,9 @@ namespace NiquIoC.Test.ClassDefinitions
     }
     internal interface ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes
     {
-        ISampleClassWithInterfaceAsParameter EmptyClassFromDependencyProperty { get; set; }
+        ISampleClassWithInterfaceAsParameter SampleClass { get; set; }
 
-        IEmptyClass EmptyClassFromDependencyMethod { get; }
+        IEmptyClass EmptyClass { get; }
 
         [DependencyMethod]
         void FillEmptyClass(IEmptyClass emptyClass);
@@ -38,14 +38,14 @@ namespace NiquIoC.Test.ClassDefinitions
     internal class SampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes : ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes
     {
         [DependencyProperty]
-        public ISampleClassWithInterfaceAsParameter EmptyClassFromDependencyProperty { get; set; }
+        public ISampleClassWithInterfaceAsParameter SampleClass { get; set; }
 
-        public IEmptyClass EmptyClassFromDependencyMethod { get; private set; }
+        public IEmptyClass EmptyClass { get; private set; }
 
         [DependencyMethod]
         public void FillEmptyClass(IEmptyClass emptyClass)
         {
-            EmptyClassFromDependencyMethod = emptyClass;
+            EmptyClass = emptyClass;
         }
     }
 }

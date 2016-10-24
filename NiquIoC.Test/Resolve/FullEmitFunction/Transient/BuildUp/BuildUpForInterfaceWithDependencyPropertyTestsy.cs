@@ -87,7 +87,7 @@ namespace NiquIoC.Test.Resolve.FullEmitFunction.Transient.BuildUp
             c.BuildUp(sampleClass, Enums.ResolveKind.FullEmitFunction);
 
             Assert.IsNotNull(sampleClass.EmptyClass);
-            Assert.IsNotNull(sampleClass.SampleClassWithInterfaceAsParameter);
+            Assert.IsNotNull(sampleClass.SampleClass);
         }
 
         [TestMethod]
@@ -103,12 +103,12 @@ namespace NiquIoC.Test.Resolve.FullEmitFunction.Transient.BuildUp
             c.BuildUp(sampleClass2, Enums.ResolveKind.FullEmitFunction);
 
             Assert.IsNotNull(sampleClass1.EmptyClass);
-            Assert.IsNotNull(sampleClass1.SampleClassWithInterfaceAsParameter);
+            Assert.IsNotNull(sampleClass1.SampleClass);
             Assert.IsNotNull(sampleClass2.EmptyClass);
-            Assert.IsNotNull(sampleClass2.SampleClassWithInterfaceAsParameter);
+            Assert.IsNotNull(sampleClass2.SampleClass);
             Assert.AreNotEqual(sampleClass1, sampleClass2);
             Assert.AreNotEqual(sampleClass1.EmptyClass, sampleClass2.EmptyClass);
-            Assert.AreNotEqual(sampleClass1.SampleClassWithInterfaceAsParameter, sampleClass2.SampleClassWithInterfaceAsParameter);
+            Assert.AreNotEqual(sampleClass1.SampleClass, sampleClass2.SampleClass);
         }
 
         [TestMethod]
