@@ -7,6 +7,8 @@ using NiquIoC.Enums;
 using NiquIoC.Exceptions;
 using NiquIoC.Extensions;
 using NiquIoC.Interfaces;
+using NiquIoC.ObjectLifetimeManagers;
+using NiquIoC.Resolve;
 
 namespace NiquIoC
 {

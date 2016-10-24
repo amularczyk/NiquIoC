@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Text;
 using NiquIoC.Interfaces;
 
-namespace NiquIoC
+namespace NiquIoC.ObjectLifetimeManagers
 {
     public class SingletonObjectLifetimeManager : IObjectLifetimeManager
     {

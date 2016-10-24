@@ -61,10 +61,10 @@
     <Compile Include="Interfaces\IContainerMember.cs" />
     <Compile Include="Interfaces\IObjectLifetimeManager.cs" />
     <Compile Include="Interfaces\IResolve.cs" />
-    <Compile Include="FullEmitFunctionResolve.cs" />
-    <Compile Include="PartialEmitFunctionResolve.cs" />
-    <Compile Include="SingletonObjectLifetimeManager.cs" />
-    <Compile Include="TransientObjectLifetimeManager.cs" />
+    <Compile Include="Resolve\FullEmitFunctionResolve.cs" />
+    <Compile Include="Resolve\PartialEmitFunctionResolve.cs" />
+    <Compile Include="ObjectLifetimeManagers\SingletonObjectLifetimeManager.cs" />
+    <Compile Include="ObjectLifetimeManagers\TransientObjectLifetimeManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

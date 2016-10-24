@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using NiquIoC.Interfaces;
+using NiquIoC.ObjectLifetimeManagers;
 
 namespace NiquIoC
 {

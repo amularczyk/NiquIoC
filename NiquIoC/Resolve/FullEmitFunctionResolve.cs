@@ -6,7 +6,7 @@ using NiquIoC.Extensions;
 using NiquIoC.Helpers;
 using NiquIoC.Interfaces;
 
-namespace NiquIoC
+namespace NiquIoC.Resolve
 {
     internal class FullEmitFunctionResolve : IResolve
     {

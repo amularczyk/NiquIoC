@@ -1,7 +1,7 @@
 ﻿using System;
 using NiquIoC.Interfaces;
 
-namespace NiquIoC
+namespace NiquIoC.ObjectLifetimeManagers
 {
     public class TransientObjectLifetimeManager : IObjectLifetimeManager
     {
