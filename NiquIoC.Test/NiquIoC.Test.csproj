@@ -63,6 +63,12 @@
     <Compile Include="Resolve\FullEmitFunction\MixObjectsLifeTime\BuildUp\BuildUpForInterfaceWithDependencyMethodTests.cs" />
     <Compile Include="Resolve\FullEmitFunction\MixObjectsLifeTime\BuildUp\BuildUpForInterfaceWithDependencyPropertyAndDependencyMethodTests.cs" />
     <Compile Include="Resolve\FullEmitFunction\MixObjectsLifeTime\BuildUp\BuildUpForInterfaceWithDependencyPropertyTests.cs" />
+    <Compile Include="Resolve\FullEmitFunction\MixObjectsLifeTime\ResolveWithBuildUp\RegisterClassWithDependencyMethodTests.cs" />
+    <Compile Include="Resolve\FullEmitFunction\MixObjectsLifeTime\ResolveWithBuildUp\RegisterClassWithDependencyPropertyAndDependencyMethodTests.cs" />
+    <Compile Include="Resolve\FullEmitFunction\MixObjectsLifeTime\ResolveWithBuildUp\RegisterClassWithDependencyPropertyTests.cs" />
+    <Compile Include="Resolve\FullEmitFunction\MixObjectsLifeTime\ResolveWithBuildUp\RegisterInterfaceWithDependencyMethodTests.cs" />
+    <Compile Include="Resolve\FullEmitFunction\MixObjectsLifeTime\ResolveWithBuildUp\RegisterInterfaceWithDependencyPropertyAndDependencyMethodTests.cs" />
+    <Compile Include="Resolve\FullEmitFunction\MixObjectsLifeTime\ResolveWithBuildUp\RegisterInterfaceWithDependencyPropertyTests.cs" />
     <Compile Include="Resolve\FullEmitFunction\Singleton\BuildUp\BuildUpForClassWithDependencyMethodTests.cs" />
     <Compile Include="Resolve\FullEmitFunction\Singleton\BuildUp\BuildUpForClassWithDependencyPropertyAndDependencyMethodTests.cs" />
     <Compile Include="Resolve\FullEmitFunction\Singleton\BuildUp\BuildUpForClassWithDependencyPropertyTests.cs" />
@@ -93,6 +99,12 @@
     <Compile Include="Resolve\PartialEmitFunction\MixObjectsLifeTime\BuildUp\BuildUpForInterfaceWithDependencyMethodTests.cs" />
     <Compile Include="Resolve\PartialEmitFunction\MixObjectsLifeTime\BuildUp\BuildUpForInterfaceWithDependencyPropertyAndDependencyMethodTests.cs" />
     <Compile Include="Resolve\PartialEmitFunction\MixObjectsLifeTime\BuildUp\BuildUpForInterfaceWithDependencyPropertyTests.cs" />
+    <Compile Include="Resolve\PartialEmitFunction\MixObjectsLifeTime\ResolveWithBuildUp\RegisterClassWithDependencyMethodTests.cs" />
+    <Compile Include="Resolve\PartialEmitFunction\MixObjectsLifeTime\ResolveWithBuildUp\RegisterClassWithDependencyPropertyAndDependencyMethodTests.cs" />
+    <Compile Include="Resolve\PartialEmitFunction\MixObjectsLifeTime\ResolveWithBuildUp\RegisterClassWithDependencyPropertyTests.cs" />
+    <Compile Include="Resolve\PartialEmitFunction\MixObjectsLifeTime\ResolveWithBuildUp\RegisterInterfaceWithDependencyMethodTests.cs" />
+    <Compile Include="Resolve\PartialEmitFunction\MixObjectsLifeTime\ResolveWithBuildUp\RegisterInterfaceWithDependencyPropertyAndDependencyMethodTests.cs" />
+    <Compile Include="Resolve\PartialEmitFunction\MixObjectsLifeTime\ResolveWithBuildUp\RegisterInterfaceWithDependencyPropertyTests.cs" />
     <Compile Include="Resolve\PartialEmitFunction\Singleton\BuildUp\BuildUpForClassWithDependencyMethodTests.cs" />
     <Compile Include="Resolve\PartialEmitFunction\Singleton\BuildUp\BuildUpForClassWithDependencyPropertyAndDependencyMethodTests.cs" />
     <Compile Include="Resolve\PartialEmitFunction\Singleton\BuildUp\BuildUpForClassWithDependencyPropertyTests.cs" />
@@ -218,10 +230,7 @@
       <Name>NiquIoC</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resolve\FullEmitFunction\MixObjectsLifeTime\ResolveWithBuildUp\" />
-    <Folder Include="Resolve\PartialEmitFunction\MixObjectsLifeTime\ResolveWithBuildUp\" />
-  </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

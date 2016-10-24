@@ -7,7 +7,7 @@ namespace NiquIoC.Test.Resolve.FullEmitFunction.MixObjectsLifeTime.BuildUp
     public class BuildUpForClassWithDependencyPropertyAndDependencyMethodTests
     {
         [TestMethod]
-        public void RegisterClassWithDependencyPropertyAndDependencyMethodWithDifferentTypes_SampleClassAsSingleton_Success()
+        public void BuildUpClassWithDependencyPropertyAndDependencyMethodWithDifferentTypes_SampleClassAsSingleton_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
@@ -25,7 +25,7 @@ namespace NiquIoC.Test.Resolve.FullEmitFunction.MixObjectsLifeTime.BuildUp
         }
 
         [TestMethod]
-        public void DifferentObjects_RegisterClassWithDependencyPropertyAndDependencyMethodWithDifferentTypes_SampleClassAsSingleton_Success()
+        public void DifferentObjects_BuildUpClassWithDependencyPropertyAndDependencyMethodWithDifferentTypes_SampleClassAsSingleton_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
@@ -55,7 +55,7 @@ namespace NiquIoC.Test.Resolve.FullEmitFunction.MixObjectsLifeTime.BuildUp
         }
 
         [TestMethod]
-        public void RegisterClassWithDependencyPropertyAndDependencyMethodWithDifferentTypes_EmptyClassAsSingleton_Success()
+        public void BuildUpClassWithDependencyPropertyAndDependencyMethodWithDifferentTypes_EmptyClassAsSingleton_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsSingleton();
@@ -73,7 +73,7 @@ namespace NiquIoC.Test.Resolve.FullEmitFunction.MixObjectsLifeTime.BuildUp
         }
 
         [TestMethod]
-        public void DifferentObjects_RegisterClassWithDependencyPropertyAndDependencyMethodWithDifferentTypes_EmptyClassAsSingleton_Success()
+        public void DifferentObjects_BuildUpClassWithDependencyPropertyAndDependencyMethodWithDifferentTypes_EmptyClassAsSingleton_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsSingleton();

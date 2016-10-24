@@ -7,7 +7,7 @@ namespace NiquIoC.Test.Resolve.FullEmitFunction.MixObjectsLifeTime.BuildUp
     public class BuildUpForInterfaceWithDependencyPropertyAndDependencyMethodTests
     {
         [TestMethod]
-        public void RegisterClassWithDependencyPropertyAndDependencyMethodWithDifferentTypes_SampleClassAsSingleton_Success()
+        public void BuildUpInterfaceWithDependencyPropertyAndDependencyMethodWithDifferentTypes_SampleClassAsSingleton_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();
@@ -25,7 +25,7 @@ namespace NiquIoC.Test.Resolve.FullEmitFunction.MixObjectsLifeTime.BuildUp
         }
 
         [TestMethod]
-        public void DifferentObjects_RegisterClassWithDependencyPropertyAndDependencyMethodWithDifferentTypes_SampleClassAsSingleton_Success()
+        public void DifferentObjects_BuildUpInterfaceWithDependencyPropertyAndDependencyMethodWithDifferentTypes_SampleClassAsSingleton_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();
@@ -54,7 +54,7 @@ namespace NiquIoC.Test.Resolve.FullEmitFunction.MixObjectsLifeTime.BuildUp
             Assert.AreEqual(sampleClass1.SampleClass.EmptyClass, sampleClass2.SampleClass.EmptyClass);
         }
         [TestMethod]
-        public void RegisterClassWithDependencyPropertyAndDependencyMethodWithDifferentTypes_EmptyClassAsSingleton_Success()
+        public void BuildUpInterfaceWithDependencyPropertyAndDependencyMethodWithDifferentTypes_EmptyClassAsSingleton_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
@@ -72,7 +72,7 @@ namespace NiquIoC.Test.Resolve.FullEmitFunction.MixObjectsLifeTime.BuildUp
         }
 
         [TestMethod]
-        public void DifferentObjects_RegisterClassWithDependencyPropertyAndDependencyMethodWithDifferentTypes_SEmptyClassAsSingleton_Success()
+        public void DifferentObjects_BuildUpInterfaceWithDependencyPropertyAndDependencyMethodWithDifferentTypes_SEmptyClassAsSingleton_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();

@@ -1,21 +1,22 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NiquIoC.Enums;
 using NiquIoC.Test.ClassDefinitions;
 
-namespace NiquIoC.Test.Resolve.PartialEmitFunction.MixObjectsLifeTime.BuildUp
+namespace NiquIoC.Test.Resolve.FullEmitFunction.MixObjectsLifeTime.ResolveWithBuildUp
 {
     [TestClass]
-    public class BuildUpForClassWithDependencyPropertyAndDependencyMethodTests
+    public class RegisterClassWithDependencyPropertyAndDependencyMethodTests
     {
         [TestMethod]
-        public void BuildUpClassWithDependencyPropertyAndDependencyMethodWithDifferentTypes_SampleClassAsSingleton_Success()
+        public void RegisterClassWithDependencyPropertyAndDependencyMethodWithDifferentTypes_SampleClassAsSingleton_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
             c.RegisterType<SampleClass>().AsSingleton();
-            var sampleClass = new SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes();
+            c.RegisterType<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>();
 
 
-            c.BuildUp(sampleClass);
+            var sampleClass = c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>(ResolveKind.FullEmitFunction);
 
 
             Assert.IsNotNull(sampleClass.SampleClass);
@@ -25,17 +26,16 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.MixObjectsLifeTime.BuildUp
         }
 
         [TestMethod]
-        public void DifferentObjects_BuildUpClassWithDependencyPropertyAndDependencyMethodWithDifferentTypes_SampleClassAsSingleton_Success()
+        public void DifferentObjects_RegisterClassWithDependencyPropertyAndDependencyMethodWithDifferentTypes_SampleClassAsSingleton_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
             c.RegisterType<SampleClass>().AsSingleton();
-            var sampleClass1 = new SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes();
-            var sampleClass2 = new SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes();
+            c.RegisterType<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>();
 
 
-            c.BuildUp(sampleClass1);
-            c.BuildUp(sampleClass2);
+            var sampleClass1 = c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>(ResolveKind.FullEmitFunction);
+            var sampleClass2 = c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>(ResolveKind.FullEmitFunction);
 
 
             Assert.IsNotNull(sampleClass1.SampleClass);
@@ -55,15 +55,15 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.MixObjectsLifeTime.BuildUp
         }
 
         [TestMethod]
-        public void BuildUpClassWithDependencyPropertyAndDependencyMethodWithDifferentTypes_EmptyClassAsSingleton_Success()
+        public void RegisterClassWithDependencyPropertyAndDependencyMethodWithDifferentTypes_EmptyClassAsSingleton_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsSingleton();
             c.RegisterType<SampleClass>();
-            var sampleClass = new SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes();
+            c.RegisterType<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>();
 
 
-            c.BuildUp(sampleClass);
+            var sampleClass = c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>(ResolveKind.FullEmitFunction);
 
 
             Assert.IsNotNull(sampleClass.SampleClass);
@@ -73,17 +73,16 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.MixObjectsLifeTime.BuildUp
         }
 
         [TestMethod]
-        public void DifferentObjects_BuildUpClassWithDependencyPropertyAndDependencyMethodWithDifferentTypes_EmptyClassAsSingleton_Success()
+        public void DifferentObjects_RegisterClassWithDependencyPropertyAndDependencyMethodWithDifferentTypes_EmptyClassAsSingleton_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsSingleton();
             c.RegisterType<SampleClass>();
-            var sampleClass1 = new SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes();
-            var sampleClass2 = new SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes();
+            c.RegisterType<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>();
 
 
-            c.BuildUp(sampleClass1);
-            c.BuildUp(sampleClass2);
+            var sampleClass1 = c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>(ResolveKind.FullEmitFunction);
+            var sampleClass2 = c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>(ResolveKind.FullEmitFunction);
 
 
             Assert.IsNotNull(sampleClass1.SampleClass);
