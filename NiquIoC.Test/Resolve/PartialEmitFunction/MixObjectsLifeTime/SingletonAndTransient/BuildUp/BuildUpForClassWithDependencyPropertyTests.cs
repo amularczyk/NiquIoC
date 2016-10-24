@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NiquIoC.Test.ClassDefinitions;
 
-namespace NiquIoC.Test.Resolve.PartialEmitFunction.MixObjectsLifeTime.BuildUp
+namespace NiquIoC.Test.Resolve.PartialEmitFunction.MixObjectsLifeTime.SingletonAndTransient.BuildUp
 {
     [TestClass]
     public class BuildUpForClassWithDependencyPropertyTests

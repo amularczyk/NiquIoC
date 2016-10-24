@@ -1,22 +1,21 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NiquIoC.Enums;
 using NiquIoC.Test.ClassDefinitions;
 
-namespace NiquIoC.Test.Resolve.PartialEmitFunction.MixObjectsLifeTime.ResolveWithBuildUp
+namespace NiquIoC.Test.Resolve.PartialEmitFunction.MixObjectsLifeTime.SingletonAndTransient.BuildUp
 {
     [TestClass]
-    public class RegisterInterfaceWithDependencyPropertyAndDependencyMethodTests
+    public class BuildUpForInterfaceWithDependencyPropertyAndDependencyMethodTests
     {
         [TestMethod]
-        public void RegisterInterfaceWithDependencyPropertyAndDependencyMethodWithDifferentTypes_SampleClassAsSingleton_Success()
+        public void BuildUpInterfaceWithDependencyPropertyAndDependencyMethodWithDifferentTypes_SampleClassAsSingleton_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();
             c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsSingleton();
-            c.RegisterType<ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes, SampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes>();
+            ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes sampleClass = new SampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes();
 
 
-            var sampleClass = c.Resolve<ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes>();
+            c.BuildUp(sampleClass);
 
 
             Assert.IsNotNull(sampleClass.SampleClass);
@@ -26,16 +25,17 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.MixObjectsLifeTime.ResolveWit
         }
 
         [TestMethod]
-        public void DifferentObjects_RegisterInterfaceWithDependencyPropertyAndDependencyMethodWithDifferentTypes_SampleClassAsSingleton_Success()
+        public void DifferentObjects_BuildUpInterfaceWithDependencyPropertyAndDependencyMethodWithDifferentTypes_SampleClassAsSingleton_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();
             c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsSingleton();
-            c.RegisterType<ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes, SampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes>();
+            ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes sampleClass1 = new SampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes();
+            ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes sampleClass2 = new SampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes();
+            
 
-
-            var sampleClass1 = c.Resolve<ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes>();
-            var sampleClass2 = c.Resolve<ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes>();
+            c.BuildUp(sampleClass1);
+            c.BuildUp(sampleClass2);
 
 
             Assert.IsNotNull(sampleClass1.SampleClass);
@@ -54,15 +54,15 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.MixObjectsLifeTime.ResolveWit
             Assert.AreEqual(sampleClass1.SampleClass.EmptyClass, sampleClass2.SampleClass.EmptyClass);
         }
         [TestMethod]
-        public void RegisterInterfaceWithDependencyPropertyAndDependencyMethodWithDifferentTypes_EmptyClassAsSingleton_Success()
+        public void BuildUpInterfaceWithDependencyPropertyAndDependencyMethodWithDifferentTypes_EmptyClassAsSingleton_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
             c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>();
-            c.RegisterType<ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes, SampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes>();
+            ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes sampleClass = new SampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes();
 
 
-            var sampleClass = c.Resolve<ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes>();
+            c.BuildUp(sampleClass);
 
 
             Assert.IsNotNull(sampleClass.SampleClass);
@@ -72,16 +72,17 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.MixObjectsLifeTime.ResolveWit
         }
 
         [TestMethod]
-        public void DifferentObjects_RegisterInterfaceWithDependencyPropertyAndDependencyMethodWithDifferentTypes_SEmptyClassAsSingleton_Success()
+        public void DifferentObjects_BuildUpInterfaceWithDependencyPropertyAndDependencyMethodWithDifferentTypes_SEmptyClassAsSingleton_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
             c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>();
-            c.RegisterType<ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes, SampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes>();
+            ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes sampleClass1 = new SampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes();
+            ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes sampleClass2 = new SampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes();
 
 
-            var sampleClass1 = c.Resolve<ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes>();
-            var sampleClass2 = c.Resolve<ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes>();
+            c.BuildUp(sampleClass1);
+            c.BuildUp(sampleClass2);
 
 
             Assert.IsNotNull(sampleClass1.SampleClass);

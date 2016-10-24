@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NiquIoC.Test.ClassDefinitions;
 
-namespace NiquIoC.Test.Resolve.PartialEmitFunction.MixObjectsLifeTime.FactoryObject
+namespace NiquIoC.Test.Resolve.PartialEmitFunction.MixObjectsLifeTime.SingletonAndTransient.FactoryObject
 {
     [TestClass]
     public class RegisterTypeByFactoryObjectForClassTests

@@ -11,8 +11,8 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.PerThread
         public void RegisterSimpleGenericClass_Success()
         {
             var c = new Container();
-            c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
-            c.RegisterType<IGenericClass<IEmptyClass>, GenericClass<IEmptyClass>>().AsSingleton();
+            c.RegisterType<IEmptyClass, EmptyClass>().AsPerThread();
+            c.RegisterType<IGenericClass<IEmptyClass>, GenericClass<IEmptyClass>>().AsPerThread();
             IGenericClass<IEmptyClass> genericClass = null;
 
             var thread = new Thread(() => { genericClass = c.Resolve<IGenericClass<IEmptyClass>>(); });
@@ -27,9 +27,9 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.PerThread
         public void RegisterGenericClassWithClassWithNestedClass_Success()
         {
             var c = new Container();
-            c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
-            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsSingleton();
-            c.RegisterType<IGenericClass<ISampleClassWithInterfaceAsParameter>, GenericClass<ISampleClassWithInterfaceAsParameter>>().AsSingleton();
+            c.RegisterType<IEmptyClass, EmptyClass>().AsPerThread();
+            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsPerThread();
+            c.RegisterType<IGenericClass<ISampleClassWithInterfaceAsParameter>, GenericClass<ISampleClassWithInterfaceAsParameter>>().AsPerThread();
             IGenericClass<ISampleClassWithInterfaceAsParameter> genericClass = null;
 
             var thread = new Thread(() => { genericClass = c.Resolve<IGenericClass<ISampleClassWithInterfaceAsParameter>>(); });
@@ -45,10 +45,10 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.PerThread
         public void RegisterGenericClassWithManyParameters_Success()
         {
             var c = new Container();
-            c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
-            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsSingleton();
+            c.RegisterType<IEmptyClass, EmptyClass>().AsPerThread();
+            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsPerThread();
             c.RegisterType<IGenericClassWithManyParameters<IEmptyClass, ISampleClassWithInterfaceAsParameter>,
-                GenericClassWithManyParameters<IEmptyClass, ISampleClassWithInterfaceAsParameter>>().AsSingleton();
+                GenericClassWithManyParameters<IEmptyClass, ISampleClassWithInterfaceAsParameter>>().AsPerThread();
             IGenericClassWithManyParameters<IEmptyClass, ISampleClassWithInterfaceAsParameter> genericClass = null;
 
             var thread = new Thread(() => { genericClass = c.Resolve<IGenericClassWithManyParameters<IEmptyClass, ISampleClassWithInterfaceAsParameter>>(); });
@@ -63,13 +63,38 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.PerThread
         }
 
         [TestMethod]
-        public void RegisterManyGenericClasses_Success()
+        public void SameThread_RegisterManyGenericClasses_Success()
         {
             var c = new Container();
-            c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
-            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsSingleton();
-            c.RegisterType<IGenericClass<IEmptyClass>, GenericClass<IEmptyClass>>().AsSingleton();
-            c.RegisterType<IGenericClass<ISampleClassWithInterfaceAsParameter>, GenericClass<ISampleClassWithInterfaceAsParameter>>().AsSingleton();
+            c.RegisterType<IEmptyClass, EmptyClass>().AsPerThread();
+            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsPerThread();
+            c.RegisterType<IGenericClass<IEmptyClass>, GenericClass<IEmptyClass>>().AsPerThread();
+            c.RegisterType<IGenericClass<ISampleClassWithInterfaceAsParameter>, GenericClass<ISampleClassWithInterfaceAsParameter>>().AsPerThread();
+            IGenericClass<IEmptyClass> genericClass1 = null;
+            IGenericClass<ISampleClassWithInterfaceAsParameter> genericClass2 = null;
+            
+            var thread = new Thread(() =>
+            {
+                genericClass1 = c.Resolve<IGenericClass<IEmptyClass>>();
+                genericClass2 = c.Resolve<IGenericClass<ISampleClassWithInterfaceAsParameter>>();
+            });
+            thread.Start();
+            thread.Join();
+
+            Assert.AreNotEqual(genericClass1, genericClass2);
+            Assert.AreNotEqual(genericClass1.GetType(), genericClass2.GetType());
+            Assert.AreEqual(genericClass1.NestedClass, genericClass2.NestedClass.EmptyClass);
+            Assert.AreEqual(genericClass1.NestedClass.GetType(), genericClass2.NestedClass.EmptyClass.GetType());
+        }
+
+        [TestMethod]
+        public void DifferentThreads_RegisterManyGenericClasses_Success()
+        {
+            var c = new Container();
+            c.RegisterType<IEmptyClass, EmptyClass>().AsPerThread();
+            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsPerThread();
+            c.RegisterType<IGenericClass<IEmptyClass>, GenericClass<IEmptyClass>>().AsPerThread();
+            c.RegisterType<IGenericClass<ISampleClassWithInterfaceAsParameter>, GenericClass<ISampleClassWithInterfaceAsParameter>>().AsPerThread();
             IGenericClass<IEmptyClass> genericClass1 = null;
             IGenericClass<ISampleClassWithInterfaceAsParameter> genericClass2 = null;
 
@@ -82,7 +107,7 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.PerThread
 
             Assert.AreNotEqual(genericClass1, genericClass2);
             Assert.AreNotEqual(genericClass1.GetType(), genericClass2.GetType());
-            Assert.AreEqual(genericClass1.NestedClass, genericClass2.NestedClass.EmptyClass);
+            Assert.AreNotEqual(genericClass1.NestedClass, genericClass2.NestedClass.EmptyClass);
             Assert.AreEqual(genericClass1.NestedClass.GetType(), genericClass2.NestedClass.EmptyClass.GetType());
         }
     }

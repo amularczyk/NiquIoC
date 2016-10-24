@@ -1,8 +1,7 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NiquIoC.Test.ClassDefinitions;
 
-namespace NiquIoC.Test.Resolve.PartialEmitFunction.MixObjectsLifeTime
+namespace NiquIoC.Test.Resolve.PartialEmitFunction.MixObjectsLifeTime.SingletonAndTransient
 {
     [TestClass]
     public class RegisterGenericTypeForInterfaceTests
