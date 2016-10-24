@@ -61,6 +61,7 @@
     <Compile Include="Interfaces\IContainerMember.cs" />
     <Compile Include="Interfaces\IObjectLifetimeManager.cs" />
     <Compile Include="Interfaces\IResolve.cs" />
+    <Compile Include="ObjectLifetimeManagers\ThreadObjectLifetimeManager.cs" />
     <Compile Include="Resolve\FullEmitFunctionResolve.cs" />
     <Compile Include="Resolve\PartialEmitFunctionResolve.cs" />
     <Compile Include="ObjectLifetimeManagers\SingletonObjectLifetimeManager.cs" />
