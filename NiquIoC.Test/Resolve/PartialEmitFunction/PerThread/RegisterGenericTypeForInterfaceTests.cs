@@ -1,7 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Threading;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NiquIoC.Test.ClassDefinitions;
 
-namespace NiquIoC.Test.Resolve.PartialEmitFunction.Singleton
+namespace NiquIoC.Test.Resolve.PartialEmitFunction.PerThread
 {
     [TestClass]
     public class RegisterGenericTypeForInterfaceTests
@@ -12,8 +13,11 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Singleton
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
             c.RegisterType<IGenericClass<IEmptyClass>, GenericClass<IEmptyClass>>().AsSingleton();
+            IGenericClass<IEmptyClass> genericClass = null;
 
-            var genericClass = c.Resolve<IGenericClass<IEmptyClass>>();
+            var thread = new Thread(() => { genericClass = c.Resolve<IGenericClass<IEmptyClass>>(); });
+            thread.Start();
+            thread.Join();
 
             Assert.IsNotNull(genericClass);
             Assert.IsNotNull(genericClass.NestedClass);
@@ -26,8 +30,11 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Singleton
             c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
             c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsSingleton();
             c.RegisterType<IGenericClass<ISampleClassWithInterfaceAsParameter>, GenericClass<ISampleClassWithInterfaceAsParameter>>().AsSingleton();
+            IGenericClass<ISampleClassWithInterfaceAsParameter> genericClass = null;
 
-            var genericClass = c.Resolve<IGenericClass<ISampleClassWithInterfaceAsParameter>>();
+            var thread = new Thread(() => { genericClass = c.Resolve<IGenericClass<ISampleClassWithInterfaceAsParameter>>(); });
+            thread.Start();
+            thread.Join();
 
             Assert.IsNotNull(genericClass);
             Assert.IsNotNull(genericClass.NestedClass);
@@ -42,8 +49,11 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Singleton
             c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsSingleton();
             c.RegisterType<IGenericClassWithManyParameters<IEmptyClass, ISampleClassWithInterfaceAsParameter>,
                 GenericClassWithManyParameters<IEmptyClass, ISampleClassWithInterfaceAsParameter>>().AsSingleton();
+            IGenericClassWithManyParameters<IEmptyClass, ISampleClassWithInterfaceAsParameter> genericClass = null;
 
-            var genericClass = c.Resolve<IGenericClassWithManyParameters<IEmptyClass, ISampleClassWithInterfaceAsParameter>>();
+            var thread = new Thread(() => { genericClass = c.Resolve<IGenericClassWithManyParameters<IEmptyClass, ISampleClassWithInterfaceAsParameter>>(); });
+            thread.Start();
+            thread.Join();
 
             Assert.IsNotNull(genericClass);
             Assert.IsNotNull(genericClass.NestedClass1);
@@ -60,9 +70,15 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Singleton
             c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsSingleton();
             c.RegisterType<IGenericClass<IEmptyClass>, GenericClass<IEmptyClass>>().AsSingleton();
             c.RegisterType<IGenericClass<ISampleClassWithInterfaceAsParameter>, GenericClass<ISampleClassWithInterfaceAsParameter>>().AsSingleton();
+            IGenericClass<IEmptyClass> genericClass1 = null;
+            IGenericClass<ISampleClassWithInterfaceAsParameter> genericClass2 = null;
 
-            var genericClass1 = c.Resolve<IGenericClass<IEmptyClass>>();
-            var genericClass2 = c.Resolve<IGenericClass<ISampleClassWithInterfaceAsParameter>>();
+            var thread1 = new Thread(() => { genericClass1 = c.Resolve<IGenericClass<IEmptyClass>>(); });
+            thread1.Start();
+            thread1.Join();
+            var thread2 = new Thread(() => { genericClass2 = c.Resolve<IGenericClass<ISampleClassWithInterfaceAsParameter>>(); });
+            thread2.Start();
+            thread2.Join();
 
             Assert.AreNotEqual(genericClass1, genericClass2);
             Assert.AreNotEqual(genericClass1.GetType(), genericClass2.GetType());

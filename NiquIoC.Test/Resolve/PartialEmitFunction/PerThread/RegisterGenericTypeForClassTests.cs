@@ -1,7 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Threading;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NiquIoC.Test.ClassDefinitions;
 
-namespace NiquIoC.Test.Resolve.PartialEmitFunction.Singleton
+namespace NiquIoC.Test.Resolve.PartialEmitFunction.PerThread
 {
     [TestClass]
     public class RegisterGenericTypeForClassTests
@@ -12,8 +13,11 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Singleton
             var c = new Container();
             c.RegisterType<EmptyClass>().AsSingleton();
             c.RegisterType<GenericClass<EmptyClass>>().AsSingleton();
+            GenericClass<EmptyClass> genericClass = null;
 
-            var genericClass = c.Resolve<GenericClass<EmptyClass>>();
+            var thread = new Thread(() => { genericClass = c.Resolve<GenericClass<EmptyClass>>(); });
+            thread.Start();
+            thread.Join();
 
             Assert.IsNotNull(genericClass);
             Assert.IsNotNull(genericClass.NestedClass);
@@ -26,8 +30,11 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Singleton
             c.RegisterType<EmptyClass>().AsSingleton();
             c.RegisterType<SampleClass>().AsSingleton();
             c.RegisterType<GenericClass<SampleClass>>().AsSingleton();
+            GenericClass<SampleClass> genericClass = null;
 
-            var genericClass = c.Resolve<GenericClass<SampleClass>>();
+            var thread = new Thread(() => { genericClass = c.Resolve<GenericClass<SampleClass>>(); });
+            thread.Start();
+            thread.Join();
 
             Assert.IsNotNull(genericClass);
             Assert.IsNotNull(genericClass.NestedClass);
@@ -41,8 +48,11 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Singleton
             c.RegisterType<EmptyClass>().AsSingleton();
             c.RegisterType<SampleClass>().AsSingleton();
             c.RegisterType<GenericClassWithManyParameters<EmptyClass, SampleClass>>().AsSingleton();
+            GenericClassWithManyParameters<EmptyClass, SampleClass> genericClass = null;
 
-            var genericClass = c.Resolve<GenericClassWithManyParameters<EmptyClass, SampleClass>>();
+            var thread = new Thread(() => { genericClass = c.Resolve<GenericClassWithManyParameters<EmptyClass, SampleClass>>(); });
+            thread.Start();
+            thread.Join();
 
             Assert.IsNotNull(genericClass);
             Assert.IsNotNull(genericClass.NestedClass1);
@@ -59,9 +69,15 @@ namespace NiquIoC.Test.Resolve.PartialEmitFunction.Singleton
             c.RegisterType<SampleClass>().AsSingleton();
             c.RegisterType<GenericClass<EmptyClass>>().AsSingleton();
             c.RegisterType<GenericClass<SampleClass>>().AsSingleton();
+            GenericClass<EmptyClass> genericClass1 = null;
+            GenericClass<SampleClass> genericClass2 = null;
 
-            var genericClass1 = c.Resolve<GenericClass<EmptyClass>>();
-            var genericClass2 = c.Resolve<GenericClass<SampleClass>>();
+            var thread1 = new Thread(() => { genericClass1 = c.Resolve<GenericClass<EmptyClass>>(); });
+            thread1.Start();
+            thread1.Join();
+            var thread2 = new Thread(() => { genericClass2 = c.Resolve<GenericClass<SampleClass>>(); });
+            thread2.Start();
+            thread2.Join();
 
             Assert.AreNotEqual(genericClass1, genericClass2);
             Assert.AreNotEqual(genericClass1.GetType(), genericClass2.GetType());

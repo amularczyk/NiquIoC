@@ -105,6 +105,8 @@
     <Compile Include="Resolve\PartialEmitFunction\MixObjectsLifeTime\ResolveWithBuildUp\RegisterInterfaceWithDependencyMethodTests.cs" />
     <Compile Include="Resolve\PartialEmitFunction\MixObjectsLifeTime\ResolveWithBuildUp\RegisterInterfaceWithDependencyPropertyAndDependencyMethodTests.cs" />
     <Compile Include="Resolve\PartialEmitFunction\MixObjectsLifeTime\ResolveWithBuildUp\RegisterInterfaceWithDependencyPropertyTests.cs" />
+    <Compile Include="Resolve\PartialEmitFunction\PerThread\RegisterGenericTypeForClassTests.cs" />
+    <Compile Include="Resolve\PartialEmitFunction\PerThread\RegisterGenericTypeForInterfaceTests.cs" />
     <Compile Include="Resolve\PartialEmitFunction\Singleton\BuildUp\BuildUpForClassWithDependencyMethodTests.cs" />
     <Compile Include="Resolve\PartialEmitFunction\Singleton\BuildUp\BuildUpForClassWithDependencyPropertyAndDependencyMethodTests.cs" />
     <Compile Include="Resolve\PartialEmitFunction\Singleton\BuildUp\BuildUpForClassWithDependencyPropertyTests.cs" />
