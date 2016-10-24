@@ -27,6 +27,11 @@ namespace NiquIoC
             AsCustomObjectLifetimeManager(new TransientObjectLifetimeManager());
         }
 
+        public void AsPerThread()
+        {
+            AsCustomObjectLifetimeManager(new ThreadObjectLifetimeManager());
+        }
+
         public void AsCustomObjectLifetimeManager(IObjectLifetimeManager objectLifetimeManager)
         {
             if (!ShouldCreateCache && objectLifetimeManager.ObjectFactory == null)

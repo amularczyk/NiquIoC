@@ -8,6 +8,8 @@ namespace NiquIoC.Interfaces
 
         void AsTransient();
 
+        void AsPerThread();
+
         void AsCustomObjectLifetimeManager(IObjectLifetimeManager objectLifetimeManager);
 
         Type RegisteredType { get; }

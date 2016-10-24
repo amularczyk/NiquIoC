@@ -6,7 +6,7 @@ namespace NiquIoC.ObjectLifetimeManagers
     public class SingletonObjectLifetimeManager : IObjectLifetimeManager
     {
         private object _instance;
-        private object _obj;
+        private readonly object _obj;
 
         public SingletonObjectLifetimeManager()
         {
