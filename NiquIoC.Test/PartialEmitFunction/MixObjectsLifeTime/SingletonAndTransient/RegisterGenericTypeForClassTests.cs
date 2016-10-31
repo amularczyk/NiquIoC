@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NiquIoC.Enums;
 using NiquIoC.Test.Model;
 
 namespace NiquIoC.Test.PartialEmitFunction.MixObjectsLifeTime.SingletonAndTransient
@@ -15,7 +16,7 @@ namespace NiquIoC.Test.PartialEmitFunction.MixObjectsLifeTime.SingletonAndTransi
             c.RegisterType<SampleClassOther>();
             c.RegisterType<GenericClassWithManyParameters<SampleClass, SampleClassOther>>();
 
-            var genericClass = c.Resolve<GenericClassWithManyParameters<SampleClass, SampleClassOther>>();
+            var genericClass = c.Resolve<GenericClassWithManyParameters<SampleClass, SampleClassOther>>(ResolveKind.PartialEmitFunction);
             
             Assert.AreNotEqual(genericClass.NestedClass1, genericClass.NestedClass2);
             Assert.AreEqual(genericClass.NestedClass1.EmptyClass, genericClass.NestedClass2.EmptyClass);
@@ -31,8 +32,8 @@ namespace NiquIoC.Test.PartialEmitFunction.MixObjectsLifeTime.SingletonAndTransi
             c.RegisterType<GenericClass<SampleClass>>();
             c.RegisterType<GenericClass<SampleClassOther>>();
 
-            var genericClass1 = c.Resolve<GenericClass<SampleClass>>();
-            var genericClass2 = c.Resolve<GenericClass<SampleClassOther>>();
+            var genericClass1 = c.Resolve<GenericClass<SampleClass>>(ResolveKind.PartialEmitFunction);
+            var genericClass2 = c.Resolve<GenericClass<SampleClassOther>>(ResolveKind.PartialEmitFunction);
             
             Assert.AreNotEqual(genericClass1, genericClass2);
             Assert.AreNotEqual(genericClass1.GetType(), genericClass2.GetType());

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NiquIoC.Enums;
 using NiquIoC.Exceptions;
 using NiquIoC.Test.Model;
 
@@ -16,9 +17,11 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread
             c.RegisterType<EmptyClass>().AsPerThread();
             EmptyClass emptyClass = null;
 
-            var thread = new Thread(() => { emptyClass = c.Resolve<EmptyClass>(); });
+
+            var thread = new Thread(() => { emptyClass = c.Resolve<EmptyClass>(ResolveKind.PartialEmitFunction); });
             thread.Start();
             thread.Join();
+
 
             Assert.IsNotNull(emptyClass);
         }
@@ -32,11 +35,12 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread
             SampleClass sampleClass = null;
             Exception exception = null;
 
+
             var thread = new Thread(() =>
             {
                 try
                 {
-                    sampleClass = c.Resolve<SampleClass>();
+                    sampleClass = c.Resolve<SampleClass>(ResolveKind.PartialEmitFunction);
                 }
                 catch (Exception ex)
                 {
@@ -50,6 +54,7 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread
             {
                 throw exception;
             }
+
 
             Assert.IsNull(sampleClass);
         }
@@ -63,11 +68,12 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread
             SampleClassWithStringType sampleClassWithSimpleType = null;
             Exception exception = null;
 
+
             var thread = new Thread(() =>
             {
                 try
                 {
-                    sampleClassWithSimpleType = c.Resolve<SampleClassWithStringType>();
+                    sampleClassWithSimpleType = c.Resolve<SampleClassWithStringType>(ResolveKind.PartialEmitFunction);
                 }
                 catch (Exception ex)
                 {
@@ -81,6 +87,7 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread
             {
                 throw exception;
             }
+
 
             Assert.IsNull(sampleClassWithSimpleType);
         }
@@ -94,11 +101,12 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread
             SampleClassWithIntType sampleClassWithSimpleType = null;
             Exception exception = null;
 
+
             var thread = new Thread(() =>
             {
                 try
                 {
-                    sampleClassWithSimpleType = c.Resolve<SampleClassWithIntType>();
+                    sampleClassWithSimpleType = c.Resolve<SampleClassWithIntType>(ResolveKind.PartialEmitFunction);
                 }
                 catch (Exception ex)
                 {
@@ -113,6 +121,7 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread
                 throw exception;
             }
 
+
             Assert.IsNull(sampleClassWithSimpleType);
         }
 
@@ -124,9 +133,11 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread
             c.RegisterType<SampleClass>().AsPerThread();
             SampleClass sampleClass = null;
 
-            var thread = new Thread(() => { sampleClass = c.Resolve<SampleClass>(); });
+
+            var thread = new Thread(() => { sampleClass = c.Resolve<SampleClass>(ResolveKind.PartialEmitFunction); });
             thread.Start();
             thread.Join();
+
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNotNull(sampleClass.EmptyClass);
@@ -142,11 +153,12 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread
             FirstClassWithCycleInConstructor sampleClass = null;
             Exception exception = null;
 
+
             var thread = new Thread(() =>
             {
                 try
                 {
-                    sampleClass = c.Resolve<FirstClassWithCycleInConstructor>();
+                    sampleClass = c.Resolve<FirstClassWithCycleInConstructor>(ResolveKind.PartialEmitFunction);
                 }
                 catch (Exception ex)
                 {
@@ -161,6 +173,7 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread
                 throw exception;
             }
 
+
             Assert.IsNull(sampleClass);
         }
 
@@ -173,13 +186,15 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread
             SampleClass sampleClass1 = null;
             SampleClass sampleClass2 = null;
 
+
             var thread = new Thread(() =>
             {
-                sampleClass1 = c.Resolve<SampleClass>();
-                sampleClass2 = c.Resolve<SampleClass>();
+                sampleClass1 = c.Resolve<SampleClass>(ResolveKind.PartialEmitFunction);
+                sampleClass2 = c.Resolve<SampleClass>(ResolveKind.PartialEmitFunction);
             });
             thread.Start();
             thread.Join();
+
 
             Assert.IsNotNull(sampleClass1);
             Assert.IsNotNull(sampleClass1.EmptyClass);
@@ -198,12 +213,14 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread
             SampleClass sampleClass1 = null;
             SampleClass sampleClass2 = null;
 
-            var thread1 = new Thread(() => { sampleClass1 = c.Resolve<SampleClass>(); });
-            var thread2 = new Thread(() => { sampleClass2 = c.Resolve<SampleClass>(); });
+
+            var thread1 = new Thread(() => { sampleClass1 = c.Resolve<SampleClass>(ResolveKind.PartialEmitFunction); });
+            var thread2 = new Thread(() => { sampleClass2 = c.Resolve<SampleClass>(ResolveKind.PartialEmitFunction); });
             thread1.Start();
             thread1.Join();
             thread2.Start();
             thread2.Join();
+
 
             Assert.IsNotNull(sampleClass1);
             Assert.IsNotNull(sampleClass1.EmptyClass);
@@ -224,20 +241,22 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread
             SampleClass sampleClass21 = null;
             SampleClass sampleClass22 = null;
 
+
             var thread1 = new Thread(() =>
             {
-                sampleClass11 = c.Resolve<SampleClass>();
-                sampleClass12 = c.Resolve<SampleClass>();
+                sampleClass11 = c.Resolve<SampleClass>(ResolveKind.PartialEmitFunction);
+                sampleClass12 = c.Resolve<SampleClass>(ResolveKind.PartialEmitFunction);
             });
             var thread2 = new Thread(() =>
             {
-                sampleClass21 = c.Resolve<SampleClass>();
-                sampleClass22 = c.Resolve<SampleClass>();
+                sampleClass21 = c.Resolve<SampleClass>(ResolveKind.PartialEmitFunction);
+                sampleClass22 = c.Resolve<SampleClass>(ResolveKind.PartialEmitFunction);
             });
             thread1.Start();
             thread1.Join();
             thread2.Start();
             thread2.Join();
+
 
             Assert.IsNotNull(sampleClass11);
             Assert.IsNotNull(sampleClass11.EmptyClass);

@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NiquIoC.Enums;
 using NiquIoC.Test.Model;
 
 namespace NiquIoC.Test.PartialEmitFunction.MixObjectsLifeTime.SingletonAndTransient.ResolveWithBuildUp
@@ -15,7 +16,7 @@ namespace NiquIoC.Test.PartialEmitFunction.MixObjectsLifeTime.SingletonAndTransi
             c.RegisterType<ISampleClassWithManyInterfaceDependencyProperties, SampleClassWithManyInterfaceDependencyProperties>();
 
 
-            var sampleClass = c.Resolve<ISampleClassWithManyInterfaceDependencyProperties>();
+            var sampleClass = c.Resolve<ISampleClassWithManyInterfaceDependencyProperties>(ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass.EmptyClass);
@@ -33,8 +34,8 @@ namespace NiquIoC.Test.PartialEmitFunction.MixObjectsLifeTime.SingletonAndTransi
             c.RegisterType<ISampleClassWithManyInterfaceDependencyProperties, SampleClassWithManyInterfaceDependencyProperties>();
 
 
-            var sampleClass1 = c.Resolve<ISampleClassWithManyInterfaceDependencyProperties>();
-            var sampleClass2 = c.Resolve<ISampleClassWithManyInterfaceDependencyProperties>();
+            var sampleClass1 = c.Resolve<ISampleClassWithManyInterfaceDependencyProperties>(ResolveKind.PartialEmitFunction);
+            var sampleClass2 = c.Resolve<ISampleClassWithManyInterfaceDependencyProperties>(ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass1.EmptyClass);
@@ -62,7 +63,7 @@ namespace NiquIoC.Test.PartialEmitFunction.MixObjectsLifeTime.SingletonAndTransi
             c.RegisterType<ISampleClassWithNestedInterfaceDependencyProperty, SampleClassWithNestedInterfaceDependencyProperty>();
 
 
-            var sampleClass = c.Resolve<ISampleClassWithNestedInterfaceDependencyProperty>();
+            var sampleClass = c.Resolve<ISampleClassWithNestedInterfaceDependencyProperty>(ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass.SampleClassWithInterfaceDependencyProperty);
@@ -78,8 +79,8 @@ namespace NiquIoC.Test.PartialEmitFunction.MixObjectsLifeTime.SingletonAndTransi
             c.RegisterType<ISampleClassWithNestedInterfaceDependencyProperty, SampleClassWithNestedInterfaceDependencyProperty>();
 
 
-            var sampleClass1 = c.Resolve<ISampleClassWithNestedInterfaceDependencyProperty>();
-            var sampleClass2 = c.Resolve<ISampleClassWithNestedInterfaceDependencyProperty>();
+            var sampleClass1 = c.Resolve<ISampleClassWithNestedInterfaceDependencyProperty>(ResolveKind.PartialEmitFunction);
+            var sampleClass2 = c.Resolve<ISampleClassWithNestedInterfaceDependencyProperty>(ResolveKind.PartialEmitFunction);
             
 
             Assert.IsNotNull(sampleClass1.SampleClassWithInterfaceDependencyProperty);

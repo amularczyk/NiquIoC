@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NiquIoC.Enums;
 using NiquIoC.Exceptions;
 using NiquIoC.Test.Model;
 
@@ -14,7 +15,7 @@ namespace NiquIoC.Test.PartialEmitFunction.Transient
             var c = new Container();
             c.RegisterType<ISampleClass, SampleClass>();
 
-            var sampleClass = c.Resolve<ISampleClass>();
+            var sampleClass = c.Resolve<ISampleClass>(ResolveKind.PartialEmitFunction);
 
             Assert.IsNull(sampleClass);
         }
@@ -26,7 +27,7 @@ namespace NiquIoC.Test.PartialEmitFunction.Transient
             c.RegisterType<EmptyClass>();
             c.RegisterType<ISampleClass, SampleClass>();
 
-            var sampleClass = c.Resolve<ISampleClass>();
+            var sampleClass = c.Resolve<ISampleClass>(ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNotNull(sampleClass.EmptyClass);
@@ -41,7 +42,7 @@ namespace NiquIoC.Test.PartialEmitFunction.Transient
             c.RegisterType<SecondClassWithCycleInConstructor>();
             c.RegisterType<IClassWithCycleInConstructor, ClassWithCycleInConstructorInRegisteredType>();
 
-            var sampleClass = c.Resolve<IClassWithCycleInConstructor>();
+            var sampleClass = c.Resolve<IClassWithCycleInConstructor>(ResolveKind.PartialEmitFunction);
 
             Assert.IsNull(sampleClass);
         }
@@ -53,8 +54,8 @@ namespace NiquIoC.Test.PartialEmitFunction.Transient
             c.RegisterType<EmptyClass>();
             c.RegisterType<ISampleClass, SampleClass>();
 
-            var sampleClass1 = c.Resolve<ISampleClass>();
-            var sampleClass2 = c.Resolve<ISampleClass>();
+            var sampleClass1 = c.Resolve<ISampleClass>(ResolveKind.PartialEmitFunction);
+            var sampleClass2 = c.Resolve<ISampleClass>(ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass1);
             Assert.IsNotNull(sampleClass1.EmptyClass);

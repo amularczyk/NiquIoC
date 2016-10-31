@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NiquIoC.Enums;
 using NiquIoC.Test.Model;
 
 namespace NiquIoC.Test.PartialEmitFunction.PerThread
@@ -15,7 +16,7 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread
             c.RegisterType<GenericClass<EmptyClass>>().AsPerThread();
             GenericClass<EmptyClass> genericClass = null;
 
-            var thread = new Thread(() => { genericClass = c.Resolve<GenericClass<EmptyClass>>(); });
+            var thread = new Thread(() => { genericClass = c.Resolve<GenericClass<EmptyClass>>(ResolveKind.PartialEmitFunction); });
             thread.Start();
             thread.Join();
 
@@ -32,7 +33,7 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread
             c.RegisterType<GenericClass<SampleClass>>().AsPerThread();
             GenericClass<SampleClass> genericClass = null;
 
-            var thread = new Thread(() => { genericClass = c.Resolve<GenericClass<SampleClass>>(); });
+            var thread = new Thread(() => { genericClass = c.Resolve<GenericClass<SampleClass>>(ResolveKind.PartialEmitFunction); });
             thread.Start();
             thread.Join();
 
@@ -50,7 +51,7 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread
             c.RegisterType<GenericClassWithManyParameters<EmptyClass, SampleClass>>().AsPerThread();
             GenericClassWithManyParameters<EmptyClass, SampleClass> genericClass = null;
 
-            var thread = new Thread(() => { genericClass = c.Resolve<GenericClassWithManyParameters<EmptyClass, SampleClass>>(); });
+            var thread = new Thread(() => { genericClass = c.Resolve<GenericClassWithManyParameters<EmptyClass, SampleClass>>(ResolveKind.PartialEmitFunction); });
             thread.Start();
             thread.Join();
 
@@ -74,8 +75,8 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread
 
             var thread = new Thread(() =>
             {
-                genericClass1 = c.Resolve<GenericClass<EmptyClass>>();
-                genericClass2 = c.Resolve<GenericClass<SampleClass>>();
+                genericClass1 = c.Resolve<GenericClass<EmptyClass>>(ResolveKind.PartialEmitFunction);
+                genericClass2 = c.Resolve<GenericClass<SampleClass>>(ResolveKind.PartialEmitFunction);
             });
             thread.Start();
             thread.Join();
@@ -97,10 +98,10 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread
             GenericClass<EmptyClass> genericClass1 = null;
             GenericClass<SampleClass> genericClass2 = null;
 
-            var thread1 = new Thread(() => { genericClass1 = c.Resolve<GenericClass<EmptyClass>>(); });
+            var thread1 = new Thread(() => { genericClass1 = c.Resolve<GenericClass<EmptyClass>>(ResolveKind.PartialEmitFunction); });
             thread1.Start();
             thread1.Join();
-            var thread2 = new Thread(() => { genericClass2 = c.Resolve<GenericClass<SampleClass>>(); });
+            var thread2 = new Thread(() => { genericClass2 = c.Resolve<GenericClass<SampleClass>>(ResolveKind.PartialEmitFunction); });
             thread2.Start();
             thread2.Join();
 

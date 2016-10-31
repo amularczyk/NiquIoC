@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NiquIoC.Enums;
 using NiquIoC.Test.Model;
 
 namespace NiquIoC.Test.PartialEmitFunction.Transient.BuildUp
@@ -13,7 +14,7 @@ namespace NiquIoC.Test.PartialEmitFunction.Transient.BuildUp
             c.RegisterType<IEmptyClass, EmptyClass>();
             ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithSameType sampleClass = new SampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithSameType();
 
-            c.BuildUp(sampleClass);
+            c.BuildUp(sampleClass, ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass.EmptyClassFromDependencyProperty);
             Assert.IsNotNull(sampleClass.EmptyClassFromDependencyMethod);
@@ -28,8 +29,8 @@ namespace NiquIoC.Test.PartialEmitFunction.Transient.BuildUp
             ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithSameType sampleClass1 = new SampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithSameType();
             ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithSameType sampleClass2 = new SampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithSameType();
 
-            c.BuildUp(sampleClass1);
-            c.BuildUp(sampleClass2);
+            c.BuildUp(sampleClass1, ResolveKind.PartialEmitFunction);
+            c.BuildUp(sampleClass2, ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass1.EmptyClassFromDependencyProperty);
             Assert.IsNotNull(sampleClass1.EmptyClassFromDependencyMethod);
@@ -50,7 +51,7 @@ namespace NiquIoC.Test.PartialEmitFunction.Transient.BuildUp
             c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>();
             ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes sampleClass = new SampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes();
 
-            c.BuildUp(sampleClass);
+            c.BuildUp(sampleClass, ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass.SampleClass);
             Assert.IsNotNull(sampleClass.EmptyClass);
@@ -67,8 +68,8 @@ namespace NiquIoC.Test.PartialEmitFunction.Transient.BuildUp
             ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes sampleClass1 = new SampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes();
             ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes sampleClass2 = new SampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes();
 
-            c.BuildUp(sampleClass1);
-            c.BuildUp(sampleClass2);
+            c.BuildUp(sampleClass1, ResolveKind.PartialEmitFunction);
+            c.BuildUp(sampleClass2, ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass1.SampleClass);
             Assert.IsNotNull(sampleClass1.EmptyClass);

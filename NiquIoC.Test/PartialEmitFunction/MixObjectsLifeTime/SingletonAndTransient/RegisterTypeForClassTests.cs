@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NiquIoC.Enums;
 using NiquIoC.Test.Model;
 
 namespace NiquIoC.Test.PartialEmitFunction.MixObjectsLifeTime.SingletonAndTransient
@@ -13,8 +14,8 @@ namespace NiquIoC.Test.PartialEmitFunction.MixObjectsLifeTime.SingletonAndTransi
             c.RegisterType<EmptyClass>().AsSingleton();
             c.RegisterType<SampleClass>();
 
-            var sampleClass1 = c.Resolve<SampleClass>();
-            var sampleClass2 = c.Resolve<SampleClass>();
+            var sampleClass1 = c.Resolve<SampleClass>(ResolveKind.PartialEmitFunction);
+            var sampleClass2 = c.Resolve<SampleClass>(ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass1);
             Assert.IsNotNull(sampleClass1.EmptyClass);
@@ -31,8 +32,8 @@ namespace NiquIoC.Test.PartialEmitFunction.MixObjectsLifeTime.SingletonAndTransi
             c.RegisterType<EmptyClass>();
             c.RegisterType<SampleClass>().AsSingleton();
 
-            var sampleClass1 = c.Resolve<SampleClass>();
-            var sampleClass2 = c.Resolve<SampleClass>();
+            var sampleClass1 = c.Resolve<SampleClass>(ResolveKind.PartialEmitFunction);
+            var sampleClass2 = c.Resolve<SampleClass>(ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass1);
             Assert.IsNotNull(sampleClass1.EmptyClass);

@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NiquIoC.Enums;
 using NiquIoC.Test.Model;
 
 namespace NiquIoC.Test.PartialEmitFunction.Singleton.FactoryObject
@@ -13,8 +14,8 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.FactoryObject
             var emptyClass = new EmptyClass();
             c.RegisterType<ISampleClass>(() => new SampleClass(emptyClass)).AsSingleton();
 
-            var sampleClass1 = c.Resolve<ISampleClass>();
-            var sampleClass2 = c.Resolve<ISampleClass>();
+            var sampleClass1 = c.Resolve<ISampleClass>(ResolveKind.PartialEmitFunction);
+            var sampleClass2 = c.Resolve<ISampleClass>(ResolveKind.PartialEmitFunction);
 
             Assert.AreEqual(sampleClass1, sampleClass2);
             Assert.AreEqual(emptyClass, sampleClass1.EmptyClass);
@@ -29,8 +30,8 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.FactoryObject
             ISampleClass sampleClass = new SampleClass(emptyClass);
             c.RegisterType<ISampleClass>(() => sampleClass).AsSingleton();
 
-            var sampleClass1 = c.Resolve<ISampleClass>();
-            var sampleClass2 = c.Resolve<ISampleClass>();
+            var sampleClass1 = c.Resolve<ISampleClass>(ResolveKind.PartialEmitFunction);
+            var sampleClass2 = c.Resolve<ISampleClass>(ResolveKind.PartialEmitFunction);
 
             Assert.AreEqual(sampleClass1, sampleClass2);
             Assert.AreEqual(emptyClass, sampleClass1.EmptyClass);
@@ -44,8 +45,8 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.FactoryObject
             c.RegisterType<EmptyClass>(() => new EmptyClass()).AsSingleton();
             c.RegisterType<ISampleClass, SampleClass>().AsSingleton();
 
-            var sampleClass1 = c.Resolve<ISampleClass>();
-            var sampleClass2 = c.Resolve<ISampleClass>();
+            var sampleClass1 = c.Resolve<ISampleClass>(ResolveKind.PartialEmitFunction);
+            var sampleClass2 = c.Resolve<ISampleClass>(ResolveKind.PartialEmitFunction);
 
             Assert.AreEqual(sampleClass1, sampleClass2);
             Assert.AreEqual(sampleClass1.EmptyClass, sampleClass2.EmptyClass);
@@ -59,8 +60,8 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.FactoryObject
             c.RegisterType<EmptyClass>(() => emptyClass).AsSingleton();
             c.RegisterType<ISampleClass, SampleClass>().AsSingleton();
 
-            var sampleClass1 = c.Resolve<ISampleClass>();
-            var sampleClass2 = c.Resolve<ISampleClass>();
+            var sampleClass1 = c.Resolve<ISampleClass>(ResolveKind.PartialEmitFunction);
+            var sampleClass2 = c.Resolve<ISampleClass>(ResolveKind.PartialEmitFunction);
 
             Assert.AreEqual(sampleClass1, sampleClass2);
             Assert.AreEqual(sampleClass1.EmptyClass, sampleClass2.EmptyClass);

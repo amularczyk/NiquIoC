@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NiquIoC.Enums;
 using NiquIoC.Test.Model;
 
 namespace NiquIoC.Test.PartialEmitFunction
@@ -13,7 +14,7 @@ namespace NiquIoC.Test.PartialEmitFunction
             IEmptyClass emptyClass1 = new EmptyClass();
             c.RegisterInstance(emptyClass1);
 
-            var emptyClass2 = c.Resolve<IEmptyClass>();
+            var emptyClass2 = c.Resolve<IEmptyClass>(ResolveKind.PartialEmitFunction);
 
             Assert.AreEqual(emptyClass1, emptyClass2);
         }
@@ -26,7 +27,7 @@ namespace NiquIoC.Test.PartialEmitFunction
             c.RegisterType<ISampleClass, SampleClass>();
             c.RegisterInstance(emptyClass);
 
-            var sampleClass = c.Resolve<ISampleClass>();
+            var sampleClass = c.Resolve<ISampleClass>(ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass);
             Assert.AreEqual(emptyClass, sampleClass.EmptyClass);
@@ -40,7 +41,7 @@ namespace NiquIoC.Test.PartialEmitFunction
             c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>();
             c.RegisterInstance(emptyClass);
 
-            var sampleClass = c.Resolve<ISampleClassWithInterfaceAsParameter>();
+            var sampleClass = c.Resolve<ISampleClassWithInterfaceAsParameter>(ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass);
             Assert.AreEqual(emptyClass, sampleClass.EmptyClass);
@@ -54,7 +55,7 @@ namespace NiquIoC.Test.PartialEmitFunction
             c.RegisterInstance(text);
             c.RegisterType<ISampleClassWithStringType, SampleClassWithStringType>();
 
-            var sampleClassWithSimpleType = c.Resolve<ISampleClassWithStringType>();
+            var sampleClassWithSimpleType = c.Resolve<ISampleClassWithStringType>(ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(sampleClassWithSimpleType);
             Assert.IsNotNull(sampleClassWithSimpleType.Text);
@@ -69,7 +70,7 @@ namespace NiquIoC.Test.PartialEmitFunction
             c.RegisterInstance(value);
             c.RegisterType<ISampleClassWithIntType, SampleClassWithIntType>();
 
-            var sampleClassWithSimpleType = c.Resolve<ISampleClassWithIntType>();
+            var sampleClassWithSimpleType = c.Resolve<ISampleClassWithIntType>(ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(sampleClassWithSimpleType);
             Assert.IsNotNull(sampleClassWithSimpleType.Value);

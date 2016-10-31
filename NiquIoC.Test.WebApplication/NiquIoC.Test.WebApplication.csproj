@@ -90,9 +90,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
-    <Content Include="Views\Default\SampleClass.aspx" />
-    <Content Include="Views\Default\TwoSampleClass.aspx" />
-    <Content Include="Views\Default\EmptyClass.aspx" />
+    <Content Include="Views\Default\ResolveObject.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

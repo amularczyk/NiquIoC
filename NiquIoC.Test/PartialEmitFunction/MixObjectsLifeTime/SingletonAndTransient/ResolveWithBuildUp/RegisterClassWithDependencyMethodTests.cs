@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NiquIoC.Enums;
 using NiquIoC.Test.Model;
 
 namespace NiquIoC.Test.PartialEmitFunction.MixObjectsLifeTime.SingletonAndTransient.ResolveWithBuildUp
@@ -15,7 +16,7 @@ namespace NiquIoC.Test.PartialEmitFunction.MixObjectsLifeTime.SingletonAndTransi
             c.RegisterType<SampleClassWithManyClassDependencyMethods>();
 
 
-            var sampleClass = c.Resolve<SampleClassWithManyClassDependencyMethods>();
+            var sampleClass = c.Resolve<SampleClassWithManyClassDependencyMethods>(ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass.EmptyClass);
@@ -33,8 +34,8 @@ namespace NiquIoC.Test.PartialEmitFunction.MixObjectsLifeTime.SingletonAndTransi
             c.RegisterType<SampleClassWithManyClassDependencyMethods>();
 
 
-            var sampleClass1 = c.Resolve<SampleClassWithManyClassDependencyMethods>();
-            var sampleClass2 = c.Resolve<SampleClassWithManyClassDependencyMethods>();
+            var sampleClass1 = c.Resolve<SampleClassWithManyClassDependencyMethods>(ResolveKind.PartialEmitFunction);
+            var sampleClass2 = c.Resolve<SampleClassWithManyClassDependencyMethods>(ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass1.EmptyClass);
@@ -62,7 +63,7 @@ namespace NiquIoC.Test.PartialEmitFunction.MixObjectsLifeTime.SingletonAndTransi
             c.RegisterType<SampleClassWithManyClassParametersInDependencyMethod>();
 
 
-            var sampleClass = c.Resolve<SampleClassWithManyClassParametersInDependencyMethod>();
+            var sampleClass = c.Resolve<SampleClassWithManyClassParametersInDependencyMethod>(ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass.EmptyClass);
@@ -80,8 +81,8 @@ namespace NiquIoC.Test.PartialEmitFunction.MixObjectsLifeTime.SingletonAndTransi
             c.RegisterType<SampleClassWithManyClassParametersInDependencyMethod>();
 
 
-            var sampleClass1 = c.Resolve<SampleClassWithManyClassParametersInDependencyMethod>();
-            var sampleClass2 = c.Resolve<SampleClassWithManyClassParametersInDependencyMethod>();
+            var sampleClass1 = c.Resolve<SampleClassWithManyClassParametersInDependencyMethod>(ResolveKind.PartialEmitFunction);
+            var sampleClass2 = c.Resolve<SampleClassWithManyClassParametersInDependencyMethod>(ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass1.EmptyClass);
@@ -109,7 +110,7 @@ namespace NiquIoC.Test.PartialEmitFunction.MixObjectsLifeTime.SingletonAndTransi
             c.RegisterType<SampleClassWithNestedClassDependencyMethod>();
 
 
-            var sampleClass = c.Resolve<SampleClassWithNestedClassDependencyMethod>();
+            var sampleClass = c.Resolve<SampleClassWithNestedClassDependencyMethod>(ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass.SampleClassWithClassDependencyMethod);
@@ -125,8 +126,8 @@ namespace NiquIoC.Test.PartialEmitFunction.MixObjectsLifeTime.SingletonAndTransi
             c.RegisterType<SampleClassWithNestedClassDependencyMethod>();
 
 
-            var sampleClass1 = c.Resolve<SampleClassWithNestedClassDependencyMethod>();
-            var sampleClass2 = c.Resolve<SampleClassWithNestedClassDependencyMethod>();
+            var sampleClass1 = c.Resolve<SampleClassWithNestedClassDependencyMethod>(ResolveKind.PartialEmitFunction);
+            var sampleClass2 = c.Resolve<SampleClassWithNestedClassDependencyMethod>(ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass1.SampleClassWithClassDependencyMethod);

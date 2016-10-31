@@ -58,12 +58,12 @@ namespace NiquIoC
             return RegisterType(type, type.IsInterface ? instance.GetType() : type, new SingletonObjectLifetimeManager { ObjectFactory = () => instance }, false);
         }
 
-        public T Resolve<T>(ResolveKind resolveKind = ResolveKind.PartialEmitFunction)
+        public T Resolve<T>(ResolveKind resolveKind)
         {
             return (T)Resolve(typeof(T), resolveKind);
         }
 
-        public void BuildUp<T>(T instance, ResolveKind resolveKind = ResolveKind.PartialEmitFunction)
+        public void BuildUp<T>(T instance, ResolveKind resolveKind)
         {
             var type = typeof(T);
             BuildUp(instance, type.IsInterface ? instance.GetType() : type, resolveKind);

@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NiquIoC.Enums;
 using NiquIoC.Exceptions;
 using NiquIoC.Test.Model;
 
@@ -13,7 +14,7 @@ namespace NiquIoC.Test.PartialEmitFunction
         {
             var c = new Container();
 
-            var sampleClass = c.Resolve<EmptyClass>();
+            var sampleClass = c.Resolve<EmptyClass>(ResolveKind.PartialEmitFunction);
 
             Assert.IsNull(sampleClass);
         }
@@ -24,7 +25,7 @@ namespace NiquIoC.Test.PartialEmitFunction
         {
             var c = new Container();
 
-            var sampleClass = c.Resolve<IEmptyClass>();
+            var sampleClass = c.Resolve<IEmptyClass>(ResolveKind.PartialEmitFunction);
 
             Assert.IsNull(sampleClass);
         }
@@ -44,7 +45,7 @@ namespace NiquIoC.Test.PartialEmitFunction
             var c = new Container();
             var sampleClass = new SampleClassWithClassDependencyMethod();
 
-            c.BuildUp(sampleClass);
+            c.BuildUp(sampleClass, ResolveKind.PartialEmitFunction);
         }
 
         [TestMethod]
@@ -54,7 +55,7 @@ namespace NiquIoC.Test.PartialEmitFunction
             var c = new Container();
             var sampleClass = new SampleClassWithClassDependencyProperty();
 
-            c.BuildUp(sampleClass);
+            c.BuildUp(sampleClass, ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass.EmptyClass);
         }
@@ -66,7 +67,7 @@ namespace NiquIoC.Test.PartialEmitFunction
             var c = new Container();
             ISampleClassWithInterfaceMethod sampleClass = new SampleClassWithInterfaceDependencyMethod();
 
-            c.BuildUp(sampleClass);
+            c.BuildUp(sampleClass, ResolveKind.PartialEmitFunction);
         }
 
         [TestMethod]
@@ -76,7 +77,7 @@ namespace NiquIoC.Test.PartialEmitFunction
             var c = new Container();
             ISampleClassWithInterfaceProperty sampleClass = new SampleClassWithInterfaceDependencyProperty();
 
-            c.BuildUp(sampleClass);
+            c.BuildUp(sampleClass, ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass.EmptyClass);
         }
@@ -88,7 +89,7 @@ namespace NiquIoC.Test.PartialEmitFunction
             var c = new Container();
             c.RegisterType<SampleClassWithClassDependencyMethod>();
 
-            var sampleClass = c.Resolve<SampleClassWithClassDependencyMethod>();
+            var sampleClass = c.Resolve<SampleClassWithClassDependencyMethod>(ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass);
         }
@@ -100,7 +101,7 @@ namespace NiquIoC.Test.PartialEmitFunction
             var c = new Container();
             c.RegisterType<SampleClassWithClassDependencyProperty>();
 
-            var sampleClass = c.Resolve<SampleClassWithClassDependencyProperty>();
+            var sampleClass = c.Resolve<SampleClassWithClassDependencyProperty>(ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass.EmptyClass);
         }
@@ -112,7 +113,7 @@ namespace NiquIoC.Test.PartialEmitFunction
             var c = new Container();
             c.RegisterType<ISampleClassWithInterfaceMethod, SampleClassWithInterfaceDependencyMethod>();
 
-            var sampleClass = c.Resolve<ISampleClassWithInterfaceMethod>();
+            var sampleClass = c.Resolve<ISampleClassWithInterfaceMethod>(ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass);
         }
@@ -124,7 +125,7 @@ namespace NiquIoC.Test.PartialEmitFunction
             var c = new Container();
             c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithInterfaceDependencyProperty>();
 
-            var sampleClass = c.Resolve<ISampleClassWithInterfaceProperty>();
+            var sampleClass = c.Resolve<ISampleClassWithInterfaceProperty>(ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass.EmptyClass);
         }

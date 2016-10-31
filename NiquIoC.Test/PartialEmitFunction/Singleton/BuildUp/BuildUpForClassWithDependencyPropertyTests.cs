@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NiquIoC.Enums;
 using NiquIoC.Exceptions;
 using NiquIoC.Test.Model;
 
@@ -25,7 +26,7 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.BuildUp
             c.RegisterType<EmptyClass>().AsSingleton();
             var sampleClass = new SampleClassWithClassDependencyProperty();
 
-            c.BuildUp(sampleClass);
+            c.BuildUp(sampleClass, ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass.EmptyClass);
         }
@@ -38,8 +39,8 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.BuildUp
             var sampleClass1 = new SampleClassWithClassDependencyProperty();
             var sampleClass2 = new SampleClassWithClassDependencyProperty();
 
-            c.BuildUp(sampleClass1);
-            c.BuildUp(sampleClass2);
+            c.BuildUp(sampleClass1, ResolveKind.PartialEmitFunction);
+            c.BuildUp(sampleClass2, ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass1.EmptyClass);
             Assert.IsNotNull(sampleClass2.EmptyClass);
@@ -56,8 +57,8 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.BuildUp
             c.RegisterType<SampleClassWithCycleInConstructorWithClassDependencyProperty>();
             var sampleClass1 = new SampleClassWithCycleInConstructorWithClassDependencyProperty(null);
 
-            c.BuildUp(sampleClass1);
-            var sampleClass2 = c.Resolve<SampleClassWithCycleInConstructorWithClassDependencyProperty>();
+            c.BuildUp(sampleClass1, ResolveKind.PartialEmitFunction);
+            var sampleClass2 = c.Resolve<SampleClassWithCycleInConstructorWithClassDependencyProperty>(ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass1);
             Assert.IsNotNull(sampleClass1.EmptyClass);
@@ -71,7 +72,7 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.BuildUp
             c.RegisterType<EmptyClass>().AsSingleton();
             var sampleClass = new SampleClassWithoutClassDependencyProperty();
 
-            c.BuildUp(sampleClass);
+            c.BuildUp(sampleClass, ResolveKind.PartialEmitFunction);
 
             Assert.IsNull(sampleClass.EmptyClass);
         }
@@ -84,7 +85,7 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.BuildUp
             c.RegisterType<SampleClass>().AsSingleton();
             var sampleClass = new SampleClassWithManyClassDependencyProperties();
 
-            c.BuildUp(sampleClass);
+            c.BuildUp(sampleClass, ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass.EmptyClass);
             Assert.IsNotNull(sampleClass.SampleClass);
@@ -99,8 +100,8 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.BuildUp
             var sampleClass1 = new SampleClassWithManyClassDependencyProperties();
             var sampleClass2 = new SampleClassWithManyClassDependencyProperties();
 
-            c.BuildUp(sampleClass1);
-            c.BuildUp(sampleClass2);
+            c.BuildUp(sampleClass1, ResolveKind.PartialEmitFunction);
+            c.BuildUp(sampleClass2, ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass1.EmptyClass);
             Assert.IsNotNull(sampleClass1.SampleClass);
@@ -119,7 +120,7 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.BuildUp
             c.RegisterType<SampleClassWithClassDependencyProperty>();
             var sampleClass = new SampleClassWithNestedClassDependencyProperty();
 
-            c.BuildUp(sampleClass);
+            c.BuildUp(sampleClass, ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass.SampleClassWithClassDependencyProperty);
             Assert.IsNotNull(sampleClass.SampleClassWithClassDependencyProperty.EmptyClass);
@@ -134,8 +135,8 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.BuildUp
             var sampleClass1 = new SampleClassWithNestedClassDependencyProperty();
             var sampleClass2 = new SampleClassWithNestedClassDependencyProperty();
 
-            c.BuildUp(sampleClass1);
-            c.BuildUp(sampleClass2);
+            c.BuildUp(sampleClass1, ResolveKind.PartialEmitFunction);
+            c.BuildUp(sampleClass2, ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass1.SampleClassWithClassDependencyProperty);
             Assert.IsNotNull(sampleClass1.SampleClassWithClassDependencyProperty.EmptyClass);
@@ -153,7 +154,7 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.BuildUp
             c.RegisterType<EmptyClass>().AsSingleton();
             var sampleClass = new SampleClassWithClassDependencyPropertyWithoutSetMethod();
 
-            c.BuildUp(sampleClass);
+            c.BuildUp(sampleClass, ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNull(sampleClass.EmptyClass);

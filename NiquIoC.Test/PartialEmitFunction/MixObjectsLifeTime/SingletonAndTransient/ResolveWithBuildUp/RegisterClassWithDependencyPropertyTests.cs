@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NiquIoC.Enums;
 using NiquIoC.Test.Model;
 
 namespace NiquIoC.Test.PartialEmitFunction.MixObjectsLifeTime.SingletonAndTransient.ResolveWithBuildUp
@@ -15,7 +16,7 @@ namespace NiquIoC.Test.PartialEmitFunction.MixObjectsLifeTime.SingletonAndTransi
             c.RegisterType<SampleClassWithManyClassDependencyProperties>();
 
 
-            var sampleClass = c.Resolve<SampleClassWithManyClassDependencyProperties>();
+            var sampleClass = c.Resolve<SampleClassWithManyClassDependencyProperties>(ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass.EmptyClass);
@@ -33,8 +34,8 @@ namespace NiquIoC.Test.PartialEmitFunction.MixObjectsLifeTime.SingletonAndTransi
             c.RegisterType<SampleClassWithManyClassDependencyProperties>();
 
 
-            var sampleClass1 = c.Resolve<SampleClassWithManyClassDependencyProperties>();
-            var sampleClass2 = c.Resolve<SampleClassWithManyClassDependencyProperties>();
+            var sampleClass1 = c.Resolve<SampleClassWithManyClassDependencyProperties>(ResolveKind.PartialEmitFunction);
+            var sampleClass2 = c.Resolve<SampleClassWithManyClassDependencyProperties>(ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass1.EmptyClass);
@@ -62,7 +63,7 @@ namespace NiquIoC.Test.PartialEmitFunction.MixObjectsLifeTime.SingletonAndTransi
             c.RegisterType<SampleClassWithNestedClassDependencyProperty>();
 
 
-            var sampleClass = c.Resolve<SampleClassWithNestedClassDependencyProperty>();
+            var sampleClass = c.Resolve<SampleClassWithNestedClassDependencyProperty>(ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass.SampleClassWithClassDependencyProperty);
@@ -78,8 +79,8 @@ namespace NiquIoC.Test.PartialEmitFunction.MixObjectsLifeTime.SingletonAndTransi
             c.RegisterType<SampleClassWithNestedClassDependencyProperty>();
 
 
-            var sampleClass1 = c.Resolve<SampleClassWithNestedClassDependencyProperty>();
-            var sampleClass2 = c.Resolve<SampleClassWithNestedClassDependencyProperty>();
+            var sampleClass1 = c.Resolve<SampleClassWithNestedClassDependencyProperty>(ResolveKind.PartialEmitFunction);
+            var sampleClass2 = c.Resolve<SampleClassWithNestedClassDependencyProperty>(ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass1.SampleClassWithClassDependencyProperty);

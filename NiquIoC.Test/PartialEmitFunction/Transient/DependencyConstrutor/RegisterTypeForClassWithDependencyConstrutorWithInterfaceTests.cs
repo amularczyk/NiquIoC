@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NiquIoC.Enums;
 using NiquIoC.Exceptions;
 using NiquIoC.Test.Model;
 
@@ -14,7 +15,7 @@ namespace NiquIoC.Test.PartialEmitFunction.Transient.DependencyConstrutor
             c.RegisterType<IEmptyClass, EmptyClass>();
             c.RegisterType<SampleClassWithInterfaceAsParameterWithDependencyConstrutor>();
 
-            var sampleClass = c.Resolve<SampleClassWithInterfaceAsParameterWithDependencyConstrutor>();
+            var sampleClass = c.Resolve<SampleClassWithInterfaceAsParameterWithDependencyConstrutor>(ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNotNull(sampleClass.EmptyClass);
@@ -28,7 +29,7 @@ namespace NiquIoC.Test.PartialEmitFunction.Transient.DependencyConstrutor
             c.RegisterType<IEmptyClass, EmptyClass>();
             c.RegisterType<SampleClassWithInterfaceAsParameterWithTwoDependencyConstrutor>();
 
-            var sampleClass = c.Resolve<SampleClassWithInterfaceAsParameterWithTwoDependencyConstrutor>();
+            var sampleClass = c.Resolve<SampleClassWithInterfaceAsParameterWithTwoDependencyConstrutor>(ResolveKind.PartialEmitFunction);
 
             Assert.IsNull(sampleClass);
         }
@@ -41,7 +42,7 @@ namespace NiquIoC.Test.PartialEmitFunction.Transient.DependencyConstrutor
             c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameterWithDependencyConstrutor>();
             c.RegisterType<SampleClassWithNestedInterfaceAsParameterWithDependencyConstrutor>();
 
-            var sampleClass = c.Resolve<SampleClassWithNestedInterfaceAsParameterWithDependencyConstrutor>();
+            var sampleClass = c.Resolve<SampleClassWithNestedInterfaceAsParameterWithDependencyConstrutor>(ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNotNull(sampleClass.SampleClassWithInterfaceAsParameter);

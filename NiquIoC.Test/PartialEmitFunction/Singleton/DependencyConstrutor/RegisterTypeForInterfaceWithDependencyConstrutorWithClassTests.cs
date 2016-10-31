@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NiquIoC.Enums;
 using NiquIoC.Exceptions;
 using NiquIoC.Test.Model;
 
@@ -14,7 +15,7 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.DependencyConstrutor
             c.RegisterType<EmptyClass>().AsSingleton();
             c.RegisterType<ISampleClass, SampleClassWithDependencyConstrutor>().AsSingleton();
 
-            var sampleClass = c.Resolve<ISampleClass>();
+            var sampleClass = c.Resolve<ISampleClass>(ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNotNull(sampleClass.EmptyClass);
@@ -28,7 +29,7 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.DependencyConstrutor
             c.RegisterType<EmptyClass>().AsSingleton();
             c.RegisterType<ISampleClass, SampleClassWithTwoDependencyConstrutor>().AsSingleton();
 
-            var sampleClass = c.Resolve<ISampleClass>();
+            var sampleClass = c.Resolve<ISampleClass>(ResolveKind.PartialEmitFunction);
 
             Assert.IsNull(sampleClass);
         }
@@ -40,7 +41,7 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.DependencyConstrutor
             c.RegisterType<SampleClassWithDependencyConstrutor>().AsSingleton();
             c.RegisterType<ISampleClassWithNestedClass, SampleClassWithNestedClassWithDependencyConstrutor>().AsSingleton();
 
-            var sampleClass = c.Resolve<ISampleClassWithNestedClass>();
+            var sampleClass = c.Resolve<ISampleClassWithNestedClass>(ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNotNull(sampleClass.SampleClassWithDependencyConstrutor);

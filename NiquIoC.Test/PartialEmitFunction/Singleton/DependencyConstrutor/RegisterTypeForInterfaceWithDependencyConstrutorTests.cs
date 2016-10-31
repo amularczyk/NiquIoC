@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NiquIoC.Enums;
 using NiquIoC.Exceptions;
 using NiquIoC.Test.Model;
 
@@ -14,7 +15,7 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.DependencyConstrutor
             c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
             c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameterWithDependencyConstrutor>().AsSingleton();
 
-            var sampleClass = c.Resolve<ISampleClassWithInterfaceAsParameter>();
+            var sampleClass = c.Resolve<ISampleClassWithInterfaceAsParameter>(ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNotNull(sampleClass.EmptyClass);
@@ -28,7 +29,7 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.DependencyConstrutor
             c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
             c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameterWithTwoDependencyConstrutor>().AsSingleton();
 
-            var sampleClass = c.Resolve<ISampleClassWithInterfaceAsParameter>();
+            var sampleClass = c.Resolve<ISampleClassWithInterfaceAsParameter>(ResolveKind.PartialEmitFunction);
 
             Assert.IsNull(sampleClass);
         }
@@ -41,7 +42,7 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.DependencyConstrutor
             c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameterWithDependencyConstrutor>().AsSingleton();
             c.RegisterType<ISampleClassISampleClassWithInterfaceAsParameter, SampleClassWithNestedInterfaceAsParameterWithDependencyConstrutor>().AsSingleton();
 
-            var sampleClass = c.Resolve<ISampleClassISampleClassWithInterfaceAsParameter>();
+            var sampleClass = c.Resolve<ISampleClassISampleClassWithInterfaceAsParameter>(ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNotNull(sampleClass.SampleClassWithInterfaceAsParameter);

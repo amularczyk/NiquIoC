@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NiquIoC.Enums;
 using NiquIoC.Exceptions;
 using NiquIoC.Test.Model;
 
@@ -13,7 +14,7 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
 
-            var sampleClass = c.Resolve<IEmptyClass>();
+            var sampleClass = c.Resolve<IEmptyClass>(ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass);
         }
@@ -25,7 +26,7 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton
             var c = new Container();
             c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsSingleton();
 
-            var sampleClass = c.Resolve<ISampleClassWithInterfaceAsParameter>();
+            var sampleClass = c.Resolve<ISampleClassWithInterfaceAsParameter>(ResolveKind.PartialEmitFunction);
 
             Assert.IsNull(sampleClass);
         }
@@ -37,7 +38,7 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton
             var c = new Container();
             c.RegisterType<ISampleClassWithStringType, SampleClassWithStringType>().AsSingleton();
 
-            var sampleClassWithSimpleType = c.Resolve<ISampleClassWithStringType>();
+            var sampleClassWithSimpleType = c.Resolve<ISampleClassWithStringType>(ResolveKind.PartialEmitFunction);
 
             Assert.IsNull(sampleClassWithSimpleType);
         }
@@ -49,7 +50,7 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton
             var c = new Container();
             c.RegisterType<ISampleClassWithIntType, SampleClassWithIntType>().AsSingleton();
 
-            var sampleClassWithSimpleType = c.Resolve<ISampleClassWithIntType>();
+            var sampleClassWithSimpleType = c.Resolve<ISampleClassWithIntType>(ResolveKind.PartialEmitFunction);
 
             Assert.IsNull(sampleClassWithSimpleType);
         }
@@ -61,7 +62,7 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton
             c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
             c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsSingleton();
 
-            var sampleClass = c.Resolve<ISampleClassWithInterfaceAsParameter>();
+            var sampleClass = c.Resolve<ISampleClassWithInterfaceAsParameter>(ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNotNull(sampleClass.EmptyClass);
@@ -75,7 +76,7 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton
             c.RegisterType<ISecondClassWithCycleInConstructor, SecondClassWithCycleInConstructorInRegisteredType>().AsSingleton();
             c.RegisterType<IFirstClassWithCycleInConstructor, FirstClassWithCycleInConstructorInRegisteredType>().AsSingleton();
 
-            var sampleClass = c.Resolve<IFirstClassWithCycleInConstructor>();
+            var sampleClass = c.Resolve<IFirstClassWithCycleInConstructor>(ResolveKind.PartialEmitFunction);
 
             Assert.IsNull(sampleClass);
         }
@@ -87,8 +88,8 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton
             c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
             c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsSingleton();
 
-            var sampleClass1 = c.Resolve<ISampleClassWithInterfaceAsParameter>();
-            var sampleClass2 = c.Resolve<ISampleClassWithInterfaceAsParameter>();
+            var sampleClass1 = c.Resolve<ISampleClassWithInterfaceAsParameter>(ResolveKind.PartialEmitFunction);
+            var sampleClass2 = c.Resolve<ISampleClassWithInterfaceAsParameter>(ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass1);
             Assert.IsNotNull(sampleClass1.EmptyClass);

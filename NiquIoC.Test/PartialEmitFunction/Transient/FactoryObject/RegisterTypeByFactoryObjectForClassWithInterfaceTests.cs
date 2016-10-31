@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NiquIoC.Enums;
 using NiquIoC.Test.Model;
 
 namespace NiquIoC.Test.PartialEmitFunction.Transient.FactoryObject
@@ -13,8 +14,8 @@ namespace NiquIoC.Test.PartialEmitFunction.Transient.FactoryObject
             IEmptyClass emptyClass = new EmptyClass();
             c.RegisterType<SampleClassWithInterfaceAsParameter>(() => new SampleClassWithInterfaceAsParameter(emptyClass));
 
-            var sampleClass1 = c.Resolve<SampleClassWithInterfaceAsParameter>();
-            var sampleClass2 = c.Resolve<SampleClassWithInterfaceAsParameter>();
+            var sampleClass1 = c.Resolve<SampleClassWithInterfaceAsParameter>(ResolveKind.PartialEmitFunction);
+            var sampleClass2 = c.Resolve<SampleClassWithInterfaceAsParameter>(ResolveKind.PartialEmitFunction);
 
             Assert.AreNotEqual(sampleClass1, sampleClass2);
             Assert.AreEqual(emptyClass, sampleClass1.EmptyClass);
@@ -29,8 +30,8 @@ namespace NiquIoC.Test.PartialEmitFunction.Transient.FactoryObject
             var sampleClass = new SampleClassWithInterfaceAsParameter(emptyClass);
             c.RegisterType<SampleClassWithInterfaceAsParameter>(() => sampleClass);
 
-            var sampleClass1 = c.Resolve<SampleClassWithInterfaceAsParameter>();
-            var sampleClass2 = c.Resolve<SampleClassWithInterfaceAsParameter>();
+            var sampleClass1 = c.Resolve<SampleClassWithInterfaceAsParameter>(ResolveKind.PartialEmitFunction);
+            var sampleClass2 = c.Resolve<SampleClassWithInterfaceAsParameter>(ResolveKind.PartialEmitFunction);
 
             Assert.AreEqual(sampleClass1, sampleClass2);
             Assert.AreEqual(emptyClass, sampleClass1.EmptyClass);
@@ -44,8 +45,8 @@ namespace NiquIoC.Test.PartialEmitFunction.Transient.FactoryObject
             c.RegisterType<IEmptyClass>(() => new EmptyClass());
             c.RegisterType<SampleClassWithInterfaceAsParameter>();
 
-            var sampleClass1 = c.Resolve<SampleClassWithInterfaceAsParameter>();
-            var sampleClass2 = c.Resolve<SampleClassWithInterfaceAsParameter>();
+            var sampleClass1 = c.Resolve<SampleClassWithInterfaceAsParameter>(ResolveKind.PartialEmitFunction);
+            var sampleClass2 = c.Resolve<SampleClassWithInterfaceAsParameter>(ResolveKind.PartialEmitFunction);
 
             Assert.AreNotEqual(sampleClass1, sampleClass2);
             Assert.AreNotEqual(sampleClass1.EmptyClass, sampleClass2.EmptyClass);
@@ -59,8 +60,8 @@ namespace NiquIoC.Test.PartialEmitFunction.Transient.FactoryObject
             c.RegisterType<IEmptyClass>(() => emptyClass);
             c.RegisterType<SampleClassWithInterfaceAsParameter>();
 
-            var sampleClass1 = c.Resolve<SampleClassWithInterfaceAsParameter>();
-            var sampleClass2 = c.Resolve<SampleClassWithInterfaceAsParameter>();
+            var sampleClass1 = c.Resolve<SampleClassWithInterfaceAsParameter>(ResolveKind.PartialEmitFunction);
+            var sampleClass2 = c.Resolve<SampleClassWithInterfaceAsParameter>(ResolveKind.PartialEmitFunction);
 
             Assert.AreNotEqual(sampleClass1, sampleClass2);
             Assert.AreEqual(sampleClass1.EmptyClass, sampleClass2.EmptyClass);

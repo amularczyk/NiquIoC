@@ -40,6 +40,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FullEmitFunction\RegisterTypeForClassTests.cs" />
     <Compile Include="PartialEmitFunction\RegisterTypeForClassTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

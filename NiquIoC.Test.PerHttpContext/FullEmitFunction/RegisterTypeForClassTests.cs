@@ -7,7 +7,7 @@ using NiquIoC.Exceptions;
 using NiquIoC.Test.Model;
 using NiquIoC.Test.WebApplication.Controllers;
 
-namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction
+namespace NiquIoC.Test.PerHttpContext.FullEmitFunction
 {
     [TestClass]
     public class RegisterTypeForClassTests
@@ -21,7 +21,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction
 
             var controller = new DefaultController();
             HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
-            var result = controller.ResolveObject<EmptyClass>(c, ResolveKind.PartialEmitFunction);
+            var result = controller.ResolveObject<EmptyClass>(c, ResolveKind.FullEmitFunction);
             var emptyClass = (EmptyClass)((ViewResult)result).Model;
 
 

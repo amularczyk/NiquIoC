@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NiquIoC.Enums;
 using NiquIoC.Test.Model;
 
 namespace NiquIoC.Test.PartialEmitFunction.Singleton
@@ -13,7 +14,7 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton
             c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
             c.RegisterType<IGenericClass<IEmptyClass>, GenericClass<IEmptyClass>>().AsSingleton();
 
-            var genericClass = c.Resolve<IGenericClass<IEmptyClass>>();
+            var genericClass = c.Resolve<IGenericClass<IEmptyClass>>(ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(genericClass);
             Assert.IsNotNull(genericClass.NestedClass);
@@ -27,7 +28,7 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton
             c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsSingleton();
             c.RegisterType<IGenericClass<ISampleClassWithInterfaceAsParameter>, GenericClass<ISampleClassWithInterfaceAsParameter>>().AsSingleton();
 
-            var genericClass = c.Resolve<IGenericClass<ISampleClassWithInterfaceAsParameter>>();
+            var genericClass = c.Resolve<IGenericClass<ISampleClassWithInterfaceAsParameter>>(ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(genericClass);
             Assert.IsNotNull(genericClass.NestedClass);
@@ -43,7 +44,7 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton
             c.RegisterType<IGenericClassWithManyParameters<IEmptyClass, ISampleClassWithInterfaceAsParameter>,
                 GenericClassWithManyParameters<IEmptyClass, ISampleClassWithInterfaceAsParameter>>().AsSingleton();
 
-            var genericClass = c.Resolve<IGenericClassWithManyParameters<IEmptyClass, ISampleClassWithInterfaceAsParameter>>();
+            var genericClass = c.Resolve<IGenericClassWithManyParameters<IEmptyClass, ISampleClassWithInterfaceAsParameter>>(ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(genericClass);
             Assert.IsNotNull(genericClass.NestedClass1);
@@ -61,8 +62,8 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton
             c.RegisterType<IGenericClass<IEmptyClass>, GenericClass<IEmptyClass>>().AsSingleton();
             c.RegisterType<IGenericClass<ISampleClassWithInterfaceAsParameter>, GenericClass<ISampleClassWithInterfaceAsParameter>>().AsSingleton();
 
-            var genericClass1 = c.Resolve<IGenericClass<IEmptyClass>>();
-            var genericClass2 = c.Resolve<IGenericClass<ISampleClassWithInterfaceAsParameter>>();
+            var genericClass1 = c.Resolve<IGenericClass<IEmptyClass>>(ResolveKind.PartialEmitFunction);
+            var genericClass2 = c.Resolve<IGenericClass<ISampleClassWithInterfaceAsParameter>>(ResolveKind.PartialEmitFunction);
 
             Assert.AreNotEqual(genericClass1, genericClass2);
             Assert.AreNotEqual(genericClass1.GetType(), genericClass2.GetType());

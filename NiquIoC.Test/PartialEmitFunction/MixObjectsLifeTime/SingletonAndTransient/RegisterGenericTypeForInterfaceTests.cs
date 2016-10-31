@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NiquIoC.Enums;
 using NiquIoC.Test.Model;
 
 namespace NiquIoC.Test.PartialEmitFunction.MixObjectsLifeTime.SingletonAndTransient
@@ -15,7 +16,7 @@ namespace NiquIoC.Test.PartialEmitFunction.MixObjectsLifeTime.SingletonAndTransi
             c.RegisterType<ISampleClassOtherWithInterfaceAsParameter, SampleClassOtherWithInterfaceAsParameter>();
             c.RegisterType<IGenericClassWithManyParameters<ISampleClassWithInterfaceAsParameter, ISampleClassOtherWithInterfaceAsParameter>, GenericClassWithManyParameters<ISampleClassWithInterfaceAsParameter, ISampleClassOtherWithInterfaceAsParameter>>();
 
-            var genericClass = c.Resolve<IGenericClassWithManyParameters<ISampleClassWithInterfaceAsParameter, ISampleClassOtherWithInterfaceAsParameter>>();
+            var genericClass = c.Resolve<IGenericClassWithManyParameters<ISampleClassWithInterfaceAsParameter, ISampleClassOtherWithInterfaceAsParameter>>(ResolveKind.PartialEmitFunction);
 
             Assert.AreNotEqual(genericClass.NestedClass1, genericClass.NestedClass2);
             Assert.AreEqual(genericClass.NestedClass1.EmptyClass, genericClass.NestedClass2.EmptyClass);
@@ -31,8 +32,8 @@ namespace NiquIoC.Test.PartialEmitFunction.MixObjectsLifeTime.SingletonAndTransi
             c.RegisterType<IGenericClass<ISampleClassWithInterfaceAsParameter>, GenericClass<ISampleClassWithInterfaceAsParameter>>();
             c.RegisterType<IGenericClass<ISampleClassOtherWithInterfaceAsParameter>, GenericClass<ISampleClassOtherWithInterfaceAsParameter>>();
 
-            var genericClass1 = c.Resolve<IGenericClass<ISampleClassWithInterfaceAsParameter>>();
-            var genericClass2 = c.Resolve<IGenericClass<ISampleClassOtherWithInterfaceAsParameter>>();
+            var genericClass1 = c.Resolve<IGenericClass<ISampleClassWithInterfaceAsParameter>>(ResolveKind.PartialEmitFunction);
+            var genericClass2 = c.Resolve<IGenericClass<ISampleClassOtherWithInterfaceAsParameter>>(ResolveKind.PartialEmitFunction);
             
             Assert.AreNotEqual(genericClass1, genericClass2);
             Assert.AreNotEqual(genericClass1.GetType(), genericClass2.GetType());

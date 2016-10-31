@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NiquIoC.Enums;
 using NiquIoC.Test.Model;
 
 namespace NiquIoC.Test.PartialEmitFunction.Transient.ReRegister
@@ -11,12 +12,12 @@ namespace NiquIoC.Test.PartialEmitFunction.Transient.ReRegister
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
-            var emptyClass1 = c.Resolve<EmptyClass>();
-            var emptyClass2 = c.Resolve<EmptyClass>();
+            var emptyClass1 = c.Resolve<EmptyClass>(ResolveKind.PartialEmitFunction);
+            var emptyClass2 = c.Resolve<EmptyClass>(ResolveKind.PartialEmitFunction);
 
             c.RegisterType<EmptyClass>();
-            var emptyClass3 = c.Resolve<EmptyClass>();
-            var emptyClass4 = c.Resolve<EmptyClass>();
+            var emptyClass3 = c.Resolve<EmptyClass>(ResolveKind.PartialEmitFunction);
+            var emptyClass4 = c.Resolve<EmptyClass>(ResolveKind.PartialEmitFunction);
 
             Assert.AreNotEqual(emptyClass1, emptyClass2);
             Assert.AreNotEqual(emptyClass3, emptyClass4);
@@ -29,13 +30,13 @@ namespace NiquIoC.Test.PartialEmitFunction.Transient.ReRegister
             var c = new Container();
             var instanceOfEmptyClass1 = new EmptyClass();
             c.RegisterInstance(instanceOfEmptyClass1);
-            var emptyClass1 = c.Resolve<EmptyClass>();
-            var emptyClass2 = c.Resolve<EmptyClass>();
+            var emptyClass1 = c.Resolve<EmptyClass>(ResolveKind.PartialEmitFunction);
+            var emptyClass2 = c.Resolve<EmptyClass>(ResolveKind.PartialEmitFunction);
 
             var instanceOfEmptyClass2 = new EmptyClass();
             c.RegisterInstance(instanceOfEmptyClass2);
-            var emptyClass3 = c.Resolve<EmptyClass>();
-            var emptyClass4 = c.Resolve<EmptyClass>();
+            var emptyClass3 = c.Resolve<EmptyClass>(ResolveKind.PartialEmitFunction);
+            var emptyClass4 = c.Resolve<EmptyClass>(ResolveKind.PartialEmitFunction);
 
             Assert.AreEqual(instanceOfEmptyClass1, emptyClass1);
             Assert.AreEqual(emptyClass1, emptyClass2);
@@ -51,12 +52,12 @@ namespace NiquIoC.Test.PartialEmitFunction.Transient.ReRegister
             var c = new Container();
             var instanceOfEmptyClass = new EmptyClass();
             c.RegisterType<EmptyClass>(() => instanceOfEmptyClass);
-            var emptyClass1 = c.Resolve<EmptyClass>();
-            var emptyClass2 = c.Resolve<EmptyClass>();
+            var emptyClass1 = c.Resolve<EmptyClass>(ResolveKind.PartialEmitFunction);
+            var emptyClass2 = c.Resolve<EmptyClass>(ResolveKind.PartialEmitFunction);
 
             c.RegisterType<EmptyClass>(() => new EmptyClass());
-            var emptyClass3 = c.Resolve<EmptyClass>();
-            var emptyClass4 = c.Resolve<EmptyClass>();
+            var emptyClass3 = c.Resolve<EmptyClass>(ResolveKind.PartialEmitFunction);
+            var emptyClass4 = c.Resolve<EmptyClass>(ResolveKind.PartialEmitFunction);
 
             Assert.AreEqual(instanceOfEmptyClass, emptyClass1);
             Assert.AreEqual(emptyClass1, emptyClass2);
@@ -71,12 +72,12 @@ namespace NiquIoC.Test.PartialEmitFunction.Transient.ReRegister
             var c = new Container();
             var emptyClass = new EmptyClass();
             c.RegisterInstance(emptyClass);
-            var emptyClass1 = c.Resolve<EmptyClass>();
-            var emptyClass2 = c.Resolve<EmptyClass>();
+            var emptyClass1 = c.Resolve<EmptyClass>(ResolveKind.PartialEmitFunction);
+            var emptyClass2 = c.Resolve<EmptyClass>(ResolveKind.PartialEmitFunction);
 
             c.RegisterType<EmptyClass>(() => new EmptyClass());
-            var emptyClass3 = c.Resolve<EmptyClass>();
-            var emptyClass4 = c.Resolve<EmptyClass>();
+            var emptyClass3 = c.Resolve<EmptyClass>(ResolveKind.PartialEmitFunction);
+            var emptyClass4 = c.Resolve<EmptyClass>(ResolveKind.PartialEmitFunction);
 
             Assert.AreEqual(emptyClass, emptyClass1);
             Assert.AreEqual(emptyClass1, emptyClass2);
@@ -90,13 +91,13 @@ namespace NiquIoC.Test.PartialEmitFunction.Transient.ReRegister
         {
             var c = new Container();
             c.RegisterType<EmptyClass>(() => new EmptyClass());
-            var emptyClass1 = c.Resolve<EmptyClass>();
-            var emptyClass2 = c.Resolve<EmptyClass>();
+            var emptyClass1 = c.Resolve<EmptyClass>(ResolveKind.PartialEmitFunction);
+            var emptyClass2 = c.Resolve<EmptyClass>(ResolveKind.PartialEmitFunction);
 
             var emptyClass = new EmptyClass();
             c.RegisterInstance(emptyClass);
-            var emptyClass3 = c.Resolve<EmptyClass>();
-            var emptyClass4 = c.Resolve<EmptyClass>();
+            var emptyClass3 = c.Resolve<EmptyClass>(ResolveKind.PartialEmitFunction);
+            var emptyClass4 = c.Resolve<EmptyClass>(ResolveKind.PartialEmitFunction);
 
             Assert.AreNotEqual(emptyClass1, emptyClass2);
             Assert.AreEqual(emptyClass, emptyClass3);
@@ -110,12 +111,12 @@ namespace NiquIoC.Test.PartialEmitFunction.Transient.ReRegister
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
-            var emptyClass1 = c.Resolve<EmptyClass>();
-            var emptyClass2 = c.Resolve<EmptyClass>();
+            var emptyClass1 = c.Resolve<EmptyClass>(ResolveKind.PartialEmitFunction);
+            var emptyClass2 = c.Resolve<EmptyClass>(ResolveKind.PartialEmitFunction);
 
             c.RegisterType<EmptyClass>(() => new EmptyClass());
-            var emptyClass3 = c.Resolve<EmptyClass>();
-            var emptyClass4 = c.Resolve<EmptyClass>();
+            var emptyClass3 = c.Resolve<EmptyClass>(ResolveKind.PartialEmitFunction);
+            var emptyClass4 = c.Resolve<EmptyClass>(ResolveKind.PartialEmitFunction);
 
             Assert.AreNotEqual(emptyClass1, emptyClass2);
             Assert.AreNotEqual(emptyClass3, emptyClass4);
@@ -130,13 +131,13 @@ namespace NiquIoC.Test.PartialEmitFunction.Transient.ReRegister
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
-            var emptyClass1 = c.Resolve<EmptyClass>();
-            var emptyClass2 = c.Resolve<EmptyClass>();
+            var emptyClass1 = c.Resolve<EmptyClass>(ResolveKind.PartialEmitFunction);
+            var emptyClass2 = c.Resolve<EmptyClass>(ResolveKind.PartialEmitFunction);
 
             var emptyClass = new EmptyClass();
             c.RegisterInstance(emptyClass);
-            var emptyClass3 = c.Resolve<EmptyClass>();
-            var emptyClass4 = c.Resolve<EmptyClass>();
+            var emptyClass3 = c.Resolve<EmptyClass>(ResolveKind.PartialEmitFunction);
+            var emptyClass4 = c.Resolve<EmptyClass>(ResolveKind.PartialEmitFunction);
 
             Assert.AreNotEqual(emptyClass1, emptyClass2);
             Assert.AreEqual(emptyClass, emptyClass3);

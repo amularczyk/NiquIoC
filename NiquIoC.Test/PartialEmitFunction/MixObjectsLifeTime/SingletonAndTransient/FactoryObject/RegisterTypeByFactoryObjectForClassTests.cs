@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NiquIoC.Enums;
 using NiquIoC.Test.Model;
 
 namespace NiquIoC.Test.PartialEmitFunction.MixObjectsLifeTime.SingletonAndTransient.FactoryObject
@@ -13,8 +14,8 @@ namespace NiquIoC.Test.PartialEmitFunction.MixObjectsLifeTime.SingletonAndTransi
             c.RegisterType<EmptyClass>(() => new EmptyClass()).AsSingleton();
             c.RegisterType<SampleClass>();
 
-            var sampleClass1 = c.Resolve<SampleClass>();
-            var sampleClass2 = c.Resolve<SampleClass>();
+            var sampleClass1 = c.Resolve<SampleClass>(ResolveKind.PartialEmitFunction);
+            var sampleClass2 = c.Resolve<SampleClass>(ResolveKind.PartialEmitFunction);
 
             Assert.AreNotEqual(sampleClass1, sampleClass2);
             Assert.AreEqual(sampleClass1.EmptyClass, sampleClass2.EmptyClass);
@@ -28,8 +29,8 @@ namespace NiquIoC.Test.PartialEmitFunction.MixObjectsLifeTime.SingletonAndTransi
             c.RegisterType<EmptyClass>(() => emptyClass).AsSingleton();
             c.RegisterType<SampleClass>();
 
-            var sampleClass1 = c.Resolve<SampleClass>();
-            var sampleClass2 = c.Resolve<SampleClass>();
+            var sampleClass1 = c.Resolve<SampleClass>(ResolveKind.PartialEmitFunction);
+            var sampleClass2 = c.Resolve<SampleClass>(ResolveKind.PartialEmitFunction);
 
             Assert.AreNotEqual(sampleClass1, sampleClass2);
             Assert.AreEqual(sampleClass1.EmptyClass, sampleClass2.EmptyClass);
@@ -41,8 +42,8 @@ namespace NiquIoC.Test.PartialEmitFunction.MixObjectsLifeTime.SingletonAndTransi
             c.RegisterType<EmptyClass>(() => new EmptyClass());
             c.RegisterType<SampleClass>().AsSingleton();
 
-            var sampleClass1 = c.Resolve<SampleClass>();
-            var sampleClass2 = c.Resolve<SampleClass>();
+            var sampleClass1 = c.Resolve<SampleClass>(ResolveKind.PartialEmitFunction);
+            var sampleClass2 = c.Resolve<SampleClass>(ResolveKind.PartialEmitFunction);
 
             Assert.AreEqual(sampleClass1, sampleClass2);
             Assert.AreEqual(sampleClass1.EmptyClass, sampleClass2.EmptyClass);
@@ -56,8 +57,8 @@ namespace NiquIoC.Test.PartialEmitFunction.MixObjectsLifeTime.SingletonAndTransi
             c.RegisterType<EmptyClass>(() => emptyClass);
             c.RegisterType<SampleClass>().AsSingleton();
 
-            var sampleClass1 = c.Resolve<SampleClass>();
-            var sampleClass2 = c.Resolve<SampleClass>();
+            var sampleClass1 = c.Resolve<SampleClass>(ResolveKind.PartialEmitFunction);
+            var sampleClass2 = c.Resolve<SampleClass>(ResolveKind.PartialEmitFunction);
 
             Assert.AreEqual(sampleClass1, sampleClass2);
             Assert.AreEqual(sampleClass1.EmptyClass, sampleClass2.EmptyClass);
