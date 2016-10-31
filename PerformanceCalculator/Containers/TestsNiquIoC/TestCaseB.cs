@@ -1,4 +1,5 @@
 ﻿using NiquIoC;
+using NiquIoC.Enums;
 using PerformanceCalculator.Interfaces;
 using PerformanceCalculator.TestCases;
 
@@ -140,7 +141,7 @@ namespace PerformanceCalculator.Containers.TestsNiquIoC
 
             for (var i = 0; i < testCasesNumber; i++)
             {
-                c.Resolve<ITestB>();
+                c.Resolve<ITestB>(ResolveKind.PartialEmitFunction);
             }
         }
     }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NiquIoC;
+using NiquIoC.Enums;
 using PerformanceCalculator.Containers.TestsNiquIoC;
 using PerformanceCalculator.Interfaces;
 using PerformanceCalculator.TestCases;
@@ -17,8 +18,8 @@ namespace PerformanceCalculator.Tests.Containers.TestsNiquIoC
             var c = new Container();
             c = (Container)testCase.SingletonRegister(c);
 
-            var obj1 = c.Resolve<ITestC>();
-            var obj2 = c.Resolve<ITestC>();
+            var obj1 = c.Resolve<ITestC>(ResolveKind.PartialEmitFunction);
+            var obj2 = c.Resolve<ITestC>(ResolveKind.PartialEmitFunction);
 
             Assert.AreEqual(obj1, obj2);
             Helper.Check(obj1, true);
@@ -33,8 +34,8 @@ namespace PerformanceCalculator.Tests.Containers.TestsNiquIoC
             var c = new Container();
             c = (Container)testCase.TransientRegister(c);
 
-            var obj1 = c.Resolve<ITestC>();
-            var obj2 = c.Resolve<ITestC>();
+            var obj1 = c.Resolve<ITestC>(ResolveKind.PartialEmitFunction);
+            var obj2 = c.Resolve<ITestC>(ResolveKind.PartialEmitFunction);
 
             Assert.AreNotEqual(obj1, obj2);
             Helper.Check(obj1, false);
