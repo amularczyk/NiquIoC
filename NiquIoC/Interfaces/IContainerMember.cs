@@ -10,6 +10,8 @@ namespace NiquIoC.Interfaces
 
         void AsPerThread();
 
+        void AsPerHttpContext();
+
         void AsCustomObjectLifetimeManager(IObjectLifetimeManager objectLifetimeManager);
 
         Type RegisteredType { get; }

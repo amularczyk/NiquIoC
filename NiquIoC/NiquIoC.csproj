@@ -37,11 +37,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\DependencyConstrutor.cs" />
@@ -61,6 +57,7 @@
     <Compile Include="Interfaces\IContainerMember.cs" />
     <Compile Include="Interfaces\IObjectLifetimeManager.cs" />
     <Compile Include="Interfaces\IResolve.cs" />
+    <Compile Include="ObjectLifetimeManagers\HttpContextObjectLifetimeManager.cs" />
     <Compile Include="ObjectLifetimeManagers\ThreadObjectLifetimeManager.cs" />
     <Compile Include="Resolve\FullEmitFunctionResolve.cs" />
     <Compile Include="Resolve\PartialEmitFunctionResolve.cs" />

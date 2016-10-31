@@ -32,6 +32,11 @@ namespace NiquIoC
             AsCustomObjectLifetimeManager(new ThreadObjectLifetimeManager());
         }
 
+        public void AsPerHttpContext()
+        {
+            AsCustomObjectLifetimeManager(new HttpContextObjectLifetimeManager());
+        }
+
         public void AsCustomObjectLifetimeManager(IObjectLifetimeManager objectLifetimeManager)
         {
             if (!ShouldCreateCache && objectLifetimeManager.ObjectFactory == null)
