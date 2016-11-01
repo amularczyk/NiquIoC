@@ -40,7 +40,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FullEmitFunction\RegisterGenericTypeForClassTests.cs" />
+    <Compile Include="FullEmitFunction\RegisterGenericTypeForInterfaceTests.cs" />
     <Compile Include="FullEmitFunction\RegisterTypeForClassTests.cs" />
+    <Compile Include="PartialEmitFunction\RegisterGenericTypeForClassTests.cs" />
+    <Compile Include="PartialEmitFunction\RegisterGenericTypeForInterfaceTests.cs" />
     <Compile Include="PartialEmitFunction\RegisterTypeForClassTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
