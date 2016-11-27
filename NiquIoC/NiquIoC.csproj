@@ -47,6 +47,7 @@
     <Compile Include="ContainerMember.cs" />
     <Compile Include="Enums\ResolveKind.cs" />
     <Compile Include="Exceptions\ResolveKindMissingException.cs" />
+    <Compile Include="Exceptions\HttpContextNoSetException.cs" />
     <Compile Include="Exceptions\WrongInterfaceRegistrationException.cs" />
     <Compile Include="Extensions\DictionaryExtension.cs" />
     <Compile Include="Helpers\EmitHelper.cs" />

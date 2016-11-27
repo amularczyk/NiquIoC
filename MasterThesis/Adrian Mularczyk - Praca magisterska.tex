@@ -1,0 +1,104 @@
+\documentclass[12pt]{article}
+\usepackage[left=3.5cm,right=2cm,top=2.5cm,bottom=2.5cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{tgpagella}
+\usepackage{enumerate}
+\usepackage{url}
+\usepackage{multirow}
+\usepackage{longtable}
+\usepackage{polski}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{ltablex,booktabs}
+\usepackage{amssymb}
+\usepackage{rotating}
+\usepackage{subfigure}
+\usepackage{float}
+\usepackage{tabu}
+\usepackage{caption}
+\usepackage{footnote}
+\usepackage{xspace}
+\usepackage{mathpazo}
+\usepackage[table]{xcolor}
+\usepackage[justification=centering]{caption}
+
+\pagestyle{empty}
+
+\title{\LARGE{Uniwersytet Wrocławski}\\
+\Large{Wydział Matematyki i Informatyki}\\
+\large{Kierunek: Informatyka}}
+
+\date{}
+
+\begin{document}
+\pagestyle{empty}
+
+\begin{titlepage}
+\maketitle
+\thispagestyle{empty}
+
+
+\begin{center}
+\author{\LARGE{Adrian Mularczyk}}
+\vspace{30pt}
+
+\huge{\textbf{Stworzenie wydajnego wzorca wstrzykiwania zależności dla złożonych grafów zależności}}
+\vspace{50pt}
+\end{center}
+
+\begin{flushright}
+\large{Praca wykonana pod kierunkiem}
+\large{dr. Wiktora Zychli}
+\end{flushright}
+
+\vfill
+\begin{center}
+\begin{large}
+Wrocław, 2016
+\end{large}
+\end{center}
+\end{titlepage}
+
+\setlength{\parindent}{0pt}	%usunięcie wcięć
+\setlength{\parskip}{1.5ex} 
+\renewcommand*{\figurename}{Rys.}
+\renewcommand*{\tablename}{Tab.} 
+\renewcommand{\captionsize}{\small}
+
+\clearpage
+
+\tableofcontents
+
+\clearpage
+
+\section{Wstęp}
+\subsection{Cel pracy}
+Wstrzykiwanie zależnośc jest wzorcem projektowym, który pozwala na tworzenie kodu o luźniejszych powiązaniach, łatwiejszego w testowaniu i modyfikacji. Najbardziej popularnymi implementacjami tego wzorca w języku C\# są Autofac, StructureMap, Unity i Windsor, a najbardziej wydajnymi DryIoc, LightInject i SimplyInjector. Celem niniejszej pracy magisterskiej jest stworzenie wydajnej implementacji tego wzorca dla złożonych grafów zależności. Do tego celu zostanie wykorzystana funkcjolanosci z przestrzeni nazw Reflection.Emit. W tej pracy zostaną przedstawione dwa rozwiązania.
+
+\clearpage
+
+\section{Wstrzykiwanie zależnosci}
+<Przytoczyć jakis opis z książki o wzoracach projektowych>
+
+\section{Implementacja}
+<Wyjaśnić jak działa Reflection.Emit i do czego zostanie użyte>
+
+\subsection{Rozwiązanie 1}
+<opis PartialEmitFunction>
+
+\subsection{Rozwiązanie 2}
+<opis FullEmitFunction>
+
+\section{Testy wydajnościowe}
+<wyniki testów i ich opis>
+
+\section{Podsumowanie}
+<parę słów na koniec>
+
+\end{document}

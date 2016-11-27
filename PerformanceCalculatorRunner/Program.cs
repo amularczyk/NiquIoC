@@ -7,8 +7,18 @@ using PerformanceCalculator.Common;
 
 namespace PerformanceCalculatorRunner
 {
+    internal enum WriteKind
+    {
+        Both = 0,
+        Register = 1,
+        Resolve = 2
+    }
+
     internal class Program
     {
+        private static readonly string _processPath = @"C:\study\NiquIoC\PerformanceCalculator\bin\Release\PerformanceCalculator.exe";
+        private static readonly string _resultFile = $"PerformanceCalculator_{DateTime.Now.ToString("yyyy_MM_dd_HH_mm")}.csv";
+
         private static void Main()
         {
             var repetitionsNumber = 1;
@@ -26,10 +36,10 @@ namespace PerformanceCalculatorRunner
                 { ContainerName.Windsor, ConvertToListFinalTestResult(RunWindsorPeformanceTests(repetitionsNumber)) }
             };
 
-            WriteToFile(results);
+            WriteToFile(results, WriteKind.Resolve);
         }
 
-        private static void WriteToFile(Dictionary<string, List<FinalTestResult>> results)
+        private static void WriteToFile(Dictionary<string, List<FinalTestResult>> results, WriteKind writeKind)
         {
             var header = new StringBuilder();
             var header2 = new StringBuilder();
@@ -71,25 +81,41 @@ namespace PerformanceCalculatorRunner
 
             foreach (var result in results)
             {
-                header.Append($"{result.Key} Register;{result.Key} Register;{result.Key} Register;{result.Key} Resolve;{result.Key} Resolve;{result.Key} Resolve;");
-                header2.Append("Min;Max;Avg;Min;Max;Avg;");
+                switch (writeKind)
+                {
+                    case WriteKind.Both:
+                        header.Append($"{result.Key} Register;{result.Key} Register;{result.Key} Register;" +
+                            $"{result.Key} Resolve;{result.Key} Resolve;{result.Key} Resolve;");
+                        header2.Append("Min;Max;Avg;Min;Max;Avg;");
+                        break;
 
-                body1.Append(ReturnStringResult(result, 0));
-                body2.Append(ReturnStringResult(result, 1));
-                body3.Append(ReturnStringResult(result, 2));
-                body4.Append(ReturnStringResult(result, 3));
-                body5.Append(ReturnStringResult(result, 4));
-                body6.Append(ReturnStringResult(result, 5));
-                body7.Append(ReturnStringResult(result, 6));
-                body8.Append(ReturnStringResult(result, 7));
-                body9.Append(ReturnStringResult(result, 8));
-                body10.Append(ReturnStringResult(result, 9));
-                body11.Append(ReturnStringResult(result, 10));
-                body12.Append(ReturnStringResult(result, 11));
-                body13.Append(ReturnStringResult(result, 12));
+                    case WriteKind.Register:
+                        header.Append($"{result.Key} Register;{result.Key} Register;{result.Key} Register;");
+                        header2.Append("Min;Max;Avg;");
+                        break;
+
+                    case WriteKind.Resolve:
+                        header.Append($"{result.Key} Resolve;{result.Key} Resolve;{result.Key} Resolve;");
+                        header2.Append("Min;Max;Avg;");
+                        break;
+                }
+
+                body1.Append(ReturnStringResult(result, 0, writeKind));
+                body2.Append(ReturnStringResult(result, 1, writeKind));
+                body3.Append(ReturnStringResult(result, 2, writeKind));
+                body4.Append(ReturnStringResult(result, 3, writeKind));
+                body5.Append(ReturnStringResult(result, 4, writeKind));
+                body6.Append(ReturnStringResult(result, 5, writeKind));
+                body7.Append(ReturnStringResult(result, 6, writeKind));
+                body8.Append(ReturnStringResult(result, 7, writeKind));
+                body9.Append(ReturnStringResult(result, 8, writeKind));
+                body10.Append(ReturnStringResult(result, 9, writeKind));
+                body11.Append(ReturnStringResult(result, 10, writeKind));
+                body12.Append(ReturnStringResult(result, 11, writeKind));
+                body13.Append(ReturnStringResult(result, 12, writeKind));
             }
 
-            using (var file = new StreamWriter($"PerformanceCalculator_{DateTime.Now.ToString("yyyy_MM_dd_hh_mm")}.csv"))
+            using (var file = new StreamWriter(_resultFile))
             {
                 file.WriteLine(header);
                 file.WriteLine(header2);
@@ -109,12 +135,25 @@ namespace PerformanceCalculatorRunner
             }
         }
 
-        private static string ReturnStringResult(KeyValuePair<string, List<FinalTestResult>> result, int index)
+        private static string ReturnStringResult(KeyValuePair<string, List<FinalTestResult>> result, int index, WriteKind writeKind)
         {
-            return
-                $"{result.Value[index].MinRegisterTime};{result.Value[index].MaxRegisterTime};{result.Value[index].AvgRegisterTime};{result.Value[index].MinResolveTime};{result.Value[index].MaxResolveTime};{result.Value[index].AvgResolveTime};";
+            switch (writeKind)
+            {
+                case WriteKind.Both:
+                    return $"{result.Value[index].MinRegisterTime};{result.Value[index].MaxRegisterTime};{result.Value[index].AvgRegisterTime};" +
+                           $"{result.Value[index].MinResolveTime};{result.Value[index].MaxResolveTime};{result.Value[index].AvgResolveTime};";
+
+                case WriteKind.Register:
+                    return $"{result.Value[index].MinRegisterTime};{result.Value[index].MaxRegisterTime};{result.Value[index].AvgRegisterTime};";
+
+                case WriteKind.Resolve:
+                    return $"{result.Value[index].MinResolveTime};{result.Value[index].MaxResolveTime};{result.Value[index].AvgResolveTime};";
+            }
+
+            throw new InvalidOperationException();
         }
 
+        #region RunPerformanceTests
         private static List<List<TestResult>> RunAutofacPeformanceTests(int repetitionsNumber)
         {
             Console.WriteLine("Autofac - Start");
@@ -550,7 +589,7 @@ namespace PerformanceCalculatorRunner
         private static string RunPerformanceTests(string containerName, bool singleton, int testsCount, string testCase)
         {
             var registerKind = singleton ? "s" : "t";
-            return ProcessHelper.StartProcess(@"C:\study\NiquIoC\PerformanceCalculator\bin\Debug\PerformanceCalculator.exe", $"{containerName} -r {registerKind} -c {testsCount} -t {testCase}");
+            return ProcessHelper.StartProcess(_processPath, $"{containerName} -r {registerKind} -c {testsCount} -t {testCase}");
         }
 
         private static TestResult ConvertToTestResult(string result)
@@ -588,5 +627,6 @@ namespace PerformanceCalculatorRunner
 
             return finalTestResults;
         }
+        #endregion
     }
 }

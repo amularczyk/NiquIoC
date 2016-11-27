@@ -12,8 +12,8 @@ namespace NiquIoC.Test.FullEmitFunction.Singleton.DependencyConstrutor
         public void RegisterClassWithConstructorWithAttributeDependencyConstrutor_Success()
         {
             var c = new Container();
-            c.RegisterType<EmptyClass>();
-            c.RegisterType<SampleClassWithDependencyConstrutor>();
+            c.RegisterType<EmptyClass>().AsSingleton();
+            c.RegisterType<SampleClassWithDependencyConstrutor>().AsSingleton();
 
             var sampleClass = c.Resolve<SampleClassWithDependencyConstrutor>(ResolveKind.FullEmitFunction);
 
@@ -26,8 +26,8 @@ namespace NiquIoC.Test.FullEmitFunction.Singleton.DependencyConstrutor
         public void RegisterClassWithTwoConstructorsWithAttributeDependencyConstrutor_Fail()
         {
             var c = new Container();
-            c.RegisterType<EmptyClass>();
-            c.RegisterType<SampleClassWithTwoDependencyConstrutor>();
+            c.RegisterType<EmptyClass>().AsSingleton();
+            c.RegisterType<SampleClassWithTwoDependencyConstrutor>().AsSingleton();
 
             var sampleClass = c.Resolve<SampleClassWithTwoDependencyConstrutor>(ResolveKind.FullEmitFunction);
 
@@ -38,9 +38,9 @@ namespace NiquIoC.Test.FullEmitFunction.Singleton.DependencyConstrutor
         public void RegisterClassWithNestedClassWithConstructorWithAttributeDependencyConstrutor_Success()
         {
             var c = new Container();
-            c.RegisterType<EmptyClass>();
-            c.RegisterType<SampleClassWithDependencyConstrutor>();
-            c.RegisterType<SampleClassWithNestedClassWithDependencyConstrutor>();
+            c.RegisterType<EmptyClass>().AsSingleton();
+            c.RegisterType<SampleClassWithDependencyConstrutor>().AsSingleton();
+            c.RegisterType<SampleClassWithNestedClassWithDependencyConstrutor>().AsSingleton();
 
             var sampleClass = c.Resolve<SampleClassWithNestedClassWithDependencyConstrutor>(ResolveKind.FullEmitFunction);
 

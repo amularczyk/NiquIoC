@@ -5,6 +5,7 @@ using System.Reflection.Emit;
 using NiquIoC.Extensions;
 using NiquIoC.Helpers;
 using NiquIoC.Interfaces;
+using NiquIoC.ObjectLifetimeManagers;
 
 namespace NiquIoC.Resolve
 {
@@ -69,7 +70,7 @@ namespace NiquIoC.Resolve
             var dm = new DynamicMethod($"Create_{containerMember.Constructor.DeclaringType?.FullName.Replace('.', '_')}",
                 typeof(object), new[] { typeof(Dictionary<Type, ContainerMember>), typeof(Dictionary<int, Type>) }, typeof(Container).Module, true);
             var ilgen = dm.GetILGenerator();
-
+            
             foreach (var parameter in containerMember.Parameters)
             {
                 CreateObjectFunctionPrivate(parameter.ParameterType, registeredTypesCache, ilgen, afterObjectCreate);
@@ -82,24 +83,60 @@ namespace NiquIoC.Resolve
 
         private void CreateObjectFunctionPrivate(Type type, IReadOnlyDictionary<Type, ContainerMember> registeredTypesCache, ILGenerator ilgen, Action<object, ContainerMember> afterObjectCreate)
         {
-            var constructorInfoForType = registeredTypesCache.GetValue(type);
+            var containerMember = registeredTypesCache.GetValue(type);
 
-            if (constructorInfoForType.ObjectLifetimeManager.ObjectFactory == null)
+            if (containerMember.ObjectLifetimeManager is TransientObjectLifetimeManager
+                && containerMember.ShouldCreateCache)
             {
-                constructorInfoForType.ObjectLifetimeManager.ObjectFactory = () => CreateInstanceFunction(constructorInfoForType, afterObjectCreate);
-            }
+                foreach (var parameter in containerMember.Parameters)
+                {
+                    CreateObjectFunctionPrivate(parameter.ParameterType, registeredTypesCache, ilgen, afterObjectCreate);
+                }
 
-            var localTypeVariable = ilgen.DeclareLocal(typeof(Type));
-            ilgen.Emit(OpCodes.Ldarg_1);
-            EmitHelper.EmitIntOntoStack(ilgen, constructorInfoForType.GetHashCode());
-            ilgen.Emit(OpCodes.Call, typeof(Dictionary<int, Type>).GetMethod("get_Item"));
-            ilgen.Emit(OpCodes.Stloc, localTypeVariable);
-            ilgen.Emit(OpCodes.Ldarg_0);
-            ilgen.Emit(OpCodes.Ldloc, localTypeVariable);
-            ilgen.Emit(OpCodes.Call, typeof(Dictionary<Type, ContainerMember>).GetMethod("get_Item"));
-            ilgen.Emit(OpCodes.Call, typeof(ContainerMember).GetMethod("get_ObjectLifetimeManager", Type.EmptyTypes));
-            ilgen.Emit(OpCodes.Call, typeof(IObjectLifetimeManager).GetMethod("GetInstance", Type.EmptyTypes));
-            ilgen.Emit(type.IsValueType ? OpCodes.Unbox_Any : OpCodes.Castclass, type);
+                ilgen.Emit(OpCodes.Newobj, containerMember.Constructor);
+            }
+            // it can be possible only in singleton per resolve
+            //if (containerMember.ObjectLifetimeManager is SingletonObjectLifetimeManager
+            //    && containerMember.ShouldCreateCache)
+            //{
+            //    if (localSingletons.ContainsKey(type))
+            //    {
+            //        ilgen.Emit(OpCodes.Ldloc, localSingletons[type]);
+            //    }
+            //    else
+            //    {
+            //        foreach (var parameter in containerMember.Parameters)
+            //        {
+            //            CreateObjectFunctionPrivate(parameter.ParameterType, registeredTypesCache, ilgen, afterObjectCreate, localSingletons);
+            //        }
+
+            //        var localSingleton = ilgen.DeclareLocal(type);
+            //        localSingletons.Add(type, localSingleton);
+
+            //        ilgen.Emit(OpCodes.Newobj, containerMember.Constructor);
+            //        ilgen.Emit(OpCodes.Stloc, localSingletons[type]);
+            //        ilgen.Emit(OpCodes.Ldloc, localSingletons[type]);
+            //    }
+            //}
+            else
+            {
+                if (containerMember.ObjectLifetimeManager.ObjectFactory == null)
+                {
+                    containerMember.ObjectLifetimeManager.ObjectFactory = () => CreateInstanceFunction(containerMember, afterObjectCreate);
+                }
+
+                var localTypeVariable = ilgen.DeclareLocal(typeof(Type));
+                ilgen.Emit(OpCodes.Ldarg_1);
+                EmitHelper.EmitIntOntoStack(ilgen, containerMember.GetHashCode());
+                ilgen.Emit(OpCodes.Call, typeof(Dictionary<int, Type>).GetMethod("get_Item"));
+                ilgen.Emit(OpCodes.Stloc, localTypeVariable);
+                ilgen.Emit(OpCodes.Ldarg_0);
+                ilgen.Emit(OpCodes.Ldloc, localTypeVariable);
+                ilgen.Emit(OpCodes.Call, typeof(Dictionary<Type, ContainerMember>).GetMethod("get_Item"));
+                ilgen.Emit(OpCodes.Call, typeof(ContainerMember).GetMethod("get_ObjectLifetimeManager", Type.EmptyTypes));
+                ilgen.Emit(OpCodes.Call, typeof(IObjectLifetimeManager).GetMethod("GetInstance", Type.EmptyTypes));
+                ilgen.Emit(type.IsValueType ? OpCodes.Unbox_Any : OpCodes.Castclass, type);
+            }
         }
     }
 }

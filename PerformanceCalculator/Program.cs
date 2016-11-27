@@ -50,71 +50,70 @@ namespace PerformanceCalculator
                 }
             }
 
-            IPerformance performance;
-            switch (name)
-            {
-                case ContainerName.Autofac:
-                    performance = new AutofacPerformance();
-                    break;
+            var performance = GetPerformance(name);
 
-                case ContainerName.DryIoc:
-                    performance = new DryIocPerformance();
-                    break;
+            var testResult = DoPerformanceTests(testCase, performance, count, singleton);
 
-                case ContainerName.LightInject:
-                    performance = new LightInjectPerformance();
-                    break;
+            WriteFirstTestResults(testResult);
+            
+            return 0;
+        }
 
-                case ContainerName.NiquIoC:
-                    performance = new NiquIoCPerformance();
-                    break;
-
-                case ContainerName.NiquIoCFull:
-                    performance = new NiquIoCFullPerformance();
-                    break;
-
-                case ContainerName.SimpleInjector:
-                    performance = new SimpleInjectorPerformance();
-                    break;
-
-                case ContainerName.StructureMap:
-                    performance = new StructureMapPerformance();
-                    break;
-
-                case ContainerName.Unity:
-                    performance = new UnityPerformance();
-                    break;
-
-                case ContainerName.Windsor:
-                    performance = new WindsorPerformance();
-                    break;
-
-                default:
-                    throw new InvalidOperationException();
-            }
-
-            TestResult testResult;
+        private static TestResult DoPerformanceTests(string testCase, IPerformance performance, int count, bool singleton)
+        {
             switch (testCase)
             {
                 case TestCaseName.A:
-                    testResult = performance.DoTestA(count, singleton);
-                    break;
+                    performance.DoTestA(1, singleton);
+                    return performance.DoTestA(count, singleton);
 
                 case TestCaseName.B:
-                    testResult = performance.DoTestB(count, singleton);
-                    break;
+                    performance.DoTestB(1, singleton);
+                    return performance.DoTestB(count, singleton);
 
                 case TestCaseName.C:
-                    testResult = performance.DoTestC(count, singleton);
-                    break;
+                    performance.DoTestC(1, singleton);
+                    return performance.DoTestC(count, singleton);
 
                 default:
                     throw new InvalidOperationException();
             }
+        }
 
-            WriteFirstTestResults(testResult);
+        private static IPerformance GetPerformance(string name)
+        {
+            switch (name)
+            {
+                case ContainerName.Autofac:
+                    return new AutofacPerformance();
 
-            return 0;
+                case ContainerName.DryIoc:
+                    return new DryIocPerformance();
+
+                case ContainerName.LightInject:
+                    return new LightInjectPerformance();
+
+                case ContainerName.NiquIoC:
+                    return new NiquIoCPerformance();
+
+                case ContainerName.NiquIoCFull:
+                    return new NiquIoCFullPerformance();
+
+                case ContainerName.SimpleInjector:
+                    return new SimpleInjectorPerformance();
+
+                case ContainerName.StructureMap:
+                    return new StructureMapPerformance();
+
+                case ContainerName.Unity:
+                    return new UnityPerformance();
+
+                case ContainerName.Windsor:
+                    return new WindsorPerformance();
+
+                default:
+                    throw new InvalidOperationException();
+            }
         }
 
         private static void WriteFirstTestResults(TestResult testResult)

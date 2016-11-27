@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Web;
+using NiquIoC.Exceptions;
 using NiquIoC.Interfaces;
 
 namespace NiquIoC.ObjectLifetimeManagers
@@ -21,10 +22,10 @@ namespace NiquIoC.ObjectLifetimeManagers
 
         public object GetInstance()
         {
-            var httpContext = HttpContext.Current;
+            var httpContext = HttpContext.Current; //TODO: Change on HttpContextBase?
             if (httpContext == null)
             {
-                throw new InvalidOperationException("HttpContext is not set."); //ToDO
+                throw new HttpContextNoSetException();
             }
 
             // ReSharper disable once InconsistentlySynchronizedField

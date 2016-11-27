@@ -12,8 +12,8 @@ namespace NiquIoC.Test.FullEmitFunction.Singleton.DependencyConstrutor
         public void RegisteredInterfaceAsClassWithConstructorWithAttributeDependencyConstrutor_Success()
         {
             var c = new Container();
-            c.RegisterType<EmptyClass>();
-            c.RegisterType<ISampleClass, SampleClassWithDependencyConstrutor>();
+            c.RegisterType<EmptyClass>().AsSingleton();
+            c.RegisterType<ISampleClass, SampleClassWithDependencyConstrutor>().AsSingleton();
 
             var sampleClass = c.Resolve<ISampleClass>(ResolveKind.FullEmitFunction);
 
@@ -26,8 +26,8 @@ namespace NiquIoC.Test.FullEmitFunction.Singleton.DependencyConstrutor
         public void RegisteredInterfaceAsClassWithTwoConstructorsWithAttributeDependencyConstrutor_Fail()
         {
             var c = new Container();
-            c.RegisterType<EmptyClass>();
-            c.RegisterType<ISampleClass, SampleClassWithTwoDependencyConstrutor>();
+            c.RegisterType<EmptyClass>().AsSingleton();
+            c.RegisterType<ISampleClass, SampleClassWithTwoDependencyConstrutor>().AsSingleton();
 
             var sampleClass = c.Resolve<ISampleClass>(ResolveKind.FullEmitFunction);
 
@@ -37,9 +37,9 @@ namespace NiquIoC.Test.FullEmitFunction.Singleton.DependencyConstrutor
         public void RegisteredInterfaceAsClassWithNestedClassAsParameterWithConstructorWithAttributeDependencyConstrutor_Success()
         {
             var c = new Container();
-            c.RegisterType<EmptyClass>();
-            c.RegisterType<SampleClassWithDependencyConstrutor>();
-            c.RegisterType<ISampleClassWithNestedClass, SampleClassWithNestedClassWithDependencyConstrutor>();
+            c.RegisterType<EmptyClass>().AsSingleton();
+            c.RegisterType<SampleClassWithDependencyConstrutor>().AsSingleton();
+            c.RegisterType<ISampleClassWithNestedClass, SampleClassWithNestedClassWithDependencyConstrutor>().AsSingleton();
 
             var sampleClass = c.Resolve<ISampleClassWithNestedClass>(ResolveKind.FullEmitFunction);
 
