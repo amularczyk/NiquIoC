@@ -36,7 +36,7 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.ResolveWithBuildUp
         }
 
         [TestMethod]
-        public void RegisterInterfaceWithoutDependencyProperty_Success()
+        public void RegisterInterfaceWithoutDependencyProperty_Fail()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();

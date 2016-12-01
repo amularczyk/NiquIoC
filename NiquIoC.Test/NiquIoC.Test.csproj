@@ -57,12 +57,6 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="FullEmitFunction\MixObjectsLifeTime\BuildUp\BuildUpForClassWithDependencyMethodTests.cs" />
-    <Compile Include="FullEmitFunction\MixObjectsLifeTime\BuildUp\BuildUpForClassWithDependencyPropertyAndDependencyMethodTests.cs" />
-    <Compile Include="FullEmitFunction\MixObjectsLifeTime\BuildUp\BuildUpForClassWithDependencyPropertyTests.cs" />
-    <Compile Include="FullEmitFunction\MixObjectsLifeTime\BuildUp\BuildUpForInterfaceWithDependencyMethodTests.cs" />
-    <Compile Include="FullEmitFunction\MixObjectsLifeTime\BuildUp\BuildUpForInterfaceWithDependencyPropertyAndDependencyMethodTests.cs" />
-    <Compile Include="FullEmitFunction\MixObjectsLifeTime\BuildUp\BuildUpForInterfaceWithDependencyPropertyTests.cs" />
     <Compile Include="FullEmitFunction\MixObjectsLifeTime\FactoryObject\RegisterTypeByFactoryObjectForClassTests.cs" />
     <Compile Include="FullEmitFunction\MixObjectsLifeTime\RegisterGenericTypeForClassTests.cs" />
     <Compile Include="FullEmitFunction\MixObjectsLifeTime\RegisterGenericTypeForInterfaceTests.cs" />
@@ -70,21 +64,13 @@
     <Compile Include="FullEmitFunction\MixObjectsLifeTime\RegisterTypeForInterfaceTests.cs" />
     <Compile Include="FullEmitFunction\MixObjectsLifeTime\ReRegister\ReRegistereClassTests.cs" />
     <Compile Include="FullEmitFunction\MixObjectsLifeTime\ReRegister\ReRegistereInterfaceTests.cs" />
-    <Compile Include="FullEmitFunction\MixObjectsLifeTime\ResolveWithBuildUp\RegisterClassWithDependencyMethodTests.cs" />
-    <Compile Include="FullEmitFunction\MixObjectsLifeTime\ResolveWithBuildUp\RegisterClassWithDependencyPropertyAndDependencyMethodTests.cs" />
-    <Compile Include="FullEmitFunction\MixObjectsLifeTime\ResolveWithBuildUp\RegisterClassWithDependencyPropertyTests.cs" />
-    <Compile Include="FullEmitFunction\MixObjectsLifeTime\ResolveWithBuildUp\RegisterInterfaceWithDependencyMethodTests.cs" />
-    <Compile Include="FullEmitFunction\MixObjectsLifeTime\ResolveWithBuildUp\RegisterInterfaceWithDependencyPropertyAndDependencyMethodTests.cs" />
-    <Compile Include="FullEmitFunction\MixObjectsLifeTime\ResolveWithBuildUp\RegisterInterfaceWithDependencyPropertyTests.cs" />
     <Compile Include="FullEmitFunction\PerThread\RegisterGenericTypeForClassTests.cs" />
     <Compile Include="FullEmitFunction\PerThread\RegisterGenericTypeForInterfaceTests.cs" />
     <Compile Include="FullEmitFunction\PerThread\RegisterTypeForClassTests.cs" />
     <Compile Include="FullEmitFunction\RegisterInterfaceInstanceTests.cs" />
     <Compile Include="FullEmitFunction\Singleton\BuildUp\BuildUpForClassWithDependencyMethodTests.cs" />
-    <Compile Include="FullEmitFunction\Singleton\BuildUp\BuildUpForClassWithDependencyPropertyAndDependencyMethodTests.cs" />
     <Compile Include="FullEmitFunction\Singleton\BuildUp\BuildUpForClassWithDependencyPropertyTests.cs" />
     <Compile Include="FullEmitFunction\Singleton\BuildUp\BuildUpForInterfaceWithDependencyMethodTests.cs" />
-    <Compile Include="FullEmitFunction\Singleton\BuildUp\BuildUpForInterfaceWithDependencyPropertyAndDependencyMethodTests.cs" />
     <Compile Include="FullEmitFunction\Singleton\BuildUp\BuildUpForInterfaceWithDependencyPropertyTestsy.cs" />
     <Compile Include="FullEmitFunction\Singleton\DependencyConstrutor\RegisterTypeForClassWithDependencyConstrutorTests.cs" />
     <Compile Include="FullEmitFunction\Singleton\DependencyConstrutor\RegisterTypeForClassWithDependencyConstrutorWithInterfaceTests.cs" />
@@ -103,16 +89,12 @@
     <Compile Include="FullEmitFunction\Singleton\ReRegister\ReRegistereClassTests.cs" />
     <Compile Include="FullEmitFunction\Singleton\ReRegister\ReRegistereInterfaceTests.cs" />
     <Compile Include="FullEmitFunction\Singleton\ResolveWithBuildUp\RegisterClassWithDependencyMethodTests.cs" />
-    <Compile Include="FullEmitFunction\Singleton\ResolveWithBuildUp\RegisterClassWithDependencyPropertyAndDependencyMethodTests.cs" />
     <Compile Include="FullEmitFunction\Singleton\ResolveWithBuildUp\RegisterClassWithDependencyPropertyTests.cs" />
     <Compile Include="FullEmitFunction\Singleton\ResolveWithBuildUp\RegisterInterfaceWithDependencyMethodTests.cs" />
-    <Compile Include="FullEmitFunction\Singleton\ResolveWithBuildUp\RegisterInterfaceWithDependencyPropertyAndDependencyMethodTests.cs" />
     <Compile Include="FullEmitFunction\Singleton\ResolveWithBuildUp\RegisterInterfaceWithDependencyPropertyTestsy.cs" />
     <Compile Include="FullEmitFunction\Transient\BuildUp\BuildUpForClassWithDependencyMethodTests.cs" />
-    <Compile Include="FullEmitFunction\Transient\BuildUp\BuildUpForClassWithDependencyPropertyAndDependencyMethodTests.cs" />
     <Compile Include="FullEmitFunction\Transient\BuildUp\BuildUpForClassWithDependencyPropertyTests.cs" />
     <Compile Include="FullEmitFunction\Transient\BuildUp\BuildUpForInterfaceWithDependencyMethodTests.cs" />
-    <Compile Include="FullEmitFunction\Transient\BuildUp\BuildUpForInterfaceWithDependencyPropertyAndDependencyMethodTests.cs" />
     <Compile Include="FullEmitFunction\Transient\BuildUp\BuildUpForInterfaceWithDependencyPropertyTestsy.cs" />
     <Compile Include="FullEmitFunction\Transient\DependencyConstrutor\RegisterTypeForClassWithDependencyConstrutorTests.cs" />
     <Compile Include="FullEmitFunction\Transient\DependencyConstrutor\RegisterTypeForClassWithDependencyConstrutorWithInterfaceTests.cs" />
@@ -131,10 +113,8 @@
     <Compile Include="FullEmitFunction\Transient\ReRegister\ReRegistereClassTests.cs" />
     <Compile Include="FullEmitFunction\Transient\ReRegister\ReRegistereInterfaceTests.cs" />
     <Compile Include="FullEmitFunction\Transient\ResolveWithBuildUp\RegisterClassWithDependencyMethodTests.cs" />
-    <Compile Include="FullEmitFunction\Transient\ResolveWithBuildUp\RegisterClassWithDependencyPropertyAndDependencyMethodTests.cs" />
     <Compile Include="FullEmitFunction\Transient\ResolveWithBuildUp\RegisterClassWithDependencyPropertyTests.cs" />
     <Compile Include="FullEmitFunction\Transient\ResolveWithBuildUp\RegisterInterfaceWithDependencyMethodTests.cs" />
-    <Compile Include="FullEmitFunction\Transient\ResolveWithBuildUp\RegisterInterfaceWithDependencyPropertyAndDependencyMethodTests.cs" />
     <Compile Include="FullEmitFunction\Transient\ResolveWithBuildUp\RegisterInterfaceWithDependencyPropertyTestsy.cs" />
     <Compile Include="PartialEmitFunction\MixObjectsLifeTime\SingletonAndTransient\BuildUp\BuildUpForClassWithDependencyMethodTests.cs" />
     <Compile Include="PartialEmitFunction\MixObjectsLifeTime\SingletonAndTransient\BuildUp\BuildUpForClassWithDependencyPropertyAndDependencyMethodTests.cs" />

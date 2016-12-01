@@ -66,7 +66,7 @@ namespace NiquIoC.Test.PartialEmitFunction.Transient.BuildUp
         }
 
         [TestMethod]
-        public void BuildUpInterfaceWithoutDependencyProperty_Success()
+        public void BuildUpInterfaceWithoutDependencyProperty_Fail()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();

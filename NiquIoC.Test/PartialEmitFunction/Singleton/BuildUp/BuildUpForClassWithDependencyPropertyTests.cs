@@ -66,7 +66,7 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.BuildUp
         }
 
         [TestMethod]
-        public void BuildUpClassWithoutDependencyProperty_Success()
+        public void BuildUpClassWithoutDependencyProperty_Fail()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsSingleton();
