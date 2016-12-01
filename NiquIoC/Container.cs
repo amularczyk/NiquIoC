@@ -65,6 +65,11 @@ namespace NiquIoC
 
         public void BuildUp<T>(T instance, ResolveKind resolveKind)
         {
+            if (resolveKind == ResolveKind.FullEmitFunction)
+            {
+                throw new BuildUpNotSupportedException(resolveKind);
+            }
+
             var type = typeof(T);
             BuildUp(instance, type.IsInterface ? instance.GetType() : type, resolveKind);
         }
@@ -142,7 +147,7 @@ namespace NiquIoC
                     return _partialEmitFunctionResolve.Resolve(containerMember, (obj, cMember) => BuildUp(obj, cMember, resolveKind));
 
                 case ResolveKind.FullEmitFunction:
-                    return _fullEmitFunctionResolve.Resolve(containerMember, (obj, cMember) => BuildUp(obj, cMember, resolveKind));
+                    return _fullEmitFunctionResolve.Resolve(containerMember, (obj, cMember) => {} ); //We do not do build up in FullEmitFunction
 
                 default:
                     throw new ResolveKindMissingException(resolveKind);
