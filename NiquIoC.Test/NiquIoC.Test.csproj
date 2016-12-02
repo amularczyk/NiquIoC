@@ -134,6 +134,10 @@
     <Compile Include="PartialEmitFunction\PerThread\BuildUp\BuildUpForInterfaceWithDependencyMethodTests.cs" />
     <Compile Include="PartialEmitFunction\PerThread\BuildUp\BuildUpForInterfaceWithDependencyPropertyAndDependencyMethodTests.cs" />
     <Compile Include="PartialEmitFunction\PerThread\BuildUp\BuildUpForInterfaceWithDependencyPropertyTestsy.cs" />
+    <Compile Include="PartialEmitFunction\PerThread\DependencyConstrutor\RegisterTypeForClassWithDependencyConstrutorTests.cs" />
+    <Compile Include="PartialEmitFunction\PerThread\DependencyConstrutor\RegisterTypeForClassWithDependencyConstrutorWithInterfaceTests.cs" />
+    <Compile Include="PartialEmitFunction\PerThread\DependencyConstrutor\RegisterTypeForInterfaceWithDependencyConstrutorTests.cs" />
+    <Compile Include="PartialEmitFunction\PerThread\DependencyConstrutor\RegisterTypeForInterfaceWithDependencyConstrutorWithClassTests.cs" />
     <Compile Include="PartialEmitFunction\PerThread\RegisterGenericTypeForClassTests.cs" />
     <Compile Include="PartialEmitFunction\PerThread\RegisterGenericTypeForInterfaceTests.cs" />
     <Compile Include="PartialEmitFunction\Singleton\BuildUp\BuildUpForClassWithDependencyMethodTests.cs" />
