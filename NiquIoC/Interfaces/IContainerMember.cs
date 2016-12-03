@@ -13,11 +13,5 @@ namespace NiquIoC.Interfaces
         void AsPerHttpContext();
 
         void AsCustomObjectLifetimeManager(IObjectLifetimeManager objectLifetimeManager);
-
-        Type RegisteredType { get; }
-
-        Type ReturnType { get; }
-
-        IObjectLifetimeManager ObjectLifetimeManager { get; }
     }
 }

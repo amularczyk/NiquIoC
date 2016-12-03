@@ -6,7 +6,7 @@ using NiquIoC.ObjectLifetimeManagers;
 
 namespace NiquIoC
 {
-    internal class ContainerMember : IContainerMember
+    internal class ContainerMember : IContainerMemberPrivate
     {
         public ContainerMember(IObjectLifetimeManager objectLifetimeManager)
         {

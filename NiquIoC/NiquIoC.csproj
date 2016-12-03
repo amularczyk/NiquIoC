@@ -56,6 +56,7 @@
     <Compile Include="Exceptions\NoProperConstructorException.cs" />
     <Compile Include="Exceptions\TypeNotRegisteredException.cs" />
     <Compile Include="Interfaces\IContainer.cs" />
+    <Compile Include="Interfaces\IContainerMemberPrivate.cs" />
     <Compile Include="Interfaces\IContainerMember.cs" />
     <Compile Include="Interfaces\IObjectLifetimeManager.cs" />
     <Compile Include="Interfaces\IResolve.cs" />

@@ -88,15 +88,52 @@ Jest to zbiór zasad projektowania oprogramowania i wzorców, które pozwalają 
 Jakiemu celowi ma służyć wstrzykiwanie zależności? Wstrzykiwanie zależnści nie jestem celem samym w sobie, raczej jest to środek do celu. Ostatecznie celem większości technik programowania jest dostarczenie jak najwydajniej działającego oprogramowania. Jednym z aspektów tego jest napisanie utrzymywalnego kodu.\\
 O ile nie pisze się prototypu lub aplikacji, które nigdy nie mają kolejnych wersji (kończą się na wersji 1), to wkrótce będzie trzeba zająć się utrzymaniem i rozwijaniem istniejącego kodu. Aby być w stanie pracować wydajnie z takim kodem bazowym, musi on być jak najlepiej utrzymywalny.\\
 Wstrzykiwanie zależności jest niczym więcej niż techniką, która umożliwia luźne powiązania, a luźne powiązania sprawiają, że kod jest rozszerzalny i łatwy w utrzymaniu. \cite{dependency_injection} (str. 5)\\
+Wstrzykiwanie zależności może odbywać się na 3 sposoby:\\
+- wstrzykiwanie przez konstruktor (główna i najbardziej popularna);\\
+- wstrzykiwanie przez metodę;\\
+- wstrzykiwanie przez propercję.\\
 
 
 \section{Implementacja}
+Stworzyłem interfejs IConatiner, który zawiera w sobie metody niezbędne w każdym kontenerze:\\
+- IContainerMember RegisterType<T>() where T : class;\\
+- IContainerMember RegisterType<TFrom, TTo>() where TTo : TFrom;\\
+- IContainerMember RegisterType<T>(Func<object> objectFactory) where T : class;\\
+- IContainerMember RegisterInstance<T>(T instance);\\
+- T Resolve<T>(ResolveKind resolveKind);\\
+- void BuildUp<T>(T instance, ResolveKind resolveKind).\\
+Pierwsze 4 metody służą do rejestracji typów do kontenera. W pierwszej metodzie możemy zarejestrować zwykłe klasy. W drugiej interfejsy i klasy, które implementują dany interfejs. W trzeciej metodzie rejestrujemy klasę jako fabrykę obiektów - funkcję, która ma nam zwrócić pożądany obiekt. W czwartej możemy zarejestrować konkretną instancję danej klasy. W mojej implementacji kontenera każdy typ może być zarejestrowany tylko raz - ponowna rejestracja tego samego typu nadpisuje istniejącą rejestrację.\\
+Każda z tych czterech pierwszy metod zwraca interfejs IContainerMember, który umożliwia nam zarejestrowanie danej klasy lub interfejsu z określonym menadżerem czasu życia. Jest to po to, ponieważ dla różnych przypadków biznesowych możemy potrzebować, aby obiekt danego typu miał konretny czas życia. Ten interfejs daje nam możliwość ustawienia czasu życia na:\\
+- Singleton;\\
+- Transient;\\
+- PerThread;\\
+- PerHttpContext;\\
+- Custom; (własna implementacja interfejsu IObjectLifetimeManager).\\
+W mojej implementacji kontenera każdy typ domyślnie ma czas życia Transient.\\
+Interfejs IObjectLifetimeManager zawiera w sobie następujące metody:\\
+- Func<object> ObjectFactory { get; set; }\\
+- object GetInstance().\\
+Pierwsza z nich służy to ustawienia fabryki, która zwraca obiekt. Druga służy do zwracania obiektu przy użyciu fabryki. W zależności od konkretnego czasu życia, to obiekt zwracany z metody GetInstance może być zwsze ten sam, zwsze różny albo ten sam tylko dla określonych sytuacji (np. ten sam dla tego samego wątku albo ten sam dla tego samego żądania).\\ \\
+
+Metoda piąta - Resolve, to główna metoda. Register można nazwać sercem kontenera, a Resolve mózgiem. Odpowiada ona za stworzenie i zwrócenie obiektu odpowiedniego typu. W mojej pracy zaproponowałem dwa rozwiązania - PartialEmitFunction i FullEmitFunction, dlatego ta metoda jako parametr przyjmuje wartość enuma ResolveKind.\\
+Szósta metoda to taki dodatek - gdy mamy stworzony obiekt, ale nie jest w pełni uzupełniony, wtedy możemy go zbudować (używająć odpowiednio PartialEmitFunction lub FullEmitFunction). Z tą metodą są powiązane bezpośrednio dwa pojęcia - wstrzykiwanie przez metodę i wstrzykiwanie przez propercję. Do tego celu zostały stworzone dwa atrybuty:\\
+- DependencyMethod (dla metod);\\
+- DependencyProperty (dla propercji).\\
+Podczas operacji BuildUp uzupełniane są wywoływane wszystie metody i propercje, które mają te atrybuty. BuildUp jest również wykonywany podczas operacji Resolve.\\
+Warto tutaj odnotować, że ze względu na szczegóły implementacyjne tylko jedno z moich rozwiązań wspiera operację BuildUp - PartialEmitFunction. W FullEmitFunction ta funckonalność nie została zaimplementowana. Jest to spowodowane skomplikowaniem FullEmitFunction i małą potrzebą biznesową używania operacji BuildUp.\\
+
+W aplikacji istnieje również atrybut DependencyConstrutor. Można go użyć przy definicji konstruktora danej klasy. Obiekty danej klasy tworzy się przy użyciu konstruktora. Dana klasa może mieć kilka konstruktorów. W mojej implementacji stworzyłem logikę wyboru konstruktora przy pomocy którego ma zostać stworzony obiekt. Jeśli jest kilka konstrutkrów, odpowiedni jest wybierany w następującej kolejności:\\
+- Konstruktor z atrybutem DependencyConstrutor;\\
+- Konstrutkro z największą liczbą parametrów.\\
+Jeśli jest kilka konstrutkrów z atrybutem DependencyConstrutor albo kilka z największą liczbą parametrów, to rzucany jest wyjątek.\\
+
+\subsection{Reflection.Emit}
 <Wyjaśnić jak działa Reflection.Emit i do czego zostanie użyte>
 
-\subsection{Rozwiązanie 1}
+\subsection{Rozwiązanie 1 - PartialEmitFunction}
 <opis PartialEmitFunction>
 
-\subsection{Rozwiązanie 2}
+\subsection{Rozwiązanie 2 - FullEmitFunction}
 <opis FullEmitFunction>
 
 \section{Testy wydajnościowe}
