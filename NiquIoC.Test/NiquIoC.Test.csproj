@@ -138,6 +138,10 @@
     <Compile Include="PartialEmitFunction\PerThread\DependencyConstrutor\RegisterTypeForClassWithDependencyConstrutorWithInterfaceTests.cs" />
     <Compile Include="PartialEmitFunction\PerThread\DependencyConstrutor\RegisterTypeForInterfaceWithDependencyConstrutorTests.cs" />
     <Compile Include="PartialEmitFunction\PerThread\DependencyConstrutor\RegisterTypeForInterfaceWithDependencyConstrutorWithClassTests.cs" />
+    <Compile Include="PartialEmitFunction\PerThread\FactoryObject\RegisterTypeByFactoryObjectForClassTests.cs" />
+    <Compile Include="PartialEmitFunction\PerThread\FactoryObject\RegisterTypeByFactoryObjectForClassWithInterfaceTests.cs" />
+    <Compile Include="PartialEmitFunction\PerThread\FactoryObject\RegisterTypeByFactoryObjectForInterfaceTests.cs" />
+    <Compile Include="PartialEmitFunction\PerThread\FactoryObject\RegisterTypeByFactoryObjectForInterfaceWithClassTests.cs" />
     <Compile Include="PartialEmitFunction\PerThread\RegisterGenericTypeForClassTests.cs" />
     <Compile Include="PartialEmitFunction\PerThread\RegisterGenericTypeForInterfaceTests.cs" />
     <Compile Include="PartialEmitFunction\PerThread\ReRegister\ReRegistereClassTests.cs" />
