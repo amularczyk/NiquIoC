@@ -146,6 +146,12 @@
     <Compile Include="PartialEmitFunction\PerThread\RegisterGenericTypeForInterfaceTests.cs" />
     <Compile Include="PartialEmitFunction\PerThread\ReRegister\ReRegistereClassTests.cs" />
     <Compile Include="PartialEmitFunction\PerThread\ReRegister\ReRegistereInterfaceTests.cs" />
+    <Compile Include="PartialEmitFunction\PerThread\ResolveWithBuildUp\RegisterClassWithDependencyMethodTests.cs" />
+    <Compile Include="PartialEmitFunction\PerThread\ResolveWithBuildUp\RegisterClassWithDependencyPropertyAndDependencyMethodTests.cs" />
+    <Compile Include="PartialEmitFunction\PerThread\ResolveWithBuildUp\RegisterClassWithDependencyPropertyTests.cs" />
+    <Compile Include="PartialEmitFunction\PerThread\ResolveWithBuildUp\RegisterInterfaceWithDependencyMethodTests.cs" />
+    <Compile Include="PartialEmitFunction\PerThread\ResolveWithBuildUp\RegisterInterfaceWithDependencyPropertyAndDependencyMethodTests.cs" />
+    <Compile Include="PartialEmitFunction\PerThread\ResolveWithBuildUp\RegisterInterfaceWithDependencyPropertyTestsy.cs" />
     <Compile Include="PartialEmitFunction\Singleton\BuildUp\BuildUpForClassWithDependencyMethodTests.cs" />
     <Compile Include="PartialEmitFunction\Singleton\BuildUp\BuildUpForClassWithDependencyPropertyAndDependencyMethodTests.cs" />
     <Compile Include="PartialEmitFunction\Singleton\BuildUp\BuildUpForClassWithDependencyPropertyTests.cs" />
