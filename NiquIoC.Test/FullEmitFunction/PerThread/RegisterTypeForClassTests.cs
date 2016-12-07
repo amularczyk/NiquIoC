@@ -17,9 +17,11 @@ namespace NiquIoC.Test.FullEmitFunction.PerThread
             c.RegisterType<EmptyClass>().AsPerThread();
             EmptyClass emptyClass = null;
 
+
             var thread = new Thread(() => { emptyClass = c.Resolve<EmptyClass>(ResolveKind.FullEmitFunction); });
             thread.Start();
             thread.Join();
+
 
             Assert.IsNotNull(emptyClass);
         }
@@ -32,6 +34,7 @@ namespace NiquIoC.Test.FullEmitFunction.PerThread
             c.RegisterType<SampleClass>().AsPerThread();
             SampleClass sampleClass = null;
             Exception exception = null;
+
 
             var thread = new Thread(() =>
             {
@@ -52,6 +55,7 @@ namespace NiquIoC.Test.FullEmitFunction.PerThread
                 throw exception;
             }
 
+
             Assert.IsNull(sampleClass);
         }
 
@@ -63,6 +67,7 @@ namespace NiquIoC.Test.FullEmitFunction.PerThread
             c.RegisterType<SampleClassWithStringType>().AsPerThread();
             SampleClassWithStringType sampleClassWithSimpleType = null;
             Exception exception = null;
+
 
             var thread = new Thread(() =>
             {
@@ -83,6 +88,7 @@ namespace NiquIoC.Test.FullEmitFunction.PerThread
                 throw exception;
             }
 
+
             Assert.IsNull(sampleClassWithSimpleType);
         }
 
@@ -94,6 +100,7 @@ namespace NiquIoC.Test.FullEmitFunction.PerThread
             c.RegisterType<SampleClassWithIntType>().AsPerThread();
             SampleClassWithIntType sampleClassWithSimpleType = null;
             Exception exception = null;
+
 
             var thread = new Thread(() =>
             {
@@ -114,6 +121,7 @@ namespace NiquIoC.Test.FullEmitFunction.PerThread
                 throw exception;
             }
 
+
             Assert.IsNull(sampleClassWithSimpleType);
         }
 
@@ -125,9 +133,11 @@ namespace NiquIoC.Test.FullEmitFunction.PerThread
             c.RegisterType<SampleClass>().AsPerThread();
             SampleClass sampleClass = null;
 
+
             var thread = new Thread(() => { sampleClass = c.Resolve<SampleClass>(ResolveKind.FullEmitFunction); });
             thread.Start();
             thread.Join();
+
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNotNull(sampleClass.EmptyClass);
@@ -142,6 +152,7 @@ namespace NiquIoC.Test.FullEmitFunction.PerThread
             c.RegisterType<FirstClassWithCycleInConstructor>().AsPerThread();
             FirstClassWithCycleInConstructor sampleClass = null;
             Exception exception = null;
+
 
             var thread = new Thread(() =>
             {
@@ -162,6 +173,7 @@ namespace NiquIoC.Test.FullEmitFunction.PerThread
                 throw exception;
             }
 
+
             Assert.IsNull(sampleClass);
         }
 
@@ -174,6 +186,7 @@ namespace NiquIoC.Test.FullEmitFunction.PerThread
             SampleClass sampleClass1 = null;
             SampleClass sampleClass2 = null;
 
+
             var thread = new Thread(() =>
             {
                 sampleClass1 = c.Resolve<SampleClass>(ResolveKind.FullEmitFunction);
@@ -181,6 +194,7 @@ namespace NiquIoC.Test.FullEmitFunction.PerThread
             });
             thread.Start();
             thread.Join();
+
 
             Assert.IsNotNull(sampleClass1);
             Assert.IsNotNull(sampleClass1.EmptyClass);
@@ -199,12 +213,14 @@ namespace NiquIoC.Test.FullEmitFunction.PerThread
             SampleClass sampleClass1 = null;
             SampleClass sampleClass2 = null;
 
+
             var thread1 = new Thread(() => { sampleClass1 = c.Resolve<SampleClass>(ResolveKind.FullEmitFunction); });
             var thread2 = new Thread(() => { sampleClass2 = c.Resolve<SampleClass>(ResolveKind.FullEmitFunction); });
             thread1.Start();
             thread1.Join();
             thread2.Start();
             thread2.Join();
+
 
             Assert.IsNotNull(sampleClass1);
             Assert.IsNotNull(sampleClass1.EmptyClass);
@@ -225,6 +241,7 @@ namespace NiquIoC.Test.FullEmitFunction.PerThread
             SampleClass sampleClass21 = null;
             SampleClass sampleClass22 = null;
 
+
             var thread1 = new Thread(() =>
             {
                 sampleClass11 = c.Resolve<SampleClass>(ResolveKind.FullEmitFunction);
@@ -239,6 +256,7 @@ namespace NiquIoC.Test.FullEmitFunction.PerThread
             thread1.Join();
             thread2.Start();
             thread2.Join();
+
 
             Assert.IsNotNull(sampleClass11);
             Assert.IsNotNull(sampleClass11.EmptyClass);
