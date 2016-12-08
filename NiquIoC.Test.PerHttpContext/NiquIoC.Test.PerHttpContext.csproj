@@ -43,9 +43,19 @@
     <Compile Include="FullEmitFunction\RegisterGenericTypeForClassTests.cs" />
     <Compile Include="FullEmitFunction\RegisterGenericTypeForInterfaceTests.cs" />
     <Compile Include="FullEmitFunction\RegisterTypeForClassTests.cs" />
+    <Compile Include="PartialEmitFunction\DependencyConstrutor\RegisterTypeForClassWithDependencyConstrutorTests.cs" />
+    <Compile Include="PartialEmitFunction\DependencyConstrutor\RegisterTypeForClassWithDependencyConstrutorWithInterfaceTests.cs" />
+    <Compile Include="PartialEmitFunction\DependencyConstrutor\RegisterTypeForInterfaceWithDependencyConstrutorTests.cs" />
+    <Compile Include="PartialEmitFunction\DependencyConstrutor\RegisterTypeForInterfaceWithDependencyConstrutorWithClassTests.cs" />
+    <Compile Include="PartialEmitFunction\FactoryObject\RegisterTypeByFactoryObjectForClassTests.cs" />
+    <Compile Include="PartialEmitFunction\FactoryObject\RegisterTypeByFactoryObjectForClassWithInterfaceTests.cs" />
+    <Compile Include="PartialEmitFunction\FactoryObject\RegisterTypeByFactoryObjectForInterfaceTests.cs" />
+    <Compile Include="PartialEmitFunction\FactoryObject\RegisterTypeByFactoryObjectForInterfaceWithClassTests.cs" />
     <Compile Include="PartialEmitFunction\RegisterGenericTypeForClassTests.cs" />
     <Compile Include="PartialEmitFunction\RegisterGenericTypeForInterfaceTests.cs" />
     <Compile Include="PartialEmitFunction\RegisterTypeForClassTests.cs" />
+    <Compile Include="PartialEmitFunction\ReRegister\ReRegistereClassTests.cs" />
+    <Compile Include="PartialEmitFunction\ReRegister\ReRegistereInterfaceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
