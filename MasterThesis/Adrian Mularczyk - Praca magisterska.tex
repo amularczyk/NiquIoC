@@ -84,10 +84,10 @@ Wstrzykiwanie zależnośc jest wzorcem projektowym, który pozwala na tworzenie 
 \clearpage
 
 \section{Wstrzykiwanie zależnosci}
-Jest to zbiór zasad projektowania oprogramowania i wzorców, które pozwalają nam rozwijać luźno powiązany kod \cite{dependency_injection} (str. 4).\\
+Jest to zbiór zasad projektowania oprogramowania i wzorców, które pozwalają nam rozwijać luźno powiązany kod \cite{dependency_injection}.\\
 Jakiemu celowi ma służyć wstrzykiwanie zależności? Wstrzykiwanie zależnści nie jestem celem samym w sobie, raczej jest to środek do celu. Ostatecznie celem większości technik programowania jest dostarczenie jak najwydajniej działającego oprogramowania. Jednym z aspektów tego jest napisanie utrzymywalnego kodu.\\
 O ile nie pisze się prototypu lub aplikacji, które nigdy nie mają kolejnych wersji (kończą się na wersji 1), to wkrótce będzie trzeba zająć się utrzymaniem i rozwijaniem istniejącego kodu. Aby być w stanie pracować wydajnie z takim kodem bazowym, musi on być jak najlepiej utrzymywalny.\\
-Wstrzykiwanie zależności jest niczym więcej niż techniką, która umożliwia luźne powiązania, a luźne powiązania sprawiają, że kod jest rozszerzalny i łatwy w utrzymaniu. \cite{dependency_injection} (str. 5)\\
+Wstrzykiwanie zależności jest niczym więcej niż techniką, która umożliwia luźne powiązania, a luźne powiązania sprawiają, że kod jest rozszerzalny i łatwy w utrzymaniu. \cite{dependency_injection}\\
 Wstrzykiwanie zależności może odbywać się na 3 sposoby:\\
 - wstrzykiwanie przez konstruktor (główna i najbardziej popularna);\\
 - wstrzykiwanie przez metodę;\\
@@ -127,14 +127,37 @@ W aplikacji istnieje również atrybut DependencyConstrutor. Można go użyć pr
 - Konstrutkro z największą liczbą parametrów.\\
 Jeśli jest kilka konstrutkrów z atrybutem DependencyConstrutor albo kilka z największą liczbą parametrów, to rzucany jest wyjątek.\\
 
+\subsection{Microsoft Intermediate Language}
+Microsoft Intermediate Language - MSIL (w skrócie IL) to język pośredni do którego kod C\# jest kompilowany. Język ten pozwala na komunikację między aplikacjami napisanymi na platformie .Net, a systemem operacyjnym. Jest on jądrem tej platformy.
+
 \subsection{Reflection.Emit}
-<Wyjaśnić jak działa Reflection.Emit i do czego zostanie użyte>
+Przestrzeń nazw Reflection.Emit pozwala ona na stworzenie ciągu operacji w języku IL, a następnie zapamiętaniu ciągu tych operacji jako delegat. Za każdym razem, gdy ten delegat zostanie wywołany, to wykona się ciąg wczeniej zdefiniowanych operacji IL.
+
+\subsection{Rozwiązanie}
+Aby kontener działał wydajnie dla złożonych grafów zależności, należy jak najwięcej informacji przechowywać w cache i należy to robić mądrze. W tym celum wykorzystałem Reflection.Emit, aby zapamiętać ciągu operacji niezbędnych do stworzenia obiektu nowej klasy (na potrzeby metody Resolve). Wykorzystałem to na dwa sposoby, które zostały opisane poniżej.
 
 \subsection{Rozwiązanie 1 - PartialEmitFunction}
-<opis PartialEmitFunction>
+W pierwszym rozwiązanu, które nazwałem PartialEmitFunction tworzę delegata z wykorzystaniem Reflection.Emit. Delegat ten jako parametr przyjmuje listę obiektów, które są potrzebne do stworzenia obiektu danej klasy wykorzystując odpowiedni konstruktor. Jeśli kontener do stworzenia obiektu danej klasy wybrał konstruktor bezparametrowy, to do takiego delegata trafi pusta lista. Jeśli natomiast został wybrany konstruktor, który w parametrze np. potrzebuje obiektu klasy A i B, to do delegata zostanie przekazana lista zawierająca obiekt klasy A i B w kolejności takiej, jakiej są one zdefiniowane z konstruktorze.\\
+Pseudokod tego rozwiązana wygląda następująco:\\
+1. Dla każdego argumentu umieść ten argument na stosie.\\
+2. Na stosie umieść konstruktor docelowego typu.\\
+3. Wywołaj konstrutkor i stworzony obiekt umięść na szczycie stosu.\\
+4. Zwróć obiekt ze szczytu stosu.\\
+To rozwiążanie nazwał "Partial", ponieważ tylko część operacji niezbędnych do stworzenia obiektu jest zakodowanych w języku IL (pobranie argumentów i stworzenie obiektu). W tym rozwiążaniu musimy wcześniej stworzyć obiekty, które są potrzebne do stworzenia docelowego obiektu.\\
+Zalety tego rozwiążania:\\
+Wady tego rozwiązania:\\
 
 \subsection{Rozwiązanie 2 - FullEmitFunction}
-<opis FullEmitFunction>
+W drugim rozwiążaniu, które nazwałem FullEmitFunction tworzę delegata bezparametrowego. Sam tworzy on wszystkie obiekty, które są mu potrzebne do stworzenia docelowego obiektu. Działa on rekurencyjnie i najpierw na stosie umieszcza wszystkie operacje niezbędne do stworzenia obiektu danego typu, a następnie tworzy docelowy obiekt.\\
+Pseudokod tego rozwiązania wygląda następująco:
+1. Czy konstruktor danego typu potrzebuje jakiś argument?\\
+1b. Tak - Dla każdego parametru konstruktora wywołaj rekurencyjnie funkcję z argumentem wejściowym jako typ parametru.\\
+2. Na stosie umieść konstruktor docelowego typu.\\
+3. Wywołaj konstrutkor i stworzony obiekt umięść na szczycie stosu.\\
+4. Zwróć obiekt ze szczytu stosu.\\
+Jak łatwo zauważyć, to rozwiązanie jest pełne ("Full"), ponieważ wszystkie niezbędne obiekty zostaną stworzonę przy użyciu IL w jednej metodzie.\\
+Zalety tego rozwiążania:\\
+Wady tego rozwiązania:\\
 
 \section{Testy wydajnościowe}
 <wyniki testów i ich opis>
@@ -144,7 +167,8 @@ Jeśli jest kilka konstrutkrów z atrybutem DependencyConstrutor albo kilka z na
 
 \newpage
 \begin{thebibliography}{authordate1}
-\bibitem{dependency_injection} Dependency Injection in .NET, Mark Seemann\\
+\bibitem{dependency_injection} Dependency Injection in .NET, Mark Seemann (str. 4-5)
+\bibitem{emit} Expert .NET 2.0 IL Assembler, Serge Lidin (str. 3-7)
 \end{thebibliography}
 
 \end{document}
