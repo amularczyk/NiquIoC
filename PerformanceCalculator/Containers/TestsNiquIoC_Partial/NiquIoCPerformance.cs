@@ -3,7 +3,7 @@ using NiquIoC;
 using PerformanceCalculator.Common;
 using PerformanceCalculator.Interfaces;
 
-namespace PerformanceCalculator.Containers.TestsNiquIoC
+namespace PerformanceCalculator.Containers.TestsNiquIoC_Partial
 {
     public class NiquIoCPerformance : Performance
     {

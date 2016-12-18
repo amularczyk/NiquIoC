@@ -1,25 +1,25 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NiquIoC;
 using NiquIoC.Enums;
-using PerformanceCalculator.Containers.TestsNiquIoC;
+using PerformanceCalculator.Containers.TestsNiquIoC_Partial;
 using PerformanceCalculator.Interfaces;
 using PerformanceCalculator.TestCases;
 
-namespace PerformanceCalculator.Tests.Containers.TestsNiquIoC
+namespace PerformanceCalculator.Tests.Containers.TestsNiquIoC_Partial
 {
     [TestClass]
-    public class TestCaseCTests
+    public class TestCaseATests
     {
         [TestMethod]
         public void SingletonRegister_Success()
         {
-            ITestCase testCase = new TestCaseC();
+            ITestCase testCase = new TestCaseA();
 
             var c = new Container();
             c = (Container)testCase.SingletonRegister(c);
 
-            var obj1 = c.Resolve<ITestC>(ResolveKind.PartialEmitFunction);
-            var obj2 = c.Resolve<ITestC>(ResolveKind.PartialEmitFunction);
+            var obj1 = c.Resolve<ITestA>(ResolveKind.PartialEmitFunction);
+            var obj2 = c.Resolve<ITestA>(ResolveKind.PartialEmitFunction);
 
             Assert.AreEqual(obj1, obj2);
             Helper.Check(obj1, true);
@@ -29,13 +29,13 @@ namespace PerformanceCalculator.Tests.Containers.TestsNiquIoC
         [TestMethod]
         public void TransientRegister_Success()
         {
-            ITestCase testCase = new TestCaseC();
+            ITestCase testCase = new TestCaseA();
 
             var c = new Container();
             c = (Container)testCase.TransientRegister(c);
 
-            var obj1 = c.Resolve<ITestC>(ResolveKind.PartialEmitFunction);
-            var obj2 = c.Resolve<ITestC>(ResolveKind.PartialEmitFunction);
+            var obj1 = c.Resolve<ITestA>(ResolveKind.PartialEmitFunction);
+            var obj2 = c.Resolve<ITestA>(ResolveKind.PartialEmitFunction);
 
             Assert.AreNotEqual(obj1, obj2);
             Helper.Check(obj1, false);

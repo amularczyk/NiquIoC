@@ -1,8 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using PerformanceCalculator.Containers.TestsNiquIoC;
+using PerformanceCalculator.Containers.TestsNiquIoC_Partial;
 using PerformanceCalculator.Interfaces;
 
-namespace PerformanceCalculator.Tests.Containers.TestsNiquIoC
+namespace PerformanceCalculator.Tests.Containers.TestsNiquIoC_Partial
 {
     [TestClass]
     public class NiquIoCPerformanceTests

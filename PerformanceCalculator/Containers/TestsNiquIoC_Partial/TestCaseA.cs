@@ -3,7 +3,7 @@ using NiquIoC.Enums;
 using PerformanceCalculator.Interfaces;
 using PerformanceCalculator.TestCases;
 
-namespace PerformanceCalculator.Containers.TestsNiquIoC
+namespace PerformanceCalculator.Containers.TestsNiquIoC_Partial
 {
     public class TestCaseA : ITestCase
     {

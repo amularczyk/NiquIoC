@@ -94,7 +94,7 @@
     <Compile Include="Containers\TestsNiquIoC_Full\TestCaseA.cs" />
     <Compile Include="Containers\TestsNiquIoC_Full\TestCaseB.cs" />
     <Compile Include="Containers\TestsNiquIoC_Full\TestCaseC.cs" />
-    <Compile Include="Containers\TestsNiquIoC\NiquIoCPerformance.cs" />
+    <Compile Include="Containers\TestsNiquIoC_Partial\NiquIoCPerformance.cs" />
     <Compile Include="Containers\TestsSimpleInjector\SimpleInjectorPerformance.cs" />
     <Compile Include="Containers\TestsStructureMap\StructureMapPerformance.cs" />
     <Compile Include="Containers\TestsUnity\UnityPerformance.cs" />
@@ -116,9 +116,9 @@
     <Compile Include="Containers\TestsLightInject\TestCaseA.cs" />
     <Compile Include="Containers\TestsLightInject\TestCaseB.cs" />
     <Compile Include="Containers\TestsLightInject\TestCaseC.cs" />
-    <Compile Include="Containers\TestsNiquIoC\TestCaseA.cs" />
-    <Compile Include="Containers\TestsNiquIoC\TestCaseB.cs" />
-    <Compile Include="Containers\TestsNiquIoC\TestCaseC.cs" />
+    <Compile Include="Containers\TestsNiquIoC_Partial\TestCaseA.cs" />
+    <Compile Include="Containers\TestsNiquIoC_Partial\TestCaseB.cs" />
+    <Compile Include="Containers\TestsNiquIoC_Partial\TestCaseC.cs" />
     <Compile Include="Containers\TestsSimpleInjector\TestCaseA.cs" />
     <Compile Include="Containers\TestsSimpleInjector\TestCaseB.cs" />
     <Compile Include="Containers\TestsSimpleInjector\TestCaseC.cs" />

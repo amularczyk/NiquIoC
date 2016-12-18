@@ -113,10 +113,10 @@
     <Compile Include="Containers\TestsLightInject\TestCaseCTests.cs" />
     <Compile Include="Containers\TestsLightInject\TestCaseBTests.cs" />
     <Compile Include="Containers\TestsLightInject\TestCaseATests.cs" />
-    <Compile Include="Containers\TestsNiquIoC\NiquIoCPerformanceTests.cs" />
-    <Compile Include="Containers\TestsNiquIoC\TestCaseCTests.cs" />
-    <Compile Include="Containers\TestsNiquIoC\TestCaseBTests.cs" />
-    <Compile Include="Containers\TestsNiquIoC\TestCaseATests.cs" />
+    <Compile Include="Containers\TestsNiquIoC_Partial\NiquIoCPerformanceTests.cs" />
+    <Compile Include="Containers\TestsNiquIoC_Partial\TestCaseCTests.cs" />
+    <Compile Include="Containers\TestsNiquIoC_Partial\TestCaseBTests.cs" />
+    <Compile Include="Containers\TestsNiquIoC_Partial\TestCaseATests.cs" />
     <Compile Include="Containers\TestsNiquIoC_Full\NiquIoCFullPerformanceTests.cs" />
     <Compile Include="Containers\TestsNiquIoC_Full\TestCaseCTests.cs" />
     <Compile Include="Containers\TestsNiquIoC_Full\TestCaseBTests.cs" />
