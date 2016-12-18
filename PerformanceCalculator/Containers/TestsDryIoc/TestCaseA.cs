@@ -44,6 +44,44 @@ namespace PerformanceCalculator.Containers.TestsDryIoc
             return c;
         }
 
+        public object PerThreadRegister(object container)
+        {
+            var c = (Container)container;
+
+            c.Register<ITestA0, TestA0>(Reuse.InThread);
+            c.Register<ITestA1, TestA1>(Reuse.InThread);
+            c.Register<ITestA2, TestA2>(Reuse.InThread);
+            c.Register<ITestA3, TestA3>(Reuse.InThread);
+            c.Register<ITestA4, TestA4>(Reuse.InThread);
+            c.Register<ITestA5, TestA5>(Reuse.InThread);
+            c.Register<ITestA6, TestA6>(Reuse.InThread);
+            c.Register<ITestA7, TestA7>(Reuse.InThread);
+            c.Register<ITestA8, TestA8>(Reuse.InThread);
+            c.Register<ITestA9, TestA9>(Reuse.InThread);
+            c.Register<ITestA, TestA>(Reuse.InThread);
+
+            return c;
+        }
+
+        public object PerHttpContextRegister(object container)
+        {
+            var c = (Container)container;
+
+            c.Register<ITestA0, TestA0>(Reuse.InWebRequest);
+            c.Register<ITestA1, TestA1>(Reuse.InWebRequest);
+            c.Register<ITestA2, TestA2>(Reuse.InWebRequest);
+            c.Register<ITestA3, TestA3>(Reuse.InWebRequest);
+            c.Register<ITestA4, TestA4>(Reuse.InWebRequest);
+            c.Register<ITestA5, TestA5>(Reuse.InWebRequest);
+            c.Register<ITestA6, TestA6>(Reuse.InWebRequest);
+            c.Register<ITestA7, TestA7>(Reuse.InWebRequest);
+            c.Register<ITestA8, TestA8>(Reuse.InWebRequest);
+            c.Register<ITestA9, TestA9>(Reuse.InWebRequest);
+            c.Register<ITestA, TestA>(Reuse.InWebRequest);
+
+            return c;
+        }
+
         public void Resolve(object container, int testCasesNumber, bool singleton)
         {
             var c = (Container)container;
