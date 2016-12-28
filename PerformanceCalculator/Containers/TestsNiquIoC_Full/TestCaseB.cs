@@ -135,6 +135,16 @@ namespace PerformanceCalculator.Containers.TestsNiquIoC_Full
             return c;
         }
 
+        public object PerThreadRegister(object container)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public object PerHttpContextRegister(object container)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public void Resolve(object container, int testCasesNumber, bool singleton)
         {
             var c = (Container)container;

@@ -97,6 +97,16 @@ namespace PerformanceCalculator.Containers.TestsWindsor
             return c;
         }
 
+        public object PerThreadRegister(object container)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public object PerHttpContextRegister(object container)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public void Resolve(object container, int testCasesNumber, bool singleton)
         {
             var c = (WindsorContainer)container;
