@@ -22,7 +22,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsAutofac
             var obj1 = c.Resolve<ITestA>();
             var obj2 = c.Resolve<ITestA>();
 
-            
+
             Helper.Check(obj1, true);
             Helper.Check(obj2, true);
             Helper.Check(obj1, obj2, true);
@@ -38,7 +38,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsAutofac
 
             var obj1 = c.Resolve<ITestA>();
             var obj2 = c.Resolve<ITestA>();
-            
+
 
             Helper.Check(obj1, false);
             Helper.Check(obj2, false);
@@ -55,11 +55,14 @@ namespace PerformanceCalculator.Tests.Containers.TestsAutofac
             ITestA obj1 = null;
             ITestA obj2 = null;
 
-
+            
             var thread = new Thread(() =>
             {
-                obj1 = c.Resolve<ITestA>();
-                obj2 = c.Resolve<ITestA>();
+                using (var threadLifetime = c.BeginLifetimeScope())
+                {
+                    obj1 = threadLifetime.Resolve<ITestA>();
+                    obj2 = threadLifetime.Resolve<ITestA>();
+                }
             });
             thread.Start();
             thread.Join();
@@ -80,9 +83,21 @@ namespace PerformanceCalculator.Tests.Containers.TestsAutofac
             ITestA obj1 = null;
             ITestA obj2 = null;
 
-
-            var thread1 = new Thread(() => { obj1 = c.Resolve<ITestA>(); });
-            var thread2 = new Thread(() => { obj2 = c.Resolve<ITestA>(); });
+            
+            var thread1 = new Thread(() =>
+            {
+                using (var threadLifetime = c.BeginLifetimeScope())
+                {
+                    obj1 = threadLifetime.Resolve<ITestA>();
+                }
+            });
+            var thread2 = new Thread(() =>
+            {
+                using (var threadLifetime = c.BeginLifetimeScope())
+                {
+                    obj2 = threadLifetime.Resolve<ITestA>();
+                }
+            });
             thread1.Start();
             thread1.Join();
             thread2.Start();

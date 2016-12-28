@@ -23,7 +23,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsSimpleInjector
             var obj1 = c.GetInstance<ITestA>();
             var obj2 = c.GetInstance<ITestA>();
 
-            
+
             Helper.Check(obj1, true);
             Helper.Check(obj2, true);
             Helper.Check(obj1, obj2, true);
@@ -41,7 +41,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsSimpleInjector
             var obj1 = c.GetInstance<ITestA>();
             var obj2 = c.GetInstance<ITestA>();
 
-            
+
             Helper.Check(obj1, false);
             Helper.Check(obj2, false);
             Helper.Check(obj1, obj2, false);
@@ -60,8 +60,11 @@ namespace PerformanceCalculator.Tests.Containers.TestsSimpleInjector
 
             var thread = new Thread(() =>
             {
-                obj1 = c.GetInstance<ITestA>();
-                obj2 = c.GetInstance<ITestA>();
+                using (c.BeginLifetimeScope())
+                {
+                    obj1 = c.GetInstance<ITestA>();
+                    obj2 = c.GetInstance<ITestA>();
+                }
             });
             thread.Start();
             thread.Join();
@@ -83,8 +86,20 @@ namespace PerformanceCalculator.Tests.Containers.TestsSimpleInjector
             ITestA obj2 = null;
 
 
-            var thread1 = new Thread(() => { obj1 = c.GetInstance<ITestA>(); });
-            var thread2 = new Thread(() => { obj2 = c.GetInstance<ITestA>(); });
+            var thread1 = new Thread(() =>
+            {
+                using (c.BeginLifetimeScope())
+                {
+                    obj1 = c.GetInstance<ITestA>();
+                }
+            });
+            var thread2 = new Thread(() =>
+            {
+                using (c.BeginLifetimeScope())
+                {
+                    obj2 = c.GetInstance<ITestA>();
+                }
+            });
             thread1.Start();
             thread1.Join();
             thread2.Start();

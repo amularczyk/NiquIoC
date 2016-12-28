@@ -102,7 +102,7 @@ namespace PerformanceCalculator.Tests
 
         public static void Check(ITestA testA1, ITestA testA2, bool singleton)
         {
-            Assert.AreEqual(testA1.TestA8.Equals(testA2.TestA8), singleton);
+            Assert.AreEqual(testA1.Equals(testA2), singleton);
 
             Assert.AreEqual(testA1.TestA9.Equals(testA2.TestA9), singleton);
             Assert.AreEqual(testA1.TestA8.Equals(testA2.TestA8), singleton);

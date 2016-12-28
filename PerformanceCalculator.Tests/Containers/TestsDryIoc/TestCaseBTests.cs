@@ -27,7 +27,6 @@ namespace PerformanceCalculator.Tests.Containers.TestsDryIoc
         }
 
         [TestMethod]
-        [ExpectedException(typeof(OutOfMemoryException))]
         public void TransientRegister_Fail()
         {
             ITestCase testCase = new TestCaseB();
