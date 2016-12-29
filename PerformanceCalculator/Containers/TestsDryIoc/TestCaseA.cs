@@ -47,7 +47,6 @@ namespace PerformanceCalculator.Containers.TestsDryIoc
         public object PerThreadRegister(object container)
         {
             var c = (Container)container;
-            //c.ScopeContext = new ThreadScopeContext();
 
             c.Register<ITestA0, TestA0>(Reuse.InThread);
             c.Register<ITestA1, TestA1>(Reuse.InThread);
