@@ -138,6 +138,8 @@
     <Compile Include="Containers\TestsWindsor\TestCaseBTests.cs" />
     <Compile Include="Containers\TestsWindsor\TestCaseATests.cs" />
     <Compile Include="Helper.cs" />
+    <Compile Include="Interfaces\ITestCaseCTests.cs" />
+    <Compile Include="Interfaces\ITestCaseBTests.cs" />
     <Compile Include="Interfaces\ITestCaseATests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
