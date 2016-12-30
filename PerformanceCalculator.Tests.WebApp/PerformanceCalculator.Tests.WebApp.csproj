@@ -133,11 +133,27 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
+    <Content Include="Views\DryIoc\Resolve.aspx" />
+    <Content Include="Views\LightInject\Resolve.aspx" />
+    <Content Include="Views\NiquIoCPartial\Resolve.aspx" />
+    <Content Include="Views\SimpleInjector\Resolve.aspx" />
+    <Content Include="Views\StructureMap\Resolve.aspx" />
+    <Content Include="Views\Unity\Resolve.aspx" />
+    <Content Include="Views\Windsor\Resolve.aspx" />
+    <Content Include="Views\Autofac\Resolve.aspx" />
     <Content Include="Views\NiquIoCFull\Resolve.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\DryIocController.cs" />
+    <Compile Include="Controllers\LightInjectController.cs" />
+    <Compile Include="Controllers\WindsorController.cs" />
+    <Compile Include="Controllers\SimpleInjectorController.cs" />
+    <Compile Include="Controllers\NiquIoCPartialController.cs" />
+    <Compile Include="Controllers\StructureMapController.cs" />
+    <Compile Include="Controllers\UnityController.cs" />
+    <Compile Include="Controllers\AutofacController.cs" />
     <Compile Include="Controllers\NiquIoCFullController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -157,6 +173,12 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DryIoc\DryIoc.csproj">
+      <Project>{9946a13c-9436-4263-806e-bd1b344a13fb}</Project>
+      <Name>DryIoc</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
