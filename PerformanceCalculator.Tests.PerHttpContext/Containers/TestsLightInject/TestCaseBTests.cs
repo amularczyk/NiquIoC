@@ -10,13 +10,13 @@ namespace PerformanceCalculator.Tests.PerHttpContext.Containers.TestsLightInject
     public class TestCaseBTests
     {
         [TestMethod]
-        public void PerThreadRegister_SameThread_Success()
+        public void PerHttpContextRegister_SameHttpContext_Success()
         {
             //throw new NotImplementedException("Process not ending - need to investigate it");
             ITestCase testCase = new TestCaseB();
 
             var c = new ServiceContainer();
-            //c = (ServiceContainer)testCase.PerThreadRegister(c);
+            c = (ServiceContainer)testCase.PerHttpContextRegister(c);
             ITestB obj1 = null;
             ITestB obj2 = null;
 
@@ -36,13 +36,13 @@ namespace PerformanceCalculator.Tests.PerHttpContext.Containers.TestsLightInject
         }
 
         [TestMethod]
-        public void PerThreadRegister_DifferentThreads_Success()
+        public void PerHttpContextRegister_DifferentThreads_Success()
         {
             //throw new NotImplementedException("Process not ending - need to investigate it");
             ITestCase testCase = new TestCaseB();
 
             var c = new ServiceContainer();
-            //c = (ServiceContainer)testCase.PerThreadRegister(c);
+            c = (ServiceContainer)testCase.PerHttpContextRegister(c);
             ITestB obj1 = null;
             ITestB obj2 = null;
 
@@ -57,7 +57,7 @@ namespace PerformanceCalculator.Tests.PerHttpContext.Containers.TestsLightInject
 
             Helper.Check(obj1, true);
             Helper.Check(obj2, true);
-            //Helper.Check(obj1, obj2, false);
+            Helper.Check(obj1, obj2, false);
         }
     }
 }

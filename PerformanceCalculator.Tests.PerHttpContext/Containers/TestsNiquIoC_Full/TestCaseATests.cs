@@ -1,8 +1,13 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.IO;
+using System.Web;
+using System.Web.Mvc;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NiquIoC;
+using NiquIoC.Enums;
 using PerformanceCalculator.Containers.TestsNiquIoC_Full;
 using PerformanceCalculator.Interfaces;
 using PerformanceCalculator.TestCases;
+using PerformanceCalculator.Tests.WebApp.Controllers;
 
 namespace PerformanceCalculator.Tests.PerHttpContext.Containers.TestsNiquIoC_Full
 {
@@ -10,23 +15,20 @@ namespace PerformanceCalculator.Tests.PerHttpContext.Containers.TestsNiquIoC_Ful
     public class TestCaseATests
     {
         [TestMethod]
-        public void PerThreadRegister_SameThread_Success()
+        public void PerHttpContextRegister_SameHttpContext_Success()
         {
             ITestCase testCase = new TestCaseA();
 
             var c = new Container();
-            //c = (Container)testCase.PerThreadRegister(c);
-            ITestA obj1 = null;
-            ITestA obj2 = null;
+            c = (Container)testCase.PerHttpContextRegister(c);
 
 
-            //var thread = new Thread(() =>
-            //{
-            //    obj1 = c.Resolve<ITestA>(ResolveKind.FullEmitFunction);
-            //    obj2 = c.Resolve<ITestA>(ResolveKind.FullEmitFunction);
-            //});
-            //thread.Start();
-            //thread.Join();
+            var controller = new NiquIoCFullController();
+            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
+            var result1 = controller.Resolve<ITestA>(c);
+            var obj1 = (ITestA)((ViewResult)result1).Model;
+            var result2 = controller.Resolve<ITestA>(c);
+            var obj2 = (ITestA)((ViewResult)result2).Model;
 
 
             Helper.Check(obj1, true);
@@ -35,27 +37,26 @@ namespace PerformanceCalculator.Tests.PerHttpContext.Containers.TestsNiquIoC_Ful
         }
 
         [TestMethod]
-        public void PerThreadRegister_DifferentThreads_Success()
+        public void PerHttpContextRegister_DifferentThreads_Success()
         {
             ITestCase testCase = new TestCaseA();
 
             var c = new Container();
-            //c = (Container)testCase.PerThreadRegister(c);
-            ITestA obj1 = null;
-            ITestA obj2 = null;
+            c = (Container)testCase.PerHttpContextRegister(c);
+            
 
-
-            //var thread1 = new Thread(() => { obj1 = c.Resolve<ITestA>(ResolveKind.FullEmitFunction); });
-            //var thread2 = new Thread(() => { obj2 = c.Resolve<ITestA>(ResolveKind.FullEmitFunction); });
-            //thread1.Start();
-            //thread1.Join();
-            //thread2.Start();
-            //thread2.Join();
+            var controller = new NiquIoCFullController();
+            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
+            var result1 = controller.Resolve<ITestA>(c);
+            var obj1 = (ITestA)((ViewResult)result1).Model;
+            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
+            var result2 = controller.Resolve<ITestA>(c);
+            var obj2 = (ITestA)((ViewResult)result2).Model;
 
 
             Helper.Check(obj1, true);
             Helper.Check(obj2, true);
-            //Helper.Check(obj1, obj2, false);
+            Helper.Check(obj1, obj2, false);
         }
     }
 }

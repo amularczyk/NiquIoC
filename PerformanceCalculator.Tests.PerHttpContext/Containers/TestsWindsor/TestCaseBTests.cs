@@ -10,12 +10,12 @@ namespace PerformanceCalculator.Tests.PerHttpContext.Containers.TestsWindsor
     public class TestCaseBTests
     {
         [TestMethod]
-        public void PerThreadRegister_SameThread_Success()
+        public void PerHttpContextRegister_SameHttpContext_Success()
         {
             ITestCase testCase = new TestCaseB();
 
             var c = new WindsorContainer();
-            //c = (WindsorContainer)testCase.PerThreadRegister(c);
+            c = (WindsorContainer)testCase.PerHttpContextRegister(c);
             ITestB obj1 = null;
             ITestB obj2 = null;
 
@@ -35,12 +35,12 @@ namespace PerformanceCalculator.Tests.PerHttpContext.Containers.TestsWindsor
         }
 
         [TestMethod]
-        public void PerThreadRegister_DifferentThreads_Success()
+        public void PerHttpContextRegister_DifferentThreads_Success()
         {
             ITestCase testCase = new TestCaseB();
 
             var c = new WindsorContainer();
-            //c = (WindsorContainer)testCase.PerThreadRegister(c);
+            c = (WindsorContainer)testCase.PerHttpContextRegister(c);
             ITestB obj1 = null;
             ITestB obj2 = null;
 
@@ -55,7 +55,7 @@ namespace PerformanceCalculator.Tests.PerHttpContext.Containers.TestsWindsor
 
             Helper.Check(obj1, true);
             Helper.Check(obj2, true);
-            //Helper.Check(obj1, obj2, false);
+            Helper.Check(obj1, obj2, false);
         }
     }
 }

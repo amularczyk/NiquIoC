@@ -10,12 +10,12 @@ namespace PerformanceCalculator.Tests.PerHttpContext.Containers.TestsNiquIoC_Par
     public class TestCaseCTests
     {
         [TestMethod]
-        public void PerThreadRegister_SameThread_Success()
+        public void PerHttpContextRegister_SameHttpContext_Success()
         {
             ITestCase testCase = new TestCaseC();
 
             var c = new Container();
-            //c = (Container)testCase.PerThreadRegister(c);
+            c = (Container)testCase.PerHttpContextRegister(c);
             ITestC obj1 = null;
             ITestC obj2 = null;
 
@@ -35,12 +35,12 @@ namespace PerformanceCalculator.Tests.PerHttpContext.Containers.TestsNiquIoC_Par
         }
 
         [TestMethod]
-        public void PerThreadRegister_DifferentThreads_Success()
+        public void PerHttpContextRegister_DifferentThreads_Success()
         {
             ITestCase testCase = new TestCaseC();
 
             var c = new Container();
-            //c = (Container)testCase.PerThreadRegister(c);
+            c = (Container)testCase.PerHttpContextRegister(c);
             ITestC obj1 = null;
             ITestC obj2 = null;
 
@@ -55,7 +55,7 @@ namespace PerformanceCalculator.Tests.PerHttpContext.Containers.TestsNiquIoC_Par
 
             Helper.Check(obj1, true);
             Helper.Check(obj2, true);
-            //Helper.Check(obj1, obj2, false);
+            Helper.Check(obj1, obj2, false);
         }
     }
 }

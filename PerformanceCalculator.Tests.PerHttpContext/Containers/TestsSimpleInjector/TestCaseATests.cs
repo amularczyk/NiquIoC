@@ -10,12 +10,12 @@ namespace PerformanceCalculator.Tests.PerHttpContext.Containers.TestsSimpleInjec
     public class TestCaseATests
     {
         [TestMethod]
-        public void PerThreadRegister_SameThread_Success()
+        public void PerHttpContextRegister_SameHttpContext_Success()
         {
             ITestCase testCase = new TestCaseA();
 
             var c = new Container();
-            //c = (Container)testCase.PerThreadRegister(c);
+            c = (Container)testCase.PerHttpContextRegister(c);
             ITestA obj1 = null;
             ITestA obj2 = null;
 
@@ -38,12 +38,12 @@ namespace PerformanceCalculator.Tests.PerHttpContext.Containers.TestsSimpleInjec
         }
 
         [TestMethod]
-        public void PerThreadRegister_DifferentThreads_Success()
+        public void PerHttpContextRegister_DifferentThreads_Success()
         {
             ITestCase testCase = new TestCaseA();
 
             var c = new Container();
-            //c = (Container)testCase.PerThreadRegister(c);
+            c = (Container)testCase.PerHttpContextRegister(c);
             ITestA obj1 = null;
             ITestA obj2 = null;
 
@@ -70,7 +70,7 @@ namespace PerformanceCalculator.Tests.PerHttpContext.Containers.TestsSimpleInjec
 
             Helper.Check(obj1, true);
             Helper.Check(obj2, true);
-            //Helper.Check(obj1, obj2, false);
+            Helper.Check(obj1, obj2, false);
         }
     }
 }
