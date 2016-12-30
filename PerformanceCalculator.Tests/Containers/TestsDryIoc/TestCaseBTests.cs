@@ -1,16 +1,14 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using DryIoc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PerformanceCalculator.Containers.TestsDryIoc;
 using PerformanceCalculator.Interfaces;
 using PerformanceCalculator.TestCases;
-using PerformanceCalculator.Tests.Interfaces;
 
 namespace PerformanceCalculator.Tests.Containers.TestsDryIoc
 {
     [TestClass]
-    public class TestCaseBTests : ITestCaseBTests
+    public class TestCaseBTests
     {
         [TestMethod]
         public void SingletonRegister_Success()

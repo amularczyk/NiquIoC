@@ -3,13 +3,12 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PerformanceCalculator.Containers.TestsSimpleInjector;
 using PerformanceCalculator.Interfaces;
 using PerformanceCalculator.TestCases;
-using PerformanceCalculator.Tests.Interfaces;
 using SimpleInjector;
 
 namespace PerformanceCalculator.Tests.Containers.TestsSimpleInjector
 {
     [TestClass]
-    public class TestCaseCTests : ITestCaseCTests
+    public class TestCaseCTests
     {
         [TestMethod]
         public void SingletonRegister_Success()

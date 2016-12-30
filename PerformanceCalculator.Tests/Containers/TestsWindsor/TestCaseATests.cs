@@ -1,16 +1,14 @@
 ﻿using System.Threading;
 using Castle.Windsor;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NiquIoC.Enums;
 using PerformanceCalculator.Containers.TestsWindsor;
 using PerformanceCalculator.Interfaces;
 using PerformanceCalculator.TestCases;
-using PerformanceCalculator.Tests.Interfaces;
 
 namespace PerformanceCalculator.Tests.Containers.TestsWindsor
 {
     [TestClass]
-    public class TestCaseATests : ITestCaseATests
+    public class TestCaseATests
     {
         [TestMethod]
         public void SingletonRegister_Success()

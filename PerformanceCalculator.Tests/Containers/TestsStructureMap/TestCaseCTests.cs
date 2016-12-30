@@ -3,13 +3,12 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PerformanceCalculator.Containers.TestsStructureMap;
 using PerformanceCalculator.Interfaces;
 using PerformanceCalculator.TestCases;
-using PerformanceCalculator.Tests.Interfaces;
 using StructureMap;
 
 namespace PerformanceCalculator.Tests.Containers.TestsStructureMap
 {
     [TestClass]
-    public class TestCaseCTests : ITestCaseCTests
+    public class TestCaseCTests
     {
         [TestMethod]
         public void SingletonRegister_Success()

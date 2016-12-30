@@ -4,12 +4,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PerformanceCalculator.Containers.TestsAutofac;
 using PerformanceCalculator.Interfaces;
 using PerformanceCalculator.TestCases;
-using PerformanceCalculator.Tests.Interfaces;
 
 namespace PerformanceCalculator.Tests.Containers.TestsAutofac
 {
     [TestClass]
-    public class TestCaseATests : ITestCaseATests
+    public class TestCaseATests
     {
         [TestMethod]
         public void SingletonRegister_Success()

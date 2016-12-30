@@ -5,12 +5,11 @@ using NiquIoC.Enums;
 using PerformanceCalculator.Containers.TestsNiquIoC_Partial;
 using PerformanceCalculator.Interfaces;
 using PerformanceCalculator.TestCases;
-using PerformanceCalculator.Tests.Interfaces;
 
 namespace PerformanceCalculator.Tests.Containers.TestsNiquIoC_Partial
 {
     [TestClass]
-    public class TestCaseBTests : ITestCaseBTests
+    public class TestCaseBTests
     {
         [TestMethod]
         public void SingletonRegister_Success()

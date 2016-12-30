@@ -4,12 +4,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PerformanceCalculator.Containers.TestsWindsor;
 using PerformanceCalculator.Interfaces;
 using PerformanceCalculator.TestCases;
-using PerformanceCalculator.Tests.Interfaces;
 
 namespace PerformanceCalculator.Tests.Containers.TestsWindsor
 {
     [TestClass]
-    public class TestCaseBTests : ITestCaseBTests
+    public class TestCaseBTests
     {
         [TestMethod]
         public void SingletonRegister_Success()

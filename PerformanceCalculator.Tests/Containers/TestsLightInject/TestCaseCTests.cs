@@ -5,12 +5,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PerformanceCalculator.Containers.TestsLightInject;
 using PerformanceCalculator.Interfaces;
 using PerformanceCalculator.TestCases;
-using PerformanceCalculator.Tests.Interfaces;
 
 namespace PerformanceCalculator.Tests.Containers.TestsLightInject
 {
     [TestClass]
-    public class TestCaseCTests : ITestCaseCTests
+    public class TestCaseCTests
     {
         [TestMethod]
         public void SingletonRegister_Success()

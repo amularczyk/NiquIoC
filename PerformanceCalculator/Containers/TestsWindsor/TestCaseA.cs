@@ -1,5 +1,4 @@
-﻿using System;
-using Castle.MicroKernel.Registration;
+﻿using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using PerformanceCalculator.Interfaces;
 using PerformanceCalculator.TestCases;

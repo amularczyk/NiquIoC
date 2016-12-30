@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Web.Mvc;
 using NiquIoC.Enums;
-using NiquIoC.Test.Model;
 
 namespace NiquIoC.Test.WebApplication.Controllers
 {
