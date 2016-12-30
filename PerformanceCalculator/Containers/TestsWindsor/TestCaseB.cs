@@ -201,7 +201,66 @@ namespace PerformanceCalculator.Containers.TestsWindsor
 
         public object PerHttpContextRegister(object container)
         {
-            throw new System.NotImplementedException();
+            var c = (WindsorContainer)container;
+
+            c.Register(Component.For<ITestB00>().ImplementedBy<TestB00>().LifeStyle.PerWebRequest);
+            c.Register(Component.For<ITestB01>().ImplementedBy<TestB01>().LifeStyle.PerWebRequest);
+            c.Register(Component.For<ITestB02>().ImplementedBy<TestB02>().LifeStyle.PerWebRequest);
+            c.Register(Component.For<ITestB03>().ImplementedBy<TestB03>().LifeStyle.PerWebRequest);
+            c.Register(Component.For<ITestB04>().ImplementedBy<TestB04>().LifeStyle.PerWebRequest);
+            c.Register(Component.For<ITestB05>().ImplementedBy<TestB05>().LifeStyle.PerWebRequest);
+            c.Register(Component.For<ITestB06>().ImplementedBy<TestB06>().LifeStyle.PerWebRequest);
+            c.Register(Component.For<ITestB07>().ImplementedBy<TestB07>().LifeStyle.PerWebRequest);
+            c.Register(Component.For<ITestB08>().ImplementedBy<TestB08>().LifeStyle.PerWebRequest);
+            c.Register(Component.For<ITestB09>().ImplementedBy<TestB09>().LifeStyle.PerWebRequest);
+
+            c.Register(Component.For<ITestB10>().ImplementedBy<TestB10>().LifeStyle.PerWebRequest);
+            c.Register(Component.For<ITestB11>().ImplementedBy<TestB11>().LifeStyle.PerWebRequest);
+            c.Register(Component.For<ITestB12>().ImplementedBy<TestB12>().LifeStyle.PerWebRequest);
+            c.Register(Component.For<ITestB13>().ImplementedBy<TestB13>().LifeStyle.PerWebRequest);
+            c.Register(Component.For<ITestB14>().ImplementedBy<TestB14>().LifeStyle.PerWebRequest);
+            c.Register(Component.For<ITestB15>().ImplementedBy<TestB15>().LifeStyle.PerWebRequest);
+            c.Register(Component.For<ITestB16>().ImplementedBy<TestB16>().LifeStyle.PerWebRequest);
+            c.Register(Component.For<ITestB17>().ImplementedBy<TestB17>().LifeStyle.PerWebRequest);
+            c.Register(Component.For<ITestB18>().ImplementedBy<TestB18>().LifeStyle.PerWebRequest);
+            c.Register(Component.For<ITestB19>().ImplementedBy<TestB19>().LifeStyle.PerWebRequest);
+
+            c.Register(Component.For<ITestB20>().ImplementedBy<TestB20>().LifeStyle.PerWebRequest);
+            c.Register(Component.For<ITestB21>().ImplementedBy<TestB21>().LifeStyle.PerWebRequest);
+            c.Register(Component.For<ITestB22>().ImplementedBy<TestB22>().LifeStyle.PerWebRequest);
+            c.Register(Component.For<ITestB23>().ImplementedBy<TestB23>().LifeStyle.PerWebRequest);
+            c.Register(Component.For<ITestB24>().ImplementedBy<TestB24>().LifeStyle.PerWebRequest);
+            c.Register(Component.For<ITestB25>().ImplementedBy<TestB25>().LifeStyle.PerWebRequest);
+            c.Register(Component.For<ITestB26>().ImplementedBy<TestB26>().LifeStyle.PerWebRequest);
+            c.Register(Component.For<ITestB27>().ImplementedBy<TestB27>().LifeStyle.PerWebRequest);
+            c.Register(Component.For<ITestB28>().ImplementedBy<TestB28>().LifeStyle.PerWebRequest);
+            c.Register(Component.For<ITestB29>().ImplementedBy<TestB29>().LifeStyle.PerWebRequest);
+
+            c.Register(Component.For<ITestB30>().ImplementedBy<TestB30>().LifeStyle.PerWebRequest);
+            c.Register(Component.For<ITestB31>().ImplementedBy<TestB31>().LifeStyle.PerWebRequest);
+            c.Register(Component.For<ITestB32>().ImplementedBy<TestB32>().LifeStyle.PerWebRequest);
+            c.Register(Component.For<ITestB33>().ImplementedBy<TestB33>().LifeStyle.PerWebRequest);
+            c.Register(Component.For<ITestB34>().ImplementedBy<TestB34>().LifeStyle.PerWebRequest);
+            c.Register(Component.For<ITestB35>().ImplementedBy<TestB35>().LifeStyle.PerWebRequest);
+            c.Register(Component.For<ITestB36>().ImplementedBy<TestB36>().LifeStyle.PerWebRequest);
+            c.Register(Component.For<ITestB37>().ImplementedBy<TestB37>().LifeStyle.PerWebRequest);
+            c.Register(Component.For<ITestB38>().ImplementedBy<TestB38>().LifeStyle.PerWebRequest);
+            c.Register(Component.For<ITestB39>().ImplementedBy<TestB39>().LifeStyle.PerWebRequest);
+
+            c.Register(Component.For<ITestB40>().ImplementedBy<TestB40>().LifeStyle.PerWebRequest);
+            c.Register(Component.For<ITestB41>().ImplementedBy<TestB41>().LifeStyle.PerWebRequest);
+            c.Register(Component.For<ITestB42>().ImplementedBy<TestB42>().LifeStyle.PerWebRequest);
+            c.Register(Component.For<ITestB43>().ImplementedBy<TestB43>().LifeStyle.PerWebRequest);
+            c.Register(Component.For<ITestB44>().ImplementedBy<TestB44>().LifeStyle.PerWebRequest);
+            c.Register(Component.For<ITestB45>().ImplementedBy<TestB45>().LifeStyle.PerWebRequest);
+            c.Register(Component.For<ITestB46>().ImplementedBy<TestB46>().LifeStyle.PerWebRequest);
+            c.Register(Component.For<ITestB47>().ImplementedBy<TestB47>().LifeStyle.PerWebRequest);
+            c.Register(Component.For<ITestB48>().ImplementedBy<TestB48>().LifeStyle.PerWebRequest);
+            c.Register(Component.For<ITestB49>().ImplementedBy<TestB49>().LifeStyle.PerWebRequest);
+
+            c.Register(Component.For<ITestB>().ImplementedBy<TestB>().LifeStyle.PerWebRequest);
+
+            return c;
         }
 
         public void Resolve(object container, int testCasesNumber, bool singleton)

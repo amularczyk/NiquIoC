@@ -200,7 +200,66 @@ namespace PerformanceCalculator.Containers.TestsUnity
 
         public object PerHttpContextRegister(object container)
         {
-            throw new System.NotImplementedException();
+            var c = (UnityContainer)container;
+
+            c.RegisterType<ITestB00, TestB00>(new PerRequestLifetimeManager());
+            c.RegisterType<ITestB01, TestB01>(new PerRequestLifetimeManager());
+            c.RegisterType<ITestB02, TestB02>(new PerRequestLifetimeManager());
+            c.RegisterType<ITestB03, TestB03>(new PerRequestLifetimeManager());
+            c.RegisterType<ITestB04, TestB04>(new PerRequestLifetimeManager());
+            c.RegisterType<ITestB05, TestB05>(new PerRequestLifetimeManager());
+            c.RegisterType<ITestB06, TestB06>(new PerRequestLifetimeManager());
+            c.RegisterType<ITestB07, TestB07>(new PerRequestLifetimeManager());
+            c.RegisterType<ITestB08, TestB08>(new PerRequestLifetimeManager());
+            c.RegisterType<ITestB09, TestB09>(new PerRequestLifetimeManager());
+
+            c.RegisterType<ITestB10, TestB10>(new PerRequestLifetimeManager());
+            c.RegisterType<ITestB11, TestB11>(new PerRequestLifetimeManager());
+            c.RegisterType<ITestB12, TestB12>(new PerRequestLifetimeManager());
+            c.RegisterType<ITestB13, TestB13>(new PerRequestLifetimeManager());
+            c.RegisterType<ITestB14, TestB14>(new PerRequestLifetimeManager());
+            c.RegisterType<ITestB15, TestB15>(new PerRequestLifetimeManager());
+            c.RegisterType<ITestB16, TestB16>(new PerRequestLifetimeManager());
+            c.RegisterType<ITestB17, TestB17>(new PerRequestLifetimeManager());
+            c.RegisterType<ITestB18, TestB18>(new PerRequestLifetimeManager());
+            c.RegisterType<ITestB19, TestB19>(new PerRequestLifetimeManager());
+
+            c.RegisterType<ITestB20, TestB20>(new PerRequestLifetimeManager());
+            c.RegisterType<ITestB21, TestB21>(new PerRequestLifetimeManager());
+            c.RegisterType<ITestB22, TestB22>(new PerRequestLifetimeManager());
+            c.RegisterType<ITestB23, TestB23>(new PerRequestLifetimeManager());
+            c.RegisterType<ITestB24, TestB24>(new PerRequestLifetimeManager());
+            c.RegisterType<ITestB25, TestB25>(new PerRequestLifetimeManager());
+            c.RegisterType<ITestB26, TestB26>(new PerRequestLifetimeManager());
+            c.RegisterType<ITestB27, TestB27>(new PerRequestLifetimeManager());
+            c.RegisterType<ITestB28, TestB28>(new PerRequestLifetimeManager());
+            c.RegisterType<ITestB29, TestB29>(new PerRequestLifetimeManager());
+
+            c.RegisterType<ITestB30, TestB30>(new PerRequestLifetimeManager());
+            c.RegisterType<ITestB31, TestB31>(new PerRequestLifetimeManager());
+            c.RegisterType<ITestB32, TestB32>(new PerRequestLifetimeManager());
+            c.RegisterType<ITestB33, TestB33>(new PerRequestLifetimeManager());
+            c.RegisterType<ITestB34, TestB34>(new PerRequestLifetimeManager());
+            c.RegisterType<ITestB35, TestB35>(new PerRequestLifetimeManager());
+            c.RegisterType<ITestB36, TestB36>(new PerRequestLifetimeManager());
+            c.RegisterType<ITestB37, TestB37>(new PerRequestLifetimeManager());
+            c.RegisterType<ITestB38, TestB38>(new PerRequestLifetimeManager());
+            c.RegisterType<ITestB39, TestB39>(new PerRequestLifetimeManager());
+
+            c.RegisterType<ITestB40, TestB40>(new PerRequestLifetimeManager());
+            c.RegisterType<ITestB41, TestB41>(new PerRequestLifetimeManager());
+            c.RegisterType<ITestB42, TestB42>(new PerRequestLifetimeManager());
+            c.RegisterType<ITestB43, TestB43>(new PerRequestLifetimeManager());
+            c.RegisterType<ITestB44, TestB44>(new PerRequestLifetimeManager());
+            c.RegisterType<ITestB45, TestB45>(new PerRequestLifetimeManager());
+            c.RegisterType<ITestB46, TestB46>(new PerRequestLifetimeManager());
+            c.RegisterType<ITestB47, TestB47>(new PerRequestLifetimeManager());
+            c.RegisterType<ITestB48, TestB48>(new PerRequestLifetimeManager());
+            c.RegisterType<ITestB49, TestB49>(new PerRequestLifetimeManager());
+
+            c.RegisterType<ITestB, TestB>(new PerRequestLifetimeManager());
+
+            return c;
         }
 
         public void Resolve(object container, int testCasesNumber, bool singleton)
