@@ -16,7 +16,7 @@ namespace PerformanceCalculator.Tests.PerHttpContext.Containers.TestsAutofac
         [TestMethod]
         public void PerHttpContextRegister_SameHttpContext_Success()
         {
-            ITestCase testCase = new TestCaseA();
+            ITestCase testCase = new TestCaseC();
 
             var cb = new ContainerBuilder();
             var c = (IContainer)testCase.PerHttpContextRegister(cb);
@@ -38,7 +38,7 @@ namespace PerformanceCalculator.Tests.PerHttpContext.Containers.TestsAutofac
         [TestMethod]
         public void PerHttpContextRegister_DifferentThreads_Success()
         {
-            ITestCase testCase = new TestCaseA();
+            ITestCase testCase = new TestCaseC();
 
             var cb = new ContainerBuilder();
             var c = (IContainer)testCase.PerHttpContextRegister(cb);

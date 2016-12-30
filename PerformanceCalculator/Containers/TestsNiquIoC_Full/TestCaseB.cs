@@ -201,7 +201,66 @@ namespace PerformanceCalculator.Containers.TestsNiquIoC_Full
 
         public object PerHttpContextRegister(object container)
         {
-            throw new System.NotImplementedException();
+            var c = (Container)container;
+
+            c.RegisterType<ITestB00, TestB00>().AsPerHttpContext();
+            c.RegisterType<ITestB01, TestB01>().AsPerHttpContext();
+            c.RegisterType<ITestB02, TestB02>().AsPerHttpContext();
+            c.RegisterType<ITestB03, TestB03>().AsPerHttpContext();
+            c.RegisterType<ITestB04, TestB04>().AsPerHttpContext();
+            c.RegisterType<ITestB05, TestB05>().AsPerHttpContext();
+            c.RegisterType<ITestB06, TestB06>().AsPerHttpContext();
+            c.RegisterType<ITestB07, TestB07>().AsPerHttpContext();
+            c.RegisterType<ITestB08, TestB08>().AsPerHttpContext();
+            c.RegisterType<ITestB09, TestB09>().AsPerHttpContext();
+
+            c.RegisterType<ITestB10, TestB10>().AsPerHttpContext();
+            c.RegisterType<ITestB11, TestB11>().AsPerHttpContext();
+            c.RegisterType<ITestB12, TestB12>().AsPerHttpContext();
+            c.RegisterType<ITestB13, TestB13>().AsPerHttpContext();
+            c.RegisterType<ITestB14, TestB14>().AsPerHttpContext();
+            c.RegisterType<ITestB15, TestB15>().AsPerHttpContext();
+            c.RegisterType<ITestB16, TestB16>().AsPerHttpContext();
+            c.RegisterType<ITestB17, TestB17>().AsPerHttpContext();
+            c.RegisterType<ITestB18, TestB18>().AsPerHttpContext();
+            c.RegisterType<ITestB19, TestB19>().AsPerHttpContext();
+
+            c.RegisterType<ITestB20, TestB20>().AsPerHttpContext();
+            c.RegisterType<ITestB21, TestB21>().AsPerHttpContext();
+            c.RegisterType<ITestB22, TestB22>().AsPerHttpContext();
+            c.RegisterType<ITestB23, TestB23>().AsPerHttpContext();
+            c.RegisterType<ITestB24, TestB24>().AsPerHttpContext();
+            c.RegisterType<ITestB25, TestB25>().AsPerHttpContext();
+            c.RegisterType<ITestB26, TestB26>().AsPerHttpContext();
+            c.RegisterType<ITestB27, TestB27>().AsPerHttpContext();
+            c.RegisterType<ITestB28, TestB28>().AsPerHttpContext();
+            c.RegisterType<ITestB29, TestB29>().AsPerHttpContext();
+
+            c.RegisterType<ITestB30, TestB30>().AsPerHttpContext();
+            c.RegisterType<ITestB31, TestB31>().AsPerHttpContext();
+            c.RegisterType<ITestB32, TestB32>().AsPerHttpContext();
+            c.RegisterType<ITestB33, TestB33>().AsPerHttpContext();
+            c.RegisterType<ITestB34, TestB34>().AsPerHttpContext();
+            c.RegisterType<ITestB35, TestB35>().AsPerHttpContext();
+            c.RegisterType<ITestB36, TestB36>().AsPerHttpContext();
+            c.RegisterType<ITestB37, TestB37>().AsPerHttpContext();
+            c.RegisterType<ITestB38, TestB38>().AsPerHttpContext();
+            c.RegisterType<ITestB39, TestB39>().AsPerHttpContext();
+
+            c.RegisterType<ITestB40, TestB40>().AsPerHttpContext();
+            c.RegisterType<ITestB41, TestB41>().AsPerHttpContext();
+            c.RegisterType<ITestB42, TestB42>().AsPerHttpContext();
+            c.RegisterType<ITestB43, TestB43>().AsPerHttpContext();
+            c.RegisterType<ITestB44, TestB44>().AsPerHttpContext();
+            c.RegisterType<ITestB45, TestB45>().AsPerHttpContext();
+            c.RegisterType<ITestB46, TestB46>().AsPerHttpContext();
+            c.RegisterType<ITestB47, TestB47>().AsPerHttpContext();
+            c.RegisterType<ITestB48, TestB48>().AsPerHttpContext();
+            c.RegisterType<ITestB49, TestB49>().AsPerHttpContext();
+
+            c.RegisterType<ITestB, TestB>().AsPerHttpContext();
+
+            return c;
         }
 
         public void Resolve(object container, int testCasesNumber, bool singleton)

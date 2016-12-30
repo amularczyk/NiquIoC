@@ -16,7 +16,7 @@ namespace PerformanceCalculator.Tests.PerHttpContext.Containers.TestsSimpleInjec
         [TestMethod]
         public void PerHttpContextRegister_SameHttpContext_Success()
         {
-            ITestCase testCase = new TestCaseA();
+            ITestCase testCase = new TestCaseB();
 
             var c = new Container();
             c = (Container)testCase.PerHttpContextRegister(c);
@@ -38,7 +38,7 @@ namespace PerformanceCalculator.Tests.PerHttpContext.Containers.TestsSimpleInjec
         [TestMethod]
         public void PerHttpContextRegister_DifferentThreads_Success()
         {
-            ITestCase testCase = new TestCaseA();
+            ITestCase testCase = new TestCaseB();
 
             var c = new Container();
             c = (Container)testCase.PerHttpContextRegister(c);
