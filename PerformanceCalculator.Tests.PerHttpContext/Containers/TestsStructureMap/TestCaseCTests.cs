@@ -1,7 +1,11 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.IO;
+using System.Web;
+using System.Web.Mvc;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PerformanceCalculator.Containers.TestsStructureMap;
 using PerformanceCalculator.Interfaces;
 using PerformanceCalculator.TestCases;
+using PerformanceCalculator.Tests.WebApp.Controllers;
 using StructureMap;
 
 namespace PerformanceCalculator.Tests.PerHttpContext.Containers.TestsStructureMap
@@ -12,21 +16,18 @@ namespace PerformanceCalculator.Tests.PerHttpContext.Containers.TestsStructureMa
         [TestMethod]
         public void PerHttpContextRegister_SameHttpContext_Success()
         {
-            ITestCase testCase = new TestCaseC();
+            ITestCase testCase = new TestCaseA();
 
             var c = new Container();
             c = (Container)testCase.PerHttpContextRegister(c);
-            ITestC obj1 = null;
-            ITestC obj2 = null;
 
 
-            //var thread = new Thread(() =>
-            //{
-            //    obj1 = c.GetInstance<ITestC>();
-            //    obj2 = c.GetInstance<ITestC>();
-            //});
-            //thread.Start();
-            //thread.Join();
+            var controller = new StructureMapController();
+            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
+            var result1 = controller.Resolve<ITestC>(c);
+            var obj1 = (ITestC)((ViewResult)result1).Model;
+            var result2 = controller.Resolve<ITestC>(c);
+            var obj2 = (ITestC)((ViewResult)result2).Model;
 
 
             Helper.Check(obj1, true);
@@ -37,20 +38,19 @@ namespace PerformanceCalculator.Tests.PerHttpContext.Containers.TestsStructureMa
         [TestMethod]
         public void PerHttpContextRegister_DifferentThreads_Success()
         {
-            ITestCase testCase = new TestCaseC();
+            ITestCase testCase = new TestCaseA();
 
             var c = new Container();
             c = (Container)testCase.PerHttpContextRegister(c);
-            ITestC obj1 = null;
-            ITestC obj2 = null;
 
 
-            //var thread1 = new Thread(() => { obj1 = c.GetInstance<ITestC>(); });
-            //var thread2 = new Thread(() => { obj2 = c.GetInstance<ITestC>(); });
-            //thread1.Start();
-            //thread1.Join();
-            //thread2.Start();
-            //thread2.Join();
+            var controller = new StructureMapController();
+            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
+            var result1 = controller.Resolve<ITestC>(c);
+            var obj1 = (ITestC)((ViewResult)result1).Model;
+            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
+            var result2 = controller.Resolve<ITestC>(c);
+            var obj2 = (ITestC)((ViewResult)result2).Model;
 
 
             Helper.Check(obj1, true);
