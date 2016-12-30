@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using LightInject;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PerformanceCalculator.Containers.TestsLightInject;
@@ -50,6 +51,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsLightInject
         [TestMethod]
         public void PerThreadRegister_SameThread_Success()
         {
+            throw new NotImplementedException("Process not ending - need to investigate it");
             ITestCase testCase = new TestCaseB();
 
             var c = new ServiceContainer();
@@ -75,6 +77,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsLightInject
         [TestMethod]
         public void PerThreadRegister_DifferentThreads_Success()
         {
+            throw new NotImplementedException("Process not ending - need to investigate it");
             ITestCase testCase = new TestCaseB();
 
             var c = new ServiceContainer();

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DryIoc", "DryIoc\DryIoc.csproj", "{9946A13C-9436-4263-806E-BD1B344A13FB}"
 EndProject
@@ -12,6 +12,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerformanceCalculator.Tests", "PerformanceCalculator.Tests\PerformanceCalculator.Tests.csproj", "{092E8B80-CEEA-434A-9F72-BB5B0423930C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerformanceCalculator.Common", "PerformanceCalculator.Common\PerformanceCalculator.Common.csproj", "{F8A9C60E-8402-4AB5-8C43-1AD21D6B6CF5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerformanceCalculator.Tests.WebApp", "PerformanceCalculator.Tests.WebApp\PerformanceCalculator.Tests.WebApp.csproj", "{508DB6A5-90F3-4FDD-845C-AB8450C8A250}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerformanceCalculator.Tests.PerHttpContext", "PerformanceCalculator.Tests.PerHttpContext\PerformanceCalculator.Tests.PerHttpContext.csproj", "{08E884BE-5553-4A8F-818D-21D8A9D5D95B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +43,14 @@ Global
 		{F8A9C60E-8402-4AB5-8C43-1AD21D6B6CF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F8A9C60E-8402-4AB5-8C43-1AD21D6B6CF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F8A9C60E-8402-4AB5-8C43-1AD21D6B6CF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{508DB6A5-90F3-4FDD-845C-AB8450C8A250}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{508DB6A5-90F3-4FDD-845C-AB8450C8A250}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{508DB6A5-90F3-4FDD-845C-AB8450C8A250}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{508DB6A5-90F3-4FDD-845C-AB8450C8A250}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08E884BE-5553-4A8F-818D-21D8A9D5D95B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08E884BE-5553-4A8F-818D-21D8A9D5D95B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08E884BE-5553-4A8F-818D-21D8A9D5D95B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08E884BE-5553-4A8F-818D-21D8A9D5D95B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
