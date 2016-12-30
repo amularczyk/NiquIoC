@@ -43,7 +43,7 @@ namespace PerformanceCalculator.Tests.PerHttpContext.Containers.TestsNiquIoC_Ful
 
             var c = new Container();
             c = (Container)testCase.PerHttpContextRegister(c);
-            
+
 
             var controller = new NiquIoCFullController();
             HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));

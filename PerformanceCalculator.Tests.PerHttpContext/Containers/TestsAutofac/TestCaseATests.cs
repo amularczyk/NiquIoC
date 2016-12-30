@@ -1,8 +1,12 @@
-﻿using Autofac;
+﻿using System.IO;
+using System.Web;
+using System.Web.Mvc;
+using Autofac;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PerformanceCalculator.Containers.TestsAutofac;
 using PerformanceCalculator.Interfaces;
 using PerformanceCalculator.TestCases;
+using PerformanceCalculator.Tests.WebApp.Controllers;
 
 namespace PerformanceCalculator.Tests.PerHttpContext.Containers.TestsAutofac
 {
@@ -16,20 +20,14 @@ namespace PerformanceCalculator.Tests.PerHttpContext.Containers.TestsAutofac
 
             var cb = new ContainerBuilder();
             var c = (IContainer)testCase.PerHttpContextRegister(cb);
-            ITestA obj1 = null;
-            ITestA obj2 = null;
 
-            
-            //var thread = new Thread(() =>
-            //{
-            //    using (var threadLifetime = c.BeginLifetimeScope())
-            //    {
-            //        obj1 = threadLifetime.Resolve<ITestA>();
-            //        obj2 = threadLifetime.Resolve<ITestA>();
-            //    }
-            //});
-            //thread.Start();
-            //thread.Join();
+
+            var controller = new AutofacController();
+            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
+            var result1 = controller.Resolve<ITestA>(c);
+            var obj1 = (ITestA)((ViewResult)result1).Model;
+            var result2 = controller.Resolve<ITestA>(c);
+            var obj2 = (ITestA)((ViewResult)result2).Model;
 
 
             Helper.Check(obj1, true);
@@ -44,28 +42,15 @@ namespace PerformanceCalculator.Tests.PerHttpContext.Containers.TestsAutofac
 
             var cb = new ContainerBuilder();
             var c = (IContainer)testCase.PerHttpContextRegister(cb);
-            ITestA obj1 = null;
-            ITestA obj2 = null;
 
-            
-            //var thread1 = new Thread(() =>
-            //{
-            //    using (var threadLifetime = c.BeginLifetimeScope())
-            //    {
-            //        obj1 = threadLifetime.Resolve<ITestA>();
-            //    }
-            //});
-            //var thread2 = new Thread(() =>
-            //{
-            //    using (var threadLifetime = c.BeginLifetimeScope())
-            //    {
-            //        obj2 = threadLifetime.Resolve<ITestA>();
-            //    }
-            //});
-            //thread1.Start();
-            //thread1.Join();
-            //thread2.Start();
-            //thread2.Join();
+
+            var controller = new AutofacController();
+            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
+            var result1 = controller.Resolve<ITestA>(c);
+            var obj1 = (ITestA)((ViewResult)result1).Model;
+            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
+            var result2 = controller.Resolve<ITestA>(c);
+            var obj2 = (ITestA)((ViewResult)result2).Model;
 
 
             Helper.Check(obj1, true);

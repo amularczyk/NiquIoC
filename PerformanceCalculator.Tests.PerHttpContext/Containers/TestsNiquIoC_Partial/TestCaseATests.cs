@@ -1,8 +1,12 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.IO;
+using System.Web;
+using System.Web.Mvc;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NiquIoC;
 using PerformanceCalculator.Containers.TestsNiquIoC_Partial;
 using PerformanceCalculator.Interfaces;
 using PerformanceCalculator.TestCases;
+using PerformanceCalculator.Tests.WebApp.Controllers;
 
 namespace PerformanceCalculator.Tests.PerHttpContext.Containers.TestsNiquIoC_Partial
 {
@@ -16,19 +20,16 @@ namespace PerformanceCalculator.Tests.PerHttpContext.Containers.TestsNiquIoC_Par
 
             var c = new Container();
             c = (Container)testCase.PerHttpContextRegister(c);
-            ITestA obj1 = null;
-            ITestA obj2 = null;
 
 
-            //var thread = new Thread(() =>
-            //{
-            //    obj1 = c.Resolve<ITestA>(ResolveKind.PartialEmitFunction);
-            //    obj2 = c.Resolve<ITestA>(ResolveKind.PartialEmitFunction);
-            //});
-            //thread.Start();
-            //thread.Join();
+            var controller = new NiquIoCPartialController();
+            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
+            var result1 = controller.Resolve<ITestA>(c);
+            var obj1 = (ITestA)((ViewResult)result1).Model;
+            var result2 = controller.Resolve<ITestA>(c);
+            var obj2 = (ITestA)((ViewResult)result2).Model;
 
-            
+
             Helper.Check(obj1, true);
             Helper.Check(obj2, true);
             Helper.Check(obj1, obj2, true);
@@ -41,18 +42,17 @@ namespace PerformanceCalculator.Tests.PerHttpContext.Containers.TestsNiquIoC_Par
 
             var c = new Container();
             c = (Container)testCase.PerHttpContextRegister(c);
-            ITestA obj1 = null;
-            ITestA obj2 = null;
 
 
-            //var thread1 = new Thread(() => { obj1 = c.Resolve<ITestA>(ResolveKind.PartialEmitFunction); });
-            //var thread2 = new Thread(() => { obj2 = c.Resolve<ITestA>(ResolveKind.PartialEmitFunction); });
-            //thread1.Start();
-            //thread1.Join();
-            //thread2.Start();
-            //thread2.Join();
+            var controller = new NiquIoCPartialController();
+            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
+            var result1 = controller.Resolve<ITestA>(c);
+            var obj1 = (ITestA)((ViewResult)result1).Model;
+            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
+            var result2 = controller.Resolve<ITestA>(c);
+            var obj2 = (ITestA)((ViewResult)result2).Model;
 
-            
+
             Helper.Check(obj1, true);
             Helper.Check(obj2, true);
             Helper.Check(obj1, obj2, false);

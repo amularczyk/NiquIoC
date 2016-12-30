@@ -1,8 +1,12 @@
-﻿using DryIoc;
+﻿using System.IO;
+using System.Web;
+using System.Web.Mvc;
+using DryIoc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PerformanceCalculator.Containers.TestsDryIoc;
 using PerformanceCalculator.Interfaces;
 using PerformanceCalculator.TestCases;
+using PerformanceCalculator.Tests.WebApp.Controllers;
 
 namespace PerformanceCalculator.Tests.PerHttpContext.Containers.TestsDryIoc
 {
@@ -16,20 +20,14 @@ namespace PerformanceCalculator.Tests.PerHttpContext.Containers.TestsDryIoc
 
             var c = new Container(scopeContext: new ThreadScopeContext());
             c = (Container)testCase.PerHttpContextRegister(c);
-            ITestA obj1 = null;
-            ITestA obj2 = null;
 
 
-            //var thread = new Thread(() =>
-            //{
-            //    using (var s = c.OpenScope())
-            //    {
-            //        obj1 = c.Resolve<ITestA>();
-            //        obj2 = c.Resolve<ITestA>();
-            //    }
-            //});
-            //thread.Start();
-            //thread.Join();
+            var controller = new DryIocController();
+            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
+            var result1 = controller.Resolve<ITestA>(c);
+            var obj1 = (ITestA)((ViewResult)result1).Model;
+            var result2 = controller.Resolve<ITestA>(c);
+            var obj2 = (ITestA)((ViewResult)result2).Model;
 
 
             Helper.Check(obj1, true);
@@ -44,28 +42,15 @@ namespace PerformanceCalculator.Tests.PerHttpContext.Containers.TestsDryIoc
 
             var c = new Container(scopeContext: new ThreadScopeContext());
             c = (Container)testCase.PerHttpContextRegister(c);
-            ITestA obj1 = null;
-            ITestA obj2 = null;
 
 
-            //var thread1 = new Thread(() =>
-            //{
-            //    using (var s = c.OpenScope())
-            //    {
-            //        obj1 = c.Resolve<ITestA>();
-            //    }
-            //});
-            //var thread2 = new Thread(() =>
-            //{
-            //    using (var s = c.OpenScope())
-            //    {
-            //        obj2 = c.Resolve<ITestA>();
-            //    }
-            //});
-            //thread1.Start();
-            //thread1.Join();
-            //thread2.Start();
-            //thread2.Join();
+            var controller = new DryIocController();
+            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
+            var result1 = controller.Resolve<ITestA>(c);
+            var obj1 = (ITestA)((ViewResult)result1).Model;
+            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
+            var result2 = controller.Resolve<ITestA>(c);
+            var obj2 = (ITestA)((ViewResult)result2).Model;
 
 
             Helper.Check(obj1, true);

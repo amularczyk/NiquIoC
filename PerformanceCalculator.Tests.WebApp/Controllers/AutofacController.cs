@@ -6,7 +6,7 @@ namespace PerformanceCalculator.Tests.WebApp.Controllers
 {
     public class AutofacController : Controller
     {
-        public ActionResult Resolve<T>(Container c)
+        public ActionResult Resolve<T>(IContainer c)
         {
             var obj = c.Resolve<T>();
             return View(obj);
