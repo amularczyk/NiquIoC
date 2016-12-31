@@ -6,28 +6,28 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PerformanceCalculator.Containers.TestsAutofac;
 using PerformanceCalculator.Interfaces;
 using PerformanceCalculator.TestCases;
-using PerformanceCalculator.Tests.WebApp.Controllers;
+using PerformanceCalculator.WebApp.Autofac.Controllers;
 
-namespace PerformanceCalculator.Tests.PerHttpContext.Containers.TestsAutofac
+namespace PerformanceCalculator.WebApp.Tests.TestsAutofac
 {
     [TestClass]
-    public class TestCaseATests
+    public class TestCaseBTests
     {
         [TestMethod]
         public void PerHttpContextRegister_SameHttpContext_Success()
         {
-            ITestCase testCase = new TestCaseA();
+            ITestCase testCase = new TestCaseB();
 
             var cb = new ContainerBuilder();
             var c = (IContainer)testCase.PerHttpContextRegister(cb);
 
 
-            var controller = new AutofacController();
+            var controller = new DefaultController();
             HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
-            var result1 = controller.Resolve<ITestA>(c);
-            var obj1 = (ITestA)((ViewResult)result1).Model;
-            var result2 = controller.Resolve<ITestA>(c);
-            var obj2 = (ITestA)((ViewResult)result2).Model;
+            var result1 = controller.Resolve<ITestB>(c);
+            var obj1 = (ITestB)((ViewResult)result1).Model;
+            var result2 = controller.Resolve<ITestB>(c);
+            var obj2 = (ITestB)((ViewResult)result2).Model;
 
 
             Helper.Check(obj1, true);
@@ -38,19 +38,19 @@ namespace PerformanceCalculator.Tests.PerHttpContext.Containers.TestsAutofac
         [TestMethod]
         public void PerHttpContextRegister_DifferentThreads_Success()
         {
-            ITestCase testCase = new TestCaseA();
+            ITestCase testCase = new TestCaseB();
 
             var cb = new ContainerBuilder();
             var c = (IContainer)testCase.PerHttpContextRegister(cb);
 
 
-            var controller = new AutofacController();
+            var controller = new DefaultController();
             HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
-            var result1 = controller.Resolve<ITestA>(c);
-            var obj1 = (ITestA)((ViewResult)result1).Model;
+            var result1 = controller.Resolve<ITestB>(c);
+            var obj1 = (ITestB)((ViewResult)result1).Model;
             HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
-            var result2 = controller.Resolve<ITestA>(c);
-            var obj2 = (ITestA)((ViewResult)result2).Model;
+            var result2 = controller.Resolve<ITestB>(c);
+            var obj2 = (ITestB)((ViewResult)result2).Model;
 
 
             Helper.Check(obj1, true);

@@ -1,8 +1,7 @@
 using System;
 using Microsoft.Practices.Unity;
-using Microsoft.Practices.Unity.Configuration;
 
-namespace PerformanceCalculator.App_Start
+namespace PerformanceCalculator
 {
     /// <summary>
     /// Specifies the Unity configuration for the main container.

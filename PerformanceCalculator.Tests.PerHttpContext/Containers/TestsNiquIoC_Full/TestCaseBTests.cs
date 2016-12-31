@@ -6,7 +6,7 @@ using NiquIoC;
 using PerformanceCalculator.Containers.TestsNiquIoC_Full;
 using PerformanceCalculator.Interfaces;
 using PerformanceCalculator.TestCases;
-using PerformanceCalculator.Tests.WebApp.Controllers;
+using PerformanceCalculator.WebApp.NiquIoCFull.Controllers;
 
 namespace PerformanceCalculator.Tests.PerHttpContext.Containers.TestsNiquIoC_Full
 {
@@ -22,7 +22,7 @@ namespace PerformanceCalculator.Tests.PerHttpContext.Containers.TestsNiquIoC_Ful
             c = (Container)testCase.PerHttpContextRegister(c);
 
 
-            var controller = new NiquIoCFullController();
+            var controller = new DefaultController();
             HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
             var result1 = controller.Resolve<ITestB>(c);
             var obj1 = (ITestB)((ViewResult)result1).Model;
@@ -44,7 +44,7 @@ namespace PerformanceCalculator.Tests.PerHttpContext.Containers.TestsNiquIoC_Ful
             c = (Container)testCase.PerHttpContextRegister(c);
 
 
-            var controller = new NiquIoCFullController();
+            var controller = new DefaultController();
             HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
             var result1 = controller.Resolve<ITestB>(c);
             var obj1 = (ITestB)((ViewResult)result1).Model;

@@ -13,9 +13,27 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerformanceCalculator.Tests
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerformanceCalculator.Common", "PerformanceCalculator.Common\PerformanceCalculator.Common.csproj", "{F8A9C60E-8402-4AB5-8C43-1AD21D6B6CF5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerformanceCalculator.Tests.WebApp", "PerformanceCalculator.Tests.WebApp\PerformanceCalculator.Tests.WebApp.csproj", "{508DB6A5-90F3-4FDD-845C-AB8450C8A250}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerformanceCalculator.WebApp.NiquIoCFull", "PerformanceCalculator.WebApp.NiquIoCFull\PerformanceCalculator.WebApp.NiquIoCFull.csproj", "{8A160909-A2BF-41F5-8BDF-48286142F7FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerformanceCalculator.Tests.PerHttpContext", "PerformanceCalculator.Tests.PerHttpContext\PerformanceCalculator.Tests.PerHttpContext.csproj", "{08E884BE-5553-4A8F-818D-21D8A9D5D95B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerformanceCalculator.WebApp.Autofac", "PerformanceCalculator.WebApp.Autofac\PerformanceCalculator.WebApp.Autofac.csproj", "{9E3C9366-E5A2-423B-B512-E0BA2222E229}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApps", "WebApps", "{BDE5A155-0A2C-4609-856A-ED52A55CF233}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerformanceCalculator.WebApp.DryIoc", "PerformanceCalculator.WebApp.DryIoc\PerformanceCalculator.WebApp.DryIoc.csproj", "{138A5A88-D5C5-473C-847D-0AE2375A4614}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerformanceCalculator.WebApp.LightInject", "PerformanceCalculator.WebApp.LightInject\PerformanceCalculator.WebApp.LightInject.csproj", "{7DA236E5-BF23-4188-A624-5819241B632E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerformanceCalculator.WebApp.NiquIoCPartial", "PerformanceCalculator.WebApp.NiquIoCPartial\PerformanceCalculator.WebApp.NiquIoCPartial.csproj", "{47F9DB95-37A3-4CDB-A165-D7C7709CE8CA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerformanceCalculator.WebApp.SimpleInjector", "PerformanceCalculator.WebApp.SimpleInjector\PerformanceCalculator.WebApp.SimpleInjector.csproj", "{E18B3129-FE42-4DF7-BE8C-58F7C6FA3D67}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerformanceCalculator.WebApp.StructureMap", "PerformanceCalculator.WebApp.StructureMap\PerformanceCalculator.WebApp.StructureMap.csproj", "{AF4C953F-1A68-4222-88DA-F54D207BC601}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerformanceCalculator.WebApp.Unity", "PerformanceCalculator.WebApp.Unity\PerformanceCalculator.WebApp.Unity.csproj", "{7B106DF5-143C-462D-BD93-043C3DFE3477}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerformanceCalculator.WebApp.Windsor", "PerformanceCalculator.WebApp.Windsor\PerformanceCalculator.WebApp.Windsor.csproj", "{34C85913-57D3-4712-90D0-4C232C85CCB6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerformanceCalculator.WebApp.Tests", "PerformanceCalculator.WebApp.Tests\PerformanceCalculator.WebApp.Tests.csproj", "{5467475D-9CF4-4001-B87E-4CB63DF05782}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,16 +61,59 @@ Global
 		{F8A9C60E-8402-4AB5-8C43-1AD21D6B6CF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F8A9C60E-8402-4AB5-8C43-1AD21D6B6CF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F8A9C60E-8402-4AB5-8C43-1AD21D6B6CF5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{508DB6A5-90F3-4FDD-845C-AB8450C8A250}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{508DB6A5-90F3-4FDD-845C-AB8450C8A250}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{508DB6A5-90F3-4FDD-845C-AB8450C8A250}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{508DB6A5-90F3-4FDD-845C-AB8450C8A250}.Release|Any CPU.Build.0 = Release|Any CPU
-		{08E884BE-5553-4A8F-818D-21D8A9D5D95B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{08E884BE-5553-4A8F-818D-21D8A9D5D95B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{08E884BE-5553-4A8F-818D-21D8A9D5D95B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{08E884BE-5553-4A8F-818D-21D8A9D5D95B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A160909-A2BF-41F5-8BDF-48286142F7FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A160909-A2BF-41F5-8BDF-48286142F7FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A160909-A2BF-41F5-8BDF-48286142F7FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A160909-A2BF-41F5-8BDF-48286142F7FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E3C9366-E5A2-423B-B512-E0BA2222E229}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E3C9366-E5A2-423B-B512-E0BA2222E229}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E3C9366-E5A2-423B-B512-E0BA2222E229}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E3C9366-E5A2-423B-B512-E0BA2222E229}.Release|Any CPU.Build.0 = Release|Any CPU
+		{138A5A88-D5C5-473C-847D-0AE2375A4614}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{138A5A88-D5C5-473C-847D-0AE2375A4614}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{138A5A88-D5C5-473C-847D-0AE2375A4614}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{138A5A88-D5C5-473C-847D-0AE2375A4614}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DA236E5-BF23-4188-A624-5819241B632E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DA236E5-BF23-4188-A624-5819241B632E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DA236E5-BF23-4188-A624-5819241B632E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DA236E5-BF23-4188-A624-5819241B632E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47F9DB95-37A3-4CDB-A165-D7C7709CE8CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47F9DB95-37A3-4CDB-A165-D7C7709CE8CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47F9DB95-37A3-4CDB-A165-D7C7709CE8CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47F9DB95-37A3-4CDB-A165-D7C7709CE8CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E18B3129-FE42-4DF7-BE8C-58F7C6FA3D67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E18B3129-FE42-4DF7-BE8C-58F7C6FA3D67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E18B3129-FE42-4DF7-BE8C-58F7C6FA3D67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E18B3129-FE42-4DF7-BE8C-58F7C6FA3D67}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF4C953F-1A68-4222-88DA-F54D207BC601}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF4C953F-1A68-4222-88DA-F54D207BC601}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF4C953F-1A68-4222-88DA-F54D207BC601}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF4C953F-1A68-4222-88DA-F54D207BC601}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B106DF5-143C-462D-BD93-043C3DFE3477}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B106DF5-143C-462D-BD93-043C3DFE3477}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B106DF5-143C-462D-BD93-043C3DFE3477}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B106DF5-143C-462D-BD93-043C3DFE3477}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34C85913-57D3-4712-90D0-4C232C85CCB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34C85913-57D3-4712-90D0-4C232C85CCB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34C85913-57D3-4712-90D0-4C232C85CCB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34C85913-57D3-4712-90D0-4C232C85CCB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5467475D-9CF4-4001-B87E-4CB63DF05782}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5467475D-9CF4-4001-B87E-4CB63DF05782}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5467475D-9CF4-4001-B87E-4CB63DF05782}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5467475D-9CF4-4001-B87E-4CB63DF05782}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8A160909-A2BF-41F5-8BDF-48286142F7FE} = {BDE5A155-0A2C-4609-856A-ED52A55CF233}
+		{9E3C9366-E5A2-423B-B512-E0BA2222E229} = {BDE5A155-0A2C-4609-856A-ED52A55CF233}
+		{138A5A88-D5C5-473C-847D-0AE2375A4614} = {BDE5A155-0A2C-4609-856A-ED52A55CF233}
+		{7DA236E5-BF23-4188-A624-5819241B632E} = {BDE5A155-0A2C-4609-856A-ED52A55CF233}
+		{47F9DB95-37A3-4CDB-A165-D7C7709CE8CA} = {BDE5A155-0A2C-4609-856A-ED52A55CF233}
+		{E18B3129-FE42-4DF7-BE8C-58F7C6FA3D67} = {BDE5A155-0A2C-4609-856A-ED52A55CF233}
+		{AF4C953F-1A68-4222-88DA-F54D207BC601} = {BDE5A155-0A2C-4609-856A-ED52A55CF233}
+		{7B106DF5-143C-462D-BD93-043C3DFE3477} = {BDE5A155-0A2C-4609-856A-ED52A55CF233}
+		{34C85913-57D3-4712-90D0-4C232C85CCB6} = {BDE5A155-0A2C-4609-856A-ED52A55CF233}
 	EndGlobalSection
 EndGlobal

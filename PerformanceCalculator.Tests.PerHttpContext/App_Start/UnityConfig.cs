@@ -1,8 +1,7 @@
 using System;
 using Microsoft.Practices.Unity;
-using Microsoft.Practices.Unity.Configuration;
 
-namespace PerformanceCalculator.Tests.PerHttpContext.App_Start
+namespace PerformanceCalculator.Tests.PerHttpContext
 {
     /// <summary>
     /// Specifies the Unity configuration for the main container.

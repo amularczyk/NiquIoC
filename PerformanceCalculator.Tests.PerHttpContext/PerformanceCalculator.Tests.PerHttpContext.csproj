@@ -133,9 +133,6 @@
   <ItemGroup>
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
-    <Compile Include="Containers\TestsAutofac\TestCaseATests.cs" />
-    <Compile Include="Containers\TestsAutofac\TestCaseBTests.cs" />
-    <Compile Include="Containers\TestsAutofac\TestCaseCTests.cs" />
     <Compile Include="Containers\TestsDryIoc\TestCaseATests.cs" />
     <Compile Include="Containers\TestsDryIoc\TestCaseBTests.cs" />
     <Compile Include="Containers\TestsDryIoc\TestCaseCTests.cs" />
@@ -170,10 +167,6 @@
     <ProjectReference Include="..\PerformanceCalculator.Common\PerformanceCalculator.Common.csproj">
       <Project>{f8a9c60e-8402-4ab5-8c43-1ad21d6b6cf5}</Project>
       <Name>PerformanceCalculator.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\PerformanceCalculator.Tests.WebApp\PerformanceCalculator.Tests.WebApp.csproj">
-      <Project>{508db6a5-90f3-4fdd-845c-ab8450c8a250}</Project>
-      <Name>PerformanceCalculator.Tests.WebApp</Name>
     </ProjectReference>
     <ProjectReference Include="..\PerformanceCalculator.Tests\PerformanceCalculator.Tests.csproj">
       <Project>{092e8b80-ceea-434a-9f72-bb5b0423930c}</Project>

@@ -1,11 +1,12 @@
 using System.Linq;
 using System.Web.Mvc;
 using Microsoft.Practices.Unity.Mvc;
+using PerformanceCalculator.Tests.PerHttpContext;
 
-[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(PerformanceCalculator.Tests.PerHttpContext.App_Start.UnityWebActivator), "Start")]
-[assembly: WebActivatorEx.ApplicationShutdownMethod(typeof(PerformanceCalculator.Tests.PerHttpContext.App_Start.UnityWebActivator), "Shutdown")]
+[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(UnityWebActivator), "Start")]
+[assembly: WebActivatorEx.ApplicationShutdownMethod(typeof(UnityWebActivator), "Shutdown")]
 
-namespace PerformanceCalculator.Tests.PerHttpContext.App_Start
+namespace PerformanceCalculator.Tests.PerHttpContext
 {
     /// <summary>Provides the bootstrapping for integrating Unity with ASP.NET MVC.</summary>
     public static class UnityWebActivator

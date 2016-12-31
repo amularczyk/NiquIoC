@@ -1,14 +1,14 @@
 ﻿using System.IO;
 using System.Web;
 using System.Web.Mvc;
-using Autofac;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using PerformanceCalculator.Containers.TestsAutofac;
+using NiquIoC;
+using PerformanceCalculator.Containers.TestsNiquIoC_Partial;
 using PerformanceCalculator.Interfaces;
 using PerformanceCalculator.TestCases;
-using PerformanceCalculator.Tests.WebApp.Controllers;
+using PerformanceCalculator.WebApp.NiquIoCPartial.Controllers;
 
-namespace PerformanceCalculator.Tests.PerHttpContext.Containers.TestsAutofac
+namespace PerformanceCalculator.WebApp.Tests.TestsNiquIoC_Partial
 {
     [TestClass]
     public class TestCaseCTests
@@ -18,11 +18,11 @@ namespace PerformanceCalculator.Tests.PerHttpContext.Containers.TestsAutofac
         {
             ITestCase testCase = new TestCaseC();
 
-            var cb = new ContainerBuilder();
-            var c = (IContainer)testCase.PerHttpContextRegister(cb);
+            var c = new Container();
+            c = (Container)testCase.PerHttpContextRegister(c);
 
 
-            var controller = new AutofacController();
+            var controller = new DefaultController();
             HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
             var result1 = controller.Resolve<ITestC>(c);
             var obj1 = (ITestC)((ViewResult)result1).Model;
@@ -40,11 +40,11 @@ namespace PerformanceCalculator.Tests.PerHttpContext.Containers.TestsAutofac
         {
             ITestCase testCase = new TestCaseC();
 
-            var cb = new ContainerBuilder();
-            var c = (IContainer)testCase.PerHttpContextRegister(cb);
+            var c = new Container();
+            c = (Container)testCase.PerHttpContextRegister(c);
 
 
-            var controller = new AutofacController();
+            var controller = new DefaultController();
             HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
             var result1 = controller.Resolve<ITestC>(c);
             var obj1 = (ITestC)((ViewResult)result1).Model;
