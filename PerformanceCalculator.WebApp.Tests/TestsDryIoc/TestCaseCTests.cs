@@ -3,7 +3,7 @@ using System.Web;
 using System.Web.Mvc;
 using DryIoc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using PerformanceCalculator.Containers.TestsAutofac;
+using PerformanceCalculator.Containers.TestsDryIoc;
 using PerformanceCalculator.Interfaces;
 using PerformanceCalculator.TestCases;
 using PerformanceCalculator.WebApp.DryIoc.Controllers;
