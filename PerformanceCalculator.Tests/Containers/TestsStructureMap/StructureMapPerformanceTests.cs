@@ -7,9 +7,9 @@ namespace PerformanceCalculator.Tests.Containers.TestsStructureMap
     [TestClass]
     public class StructureMapPerformanceTests
     {
-        private IPerformance GetPerformance()
+        private IPerformanceTest GetPerformance()
         {
-            return new StructureMapPerformance();
+            return new StructureMapPerformanceTest();
         }
 
         [TestMethod]

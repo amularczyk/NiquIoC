@@ -1,8 +1,10 @@
-﻿namespace PerformanceCalculatorRunner
+﻿using PerformanceCalculator.Common;
+
+namespace PerformanceCalculatorRunner
 {
     public class FinalTestResult
     {
-        public bool Singleton { get; set; }
+        public RegistrationKind RegistrationKind { get; set; }
         public int TestCasesNumber { get; set; }
         public long MinRegisterTime { get; set; }
         public long MinResolveTime { get; set; }

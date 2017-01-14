@@ -7,9 +7,9 @@ namespace PerformanceCalculator.Tests.Containers.TestsUnity
     [TestClass]
     public class UnityPerformanceTests
     {
-        private IPerformance GetPerformance()
+        private IPerformanceTest GetPerformance()
         {
-            return new UnityPerformance();
+            return new UnityPerformanceTest();
         }
 
         [TestMethod]

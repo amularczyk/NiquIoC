@@ -7,9 +7,9 @@ namespace PerformanceCalculator.Tests.Containers.TestsNiquIoC_Partial
     [TestClass]
     public class NiquIoCPerformanceTests
     {
-        private IPerformance GetPerformance()
+        private IPerformanceTest GetPerformance()
         {
-            return new NiquIoCPerformance();
+            return new NiquIoCPartialPerformanceTest();
         }
 
         [TestMethod]

@@ -7,9 +7,9 @@ namespace PerformanceCalculator.Tests.Containers.TestsLightInject
     [TestClass]
     public class LightInjectPerformanceTests
     {
-        private IPerformance GetPerformance()
+        private IPerformanceTest GetPerformance()
         {
-            return new LightInjectPerformance();
+            return new LightInjectPerformanceTest();
         }
 
         [TestMethod]

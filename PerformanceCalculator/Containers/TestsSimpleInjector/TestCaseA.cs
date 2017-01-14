@@ -1,91 +1,14 @@
 ﻿using PerformanceCalculator.Interfaces;
 using PerformanceCalculator.TestCases;
 using SimpleInjector;
-using SimpleInjector.Extensions.LifetimeScoping;
 
 namespace PerformanceCalculator.Containers.TestsSimpleInjector
 {
-    public class TestCaseA : ITestCase
+    public abstract class TestCaseA : ITestCaseA
     {
-        public object SingletonRegister(object container)
-        {
-            var c = (Container)container;
+        public abstract object Register(object container);
 
-            c.Register<ITestA0, TestA0>(Lifestyle.Singleton);
-            c.Register<ITestA1, TestA1>(Lifestyle.Singleton);
-            c.Register<ITestA2, TestA2>(Lifestyle.Singleton);
-            c.Register<ITestA3, TestA3>(Lifestyle.Singleton);
-            c.Register<ITestA4, TestA4>(Lifestyle.Singleton);
-            c.Register<ITestA5, TestA5>(Lifestyle.Singleton);
-            c.Register<ITestA6, TestA6>(Lifestyle.Singleton);
-            c.Register<ITestA7, TestA7>(Lifestyle.Singleton);
-            c.Register<ITestA8, TestA8>(Lifestyle.Singleton);
-            c.Register<ITestA9, TestA9>(Lifestyle.Singleton);
-            c.Register<ITestA, TestA>(Lifestyle.Singleton);
-
-            return c;
-        }
-
-        public object TransientRegister(object container)
-        {
-            var c = (Container)container;
-
-            c.Register<ITestA0, TestA0>();
-            c.Register<ITestA1, TestA1>();
-            c.Register<ITestA2, TestA2>();
-            c.Register<ITestA3, TestA3>();
-            c.Register<ITestA4, TestA4>();
-            c.Register<ITestA5, TestA5>();
-            c.Register<ITestA6, TestA6>();
-            c.Register<ITestA7, TestA7>();
-            c.Register<ITestA8, TestA8>();
-            c.Register<ITestA9, TestA9>();
-            c.Register<ITestA, TestA>();
-
-            return c;
-        }
-
-        public object PerThreadRegister(object container)
-        {
-            var c = (Container)container;
-
-            c.Options.DefaultScopedLifestyle = new LifetimeScopeLifestyle();
-
-            c.Register<ITestA0, TestA0>(Lifestyle.Scoped);
-            c.Register<ITestA1, TestA1>(Lifestyle.Scoped);
-            c.Register<ITestA2, TestA2>(Lifestyle.Scoped);
-            c.Register<ITestA3, TestA3>(Lifestyle.Scoped);
-            c.Register<ITestA4, TestA4>(Lifestyle.Scoped);
-            c.Register<ITestA5, TestA5>(Lifestyle.Scoped);
-            c.Register<ITestA6, TestA6>(Lifestyle.Scoped);
-            c.Register<ITestA7, TestA7>(Lifestyle.Scoped);
-            c.Register<ITestA8, TestA8>(Lifestyle.Scoped);
-            c.Register<ITestA9, TestA9>(Lifestyle.Scoped);
-            c.Register<ITestA, TestA>(Lifestyle.Scoped);
-
-            return c;
-        }
-
-        public object PerHttpContextRegister(object container)
-        {
-            var c = (Container)container;
-
-            //c.Register<ITestA0, TestA0>(Lifestyle.CreateCustom("PerThread", new CreateLifestyleApplier(creator => )));
-            //c.Register<ITestA1, TestA1>(Lifestyle.Singleton);
-            //c.Register<ITestA2, TestA2>(Lifestyle.Singleton);
-            //c.Register<ITestA3, TestA3>(Lifestyle.Singleton);
-            //c.Register<ITestA4, TestA4>(Lifestyle.Singleton);
-            //c.Register<ITestA5, TestA5>(Lifestyle.Singleton);
-            //c.Register<ITestA6, TestA6>(Lifestyle.Singleton);
-            //c.Register<ITestA7, TestA7>(Lifestyle.Singleton);
-            //c.Register<ITestA8, TestA8>(Lifestyle.Singleton);
-            //c.Register<ITestA9, TestA9>(Lifestyle.Singleton);
-            //c.Register<ITestA, TestA>(Lifestyle.Singleton);
-
-            return c;
-        }
-
-        public void Resolve(object container, int testCasesNumber, bool singleton)
+        public void Resolve(object container, int testCasesNumber)
         {
             var c = (Container)container;
 

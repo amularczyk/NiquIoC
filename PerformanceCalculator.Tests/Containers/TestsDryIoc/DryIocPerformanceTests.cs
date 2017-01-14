@@ -7,9 +7,9 @@ namespace PerformanceCalculator.Tests.Containers.TestsDryIoc
     [TestClass]
     public class DryIocPerformanceTests
     {
-        private IPerformance GetPerformance()
+        private IPerformanceTest GetPerformance()
         {
-            return new DryIocPerformance();
+            return new DryIocPerformanceTest();
         }
 
         [TestMethod]

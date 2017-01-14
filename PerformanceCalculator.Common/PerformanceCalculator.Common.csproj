@@ -37,6 +37,7 @@
   <ItemGroup>
     <Compile Include="ContainerName.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RegistrationKind.cs" />
     <Compile Include="TestCaseName.cs" />
     <Compile Include="TestResult.cs" />
   </ItemGroup>

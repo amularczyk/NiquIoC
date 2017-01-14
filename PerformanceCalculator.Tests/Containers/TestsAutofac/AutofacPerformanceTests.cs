@@ -7,9 +7,9 @@ namespace PerformanceCalculator.Tests.Containers.TestsAutofac
     [TestClass]
     public class AutofacPerformanceTests
     {
-        private IPerformance GetPerformance()
+        private IPerformanceTest GetPerformance()
         {
-            return new AutofacPerformance();
+            return new AutofacPerformanceTest();
         }
 
         [TestMethod]

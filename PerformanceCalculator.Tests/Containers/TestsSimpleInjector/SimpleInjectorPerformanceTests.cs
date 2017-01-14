@@ -7,9 +7,9 @@ namespace PerformanceCalculator.Tests.Containers.TestsSimpleInjector
     [TestClass]
     public class SimpleInjectorPerformanceTests
     {
-        private IPerformance GetPerformance()
+        private IPerformanceTest GetPerformance()
         {
-            return new SimpleInjectorPerformance();
+            return new SimpleInjectorPerformanceTest();
         }
 
         [TestMethod]

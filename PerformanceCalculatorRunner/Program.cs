@@ -63,17 +63,17 @@ namespace PerformanceCalculatorRunner
             header.Append("Test Case;Registration Kind;Resolve Count;");
             header2.Append(";;;");
 
-            body1.Append("Test A;Singleton;100;");
+            body1.Append("Test A;registrationKind;100;");
             body2.Append("Test A;Transient;1;");
             body3.Append("Test A;Transient;10;");
             body4.Append("Test A;Transient;100;");
             body5.Append("Test A;Transient;1000;");
 
-            body6.Append("Test B;Singleton;1;");
+            body6.Append("Test B;registrationKind;1;");
             body7.Append("Test B;Transient;1;");
             body8.Append("Test B;Transient;10;");
 
-            body9.Append("Test C;Singleton;100;");
+            body9.Append("Test C;registrationKind;100;");
             body10.Append("Test C;Transient;1;");
             body11.Append("Test C;Transient;10;");
             body12.Append("Test C;Transient;100;");
@@ -148,9 +148,10 @@ namespace PerformanceCalculatorRunner
 
                 case WriteKind.Resolve:
                     return $"{result.Value[index].MinResolveTime};{result.Value[index].MaxResolveTime};{result.Value[index].AvgResolveTime};";
-            }
 
-            throw new InvalidOperationException();
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(writeKind), writeKind, null);
+            }
         }
 
         #region RunPerformanceTests
@@ -159,19 +160,7 @@ namespace PerformanceCalculatorRunner
             Console.WriteLine("Autofac - Start");
             var testResults = new List<List<TestResult>>
             {
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>()
+                new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>()
             };
 
             for (var i = 0; i < repetitionsNumber; i++)
@@ -197,9 +186,9 @@ namespace PerformanceCalculatorRunner
             return testResults;
         }
 
-        private static string RunAutofacPeformanceTests(bool singleton, int testsCount, string testCase)
+        private static string RunAutofacPeformanceTests(RegistrationKind registrationKind, int testsCount, string testCase)
         {
-            return RunPerformanceTests(ContainerName.Autofac, singleton, testsCount, testCase);
+            return RunPerformanceTests(ContainerName.Autofac, registrationKind, testsCount, testCase);
         }
 
         private static List<List<TestResult>> RunDryIocPeformanceTests(int repetitionsNumber)
@@ -207,19 +196,7 @@ namespace PerformanceCalculatorRunner
             Console.WriteLine("DryIoc - Start");
             var testResults = new List<List<TestResult>>
             {
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>()
+                new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>()
             };
 
             for (var i = 0; i < repetitionsNumber; i++)
@@ -245,9 +222,9 @@ namespace PerformanceCalculatorRunner
             return testResults;
         }
 
-        private static string RunDryIocPeformanceTests(bool singleton, int testsCount, string testCase)
+        private static string RunDryIocPeformanceTests(RegistrationKind registrationKind, int testsCount, string testCase)
         {
-            return RunPerformanceTests(ContainerName.DryIoc, singleton, testsCount, testCase);
+            return RunPerformanceTests(ContainerName.DryIoc, registrationKind, testsCount, testCase);
         }
 
         private static List<List<TestResult>> RunLightInjectPeformanceTests(int repetitionsNumber)
@@ -255,19 +232,7 @@ namespace PerformanceCalculatorRunner
             Console.WriteLine("LightInject - Start");
             var testResults = new List<List<TestResult>>
             {
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>()
+                new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>()
             };
 
             for (var i = 0; i < repetitionsNumber; i++)
@@ -293,9 +258,9 @@ namespace PerformanceCalculatorRunner
             return testResults;
         }
 
-        private static string RunLightInjectPeformanceTests(bool singleton, int testsCount, string testCase)
+        private static string RunLightInjectPeformanceTests(RegistrationKind registrationKind, int testsCount, string testCase)
         {
-            return RunPerformanceTests(ContainerName.LightInject, singleton, testsCount, testCase);
+            return RunPerformanceTests(ContainerName.LightInject, registrationKind, testsCount, testCase);
         }
 
         private static List<List<TestResult>> RunNiquIoCPeformanceTests(int repetitionsNumber)
@@ -303,19 +268,7 @@ namespace PerformanceCalculatorRunner
             Console.WriteLine("NiquIoC - Start");
             var testResults = new List<List<TestResult>>
             {
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>()
+                new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>()
             };
 
             for (var i = 0; i < repetitionsNumber; i++)
@@ -341,9 +294,9 @@ namespace PerformanceCalculatorRunner
             return testResults;
         }
 
-        private static string RunNiquIoCPeformanceTests(bool singleton, int testsCount, string testCase)
+        private static string RunNiquIoCPeformanceTests(RegistrationKind registrationKind, int testsCount, string testCase)
         {
-            return RunPerformanceTests(ContainerName.NiquIoC, singleton, testsCount, testCase);
+            return RunPerformanceTests(ContainerName.NiquIoC, registrationKind, testsCount, testCase);
         }
 
         private static List<List<TestResult>> RunNiquIoCFullPeformanceTests(int repetitionsNumber)
@@ -351,19 +304,7 @@ namespace PerformanceCalculatorRunner
             Console.WriteLine("NiquIoCFull - Start");
             var testResults = new List<List<TestResult>>
             {
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>()
+                new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>()
             };
 
             for (var i = 0; i < repetitionsNumber; i++)
@@ -389,9 +330,9 @@ namespace PerformanceCalculatorRunner
             return testResults;
         }
 
-        private static string RunNiquIoCFullPeformanceTests(bool singleton, int testsCount, string testCase)
+        private static string RunNiquIoCFullPeformanceTests(RegistrationKind registrationKind, int testsCount, string testCase)
         {
-            return RunPerformanceTests(ContainerName.NiquIoCFull, singleton, testsCount, testCase);
+            return RunPerformanceTests(ContainerName.NiquIoCFull, registrationKind, testsCount, testCase);
         }
 
         private static List<List<TestResult>> RunSimpleInjectorPeformanceTests(int repetitionsNumber)
@@ -399,19 +340,7 @@ namespace PerformanceCalculatorRunner
             Console.WriteLine("SimpleInjector - Start");
             var testResults = new List<List<TestResult>>
             {
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>()
+                new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>()
             };
 
             for (var i = 0; i < repetitionsNumber; i++)
@@ -437,9 +366,9 @@ namespace PerformanceCalculatorRunner
             return testResults;
         }
 
-        private static string RunSimpleInjectorPeformanceTests(bool singleton, int testsCount, string testCase)
+        private static string RunSimpleInjectorPeformanceTests(RegistrationKind registrationKind, int testsCount, string testCase)
         {
-            return RunPerformanceTests(ContainerName.SimpleInjector, singleton, testsCount, testCase);
+            return RunPerformanceTests(ContainerName.SimpleInjector, registrationKind, testsCount, testCase);
         }
 
         private static List<List<TestResult>> RunStructureMapPeformanceTests(int repetitionsNumber)
@@ -447,19 +376,7 @@ namespace PerformanceCalculatorRunner
             Console.WriteLine("StructureMap - Start");
             var testResults = new List<List<TestResult>>
             {
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>()
+                new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>()
             };
 
             for (var i = 0; i < repetitionsNumber; i++)
@@ -485,9 +402,9 @@ namespace PerformanceCalculatorRunner
             return testResults;
         }
 
-        private static string RunStructureMapPeformanceTests(bool singleton, int testsCount, string testCase)
+        private static string RunStructureMapPeformanceTests(RegistrationKind registrationKind, int testsCount, string testCase)
         {
-            return RunPerformanceTests(ContainerName.StructureMap, singleton, testsCount, testCase);
+            return RunPerformanceTests(ContainerName.StructureMap, registrationKind, testsCount, testCase);
         }
 
         private static List<List<TestResult>> RunUnityPeformanceTests(int repetitionsNumber)
@@ -495,19 +412,7 @@ namespace PerformanceCalculatorRunner
             Console.WriteLine("Unity - Start");
             var testResults = new List<List<TestResult>>
             {
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>()
+                new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>()
             };
 
             for (var i = 0; i < repetitionsNumber; i++)
@@ -533,9 +438,9 @@ namespace PerformanceCalculatorRunner
             return testResults;
         }
 
-        private static string RunUnityPeformanceTests(bool singleton, int testsCount, string testCase)
+        private static string RunUnityPeformanceTests(RegistrationKind registrationKind, int testsCount, string testCase)
         {
-            return RunPerformanceTests(ContainerName.Unity, singleton, testsCount, testCase);
+            return RunPerformanceTests(ContainerName.Unity, registrationKind, testsCount, testCase);
         }
 
         private static List<List<TestResult>> RunWindsorPeformanceTests(int repetitionsNumber)
@@ -543,19 +448,7 @@ namespace PerformanceCalculatorRunner
             Console.WriteLine("Windsor - Start");
             var testResults = new List<List<TestResult>>
             {
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>(),
-                new List<TestResult>()
+                new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>(), new List<TestResult>()
             };
 
             for (var i = 0; i < repetitionsNumber; i++)
@@ -581,15 +474,15 @@ namespace PerformanceCalculatorRunner
             return testResults;
         }
 
-        private static string RunWindsorPeformanceTests(bool singleton, int testsCount, string testCase)
+        private static string RunWindsorPeformanceTests(RegistrationKind registrationKind, int testsCount, string testCase)
         {
-            return RunPerformanceTests(ContainerName.Windsor, singleton, testsCount, testCase);
+            return RunPerformanceTests(ContainerName.Windsor, registrationKind, testsCount, testCase);
         }
+        #endregion
 
-        private static string RunPerformanceTests(string containerName, bool singleton, int testsCount, string testCase)
+        private static string RunPerformanceTests(string containerName, RegistrationKind registrationKind, int testsCount, string testCase)
         {
-            var registerKind = singleton ? "s" : "t";
-            return ProcessHelper.StartProcess(_processPath, $"{containerName} -r {registerKind} -c {testsCount} -t {testCase}");
+            return ProcessHelper.StartProcess(_processPath, $"{containerName} -r {registrationKind} -c {testsCount} -t {testCase}");
         }
 
         private static TestResult ConvertToTestResult(string result)
@@ -597,10 +490,7 @@ namespace PerformanceCalculatorRunner
             var results = result.Split(' ');
             var testResult = new TestResult
             {
-                Singleton = results[0] == "s",
-                TestCasesNumber = Convert.ToInt32(results[1]),
-                RegisterTime = Convert.ToInt64(results[2]),
-                ResolveTime = Convert.ToInt64(results[3])
+                RegistrationKind = (RegistrationKind)Convert.ToInt32(results[0]), TestCasesNumber = Convert.ToInt32(results[1]), RegisterTime = Convert.ToInt64(results[2]), ResolveTime = Convert.ToInt64(results[3])
             };
 
             return testResult;
@@ -614,19 +504,11 @@ namespace PerformanceCalculatorRunner
             {
                 finalTestResults.Add(new FinalTestResult
                 {
-                    Singleton = testResult[0].Singleton,
-                    TestCasesNumber = testResult[0].TestCasesNumber,
-                    MinRegisterTime = testResult.Min(t => t.RegisterTime),
-                    MinResolveTime = testResult.Min(t => t.ResolveTime),
-                    MaxRegisterTime = testResult.Max(t => t.RegisterTime),
-                    MaxResolveTime = testResult.Max(t => t.ResolveTime),
-                    AvgRegisterTime = (long)Math.Round(testResult.Average(t => t.RegisterTime), 0),
-                    AvgResolveTime = (long)Math.Round(testResult.Average(t => t.ResolveTime), 0)
+                    RegistrationKind = testResult[0].RegistrationKind, TestCasesNumber = testResult[0].TestCasesNumber, MinRegisterTime = testResult.Min(t => t.RegisterTime), MinResolveTime = testResult.Min(t => t.ResolveTime), MaxRegisterTime = testResult.Max(t => t.RegisterTime), MaxResolveTime = testResult.Max(t => t.ResolveTime), AvgRegisterTime = (long)Math.Round(testResult.Average(t => t.RegisterTime), 0), AvgResolveTime = (long)Math.Round(testResult.Average(t => t.ResolveTime), 0)
                 });
             }
 
             return finalTestResults;
         }
-        #endregion
     }
 }

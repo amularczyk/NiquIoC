@@ -7,9 +7,9 @@ namespace PerformanceCalculator.Tests.Containers.TestsNiquIoC_Full
     [TestClass]
     public class NiquIoCFullPerformanceTests
     {
-        private IPerformance GetPerformance()
+        private IPerformanceTest GetPerformance()
         {
-            return new NiquIoCFullPerformance();
+            return new NiquIoCFullPerformanceTest();
         }
 
         [TestMethod]

@@ -1,15 +1,9 @@
-﻿namespace PerformanceCalculator.Interfaces
+﻿using PerformanceCalculator.Common;
+
+namespace PerformanceCalculator.Interfaces
 {
-    public interface ITestCase
+    public interface ITestCase : IRegistration
     {
-        object SingletonRegister(object container);
-
-        object TransientRegister(object container);
-
-        object PerThreadRegister(object container);
-
-        object PerHttpContextRegister(object container);
-
-        void Resolve(object container, int testCasesNumber, bool singleton);
+        void Resolve(object container, int testCasesNumber);
     }
 }

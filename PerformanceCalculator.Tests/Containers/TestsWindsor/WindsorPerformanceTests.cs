@@ -7,9 +7,9 @@ namespace PerformanceCalculator.Tests.Containers.TestsWindsor
     [TestClass]
     public class WindsorPerformanceTests
     {
-        private IPerformance GetPerformance()
+        private IPerformanceTest GetPerformance()
         {
-            return new WindsorPerformance();
+            return new WindsorPerformanceTest();
         }
 
         [TestMethod]
