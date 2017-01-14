@@ -68,17 +68,28 @@ namespace PerformanceCalculator.Containers.TestsWindsor
         {
             var c = (WindsorContainer)container;
 
-            c.Register(Component.For<ITestA0>().ImplementedBy<TestA0>().LifeStyle.PerWebRequest);
-            c.Register(Component.For<ITestA1>().ImplementedBy<TestA1>().LifeStyle.PerWebRequest);
-            c.Register(Component.For<ITestA2>().ImplementedBy<TestA2>().LifeStyle.PerWebRequest);
-            c.Register(Component.For<ITestA3>().ImplementedBy<TestA3>().LifeStyle.PerWebRequest);
-            c.Register(Component.For<ITestA4>().ImplementedBy<TestA4>().LifeStyle.PerWebRequest);
-            c.Register(Component.For<ITestA5>().ImplementedBy<TestA5>().LifeStyle.PerWebRequest);
-            c.Register(Component.For<ITestA6>().ImplementedBy<TestA6>().LifeStyle.PerWebRequest);
-            c.Register(Component.For<ITestA7>().ImplementedBy<TestA7>().LifeStyle.PerWebRequest);
-            c.Register(Component.For<ITestA8>().ImplementedBy<TestA8>().LifeStyle.PerWebRequest);
-            c.Register(Component.For<ITestA9>().ImplementedBy<TestA9>().LifeStyle.PerWebRequest);
-            c.Register(Component.For<ITestA>().ImplementedBy<TestA>().LifeStyle.PerWebRequest);
+            c.Register(Component.For<ITestA0>().ImplementedBy<TestA0>().LifestylePerWebRequest());
+            c.Register(Component.For<ITestA1>().ImplementedBy<TestA1>().LifestylePerWebRequest());
+            c.Register(Component.For<ITestA2>().ImplementedBy<TestA2>().LifestylePerWebRequest());
+            c.Register(Component.For<ITestA3>().ImplementedBy<TestA3>().LifestylePerWebRequest());
+            c.Register(Component.For<ITestA4>().ImplementedBy<TestA4>().LifestylePerWebRequest());
+            c.Register(Component.For<ITestA5>().ImplementedBy<TestA5>().LifestylePerWebRequest());
+            c.Register(Component.For<ITestA6>().ImplementedBy<TestA6>().LifestylePerWebRequest());
+            c.Register(Component.For<ITestA7>().ImplementedBy<TestA7>().LifestylePerWebRequest());
+            c.Register(Component.For<ITestA8>().ImplementedBy<TestA8>().LifestylePerWebRequest());
+            c.Register(Component.For<ITestA9>().ImplementedBy<TestA9>().LifestylePerWebRequest());
+            c.Register(Component.For<ITestA>().ImplementedBy<TestA>().LifestylePerWebRequest());
+            //c.Register(Component.For<ITestA0>().ImplementedBy<TestA0>().LifeStyle.PerWebRequest);
+            //c.Register(Component.For<ITestA1>().ImplementedBy<TestA1>().LifeStyle.PerWebRequest);
+            //c.Register(Component.For<ITestA2>().ImplementedBy<TestA2>().LifeStyle.PerWebRequest);
+            //c.Register(Component.For<ITestA3>().ImplementedBy<TestA3>().LifeStyle.PerWebRequest);
+            //c.Register(Component.For<ITestA4>().ImplementedBy<TestA4>().LifeStyle.PerWebRequest);
+            //c.Register(Component.For<ITestA5>().ImplementedBy<TestA5>().LifeStyle.PerWebRequest);
+            //c.Register(Component.For<ITestA6>().ImplementedBy<TestA6>().LifeStyle.PerWebRequest);
+            //c.Register(Component.For<ITestA7>().ImplementedBy<TestA7>().LifeStyle.PerWebRequest);
+            //c.Register(Component.For<ITestA8>().ImplementedBy<TestA8>().LifeStyle.PerWebRequest);
+            //c.Register(Component.For<ITestA9>().ImplementedBy<TestA9>().LifeStyle.PerWebRequest);
+            //c.Register(Component.For<ITestA>().ImplementedBy<TestA>().LifeStyle.PerWebRequest);
 
             return c;
         }
