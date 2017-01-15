@@ -3,7 +3,7 @@ using PerformanceCalculator.TestCases;
 
 namespace PerformanceCalculator.Tests
 {
-    public static class Helper
+    public static class CheckHelper
     {
         public static void Check(ITestA testA, bool singleton)
         {

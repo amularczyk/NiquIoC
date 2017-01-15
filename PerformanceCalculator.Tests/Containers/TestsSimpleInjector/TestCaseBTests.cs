@@ -11,48 +11,48 @@ namespace PerformanceCalculator.Tests.Containers.TestsSimpleInjector
     public class TestCaseBTests
     {
         [TestMethod]
-        public void SingletonRegister_Success()
+        public void RegisterSingleton_Success()
         {
-            ITestCase testCase = new TestCaseB();
+            ITestCase testCase = new SingletonTestCaseB();
 
 
             var c = new Container();
-            c = (Container)testCase.SingletonRegister(c);
+            c = (Container)testCase.Register(c);
 
             var obj1 = c.GetInstance<ITestB>();
             var obj2 = c.GetInstance<ITestB>();
 
 
-            Helper.Check(obj1, true);
-            Helper.Check(obj2, true);
-            Helper.Check(obj1, obj2, true);
+            CheckHelper.Check(obj1, true);
+            CheckHelper.Check(obj2, true);
+            CheckHelper.Check(obj1, obj2, true);
         }
 
         [TestMethod]
-        public void TransientRegister_Success()
+        public void RegisterTransient_Success()
         {
-            ITestCase testCase = new TestCaseB();
+            ITestCase testCase = new TransientTestCaseB();
 
             var c = new Container();
-            c = (Container)testCase.TransientRegister(c);
+            c = (Container)testCase.Register(c);
 
 
             var obj1 = c.GetInstance<ITestB>();
             var obj2 = c.GetInstance<ITestB>();
 
 
-            Helper.Check(obj1, false);
-            Helper.Check(obj2, false);
-            Helper.Check(obj1, obj2, false);
+            CheckHelper.Check(obj1, false);
+            CheckHelper.Check(obj2, false);
+            CheckHelper.Check(obj1, obj2, false);
         }
 
         [TestMethod]
-        public void PerThreadRegister_SameThread_Success()
+        public void RegisterPerThread_SameThread_Success()
         {
-            ITestCase testCase = new TestCaseB();
+            ITestCase testCase = new PerThreadTestCaseB();
 
             var c = new Container();
-            c = (Container)testCase.PerThreadRegister(c);
+            c = (Container)testCase.Register(c);
             ITestB obj1 = null;
             ITestB obj2 = null;
 
@@ -69,18 +69,18 @@ namespace PerformanceCalculator.Tests.Containers.TestsSimpleInjector
             thread.Join();
 
 
-            Helper.Check(obj1, true);
-            Helper.Check(obj2, true);
-            Helper.Check(obj1, obj2, true);
+            CheckHelper.Check(obj1, true);
+            CheckHelper.Check(obj2, true);
+            CheckHelper.Check(obj1, obj2, true);
         }
 
         [TestMethod]
-        public void PerThreadRegister_DifferentThreads_Success()
+        public void RegisterPerThread_DifferentThreads_Success()
         {
-            ITestCase testCase = new TestCaseB();
+            ITestCase testCase = new PerThreadTestCaseB();
 
             var c = new Container();
-            c = (Container)testCase.PerThreadRegister(c);
+            c = (Container)testCase.Register(c);
             ITestB obj1 = null;
             ITestB obj2 = null;
 
@@ -105,9 +105,9 @@ namespace PerformanceCalculator.Tests.Containers.TestsSimpleInjector
             thread2.Join();
 
 
-            Helper.Check(obj1, true);
-            Helper.Check(obj2, true);
-            Helper.Check(obj1, obj2, false);
+            CheckHelper.Check(obj1, true);
+            CheckHelper.Check(obj2, true);
+            CheckHelper.Check(obj1, obj2, false);
         }
     }
 }
