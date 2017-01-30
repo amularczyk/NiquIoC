@@ -4,16 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using PerformanceCalculator.Common;
+using PerformanceCalculatorRunner.PerformanceTests;
 
 namespace PerformanceCalculatorRunner
 {
-    public enum WriteKind
-    {
-        Both = 0,
-        Register = 1,
-        Resolve = 2
-    }
-
     public class Program
     {
         private static readonly string _processPath = @"C:\study\NiquIoC\PerformanceCalculator\bin\Release\PerformanceCalculator.exe";
@@ -23,23 +17,88 @@ namespace PerformanceCalculatorRunner
         {
             var repetitionsNumber = 1;
 
-            var results = new Dictionary<string, List<FinalTestResult>>
-            {
-                { ContainerName.Autofac, ConvertToListFinalTestResult(new RunAutofacPerformanceTests(_processPath).RunTests(repetitionsNumber)) },
-                { ContainerName.DryIoc, ConvertToListFinalTestResult(new RunDryIocPeformanceTests(_processPath).RunTests(repetitionsNumber)) },
-                { ContainerName.LightInject, ConvertToListFinalTestResult(new RunLightInjectPeformanceTests(_processPath).RunTests(repetitionsNumber)) },
-                { ContainerName.NiquIoC, ConvertToListFinalTestResult(new RunNiquIoCPeformanceTests(_processPath).RunTests(repetitionsNumber)) },
-                { ContainerName.NiquIoCFull, ConvertToListFinalTestResult(new RunNiquIoCFullPeformanceTests(_processPath).RunTests(repetitionsNumber)) },
-                { ContainerName.SimpleInjector, ConvertToListFinalTestResult(new RunSimpleInjectorPeformanceTests(_processPath).RunTests(repetitionsNumber)) },
-                { ContainerName.StructureMap, ConvertToListFinalTestResult(new RunStructureMapPeformanceTests(_processPath).RunTests(repetitionsNumber)) },
-                { ContainerName.Unity, ConvertToListFinalTestResult(new RunUnityPeformanceTests(_processPath).RunTests(repetitionsNumber)) },
-                { ContainerName.Windsor, ConvertToListFinalTestResult(new RunWindsorPeformanceTests(_processPath).RunTests(repetitionsNumber)) }
-            };
+            var testCases = CreatePerformanceTestCases();
 
-            WriteToFile(results, WriteKind.Resolve);
+            var results = RunPerformanceTests(repetitionsNumber, testCases);
+
+            WriteToFile(ProcessResultsDataToCsvFormat(results, WriteKind.Resolve));
         }
 
-        private static void WriteToFile(Dictionary<string, List<FinalTestResult>> results, WriteKind writeKind)
+        private static Dictionary<string, List<FinalTestResult>> RunPerformanceTests(int repetitionsNumber, IReadOnlyCollection<PerformanceTestCase> testCases)
+        {
+            var results = new Dictionary<string, List<FinalTestResult>>();
+
+            Console.WriteLine($"{ContainerName.Autofac} start");
+            results.Add(ContainerName.Autofac, ProcessTestResults(new RunAutofacPerformanceTests(_processPath).RunTests(repetitionsNumber, testCases)));
+            Console.WriteLine($"{ContainerName.Autofac} end");
+
+            Console.WriteLine($"{ContainerName.DryIoc} start");
+            results.Add(ContainerName.DryIoc, ProcessTestResults(new RunDryIocPeformanceTests(_processPath).RunTests(repetitionsNumber, testCases)));
+            Console.WriteLine($"{ContainerName.DryIoc} end");
+
+            Console.WriteLine($"{ContainerName.LightInject} start");
+            results.Add(ContainerName.LightInject, ProcessTestResults(new RunLightInjectPeformanceTests(_processPath).RunTests(repetitionsNumber, testCases)));
+            Console.WriteLine($"{ContainerName.LightInject} end");
+
+            Console.WriteLine($"{ContainerName.NiquIoC} start");
+            results.Add(ContainerName.NiquIoC, ProcessTestResults(new RunNiquIoCPeformanceTests(_processPath).RunTests(repetitionsNumber, testCases)));
+            Console.WriteLine($"{ContainerName.NiquIoC} end");
+
+            Console.WriteLine($"{ContainerName.NiquIoCFull} start");
+            results.Add(ContainerName.NiquIoCFull, ProcessTestResults(new RunNiquIoCFullPeformanceTests(_processPath).RunTests(repetitionsNumber, testCases)));
+            Console.WriteLine($"{ContainerName.NiquIoCFull} end");
+
+            Console.WriteLine($"{ContainerName.SimpleInjector} start");
+            results.Add(ContainerName.SimpleInjector, ProcessTestResults(new RunSimpleInjectorPeformanceTests(_processPath).RunTests(repetitionsNumber, testCases)));
+            Console.WriteLine($"{ContainerName.SimpleInjector} end");
+
+            Console.WriteLine($"{ContainerName.StructureMap} start");
+            results.Add(ContainerName.StructureMap, ProcessTestResults(new RunStructureMapPeformanceTests(_processPath).RunTests(repetitionsNumber, testCases)));
+            Console.WriteLine($"{ContainerName.StructureMap} end");
+
+            Console.WriteLine($"{ContainerName.Unity} start");
+            results.Add(ContainerName.Unity, ProcessTestResults(new RunUnityPeformanceTests(_processPath).RunTests(repetitionsNumber, testCases)));
+            Console.WriteLine($"{ContainerName.Unity} end");
+
+            Console.WriteLine($"{ContainerName.Windsor} start");
+            results.Add(ContainerName.Windsor, ProcessTestResults(new RunWindsorPeformanceTests(_processPath).RunTests(repetitionsNumber, testCases)));
+            Console.WriteLine($"{ContainerName.Windsor} end");
+
+            return results;
+        }
+
+        private static List<PerformanceTestCase> CreatePerformanceTestCases()
+        {
+            return new List<PerformanceTestCase>
+            {
+                new PerformanceTestCase { RegistrationKind = RegistrationKind.Singleton, TestsCount = 100, TestCase = TestCaseName.A },
+                new PerformanceTestCase { RegistrationKind = RegistrationKind.Transient, TestsCount = 1, TestCase = TestCaseName.A },
+                new PerformanceTestCase { RegistrationKind = RegistrationKind.Transient, TestsCount = 10, TestCase = TestCaseName.A },
+                new PerformanceTestCase { RegistrationKind = RegistrationKind.Transient, TestsCount = 100, TestCase = TestCaseName.A },
+                new PerformanceTestCase { RegistrationKind = RegistrationKind.Transient, TestsCount = 1000, TestCase = TestCaseName.A },
+                new PerformanceTestCase { RegistrationKind = RegistrationKind.Singleton, TestsCount = 1, TestCase = TestCaseName.B },
+                new PerformanceTestCase { RegistrationKind = RegistrationKind.Transient, TestsCount = 1, TestCase = TestCaseName.B },
+                new PerformanceTestCase { RegistrationKind = RegistrationKind.Transient, TestsCount = 10, TestCase = TestCaseName.B },
+                new PerformanceTestCase { RegistrationKind = RegistrationKind.Singleton, TestsCount = 100, TestCase = TestCaseName.C },
+                new PerformanceTestCase { RegistrationKind = RegistrationKind.Transient, TestsCount = 1, TestCase = TestCaseName.C },
+                new PerformanceTestCase { RegistrationKind = RegistrationKind.Transient, TestsCount = 10, TestCase = TestCaseName.C },
+                new PerformanceTestCase { RegistrationKind = RegistrationKind.Transient, TestsCount = 100, TestCase = TestCaseName.C },
+                new PerformanceTestCase { RegistrationKind = RegistrationKind.Transient, TestsCount = 1000, TestCase = TestCaseName.C }
+            };
+        }
+
+        private static void WriteToFile(IEnumerable<string> results)
+        {
+            using (var file = new StreamWriter(_resultFile))
+            {
+                foreach (var result in results)
+                {
+                    file.WriteLine(result);
+                }
+            }
+        }
+
+        private static IEnumerable<string> ProcessResultsDataToCsvFormat(Dictionary<string, List<FinalTestResult>> results, WriteKind writeKind)
         {
             var header = new StringBuilder();
             var header2 = new StringBuilder();
@@ -85,7 +144,7 @@ namespace PerformanceCalculatorRunner
                 {
                     case WriteKind.Both:
                         header.Append($"{result.Key} Register;{result.Key} Register;{result.Key} Register;" +
-                            $"{result.Key} Resolve;{result.Key} Resolve;{result.Key} Resolve;");
+                                      $"{result.Key} Resolve;{result.Key} Resolve;{result.Key} Resolve;");
                         header2.Append("Min;Max;Avg;Min;Max;Avg;");
                         break;
 
@@ -100,42 +159,42 @@ namespace PerformanceCalculatorRunner
                         break;
                 }
 
-                body1.Append(ReturnStringResult(result, 0, writeKind));
-                body2.Append(ReturnStringResult(result, 1, writeKind));
-                body3.Append(ReturnStringResult(result, 2, writeKind));
-                body4.Append(ReturnStringResult(result, 3, writeKind));
-                body5.Append(ReturnStringResult(result, 4, writeKind));
-                body6.Append(ReturnStringResult(result, 5, writeKind));
-                body7.Append(ReturnStringResult(result, 6, writeKind));
-                body8.Append(ReturnStringResult(result, 7, writeKind));
-                body9.Append(ReturnStringResult(result, 8, writeKind));
-                body10.Append(ReturnStringResult(result, 9, writeKind));
-                body11.Append(ReturnStringResult(result, 10, writeKind));
-                body12.Append(ReturnStringResult(result, 11, writeKind));
-                body13.Append(ReturnStringResult(result, 12, writeKind));
+                body1.Append(GetResultInCsvFormat(result, 0, writeKind));
+                body2.Append(GetResultInCsvFormat(result, 1, writeKind));
+                body3.Append(GetResultInCsvFormat(result, 2, writeKind));
+                body4.Append(GetResultInCsvFormat(result, 3, writeKind));
+                body5.Append(GetResultInCsvFormat(result, 4, writeKind));
+                body6.Append(GetResultInCsvFormat(result, 5, writeKind));
+                body7.Append(GetResultInCsvFormat(result, 6, writeKind));
+                body8.Append(GetResultInCsvFormat(result, 7, writeKind));
+                body9.Append(GetResultInCsvFormat(result, 8, writeKind));
+                body10.Append(GetResultInCsvFormat(result, 9, writeKind));
+                body11.Append(GetResultInCsvFormat(result, 10, writeKind));
+                body12.Append(GetResultInCsvFormat(result, 11, writeKind));
+                body13.Append(GetResultInCsvFormat(result, 12, writeKind));
             }
 
-            using (var file = new StreamWriter(_resultFile))
+            return new List<string>
             {
-                file.WriteLine(header);
-                file.WriteLine(header2);
-                file.WriteLine(body1);
-                file.WriteLine(body2);
-                file.WriteLine(body3);
-                file.WriteLine(body4);
-                file.WriteLine(body5);
-                file.WriteLine(body6);
-                file.WriteLine(body7);
-                file.WriteLine(body8);
-                file.WriteLine(body9);
-                file.WriteLine(body10);
-                file.WriteLine(body11);
-                file.WriteLine(body12);
-                file.WriteLine(body13);
-            }
+                header.ToString(),
+                header2.ToString(),
+                body1.ToString(),
+                body2.ToString(),
+                body3.ToString(),
+                body4.ToString(),
+                body5.ToString(),
+                body6.ToString(),
+                body7.ToString(),
+                body8.ToString(),
+                body9.ToString(),
+                body10.ToString(),
+                body11.ToString(),
+                body12.ToString(),
+                body13.ToString()
+            };
         }
 
-        private static string ReturnStringResult(KeyValuePair<string, List<FinalTestResult>> result, int index, WriteKind writeKind)
+        private static string GetResultInCsvFormat(KeyValuePair<string, List<FinalTestResult>> result, int index, WriteKind writeKind)
         {
             switch (writeKind)
             {
@@ -154,7 +213,7 @@ namespace PerformanceCalculatorRunner
             }
         }
 
-        private static List<FinalTestResult> ConvertToListFinalTestResult(List<List<TestResult>> testResults)
+        private static List<FinalTestResult> ProcessTestResults(IEnumerable<List<TestResult>> testResults)
         {
             var finalTestResults = new List<FinalTestResult>();
 
@@ -162,7 +221,14 @@ namespace PerformanceCalculatorRunner
             {
                 finalTestResults.Add(new FinalTestResult
                 {
-                    RegistrationKind = testResult[0].RegistrationKind, TestCasesNumber = testResult[0].TestCasesNumber, MinRegisterTime = testResult.Min(t => t.RegisterTime), MinResolveTime = testResult.Min(t => t.ResolveTime), MaxRegisterTime = testResult.Max(t => t.RegisterTime), MaxResolveTime = testResult.Max(t => t.ResolveTime), AvgRegisterTime = (long)Math.Round(testResult.Average(t => t.RegisterTime), 0), AvgResolveTime = (long)Math.Round(testResult.Average(t => t.ResolveTime), 0)
+                    RegistrationKind = testResult[0].RegistrationKind,
+                    TestCasesNumber = testResult[0].TestCasesNumber,
+                    MinRegisterTime = testResult.Min(t => t.RegisterTime),
+                    MinResolveTime = testResult.Min(t => t.ResolveTime),
+                    MaxRegisterTime = testResult.Max(t => t.RegisterTime),
+                    MaxResolveTime = testResult.Max(t => t.ResolveTime),
+                    AvgRegisterTime = (long)Math.Round(testResult.Average(t => t.RegisterTime), 0),
+                    AvgResolveTime = (long)Math.Round(testResult.Average(t => t.ResolveTime), 0)
                 });
             }
 

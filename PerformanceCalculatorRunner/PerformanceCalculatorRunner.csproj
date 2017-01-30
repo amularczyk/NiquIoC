@@ -40,19 +40,21 @@
   <ItemGroup>
     <Compile Include="FinalTestResult.cs" />
     <Compile Include="Interfaces\IRunPerformanceTests.cs" />
+    <Compile Include="PerformanceTests\PerformanceTestCase.cs" />
     <Compile Include="ProcessHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RunAutofacPerformanceTests.cs" />
-    <Compile Include="RunDryIocPeformanceTests.cs" />
-    <Compile Include="RunLightInjectPeformanceTests.cs" />
-    <Compile Include="RunNiquIoCFullPeformanceTests.cs" />
-    <Compile Include="RunNiquIoCPeformanceTests.cs" />
-    <Compile Include="RunPerformanceTests.cs" />
-    <Compile Include="RunSimpleInjectorPeformanceTests.cs" />
-    <Compile Include="RunStructureMapPeformanceTests.cs" />
-    <Compile Include="RunUnityPeformanceTests.cs" />
-    <Compile Include="RunWindsorPeformanceTests.cs" />
+    <Compile Include="PerformanceTests\RunAutofacPerformanceTests.cs" />
+    <Compile Include="PerformanceTests\RunDryIocPeformanceTests.cs" />
+    <Compile Include="PerformanceTests\RunLightInjectPeformanceTests.cs" />
+    <Compile Include="PerformanceTests\RunNiquIoCFullPeformanceTests.cs" />
+    <Compile Include="PerformanceTests\RunNiquIoCPeformanceTests.cs" />
+    <Compile Include="PerformanceTests\RunPerformanceTests.cs" />
+    <Compile Include="PerformanceTests\RunSimpleInjectorPeformanceTests.cs" />
+    <Compile Include="PerformanceTests\RunStructureMapPeformanceTests.cs" />
+    <Compile Include="PerformanceTests\RunUnityPeformanceTests.cs" />
+    <Compile Include="PerformanceTests\RunWindsorPeformanceTests.cs" />
+    <Compile Include="WriteKind.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
