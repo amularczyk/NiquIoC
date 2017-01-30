@@ -65,7 +65,7 @@ namespace PerformanceCalculator.Containers.TestsUnity
             }
         }
 
-        protected override TestResult DoTest(ITestCase testCase, int testCasesNumber, RegistrationKind registrationKind)
+        protected override TestResult RunTest(ITestCase testCase, int testCasesNumber, RegistrationKind registrationKind)
         {
             var result = new TestResult { RegistrationKind = registrationKind, TestCasesNumber = testCasesNumber };
             var sw = new Stopwatch();

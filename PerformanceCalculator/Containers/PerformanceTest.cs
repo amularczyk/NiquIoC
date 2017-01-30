@@ -7,14 +7,14 @@ namespace PerformanceCalculator.Containers
 {
     public abstract class PerformanceTest : IPerformanceTest
     {
-        public TestResult DoTest(int count, string testCase, RegistrationKind registrationKind)
+        public TestResult RunTest(int count, string testCase, RegistrationKind registrationKind)
         {
-            return DoTest(TestCaseFactory(testCase, registrationKind), count, registrationKind);
+            return RunTest(TestCaseFactory(testCase, registrationKind), count, registrationKind);
         }
 
         protected abstract ITestCase TestCaseFactory(string testCase, RegistrationKind registrationKind);
 
-        protected abstract TestResult DoTest(ITestCase testCase, int testCasesNumber, RegistrationKind registrationKind);
+        protected abstract TestResult RunTest(ITestCase testCase, int testCasesNumber, RegistrationKind registrationKind);
 
         protected long DoResolve(Stopwatch sw, ITestCase testCase, object c, int testCasesNumber)
         {

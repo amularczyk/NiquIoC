@@ -20,22 +20,22 @@ namespace PerformanceCalculator
             var arguments = new PerformanceCalculatorArguments(args);
             var performanceTest = PerformanceTestFactory.GetPerformance(arguments.Name);
 
-            var testResult = DoPerformanceTests(performanceTest, arguments.Count, arguments.TestCase, arguments.RegistrationKind);
+            var testResult = RunPerformanceTests(performanceTest, arguments.Count, arguments.TestCase, arguments.RegistrationKind);
 
             writeTestResults.Write(testResult);
 
             return 0;
         }
 
-        private static TestResult DoPerformanceTests(IPerformanceTest performanceTest, int count, string testCase, RegistrationKind registrationKind)
+        private static TestResult RunPerformanceTests(IPerformanceTest performanceTest, int count, string testCase, RegistrationKind registrationKind)
         {
             WarmUpPerformanceTest(performanceTest, testCase, registrationKind);
-            return performanceTest.DoTest(count, testCase, registrationKind);
+            return performanceTest.RunTest(count, testCase, registrationKind);
         }
 
         private static void WarmUpPerformanceTest(IPerformanceTest performanceTest, string testCase, RegistrationKind registrationKind)
         {
-            performanceTest.DoTest(1, testCase, registrationKind);
+            performanceTest.RunTest(1, testCase, registrationKind);
         }
     }
 }

@@ -37,7 +37,7 @@ namespace PerformanceCalculatorRunner.PerformanceTests
 
         protected string Run(string containerName, RegistrationKind registrationKind, int testsCount, string testCase)
         {
-            return ProcessHelper.StartProcess(_processPath, $"{containerName} -r {registrationKind} -c {testsCount} -t {testCase}");
+            return ProcessHelper.StartProcess(_processPath, $"{containerName} -r {(int)registrationKind} -c {testsCount} -t {testCase}");
         }
 
         private TestResult ConvertToTestResult(string result)
