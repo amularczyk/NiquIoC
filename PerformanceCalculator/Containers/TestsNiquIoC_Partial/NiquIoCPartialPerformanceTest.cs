@@ -77,7 +77,7 @@ namespace PerformanceCalculator.Containers.TestsNiquIoC_Partial
             result.RegisterTime = sw.ElapsedMilliseconds;
 
             sw.Reset();
-            result.ResolveTime = DoResolve(sw, testCase, c, testCasesNumber);
+            result.ResolveTime = DoResolve(sw, testCase, c, testCasesNumber, registrationKind);
 
             //ToDo: c.Dispose();
 

@@ -59,7 +59,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsDryIoc
 
             var thread = new Thread(() =>
             {
-                using (var s = c.OpenScope())
+                using (c.OpenScope())
                 {
                     obj1 = c.Resolve<ITestA>();
                     obj2 = c.Resolve<ITestA>();
@@ -87,14 +87,14 @@ namespace PerformanceCalculator.Tests.Containers.TestsDryIoc
 
             var thread1 = new Thread(() =>
             {
-                using (var s = c.OpenScope())
+                using (c.OpenScope())
                 {
                     obj1 = c.Resolve<ITestA>();
                 }
             });
             var thread2 = new Thread(() =>
             {
-                using (var s = c.OpenScope())
+                using (c.OpenScope())
                 {
                     obj2 = c.Resolve<ITestA>();
                 }

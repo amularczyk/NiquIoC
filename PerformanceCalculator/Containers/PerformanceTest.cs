@@ -16,7 +16,7 @@ namespace PerformanceCalculator.Containers
 
         protected abstract TestResult RunTest(ITestCase testCase, int testCasesNumber, RegistrationKind registrationKind);
 
-        protected long DoResolve(Stopwatch sw, ITestCase testCase, object c, int testCasesNumber)
+        protected virtual long DoResolve(Stopwatch sw, ITestCase testCase, object c, int testCasesNumber, RegistrationKind registrationKind)
         {
             try
             {

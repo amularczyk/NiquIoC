@@ -77,11 +77,34 @@ namespace PerformanceCalculator.Containers.TestsDryIoc
             result.RegisterTime = sw.ElapsedMilliseconds;
 
             sw.Reset();
-            result.ResolveTime = DoResolve(sw, testCase, c, testCasesNumber);
+            result.ResolveTime = DoResolve(sw, testCase, c, testCasesNumber, registrationKind);
 
             c.Dispose();
 
             return result;
+        }
+
+        protected override long DoResolve(Stopwatch sw, ITestCase testCase, object c, int testCasesNumber, RegistrationKind registrationKind)
+        {
+            try
+            {
+                if (registrationKind == RegistrationKind.PerThread)
+                {
+                    sw.Start();
+                    using (((Container)c).OpenScope())
+                    {
+                        testCase.Resolve(c, testCasesNumber);
+                    }
+                    sw.Stop();
+                    return sw.ElapsedMilliseconds;
+                }
+
+                return base.DoResolve(sw, testCase, c, testCasesNumber, registrationKind);
+            }
+            catch (OutOfMemoryException)
+            {
+                return -1;
+            }
         }
     }
 }
