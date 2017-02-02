@@ -4,13 +4,13 @@ using System.Linq;
 using PerformanceCalculator.Common;
 using PerformanceCalculatorRunner.Interfaces;
 
-namespace PerformanceCalculatorRunner.PerformanceTests
+namespace PerformanceCalculatorRunner.PerformanceTestsRunners
 {
-    public abstract class RunPerformanceTests : IRunPerformanceTests
+    public abstract class PerformanceTestsRunner : IPerformanceTestsRunner
     {
         private readonly string _processPath;
 
-        protected RunPerformanceTests(string processPath)
+        protected PerformanceTestsRunner(string processPath)
         {
             _processPath = processPath;
         }

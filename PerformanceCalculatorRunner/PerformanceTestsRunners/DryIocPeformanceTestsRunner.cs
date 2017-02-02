@@ -1,10 +1,10 @@
 using PerformanceCalculator.Common;
 
-namespace PerformanceCalculatorRunner.PerformanceTests
+namespace PerformanceCalculatorRunner.PerformanceTestsRunners
 {
-    public class RunDryIocPeformanceTests : RunPerformanceTests
+    public class DryIocPeformanceTestsRunner : PerformanceTestsRunner
     {
-        public RunDryIocPeformanceTests(string processPath)
+        public DryIocPeformanceTestsRunner(string processPath)
             : base(processPath)
         {
         }

@@ -39,21 +39,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FinalTestResult.cs" />
-    <Compile Include="Interfaces\IRunPerformanceTests.cs" />
-    <Compile Include="PerformanceTests\PerformanceTestCase.cs" />
+    <Compile Include="Interfaces\IPerformanceTestsRunner.cs" />
+    <Compile Include="PerformanceTestCase.cs" />
     <Compile Include="ProcessHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PerformanceTests\RunAutofacPerformanceTests.cs" />
-    <Compile Include="PerformanceTests\RunDryIocPeformanceTests.cs" />
-    <Compile Include="PerformanceTests\RunLightInjectPeformanceTests.cs" />
-    <Compile Include="PerformanceTests\RunNiquIoCFullPeformanceTests.cs" />
-    <Compile Include="PerformanceTests\RunNiquIoCPeformanceTests.cs" />
-    <Compile Include="PerformanceTests\RunPerformanceTests.cs" />
-    <Compile Include="PerformanceTests\RunSimpleInjectorPeformanceTests.cs" />
-    <Compile Include="PerformanceTests\RunStructureMapPeformanceTests.cs" />
-    <Compile Include="PerformanceTests\RunUnityPeformanceTests.cs" />
-    <Compile Include="PerformanceTests\RunWindsorPeformanceTests.cs" />
+    <Compile Include="PerformanceTestsRunners\AutofacPerformanceTestsRunner.cs" />
+    <Compile Include="PerformanceTestsRunners\DryIocPeformanceTestsRunner.cs" />
+    <Compile Include="PerformanceTestsRunners\LightInjectPeformanceTestsRunner.cs" />
+    <Compile Include="PerformanceTestsRunners\NiquIoCFullPeformanceTestsRunner.cs" />
+    <Compile Include="PerformanceTestsRunners\NiquIoCPeformanceTestsRunner.cs" />
+    <Compile Include="PerformanceTestsRunners\PerformanceTestsRunner.cs" />
+    <Compile Include="PerformanceTestsRunners\SimpleInjectorPeformanceTestsRunner.cs" />
+    <Compile Include="PerformanceTestsRunners\StructureMapPeformanceTestsRunner.cs" />
+    <Compile Include="PerformanceTestsRunners\UnityPeformanceTestsRunner.cs" />
+    <Compile Include="PerformanceTestsRunners\WindsorPeformanceTestsRunner.cs" />
     <Compile Include="WriteKind.cs" />
   </ItemGroup>
   <ItemGroup>

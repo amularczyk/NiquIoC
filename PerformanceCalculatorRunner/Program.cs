@@ -4,7 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using PerformanceCalculator.Common;
-using PerformanceCalculatorRunner.PerformanceTests;
+using PerformanceCalculatorRunner.Interfaces;
+using PerformanceCalculatorRunner.PerformanceTestsRunners;
 
 namespace PerformanceCalculatorRunner
 {
@@ -31,43 +32,26 @@ namespace PerformanceCalculatorRunner
         {
             var results = new Dictionary<string, List<FinalTestResult>>();
 
-            Console.WriteLine($"{ContainerName.Autofac} start");
-            results.Add(ContainerName.Autofac, ProcessTestResults(new RunAutofacPerformanceTests(_processPath).RunTests(repetitionsNumber, testCases)));
-            Console.WriteLine($"{ContainerName.Autofac} end");
-
-            Console.WriteLine($"{ContainerName.DryIoc} start");
-            results.Add(ContainerName.DryIoc, ProcessTestResults(new RunDryIocPeformanceTests(_processPath).RunTests(repetitionsNumber, testCases)));
-            Console.WriteLine($"{ContainerName.DryIoc} end");
-
-            Console.WriteLine($"{ContainerName.LightInject} start");
-            results.Add(ContainerName.LightInject, ProcessTestResults(new RunLightInjectPeformanceTests(_processPath).RunTests(repetitionsNumber, testCases)));
-            Console.WriteLine($"{ContainerName.LightInject} end");
-
-            Console.WriteLine($"{ContainerName.NiquIoC} start");
-            results.Add(ContainerName.NiquIoC, ProcessTestResults(new RunNiquIoCPeformanceTests(_processPath).RunTests(repetitionsNumber, testCases)));
-            Console.WriteLine($"{ContainerName.NiquIoC} end");
-
-            Console.WriteLine($"{ContainerName.NiquIoCFull} start");
-            results.Add(ContainerName.NiquIoCFull, ProcessTestResults(new RunNiquIoCFullPeformanceTests(_processPath).RunTests(repetitionsNumber, testCases)));
-            Console.WriteLine($"{ContainerName.NiquIoCFull} end");
-
-            Console.WriteLine($"{ContainerName.SimpleInjector} start");
-            results.Add(ContainerName.SimpleInjector, ProcessTestResults(new RunSimpleInjectorPeformanceTests(_processPath).RunTests(repetitionsNumber, testCases)));
-            Console.WriteLine($"{ContainerName.SimpleInjector} end");
-
-            Console.WriteLine($"{ContainerName.StructureMap} start");
-            results.Add(ContainerName.StructureMap, ProcessTestResults(new RunStructureMapPeformanceTests(_processPath).RunTests(repetitionsNumber, testCases)));
-            Console.WriteLine($"{ContainerName.StructureMap} end");
-
-            Console.WriteLine($"{ContainerName.Unity} start");
-            results.Add(ContainerName.Unity, ProcessTestResults(new RunUnityPeformanceTests(_processPath).RunTests(repetitionsNumber, testCases)));
-            Console.WriteLine($"{ContainerName.Unity} end");
-
-            Console.WriteLine($"{ContainerName.Windsor} start");
-            results.Add(ContainerName.Windsor, ProcessTestResults(new RunWindsorPeformanceTests(_processPath).RunTests(repetitionsNumber, testCases)));
-            Console.WriteLine($"{ContainerName.Windsor} end");
+            results.Add(ContainerName.Autofac, RunPerformanceTests(ContainerName.Autofac, new AutofacPerformanceTestsRunner(_processPath), repetitionsNumber, testCases));
+            results.Add(ContainerName.DryIoc, RunPerformanceTests(ContainerName.DryIoc, new DryIocPeformanceTestsRunner(_processPath), repetitionsNumber, testCases));
+            results.Add(ContainerName.LightInject, RunPerformanceTests(ContainerName.LightInject, new LightInjectPeformanceTestsRunner(_processPath), repetitionsNumber, testCases));
+            results.Add(ContainerName.NiquIoC, RunPerformanceTests(ContainerName.NiquIoC, new NiquIoCPeformanceTestsRunner(_processPath), repetitionsNumber, testCases));
+            results.Add(ContainerName.NiquIoCFull, RunPerformanceTests(ContainerName.NiquIoCFull, new NiquIoCFullPeformanceTestsRunner(_processPath), repetitionsNumber, testCases));
+            results.Add(ContainerName.SimpleInjector, RunPerformanceTests(ContainerName.SimpleInjector, new SimpleInjectorPeformanceTestsRunner(_processPath), repetitionsNumber, testCases));
+            results.Add(ContainerName.StructureMap, RunPerformanceTests(ContainerName.StructureMap, new StructureMapPeformanceTestsRunner(_processPath), repetitionsNumber, testCases));
+            results.Add(ContainerName.Unity, RunPerformanceTests(ContainerName.Unity, new UnityPeformanceTestsRunner(_processPath), repetitionsNumber, testCases));
+            results.Add(ContainerName.Windsor, RunPerformanceTests(ContainerName.Windsor, new WindsorPeformanceTestsRunner(_processPath), repetitionsNumber, testCases));
 
             return results;
+        }
+
+        private static List<FinalTestResult> RunPerformanceTests(string containerName, IPerformanceTestsRunner performanceTestsRunner, int repetitionsNumber, IReadOnlyCollection<PerformanceTestCase> testCases)
+        {
+            Console.WriteLine($"{containerName} start");
+            var result = ProcessTestResults(performanceTestsRunner.RunTests(repetitionsNumber, testCases));
+            Console.WriteLine($"{containerName} end");
+
+            return result;
         }
 
         private static void CreatePerformanceTestCasesA(ICollection<PerformanceTestCase> testCases)

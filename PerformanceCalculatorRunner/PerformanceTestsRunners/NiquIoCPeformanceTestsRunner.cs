@@ -1,10 +1,10 @@
 ﻿using PerformanceCalculator.Common;
 
-namespace PerformanceCalculatorRunner.PerformanceTests
+namespace PerformanceCalculatorRunner.PerformanceTestsRunners
 {
-    public class RunNiquIoCPeformanceTests : RunPerformanceTests
+    public class NiquIoCPeformanceTestsRunner : PerformanceTestsRunner
     {
-        public RunNiquIoCPeformanceTests(string processPath)
+        public NiquIoCPeformanceTestsRunner(string processPath)
             : base(processPath)
         {
         }

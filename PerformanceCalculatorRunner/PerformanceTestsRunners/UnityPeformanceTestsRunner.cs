@@ -1,10 +1,10 @@
 using PerformanceCalculator.Common;
 
-namespace PerformanceCalculatorRunner.PerformanceTests
+namespace PerformanceCalculatorRunner.PerformanceTestsRunners
 {
-    public class RunUnityPeformanceTests : RunPerformanceTests
+    public class UnityPeformanceTestsRunner : PerformanceTestsRunner
     {
-        public RunUnityPeformanceTests(string processPath)
+        public UnityPeformanceTestsRunner(string processPath)
             : base(processPath)
         {
         }
