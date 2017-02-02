@@ -83,5 +83,28 @@ namespace PerformanceCalculator.Containers.TestsAutofac
 
             return result;
         }
+
+        protected override long DoResolve(Stopwatch sw, ITestCase testCase, object c, int testCasesNumber, RegistrationKind registrationKind)
+        {
+            try
+            {
+                if (registrationKind == RegistrationKind.PerThread)
+                {
+                    sw.Start();
+                    using (var threadLifetime = ((IContainer)c).BeginLifetimeScope())
+                    {
+                        testCase.Resolve(threadLifetime, testCasesNumber);
+                    }
+                    sw.Stop();
+                    return sw.ElapsedMilliseconds;
+                }
+
+                return base.DoResolve(sw, testCase, c, testCasesNumber, registrationKind);
+            }
+            catch (OutOfMemoryException)
+            {
+                return -1;
+            }
+        }
     }
 }

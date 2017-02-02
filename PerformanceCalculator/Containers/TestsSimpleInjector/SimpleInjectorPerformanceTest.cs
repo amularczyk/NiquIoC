@@ -83,5 +83,28 @@ namespace PerformanceCalculator.Containers.TestsSimpleInjector
 
             return result;
         }
+
+        protected override long DoResolve(Stopwatch sw, ITestCase testCase, object c, int testCasesNumber, RegistrationKind registrationKind)
+        {
+            try
+            {
+                if (registrationKind == RegistrationKind.PerThread)
+                {
+                    sw.Start();
+                    using (((Container)c).BeginLifetimeScope())
+                    {
+                        testCase.Resolve(c, testCasesNumber);
+                    }
+                    sw.Stop();
+                    return sw.ElapsedMilliseconds;
+                }
+
+                return base.DoResolve(sw, testCase, c, testCasesNumber, registrationKind);
+            }
+            catch (OutOfMemoryException)
+            {
+                return -1;
+            }
+        }
     }
 }
