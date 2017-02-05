@@ -50,7 +50,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsLightInject
         [TestMethod]
         public void RegisterPerThread_SameThread_Success()
         {
-            throw new NotImplementedException("Process not ending - need to investigate it");
+            throw new OutOfMemoryException("Process takes more than 20 minutes!");
             ITestCase testCase = new PerThreadTestCaseB();
 
             var c = new ServiceContainer();
@@ -61,8 +61,11 @@ namespace PerformanceCalculator.Tests.Containers.TestsLightInject
 
             var thread = new Thread(() =>
             {
-                obj1 = c.GetInstance<ITestB>();
-                obj2 = c.GetInstance<ITestB>();
+                using (c.BeginScope())
+                {
+                    obj1 = c.GetInstance<ITestB>();
+                    obj2 = c.GetInstance<ITestB>();
+                }
             });
             thread.Start();
             thread.Join();
@@ -76,7 +79,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsLightInject
         [TestMethod]
         public void RegisterPerThread_DifferentThreads_Success()
         {
-            throw new NotImplementedException("Process not ending - need to investigate it");
+            throw new OutOfMemoryException("Process takes more than 20 minutes!");
             ITestCase testCase = new PerThreadTestCaseB();
 
             var c = new ServiceContainer();
@@ -85,8 +88,20 @@ namespace PerformanceCalculator.Tests.Containers.TestsLightInject
             ITestB obj2 = null;
 
 
-            var thread1 = new Thread(() => { obj1 = c.GetInstance<ITestB>(); });
-            var thread2 = new Thread(() => { obj2 = c.GetInstance<ITestB>(); });
+            var thread1 = new Thread(() =>
+            {
+                using (c.BeginScope())
+                {
+                    obj1 = c.GetInstance<ITestB>();
+                }
+            });
+            var thread2 = new Thread(() =>
+            {
+                using (c.BeginScope())
+                {
+                    obj2 = c.GetInstance<ITestB>();
+                }
+            });
             thread1.Start();
             thread1.Join();
             thread2.Start();

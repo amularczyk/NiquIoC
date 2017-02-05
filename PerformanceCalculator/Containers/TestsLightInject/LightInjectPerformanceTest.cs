@@ -83,5 +83,33 @@ namespace PerformanceCalculator.Containers.TestsLightInject
 
             return result;
         }
+
+        protected override long DoResolve(Stopwatch sw, ITestCase testCase, object c, int testCasesNumber, RegistrationKind registrationKind)
+        {
+            try
+            {
+                if (registrationKind == RegistrationKind.PerThread)
+                {
+                    if (testCase is TestCaseB || testCase is TestCaseC)
+                    {
+                        throw new OutOfMemoryException("Process takes more than 20 minutes!");
+                    }
+
+                    sw.Start();
+                    using (((ServiceContainer)c).BeginScope())
+                    {
+                        testCase.Resolve(c, testCasesNumber);
+                    }
+                    sw.Stop();
+                    return sw.ElapsedMilliseconds;
+                }
+
+                return base.DoResolve(sw, testCase, c, testCasesNumber, registrationKind);
+            }
+            catch (OutOfMemoryException)
+            {
+                return -1;
+            }
+        }
     }
 }

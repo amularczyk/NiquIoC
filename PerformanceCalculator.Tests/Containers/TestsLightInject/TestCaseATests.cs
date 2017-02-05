@@ -22,7 +22,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsLightInject
             var obj1 = c.GetInstance<ITestA>();
             var obj2 = c.GetInstance<ITestA>();
 
-            
+
             CheckHelper.Check(obj1, true);
             CheckHelper.Check(obj2, true);
             CheckHelper.Check(obj1, obj2, true);
@@ -40,7 +40,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsLightInject
             var obj1 = c.GetInstance<ITestA>();
             var obj2 = c.GetInstance<ITestA>();
 
-            
+
             CheckHelper.Check(obj1, false);
             CheckHelper.Check(obj2, false);
             CheckHelper.Check(obj1, obj2, false);
@@ -59,8 +59,11 @@ namespace PerformanceCalculator.Tests.Containers.TestsLightInject
 
             var thread = new Thread(() =>
             {
-                obj1 = c.GetInstance<ITestA>();
-                obj2 = c.GetInstance<ITestA>();
+                using (c.BeginScope())
+                {
+                    obj1 = c.GetInstance<ITestA>();
+                    obj2 = c.GetInstance<ITestA>();
+                }
             });
             thread.Start();
             thread.Join();
@@ -82,8 +85,20 @@ namespace PerformanceCalculator.Tests.Containers.TestsLightInject
             ITestA obj2 = null;
 
 
-            var thread1 = new Thread(() => { obj1 = c.GetInstance<ITestA>(); });
-            var thread2 = new Thread(() => { obj2 = c.GetInstance<ITestA>(); });
+            var thread1 = new Thread(() =>
+            {
+                using (c.BeginScope())
+                {
+                    obj1 = c.GetInstance<ITestA>();
+                }
+            });
+            var thread2 = new Thread(() =>
+            {
+                using (c.BeginScope())
+                {
+                    obj2 = c.GetInstance<ITestA>();
+                }
+            });
             thread1.Start();
             thread1.Join();
             thread2.Start();

@@ -91,7 +91,6 @@
     <Compile Include="Containers\TestsDryIoc\TransientTestCaseB.cs" />
     <Compile Include="Containers\TestsDryIoc\TransientTestCaseC.cs" />
     <Compile Include="Containers\TestsLightInject\LightInjectPerformanceTest.cs" />
-    <Compile Include="Containers\TestsLightInject\PerThreadLifetime.cs" />
     <Compile Include="Containers\TestsLightInject\PerThreadTestCaseA.cs" />
     <Compile Include="Containers\TestsLightInject\PerThreadTestCaseB.cs" />
     <Compile Include="Containers\TestsLightInject\PerThreadTestCaseC.cs" />
