@@ -28,6 +28,13 @@ namespace PerformanceCalculator.Tests.Containers.TestsNiquIoC_Partial
         }
 
         [TestMethod]
+        public void DoTestA_PerThread_Success()
+        {
+            var performance = GetPerformance();
+            performance.RunTest(1, TestCaseName.A, RegistrationKind.PerThread);
+        }
+
+        [TestMethod]
         public void DoTestB_Singleton_Success()
         {
             var performance = GetPerformance();
@@ -42,6 +49,13 @@ namespace PerformanceCalculator.Tests.Containers.TestsNiquIoC_Partial
         }
 
         [TestMethod]
+        public void DoTestB_PerThread_Success()
+        {
+            var performance = GetPerformance();
+            performance.RunTest(1, TestCaseName.B, RegistrationKind.PerThread);
+        }
+
+        [TestMethod]
         public void DoTestC_Singleton_Success()
         {
             var performance = GetPerformance();
@@ -53,6 +67,13 @@ namespace PerformanceCalculator.Tests.Containers.TestsNiquIoC_Partial
         {
             var performance = GetPerformance();
             performance.RunTest(1, TestCaseName.C, RegistrationKind.Transient);
+        }
+
+        [TestMethod]
+        public void DoTestC_PerThread_Success()
+        {
+            var performance = GetPerformance();
+            performance.RunTest(1, TestCaseName.C, RegistrationKind.PerThread);
         }
     }
 }

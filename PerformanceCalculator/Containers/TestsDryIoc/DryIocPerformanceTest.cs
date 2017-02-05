@@ -64,13 +64,13 @@ namespace PerformanceCalculator.Containers.TestsDryIoc
                     throw new ArgumentOutOfRangeException(nameof(testCase), testCase, null);
             }
         }
-        
+
         protected override TestResult RunTest(ITestCase testCase, int testCasesNumber, RegistrationKind registrationKind)
         {
             var result = new TestResult { RegistrationKind = registrationKind, TestCasesNumber = testCasesNumber };
             var sw = new Stopwatch();
 
-            var c = new Container();
+            var c = registrationKind == RegistrationKind.PerThread ? new Container(scopeContext: new ThreadScopeContext()) : new Container();
             sw.Start();
             c = (Container)testCase.Register(c);
             sw.Stop();

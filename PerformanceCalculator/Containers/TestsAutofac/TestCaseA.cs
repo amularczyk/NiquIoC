@@ -10,11 +10,24 @@ namespace PerformanceCalculator.Containers.TestsAutofac
 
         public void Resolve(object container, int testCasesNumber)
         {
-            var c = (IContainer)container;
-
-            for (var i = 0; i < testCasesNumber; i++)
+            if (container is ILifetimeScope)
             {
-                c.Resolve<ITestA>();
+                var c = (ILifetimeScope)container;
+
+                for (var i = 0; i < testCasesNumber; i++)
+                {
+                    c.Resolve<ITestA>();
+                }
+            }
+            else
+            {
+                // ReSharper disable once PossibleInvalidCastException
+                var c = (IContainer)container;
+
+                for (var i = 0; i < testCasesNumber; i++)
+                {
+                    c.Resolve<ITestA>();
+                }
             }
         }
     }
