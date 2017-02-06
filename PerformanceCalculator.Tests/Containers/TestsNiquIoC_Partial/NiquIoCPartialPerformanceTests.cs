@@ -6,7 +6,7 @@ using PerformanceCalculator.Interfaces;
 namespace PerformanceCalculator.Tests.Containers.TestsNiquIoC_Partial
 {
     [TestClass]
-    public class NiquIoCPerformanceTests
+    public class NiquIoCPartialPerformanceTests
     {
         private IPerformanceTest GetPerformance()
         {
