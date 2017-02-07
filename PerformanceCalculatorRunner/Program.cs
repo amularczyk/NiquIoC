@@ -20,8 +20,8 @@ namespace PerformanceCalculatorRunner
 
             var testCases = new List<PerformanceTestCase>();
             CreatePerformanceTestCasesA(testCases);
-//            CreatePerformanceTestCasesB(testCases);
-//            CreatePerformanceTestCasesC(testCases);
+            CreatePerformanceTestCasesB(testCases);
+            CreatePerformanceTestCasesC(testCases);
 
             var results = RunPerformanceTests(repetitionsNumber, testCases);
 

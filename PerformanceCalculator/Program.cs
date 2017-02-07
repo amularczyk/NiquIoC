@@ -1,6 +1,4 @@
-﻿using System;
-using PerformanceCalculator.Common;
-using PerformanceCalculator.Containers.TestsAutofac;
+﻿using PerformanceCalculator.Common;
 using PerformanceCalculator.Interfaces;
 
 namespace PerformanceCalculator
