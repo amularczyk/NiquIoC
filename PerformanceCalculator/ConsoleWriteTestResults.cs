@@ -6,7 +6,7 @@ namespace PerformanceCalculator
 {
     public class ConsoleWriteTestResults : IWriteTestResults
     {
-        public void Write(TestResult testResult)
+        public void Write(string containerName, TestResult testResult)
         {
             Console.Write($"{(int)testResult.RegistrationKind} {testResult.TestCasesNumber} {testResult.RegisterTime} {testResult.ResolveTime}");
         }

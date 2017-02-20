@@ -21,6 +21,11 @@ namespace PerformanceCalculatorRunner
             var standardOutput = process.StandardOutput.ReadToEnd();
             process.WaitForExit();
 
+            if (process.ExitCode != 0)
+            {
+                return "Error!";
+            }
+
             return standardOutput;
         }
     }

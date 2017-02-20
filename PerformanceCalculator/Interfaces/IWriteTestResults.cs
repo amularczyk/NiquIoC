@@ -4,6 +4,6 @@ namespace PerformanceCalculator.Interfaces
 {
     public interface IWriteTestResults
     {
-        void Write(TestResult testResult);
+        void Write(string containerName, TestResult testResult);
     }
 }

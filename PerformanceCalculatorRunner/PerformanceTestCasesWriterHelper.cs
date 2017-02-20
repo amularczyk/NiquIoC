@@ -28,40 +28,46 @@ namespace PerformanceCalculatorRunner
             var header = new StringBuilder();
             var header2 = new StringBuilder();
 
-            var body1 = new StringBuilder();
-            var body2 = new StringBuilder();
-            var body3 = new StringBuilder();
-            var body4 = new StringBuilder();
-            var body5 = new StringBuilder();
+            var bodyAS100 = new StringBuilder();
+            var bodyAT1 = new StringBuilder();
+            var bodyAT10 = new StringBuilder();
+            var bodyAT100 = new StringBuilder();
+            var bodyAT1000 = new StringBuilder();
+            var bodyAPt100 = new StringBuilder();
 
-            var body6 = new StringBuilder();
-            var body7 = new StringBuilder();
-            var body8 = new StringBuilder();
+            var bodyBS1 = new StringBuilder();
+            var bodyBT1 = new StringBuilder();
+            var bodyBT10 = new StringBuilder();
+            var bodyBPt1 = new StringBuilder();
 
-            var body9 = new StringBuilder();
-            var body10 = new StringBuilder();
-            var body11 = new StringBuilder();
-            var body12 = new StringBuilder();
-            var body13 = new StringBuilder();
+            var bodyCS100 = new StringBuilder();
+            var bodyCT1 = new StringBuilder();
+            var bodyCT10 = new StringBuilder();
+            var bodyCT100 = new StringBuilder();
+            var bodyCT1000 = new StringBuilder();
+            var bodyCPt100 = new StringBuilder();
 
             header.Append("Test Case;Registration Kind;Resolve Count;");
             header2.Append(";;;");
 
-            body1.Append("Test A;registrationKind;100;");
-            body2.Append("Test A;Transient;1;");
-            body3.Append("Test A;Transient;10;");
-            body4.Append("Test A;Transient;100;");
-            body5.Append("Test A;Transient;1000;");
+            bodyAS100.Append("Test A;Singleton;100;");
+            bodyAT1.Append("Test A;Transient;1;");
+            bodyAT10.Append("Test A;Transient;10;");
+            bodyAT100.Append("Test A;Transient;100;");
+            bodyAT1000.Append("Test A;Transient;1000;");
+            bodyAPt100.Append("Test A;PerThread;100;");
 
-            body6.Append("Test B;registrationKind;1;");
-            body7.Append("Test B;Transient;1;");
-            body8.Append("Test B;Transient;10;");
+            bodyBS1.Append("Test B;Singleton;1;");
+            bodyBT1.Append("Test B;Transient;1;");
+            bodyBT10.Append("Test B;Transient;10;");
+            bodyBPt1.Append("Test B;PerThread;1;");
 
-            body9.Append("Test C;registrationKind;100;");
-            body10.Append("Test C;Transient;1;");
-            body11.Append("Test C;Transient;10;");
-            body12.Append("Test C;Transient;100;");
-            body13.Append("Test C;Transient;1000;");
+            bodyCS100.Append("Test C;Singleton;100;");
+            bodyCT1.Append("Test C;Transient;1;");
+            bodyCT10.Append("Test C;Transient;10;");
+            bodyCT100.Append("Test C;Transient;100;");
+            bodyCT1000.Append("Test C;Transient;1000;");
+            bodyCPt100.Append("Test C;PerThread;100;");
 
             foreach (var result in results)
             {
@@ -84,38 +90,44 @@ namespace PerformanceCalculatorRunner
                         break;
                 }
 
-                body1.Append((string)GetResultInCsvFormat(result, 0, writeKind));
-                body2.Append((string)GetResultInCsvFormat(result, 1, writeKind));
-                body3.Append((string)GetResultInCsvFormat(result, 2, writeKind));
-                body4.Append((string)GetResultInCsvFormat(result, 3, writeKind));
-                body5.Append((string)GetResultInCsvFormat(result, 4, writeKind));
-                body6.Append((string)GetResultInCsvFormat(result, 5, writeKind));
-                body7.Append((string)GetResultInCsvFormat(result, 6, writeKind));
-                body8.Append((string)GetResultInCsvFormat(result, 7, writeKind));
-                body9.Append((string)GetResultInCsvFormat(result, 8, writeKind));
-                body10.Append((string)GetResultInCsvFormat(result, 9, writeKind));
-                body11.Append((string)GetResultInCsvFormat(result, 10, writeKind));
-                body12.Append((string)GetResultInCsvFormat(result, 11, writeKind));
-                body13.Append((string)GetResultInCsvFormat(result, 12, writeKind));
+                bodyAS100.Append(GetResultInCsvFormat(result, 0, writeKind));
+                bodyAT1.Append(GetResultInCsvFormat(result, 1, writeKind));
+                bodyAT10.Append(GetResultInCsvFormat(result, 2, writeKind));
+                bodyAT100.Append(GetResultInCsvFormat(result, 3, writeKind));
+                bodyAT1000.Append(GetResultInCsvFormat(result, 4, writeKind));
+                bodyAPt100.Append(GetResultInCsvFormat(result, 5, writeKind));
+                bodyBS1.Append(GetResultInCsvFormat(result, 6, writeKind));
+                bodyBT1.Append(GetResultInCsvFormat(result, 7, writeKind));
+                bodyBT10.Append(GetResultInCsvFormat(result, 8, writeKind));
+                bodyBPt1.Append(GetResultInCsvFormat(result, 9, writeKind));
+                bodyCS100.Append(GetResultInCsvFormat(result, 10, writeKind));
+                bodyCT1.Append(GetResultInCsvFormat(result, 11, writeKind));
+                bodyCT10.Append(GetResultInCsvFormat(result, 12, writeKind));
+                bodyCT100.Append(GetResultInCsvFormat(result, 13, writeKind));
+                bodyCT1000.Append(GetResultInCsvFormat(result, 14, writeKind));
+                bodyCPt100.Append(GetResultInCsvFormat(result, 15, writeKind));
             }
 
             return new List<string>
             {
                 header.ToString(),
                 header2.ToString(),
-                body1.ToString(),
-                body2.ToString(),
-                body3.ToString(),
-                body4.ToString(),
-                body5.ToString(),
-                body6.ToString(),
-                body7.ToString(),
-                body8.ToString(),
-                body9.ToString(),
-                body10.ToString(),
-                body11.ToString(),
-                body12.ToString(),
-                body13.ToString()
+                bodyAS100.ToString(),
+                bodyAT1.ToString(),
+                bodyAT10.ToString(),
+                bodyAT100.ToString(),
+                bodyAT1000.ToString(),
+                bodyAPt100.ToString(),
+                bodyBS1.ToString(),
+                bodyBT1.ToString(),
+                bodyBT10.ToString(),
+                bodyBPt1.ToString(),
+                bodyCS100.ToString(),
+                bodyCT1.ToString(),
+                bodyCT10.ToString(),
+                bodyCT100.ToString(),
+                bodyCT1000.ToString(),
+                bodyCPt100.ToString()
             };
         }
 

@@ -1,4 +1,5 @@
-﻿using PerformanceCalculator.Common;
+﻿using System;
+using PerformanceCalculator.Common;
 using PerformanceCalculator.Interfaces;
 
 namespace PerformanceCalculator
@@ -7,22 +8,29 @@ namespace PerformanceCalculator
     {
         private static int Main(string[] args)
         {
-            var argsCount = 7;
-            if (args.Length != argsCount)
+            try
             {
-                return 1;
+                var argsCount = 7;
+                if (args.Length != argsCount)
+                {
+                    return 1;
+                }
+
+                IWriteTestResults writeTestResults = new ConsoleWriteTestResults();
+
+                var arguments = new PerformanceCalculatorArguments(args);
+                var performanceTest = PerformanceTestFactory.GetPerformance(arguments.Name);
+
+                var testResult = RunPerformanceTests(performanceTest, arguments.Count, arguments.TestCase, arguments.RegistrationKind);
+
+                writeTestResults.Write(arguments.Name, testResult);
+
+                return 0;
             }
-
-            IWriteTestResults writeTestResults = new ConsoleWriteTestResults();
-
-            var arguments = new PerformanceCalculatorArguments(args);
-            var performanceTest = PerformanceTestFactory.GetPerformance(arguments.Name);
-
-            var testResult = RunPerformanceTests(performanceTest, arguments.Count, arguments.TestCase, arguments.RegistrationKind);
-
-            writeTestResults.Write(testResult);
-
-            return 0;
+            catch
+            {
+                return 2;
+            }
         }
 
         private static TestResult RunPerformanceTests(IPerformanceTest performanceTest, int count, string testCase, RegistrationKind registrationKind)
