@@ -40,7 +40,10 @@
   <ItemGroup>
     <Compile Include="FinalTestResult.cs" />
     <Compile Include="Interfaces\IPerformanceTestsRunner.cs" />
+    <Compile Include="PerformanceTestCasesCreaterHelper.cs" />
     <Compile Include="PerformanceTestCase.cs" />
+    <Compile Include="PerformanceTestCasesRunnerHelper.cs" />
+    <Compile Include="PerformanceTestCasesWriterHelper.cs" />
     <Compile Include="ProcessHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
