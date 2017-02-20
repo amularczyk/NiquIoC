@@ -32,17 +32,22 @@ namespace PerformanceCalculatorRunner
         {
             var results = new Dictionary<string, List<FinalTestResult>>();
 
-            results.Add(ContainerName.Autofac, RunPerformanceTests(ContainerName.Autofac, new AutofacPerformanceTestsRunner(_processPath), repetitionsNumber, testCases));
-            results.Add(ContainerName.DryIoc, RunPerformanceTests(ContainerName.DryIoc, new DryIocPeformanceTestsRunner(_processPath), repetitionsNumber, testCases));
-            results.Add(ContainerName.LightInject, RunPerformanceTests(ContainerName.LightInject, new LightInjectPeformanceTestsRunner(_processPath), repetitionsNumber, testCases));
-            results.Add(ContainerName.NiquIoC, RunPerformanceTests(ContainerName.NiquIoC, new NiquIoCPeformanceTestsRunner(_processPath), repetitionsNumber, testCases));
-            results.Add(ContainerName.NiquIoCFull, RunPerformanceTests(ContainerName.NiquIoCFull, new NiquIoCFullPeformanceTestsRunner(_processPath), repetitionsNumber, testCases));
-            results.Add(ContainerName.SimpleInjector, RunPerformanceTests(ContainerName.SimpleInjector, new SimpleInjectorPeformanceTestsRunner(_processPath), repetitionsNumber, testCases));
-            results.Add(ContainerName.StructureMap, RunPerformanceTests(ContainerName.StructureMap, new StructureMapPeformanceTestsRunner(_processPath), repetitionsNumber, testCases));
-            results.Add(ContainerName.Unity, RunPerformanceTests(ContainerName.Unity, new UnityPeformanceTestsRunner(_processPath), repetitionsNumber, testCases));
-            results.Add(ContainerName.Windsor, RunPerformanceTests(ContainerName.Windsor, new WindsorPeformanceTestsRunner(_processPath), repetitionsNumber, testCases));
+            AddPerformanceTests(results, ContainerName.Autofac, new AutofacPerformanceTestsRunner(_processPath), repetitionsNumber, testCases);
+            AddPerformanceTests(results, ContainerName.DryIoc, new DryIocPeformanceTestsRunner(_processPath), repetitionsNumber, testCases);
+            AddPerformanceTests(results, ContainerName.LightInject, new LightInjectPeformanceTestsRunner(_processPath), repetitionsNumber, testCases);
+            AddPerformanceTests(results, ContainerName.NiquIoC, new NiquIoCPeformanceTestsRunner(_processPath), repetitionsNumber, testCases);
+            AddPerformanceTests(results, ContainerName.NiquIoCFull, new NiquIoCFullPeformanceTestsRunner(_processPath), repetitionsNumber, testCases);
+            AddPerformanceTests(results, ContainerName.SimpleInjector, new SimpleInjectorPeformanceTestsRunner(_processPath), repetitionsNumber, testCases);
+            AddPerformanceTests(results, ContainerName.StructureMap, new StructureMapPeformanceTestsRunner(_processPath), repetitionsNumber, testCases);
+            AddPerformanceTests(results, ContainerName.Unity, new UnityPeformanceTestsRunner(_processPath), repetitionsNumber, testCases);
+            AddPerformanceTests(results, ContainerName.Windsor, new WindsorPeformanceTestsRunner(_processPath), repetitionsNumber, testCases);
 
             return results;
+        }
+
+        private static void AddPerformanceTests(Dictionary<string, List<FinalTestResult>> dict, string containerName, IPerformanceTestsRunner performanceTestsRunner, int repetitionsNumber, IReadOnlyCollection<PerformanceTestCase> testCases)
+        {
+            dict.Add(containerName, RunPerformanceTests(containerName, performanceTestsRunner, repetitionsNumber, testCases));
         }
 
         private static List<FinalTestResult> RunPerformanceTests(string containerName, IPerformanceTestsRunner performanceTestsRunner, int repetitionsNumber, IReadOnlyCollection<PerformanceTestCase> testCases)
