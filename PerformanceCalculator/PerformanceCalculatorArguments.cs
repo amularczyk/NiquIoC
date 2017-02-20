@@ -10,9 +10,9 @@ namespace PerformanceCalculator
 
         public RegistrationKind RegistrationKind { get; set; }
 
-        public int Count { get; set; }
-
         public string TestCase { get; set; }
+
+        public int Count { get; set; }
 
 
         public PerformanceCalculatorArguments(IReadOnlyList<string> args)
@@ -30,12 +30,12 @@ namespace PerformanceCalculator
                         RegistrationKind = (RegistrationKind)Convert.ToInt32(args[i + 1]);
                         break;
 
-                    case "-c":
-                        Count = Convert.ToInt32(args[i + 1]);
-                        break;
-
                     case "-t":
                         TestCase = args[i + 1];
+                        break;
+
+                    case "-c":
+                        Count = Convert.ToInt32(args[i + 1]);
                         break;
 
                     default:

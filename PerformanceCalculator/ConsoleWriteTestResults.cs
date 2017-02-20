@@ -8,7 +8,7 @@ namespace PerformanceCalculator
     {
         public void Write(string containerName, TestResult testResult)
         {
-            Console.Write($"{(int)testResult.RegistrationKind} {testResult.TestCasesNumber} {testResult.RegisterTime} {testResult.ResolveTime}");
+            Console.Write($"{containerName} -r {(int)testResult.RegistrationKind} -t {testResult.TestCase} -c {testResult.TestCasesCount} -reg {testResult.RegisterTime} -res {testResult.ResolveTime}");
         }
     }
 }

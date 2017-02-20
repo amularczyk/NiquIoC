@@ -3,8 +3,13 @@
     public class TestResult
     {
         public RegistrationKind RegistrationKind { get; set; }
-        public int TestCasesNumber { get; set; }
+
+        public string TestCase { get; set; }
+
+        public int TestCasesCount { get; set; }
+
         public long RegisterTime { get; set; }
+
         public long ResolveTime { get; set; }
     }
 }

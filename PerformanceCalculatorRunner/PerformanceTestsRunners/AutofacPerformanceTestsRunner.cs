@@ -9,9 +9,9 @@ namespace PerformanceCalculatorRunner.PerformanceTestsRunners
         {
         }
 
-        public override string RunTests(RegistrationKind registrationKind, int testsCount, string testCase)
+        public override string RunTests(RegistrationKind registrationKind, string testCase, int testsCount)
         {
-            return Run(ContainerName.Autofac, registrationKind, testsCount, testCase);
+            return Run(ContainerName.Autofac, registrationKind, testCase, testsCount);
         }
     }
 }

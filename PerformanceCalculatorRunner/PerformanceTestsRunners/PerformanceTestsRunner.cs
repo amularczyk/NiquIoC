@@ -25,7 +25,7 @@ namespace PerformanceCalculatorRunner.PerformanceTestsRunners
                 var testResult = new List<TestResult>();
                 for (var i = 0; i < repetitionsNumber; i++)
                 {
-                    testResult.Add(ConvertToTestResult(RunTests(performanceTestCase.RegistrationKind, performanceTestCase.TestsCount, performanceTestCase.TestCase)));
+                    testResult.Add(ConvertToTestResult(RunTests(performanceTestCase.RegistrationKind, performanceTestCase.TestCase, performanceTestCase.TestsCount)));
                 }
                 testResults.Add(testResult);
             }
@@ -33,20 +33,46 @@ namespace PerformanceCalculatorRunner.PerformanceTestsRunners
             return testResults;
         }
 
-        public abstract string RunTests(RegistrationKind registrationKind, int testsCount, string testCase);
+        public abstract string RunTests(RegistrationKind registrationKind, string testCase, int testsCount);
 
-        protected string Run(string containerName, RegistrationKind registrationKind, int testsCount, string testCase)
+        protected string Run(string containerName, RegistrationKind registrationKind, string testCase, int testsCount)
         {
-            return ProcessHelper.StartProcess(_processPath, $"{containerName} -r {(int)registrationKind} -c {testsCount} -t {testCase}");
+            return ProcessHelper.StartProcess(_processPath, $"{containerName} -r {(int)registrationKind} -t {testCase} -c {testsCount}");
         }
 
         private TestResult ConvertToTestResult(string result)
         {
             var results = result.Split(' ');
-            var testResult = new TestResult
+            var testResult = new TestResult();
+
+            for (var i = 1; i < results.Length; i += 2)
             {
-                RegistrationKind = (RegistrationKind)Convert.ToInt32(results[0]), TestCasesNumber = Convert.ToInt32(results[1]), RegisterTime = Convert.ToInt64(results[2]), ResolveTime = Convert.ToInt64(results[3])
-            };
+                switch (results[i])
+                {
+                    case "-r":
+                        testResult.RegistrationKind = (RegistrationKind)Convert.ToInt32(results[i + 1]);
+                        break;
+
+                    case "-t":
+                        testResult.TestCase = results[i + 1];
+                        break;
+
+                    case "-c":
+                        testResult.TestCasesCount = Convert.ToInt32(results[i + 1]);
+                        break;
+
+                    case "-reg":
+                        testResult.RegisterTime = Convert.ToInt32(results[i + 1]);
+                        break;
+
+                    case "-res":
+                        testResult.ResolveTime = Convert.ToInt32(results[i + 1]);
+                        break;
+
+                    default:
+                        throw new InvalidOperationException();
+                }
+            }
 
             return testResult;
         }

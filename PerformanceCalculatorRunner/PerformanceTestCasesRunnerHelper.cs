@@ -9,9 +9,9 @@ namespace PerformanceCalculatorRunner
 {
     public static class PerformanceTestCasesRunnerHelper
     {
-        public static Dictionary<string, List<FinalTestResult>> RunPerformanceTests(int repetitionsNumber, IReadOnlyCollection<PerformanceTestCase> testCases, string processPath)
+        public static Dictionary<string, IEnumerable<FinalTestResult>> RunPerformanceTests(int repetitionsNumber, IReadOnlyCollection<PerformanceTestCase> testCases, string processPath)
         {
-            var results = new Dictionary<string, List<FinalTestResult>>();
+            var results = new Dictionary<string, IEnumerable<FinalTestResult>>();
 
             AddPerformanceTests(results, ContainerName.Autofac, new AutofacPerformanceTestsRunner(processPath), repetitionsNumber, testCases);
             AddPerformanceTests(results, ContainerName.DryIoc, new DryIocPeformanceTestsRunner(processPath), repetitionsNumber, testCases);
@@ -26,12 +26,12 @@ namespace PerformanceCalculatorRunner
             return results;
         }
 
-        private static void AddPerformanceTests(IDictionary<string, List<FinalTestResult>> dict, string containerName, IPerformanceTestsRunner performanceTestsRunner, int repetitionsNumber, IEnumerable<PerformanceTestCase> testCases)
+        private static void AddPerformanceTests(IDictionary<string, IEnumerable<FinalTestResult>> dict, string containerName, IPerformanceTestsRunner performanceTestsRunner, int repetitionsNumber, IEnumerable<PerformanceTestCase> testCases)
         {
             dict.Add(containerName, RunPerformanceTests(containerName, performanceTestsRunner, repetitionsNumber, testCases));
         }
 
-        private static List<FinalTestResult> RunPerformanceTests(string containerName, IPerformanceTestsRunner performanceTestsRunner, int repetitionsNumber, IEnumerable<PerformanceTestCase> testCases)
+        private static IEnumerable<FinalTestResult> RunPerformanceTests(string containerName, IPerformanceTestsRunner performanceTestsRunner, int repetitionsNumber, IEnumerable<PerformanceTestCase> testCases)
         {
             Console.WriteLine($"{containerName} start");
             var result = ProcessTestResults(performanceTestsRunner.RunTests(repetitionsNumber, testCases));
@@ -40,7 +40,7 @@ namespace PerformanceCalculatorRunner
             return result;
         }
 
-        private static List<FinalTestResult> ProcessTestResults(IEnumerable<List<TestResult>> testResults)
+        private static IEnumerable<FinalTestResult> ProcessTestResults(IEnumerable<List<TestResult>> testResults)
         {
             var finalTestResults = new List<FinalTestResult>();
 
@@ -49,7 +49,8 @@ namespace PerformanceCalculatorRunner
                 finalTestResults.Add(new FinalTestResult
                 {
                     RegistrationKind = testResult[0].RegistrationKind,
-                    TestCasesNumber = testResult[0].TestCasesNumber,
+                    TestCase = testResult[0].TestCase,
+                    TestCasesCount = testResult[0].TestCasesCount,
                     MinRegisterTime = testResult.Min(t => t.RegisterTime),
                     MinResolveTime = testResult.Min(t => t.ResolveTime),
                     MaxRegisterTime = testResult.Max(t => t.RegisterTime),

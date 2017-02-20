@@ -65,9 +65,9 @@ namespace PerformanceCalculator.Containers.TestsSimpleInjector
             }
         }
 
-        protected override TestResult RunTest(ITestCase testCase, int testCasesNumber, RegistrationKind registrationKind)
+        protected override TestResult RunTest(ITestCase testCase, int testCasesCount, RegistrationKind registrationKind)
         {
-            var result = new TestResult { RegistrationKind = registrationKind, TestCasesNumber = testCasesNumber };
+            var result = new TestResult { RegistrationKind = registrationKind, TestCasesCount = testCasesCount };
             var sw = new Stopwatch();
 
             var c = new Container();
@@ -77,7 +77,7 @@ namespace PerformanceCalculator.Containers.TestsSimpleInjector
             result.RegisterTime = sw.ElapsedMilliseconds;
 
             sw.Reset();
-            result.ResolveTime = DoResolve(sw, testCase, c, testCasesNumber, registrationKind);
+            result.ResolveTime = DoResolve(sw, testCase, c, testCasesCount, registrationKind);
 
             c.Dispose();
 

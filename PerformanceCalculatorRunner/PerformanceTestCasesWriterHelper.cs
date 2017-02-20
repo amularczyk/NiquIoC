@@ -1,15 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace PerformanceCalculatorRunner
 {
     public static class PerformanceTestCasesWriterHelper
     {
-        public static void WriteToFile(Dictionary<string, List<FinalTestResult>> results, WriteKind writeKind, string resultFile)
+        public static void WriteToFile(Dictionary<string, IEnumerable<FinalTestResult>> results, WriteKind writeKind, IEnumerable<PerformanceTestCase> testCases, string resultFile)
         {
-            WriteToFile(ProcessResultsDataToCsvFormat(results, writeKind), resultFile);
+            WriteToFile(ProcessResultsDataToCsvFormat(results, writeKind, testCases), resultFile);
         }
 
         private static void WriteToFile(IEnumerable<string> results, string resultFile)
@@ -23,7 +24,59 @@ namespace PerformanceCalculatorRunner
             }
         }
 
-        private static IEnumerable<string> ProcessResultsDataToCsvFormat(Dictionary<string, List<FinalTestResult>> results, WriteKind writeKind)
+        private static IEnumerable<string> ProcessResultsDataToCsvFormat(Dictionary<string, IEnumerable<FinalTestResult>> results, WriteKind writeKind, IEnumerable<PerformanceTestCase> testCases)
+        {
+            var dict = new Dictionary<string, StringBuilder>();
+
+            var columnsNames = "cn";
+            var columnsNamesSb = new StringBuilder();
+            columnsNamesSb.Append("Test Case;Registration Kind;Resolve Count;");
+            dict.Add(columnsNames, columnsNamesSb);
+
+            var columnsHeaders = "ch";
+            var columnsHeadersSb = new StringBuilder();
+            columnsHeadersSb.Append(";;;");
+            dict.Add(columnsHeaders, columnsHeadersSb);
+
+            foreach (var testCase in testCases)
+            {
+                var rowHeader = new StringBuilder();
+                rowHeader.Append($"{testCase.TestCase};{testCase.RegistrationKind};");
+                dict.Add(testCase.TestCase, rowHeader);
+            }
+
+            foreach (var result in results)
+            {
+                foreach (var testResult in result.Value)
+                {
+                    dict[testResult.TestCase].Append(GetResultInCsvFormat(testResult, writeKind));
+                }
+            }
+
+
+            return null;
+        }
+
+        private static string GetResultInCsvFormat(FinalTestResult testResult, WriteKind writeKind)
+        {
+            switch (writeKind)
+            {
+                case WriteKind.Both:
+                    return $"{testResult.MinRegisterTime};{testResult.MaxRegisterTime};{testResult.AvgRegisterTime};" +
+                           $"{testResult.MinResolveTime};{testResult.MaxResolveTime};{testResult.AvgResolveTime};";
+
+                case WriteKind.Register:
+                    return $"{testResult.MinRegisterTime};{testResult.MaxRegisterTime};{testResult.AvgRegisterTime};";
+
+                case WriteKind.Resolve:
+                    return $"{testResult.MinResolveTime};{testResult.MaxResolveTime};{testResult.AvgResolveTime};";
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(writeKind), writeKind, null);
+            }
+        }
+
+        private static IEnumerable<string> ProcessResultsDataToCsvFormat(Dictionary<string, IEnumerable<FinalTestResult>> results, WriteKind writeKind)
         {
             var header = new StringBuilder();
             var header2 = new StringBuilder();
@@ -131,19 +184,19 @@ namespace PerformanceCalculatorRunner
             };
         }
 
-        private static string GetResultInCsvFormat(KeyValuePair<string, List<FinalTestResult>> result, int index, WriteKind writeKind)
+        private static string GetResultInCsvFormat(KeyValuePair<string, IEnumerable<FinalTestResult>> result, int index, WriteKind writeKind)
         {
             switch (writeKind)
             {
                 case WriteKind.Both:
-                    return $"{result.Value[index].MinRegisterTime};{result.Value[index].MaxRegisterTime};{result.Value[index].AvgRegisterTime};" +
-                           $"{result.Value[index].MinResolveTime};{result.Value[index].MaxResolveTime};{result.Value[index].AvgResolveTime};";
+                    return $"{result.Value.ElementAt(index).MinRegisterTime};{result.Value.ElementAt(index).MaxRegisterTime};{result.Value.ElementAt(index).AvgRegisterTime};" +
+                           $"{result.Value.ElementAt(index).MinResolveTime};{result.Value.ElementAt(index).MaxResolveTime};{result.Value.ElementAt(index).AvgResolveTime};";
 
                 case WriteKind.Register:
-                    return $"{result.Value[index].MinRegisterTime};{result.Value[index].MaxRegisterTime};{result.Value[index].AvgRegisterTime};";
+                    return $"{result.Value.ElementAt(index).MinRegisterTime};{result.Value.ElementAt(index).MaxRegisterTime};{result.Value.ElementAt(index).AvgRegisterTime};";
 
                 case WriteKind.Resolve:
-                    return $"{result.Value[index].MinResolveTime};{result.Value[index].MaxResolveTime};{result.Value[index].AvgResolveTime};";
+                    return $"{result.Value.ElementAt(index).MinResolveTime};{result.Value.ElementAt(index).MaxResolveTime};{result.Value.ElementAt(index).AvgResolveTime};";
 
                 default:
                     throw new ArgumentOutOfRangeException(nameof(writeKind), writeKind, null);

@@ -20,7 +20,7 @@ namespace PerformanceCalculatorRunner
 
             var testCases = PerformanceTestCasesCreaterHelper.CreatePerformanceTestCases();
             var results = PerformanceTestCasesRunnerHelper.RunPerformanceTests(repetitionsNumber, testCases, _processPath);
-            PerformanceTestCasesWriterHelper.WriteToFile(results, WriteKind.Resolve, _resultFile);
+            PerformanceTestCasesWriterHelper.WriteToFile(results, WriteKind.Resolve, testCases, _resultFile);
         }
     }
 }
