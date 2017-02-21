@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using PerformanceCalculator.Common;
+using PerformanceCalculatorRunner.Models;
 
 namespace PerformanceCalculatorRunner.Interfaces
 {

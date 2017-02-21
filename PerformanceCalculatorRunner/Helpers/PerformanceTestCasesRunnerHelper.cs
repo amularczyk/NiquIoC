@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using PerformanceCalculator.Common;
 using PerformanceCalculatorRunner.Interfaces;
+using PerformanceCalculatorRunner.Models;
 using PerformanceCalculatorRunner.PerformanceTestsRunners;
 
-namespace PerformanceCalculatorRunner
+namespace PerformanceCalculatorRunner.Helpers
 {
     public static class PerformanceTestCasesRunnerHelper
     {
@@ -16,7 +17,7 @@ namespace PerformanceCalculatorRunner
             AddPerformanceTests(results, ContainerName.Autofac, new AutofacPerformanceTestsRunner(processPath), repetitionsNumber, testCases);
             AddPerformanceTests(results, ContainerName.DryIoc, new DryIocPeformanceTestsRunner(processPath), repetitionsNumber, testCases);
             AddPerformanceTests(results, ContainerName.LightInject, new LightInjectPeformanceTestsRunner(processPath), repetitionsNumber, testCases);
-            AddPerformanceTests(results, ContainerName.NiquIoC, new NiquIoCPeformanceTestsRunner(processPath), repetitionsNumber, testCases);
+            AddPerformanceTests(results, ContainerName.NiquIoCPartial, new NiquIoCPeformanceTestsRunner(processPath), repetitionsNumber, testCases);
             AddPerformanceTests(results, ContainerName.NiquIoCFull, new NiquIoCFullPeformanceTestsRunner(processPath), repetitionsNumber, testCases);
             AddPerformanceTests(results, ContainerName.SimpleInjector, new SimpleInjectorPeformanceTestsRunner(processPath), repetitionsNumber, testCases);
             AddPerformanceTests(results, ContainerName.StructureMap, new StructureMapPeformanceTestsRunner(processPath), repetitionsNumber, testCases);
@@ -49,7 +50,7 @@ namespace PerformanceCalculatorRunner
                 finalTestResults.Add(new FinalTestResult
                 {
                     RegistrationKind = testResult[0].RegistrationKind,
-                    TestCase = testResult[0].TestCaseName,
+                    TestCaseName = testResult[0].TestCaseName,
                     TestCasesCount = testResult[0].TestCasesCount,
                     MinRegisterTime = testResult.Min(t => t.RegisterTime),
                     MinResolveTime = testResult.Min(t => t.ResolveTime),

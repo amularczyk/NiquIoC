@@ -1,6 +1,6 @@
 ﻿using PerformanceCalculator.Common;
 
-namespace PerformanceCalculatorRunner
+namespace PerformanceCalculatorRunner.Models
 {
     public class PerformanceTestCase
     {

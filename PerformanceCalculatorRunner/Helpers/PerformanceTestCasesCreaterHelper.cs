@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using PerformanceCalculator.Common;
+using PerformanceCalculatorRunner.Models;
 
-namespace PerformanceCalculatorRunner
+namespace PerformanceCalculatorRunner.Helpers
 {
     public static class PerformanceTestCasesCreaterHelper
     {

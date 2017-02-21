@@ -5,7 +5,7 @@
         public const string Autofac = "Autofac";
         public const string DryIoc = "DryIoc";
         public const string LightInject = "LightInject";
-        public const string NiquIoC = "NiquIoC";
+        public const string NiquIoCPartial = "NiquIoCPartial";
         public const string NiquIoCFull = "NiquIoCFull";
         public const string SimpleInjector = "SimpleInjector";
         public const string StructureMap = "StructureMap";

@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace PerformanceCalculatorRunner
+namespace PerformanceCalculatorRunner.Helpers
 {
     public static class ProcessHelper
     {

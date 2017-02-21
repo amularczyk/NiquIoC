@@ -11,7 +11,7 @@ namespace PerformanceCalculatorRunner.PerformanceTestsRunners
 
         public override string RunTests(RegistrationKind registrationKind, string testCase, int testsCount)
         {
-            return Run(ContainerName.NiquIoC, registrationKind, testCase, testsCount);
+            return Run(ContainerName.NiquIoCPartial, registrationKind, testCase, testsCount);
         }
     }
 }

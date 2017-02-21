@@ -38,13 +38,14 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FinalTestResult.cs" />
+    <Compile Include="Models\FinalTestResult.cs" />
     <Compile Include="Interfaces\IPerformanceTestsRunner.cs" />
-    <Compile Include="PerformanceTestCasesCreaterHelper.cs" />
-    <Compile Include="PerformanceTestCase.cs" />
-    <Compile Include="PerformanceTestCasesRunnerHelper.cs" />
-    <Compile Include="PerformanceTestCasesWriterHelper.cs" />
-    <Compile Include="ProcessHelper.cs" />
+    <Compile Include="Interfaces\ITextFormatter.cs" />
+    <Compile Include="Helpers\PerformanceTestCasesCreaterHelper.cs" />
+    <Compile Include="Models\PerformanceTestCase.cs" />
+    <Compile Include="Helpers\PerformanceTestCasesRunnerHelper.cs" />
+    <Compile Include="Helpers\PerformanceTestCasesWriterHelper.cs" />
+    <Compile Include="Helpers\ProcessHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PerformanceTestsRunners\AutofacPerformanceTestsRunner.cs" />
@@ -57,7 +58,11 @@
     <Compile Include="PerformanceTestsRunners\StructureMapPeformanceTestsRunner.cs" />
     <Compile Include="PerformanceTestsRunners\UnityPeformanceTestsRunner.cs" />
     <Compile Include="PerformanceTestsRunners\WindsorPeformanceTestsRunner.cs" />
-    <Compile Include="WriteKind.cs" />
+    <Compile Include="Models\WriteKind.cs" />
+    <Compile Include="TextFormatterFactory.cs" />
+    <Compile Include="Writers\CsvRegisterAndResolveTextFormatter.cs" />
+    <Compile Include="Writers\CsvRegisterTextFormatter.cs" />
+    <Compile Include="Writers\CsvResolveTextFormatter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using PerformanceCalculator.Common;
 using PerformanceCalculator.Containers.TestsAutofac;
 using PerformanceCalculator.Containers.TestsDryIoc;
@@ -32,7 +28,7 @@ namespace PerformanceCalculator
                 case ContainerName.LightInject:
                     return new LightInjectPerformanceTest();
 
-                case ContainerName.NiquIoC:
+                case ContainerName.NiquIoCPartial:
                     return new NiquIoCPartialPerformanceTest();
 
                 case ContainerName.NiquIoCFull:

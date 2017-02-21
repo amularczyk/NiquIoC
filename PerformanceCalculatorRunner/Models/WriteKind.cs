@@ -1,4 +1,4 @@
-﻿namespace PerformanceCalculatorRunner
+﻿namespace PerformanceCalculatorRunner.Models
 {
     public enum WriteKind
     {
