@@ -132,6 +132,11 @@
     <Compile Include="Containers\TestsSimpleInjector\TestCaseCTests.cs" />
     <Compile Include="Containers\TestsSimpleInjector\TestCaseBTests.cs" />
     <Compile Include="Containers\TestsSimpleInjector\TestCaseATests.cs" />
+    <Compile Include="Containers\TestsNinject\NinjectPerformanceTests.cs" />
+    <Compile Include="Containers\TestsNinject\NinjectTestCaseFactoryTests.cs" />
+    <Compile Include="Containers\TestsNinject\TestCaseATests.cs" />
+    <Compile Include="Containers\TestsNinject\TestCaseBTests.cs" />
+    <Compile Include="Containers\TestsNinject\TestCaseCTests.cs" />
     <Compile Include="Containers\TestsStructureMap\StructureMapTestCaseFactoryTests.cs" />
     <Compile Include="Containers\TestsStructureMap\StructureMapPerformanceTests.cs" />
     <Compile Include="Containers\TestsStructureMap\TestCaseCTests.cs" />
