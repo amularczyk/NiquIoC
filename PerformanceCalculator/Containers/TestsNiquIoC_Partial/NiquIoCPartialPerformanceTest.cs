@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using NiquIoC;
 using PerformanceCalculator.Common;
 using PerformanceCalculator.Interfaces;
@@ -65,23 +64,9 @@ namespace PerformanceCalculator.Containers.TestsNiquIoC_Partial
             }
         }
 
-        protected override TestResult RunTest(ITestCase testCase, int testCasesCount, RegistrationKind registrationKind)
+        protected override object GetContainer(RegistrationKind registrationKind)
         {
-            var result = new TestResult { RegistrationKind = registrationKind, TestCasesCount = testCasesCount };
-            var sw = new Stopwatch();
-
-            var c = new Container();
-            sw.Start();
-            c = (Container)testCase.Register(c);
-            sw.Stop();
-            result.RegisterTime = sw.ElapsedMilliseconds;
-
-            sw.Reset();
-            result.ResolveTime = DoResolve(sw, testCase, c, testCasesCount, registrationKind);
-
-            //ToDo: c.Dispose();
-
-            return result;
+            return new Container();
         }
     }
 }

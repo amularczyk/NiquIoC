@@ -4,7 +4,7 @@
     {
         public RegistrationKind RegistrationKind { get; set; }
 
-        public string TestCase { get; set; }
+        public string TestCaseName { get; set; }
 
         public int TestCasesCount { get; set; }
 

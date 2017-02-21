@@ -54,7 +54,7 @@ namespace PerformanceCalculatorRunner.PerformanceTestsRunners
                         break;
 
                     case "-t":
-                        testResult.TestCase = results[i + 1];
+                        testResult.TestCaseName = results[i + 1];
                         break;
 
                     case "-c":

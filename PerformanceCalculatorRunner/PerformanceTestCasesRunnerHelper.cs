@@ -49,7 +49,7 @@ namespace PerformanceCalculatorRunner
                 finalTestResults.Add(new FinalTestResult
                 {
                     RegistrationKind = testResult[0].RegistrationKind,
-                    TestCase = testResult[0].TestCase,
+                    TestCase = testResult[0].TestCaseName,
                     TestCasesCount = testResult[0].TestCasesCount,
                     MinRegisterTime = testResult.Min(t => t.RegisterTime),
                     MinResolveTime = testResult.Min(t => t.ResolveTime),

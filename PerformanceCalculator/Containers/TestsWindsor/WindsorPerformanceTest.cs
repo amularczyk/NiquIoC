@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using Castle.Windsor;
 using PerformanceCalculator.Common;
 using PerformanceCalculator.Interfaces;
@@ -65,23 +64,14 @@ namespace PerformanceCalculator.Containers.TestsWindsor
             }
         }
 
-        protected override TestResult RunTest(ITestCase testCase, int testCasesCount, RegistrationKind registrationKind)
+        protected override object GetContainer(RegistrationKind registrationKind)
         {
-            var result = new TestResult { RegistrationKind = registrationKind, TestCasesCount = testCasesCount };
-            var sw = new Stopwatch();
+            return new WindsorContainer();
+        }
 
-            var c = new WindsorContainer();
-            sw.Start();
-            c = (WindsorContainer)testCase.Register(c);
-            sw.Stop();
-            result.RegisterTime = sw.ElapsedMilliseconds;
-
-            sw.Reset();
-            result.ResolveTime = DoResolve(sw, testCase, c, testCasesCount, registrationKind);
-
-            c.Dispose();
-
-            return result;
+        protected override void RunDispose(object container)
+        {
+            ((WindsorContainer)container).Dispose();
         }
     }
 }

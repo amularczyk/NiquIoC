@@ -23,7 +23,7 @@ namespace PerformanceCalculator.Containers.TestsAutofac
 
                         case RegistrationKind.PerThread:
                             return new PerThreadTestCaseA();
-                            
+
                         default:
                             throw new ArgumentOutOfRangeException(nameof(registrationKind), registrationKind, null);
                     }
@@ -65,46 +65,37 @@ namespace PerformanceCalculator.Containers.TestsAutofac
             }
         }
 
-        protected override TestResult RunTest(ITestCase testCase, int testCasesCount, RegistrationKind registrationKind)
+        protected override object GetContainer(RegistrationKind registrationKind)
         {
-            var result = new TestResult { RegistrationKind = registrationKind, TestCasesCount = testCasesCount };
-            var sw = new Stopwatch();
-
-            var cb = new ContainerBuilder();
-            sw.Start();
-            var c = (IContainer)testCase.Register(cb);
-            sw.Stop();
-            result.RegisterTime = sw.ElapsedMilliseconds;
-
-            sw.Reset();
-            result.ResolveTime = DoResolve(sw, testCase, c, testCasesCount, registrationKind);
-
-            c.Dispose();
-
-            return result;
+            return new ContainerBuilder();
         }
 
-        protected override long DoResolve(Stopwatch sw, ITestCase testCase, object c, int testCasesNumber, RegistrationKind registrationKind)
+        protected override long RunResolve(Stopwatch sw, ITestCase testCase, object container, int testCasesCount, RegistrationKind registrationKind)
         {
             try
             {
                 if (registrationKind == RegistrationKind.PerThread)
                 {
                     sw.Start();
-                    using (var threadLifetime = ((IContainer)c).BeginLifetimeScope())
+                    using (var threadLifetime = ((IContainer)container).BeginLifetimeScope())
                     {
-                        testCase.Resolve(threadLifetime, testCasesNumber);
+                        testCase.Resolve(threadLifetime, testCasesCount);
                     }
                     sw.Stop();
                     return sw.ElapsedMilliseconds;
                 }
 
-                return base.DoResolve(sw, testCase, c, testCasesNumber, registrationKind);
+                return base.RunResolve(sw, testCase, container, testCasesCount, registrationKind);
             }
             catch (OutOfMemoryException)
             {
                 return -1;
             }
+        }
+
+        protected override void RunDispose(object container)
+        {
+            ((IContainer)container).Dispose();
         }
     }
 }

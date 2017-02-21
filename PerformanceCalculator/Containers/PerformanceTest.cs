@@ -7,21 +7,42 @@ namespace PerformanceCalculator.Containers
 {
     public abstract class PerformanceTest : IPerformanceTest
     {
-        public TestResult RunTest(int count, string testCase, RegistrationKind registrationKind)
+        public TestResult RunTest(int count, string testCaseName, RegistrationKind registrationKind)
         {
-            return RunTest(TestCaseFactory(testCase, registrationKind), count, registrationKind);
+            var testResult = new TestResult { TestCaseName = testCaseName, RegistrationKind = registrationKind, TestCasesCount = count };
+            var sw = new Stopwatch();
+
+            var testCase = TestCaseFactory(testCaseName, registrationKind);
+            var container = RunRegister(sw, testCase, GetContainer(registrationKind), registrationKind);
+            testResult.RegisterTime = sw.ElapsedMilliseconds;
+
+            sw.Reset();
+            testResult.ResolveTime = RunResolve(sw, testCase, container, count, registrationKind);
+
+            RunDispose(container);
+
+            return testResult;
         }
 
         protected abstract ITestCase TestCaseFactory(string testCase, RegistrationKind registrationKind);
 
-        protected abstract TestResult RunTest(ITestCase testCase, int testCasesCount, RegistrationKind registrationKind);
+        protected abstract object GetContainer(RegistrationKind registrationKind);
 
-        protected virtual long DoResolve(Stopwatch sw, ITestCase testCase, object c, int testCasesNumber, RegistrationKind registrationKind)
+        protected virtual object RunRegister(Stopwatch sw, ITestCase testCase, object container, RegistrationKind registrationKind)
+        {
+            sw.Start();
+            var newContainer = testCase.Register(container);
+            sw.Stop();
+
+            return newContainer;
+        }
+
+        protected virtual long RunResolve(Stopwatch sw, ITestCase testCase, object container, int testCasesCount, RegistrationKind registrationKind)
         {
             try
             {
                 sw.Start();
-                testCase.Resolve(c, testCasesNumber);
+                testCase.Resolve(container, testCasesCount);
                 sw.Stop();
                 return sw.ElapsedMilliseconds;
             }
@@ -29,6 +50,10 @@ namespace PerformanceCalculator.Containers
             {
                 return -1;
             }
+        }
+
+        protected virtual void RunDispose(object container)
+        {
         }
     }
 }

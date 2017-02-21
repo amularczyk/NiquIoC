@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using Microsoft.Practices.Unity;
 using PerformanceCalculator.Common;
 using PerformanceCalculator.Interfaces;
@@ -65,23 +64,14 @@ namespace PerformanceCalculator.Containers.TestsUnity
             }
         }
 
-        protected override TestResult RunTest(ITestCase testCase, int testCasesCount, RegistrationKind registrationKind)
+        protected override object GetContainer(RegistrationKind registrationKind)
         {
-            var result = new TestResult { RegistrationKind = registrationKind, TestCasesCount = testCasesCount };
-            var sw = new Stopwatch();
+            return new UnityContainer();
+        }
 
-            var c = new UnityContainer();
-            sw.Start();
-            c = (UnityContainer)testCase.Register(c);
-            sw.Stop();
-            result.RegisterTime = sw.ElapsedMilliseconds;
-
-            sw.Reset();
-            result.ResolveTime = DoResolve(sw, testCase, c, testCasesCount, registrationKind);
-
-            c.Dispose();
-
-            return result;
+        protected override void RunDispose(object container)
+        {
+            ((UnityContainer)container).Dispose();
         }
     }
 }
