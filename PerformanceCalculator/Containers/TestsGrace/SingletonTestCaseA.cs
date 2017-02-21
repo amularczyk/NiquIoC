@@ -11,18 +11,18 @@ namespace PerformanceCalculator.Containers.TestsGrace
 
             c.Configure(x =>
             {
-                x.Export<ITestA0>().As<TestA0>().Lifestyle.Singleton();
-                x.Export<ITestA0>().As<TestA0>().Lifestyle.Singleton();
-                x.Export<ITestA1>().As<TestA1>().Lifestyle.Singleton();
-                x.Export<ITestA2>().As<TestA2>().Lifestyle.Singleton();
-                x.Export<ITestA3>().As<TestA3>().Lifestyle.Singleton();
-                x.Export<ITestA4>().As<TestA4>().Lifestyle.Singleton();
-                x.Export<ITestA5>().As<TestA5>().Lifestyle.Singleton();
-                x.Export<ITestA6>().As<TestA6>().Lifestyle.Singleton();
-                x.Export<ITestA7>().As<TestA7>().Lifestyle.Singleton();
-                x.Export<ITestA8>().As<TestA8>().Lifestyle.Singleton();
-                x.Export<ITestA9>().As<TestA9>().Lifestyle.Singleton();
-                x.Export<ITestA>().As<TestA>().Lifestyle.Singleton();
+                x.Export<TestA0>().As<ITestA0>().Lifestyle.Singleton();
+                x.Export<TestA0>().As<ITestA0>().Lifestyle.Singleton();
+                x.Export<TestA1>().As<ITestA1>().Lifestyle.Singleton();
+                x.Export<TestA2>().As<ITestA2>().Lifestyle.Singleton();
+                x.Export<TestA3>().As<ITestA3>().Lifestyle.Singleton();
+                x.Export<TestA4>().As<ITestA4>().Lifestyle.Singleton();
+                x.Export<TestA5>().As<ITestA5>().Lifestyle.Singleton();
+                x.Export<TestA6>().As<ITestA6>().Lifestyle.Singleton();
+                x.Export<TestA7>().As<ITestA7>().Lifestyle.Singleton();
+                x.Export<TestA8>().As<ITestA8>().Lifestyle.Singleton();
+                x.Export<TestA9>().As<ITestA9>().Lifestyle.Singleton();
+                x.Export<TestA>().As<ITestA>().Lifestyle.Singleton();
             });
 
             return c;

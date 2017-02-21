@@ -11,46 +11,46 @@ namespace PerformanceCalculator.Containers.TestsGrace
 
             c.Configure(x =>
             {
-                x.Export<ITestCa0>().As<TestCa0>().Lifestyle.SingletonPerScope();
-                x.Export<ITestCa0>().As<TestCa0>().Lifestyle.SingletonPerScope();
-                x.Export<ITestCa1>().As<TestCa1>().Lifestyle.SingletonPerScope();
-                x.Export<ITestCa2>().As<TestCa2>().Lifestyle.SingletonPerScope();
-                x.Export<ITestCa3>().As<TestCa3>().Lifestyle.SingletonPerScope();
-                x.Export<ITestCa4>().As<TestCa4>().Lifestyle.SingletonPerScope();
-                x.Export<ITestCa5>().As<TestCa5>().Lifestyle.SingletonPerScope();
-                x.Export<ITestCa6>().As<TestCa6>().Lifestyle.SingletonPerScope();
-                x.Export<ITestCa7>().As<TestCa7>().Lifestyle.SingletonPerScope();
-                x.Export<ITestCa8>().As<TestCa8>().Lifestyle.SingletonPerScope();
-                x.Export<ITestCa9>().As<TestCa9>().Lifestyle.SingletonPerScope();
-                x.Export<ITestCa10>().As<TestCa10>().Lifestyle.SingletonPerScope();
+                x.Export<TestCa0>().As<ITestCa0>().Lifestyle.SingletonPerScope();
+                x.Export<TestCa0>().As<ITestCa0>().Lifestyle.SingletonPerScope();
+                x.Export<TestCa1>().As<ITestCa1>().Lifestyle.SingletonPerScope();
+                x.Export<TestCa2>().As<ITestCa2>().Lifestyle.SingletonPerScope();
+                x.Export<TestCa3>().As<ITestCa3>().Lifestyle.SingletonPerScope();
+                x.Export<TestCa4>().As<ITestCa4>().Lifestyle.SingletonPerScope();
+                x.Export<TestCa5>().As<ITestCa5>().Lifestyle.SingletonPerScope();
+                x.Export<TestCa6>().As<ITestCa6>().Lifestyle.SingletonPerScope();
+                x.Export<TestCa7>().As<ITestCa7>().Lifestyle.SingletonPerScope();
+                x.Export<TestCa8>().As<ITestCa8>().Lifestyle.SingletonPerScope();
+                x.Export<TestCa9>().As<ITestCa9>().Lifestyle.SingletonPerScope();
+                x.Export<TestCa10>().As<ITestCa10>().Lifestyle.SingletonPerScope();
 
-                x.Export<ITestCb0>().As<TestCb0>().Lifestyle.SingletonPerScope();
-                x.Export<ITestCb0>().As<TestCb0>().Lifestyle.SingletonPerScope();
-                x.Export<ITestCb1>().As<TestCb1>().Lifestyle.SingletonPerScope();
-                x.Export<ITestCb2>().As<TestCb2>().Lifestyle.SingletonPerScope();
-                x.Export<ITestCb3>().As<TestCb3>().Lifestyle.SingletonPerScope();
-                x.Export<ITestCb4>().As<TestCb4>().Lifestyle.SingletonPerScope();
-                x.Export<ITestCb5>().As<TestCb5>().Lifestyle.SingletonPerScope();
-                x.Export<ITestCb6>().As<TestCb6>().Lifestyle.SingletonPerScope();
-                x.Export<ITestCb7>().As<TestCb7>().Lifestyle.SingletonPerScope();
-                x.Export<ITestCb8>().As<TestCb8>().Lifestyle.SingletonPerScope();
-                x.Export<ITestCb9>().As<TestCb9>().Lifestyle.SingletonPerScope();
-                x.Export<ITestCb10>().As<TestCb10>().Lifestyle.SingletonPerScope();
+                x.Export<TestCb0>().As<ITestCb0>().Lifestyle.SingletonPerScope();
+                x.Export<TestCb0>().As<ITestCb0>().Lifestyle.SingletonPerScope();
+                x.Export<TestCb1>().As<ITestCb1>().Lifestyle.SingletonPerScope();
+                x.Export<TestCb2>().As<ITestCb2>().Lifestyle.SingletonPerScope();
+                x.Export<TestCb3>().As<ITestCb3>().Lifestyle.SingletonPerScope();
+                x.Export<TestCb4>().As<ITestCb4>().Lifestyle.SingletonPerScope();
+                x.Export<TestCb5>().As<ITestCb5>().Lifestyle.SingletonPerScope();
+                x.Export<TestCb6>().As<ITestCb6>().Lifestyle.SingletonPerScope();
+                x.Export<TestCb7>().As<ITestCb7>().Lifestyle.SingletonPerScope();
+                x.Export<TestCb8>().As<ITestCb8>().Lifestyle.SingletonPerScope();
+                x.Export<TestCb9>().As<ITestCb9>().Lifestyle.SingletonPerScope();
+                x.Export<TestCb10>().As<ITestCb10>().Lifestyle.SingletonPerScope();
 
-                x.Export<ITestCc0>().As<TestCc0>().Lifestyle.SingletonPerScope();
-                x.Export<ITestCc0>().As<TestCc0>().Lifestyle.SingletonPerScope();
-                x.Export<ITestCc1>().As<TestCc1>().Lifestyle.SingletonPerScope();
-                x.Export<ITestCc2>().As<TestCc2>().Lifestyle.SingletonPerScope();
-                x.Export<ITestCc3>().As<TestCc3>().Lifestyle.SingletonPerScope();
-                x.Export<ITestCc4>().As<TestCc4>().Lifestyle.SingletonPerScope();
-                x.Export<ITestCc5>().As<TestCc5>().Lifestyle.SingletonPerScope();
-                x.Export<ITestCc6>().As<TestCc6>().Lifestyle.SingletonPerScope();
-                x.Export<ITestCc7>().As<TestCc7>().Lifestyle.SingletonPerScope();
-                x.Export<ITestCc8>().As<TestCc8>().Lifestyle.SingletonPerScope();
-                x.Export<ITestCc9>().As<TestCc9>().Lifestyle.SingletonPerScope();
-                x.Export<ITestCc10>().As<TestCc10>().Lifestyle.SingletonPerScope();
+                x.Export<TestCc0>().As<ITestCc0>().Lifestyle.SingletonPerScope();
+                x.Export<TestCc0>().As<ITestCc0>().Lifestyle.SingletonPerScope();
+                x.Export<TestCc1>().As<ITestCc1>().Lifestyle.SingletonPerScope();
+                x.Export<TestCc2>().As<ITestCc2>().Lifestyle.SingletonPerScope();
+                x.Export<TestCc3>().As<ITestCc3>().Lifestyle.SingletonPerScope();
+                x.Export<TestCc4>().As<ITestCc4>().Lifestyle.SingletonPerScope();
+                x.Export<TestCc5>().As<ITestCc5>().Lifestyle.SingletonPerScope();
+                x.Export<TestCc6>().As<ITestCc6>().Lifestyle.SingletonPerScope();
+                x.Export<TestCc7>().As<ITestCc7>().Lifestyle.SingletonPerScope();
+                x.Export<TestCc8>().As<ITestCc8>().Lifestyle.SingletonPerScope();
+                x.Export<TestCc9>().As<ITestCc9>().Lifestyle.SingletonPerScope();
+                x.Export<TestCc10>().As<ITestCc10>().Lifestyle.SingletonPerScope();
 
-                x.Export<ITestC>().As<TestC>().Lifestyle.SingletonPerScope();
+                x.Export<TestC>().As<ITestC>().Lifestyle.SingletonPerScope();
             });
 
             return c;

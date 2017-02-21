@@ -11,18 +11,18 @@ namespace PerformanceCalculator.Containers.TestsGrace
 
             c.Configure(x =>
             {
-                x.Export<ITestA0>().As<TestA0>();
-                x.Export<ITestA0>().As<TestA0>();
-                x.Export<ITestA1>().As<TestA1>();
-                x.Export<ITestA2>().As<TestA2>();
-                x.Export<ITestA3>().As<TestA3>();
-                x.Export<ITestA4>().As<TestA4>();
-                x.Export<ITestA5>().As<TestA5>();
-                x.Export<ITestA6>().As<TestA6>();
-                x.Export<ITestA7>().As<TestA7>();
-                x.Export<ITestA8>().As<TestA8>();
-                x.Export<ITestA9>().As<TestA9>();
-                x.Export<ITestA>().As<TestA>();
+                x.Export<TestA0>().As<ITestA0>();
+                x.Export<TestA0>().As<ITestA0>();
+                x.Export<TestA1>().As<ITestA1>();
+                x.Export<TestA2>().As<ITestA2>();
+                x.Export<TestA3>().As<ITestA3>();
+                x.Export<TestA4>().As<ITestA4>();
+                x.Export<TestA5>().As<ITestA5>();
+                x.Export<TestA6>().As<ITestA6>();
+                x.Export<TestA7>().As<ITestA7>();
+                x.Export<TestA8>().As<ITestA8>();
+                x.Export<TestA9>().As<ITestA9>();
+                x.Export<TestA>().As<ITestA>();
             });
 
             return c;

@@ -11,18 +11,18 @@ namespace PerformanceCalculator.Containers.TestsGrace
 
             c.Configure(x =>
             {
-                x.Export<ITestA0>().As<TestA0>().Lifestyle.SingletonPerScope();
-                x.Export<ITestA0>().As<TestA0>().Lifestyle.SingletonPerScope();
-                x.Export<ITestA1>().As<TestA1>().Lifestyle.SingletonPerScope();
-                x.Export<ITestA2>().As<TestA2>().Lifestyle.SingletonPerScope();
-                x.Export<ITestA3>().As<TestA3>().Lifestyle.SingletonPerScope();
-                x.Export<ITestA4>().As<TestA4>().Lifestyle.SingletonPerScope();
-                x.Export<ITestA5>().As<TestA5>().Lifestyle.SingletonPerScope();
-                x.Export<ITestA6>().As<TestA6>().Lifestyle.SingletonPerScope();
-                x.Export<ITestA7>().As<TestA7>().Lifestyle.SingletonPerScope();
-                x.Export<ITestA8>().As<TestA8>().Lifestyle.SingletonPerScope();
-                x.Export<ITestA9>().As<TestA9>().Lifestyle.SingletonPerScope();
-                x.Export<ITestA>().As<TestA>().Lifestyle.SingletonPerScope();
+                x.Export<TestA0>().As<ITestA0>().Lifestyle.SingletonPerScope();
+                x.Export<TestA0>().As<ITestA0>().Lifestyle.SingletonPerScope();
+                x.Export<TestA1>().As<ITestA1>().Lifestyle.SingletonPerScope();
+                x.Export<TestA2>().As<ITestA2>().Lifestyle.SingletonPerScope();
+                x.Export<TestA3>().As<ITestA3>().Lifestyle.SingletonPerScope();
+                x.Export<TestA4>().As<ITestA4>().Lifestyle.SingletonPerScope();
+                x.Export<TestA5>().As<ITestA5>().Lifestyle.SingletonPerScope();
+                x.Export<TestA6>().As<ITestA6>().Lifestyle.SingletonPerScope();
+                x.Export<TestA7>().As<ITestA7>().Lifestyle.SingletonPerScope();
+                x.Export<TestA8>().As<ITestA8>().Lifestyle.SingletonPerScope();
+                x.Export<TestA9>().As<ITestA9>().Lifestyle.SingletonPerScope();
+                x.Export<TestA>().As<ITestA>().Lifestyle.SingletonPerScope();
             });
 
             return c;
