@@ -24,6 +24,7 @@ namespace PerformanceCalculatorRunner.Helpers
             testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.Transient, TestsCount = 10, TestCase = TestCaseName.A });
             testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.Transient, TestsCount = 100, TestCase = TestCaseName.A });
             testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.Transient, TestsCount = 1000, TestCase = TestCaseName.A });
+            //testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.Transient, TestsCount = 10000, TestCase = TestCaseName.A });
             testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.PerThread, TestsCount = 100, TestCase = TestCaseName.A });
         }
 
@@ -32,6 +33,7 @@ namespace PerformanceCalculatorRunner.Helpers
             testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.Singleton, TestsCount = 1, TestCase = TestCaseName.B });
             testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.Transient, TestsCount = 1, TestCase = TestCaseName.B });
             testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.Transient, TestsCount = 10, TestCase = TestCaseName.B });
+            //testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.Transient, TestsCount = 100, TestCase = TestCaseName.B });
             testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.PerThread, TestsCount = 1, TestCase = TestCaseName.B });
         }
 
@@ -42,6 +44,7 @@ namespace PerformanceCalculatorRunner.Helpers
             testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.Transient, TestsCount = 10, TestCase = TestCaseName.C });
             testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.Transient, TestsCount = 100, TestCase = TestCaseName.C });
             testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.Transient, TestsCount = 1000, TestCase = TestCaseName.C });
+            //testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.Transient, TestsCount = 10000, TestCase = TestCaseName.C });
             testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.PerThread, TestsCount = 100, TestCase = TestCaseName.C });
         }
     }
