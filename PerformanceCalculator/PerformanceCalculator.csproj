@@ -160,7 +160,7 @@
     <Compile Include="Containers\TestsGrace\SingletonTestCaseA.cs" />
     <Compile Include="Containers\TestsGrace\SingletonTestCaseB.cs" />
     <Compile Include="Containers\TestsGrace\SingletonTestCaseC.cs" />
-    <Compile Include="Containers\TestsGrace\StructureMapPerformanceTest.cs" />
+    <Compile Include="Containers\TestsGrace\GracePerformanceTest.cs" />
     <Compile Include="Containers\TestsGrace\TestCaseA.cs" />
     <Compile Include="Containers\TestsGrace\TestCaseB.cs" />
     <Compile Include="Containers\TestsGrace\TestCaseC.cs" />

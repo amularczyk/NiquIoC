@@ -10,11 +10,24 @@ namespace PerformanceCalculator.Containers.TestsGrace
 
         public void Resolve(object container, int testCasesNumber)
         {
-            var c = (DependencyInjectionContainer)container;
-
-            for (var i = 0; i < testCasesNumber; i++)
+            if (container is IExportLocatorScope)
             {
-                c.Locate<ITestA>();
+                var c = (IExportLocatorScope)container;
+
+                for (var i = 0; i < testCasesNumber; i++)
+                {
+                    c.Locate<ITestA>();
+                }
+            }
+            else
+            {
+                // ReSharper disable once PossibleInvalidCastException
+                var c = (DependencyInjectionContainer)container;
+
+                for (var i = 0; i < testCasesNumber; i++)
+                {
+                    c.Locate<ITestA>();
+                }
             }
         }
     }

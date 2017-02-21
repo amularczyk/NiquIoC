@@ -15,9 +15,9 @@ namespace PerformanceCalculator.Tests.Containers.TestsGrace
         {
             ITestCase testCase = new SingletonTestCaseC();
 
-
             var c = new DependencyInjectionContainer();
             c = (DependencyInjectionContainer)testCase.Register(c);
+
 
             var obj1 = c.Locate<ITestC>();
             var obj2 = c.Locate<ITestC>();
@@ -33,9 +33,9 @@ namespace PerformanceCalculator.Tests.Containers.TestsGrace
         {
             ITestCase testCase = new TransientTestCaseC();
 
-
             var c = new DependencyInjectionContainer();
             c = (DependencyInjectionContainer)testCase.Register(c);
+
 
             var obj1 = c.Locate<ITestC>();
             var obj2 = c.Locate<ITestC>();
@@ -59,8 +59,11 @@ namespace PerformanceCalculator.Tests.Containers.TestsGrace
 
             var thread = new Thread(() =>
             {
-                obj1 = c.Locate<ITestC>();
-                obj2 = c.Locate<ITestC>();
+                using (var scope = c.BeginLifetimeScope())
+                {
+                    obj1 = scope.Locate<ITestC>();
+                    obj2 = scope.Locate<ITestC>();
+                }
             });
             thread.Start();
             thread.Join();
@@ -82,8 +85,20 @@ namespace PerformanceCalculator.Tests.Containers.TestsGrace
             ITestC obj2 = null;
 
 
-            var thread1 = new Thread(() => { obj1 = c.Locate<ITestC>(); });
-            var thread2 = new Thread(() => { obj2 = c.Locate<ITestC>(); });
+            var thread1 = new Thread(() =>
+            {
+                using (var scope = c.BeginLifetimeScope())
+                {
+                    obj1 = scope.Locate<ITestC>();
+                }
+            });
+            var thread2 = new Thread(() =>
+            {
+                using (var scope = c.BeginLifetimeScope())
+                {
+                    obj2 = scope.Locate<ITestC>();
+                }
+            });
             thread1.Start();
             thread1.Join();
             thread2.Start();
