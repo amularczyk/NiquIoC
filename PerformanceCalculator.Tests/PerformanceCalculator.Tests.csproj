@@ -137,6 +137,11 @@
     <Compile Include="Containers\TestsNinject\TestCaseATests.cs" />
     <Compile Include="Containers\TestsNinject\TestCaseBTests.cs" />
     <Compile Include="Containers\TestsNinject\TestCaseCTests.cs" />
+    <Compile Include="Containers\TestsGrace\GracePerformanceTests.cs" />
+    <Compile Include="Containers\TestsGrace\GraceTestCaseFactoryTests.cs" />
+    <Compile Include="Containers\TestsGrace\TestCaseATests.cs" />
+    <Compile Include="Containers\TestsGrace\TestCaseBTests.cs" />
+    <Compile Include="Containers\TestsGrace\TestCaseCTests.cs" />
     <Compile Include="Containers\TestsStructureMap\StructureMapTestCaseFactoryTests.cs" />
     <Compile Include="Containers\TestsStructureMap\StructureMapPerformanceTests.cs" />
     <Compile Include="Containers\TestsStructureMap\TestCaseCTests.cs" />
