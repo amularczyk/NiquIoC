@@ -2,30 +2,22 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using PerformanceCalculatorRunner.Interfaces;
 using PerformanceCalculatorRunner.Models;
 
-namespace PerformanceCalculatorRunner.Helpers
+namespace PerformanceCalculatorRunner.Writers
 {
-    public static class PerformanceTestCasesWriterHelper
+    public abstract class CsvHorizontalFileWriter : FileWriter
     {
-        public static void WriteToFile(Dictionary<string, IEnumerable<FinalTestResult>> results, ITextFormatter textFormatter, IEnumerable<PerformanceTestCase> testCases, string resultFile)
+        protected CsvHorizontalFileWriter(string resultFile) : base(resultFile)
         {
-            WriteToFile(ProcessResultsDataToCsvFormat(results, textFormatter, testCases), resultFile);
         }
 
-        private static void WriteToFile(IEnumerable<string> results, string resultFile)
+        public override void Write(Dictionary<string, IEnumerable<FinalTestResult>> results, IEnumerable<PerformanceTestCase> testCases)
         {
-            using (var file = new StreamWriter(resultFile))
-            {
-                foreach (var result in results)
-                {
-                    file.WriteLine(result);
-                }
-            }
+            WriteToFile(ProcessResultsDataToCsvFormat(results, testCases));
         }
 
-        private static IEnumerable<string> ProcessResultsDataToCsvFormat(Dictionary<string, IEnumerable<FinalTestResult>> results, ITextFormatter textFormatter, IEnumerable<PerformanceTestCase> testCases)
+        private IEnumerable<string> ProcessResultsDataToCsvFormat(Dictionary<string, IEnumerable<FinalTestResult>> results, IEnumerable<PerformanceTestCase> testCases)
         {
             var dict = new Dictionary<string, StringBuilder>();
 
@@ -49,18 +41,35 @@ namespace PerformanceCalculatorRunner.Helpers
 
             foreach (var result in results)
             {
-                dict[columnsNames].Append(textFormatter.GetColumnNameText(result.Key));
-                dict[columnsHeaders].Append(textFormatter.GetColumnHeaderText());
+                dict[columnsNames].Append(GetColumnNameText(result.Key));
+                dict[columnsHeaders].Append(GetColumnHeaderText());
 
                 foreach (var testResult in result.Value)
                 {
                     var name = $"{testResult.TestCaseName};{testResult.RegistrationKind};{testResult.TestCasesCount}";
-                    dict[name].Append(textFormatter.GetResultText(testResult));
+                    dict[name].Append(GetResultText(testResult));
                 }
             }
 
 
             return dict.Select(d => d.Value.ToString()).ToList();
+        }
+
+        protected abstract string GetColumnNameText(string containerName);
+
+        protected abstract string GetColumnHeaderText();
+
+        protected abstract string GetResultText(FinalTestResult testResult);
+
+        private void WriteToFile(IEnumerable<string> results, string resultFile)
+        {
+            using (var file = new StreamWriter(resultFile))
+            {
+                foreach (var result in results)
+                {
+                    file.WriteLine(result);
+                }
+            }
         }
     }
 }

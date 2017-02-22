@@ -1,6 +1,7 @@
 ﻿using System;
 using PerformanceCalculatorRunner.Helpers;
 using PerformanceCalculatorRunner.Models;
+using PerformanceCalculatorRunner.Writers;
 
 namespace PerformanceCalculatorRunner
 {
@@ -24,7 +25,8 @@ namespace PerformanceCalculatorRunner
             var performanceTestsRunner = new PerformanceTestsRunner(_processPath);
             var results = PerformanceTestCasesRunnerHelper.RunPerformanceTests(performanceTestsRunner, repetitionsNumber, testCases);
 
-            PerformanceTestCasesWriterHelper.WriteToFile(results, TextFormatterFactory.GetTextFormatter(WriteKind.Resolve), testCases, _resultFile);
+            var writer = WriterFactory.GetTextFormatter(WriteKind.VerticalResolve, _resultFile);
+            writer.Write(results, testCases);
         }
     }
 }

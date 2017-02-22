@@ -74,7 +74,7 @@ namespace PerformanceCalculator.Containers.TestsNinject
         {
             try
             {
-                if (testCasesCount >= 1000 || (testCase is TestsLightInject.TestCaseB && testCasesCount >= 10))
+                if (testCasesCount >= 1000 || (testCase is TestCaseB && testCasesCount >= 10))
                 {
                     throw new OutOfMemoryException("Process takes more than 5 seconds!");
                 }

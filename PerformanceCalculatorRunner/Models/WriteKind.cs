@@ -2,8 +2,11 @@
 {
     public enum WriteKind
     {
-        Both = 0,
-        Register = 1,
-        Resolve = 2
+        HorizontalBoth = 0,
+        HorizontalRegister = 1,
+        HorizontalResolve = 2,
+        VerticalBoth = 3,
+        VerticalRegister = 4,
+        VerticalResolve = 5
     }
 }
