@@ -2,7 +2,6 @@
 \usepackage[left=3.5cm,right=2cm,top=2.5cm,bottom=2.5cm]{geometry}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
-\usepackage{graphicx}
 \usepackage{tgpagella}
 \usepackage{enumerate}
 \usepackage{url}
@@ -27,6 +26,7 @@
 \usepackage{mathpazo}
 \usepackage[table]{xcolor}
 \usepackage[justification=centering]{caption}
+\graphicspath{ {images/} }
 
 \pagestyle{empty}
 
@@ -181,33 +181,30 @@ Każdy z testów dla każdego kontenera był uruchamiany w osobnym procesie. Ka�
 \subsection{Przypadek testowy A}
 \subsubsection{Opis}
 W tym teście mamy zdefiniowanych 11 typów i każdy z nich przymuje w konstruktorze od jeden mniej parametr mniej niż typ poprzedni. Typem głównym, a zarazem typem o największej licznie parametrów, jest typ "TestA". Przyjmuje on w konstruktorze 10 parametrów, kolejno następujących typów: "TestA0", "TestA1", "TestA2", "TestA3", "TestA4", "TestA5", "TestA6", "TestA7", "TestA8", "TestA9". Każdy z tych 10 typów w konstruktorze przyjmuje tyle obiekt, jaki ma numerek w nazwie (czyli obiekt typu "TestA0" ma konstruktore bezparametrowy, obiekt typy "TestA1" ma konstuktor z jednym parametrem; i tak dalej aż do typu "TestA9", który ma konstruktor z dziewięcioma parametrami). Każdy z tych typów jako parametry w konstruktorze przyjmuje kolejne obiekty typów z niższym numerkiem (czyli obiekt typu "TestA1" w konstruktorze przyjmuje parametr typu "TestA0", obiekt typu "TestA2" przymuje w konstruktorze obiekty typu "TestA0" i "TestA1";  i tak dalej aż do typu "TestA9", który w konstruktorze przyjmuje parametry z typami od "TestA0" do "TestA8").\\
-\\
-Konstruktory poszczególnych typów wyglądają nastepująco:\\
-- TestA0(),\\
-- TestA1(TestA0 testA0),\\
-- TestA2(TestA0 testA0, TestA1 testA1),\\
-- TestA3(TestA0 testA0, TestA1 testA1, TestA2 testA2),\\
-- TestA4(TestA0 testA0, TestA1 testA1, TestA2 testA2, TestA3 testA3),\\
-- TestA5(TestA0 testA0, TestA1 testA1, TestA2 testA2, TestA3 testA3, TestA4 testA4),\\
-- TestA6(TestA0 testA0, TestA1 testA1, TestA2 testA2, TestA3 testA3, TestA4 testA4, TestA5 testA5),\\
-- TestA7(TestA0 testA0, TestA1 testA1, TestA2 testA2, TestA3 testA3, TestA4 testA4, TestA5 testA5, TestA6 testA6),\\
-- TestA8(TestA0 testA0, TestA1 testA1, TestA2 testA2, TestA3 testA3, TestA4 testA4, TestA5 testA5, TestA6 testA6, TestA7 testA7),\\
-- TestA9(TestA0 testA0, TestA1 testA1, TestA2 testA2, TestA3 testA3, TestA4 testA4, TestA5 testA5, TestA6 testA6, TestA7 testA7, TestA8 testA8),\\
-- TestA(TestA0 testA0, TestA1 testA1, TestA2 testA2, TestA3 testA3, TestA4 testA4, TestA5 testA5, TestA6 testA6, TestA7 testA7, TestA8 testA8, TestA9 testA9).\\
-\\
-Jak łatwo zauważyć tworząc obiekty poszczególnych typów ilość tworzonych obiektów rośnie dwukrotnie:\\
-- TestA0 - 1 obiekt,\\
-- TestA1 - 2 obiekty (obiekt typu TestA1 i obiekt typu TestA0),\\
-- TestA2 - 4 obiekty (obiekt typu TestA2, obiekt typu TestA1 - 2 obiekty, obiekt typu TestA0 - 1 obiekt),\\
-- TestA3 - 8 obiektów (obiekt typu TestA3, obiekt typu TestA2 - 4 obiekty, obiekt typu TestA1, obiekt typu TestA0),\\
-- TestA4 - 16 obiektów,\\
-- TestA5 - 32 obiektów,\\
-- TestA6 - 64 obiektów,\\
-- TestA7 - 128 obiektów,\\
-- TestA8 - 256 obiektów,\\
-- TestA9 - 512 obiektów,\\
-- TestA - 1 024 obiektów.\\
-Zatem tworząc obiekt typu TestA, tworzymy: 1 obiekt typu TestA, 1 obiekt typu TestA9, 2 obiekty typu TestA8, 4 obiekty typu TestA7, 8 obiektów typu TestA6, 16 obiektów typu TestA5, 32 obiektów typu TestA4, 64 obiektów typu TestA3, 128 obiektów typu TestA2, 256 obiektów typu TestA1, 512 obiektów typu TestA0.
+
+\begin{figure}[h]
+	\begin{center}
+  		\includegraphics[height=12cm]{TestA.png}
+  		\caption{Graf zależności dla testu A.}
+  		\label{fig:testA}
+	\end{center}
+\end{figure}
+
+Łatwo wywnioskować z Rys. \ref{fig:testA}, że tworząc obiekty poszczególnych typów ilość tworzonych obiektów rośnie dwukrotnie:
+\begin{itemize}
+	\item TestA0 - 1 obiekt,
+	\item TestA1 - 2 obiekty (obiekt typu TestA1 i obiekt typu TestA0),
+	\item TestA2 - 4 obiekty (obiekt typu TestA2, obiekt typu TestA1 - 2 obiekty, obiekt typu TestA0 - 1 obiekt),
+	\item TestA3 - 8 obiektów (obiekt typu TestA3, obiekt typu TestA2 - 4 obiekty, obiekt typu TestA1, obiekt typu TestA0),
+	\item TestA4 - 16 obiektów,
+	\item TestA5 - 32 obiektów,
+	\item TestA6 - 64 obiektów,
+	\item TestA7 - 128 obiektów,
+	\item TestA8 - 256 obiektów,
+	\item TestA9 - 512 obiektów,
+	\item TestA - 1 024 obiektów.
+\end{itemize}
+Zatem tworząc obiekt typu TestA, tworzymy: 1 obiekt typu TestA, 1 obiekt typu TestA9, 2 obiekty typu TestA8, 4 obiekty typu TestA7, 8 obiektów typu TestA6, 16 obiektów typu TestA5, 32 obiektów typu TestA4, 64 obiektów typu TestA3, 128 obiektów typu TestA2, 256 obiektów typu TestA1 i 512 obiektów typu TestA0.
 
 \subsubsection{Wyniki dla Singleton}
 Najlepiej poradziły sobie najpopularniejsze kontenery - Windsor i Aurofac. Kontener NiquIoCPartial uplasował się na 3 miejscu. Najsłabiej poradził sobie kontroler StructureMap i Unity.
@@ -242,13 +239,15 @@ Konstruktory typów od "TestB40" do typu "TestB49" wyglądają nastepująco:\\
 Konstruktory typu "TestB" wyglądaja nastepująco:\\
 - TestB(TestB40 testB40, TestB41 testB41, TestB42 testB42, TestB43 testB43, TestB44 testB44, TestB45 testB45, TestB46 testB46, TestB47 testB47, TestB48 testB48, TestB49 testB49).\\
 \\
-Jak łatwo zauważyć tworząc obiekty poszczególnych typów ilość tworzonych obiektów rośnie ponad dziesięciokortnie:\\
-- typy od TestB00 do TestB09 - 1 obiekt,\\
-- typy od TestB10 do TestB19 - 11 obiektów (obiekt danego typu plus 10 obiektów typów od TestB00 do TestB09),\\
-- typy od TestB20 do TestB29 - 111 obiektów (obiekt danego typu plus 10 obiektów typów od TestB10 do TestB19),\\
-- typy od TestB30 do TestB39 - 1 111 obiektów,\\
-- typy od TestB40 do TestB49 - 11 111 obiektów,\\
-- TestB - 111 111 obiektów.\\
+Jak łatwo zauważyć tworząc obiekty poszczególnych typów ilość tworzonych obiektów rośnie ponad dziesięciokortnie:
+\begin{itemize}
+	\item typy od TestB00 do TestB09 - 1 obiekt,
+	\item typy od TestB10 do TestB19 - 11 obiektów (obiekt danego typu plus 10 obiektów typów od TestB00 do TestB09),
+	\item typy od TestB20 do TestB29 - 111 obiektów (obiekt danego typu plus 10 obiektów typów od TestB10 do TestB19),
+	\item typy od TestB30 do TestB39 - 1 111 obiektów,
+	\item  typy od TestB40 do TestB49 - 11 111 obiektów,
+	\item TestB - 111 111 obiektów.
+\end{itemize}
 Zatem tworząc obiekt typu TestB, tworzymy: 1 obiekt typu TestB, 10 obiektów typów od TestB40 do TestB49, 100 obiektów typów od TestB30 do TestB39, 1 000 obiektów typów od TestB20 do TestB29, 10 000 obiektów typów od TestB10 do TestB19, 100 000 obiektów typów od TestB00 do TestB09.
 
 \subsubsection{Wyniki dla Singleton}
@@ -267,79 +266,32 @@ Tak samo jak w przypadku Signleton najlepiej poradziły sobie najpopularniejsze 
 
 \subsection{Przypadek testowy C}
 \subsubsection{Opis}
-Ten test jest bardzo podobny do test A, tylko dochodzi nam 1 dodatkowy poziom i w głównym obiekcie ("TestC") w konstruktorze zamiast 11 obiektów od typów od "TestC0" do "TestC10", są 3 typy "TestCa10", "TestCb10", "TestCc10", gdzie każdy z tych typów odpowiada typowi "TestA". Więc w tym te\\
-\\
-Konstruktory poszczególnych typów wyglądają nastepująco:\\
-- TestCa0()\\
-- TestCa1(TestCa0 testCa0),\\
-- TestCa2(TestCa0 testCa0, TestCa1 testCa1),\\
-- TestCa3(TestCa0 testCa0, TestCa1 testCa1, TestCa2 testCa2),\\
-- TestCa4(TestCa0 testCa0, TestCa1 testCa1, TestCa2 testCa2, TestCa3 testCa3),\\
-- TestCa5(TestCa0 testCa0, TestCa1 testCa1, TestCa2 testCa2, TestCa3 testCa3, TestCa4 testCa4),\\
-- TestCa6(TestCa0 testCa0, TestCa1 testCa1, TestCa2 testCa2, TestCa3 testCa3, TestCa4 testCa4, TestCa5 testCa5),\\
-- TestCa7(TestCa0 testCa0, TestCa1 testCa1, TestCa2 testCa2, TestCa3 testCa3, TestCa4 testCa4, TestCa5 testCa5, TestCa6 testCa6),\\
-- TestCa8(TestCa0 testCa0, TestCa1 testCa1, TestCa2 testCa2, TestCa3 testCa3, TestCa4 testCa4, TestCa5 testCa5, TestCa6 testCa6, TestCa7 testCa7),\\
-- TestCa9(TestCa0 testCa0, TestCa1 testCa1, TestCa2 testCa2, TestCa3 testCa3, TestCa4 testCa4, TestCa5 testCa5, TestCa6 testCa6, TestCa7 testCa7, TestCa8 testCa8).\\
-- TestCa10(TestCa0 testCa0, TestCa1 testCa1, TestCa2 testCa2, TestCa3 testCa3, TestCa4 testCa4, TestCa5 testCa5, TestCa6 testCa6, TestCa7 testCa7, TestCa8 testCa8, TestCa9 testCa9).\\
-- TestCb0()\\
-- TestCb1(TestCb0 testCb0),\\
-- TestCb2(TestCb0 testCb0, TestCb1 testCb1),\\
-- TestCb3(TestCb0 testCb0, TestCb1 testCb1, TestCb2 testCb2),\\
-- TestCb4(TestCb0 testCb0, TestCb1 testCb1, TestCb2 testCb2, TestCb3 testCb3),\\
-- TestCb5(TestCb0 testCb0, TestCb1 testCb1, TestCb2 testCb2, TestCb3 testCb3, TestCb4 testCb4),\\
-- TestCb6(TestCb0 testCb0, TestCb1 testCb1, TestCb2 testCb2, TestCb3 testCb3, TestCb4 testCb4, TestCb5 testCb5),\\
-- TestCb7(TestCb0 testCb0, TestCb1 testCb1, TestCb2 testCb2, TestCb3 testCb3, TestCb4 testCb4, TestCb5 testCb5, TestCb6 testCb6),\\
-- TestCb8(TestCb0 testCb0, TestCb1 testCb1, TestCb2 testCb2, TestCb3 testCb3, TestCb4 testCb4, TestCb5 testCb5, TestCb6 testCb6, TestCb7 testCb7),\\
-- TestCb9(TestCb0 testCb0, TestCb1 testCb1, TestCb2 testCb2, TestCb3 testCb3, TestCb4 testCb4, TestCb5 testCb5, TestCb6 testCb6, TestCb7 testCb7, TestCb8 testCb8).\\
-- TestCb10(TestCb0 testCb0, TestCb1 testCb1, TestCb2 testCb2, TestCb3 testCb3, TestCb4 testCb4, TestCb5 testCb5, TestCb6 testCb6, TestCb7 testCb7, TestCb8 testCb8, TestCb9 testCb9).\\
-- TestCc0()\\
-- TestCc1(TestCc0 testCc0),\\
-- TestCc2(TestCc0 testCc0, TestCc1 testCc1),\\
-- TestCc3(TestCc0 testCc0, TestCc1 testCc1, TestCc2 testCc2),\\
-- TestCc4(TestCc0 testCc0, TestCc1 testCc1, TestCc2 testCc2, TestCc3 testCc3),\\
-- TestCc5(TestCc0 testCc0, TestCc1 testCc1, TestCc2 testCc2, TestCc3 testCc3, TestCc4 testCc4),\\
-- TestCc6(TestCc0 testCc0, TestCc1 testCc1, TestCc2 testCc2, TestCc3 testCc3, TestCc4 testCc4, TestCc5 testCc5),\\
-- TestCc7(TestCc0 testCc0, TestCc1 testCc1, TestCc2 testCc2, TestCc3 testCc3, TestCc4 testCc4, TestCc5 testCc5, TestCc6 testCc6),\\
-- TestCc8(TestCc0 testCc0, TestCc1 testCc1, TestCc2 testCc2, TestCc3 testCc3, TestCc4 testCc4, TestCc5 testCc5, TestCc6 testCc6, TestCc7 testCc7),\\
-- TestCc9(TestCc0 testCc0, TestCc1 testCc1, TestCc2 testCc2, TestCc3 testCc3, TestCc4 testCc4, TestCc5 testCc5, TestCc6 testCc6, TestCc7 testCc7, TestCc8 testCc8).\\
-- TestCc10(TestCc0 testCc0, TestCc1 testCc1, TestCc2 testCc2, TestCc3 testCc3, TestCc4 testCc4, TestCc5 testCc5, TestCc6 testCc6, TestCc7 testCc7, TestCc8 testCc8, TestCc9 testCc9).\\
-- TestC(TestCa10 testCa10, TestCb10 testCb10, TestCc10 testCc10).\\
-\\
-Jak łatwo zauważyć tworząc obiekty poszczególnych typów ilość tworzonych obiektów rośnie dwukrotnie tak jak dla testu A:\\
-- TestCa0 - 1 obiekt,\\
-- TestCa1 - 2 obiekty (obiekt typu TestCa1 i obiekt typu TestCa0),\\
-- TestCa2 - 4 obiekty (obiekt typu TestCa2, obiekt typu TestCa1 - 2 obiekty, obiekt typu TestCa0 - 1 obiekt),\\
-- TestCa3 - 8 obiektów (obiekt typu TestCa3, obiekt typu TestCa2 - 4 obiekty, obiekt typu TestCa1, obiekt typu TestCa0),\\
-- TestCa4 - 16 obiektów,\\
-- TestCa5 - 32 obiektów,\\
-- TestCa6 - 64 obiektów,\\
-- TestCa7 - 128 obiektów,\\
-- TestCa8 - 256 obiektów,\\
-- TestCa9 - 512 obiektów,\\
-- TestCa10 - 1 024 obiektów,\\
-- TestCb0 - 1 obiekt,\\
-- TestCb1 - 2 obiekty (obiekt typu TestCb1 i obiekt typu TestCb0),\\
-- TestCb2 - 4 obiekty (obiekt typu TestCb2, obiekt typu TestCb1 - 2 obiekty, obiekt typu TestCb0 - 1 obiekt),\\
-- TestCb3 - 8 obiektów (obiekt typu TestCb3, obiekt typu TestCb2 - 4 obiekty, obiekt typu TestCb1, obiekt typu TestCb0),\\
-- TestCb4 - 16 obiektów,\\
-- TestCb5 - 32 obiektów,\\
-- TestCb6 - 64 obiektów,\\
-- TestCb7 - 128 obiektów,\\
-- TestCb8 - 256 obiektów,\\
-- TestCb9 - 512 obiektów,\\
-- TestCb10 - 1 024 obiektów,\\
-- TestCc0 - 1 obiekt,\\
-- TestCc1 - 2 obiekty (obiekt typu TestCc1 i obiekt typu TestCc0),\\
-- TestCc2 - 4 obiekty (obiekt typu TestCc2, obiekt typu TestCc1 - 2 obiekty, obiekt typu TestCc0 - 1 obiekt),\\
-- TestCc3 - 8 obiektów (obiekt typu TestCc3, obiekt typu TestCc2 - 4 obiekty, obiekt typu TestCc1, obiekt typu TestCc0),\\
-- TestCc4 - 16 obiektów,\\
-- TestCc5 - 32 obiektów,\\
-- TestCc6 - 64 obiektów,\\
-- TestCc7 - 128 obiektów,\\
-- TestCc8 - 256 obiektów,\\
-- TestCc9 - 512 obiektów,\\
-- TestCc10 - 1 024 obiektów,\\
-- TestC - 3 073 obiektów\\
+Ten test jest bardzo podobny do test A, tylko dochodzi nam 1 dodatkowy poziom, który wygląda trochę inaczej. W głównym obiekcie "TestC" konstruktor przyjmuje 3 parametry następujących typów: "TestCa10", "TestCb10", "TestCc10". Każdy z tych 3 typów odpowiada typowi "TestA", więc przyjmuje on w konstruktorze 10 parametrów. Dla "TestCa10" są to parametry typów od "TestCa0" do "TestCa9", dla "TestCb10" są to parametry typów od "TestCb0" do "TestCb9", a dla "TestCc10" są to parametry typów od "TestCc0" do "TestCc9".\\
+
+\begin{figure}[h]
+	\begin{center}
+  		\includegraphics[width=\linewidth]{TestC.png}
+  		\caption{Graf zależności dla testu C.}
+  		\label{fig:testC}
+	\end{center}
+\end{figure}
+
+Łatwo wywnioskować z Rys. \ref{fig:testC}, że tworząc obiekty poszczególnych typów ilość tworzonych obiektów rośnie dwukrotnie tak jak dla testu A:
+\begin{itemize}
+	\item TestCa0 - 1 obiekt,
+	\item TestCa1 - 2 obiekty (obiekt typu TestCa1 i obiekt typu TestCa0),
+	\item TestCa2 - 4 obiekty (obiekt typu TestCa2, obiekt typu TestCa1 - 2 obiekty, obiekt typu TestCa0 - 1 obiekt),
+	\item TestCa3 - 8 obiektów (obiekt typu TestCa3, obiekt typu TestCa2 - 4 obiekty, obiekt typu TestCa1, obiekt typu TestCa0),
+	\item TestCa4 - 16 obiektów,
+	\item TestCa5 - 32 obiektów,
+	\item TestCa6 - 64 obiektów,
+	\item TestCa7 - 128 obiektów,
+	\item TestCa8 - 256 obiektów,
+	\item TestCa9 - 512 obiektów,
+	\item TestCa10 - 1 024 obiektów,
+	\item \ldots (dla TestCb i TestCc sytuacja wygląda dokłądnie tak samo jak dla TestCa),
+	\item TestC - 3 073 obiektów.
+\end{itemize}
 Zatem tworząc obiekt typu TestC, tworzymy: 1 obiekt typu TestC, 1 obiekt typu TestCa10, TestCb10 i TestCc10,1 obiekt typu TestCa9, TestCb9 i TestCc9, 2 obiekty typu TestCa8, TestCb8 i TestCc8, 4 obiekty typu TestCa7, TestCb7 i TestCc7, 8 obiektów typu TestCa6, TestCb6 i TestCc6, 16 obiektów typu TestCa5, TestCb5 i TestCc5, 32 obiektów typu TestCa4, TestCb4 i TestCc4, 64 obiektów typu TestCa3, TestCb3 i TestCc3, 128 obiektów typu TestCa2, TestCb2 i TestCc2, 256 obiektów typu TestCa1, TestCb1 i TestCc1, 512 obiektów typu TestCa0, TestCb0 i TestCc0.
 
 \subsubsection{Wyniki dla Singleton}
