@@ -4,38 +4,42 @@ using System.Linq;
 using PerformanceCalculator.Common;
 using PerformanceCalculatorRunner.Interfaces;
 using PerformanceCalculatorRunner.Models;
-using PerformanceCalculatorRunner.PerformanceTestsRunners;
 
 namespace PerformanceCalculatorRunner.Helpers
 {
     public static class PerformanceTestCasesRunnerHelper
     {
-        public static Dictionary<string, IEnumerable<FinalTestResult>> RunPerformanceTests(int repetitionsNumber, IReadOnlyCollection<PerformanceTestCase> testCases, string processPath)
+        public static Dictionary<string, IEnumerable<FinalTestResult>> RunPerformanceTests(IPerformanceTestsRunner performanceTestsRunner, int repetitionsNumber,
+            IReadOnlyCollection<PerformanceTestCase> testCases)
         {
             var results = new Dictionary<string, IEnumerable<FinalTestResult>>();
 
-            AddPerformanceTests(results, ContainerName.Autofac, new AutofacPerformanceTestsRunner(processPath), repetitionsNumber, testCases);
-            AddPerformanceTests(results, ContainerName.DryIoc, new DryIocPeformanceTestsRunner(processPath), repetitionsNumber, testCases);
-            AddPerformanceTests(results, ContainerName.LightInject, new LightInjectPeformanceTestsRunner(processPath), repetitionsNumber, testCases);
-            AddPerformanceTests(results, ContainerName.NiquIoCPartial, new NiquIoCPeformanceTestsRunner(processPath), repetitionsNumber, testCases);
-            AddPerformanceTests(results, ContainerName.NiquIoCFull, new NiquIoCFullPeformanceTestsRunner(processPath), repetitionsNumber, testCases);
-            AddPerformanceTests(results, ContainerName.SimpleInjector, new SimpleInjectorPeformanceTestsRunner(processPath), repetitionsNumber, testCases);
-            AddPerformanceTests(results, ContainerName.StructureMap, new StructureMapPeformanceTestsRunner(processPath), repetitionsNumber, testCases);
-            AddPerformanceTests(results, ContainerName.Unity, new UnityPeformanceTestsRunner(processPath), repetitionsNumber, testCases);
-            AddPerformanceTests(results, ContainerName.Windsor, new WindsorPeformanceTestsRunner(processPath), repetitionsNumber, testCases);
+            AddPerformanceTests(results, ContainerName.Autofac, performanceTestsRunner, repetitionsNumber, testCases);
+            AddPerformanceTests(results, ContainerName.DryIoc, performanceTestsRunner, repetitionsNumber, testCases);
+            AddPerformanceTests(results, ContainerName.Grace, performanceTestsRunner, repetitionsNumber, testCases);
+            AddPerformanceTests(results, ContainerName.LightInject, performanceTestsRunner, repetitionsNumber, testCases);
+            AddPerformanceTests(results, ContainerName.Ninject, performanceTestsRunner, repetitionsNumber, testCases);
+            AddPerformanceTests(results, ContainerName.NiquIoCPartial, performanceTestsRunner, repetitionsNumber, testCases);
+            AddPerformanceTests(results, ContainerName.NiquIoCFull, performanceTestsRunner, repetitionsNumber, testCases);
+            AddPerformanceTests(results, ContainerName.SimpleInjector, performanceTestsRunner, repetitionsNumber, testCases);
+            AddPerformanceTests(results, ContainerName.StructureMap, performanceTestsRunner, repetitionsNumber, testCases);
+            AddPerformanceTests(results, ContainerName.Unity, performanceTestsRunner, repetitionsNumber, testCases);
+            AddPerformanceTests(results, ContainerName.Windsor, performanceTestsRunner, repetitionsNumber, testCases);
 
             return results;
         }
 
-        private static void AddPerformanceTests(IDictionary<string, IEnumerable<FinalTestResult>> dict, string containerName, IPerformanceTestsRunner performanceTestsRunner, int repetitionsNumber, IEnumerable<PerformanceTestCase> testCases)
+        private static void AddPerformanceTests(IDictionary<string, IEnumerable<FinalTestResult>> dict, string containerName, IPerformanceTestsRunner performanceTestsRunner, int repetitionsNumber,
+            IEnumerable<PerformanceTestCase> testCases)
         {
             dict.Add(containerName, RunPerformanceTests(containerName, performanceTestsRunner, repetitionsNumber, testCases));
         }
 
-        private static IEnumerable<FinalTestResult> RunPerformanceTests(string containerName, IPerformanceTestsRunner performanceTestsRunner, int repetitionsNumber, IEnumerable<PerformanceTestCase> testCases)
+        private static IEnumerable<FinalTestResult> RunPerformanceTests(string containerName, IPerformanceTestsRunner performanceTestsRunner, int repetitionsNumber,
+            IEnumerable<PerformanceTestCase> testCases)
         {
             Console.WriteLine($"{containerName} start");
-            var result = ProcessTestResults(performanceTestsRunner.RunTests(repetitionsNumber, testCases));
+            var result = ProcessTestResults(performanceTestsRunner.RunTests(containerName, repetitionsNumber, testCases));
             Console.WriteLine($"{containerName} end");
 
             return result;

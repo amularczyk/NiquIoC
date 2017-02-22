@@ -210,6 +210,7 @@
     <Compile Include="Containers\TestsWindsor\TransientTestCaseB.cs" />
     <Compile Include="Containers\TestsWindsor\TransientTestCaseC.cs" />
     <Compile Include="Containers\TestsWindsor\WindsorPerformanceTest.cs" />
+    <Compile Include="Exceptions\PerformanceTestNotFoundException.cs" />
     <Compile Include="Interfaces\IRegistration.cs" />
     <Compile Include="Interfaces\ITestCaseC.cs" />
     <Compile Include="Interfaces\ITestCaseB.cs" />

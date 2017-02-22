@@ -27,8 +27,9 @@ namespace PerformanceCalculator
 
                 return 0;
             }
-            catch
+            catch (Exception ex)
             {
+                Console.Error.WriteLine(ex.ToString());
                 return 2;
             }
         }

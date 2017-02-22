@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 
 namespace PerformanceCalculatorRunner.Helpers
 {
@@ -13,17 +14,19 @@ namespace PerformanceCalculatorRunner.Helpers
                     FileName = fileName,
                     Arguments = arguments,
                     RedirectStandardOutput = true,
+                    RedirectStandardError = true,
                     UseShellExecute = false
                 }
             };
 
             process.Start();
             var standardOutput = process.StandardOutput.ReadToEnd();
+            var standardError = process.StandardError.ReadToEnd();
             process.WaitForExit();
 
             if (process.ExitCode != 0)
             {
-                return "Error!";
+                throw new InvalidOperationException($"Process ended with Exit Code {process.ExitCode}. StandardError = {standardError}");
             }
 
             return standardOutput;

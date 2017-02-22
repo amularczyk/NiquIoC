@@ -48,16 +48,7 @@
     <Compile Include="Helpers\ProcessHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PerformanceTestsRunners\AutofacPerformanceTestsRunner.cs" />
-    <Compile Include="PerformanceTestsRunners\DryIocPeformanceTestsRunner.cs" />
-    <Compile Include="PerformanceTestsRunners\LightInjectPeformanceTestsRunner.cs" />
-    <Compile Include="PerformanceTestsRunners\NiquIoCFullPeformanceTestsRunner.cs" />
-    <Compile Include="PerformanceTestsRunners\NiquIoCPeformanceTestsRunner.cs" />
-    <Compile Include="PerformanceTestsRunners\PerformanceTestsRunner.cs" />
-    <Compile Include="PerformanceTestsRunners\SimpleInjectorPeformanceTestsRunner.cs" />
-    <Compile Include="PerformanceTestsRunners\StructureMapPeformanceTestsRunner.cs" />
-    <Compile Include="PerformanceTestsRunners\UnityPeformanceTestsRunner.cs" />
-    <Compile Include="PerformanceTestsRunners\WindsorPeformanceTestsRunner.cs" />
+    <Compile Include="PerformanceTestsRunner.cs" />
     <Compile Include="Models\WriteKind.cs" />
     <Compile Include="TextFormatterFactory.cs" />
     <Compile Include="Writers\CsvRegisterAndResolveTextFormatter.cs" />
