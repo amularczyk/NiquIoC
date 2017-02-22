@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using Ninject;
 using PerformanceCalculator.Common;
 using PerformanceCalculator.Interfaces;
@@ -67,6 +68,23 @@ namespace PerformanceCalculator.Containers.TestsNinject
         protected override object GetContainer(RegistrationKind registrationKind)
         {
             return new StandardKernel();
+        }
+
+        protected override long RunResolve(Stopwatch sw, ITestCase testCase, object container, int testCasesCount, RegistrationKind registrationKind)
+        {
+            try
+            {
+                if (testCasesCount >= 1000 || (testCase is TestsLightInject.TestCaseB && testCasesCount >= 10))
+                {
+                    throw new OutOfMemoryException("Process takes more than 5 seconds!");
+                }
+
+                return base.RunResolve(sw, testCase, container, testCasesCount, registrationKind);
+            }
+            catch (OutOfMemoryException)
+            {
+                return -1;
+            }
         }
 
         protected override void RunDispose(object container)
