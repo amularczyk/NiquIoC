@@ -7,7 +7,7 @@ namespace PerformanceCalculatorRunner
 {
     public class Program
     {
-        private static readonly string _processPath = @"C:\study\NiquIoC\PerformanceCalculator\bin\Release\PerformanceCalculator.exe";
+        private static readonly string _processPath = @"..\..\..\PerformanceCalculator\bin\Release\PerformanceCalculator.exe";
         private static readonly string _resultFile = $"PerformanceCalculator_{DateTime.Now.ToString("yyyy_MM_dd_HH_mm")}.csv";
 
         private static void Main(string[] args)
