@@ -224,22 +224,17 @@ Tak samo jak w przypadku Signleton najlepiej poradziły sobie najpopularniejsze 
 
 \subsection{Przypadek testowy B}
 \subsubsection{Opis}
-W tym teście mamy zdefiniowanych 51 typów. 10 z tych typów ma konstruktor bezparametrowy, a pozostałe 41 ma konstuktor z dziesięcioma parametrami. Typem głównym jest typ "TestB". Obiekt tego typy w konstruktorze przymuje 10 innych obiektów, kolejno następujących typów: "TestB40", "TestB41", "TestB42", "TestB43", "TestB44", "TestB45", "TestB46", "TestB47", "TestB48", "TestB49". Każdy z tych 10 typów w konstruktorze przyjmuje 10 obiektów o takich samych typach, ale z pierwszym numerkiem o 1 mniejszym (czyli obiekty typów od "TestB40" do "TestB49", przyjmują w konstruktorze obiekty typów od "TestB30" do "TestB39").\\
-\\
-Konstruktory typów bezparametrów wyglądają nastepująco:\\
-- TestB00(), TestB01(),  TestB02(), TestB03(), TestB04(), TestB05(), TestB06(), TestB07(), TestB08(), TestB09().\\
-Konstruktory typów od "TestB10" do typu "TestB19" wyglądają nastepująco:\\
-- TestB10(TestB00 testB00, TestB01 testB01, TestB02 testB02, TestB03 testB03, TestB04 testB04, TestB05 testB05, TestB06 testB06, TestB07 testB07, TestB08 testB08, TestB09 testB09).\\
-Konstruktory typów od "TestB20" do typu "TestB29" wyglądają nastepująco:\\
-- TestB20(TestB10 testB10, TestB11 testB11, TestB12 testB12, TestB13 testB13, TestB14 testB14, TestB15 testB15, TestB16 testB16, TestB17 testB17, TestB18 testB18, TestB19 testB19).\\
-Konstruktory typów od "TestB30" do typu "TestB39" wyglądają nastepująco:\\
-- TestB30(TestB20 testB20, TestB21 testB21, TestB22 testB22, TestB23 testB23, TestB24 testB24, TestB25 testB25, TestB26 testB26, TestB27 testB27, TestB28 testB28, TestB29 testB29).\\
-Konstruktory typów od "TestB40" do typu "TestB49" wyglądają nastepująco:\\
-- TestB40(TestB30 testB30, TestB31 testB31, TestB32 testB32, TestB33 testB33, TestB34 testB34, TestB35 testB35, TestB36 testB36, TestB37 testB37, TestB38 testB38, TestB39 testB39).\\
-Konstruktory typu "TestB" wyglądaja nastepująco:\\
-- TestB(TestB40 testB40, TestB41 testB41, TestB42 testB42, TestB43 testB43, TestB44 testB44, TestB45 testB45, TestB46 testB46, TestB47 testB47, TestB48 testB48, TestB49 testB49).\\
-\\
-Jak łatwo zauważyć tworząc obiekty poszczególnych typów ilość tworzonych obiektów rośnie ponad dziesięciokortnie:
+W tym teście mamy zdefiniowanych 51 typów. 10 z tych typów ma konstruktor bezparametrowy, a pozostałe 41 ma konstuktor z dziesięcioma parametrami. Typem głównym jest typ "TestB". Obiekt tego typy w konstruktorze przymuje 10 innych obiektów, kolejno następujących typów: "TestB40", "TestB41", "TestB42", "TestB43", "TestB44", "TestB45", "TestB46", "TestB47", "TestB48", "TestB49". Każdy z tych 10 typów w konstruktorze przyjmuje 10 obiektów o takich samych typach, ale z pierwszym numerkiem o 1 mniejszym (czyli obiekty typów od "TestB40" do "TestB49", przyjmują w konstruktorze obiekty typów od "TestB30" do "TestB39").
+
+\begin{figure}[h]
+	\begin{center}
+  		\includegraphics[width=\linewidth]{TestB.png}
+  		\caption{Graf zależności dla testu B.}
+  		\label{fig:testB}
+	\end{center}
+\end{figure}
+
+Łatwo wywnioskować z Rys. \ref{fig:testB}, że tworząc obiekty poszczególnych typów ilość tworzonych obiektów rośnie ponad dziesięciokortnie:
 \begin{itemize}
 	\item typy od TestB00 do TestB09 - 1 obiekt,
 	\item typy od TestB10 do TestB19 - 11 obiektów (obiekt danego typu plus 10 obiektów typów od TestB00 do TestB09),
