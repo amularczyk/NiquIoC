@@ -71,61 +71,102 @@ Wrocław, 2016
 \renewcommand*{\tablename}{Tab.} 
 \renewcommand{\captionsize}{\small}
 
+
 \clearpage
 
 \tableofcontents
+
+
 
 \clearpage
 
 \section{Wstęp}
 \subsection{Cel pracy}
-Wstrzykiwanie zależnośc jest wzorcem projektowym, który pozwala na tworzenie kodu o luźniejszych powiązaniach, łatwiejszego w testowaniu i modyfikacji. Najbardziej popularnymi implementacjami tego wzorca w języku C\# są Autofac, StructureMap, Unity i Windsor, a najbardziej wydajnymi DryIoc, LightInject i SimplyInjector. Celem niniejszej pracy magisterskiej jest stworzenie wydajnej implementacji tego wzorca dla złożonych grafów zależności. Do tego celu zostanie wykorzystana funkcjolanosci z przestrzeni nazw Reflection.Emit. W tej pracy zostaną przedstawione dwa rozwiązania.
+Wstrzykiwanie zależnośc jest wzorcem projektowym, który pozwala na tworzenie kodu o luźniejszych powiązaniach, łatwiejszego w testowaniu i modyfikacji. Najbardziej popularnymi implementacjami tego wzorca w języku C\# są Unity i Ninject. Celem niniejszej pracy magisterskiej jest stworzenie wydajnej implementacji tego wzorca dla złożonych grafów zależności. Do tego celu zostanie wykorzystana funkcjolanosci z przestrzeni nazw Reflection.Emit. W tej pracy zostaną przedstawione dwa rozwiązania.
+
+\subsection{Układ pracy}
+Poza wstępem i podsumowaniem praca składa się jeszcze z trzech rozdziałów. W pierwszym znajduje się opis teoretyczny czym jest wstrzykiwanie zależności. Drugi rozdział opisuje moją implementację tego wzorca. Trzeci rozdział skupia się na testach wydajnościowych, w którym porównuję moją implementację z kilkoma najbardziej popularnym i kilkoma najszybszymi implementacjami.\\
+Kod programu jest dostępnym w repozytorium pod adresem: \url{https://github.com/amularczyk/NiquIoC}\\
+Dodatkowo został tam umieszony kod programu, który posłużył do testów wydajnościowych.
+
+
 
 \clearpage
 
 \section{Wstrzykiwanie zależnosci}
+\subsection{Wstęp}
 Jest to zbiór zasad projektowania oprogramowania i wzorców, które pozwalają nam rozwijać luźno powiązany kod \cite{dependency_injection}.\\
 Jakiemu celowi ma służyć wstrzykiwanie zależności? Wstrzykiwanie zależnści nie jestem celem samym w sobie, raczej jest to środek do celu. Ostatecznie celem większości technik programowania jest dostarczenie jak najwydajniej działającego oprogramowania. Jednym z aspektów tego jest napisanie utrzymywalnego kodu.\\
 O ile nie pisze się prototypu lub aplikacji, które nigdy nie mają kolejnych wersji (kończą się na wersji 1), to wkrótce będzie trzeba zająć się utrzymaniem i rozwijaniem istniejącego kodu. Aby być w stanie pracować wydajnie z takim kodem bazowym, musi on być jak najlepiej utrzymywalny.\\
 Wstrzykiwanie zależności jest niczym więcej niż techniką, która umożliwia luźne powiązania, a luźne powiązania sprawiają, że kod jest rozszerzalny i łatwy w utrzymaniu. \cite{dependency_injection}\\
-Wstrzykiwanie zależności może odbywać się na 3 sposoby:\\
-- wstrzykiwanie przez konstruktor (główna i najbardziej popularna);\\
-- wstrzykiwanie przez metodę;\\
-- wstrzykiwanie przez propercję.\\
+Wstrzykiwanie zależności może odbywać się na 3 sposoby\\
+- wstrzykiwanie przez konstruktor (główna i najbardziej popularna)\\
+- wstrzykiwanie przez metodę\\
+- wstrzykiwanie przez propercję\\
+
+\subsection{Implementacje przemysłowe}
+Na rynku jest wiele implementacji wstrzykiwania zależności. Przedstawię tutaj kilka najbardziej popularnych (według ilości pobrań z NuGet) oraz kilka najszybszych (według rankingu na stronie: http://www.palmmedia.de/Blog/2011/8/30/ioc-container-benchmark-performance-comparison). Dane zostały wzięte z dnia 21-02-2017.\\
+Najbardziej popularne:
+\begin{itemize}
+	\item Unity (4.0.1) - ponad 5.2 mln pobrań
+	\item NInject (3.2.2) - ponad 4.0 mln pobrań
+	\item Autofac (4.3.0) - ponad 3.7 mln pobrań
+	\item StructureMap (4.4.3) - ponad 1.6 mln pobrań
+	\item Windsor (3.4.0) - ponad 1.4 mln pobrań
+\end{itemize}
+Najszybsze:
+\begin{itemize}
+	\item Grace (5.1.0)
+	\item DryIoc (2.10.1)
+	\item LightInject (5.0.1)
+	\item SimpleInjector (3.3.2)
+\end{itemize}
 
 
+
+\clearpage
 
 \section{Implementacja}
-Stworzyłem interfejs IConatiner, który zawiera w sobie metody niezbędne w każdym kontenerze:\\
-- IContainerMember RegisterType<T>() where T : class;\\
-- IContainerMember RegisterType<TFrom, TTo>() where TTo : TFrom;\\
-- IContainerMember RegisterType<T>(Func<object> objectFactory) where T : class;\\
-- IContainerMember RegisterInstance<T>(T instance);\\
-- T Resolve<T>(ResolveKind resolveKind);\\
-- void BuildUp<T>(T instance, ResolveKind resolveKind).\\
+W wykonanej implementacji został stworzony interfejs IConatiner, który powinny się znaleźć w każdym kontenerze:
+\begin{itemize}
+	\item IContainerMember RegisterType<T>() where T : class
+	\item IContainerMember RegisterType<TFrom, TTo>() where TTo : TFrom
+	\item IContainerMember RegisterType<T>(Func<object> objectFactory) where T : class
+	\item IContainerMember RegisterInstance<T>(T instance)
+	\item T Resolve<T>(ResolveKind resolveKind)
+	\item void BuildUp<T>(T instance, ResolveKind resolveKind)
+\end{itemize}
 Pierwsze 4 metody służą do rejestracji typów do kontenera. W pierwszej metodzie możemy zarejestrować zwykłe klasy. W drugiej interfejsy i klasy, które implementują dany interfejs. W trzeciej metodzie rejestrujemy klasę jako fabrykę obiektów - funkcję, która ma nam zwrócić pożądany obiekt. W czwartej możemy zarejestrować konkretną instancję danej klasy. W mojej implementacji kontenera każdy typ może być zarejestrowany tylko raz - ponowna rejestracja tego samego typu nadpisuje istniejącą rejestrację.\\
-Każda z tych czterech pierwszy metod zwraca interfejs IContainerMember, który umożliwia nam zarejestrowanie danej klasy lub interfejsu z określonym menadżerem czasu życia. Jest to po to, ponieważ dla różnych przypadków biznesowych możemy potrzebować, aby obiekt danego typu miał konretny czas życia. Ten interfejs daje nam możliwość ustawienia czasu życia na:\\
-- Singleton;\\
-- Transient;\\
-- PerThread;\\
-- PerHttpContext;\\
-- Custom; (własna implementacja interfejsu IObjectLifetimeManager).\\
+Każda z tych czterech pierwszy metod zwraca interfejs IContainerMember, który umożliwia nam zarejestrowanie danej klasy lub interfejsu z określonym menadżerem czasu życia. Jest to po to, ponieważ dla różnych przypadków biznesowych możemy potrzebować, aby obiekt danego typu miał konretny czas życia. Ten interfejs daje nam możliwość ustawienia czasu życia na:
+\begin{itemize}
+	\item Singleton
+	\item Transient
+	\item PerThread
+	\item PerHttpContext
+	\item Custom (dowolna, stworzona przez użytkownika implementacja interfejsu IObjectLifetimeManager)
+\end{itemize}
 W mojej implementacji kontenera każdy typ domyślnie ma czas życia Transient.\\
-Interfejs IObjectLifetimeManager zawiera w sobie następujące metody:\\
-- Func<object> ObjectFactory { get; set; }\\
-- object GetInstance().\\
-Pierwsza z nich służy to ustawienia fabryki, która zwraca obiekt. Druga służy do zwracania obiektu przy użyciu fabryki. W zależności od konkretnego czasu życia, to obiekt zwracany z metody GetInstance może być zwsze ten sam, zwsze różny albo ten sam tylko dla określonych sytuacji (np. ten sam dla tego samego wątku albo ten sam dla tego samego żądania).\\ \\
+Interfejs IObjectLifetimeManager zawiera w sobie następujące metody:
+\begin{itemize}
+	\item  Func<object> ObjectFactory { get; set; }
+	\item object GetInstance()
+\end{itemize}
+Pierwsza z nich służy to ustawienia fabryki, która zwraca obiekt. Druga służy do zwracania obiektu przy użyciu fabryki. W zależności od konkretnego czasu życia, to obiekt zwracany z metody GetInstance może być zwsze ten sam, zwsze różny albo ten sam tylko dla określonych sytuacji (np. ten sam dla tego samego wątku albo ten sam dla tego samego żądania).\\
 
 Metoda piąta - Resolve, to główna metoda. Register można nazwać sercem kontenera, a Resolve mózgiem. Odpowiada ona za stworzenie i zwrócenie obiektu odpowiedniego typu. W mojej pracy zaproponowałem dwa rozwiązania - PartialEmitFunction i FullEmitFunction, dlatego ta metoda jako parametr przyjmuje wartość enuma ResolveKind.\\
-Szósta metoda to taki dodatek - gdy mamy stworzony obiekt, ale nie jest w pełni uzupełniony, wtedy możemy go zbudować (używająć odpowiednio PartialEmitFunction lub FullEmitFunction). Z tą metodą są powiązane bezpośrednio dwa pojęcia - wstrzykiwanie przez metodę i wstrzykiwanie przez propercję. Do tego celu zostały stworzone dwa atrybuty:\\
-- DependencyMethod (dla metod);\\
-- DependencyProperty (dla propercji).\\
+Szósta metoda to taki dodatek - gdy mamy stworzony obiekt, ale nie jest w pełni uzupełniony, wtedy możemy go zbudować (używająć odpowiednio PartialEmitFunction lub FullEmitFunction). Z tą metodą są powiązane bezpośrednio dwa pojęcia - wstrzykiwanie przez metodę i wstrzykiwanie przez propercję. Do tego celu zostały stworzone dwa atrybuty:
+\begin{itemize}
+	\item DependencyMethod (dla metod)
+	\item DependencyProperty (dla propercji)
+\end{itemize}
 Podczas operacji BuildUp uzupełniane są wywoływane wszystie metody i propercje, które mają te atrybuty. BuildUp jest również wykonywany podczas operacji Resolve.\\
 Warto tutaj odnotować, że ze względu na szczegóły implementacyjne tylko jedno z moich rozwiązań wspiera operację BuildUp - PartialEmitFunction. W FullEmitFunction ta funckonalność nie została zaimplementowana. Jest to spowodowane skomplikowaniem FullEmitFunction i małą potrzebą biznesową używania operacji BuildUp.\\
 
-W aplikacji istnieje również atrybut DependencyConstrutor. Można go użyć przy definicji konstruktora danej klasy. Obiekty danej klasy tworzy się przy użyciu konstruktora. Dana klasa może mieć kilka konstruktorów. W mojej implementacji stworzyłem logikę wyboru konstruktora przy pomocy którego ma zostać stworzony obiekt. Jeśli jest kilka konstrutkrów, odpowiedni jest wybierany w następującej kolejności:\\
-- Konstruktor z atrybutem DependencyConstrutor;\\
-- Konstrutkro z największą liczbą parametrów.\\
+W aplikacji istnieje również atrybut DependencyConstrutor. Można go użyć przy definicji konstruktora danej klasy. Obiekty danej klasy tworzy się przy użyciu konstruktora. Dana klasa może mieć kilka konstruktorów. W mojej implementacji stworzyłem logikę wyboru konstruktora przy pomocy którego ma zostać stworzony obiekt. Jeśli jest kilka konstrutkrów, odpowiedni jest wybierany w następującej kolejności:
+\begin{itemize}
+	\item Konstruktor z atrybutem DependencyConstrutor
+	\item Konstrutkro z największą liczbą parametrów
+\end{itemize}
 Jeśli jest kilka konstrutkrów z atrybutem DependencyConstrutor albo kilka z największą liczbą parametrów, to rzucany jest wyjątek.\\
 
 
@@ -143,39 +184,46 @@ Aby kontener działał wydajnie dla złożonych grafów zależności, należy ja
 
 \subsection{Rozwiązanie 1 - PartialEmitFunction}
 W pierwszym rozwiązanu, które nazwałem PartialEmitFunction tworzę delegata z wykorzystaniem Reflection.Emit. Delegat ten jako parametr przyjmuje listę obiektów, które są potrzebne do stworzenia obiektu danej klasy wykorzystując odpowiedni konstruktor. Jeśli kontener do stworzenia obiektu danej klasy wybrał konstruktor bezparametrowy, to do takiego delegata trafi pusta lista. Jeśli natomiast został wybrany konstruktor, który w parametrze np. potrzebuje obiektu klasy A i B, to do delegata zostanie przekazana lista zawierająca obiekt klasy A i B w kolejności takiej, jakiej są one zdefiniowane z konstruktorze.\\
-Pseudokod tego rozwiązana wygląda następująco:\\
-1. Dla każdego argumentu umieść ten argument na stosie.\\
-2. Na stosie umieść konstruktor docelowego typu.\\
-3. Wywołaj konstrutkor i stworzony obiekt umięść na szczycie stosu.\\
-4. Zwróć obiekt ze szczytu stosu.\\
+Pseudokod tego rozwiązana wygląda następująco:
+\begin{enumerate}
+	\item Dla każdego argumentu umieść ten argument na stosie
+	\item Na stosie umieść konstruktor docelowego typu
+	\item Wywołaj konstrutkor i stworzony obiekt umięść na szczycie stosu
+	\item Zwróć obiekt ze szczytu stosu
+\end{enumerate}
 To rozwiążanie nazwał "Partial", ponieważ tylko część operacji niezbędnych do stworzenia obiektu jest zakodowanych w języku IL (pobranie argumentów i stworzenie obiektu). W tym rozwiążaniu musimy wcześniej stworzyć obiekty, które są potrzebne do stworzenia docelowego obiektu.\\
-Zalety tego rozwiążania:\\
-- to rozwiązanie powinno lepiej się sprawdzać w sytuacjach, gdy wierzchołki w grafie zależnoci czesto się powtarzają i w aplikacji nie wykonujemy zbyć często operacji "Resolve".
+To rozwiązanie powinno lepiej się sprawdzać w sytuacjach, gdy wierzchołki w grafie zależnoci czesto się powtarzają i w aplikacji nie wykonujemy zbyć często operacji "Resolve".
 
 
 \subsection{Rozwiązanie 2 - FullEmitFunction}
 W drugim rozwiążaniu, które nazwałem FullEmitFunction tworzę delegata bezparametrowego. Sam tworzy on wszystkie obiekty, które są mu potrzebne do stworzenia docelowego obiektu. Działa on rekurencyjnie i najpierw na stosie umieszcza wszystkie operacje niezbędne do stworzenia obiektu danego typu, a następnie tworzy docelowy obiekt.\\
 Pseudokod tego rozwiązania wygląda następująco:
-1. Czy konstruktor danego typu potrzebuje jakiś argument?\\
-1b. Tak - Dla każdego parametru konstruktora wywołaj rekurencyjnie funkcję z argumentem wejściowym jako typ parametru.\\
-2. Na stosie umieść konstruktor docelowego typu.\\
-3. Wywołaj konstrutkor i stworzony obiekt umięść na szczycie stosu.\\
-4. Zwróć obiekt ze szczytu stosu.\\
+\begin{enumerate}
+	\item Czy konstruktor danego typu potrzebuje jakiś argument?
+	\begin{enumerate}
+		\item Tak - Dla każdego parametru konstruktora wywołaj rekurencyjnie funkcję z argumentem wejściowym jako typ parametru.
+		\item Nie - Idź dalej.
+	\end{enumerate}
+	\item Na stosie umieść konstruktor docelowego typu
+	\item Wywołaj konstrutkor i stworzony obiekt umięść na szczycie stosu
+	\item Zwróć obiekt ze szczytu stosu
+\end{enumerate}
 Jak łatwo zauważyć, to rozwiązanie jest pełne ("Full"), ponieważ wszystkie niezbędne obiekty zostaną stworzonę przy użyciu IL w jednej metodzie.\\
-Zalety tego rozwiążania:\\
-- to rozwiązanie powinno lepiej się sprawdzić w sytuacjach, gdy wierzchołki w grafie zależności rzadko się powtarzają i w aplikacji dużo razy wykonujemy operację "Resolve".
+To rozwiązanie powinno lepiej się sprawdzić w sytuacjach, gdy wierzchołki w grafie zależności rzadko się powtarzają i w aplikacji dużo razy wykonujemy operację "Resolve".
 
 
+
+\clearpage
 
 \section{Testy wydajnościowe}
 Do przeprowadzania testów wydajnościowych stworzyłem osobną aplikację w której zaimplementowałem 3 przypadki testowe (przypadek testowy A, przypadtek testowy B i przypadtek testowy C). Każdy z przypadków testowych sprawdza szybkość wykoniania operacji "Resolve" dla różnych rejestracji (operacji Register).\\
-Swoje dwa rozwiązania porównałem z 4 najszybszymi (według rankingu na stronie: http://www.palmmedia.de/Blog/2011/8/30/ioc-container-benchmark-performance-comparison - dane brane z dnia 21-02-2016, były to: Grace, DryIoc, LightInject oraz SimpleInjector) oraz 5 najbardziej popularnymi według pobrań z NuGet (były to: Unity - ponad 5.2 mln pobrań, NInject - ponad 4 mln pobrań, Autofac - ponad 3.7 mln pobrań, Windsor - ponad 1.4 mln pobrań, StructureMap - ponad 1.6 mln pobrań - dane z dnia 21-02-2017).\\
-\\
-Każdy z przypadków testowych wykonuje następujące testy:\\
-- register as Singleton,\\
-- register as Transient,\\
-- register as PerThread (dla niektórych kontenerów - PerScope).\\
-Każdy z testów dla każdego kontenera był uruchamiany w osobnym procesie. Każdy test był uruchamiany 100(?) razy i w wynikach zostały przedstawione następujące czasy: minimalny,  maksymalny i średni.
+Każdy z przypadków testowych wykonuje następujące testy:
+\begin{itemize}
+	\item register as Singleton
+	\item register as Transient
+	\item register as PerThread (dla niektórych przemysłowych implementacji - PerScope)
+\end{itemize}
+Każdy z testów dla każdego kontenera był uruchamiany w osobnym procesie. Każdy test był uruchamiany 100(?) razy, a w wynikach zostały przedstawione następujące czasy: minimalny,  maksymalny i średni.
 
 
 \subsection{Przypadek testowy A}
@@ -305,6 +353,8 @@ Czasy dla tego przypadku powinny być zbliżone do czasów dla Singleton, poniew
 Tak samo jak w przypadku Signleton najlepiej poradziły sobie najpopularniejsze kontenery - Windsor i Aurofac. Kontener NiquIoCPartial uplasował się na 3 miejscu. Najsłabiej poradził sobie kontroler LightInject i DryIoc.
 
 
+
+\clearpage
 
 \section{Podsumowanie}
 <parę słów na koniec>
