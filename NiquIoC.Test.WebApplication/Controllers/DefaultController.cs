@@ -11,5 +11,11 @@ namespace NiquIoC.Test.WebApplication.Controllers
             var obj = c.Resolve<T>(resolveKind);
             return View(obj);
         }
+
+        public ActionResult BuildUpObject<T>(Container c, T obj, ResolveKind resolveKind)
+        {
+            c.BuildUp(obj, resolveKind);
+            return View(obj);
+        }
     }
 }
