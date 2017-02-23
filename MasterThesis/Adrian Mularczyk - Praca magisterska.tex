@@ -85,9 +85,7 @@ Wrocław, 2016
 Wstrzykiwanie zależnośc jest wzorcem projektowym, który pozwala na tworzenie kodu o luźniejszych powiązaniach, łatwiejszego w testowaniu i modyfikacji. Najbardziej popularnymi implementacjami tego wzorca w języku C\# są Unity i Ninject. Celem niniejszej pracy magisterskiej jest stworzenie wydajnej implementacji tego wzorca dla złożonych grafów zależności. Do tego celu zostanie wykorzystana funkcjolanosci z przestrzeni nazw Reflection.Emit. W tej pracy zostaną przedstawione dwa rozwiązania.
 
 \subsection{Układ pracy}
-Poza wstępem i podsumowaniem praca składa się jeszcze z trzech rozdziałów. W pierwszym znajduje się opis teoretyczny czym jest wstrzykiwanie zależności. Drugi rozdział opisuje moją implementację tego wzorca. Trzeci rozdział skupia się na testach wydajnościowych, w którym porównuję moją implementację z kilkoma najbardziej popularnym i kilkoma najszybszymi implementacjami.\\
-Kod programu jest dostępnym w repozytorium pod adresem: \url{https://github.com/amularczyk/NiquIoC}\\
-Dodatkowo został tam umieszony kod programu, który posłużył do testów wydajnościowych.
+Poza wstępem i podsumowaniem praca składa się jeszcze z trzech rozdziałów. W pierwszym znajduje się opis teoretyczny czym jest wstrzykiwanie zależności. Drugi rozdział opisuje moją implementację tego wzorca. Trzeci rozdział skupia się na testach wydajnościowych, w którym porównuję moją implementację z kilkoma najbardziej popularnym i kilkoma najszybszymi implementacjami.
 
 
 
@@ -127,7 +125,42 @@ Najszybsze:
 \clearpage
 
 \section{Implementacja}
-W wykonanej implementacji został stworzony interfejs IConatiner, który powinny się znaleźć w każdym kontenerze:
+Kod źródłowy programu jest dostępnym w repozytorium pod adresem: \url{https://github.com/amularczyk/NiquIoC}\\
+Znajduje się tam też również kod programu, który posłużył do wykonania testów wydajnościowych, a także ta praca napisana w języku LateX i wszystkie obrazki.
+
+\subsection{Środowisko pracy}
+Prac oraz wszystkie testy powstały na komputerze z parametrami:
+\begin{itemize}
+	\item Intel Core i7-4720HQ (2.60GHz)
+	\item 12 GB pamięci RAM
+	\item Dysk SSD
+\end{itemize}
+Narzędzia użyte do stworzenia pracy i testów:
+\begin{itemize}
+	\item {\color{red} System operacyjny Windows 10 Pro}
+	\item .Net Framework w wersji 4.6.1
+	\item Visual Studio 2015 Comunnity
+	\item ReSharper
+	\item Dia
+\end{itemize}
+Testy zostały wykonane we frameworku XUnity, który jest wbudowany w Visual Studio.\\
+Rozwiązanie opiera się na użyciu operacji z przestrzeni nazw System.Reflection.Emit.
+
+{\color{red}
+\subsection{Microsoft Intermediate Language}
+Microsoft Intermediate Language - MSIL (w skrócie IL) to język pośredni do którego kod C\# jest kompilowany. Język ten pozwala na komunikację między aplikacjami napisanymi na platformie .Net, a systemem operacyjnym. Jest on jądrem tej platformy.
+}
+
+
+{\color{red}
+\subsection{Reflection.Emit}
+Przestrzeń nazw Reflection.Emit pozwala ona na stworzenie ciągu operacji w języku IL, a następnie zapamiętaniu ciągu tych operacji jako delegat. Za każdym razem, gdy ten delegat zostanie wywołany, to wykona się ciąg wczeniej zdefiniowanych operacji IL.
+}
+
+\subsection{Architektura}
+Aplikacja składa się z 1 projektu i 4 projektów na potrzeby testów. Aplikacja jest skomplikowana i aby mieć pewność, że działa w pełni dobrze zostało stworzone {\color{red} ponad 1000} testów jednostkowych.\\
+
+W wykonanej implementacji został stworzony interfejs IConatiner, który definiuje operacje, jakie powinny się znaleźć w każdym kontenerze:
 \begin{itemize}
 	\item IContainerMember RegisterType<T>() where T : class
 	\item IContainerMember RegisterType<TFrom, TTo>() where TTo : TFrom
@@ -168,14 +201,6 @@ W aplikacji istnieje również atrybut DependencyConstrutor. Można go użyć pr
 	\item Konstrutkro z największą liczbą parametrów
 \end{itemize}
 Jeśli jest kilka konstrutkrów z atrybutem DependencyConstrutor albo kilka z największą liczbą parametrów, to rzucany jest wyjątek.\\
-
-
-\subsection{Microsoft Intermediate Language}
-Microsoft Intermediate Language - MSIL (w skrócie IL) to język pośredni do którego kod C\# jest kompilowany. Język ten pozwala na komunikację między aplikacjami napisanymi na platformie .Net, a systemem operacyjnym. Jest on jądrem tej platformy.
-
-
-\subsection{Reflection.Emit}
-Przestrzeń nazw Reflection.Emit pozwala ona na stworzenie ciągu operacji w języku IL, a następnie zapamiętaniu ciągu tych operacji jako delegat. Za każdym razem, gdy ten delegat zostanie wywołany, to wykona się ciąg wczeniej zdefiniowanych operacji IL.
 
 
 \subsection{Rozwiązanie}
