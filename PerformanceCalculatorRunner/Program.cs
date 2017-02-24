@@ -25,7 +25,7 @@ namespace PerformanceCalculatorRunner
             var performanceTestsRunner = new PerformanceTestsRunner(_processPath);
             var results = PerformanceTestCasesRunnerHelper.RunPerformanceTests(performanceTestsRunner, repetitionsNumber, testCases);
 
-            var writer = WriterFactory.GetTextFormatter(WriteKind.VerticalResolve, _resultFile);
+            var writer = WriterFactory.GetTextFormatter(WriteKind.HorizontalResolve, _resultFile);
             writer.Write(results, testCases);
         }
     }

@@ -93,14 +93,15 @@ Poza wstępem i podsumowaniem praca składa się jeszcze z trzech rozdziałów. 
 
 \section{Wstrzykiwanie zależnosci}
 \subsection{Wstęp}
-Jest to zbiór zasad projektowania oprogramowania i wzorców, które pozwalają nam rozwijać luźno powiązany kod \cite{dependency_injection}.\\
+Jest to zbiór zasad projektowania oprogramowania i wzorców, które pozwalają nam rozwijać luźno powiązany kod.\\
 Jakiemu celowi ma służyć wstrzykiwanie zależności? Wstrzykiwanie zależnści nie jestem celem samym w sobie, raczej jest to środek do celu. Ostatecznie celem większości technik programowania jest dostarczenie jak najwydajniej działającego oprogramowania. Jednym z aspektów tego jest napisanie utrzymywalnego kodu.\\
 O ile nie pisze się prototypu lub aplikacji, które nigdy nie mają kolejnych wersji (kończą się na wersji 1), to wkrótce będzie trzeba zająć się utrzymaniem i rozwijaniem istniejącego kodu. Aby być w stanie pracować wydajnie z takim kodem bazowym, musi on być jak najlepiej utrzymywalny.\\
 Wstrzykiwanie zależności jest niczym więcej niż techniką, która umożliwia luźne powiązania, a luźne powiązania sprawiają, że kod jest rozszerzalny i łatwy w utrzymaniu. \cite{dependency_injection}\\
 Wstrzykiwanie zależności może odbywać się na 3 sposoby\\
 - wstrzykiwanie przez konstruktor (główna i najbardziej popularna)\\
 - wstrzykiwanie przez metodę\\
-- wstrzykiwanie przez propercję\\
+- wstrzykiwanie przez właściwość\\
+{\color{red} Dodać jak działa/jak wygląda każde z tych wstrzykiwań?}
 
 \subsection{Implementacje przemysłowe}
 Na rynku jest wiele implementacji wstrzykiwania zależności. Przedstawię tutaj kilka najbardziej popularnych (według ilości pobrań z NuGet) oraz kilka najszybszych (według rankingu na stronie: http://www.palmmedia.de/Blog/2011/8/30/ioc-container-benchmark-performance-comparison). Dane zostały wzięte z dnia 21-02-2017.\\
@@ -157,8 +158,8 @@ Microsoft Intermediate Language - MSIL (w skrócie IL) to język pośredni do kt
 Przestrzeń nazw Reflection.Emit pozwala ona na stworzenie ciągu operacji w języku IL, a następnie zapamiętaniu ciągu tych operacji jako delegat. Za każdym razem, gdy ten delegat zostanie wywołany, to wykona się ciąg wczeniej zdefiniowanych operacji IL.
 }
 
-\subsection{Architektura}
-Aplikacja składa się z 1 projektu i 4 projektów na potrzeby testów. Aplikacja jest skomplikowana i aby mieć pewność, że działa w pełni dobrze zostało stworzone {\color{red} ponad 1000} testów jednostkowych.\\
+\subsection{Opis}
+Aplikacja składa się z 1 projektu i 4 projektów na potrzeby testów. Rozwiązanie jest skomplikowana i aby mieć pewność, że działa w pełni dobrze zostało stworzone {\color{red} ponad 1000} testów jednostkowych.\\
 
 W wykonanej implementacji został stworzony interfejs IConatiner, który definiuje operacje, jakie powinny się znaleźć w każdym kontenerze:
 \begin{itemize}
@@ -167,48 +168,53 @@ W wykonanej implementacji został stworzony interfejs IConatiner, który definiu
 	\item IContainerMember RegisterType<T>(Func<object> objectFactory) where T : class
 	\item IContainerMember RegisterInstance<T>(T instance)
 	\item T Resolve<T>(ResolveKind resolveKind)
-	\item void BuildUp<T>(T instance, ResolveKind resolveKind)
+	\item void BuildUp<T>(T instance, ResolveKind resolveKind) - metoda opcjonalna
 \end{itemize}
-Pierwsze 4 metody służą do rejestracji typów do kontenera. W pierwszej metodzie możemy zarejestrować zwykłe klasy. W drugiej interfejsy i klasy, które implementują dany interfejs. W trzeciej metodzie rejestrujemy klasę jako fabrykę obiektów - funkcję, która ma nam zwrócić pożądany obiekt. W czwartej możemy zarejestrować konkretną instancję danej klasy. W mojej implementacji kontenera każdy typ może być zarejestrowany tylko raz - ponowna rejestracja tego samego typu nadpisuje istniejącą rejestrację.\\
-Każda z tych czterech pierwszy metod zwraca interfejs IContainerMember, który umożliwia nam zarejestrowanie danej klasy lub interfejsu z określonym menadżerem czasu życia. Jest to po to, ponieważ dla różnych przypadków biznesowych możemy potrzebować, aby obiekt danego typu miał konretny czas życia. Ten interfejs daje nam możliwość ustawienia czasu życia na:
+Pierwsze cztery metody służą do rejestracji typów do kontenera, piąta - Resolve, do zwracana obiektów wczeniej zarejestrowanego typu, a szczósta do uzupełnienia istniejącej istancji obiektu z wykorzystaniem wstrzykiwania zależności przez metodę i właściwość.
+
+\subsubsection{Register}
+W pierwszej metodzie możemy zarejestrować zwykłe klasy. W drugiej interfejsy i klasy, które implementują dany interfejs. W trzeciej metodzie rejestrujemy klasę jako fabrykę obiektów - funkcję, która ma nam zwrócić pożądany obiekt. W czwartej natomiast możemy zarejestrować konkretną instancję danej klasy. W mojej implementacji kontenera każdy typ może być zarejestrowany tylko raz - ponowna rejestracja tego samego typu nadpisuje istniejącą rejestrację.\\
+Każda z tych czterech pierwszy metod zwraca interfejs IContainerMember, który umożliwia nam zarejestrowanie danej klasy lub interfejsu z określonym menadżerem czasu życia (podanie implementacji interfejsu IObjectLifetimeManager). Jest to po to, ponieważ dla różnych przypadków biznesowych możemy potrzebować, aby obiekt danego typu miał konretny czas życia. Interfejs IContainerMember daje nam możliwość ustawienia czasu życia na:
 \begin{itemize}
 	\item Singleton
 	\item Transient
 	\item PerThread
 	\item PerHttpContext
-	\item Custom (dowolna, stworzona przez użytkownika implementacja interfejsu IObjectLifetimeManager)
+	\item Custom
 \end{itemize}
-W mojej implementacji kontenera każdy typ domyślnie ma czas życia Transient.\\
+Opcje: Singleton, Transient, PerThread i PerHttpContext to wbudowane implementacje interfejsu IObjectLifetimeManager. Custom, to opcja na podanie przez użytkownika jego własnej implementacji tego interfejsu. W mojej implementacji kontenera każdy typ domyślnie ma czas życia Transient.\\
 Interfejs IObjectLifetimeManager zawiera w sobie następujące metody:
 \begin{itemize}
 	\item  Func<object> ObjectFactory { get; set; }
 	\item object GetInstance()
 \end{itemize}
-Pierwsza z nich służy to ustawienia fabryki, która zwraca obiekt. Druga służy do zwracania obiektu przy użyciu fabryki. W zależności od konkretnego czasu życia, to obiekt zwracany z metody GetInstance może być zwsze ten sam, zwsze różny albo ten sam tylko dla określonych sytuacji (np. ten sam dla tego samego wątku albo ten sam dla tego samego żądania).\\
+Pierwsza z nich służy to ustawienia fabryki, która zwraca obiekt. Druga służy do zwracania obiektu przy użyciu fabryki. W zależności od konkretnego czasu życia, to obiekt zwracany z metody GetInstance może być zawsze ten sam, zawsze różny albo ten sam tylko dla określonych sytuacji (np. ten sam dla tego samego wątku albo tego samego żądania http).
 
-Metoda piąta - Resolve, to główna metoda. Register można nazwać sercem kontenera, a Resolve mózgiem. Odpowiada ona za stworzenie i zwrócenie obiektu odpowiedniego typu. W mojej pracy zaproponowałem dwa rozwiązania - PartialEmitFunction i FullEmitFunction, dlatego ta metoda jako parametr przyjmuje wartość enuma ResolveKind.\\
-Szósta metoda to taki dodatek - gdy mamy stworzony obiekt, ale nie jest w pełni uzupełniony, wtedy możemy go zbudować (używająć odpowiednio PartialEmitFunction lub FullEmitFunction). Z tą metodą są powiązane bezpośrednio dwa pojęcia - wstrzykiwanie przez metodę i wstrzykiwanie przez propercję. Do tego celu zostały stworzone dwa atrybuty:
+\subsubsection{Resolve}
+Metoda piąta - Resolve, jest to główna operacja. Register można nazwać sercem kontenera, a Resolve mózgiem. Odpowiada ona za stworzenie i zwrócenie obiektu odpowiedniego typu. W mojej pracy zaproponowałem dwa rozwiązania - PartialEmitFunction i FullEmitFunction, dlatego ta metoda jako parametr przyjmuje wartość enuma ResolveKind.\\
+
+\subsubsection{BuildUp}
+Szósta metoda to taki dodatek - gdy mamy stworzony obiekt, ale nie jest w pełni uzupełniony, wtedy możemy go zbudować (używająć odpowiednio PartialEmitFunction lub FullEmitFunction). Z tą metodą są powiązane bezpośrednio dwa pojęcia - wstrzykiwanie przez metodę i wstrzykiwanie przez właściwość. Do tego celu zostały stworzone dwa atrybuty:
 \begin{itemize}
 	\item DependencyMethod (dla metod)
 	\item DependencyProperty (dla propercji)
 \end{itemize}
-Podczas operacji BuildUp uzupełniane są wywoływane wszystie metody i propercje, które mają te atrybuty. BuildUp jest również wykonywany podczas operacji Resolve.\\
+Podczas operacji BuildUp uzupełniane są wywoływane wszystie metody i właściwości, które mają te atrybuty. BuildUp jest również wykonywany podczas operacji Resolve.\\
 Warto tutaj odnotować, że ze względu na szczegóły implementacyjne tylko jedno z moich rozwiązań wspiera operację BuildUp - PartialEmitFunction. W FullEmitFunction ta funckonalność nie została zaimplementowana. Jest to spowodowane skomplikowaniem FullEmitFunction i małą potrzebą biznesową używania operacji BuildUp.\\
 
-W aplikacji istnieje również atrybut DependencyConstrutor. Można go użyć przy definicji konstruktora danej klasy. Obiekty danej klasy tworzy się przy użyciu konstruktora. Dana klasa może mieć kilka konstruktorów. W mojej implementacji stworzyłem logikę wyboru konstruktora przy pomocy którego ma zostać stworzony obiekt. Jeśli jest kilka konstrutkrów, odpowiedni jest wybierany w następującej kolejności:
-\begin{itemize}
+W aplikacji istnieje również atrybut DependencyConstrutor. Można go użyć przy definicji konstruktora danej klasy. Obiekty każdej klasy tworzy się przy użyciu konstruktora. Klasa może mieć kilka konstruktorów. W mojej implementacji stworzyłem logikę wyboru konstruktora przy pomocy którego ma zostać stworzony obiekt. Jeśli jest kilka konstrutkrów, odpowiedni jest wybierany w następującej kolejności:
+\begin{enumerate}
 	\item Konstruktor z atrybutem DependencyConstrutor
 	\item Konstrutkro z największą liczbą parametrów
-\end{itemize}
-Jeśli jest kilka konstrutkrów z atrybutem DependencyConstrutor albo kilka z największą liczbą parametrów, to rzucany jest wyjątek.\\
+\end{enumerate}
+Jeśli jest kilka konstrutkrów z atrybutem DependencyConstrutor albo kilka z największą liczbą parametrów, to rzucany jest wyjątek.
 
 
 \subsection{Rozwiązanie}
 Aby kontener działał wydajnie dla złożonych grafów zależności, należy jak najwięcej informacji przechowywać w cache i należy to robić mądrze. W tym celum wykorzystałem Reflection.Emit, aby zapamiętać ciągu operacji niezbędnych do stworzenia obiektu nowej klasy (na potrzeby metody Resolve). Wykorzystałem to na dwa sposoby, które zostały opisane poniżej.
 
-
-\subsection{Rozwiązanie 1 - PartialEmitFunction}
-W pierwszym rozwiązanu, które nazwałem PartialEmitFunction tworzę delegata z wykorzystaniem Reflection.Emit. Delegat ten jako parametr przyjmuje listę obiektów, które są potrzebne do stworzenia obiektu danej klasy wykorzystując odpowiedni konstruktor. Jeśli kontener do stworzenia obiektu danej klasy wybrał konstruktor bezparametrowy, to do takiego delegata trafi pusta lista. Jeśli natomiast został wybrany konstruktor, który w parametrze np. potrzebuje obiektu klasy A i B, to do delegata zostanie przekazana lista zawierająca obiekt klasy A i B w kolejności takiej, jakiej są one zdefiniowane z konstruktorze.\\
+\subsubsection{Rozwiązanie 1 - PartialEmitFunction}
+W pierwszym rozwiązanu, które nazwałem PartialEmitFunction tworzę delegata z wykorzystaniem Reflection.Emit. Delegat ten jako parametr przyjmuje listę obiektów, które są potrzebne do stworzenia obiektu danej klasy wykorzystując odpowiedni konstruktor. Jeśli kontener do stworzenia obiektu danej klasy wybrał konstruktor bezparametrowy, to do takiego delegata trafi pusta lista. Jeśli natomiast został wybrany konstruktor, który w parametrze przynmuje obiekty jakiś typów, to lista tych obiektów w odpowiedniej kolejności zostanie przekazana do delegata (np. obiekt, który chcemy stworzyć w konstrutkorze który został wybrany potrzebuje obiektu klasy A i B, to do delegata zostanie przekazana lista zawierająca obiekt klasy A i B w kolejności takiej, jakiej są one zdefiniowane z konstruktorze).\\
 Pseudokod tego rozwiązana wygląda następująco:
 \begin{enumerate}
 	\item Dla każdego argumentu umieść ten argument na stosie
@@ -216,24 +222,23 @@ Pseudokod tego rozwiązana wygląda następująco:
 	\item Wywołaj konstrutkor i stworzony obiekt umięść na szczycie stosu
 	\item Zwróć obiekt ze szczytu stosu
 \end{enumerate}
-To rozwiążanie nazwał "Partial", ponieważ tylko część operacji niezbędnych do stworzenia obiektu jest zakodowanych w języku IL (pobranie argumentów i stworzenie obiektu). W tym rozwiążaniu musimy wcześniej stworzyć obiekty, które są potrzebne do stworzenia docelowego obiektu.\\
+To rozwiążanie nazwałem "Partial", ponieważ tylko część operacji niezbędnych do stworzenia obiektu jest zakodowanych w języku IL (pobranie argumentów i stworzenie obiektu). W tym rozwiążaniu musimy wcześniej stworzyć obiekty, które są wymagane prezz konstruktor docelowego obiektu.\\
 To rozwiązanie powinno lepiej się sprawdzać w sytuacjach, gdy wierzchołki w grafie zależnoci czesto się powtarzają i w aplikacji nie wykonujemy zbyć często operacji "Resolve".
 
-
-\subsection{Rozwiązanie 2 - FullEmitFunction}
-W drugim rozwiążaniu, które nazwałem FullEmitFunction tworzę delegata bezparametrowego. Sam tworzy on wszystkie obiekty, które są mu potrzebne do stworzenia docelowego obiektu. Działa on rekurencyjnie i najpierw na stosie umieszcza wszystkie operacje niezbędne do stworzenia obiektu danego typu, a następnie tworzy docelowy obiekt.\\
+\subsubsection{Rozwiązanie 2 - FullEmitFunction}
+W drugim rozwiązaniu, które nazwałem FullEmitFunction tworzę delegata bezparametrowego. To rozwiązanie samo tworzy  wszystkie obiekty, które są mu potrzebne do stworzenia docelowego obiektu. Działa on rekurencyjnie i najpierw na stosie umieszcza wszystkie operacje niezbędne do stworzenia wszystkich "podobiektów" (obiektów wymaganych w konstruktorze docelowego obiektu), a następnie tworzy docelowy obiekt.\\
 Pseudokod tego rozwiązania wygląda następująco:
 \begin{enumerate}
 	\item Czy konstruktor danego typu potrzebuje jakiś argument?
 	\begin{enumerate}
-		\item Tak - Dla każdego parametru konstruktora wywołaj rekurencyjnie funkcję z argumentem wejściowym jako typ parametru.
+		\item Tak - Dla każdego parametru konstruktora wywołaj rekurencyjnie funkcję z argumentem wejściowym jako typ danego parametru.
 		\item Nie - Idź dalej.
 	\end{enumerate}
 	\item Na stosie umieść konstruktor docelowego typu
 	\item Wywołaj konstrutkor i stworzony obiekt umięść na szczycie stosu
 	\item Zwróć obiekt ze szczytu stosu
 \end{enumerate}
-Jak łatwo zauważyć, to rozwiązanie jest pełne ("Full"), ponieważ wszystkie niezbędne obiekty zostaną stworzonę przy użyciu IL w jednej metodzie.\\
+Jak łatwo zauważyć, to rozwiązanie jest pełne ("Full"), ponieważ tworzenie wszystkich niezbędnych obiektów jest zakodowane w języku IL w jednej metodzie.\\
 To rozwiązanie powinno lepiej się sprawdzić w sytuacjach, gdy wierzchołki w grafie zależności rzadko się powtarzają i w aplikacji dużo razy wykonujemy operację "Resolve".
 
 
@@ -241,20 +246,21 @@ To rozwiązanie powinno lepiej się sprawdzić w sytuacjach, gdy wierzchołki w 
 \clearpage
 
 \section{Testy wydajnościowe}
-Do przeprowadzania testów wydajnościowych stworzyłem osobną aplikację w której zaimplementowałem 3 przypadki testowe (przypadek testowy A, przypadtek testowy B i przypadtek testowy C). Każdy z przypadków testowych sprawdza szybkość wykoniania operacji "Resolve" dla różnych rejestracji (operacji Register).\\
-Każdy z przypadków testowych wykonuje następujące testy:
+Do przeprowadzania testów wydajnościowych stworzyłem osobną aplikację w której zaimplementowałem 3 przypadki testowe (przypadek testowy A, przypadek testowy B i przypadek testowy C). Każdy z przypadków testowych sprawdza czas wykoniania operacji "Resolve" dla różnych rodzajów rejestracji (operacji Register).\\
+Każdy z przypadków testowych wykonuje testy dla następujący rejestracji:
 \begin{itemize}
-	\item register as Singleton
-	\item register as Transient
-	\item register as PerThread (dla niektórych przemysłowych implementacji - PerScope)
+	\item Register as Singleton
+	\item Register as Transient
+	\item Register as PerThread (dla niektórych przemysłowych implementacji - PerScope)
 \end{itemize}
-Każdy z testów dla każdego kontenera był uruchamiany w osobnym procesie. Każdy test był uruchamiany 100(?) razy, a w wynikach zostały przedstawione następujące czasy: minimalny,  maksymalny i średni.
+Każdy z testów dla każdej implementacji wstrzykiwania zależności był uruchamiany w osobnym procesie. Każdy test był uruchamiany {\color{red}10} razy, a w wynikach zostały przedstawione następujące czasy: minimalny,  maksymalny i średni.
 
 
 \subsection{Przypadek testowy A}
 \subsubsection{Opis}
-W tym teście mamy zdefiniowanych 11 typów i każdy z nich przymuje w konstruktorze od jeden mniej parametr mniej niż typ poprzedni. Typem głównym, a zarazem typem o największej licznie parametrów, jest typ "TestA". Przyjmuje on w konstruktorze 10 parametrów, kolejno następujących typów: "TestA0", "TestA1", "TestA2", "TestA3", "TestA4", "TestA5", "TestA6", "TestA7", "TestA8", "TestA9". Każdy z tych 10 typów w konstruktorze przyjmuje tyle obiekt, jaki ma numerek w nazwie (czyli obiekt typu "TestA0" ma konstruktore bezparametrowy, obiekt typy "TestA1" ma konstuktor z jednym parametrem; i tak dalej aż do typu "TestA9", który ma konstruktor z dziewięcioma parametrami). Każdy z tych typów jako parametry w konstruktorze przyjmuje kolejne obiekty typów z niższym numerkiem (czyli obiekt typu "TestA1" w konstruktorze przyjmuje parametr typu "TestA0", obiekt typu "TestA2" przymuje w konstruktorze obiekty typu "TestA0" i "TestA1";  i tak dalej aż do typu "TestA9", który w konstruktorze przyjmuje parametry z typami od "TestA0" do "TestA8").\\
+W tym teście mamy zdefiniowanych 11 typów i każdy z nich przymuje w konstruktorze od jeden mniej parametr mniej niż typ poprzedni (czyli przyjmują one kolejno od 10 do 0 parametrów w konstruktorze). Typem głównym, a zarazem typem o największej licznie parametrów, jest typ "TestA". Przyjmuje on w konstruktorze 10 parametrów, kolejno następujących typów: "TestA0", "TestA1", "TestA2", "TestA3", "TestA4", "TestA5", "TestA6", "TestA7", "TestA8", "TestA9". Każdy z tych 10 typów w konstruktorze przyjmuje tyle obiekt, jaki ma numerek w nazwie (czyli obiekt typu "TestA0" ma konstruktore bezparametrowy, obiekt typy "TestA1" ma konstuktor z jednym parametrem; i tak dalej aż do typu "TestA9", który ma konstruktor z dziewięcioma parametrami). Każdy z tych typów jako parametry w konstruktorze przyjmuje kolejne obiekty typów z niższym numerkiem (czyli obiekt typu "TestA1" w konstruktorze przyjmuje parametr typu "TestA0", obiekt typu "TestA2" przymuje w konstruktorze obiekty typu "TestA0" i "TestA1";  i tak dalej aż do typu "TestA9", który w konstruktorze przyjmuje parametry z typami od "TestA0" do "TestA8"). Graf zależności poszczególnych typów został przedstawiony na Rys. \ref{fig:testA}.\\
 
+\clearpage
 \begin{figure}[h]
 	\begin{center}
   		\includegraphics[height=12cm]{TestA.png}
@@ -263,7 +269,7 @@ W tym teście mamy zdefiniowanych 11 typów i każdy z nich przymuje w konstrukt
 	\end{center}
 \end{figure}
 
-Łatwo wywnioskować z Rys. \ref{fig:testA}, że tworząc obiekty poszczególnych typów ilość tworzonych obiektów rośnie dwukrotnie:
+Łatwo wywnioskować, że tworząc obiekty poszczególnych typów ilość tworzonych obiektów rośnie dwukrotnie:
 \begin{itemize}
 	\item TestA0 - 1 obiekt,
 	\item TestA1 - 2 obiekty (obiekt typu TestA1 i obiekt typu TestA0),
@@ -277,7 +283,7 @@ W tym teście mamy zdefiniowanych 11 typów i każdy z nich przymuje w konstrukt
 	\item TestA9 - 512 obiektów,
 	\item TestA - 1 024 obiektów.
 \end{itemize}
-Zatem tworząc obiekt typu TestA, tworzymy: 1 obiekt typu TestA, 1 obiekt typu TestA9, 2 obiekty typu TestA8, 4 obiekty typu TestA7, 8 obiektów typu TestA6, 16 obiektów typu TestA5, 32 obiektów typu TestA4, 64 obiektów typu TestA3, 128 obiektów typu TestA2, 256 obiektów typu TestA1 i 512 obiektów typu TestA0.
+Zatem tworząc nasz główny obiekt typu TestA, tworzymy: 1 obiekt typu TestA, 1 obiekt typu TestA9, 2 obiekty typu TestA8, 4 obiekty typu TestA7, 8 obiektów typu TestA6, 16 obiektów typu TestA5, 32 obiektów typu TestA4, 64 obiektów typu TestA3, 128 obiektów typu TestA2, 256 obiektów typu TestA1 i 512 obiektów typu TestA0 - co w sumie daje 1024 obiekty.
 
 \subsubsection{Wyniki dla Singleton}
 Najlepiej poradziły sobie najpopularniejsze kontenery - Windsor i Aurofac. Kontener NiquIoCPartial uplasował się na 3 miejscu. Najsłabiej poradził sobie kontroler StructureMap i Unity.
@@ -297,8 +303,9 @@ Tak samo jak w przypadku Signleton najlepiej poradziły sobie najpopularniejsze 
 
 \subsection{Przypadek testowy B}
 \subsubsection{Opis}
-W tym teście mamy zdefiniowanych 51 typów. 10 z tych typów ma konstruktor bezparametrowy, a pozostałe 41 ma konstuktor z dziesięcioma parametrami. Typem głównym jest typ "TestB". Obiekt tego typy w konstruktorze przymuje 10 innych obiektów, kolejno następujących typów: "TestB40", "TestB41", "TestB42", "TestB43", "TestB44", "TestB45", "TestB46", "TestB47", "TestB48", "TestB49". Każdy z tych 10 typów w konstruktorze przyjmuje 10 obiektów o takich samych typach, ale z pierwszym numerkiem o 1 mniejszym (czyli obiekty typów od "TestB40" do "TestB49", przyjmują w konstruktorze obiekty typów od "TestB30" do "TestB39").
+W tym teście mamy zdefiniowanych 51 typów. 10 z tych typów ma konstruktor bezparametrowy, a pozostałe 41 ma konstuktor z dziesięcioma parametrami. Typem głównym jest typ "TestB". Obiekt tego typy w konstruktorze przymuje 10 innych obiektów, kolejno następujących typów: "TestB40", "TestB41", "TestB42", "TestB43", "TestB44", "TestB45", "TestB46", "TestB47", "TestB48", "TestB49". Każdy z tych 10 typów w konstruktorze przyjmuje 10 obiektów o takich samych typach, ale z pierwszym numerkiem o 1 mniejszym (czyli obiekty typów od "TestB40" do "TestB49", przyjmują w konstruktorze obiekty typów od "TestB30" do "TestB39"). Dla typów od "TestB30" do "TestB39" zasad z konstruktorami wygląda tak samo.Na końcu dochodzimy do typów od "TestB00" do "TestB09", które mają konstruktor bezparametrowy. Rys. \ref{fig:testB} przedstawia graf zależności typów dla tego przypadku testowego.
 
+\clearpage
 \begin{figure}[h]
 	\begin{center}
   		\includegraphics[width=\linewidth]{TestB.png}
@@ -307,7 +314,7 @@ W tym teście mamy zdefiniowanych 51 typów. 10 z tych typów ma konstruktor bez
 	\end{center}
 \end{figure}
 
-Łatwo wywnioskować z Rys. \ref{fig:testB}, że tworząc obiekty poszczególnych typów ilość tworzonych obiektów rośnie ponad dziesięciokortnie:
+Łatwo wywnioskować, że tworząc obiekty poszczególnych typów ilość tworzonych obiektów rośnie ponad dziesięciokortnie:
 \begin{itemize}
 	\item typy od TestB00 do TestB09 - 1 obiekt,
 	\item typy od TestB10 do TestB19 - 11 obiektów (obiekt danego typu plus 10 obiektów typów od TestB00 do TestB09),
@@ -316,7 +323,7 @@ W tym teście mamy zdefiniowanych 51 typów. 10 z tych typów ma konstruktor bez
 	\item  typy od TestB40 do TestB49 - 11 111 obiektów,
 	\item TestB - 111 111 obiektów.
 \end{itemize}
-Zatem tworząc obiekt typu TestB, tworzymy: 1 obiekt typu TestB, 10 obiektów typów od TestB40 do TestB49, 100 obiektów typów od TestB30 do TestB39, 1 000 obiektów typów od TestB20 do TestB29, 10 000 obiektów typów od TestB10 do TestB19, 100 000 obiektów typów od TestB00 do TestB09.
+Zatem tworząc obiekt typu TestB, tworzymy: 1 obiekt typu TestB, 10 obiektów typów od TestB40 do TestB49, 100 obiektów typów od TestB30 do TestB39, 1 000 obiektów typów od TestB20 do TestB29, 10 000 obiektów typów od TestB10 do TestB19, 100 000 obiektów typów od TestB00 do TestB09 - co daje w sumie 111 111 obiektów..
 
 \subsubsection{Wyniki dla Singleton}
 Najlepiej poradziły sobie najpopularniejsze kontenery - Windsor i Aurofac. Kontener NiquIoCPartial uplasował się na 3 miejscu. Najsłabiej poradził sobie kontroler StructureMap i Unity.
@@ -334,7 +341,7 @@ Tak samo jak w przypadku Signleton najlepiej poradziły sobie najpopularniejsze 
 
 \subsection{Przypadek testowy C}
 \subsubsection{Opis}
-Ten test jest bardzo podobny do test A, tylko dochodzi nam 1 dodatkowy poziom, który wygląda trochę inaczej. W głównym obiekcie "TestC" konstruktor przyjmuje 3 parametry następujących typów: "TestCa10", "TestCb10", "TestCc10". Każdy z tych 3 typów odpowiada typowi "TestA", więc przyjmuje on w konstruktorze 10 parametrów. Dla "TestCa10" są to parametry typów od "TestCa0" do "TestCa9", dla "TestCb10" są to parametry typów od "TestCb0" do "TestCb9", a dla "TestCc10" są to parametry typów od "TestCc0" do "TestCc9".\\
+Ten test jest bardzo podobny do przypadku testowego A, tylko dochodzi nam 1 dodatkowy poziom, który wygląda trochę inaczej. W głównym obiekcie "TestC" konstruktor przyjmuje 3 parametry następujących typów: "TestCa10", "TestCb10", "TestCc10". Każdy z tych 3 typów odpowiada typowi "TestA", więc przyjmuje on w konstruktorze 10 parametrów. Dla "TestCa10" są to parametry typów od "TestCa0" do "TestCa9", dla "TestCb10" są to parametry typów od "TestCb0" do "TestCb9", a dla "TestCc10" są to parametry typów od "TestCc0" do "TestCc9". Zależności tych typów wyglądają tak samo, jak dla typów z przypadku testowego A - rys. \ref{fig:testC} przedstawia te zależności. \\
 
 \begin{figure}[h]
 	\begin{center}
@@ -344,7 +351,7 @@ Ten test jest bardzo podobny do test A, tylko dochodzi nam 1 dodatkowy poziom, k
 	\end{center}
 \end{figure}
 
-Łatwo wywnioskować z Rys. \ref{fig:testC}, że tworząc obiekty poszczególnych typów ilość tworzonych obiektów rośnie dwukrotnie tak jak dla testu A:
+Łatwo wywnioskować, że tworząc obiekty poszczególnych typów ilość tworzonych obiektów rośnie dwukrotnie (tak jak dla testu A):
 \begin{itemize}
 	\item TestCa0 - 1 obiekt,
 	\item TestCa1 - 2 obiekty (obiekt typu TestCa1 i obiekt typu TestCa0),
@@ -360,7 +367,7 @@ Ten test jest bardzo podobny do test A, tylko dochodzi nam 1 dodatkowy poziom, k
 	\item \ldots (dla TestCb i TestCc sytuacja wygląda dokłądnie tak samo jak dla TestCa),
 	\item TestC - 3 073 obiektów.
 \end{itemize}
-Zatem tworząc obiekt typu TestC, tworzymy: 1 obiekt typu TestC, 1 obiekt typu TestCa10, TestCb10 i TestCc10,1 obiekt typu TestCa9, TestCb9 i TestCc9, 2 obiekty typu TestCa8, TestCb8 i TestCc8, 4 obiekty typu TestCa7, TestCb7 i TestCc7, 8 obiektów typu TestCa6, TestCb6 i TestCc6, 16 obiektów typu TestCa5, TestCb5 i TestCc5, 32 obiektów typu TestCa4, TestCb4 i TestCc4, 64 obiektów typu TestCa3, TestCb3 i TestCc3, 128 obiektów typu TestCa2, TestCb2 i TestCc2, 256 obiektów typu TestCa1, TestCb1 i TestCc1, 512 obiektów typu TestCa0, TestCb0 i TestCc0.
+Zatem tworząc obiekt typu TestC, tworzymy: 1 obiekt typu TestC, 1 obiekt typu TestCa10, TestCb10 i TestCc10,1 obiekt typu TestCa9, TestCb9 i TestCc9, 2 obiekty typu TestCa8, TestCb8 i TestCc8, 4 obiekty typu TestCa7, TestCb7 i TestCc7, 8 obiektów typu TestCa6, TestCb6 i TestCc6, 16 obiektów typu TestCa5, TestCb5 i TestCc5, 32 obiektów typu TestCa4, TestCb4 i TestCc4, 64 obiektów typu TestCa3, TestCb3 i TestCc3, 128 obiektów typu TestCa2, TestCb2 i TestCc2, 256 obiektów typu TestCa1, TestCb1 i TestCc1, 512 obiektów typu TestCa0, TestCb0 i TestCc0 - co daje w sumie 3 073 obiektów.
 
 \subsubsection{Wyniki dla Singleton}
 Najlepiej poradziły sobie najpopularniejsze kontenery - Windsor i Aurofac. Kontener NiquIoCPartial uplasował się na 3 miejscu. Najsłabiej poradził sobie kontroler StructureMap i Unity.
@@ -386,8 +393,8 @@ Tak samo jak w przypadku Signleton najlepiej poradziły sobie najpopularniejsze 
 
 \newpage
 \begin{thebibliography}{authordate1}
-\bibitem{dependency_injection} Dependency Injection in .NET, Mark Seemann (str. 4-5)
-\bibitem{emit} Expert .NET 2.0 IL Assembler, Serge Lidin (str. 3-7)
+\bibitem{dependency_injection} Dependency Injection in .NET, Mark Seemann
+\bibitem{emit} Expert .NET 2.0 IL Assembler, Serge Lidin
 \end{thebibliography}
 
 \end{document}
