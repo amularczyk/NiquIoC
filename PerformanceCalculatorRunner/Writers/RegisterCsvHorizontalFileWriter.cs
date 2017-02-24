@@ -10,12 +10,7 @@ namespace PerformanceCalculatorRunner.Writers
 
         protected override string GetColumnNameText(string containerName)
         {
-            return $"{containerName} Register;{containerName} Register;{containerName} Register;";
-        }
-
-        protected override string GetColumnHeaderText()
-        {
-            return "Min;Max;Avg;";
+            return $"{containerName};";
         }
 
         protected override string GetMinResultText(FinalTestResult testResult)

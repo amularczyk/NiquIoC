@@ -24,25 +24,20 @@ namespace PerformanceCalculatorRunner.Writers
             var columnsNamesSb = new StringBuilder();
             columnsNamesSb.Append("Test Case;Registration Kind;Resolve Count;Result Kind;");
             dict.Add(columnsNames, columnsNamesSb);
-
-            var columnsHeaders = "ch";
-            var columnsHeadersSb = new StringBuilder();
-            columnsHeadersSb.Append(";;;;");
-            dict.Add(columnsHeaders, columnsHeadersSb);
-
+            
             foreach (var testCase in testCases)
             {
                 var name = $"{testCase.TestCase};{testCase.RegistrationKind};{testCase.TestsCount}";
 
                 var rowHeaderMin = new StringBuilder();
                 var nameMin = $"{name};min";
-                rowHeaderMin.Append($"Test {name};");
+                rowHeaderMin.Append($"Test {nameMin};");
                 var rowHeaderMax = new StringBuilder();
                 var nameMax = $"{name};max";
-                rowHeaderMax.Append($"Test {name};");
+                rowHeaderMax.Append($"Test {nameMax};");
                 var rowHeaderAvg = new StringBuilder();
                 var nameMvg = $"{name};avg";
-                rowHeaderAvg.Append($"Test {name};");
+                rowHeaderAvg.Append($"Test {nameMvg};");
 
                 dict.Add(nameMin, rowHeaderMin);
                 dict.Add(nameMax, rowHeaderMax);
@@ -52,7 +47,6 @@ namespace PerformanceCalculatorRunner.Writers
             foreach (var result in results)
             {
                 dict[columnsNames].Append(GetColumnNameText(result.Key));
-                dict[columnsHeaders].Append(GetColumnHeaderText());
 
                 foreach (var testResult in result.Value)
                 {
@@ -74,8 +68,6 @@ namespace PerformanceCalculatorRunner.Writers
         }
 
         protected abstract string GetColumnNameText(string containerName);
-
-        protected abstract string GetColumnHeaderText();
 
         protected abstract string GetMinResultText(FinalTestResult testResult);
 
