@@ -11,32 +11,27 @@ namespace PerformanceCalculatorRunner.Writers
 
         protected override string GetTestCaseColumnNameText(string containerName)
         {
-            return $"{containerName} Register;{containerName} Resolve;";
+            return $"{containerName} Register;{containerName} Register;{containerName} Register;{containerName} Resolve;{containerName} Resolve;{containerName} Resolve;";
         }
 
         protected override string GetRegistrationKindColumnNameText(RegistrationKind registrationKind)
         {
-            return $"{registrationKind};{registrationKind};";
+            return $"{registrationKind};{registrationKind};{registrationKind};{registrationKind};{registrationKind};{registrationKind};";
         }
 
         protected override string GetTestsCountColumnNameText(int testsCount)
         {
-            return $"{testsCount};{testsCount};";
+            return $"{testsCount};{testsCount};{testsCount};{testsCount};{testsCount};{testsCount};";
         }
 
-        protected override string GetMinResultText(FinalTestResult testResult)
+        protected override string GetResultKindColumnNameText()
         {
-            return $"{testResult.MinRegisterTime};{testResult.MinResolveTime};";
+            return "Min;Max;Avg;Min;Max;Avg;";
         }
 
-        protected override string GetMaxResultText(FinalTestResult testResult)
+        protected override string GetResultText(FinalTestResult testResult)
         {
-            return $"{testResult.MaxRegisterTime};{testResult.MaxResolveTime};";
-        }
-
-        protected override string GetAvgResultText(FinalTestResult testResult)
-        {
-            return $"{testResult.AvgRegisterTime};{testResult.AvgResolveTime};";
+            return $"{testResult.MinRegisterTime};{testResult.MaxRegisterTime};{testResult.AvgRegisterTime};{testResult.MinResolveTime};{testResult.MaxResolveTime};{testResult.AvgResolveTime};";
         }
     }
 }

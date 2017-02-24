@@ -11,32 +11,27 @@ namespace PerformanceCalculatorRunner.Writers
 
         protected override string GetTestCaseColumnNameText(string containerName)
         {
-            return $"{containerName};";
+            return $"{containerName};{containerName};{containerName};";
         }
 
         protected override string GetRegistrationKindColumnNameText(RegistrationKind registrationKind)
         {
-            return $"{registrationKind};";
+            return $"{registrationKind};{registrationKind};{registrationKind};";
         }
 
         protected override string GetTestsCountColumnNameText(int testsCount)
         {
-            return $"{testsCount};";
+            return $"{testsCount};{testsCount};{testsCount};";
         }
 
-        protected override string GetMinResultText(FinalTestResult testResult)
+        protected override string GetResultKindColumnNameText()
         {
-            return $"{testResult.MinRegisterTime};";
+            return "Min;Max;Avg;";
         }
 
-        protected override string GetMaxResultText(FinalTestResult testResult)
+        protected override string GetResultText(FinalTestResult testResult)
         {
-            return $"{testResult.MaxRegisterTime};";
-        }
-
-        protected override string GetAvgResultText(FinalTestResult testResult)
-        {
-            return $"{testResult.AvgRegisterTime};";
+            return $"{testResult.MinRegisterTime};{testResult.MaxRegisterTime};{testResult.AvgRegisterTime};";
         }
     }
 }

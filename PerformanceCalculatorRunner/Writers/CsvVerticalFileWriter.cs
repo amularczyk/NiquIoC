@@ -24,42 +24,38 @@ namespace PerformanceCalculatorRunner.Writers
             var hTestCase = new StringBuilder();
             var hRegistrationKind = new StringBuilder();
             var hTestsCount = new StringBuilder();
+            var hResultKind = new StringBuilder();
 
-            hTestCase.Append(";;");
-            hRegistrationKind.Append(";;");
-            hTestsCount.Append(";;");
+            hTestCase.Append(";");
+            hRegistrationKind.Append(";");
+            hTestsCount.Append(";");
+            hResultKind.Append(";");
 
             foreach (var testCase in testCases)
             {
                 hTestCase.Append(GetTestCaseColumnNameText(testCase.TestCase));
                 hRegistrationKind.Append(GetRegistrationKindColumnNameText(testCase.RegistrationKind));
                 hTestsCount.Append(GetTestsCountColumnNameText(testCase.TestsCount));
+                hResultKind.Append(GetResultKindColumnNameText());
             }
 
             list.Add(hTestCase);
             list.Add(hRegistrationKind);
             list.Add(hTestsCount);
+            list.Add(hResultKind);
 
             foreach (var result in results)
             {
-                var sbMin = new StringBuilder();
-                var sbMax = new StringBuilder();
-                var sbAvg = new StringBuilder();
+                var sbResult = new StringBuilder();
 
-                sbMin.Append($"{result.Key};min;");
-                sbMax.Append($"{result.Key};max;");
-                sbAvg.Append($"{result.Key};avg;");
+                sbResult.Append($"{result.Key};");
 
                 foreach (var testResult in result.Value)
                 {
-                    sbMin.Append(GetMinResultText(testResult));
-                    sbMax.Append(GetMaxResultText(testResult));
-                    sbAvg.Append(GetAvgResultText(testResult));
+                    sbResult.Append(GetResultText(testResult));
                 }
 
-                list.Add(sbMin);
-                list.Add(sbMax);
-                list.Add(sbAvg);
+                list.Add(sbResult);
             }
 
             return list.Select(l => l.ToString());
@@ -71,10 +67,8 @@ namespace PerformanceCalculatorRunner.Writers
 
         protected abstract string GetTestsCountColumnNameText(int testsCount);
 
-        protected abstract string GetMinResultText(FinalTestResult testResult);
+        protected abstract string GetResultKindColumnNameText();
 
-        protected abstract string GetMaxResultText(FinalTestResult testResult);
-
-        protected abstract string GetAvgResultText(FinalTestResult testResult);
+        protected abstract string GetResultText(FinalTestResult testResult);
     }
 }
