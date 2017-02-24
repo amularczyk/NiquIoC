@@ -18,9 +18,19 @@ namespace PerformanceCalculatorRunner.Writers
             return "Min;Max;Avg;";
         }
 
-        protected override string GetResultText(FinalTestResult testResult)
+        protected override string GetMinResultText(FinalTestResult testResult)
         {
-            return $"{testResult.MinRegisterTime};{testResult.MaxRegisterTime};{testResult.AvgRegisterTime};";
+            return $"{testResult.MinRegisterTime};";
+        }
+
+        protected override string GetMaxResultText(FinalTestResult testResult)
+        {
+            return $"{testResult.MaxRegisterTime};";
+        }
+
+        protected override string GetAvgResultText(FinalTestResult testResult)
+        {
+            return $"{testResult.AvgRegisterTime};";
         }
     }
 }

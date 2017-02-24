@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using PerformanceCalculatorRunner.Models;
@@ -23,20 +22,31 @@ namespace PerformanceCalculatorRunner.Writers
 
             var columnsNames = "cn";
             var columnsNamesSb = new StringBuilder();
-            columnsNamesSb.Append("Test Case;Registration Kind;Resolve Count;");
+            columnsNamesSb.Append("Test Case;Registration Kind;Resolve Count;Result Kind;");
             dict.Add(columnsNames, columnsNamesSb);
 
             var columnsHeaders = "ch";
             var columnsHeadersSb = new StringBuilder();
-            columnsHeadersSb.Append(";;;");
+            columnsHeadersSb.Append(";;;;");
             dict.Add(columnsHeaders, columnsHeadersSb);
 
             foreach (var testCase in testCases)
             {
-                var rowHeader = new StringBuilder();
                 var name = $"{testCase.TestCase};{testCase.RegistrationKind};{testCase.TestsCount}";
-                rowHeader.Append($"Test {name};");
-                dict.Add(name, rowHeader);
+
+                var rowHeaderMin = new StringBuilder();
+                var nameMin = $"{name};min";
+                rowHeaderMin.Append($"Test {name};");
+                var rowHeaderMax = new StringBuilder();
+                var nameMax = $"{name};max";
+                rowHeaderMax.Append($"Test {name};");
+                var rowHeaderAvg = new StringBuilder();
+                var nameMvg = $"{name};avg";
+                rowHeaderAvg.Append($"Test {name};");
+
+                dict.Add(nameMin, rowHeaderMin);
+                dict.Add(nameMax, rowHeaderMax);
+                dict.Add(nameMvg, rowHeaderAvg);
             }
 
             foreach (var result in results)
@@ -47,7 +57,15 @@ namespace PerformanceCalculatorRunner.Writers
                 foreach (var testResult in result.Value)
                 {
                     var name = $"{testResult.TestCaseName};{testResult.RegistrationKind};{testResult.TestCasesCount}";
-                    dict[name].Append(GetResultText(testResult));
+
+                    var nameMin = $"{name};min";
+                    dict[nameMin].Append(GetMinResultText(testResult));
+
+                    var nameMax = $"{name};max";
+                    dict[nameMax].Append(GetMaxResultText(testResult));
+
+                    var nameMvg = $"{name};avg";
+                    dict[nameMvg].Append(GetAvgResultText(testResult));
                 }
             }
 
@@ -59,17 +77,10 @@ namespace PerformanceCalculatorRunner.Writers
 
         protected abstract string GetColumnHeaderText();
 
-        protected abstract string GetResultText(FinalTestResult testResult);
+        protected abstract string GetMinResultText(FinalTestResult testResult);
 
-        private void WriteToFile(IEnumerable<string> results, string resultFile)
-        {
-            using (var file = new StreamWriter(resultFile))
-            {
-                foreach (var result in results)
-                {
-                    file.WriteLine(result);
-                }
-            }
-        }
+        protected abstract string GetMaxResultText(FinalTestResult testResult);
+
+        protected abstract string GetAvgResultText(FinalTestResult testResult);
     }
 }
