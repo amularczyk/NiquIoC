@@ -74,10 +74,10 @@ namespace PerformanceCalculator.Containers.TestsNinject
         {
             try
             {
-                if (testCasesCount >= 1000 || (testCase is TestCaseB && testCasesCount >= 10))
-                {
-                    throw new OutOfMemoryException("Process takes more than 5 seconds!");
-                }
+                //if (testCasesCount >= 1000 || (testCase is TestCaseB && testCasesCount >= 10))
+                //{
+                //    throw new OutOfMemoryException("Process takes more than 5 seconds!");
+                //}
 
                 return base.RunResolve(sw, testCase, container, testCasesCount, registrationKind);
             }
