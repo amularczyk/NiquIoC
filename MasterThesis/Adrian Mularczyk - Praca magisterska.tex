@@ -286,9 +286,52 @@ W tym teście mamy zdefiniowanych 11 typów i każdy z nich przymuje w konstrukt
 Zatem tworząc nasz główny obiekt typu TestA, tworzymy: 1 obiekt typu TestA, 1 obiekt typu TestA9, 2 obiekty typu TestA8, 4 obiekty typu TestA7, 8 obiektów typu TestA6, 16 obiektów typu TestA5, 32 obiektów typu TestA4, 64 obiektów typu TestA3, 128 obiektów typu TestA2, 256 obiektów typu TestA1 i 512 obiektów typu TestA0 - co w sumie daje 1024 obiekty.
 
 \subsubsection{Wyniki dla Singleton}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | r r r | r r r | r r r | }
+    		\hline
+     		Ilość & & 1 & & & 10 & & & 100 & & & 1000 & \\ \hline
+     		 & min & max & avg & min & max & avg & min & max & avg & min & max & avg \\ \hline
+    		Autofac & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+   		DryIoc & 2 & 3 & 2 & 2 & 3 & 2 & 2 & 2 & 2 & 2 & 2 & 2 \\ \hline
+		Grace & 2 & 2 & 2 & 2 & 3 & 2 & 2 & 3 & 2 & 2 & 4 & 3 \\ \hline
+		LightInject & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 \\ \hline
+		Ninject & 3 & 3 & 3 & 3 & 3 & 3 & 3 & 3 & 3 & 6 & 6 & 6 \\ \hline
+		NiquIoCPartial & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 \\ \hline
+		NiquIoCFull & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 \\ \hline
+		SimpleInjector & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 \\ \hline
+		StructureMap & 9 & 9 & 9 & 9 & 9 & 9 & 9 & 9 & 9 & 10 & 10 & 10 \\ \hline
+		Unity & 7 & 7 & 7 & 7 & 7 & 7 & 7 & 7 & 7 & 8 & 8 & 8 \\ \hline
+		Windsor & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+    		\hline
+  	\end{tabular}
+\end{small}
+\end{center}
+
 Najlepiej poradziły sobie najpopularniejsze kontenery - Windsor i Aurofac. Kontener NiquIoCPartial uplasował się na 3 miejscu. Najsłabiej poradził sobie kontroler StructureMap i Unity.
 
 \subsubsection{Wyniki dla Transient}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | r r r | r r r | r r r | }
+    		\hline
+     		Ilość & & 1 & & & 10 & & & 100 & & & 1000 & \\ \hline
+     		 & min & max & avg & min & max & avg & min & max & avg & min & max & avg \\ \hline
+    		Autofac & 0 & 0 & 0 & 6 & 7 & 6 & 61 & 70 & 65 & 615 & 687 & 632 \\ \hline
+		DryIoc & 14 & 15 & 15 & 15 & 16 & 15 & 16 & 18 & 17 & 30 & 31 & 30 \\ \hline
+		Grace & 16 & 18 & 16 & 16 & 17 & 16 & 19 & 20 & 19 & 39 & 40 & 40 \\ \hline
+		LightInject & 10 & 10 & 10 & 10 & 10 & 10 & 11 & 12 & 11 & 19 & 19 & 19 \\ \hline
+		Ninject & 10 & 11 & 10 & 86 & 90 & 88 & 858 & 951 & 873 & 8673 & 9035 & 8812 \\ \hline
+		NiquIoCPartial & 1 & 1 & 1 & 3 & 3 & 3 & 19 & 19 & 19 & 172 & 174 & 172 \\ \hline
+		NiquIoCFull & 8 & 8 & 8 & 8 & 9 & 8 & 9 & 10 & 9 & 18 & 18 & 18 \\ \hline
+		SimpleInjector & 13 & 13 & 13 & 13 & 14 & 13 & 15 & 15 & 15 & 28 & 29 & 29 \\ \hline
+		StructureMap & 10 & 10 & 10 & 13 & 14 & 14 & 52 & 54 & 52 & 415 & 420 & 417 \\ \hline
+		Unity & 8 & 8 & 8 & 15 & 16 & 15 & 84 & 86 & 84 & 767 & 820 & 773 \\ \hline
+		Windsor & 1 & 1 & 1 & 16 & 18 & 17 & 155 & 169 & 159 & 1528 & 1602 & 1548 \\
+    		\hline
+  	\end{tabular}
+\end{small}
+\end{center}
 W tym teście ważne są nie tylko poszczególne czasy, ale jak i również wzrostu czasu wykonania wraz ze wzrostem ilości operacji.\\
 Gdy mamy tylko 1 operację najlepiej radzi sobie Autofac, a zaraz za nim NiquIoCPartial i Windsor. Najsłabiej DryIoc i SimplyInjector.\\
 Gdy mamy 10 operacji znacząco najlepiej radzi sobie NiquIoCPartial (ponad dwa razy lepiej niż drugi Autofac). Kolejne miejsca należą do NiquIoCFull i LightInject. Pozostałe kontenery miały podobne, dużo słabsze czasy. Najgorzej poradził sobie Ninject, który czas miał ponad 5 razy większy niż kontener z przedostatnim czasem (Windsor).\\
@@ -297,6 +340,27 @@ Dla przypadku z 1000 operacji do czołówki dołączył DryIoc (czasy zbliżone 
 Warto tutaj zaznaczyć, że najmniejszy wzorst czasu miały kontenery NiquIoCFull, LightInject, DryIoc, SimpleInjector oraz Grace.
 
 \subsubsection{Wyniki dla PerThread}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | r r r | r r r | r r r | }
+    		\hline
+     		Ilość & & 1 & & & 10 & & & 100 & & & 1000 & \\ \hline
+     		 & min & max & avg & min & max & avg & min & max & avg & min & max & avg \\ \hline
+    		Autofac & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+   		DryIoc & 73 & 81 & 76 & 72 & 78 & 75 & 74 & 79 & 76 & 74 & 83 & 77 \\ \hline
+		Grace & 4 & 4 & 4 & 4 & 4 & 4 & 4 & 4 & 4 & 4 & 5 & 4 \\ \hline
+		LightInject & 51 & 52 & 51 & 51 & 52 & 51 & 51 & 52 & 51 & 51 & 52 & 51 \\ \hline
+		Ninject & 3 & 3 & 3 & 3 & 3 & 3 & 3 & 3 & 3 & 6 & 6 & 6 \\ \hline
+		NiquIoCPartial & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 \\ \hline
+		NiquIoCFull & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 \\ \hline
+		SimpleInjector & 7 & 8 & 8 & 7 & 8 & 8 & 7 & 8 & 8 & 8 & 8 & 8 \\ \hline
+		StructureMap & 9 & 9 & 9 & 9 & 9 & 9 & 9 & 9 & 9 & 10 & 10 & 10 \\ \hline
+		Unity & 7 & 7 & 7 & 7 & 8 & 7 & 7 & 7 & 7 & 8 & 8 & 8 \\ \hline
+		Windsor & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+    		\hline
+  	\end{tabular}
+\end{small}
+\end{center}
 Czasy dla tego przypadku powinny być zbliżone do czasów dla Singleton, ponieważ wszystko było uruchamiane w jednym wątku, więc powinno się zachowywać jak singleton. Niestety prawie połowa kontenerów sobie z tym nie poradziła. Czasy zbliżone do czasów dla Singletona posiadają jedynie: Autofac, Ninject, NiquIoCPartial, NiquIoCFull, StructureMap, Unity i Windsor. Czasy dla pozostałych kontrolerów są od kilka do nawet kilkadziesiąt razy większe niż dla Singleton.\\
 Tak samo jak w przypadku Signleton najlepiej poradziły sobie najpopularniejsze kontenery - Windsor i Aurofac. Kontener NiquIoCPartial uplasował się na 3 miejscu. Najsłabiej poradził sobie kontroler LightInject i DryIoc.
 
@@ -326,15 +390,78 @@ W tym teście mamy zdefiniowanych 51 typów. 10 z tych typów ma konstruktor bez
 Zatem tworząc obiekt typu TestB, tworzymy: 1 obiekt typu TestB, 10 obiektów typów od TestB40 do TestB49, 100 obiektów typów od TestB30 do TestB39, 1 000 obiektów typów od TestB20 do TestB29, 10 000 obiektów typów od TestB10 do TestB19, 100 000 obiektów typów od TestB00 do TestB09 - co daje w sumie 111 111 obiektów..
 
 \subsubsection{Wyniki dla Singleton}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | r r r | }
+    		\hline
+     		Ilość & & 1 & & & 10 &  \\ \hline
+     		 & min & max & avg & min & max & avg \\ \hline
+		Autofac & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+		DryIoc & 10 & 11 & 10 & 10 & 13 & 10 \\ \hline
+		Grace & 17 & 20 & 18 & 17 & 18 & 18 \\ \hline
+		LightInject & 14 & 14 & 14 & 14 & 14 & 14 \\ \hline
+		Ninject & 21 & 21 & 21 & 21 & 22 & 21 \\ \hline
+		NiquIoCPartial & 8 & 9 & 9 & 8 & 9 & 9 \\ \hline
+		NiquIoCFull & 18 & 18 & 18 & 18 & 18 & 18 \\ \hline
+		SimpleInjector & 11 & 12 & 11 & 11 & 12 & 11 \\ \hline
+		StructureMap & 51 & 51 & 51 & 51 & 51 & 51 \\ \hline
+		Unity & 51 & 52 & 52 & 51 & 52 & 52 \\ \hline
+		Windsor & 0 & 0 & 0 & 0 & 0 & 0 \\
+    		\hline
+  	\end{tabular}
+\end{small}
+\end{center}
 Najlepiej poradziły sobie najpopularniejsze kontenery - Windsor i Aurofac. Kontener NiquIoCPartial uplasował się na 3 miejscu. Najsłabiej poradził sobie kontroler StructureMap i Unity.
 
 \subsubsection{Wyniki dla Transient}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | r r r | }
+    		\hline
+     		Ilość & & 1 & & & 10 &  \\ \hline
+     		 & min & max & avg & min & max & avg \\ \hline
+		Autofac & 145 & 169 & 156 & 1302 & 1352 & 1318 \\ \hline
+		DryIoc & 1038 & 1086 & 1062 & 1068 & 1101 & 1089 \\ \hline
+		Grace & 1480 & 1553 & 1507 & 1511 & 1586 & 1551 \\ \hline
+		LightInject & 818 & 839 & 831 & 870 & 878 & 873 \\ \hline
+		Ninject & 1039 & 1189 & 1068 & 10104 & 10604 & 10299 \\ \hline
+		NiquIoCPartial & 36 & 37 & 36 & 284 & 304 & 289 \\ \hline
+		NiquIoCFull & 568 & 573 & 570 & 628 & 651 & 635 \\ \hline
+		SimpleInjector & 175 & 176 & 175 & 203 & 204 & 204 \\ \hline
+		StructureMap & 104 & 106 & 105 & 580 & 635 & 588 \\ \hline
+		Unity & 149 & 151 & 150 & 1069 & 1089 & 1074 \\ \hline
+		Windsor & 176 & 204 & 181 & 1777 & 1800 & 1785 \\
+    		\hline
+  	\end{tabular}
+\end{small}
+\end{center}
 W tym teście ważne są nie tylko poszczególne czasy, ale jak i również wzrostu czasu wykonania wraz ze wzrostem ilości operacji.\\
 Gdy mamy tylko 1 operację najlepiej radzi sobie NiquIoCPartial. Czasy pozostały są znacząco większe. Najsłabiej poradziły sobie DryIoc i NiquIoCFull.\\
 Gdy mamy 10 operacji znacząco najlepiej radzi sobie SimplyInjector i NiquIoCPartial. Czołówkę zamykają StrucutreMap i NiquIoCFull. Pozostałe kontenery miały podobne, dużo słabsze czasy.\\
 Warto tutaj zaznaczyć, że najmniejszy wzorst czasu miały kontenery SimpleInjector, NiquIoCFull, LightInject, DryIoc oraz Grace.
 
 \subsubsection{Wyniki dla PerThread}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | r r r | }
+    		\hline
+     		Ilość & & 1 & & & 10 &  \\ \hline
+     		 & min & max & avg & min & max & avg \\ \hline
+		Autofac & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+		DryIoc & 1062 & 1126 & 1093 & 1078 & 1117 & 1097 \\ \hline
+		Grace & 28 & 28 & 28 & 28 & 28 & 28 \\ \hline
+		LightInject & -1 & -1 & -1 & -1 & -1 & -1 \\ \hline
+		Ninject & 21 & 21 & 21 & 21 & 22 & 21 \\ \hline
+		NiquIoCPartial & 8 & 9 & 9 & 8 & 9 & 9 \\ \hline
+		NiquIoCFull & 18 & 18 & 18 & 18 & 18 & 18 \\ \hline
+		SimpleInjector & 46 & 46 & 46 & 46 & 47 & 46 \\ \hline
+		StructureMap & 51 & 51 & 51 & 51 & 51 & 51 \\ \hline
+		Unity & 51 & 53 & 52 & 51 & 52 & 52 \\ \hline
+		Windsor & 0 & 0 & 0 & 0 & 0 & 0 \\
+    		\hline
+  	\end{tabular}
+\end{small}
+\end{center}
 Czasy dla tego przypadku powinny być zbliżone do czasów dla Singleton, ponieważ wszystko było uruchamiane w jednym wątku, więc powinno się zachowywać jak singleton. Niestety prawie połowa kontenerów sobie z tym nie poradziła. Czasy zbliżone do czasów dla Singletona posiadają jedynie: Autofac, Ninject, NiquIoCPartial, NiquIoCFull, StructureMap, Unity i Windsor. Czasy dla pozostałych kontrolerów są od kilka do nawet kilkadziesiąt razy większe niż dla Singleton. Operacje dla kontenera LightInject działały tak długo (ponad 20 minut), że ich czas został zamieniony na -1.\\
 Tak samo jak w przypadku Signleton najlepiej poradziły sobie najpopularniejsze kontenery - Windsor i Aurofac. Kontener NiquIoCPartial uplasował się na 3 miejscu. Najsłabiej poradził sobie kontroler LightInject i DryIoc.
 
@@ -370,9 +497,51 @@ Ten test jest bardzo podobny do przypadku testowego A, tylko dochodzi nam 1 doda
 Zatem tworząc obiekt typu TestC, tworzymy: 1 obiekt typu TestC, 1 obiekt typu TestCa10, TestCb10 i TestCc10,1 obiekt typu TestCa9, TestCb9 i TestCc9, 2 obiekty typu TestCa8, TestCb8 i TestCc8, 4 obiekty typu TestCa7, TestCb7 i TestCc7, 8 obiektów typu TestCa6, TestCb6 i TestCc6, 16 obiektów typu TestCa5, TestCb5 i TestCc5, 32 obiektów typu TestCa4, TestCb4 i TestCc4, 64 obiektów typu TestCa3, TestCb3 i TestCc3, 128 obiektów typu TestCa2, TestCb2 i TestCc2, 256 obiektów typu TestCa1, TestCb1 i TestCc1, 512 obiektów typu TestCa0, TestCb0 i TestCc0 - co daje w sumie 3 073 obiektów.
 
 \subsubsection{Wyniki dla Singleton}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | r r r | r r r | r r r | }
+    		\hline
+     		Ilość & & 1 & & & 10 & & & 100 & & & 1000 & \\ \hline
+     		 & min & max & avg & min & max & avg & min & max & avg & min & max & avg \\ \hline
+    		Autofac & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+   		DryIoc & 8 & 9 & 8 & 8 & 9 & 9 & 8 & 9 & 9 & 8 & 9 & 8 \\ \hline
+		Grace & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 \\ \hline
+		LightInject & 6 & 7 & 6 & 6 & 7 & 6 & 6 & 6 & 6 & 6 & 7 & 6 \\ \hline
+		Ninject & 9 & 9 & 9 & 9 & 9 & 9 & 9 & 10 & 9 & 12 & 13 & 12 \\ \hline
+		NiquIoCPartial & 4 & 4 & 4 & 4 & 4 & 4 & 4 & 4 & 4 & 4 & 4 & 4 \\ \hline
+		NiquIoCFull & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 \\ \hline
+		SimpleInjector & 6 & 6 & 6 & 6 & 6 & 6 & 6 & 6 & 6 & 6 & 6 & 6 \\ \hline
+		StructureMap & 30 & 30 & 30 & 30 & 30 & 30 & 30 & 30 & 30 & 32 & 33 & 33 \\ \hline
+		Unity & 23 & 23 & 23 & 23 & 23 & 23 & 23 & 23 & 23 & 24 & 24 & 24 \\ \hline
+		Windsor & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+    		\hline
+  	\end{tabular}
+\end{small}
+\end{center}
 Najlepiej poradziły sobie najpopularniejsze kontenery - Windsor i Aurofac. Kontener NiquIoCPartial uplasował się na 3 miejscu. Najsłabiej poradził sobie kontroler StructureMap i Unity.
 
 \subsubsection{Wyniki dla Transient}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | r r r | r r r | r r r | }
+    		\hline
+     		Ilość & & 1 & & & 10 & & & 100 & & & 1000 & \\ \hline
+     		 & min & max & avg & min & max & avg & min & max & avg & min & max & avg \\ \hline
+    		Autofac & 2 & 2 & 2 & 21 & 23 & 22 & 194 & 218 & 204 & 1972 & 2043 & 2008 \\ \hline
+		DryIoc & 44 & 46 & 45 & 45 & 46 & 45 & 52 & 55 & 53 & 100 & 104 & 102 \\ \hline
+		Grace & 51 & 52 & 51 & 52 & 53 & 52 & 58 & 59 & 58 & 123 & 126 & 124 \\ \hline
+		LightInject & 32 & 32 & 32 & 32 & 33 & 32 & 37 & 39 & 37 & 71 & 72 & 72 \\ \hline
+		Ninject & 35 & 42 & 36 & 271 & 297 & 277 & 2697 & 3014 & 2787 & 27790 & 28442 & 28038 \\ \hline
+		NiquIoCPartial & 5 & 5 & 5 & 10 & 10 & 10 & 57 & 58 & 58 & 522 & 529 & 524 \\ \hline
+		NiquIoCFull & 26 & 32 & 27 & 26 & 27 & 26 & 32 & 33 & 32 & 66 & 67 & 66 \\ \hline
+		SimpleInjector & 40 & 40 & 40 & 40 & 41 & 41 & 46 & 47 & 47 & 94 & 95 & 94 \\ \hline
+		StructureMap & 33 & 33 & 33 & 44 & 45 & 45 & 162 & 165 & 163 & 1296 & 1364 & 1311 \\ \hline
+		Unity & 27 & 28 & 28 & 48 & 50 & 49 & 257 & 265 & 258 & 2324 & 2334 & 2329 \\ \hline
+		Windsor & 6 & 6 & 6 & 48 & 64 & 50 & 466 & 498 & 474 & 4627 & 4893 & 4702 \\
+    		\hline
+  	\end{tabular}
+\end{small}
+\end{center}
 W tym teście ważne są nie tylko poszczególne czasy, ale jak i również wzrostu czasu wykonania wraz ze wzrostem ilości operacji.\\
 Gdy mamy tylko 1 operację najlepiej radzi sobie Autofac, a zaraz za nim NiquIoCPartial i Windsor. Najsłabiej DryIoc i SimplyInjector.\\
 Gdy mamy 10 operacji znacząco najlepiej radzi sobie NiquIoCPartial (ponad dwa razy lepiej niż drugi Autofac). Kolejne miejsca należą do NiquIoCFul i LightInjectl. Pozostałe kontenery miałby podobne, dużo słabsze czasy. Najgorzej poradził sobie Ninject, który czas miał ponad 5 razy większy niż kontener z przedostatnim czasem (Grace).\\
@@ -381,6 +550,27 @@ Dla przypadku z 1000 operacji do czołówki dołączył DryIoc (czasy zbliżone 
 Warto tutaj zaznaczyć, że najmniejszy wzorst czasu miały kontenery NiquIoCFull, LightInject, DryIoc, SimpleInjector oraz Grace.
 
 \subsubsection{Wyniki dla PerThread}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | r r r | r r r | r r r | }
+    		\hline
+     		Ilość & & 1 & & & 10 & & & 100 & & & 1000 & \\ \hline
+     		 & min & max & avg & min & max & avg & min & max & avg & min & max & avg \\ \hline
+    		Autofac & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+   		DryIoc & 247 & 260 & 252 & 247 & 257 & 250 & 247 & 271 & 255 & 256 & 272 & 263 \\ \hline
+		Grace & 13 & 13 & 13 & 13 & 13 & 13 & 13 & 13 & 13 & 13 & 13 & 13 \\ \hline
+		LightInject & -1 & -1 & -1 & -1 & -1 & -1 & -1 & -1 & -1 & -1 & -1 & -1 \\ \hline
+		Ninject & 9 & 9 & 9 & 9 & 9 & 9 & 9 & 10 & 9 & 12 & 13 & 12 \\ \hline
+		NiquIoCPartial & 4 & 4 & 4 & 4 & 4 & 4 & 4 & 4 & 4 & 4 & 4 & 4 \\ \hline
+		NiquIoCFull & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 \\ \hline
+		SimpleInjector & 23 & 23 & 23 & 23 & 23 & 23 & 23 & 23 & 23 & 23 & 23 & 23 \\ \hline
+		StructureMap & 30 & 30 & 30 & 30 & 30 & 30 & 30 & 30 & 30 & 32 & 33 & 33 \\ \hline
+		Unity & 23 & 23 & 23 & 23 & 23 & 23 & 23 & 23 & 23 & 24 & 24 & 24 \\ \hline
+		Windsor & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+    		\hline
+  	\end{tabular}
+\end{small}
+\end{center}
 Czasy dla tego przypadku powinny być zbliżone do czasów dla Singleton, ponieważ wszystko było uruchamiane w jednym wątku, więc powinno się zachowywać jak singleton. Niestety prawie połowa kontenerów sobie z tym nie poradziła. Czasy zbliżone do czasów dla Singletona posiadają jedynie: Autofac, Ninject, NiquIoCPartial, NiquIoCFull, StructureMap, Unity i Windsor. Czasy dla pozostałych kontrolerów są od kilka do nawet kilkadziesiąt razy większe niż dla Singleton. Operacje dla kontenera LightInject działały tak długo (ponad 20 minut), że ich czas został zamieniony na -1.\\
 Tak samo jak w przypadku Signleton najlepiej poradziły sobie najpopularniejsze kontenery - Windsor i Aurofac. Kontener NiquIoCPartial uplasował się na 3 miejscu. Najsłabiej poradził sobie kontroler LightInject i DryIoc.
 
