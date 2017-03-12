@@ -1,7 +1,6 @@
-﻿using Autofac;
-using PerformanceCalculator.Interfaces;
+﻿using PerformanceCalculator.Interfaces;
 
-namespace PerformanceCalculator.Containers.TestsAutofac
+namespace PerformanceCalculator.Containers.TestsNiquIoC_Partial
 {
     public abstract class AutofacRegistration : IRegistration
     {
@@ -10,7 +9,7 @@ namespace PerformanceCalculator.Containers.TestsAutofac
 
         public object RegisterCallback(object container)
         {
-            return ((ContainerBuilder)container).Build();
+            return container;
         }
     }
 }

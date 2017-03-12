@@ -4,6 +4,7 @@
     {
         object RegisterCallback(object container);
 
-        void Register<TFrom, TTo>(object container);
+        void Register<TFrom, TTo>(object container)
+            where TTo : TFrom;
     }
 }

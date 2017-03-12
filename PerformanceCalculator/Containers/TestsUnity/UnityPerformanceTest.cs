@@ -12,55 +12,34 @@ namespace PerformanceCalculator.Containers.TestsUnity
             switch (testCase)
             {
                 case TestCaseName.A:
-                    switch (registrationKind)
-                    {
-                        case RegistrationKind.Singleton:
-                            return new SingletonTestCaseA();
-
-                        case RegistrationKind.Transient:
-                            return new TransientTestCaseA();
-
-                        case RegistrationKind.PerThread:
-                            return new PerThreadTestCaseA();
-
-                        default:
-                            throw new ArgumentOutOfRangeException(nameof(registrationKind), registrationKind, null);
-                    }
+                    return new TestCaseA(GetRegistration(registrationKind), new UnityResolving());
 
                 case TestCaseName.B:
-                    switch (registrationKind)
-                    {
-                        case RegistrationKind.Singleton:
-                            return new SingletonTestCaseB();
-
-                        case RegistrationKind.Transient:
-                            return new TransientTestCaseB();
-
-                        case RegistrationKind.PerThread:
-                            return new PerThreadTestCaseB();
-
-                        default:
-                            throw new ArgumentOutOfRangeException(nameof(registrationKind), registrationKind, null);
-                    }
+                    return new TestCaseB(GetRegistration(registrationKind), new UnityResolving());
 
                 case TestCaseName.C:
-                    switch (registrationKind)
-                    {
-                        case RegistrationKind.Singleton:
-                            return new SingletonTestCaseC();
-
-                        case RegistrationKind.Transient:
-                            return new TransientTestCaseC();
-
-                        case RegistrationKind.PerThread:
-                            return new PerThreadTestCaseC();
-
-                        default:
-                            throw new ArgumentOutOfRangeException(nameof(registrationKind), registrationKind, null);
-                    }
+                    return new TestCaseC(GetRegistration(registrationKind), new UnityResolving());
 
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(testCase), testCase, null);
+                    throw new ArgumentOutOfRangeException(nameof(registrationKind), registrationKind, null);
+            }
+        }
+
+        protected IRegistration GetRegistration(RegistrationKind registrationKind)
+        {
+            switch (registrationKind)
+            {
+                case RegistrationKind.Singleton:
+                    return new SingletonUnityRegistration();
+
+                case RegistrationKind.Transient:
+                    return new TransientUnityRegistration();
+
+                case RegistrationKind.PerThread:
+                    return new PerThreadUnityRegistration();
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(registrationKind), registrationKind, null);
             }
         }
 
