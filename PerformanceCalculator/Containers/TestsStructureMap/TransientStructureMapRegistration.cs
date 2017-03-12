@@ -2,7 +2,7 @@
 
 namespace PerformanceCalculator.Containers.TestsStructureMap
 {
-    public class TransientStructureMapRegistration : StructureMapRegistration
+    public class TransientStructureMapRegistration : Registration
     {
         public override void Register<TFrom, TTo>(object container)
         {

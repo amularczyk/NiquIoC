@@ -2,7 +2,7 @@
 
 namespace PerformanceCalculator.Containers.TestsNiquIoC_Partial
 {
-    public class TransientNiquIoCPartialRegistration : NiquIoCPartialRegistration
+    public class TransientNiquIoCPartialRegistration : Registration
     {
         public override void Register<TFrom, TTo>(object container)
         {

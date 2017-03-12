@@ -2,7 +2,7 @@
 
 namespace PerformanceCalculator.Containers.TestsStructureMap
 {
-    public class SingletonStructureMapRegistration : StructureMapRegistration
+    public class SingletonStructureMapRegistration : Registration
     {
         public override void Register<TFrom, TTo>(object container)
         {

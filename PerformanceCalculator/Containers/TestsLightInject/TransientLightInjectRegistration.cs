@@ -2,7 +2,7 @@
 
 namespace PerformanceCalculator.Containers.TestsLightInject
 {
-    public class TransientLightInjectRegistration : LightInjectRegistration
+    public class TransientLightInjectRegistration : Registration
     {
         public override void Register<TFrom, TTo>(object container)
         {

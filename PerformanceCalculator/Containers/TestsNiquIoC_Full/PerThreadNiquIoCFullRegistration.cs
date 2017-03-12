@@ -2,7 +2,7 @@
 
 namespace PerformanceCalculator.Containers.TestsNiquIoC_Full
 {
-    public class PerThreadNiquIoCFullRegistration : NiquIoCFullRegistration
+    public class PerThreadNiquIoCFullRegistration : Registration
     {
         public override void Register<TFrom, TTo>(object container)
         {

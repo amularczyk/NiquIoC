@@ -2,7 +2,7 @@
 
 namespace PerformanceCalculator.Containers.TestsSimpleInjector
 {
-    public class SingletonSimpleInjectorRegistration : SimpleInjectorRegistration
+    public class SingletonSimpleInjectorRegistration : Registration
     {
         public override void Register<TFrom, TTo>(object container)
         {

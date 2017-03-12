@@ -2,7 +2,7 @@
 
 namespace PerformanceCalculator.Containers.TestsNiquIoC_Full
 {
-    public class SingletonNiquIoCFullRegistration : NiquIoCFullRegistration
+    public class SingletonNiquIoCFullRegistration : Registration
     {
         public override void Register<TFrom, TTo>(object container)
         {

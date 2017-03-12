@@ -2,7 +2,7 @@
 
 namespace PerformanceCalculator.Containers.TestsNinject
 {
-    public class SingletonNinjectRegistration : NinjectRegistration
+    public class SingletonNinjectRegistration : Registration
     {
         public override void Register<TFrom, TTo>(object container)
         {

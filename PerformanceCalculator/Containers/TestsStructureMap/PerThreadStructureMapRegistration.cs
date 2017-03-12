@@ -3,7 +3,7 @@ using StructureMap.Pipeline;
 
 namespace PerformanceCalculator.Containers.TestsStructureMap
 {
-    public class PerThreadStructureMapRegistration : StructureMapRegistration
+    public class PerThreadStructureMapRegistration : Registration
     {
         public override void Register<TFrom, TTo>(object container)
         {

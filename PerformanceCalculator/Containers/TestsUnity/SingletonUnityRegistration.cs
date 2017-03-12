@@ -2,7 +2,7 @@
 
 namespace PerformanceCalculator.Containers.TestsUnity
 {
-    public class SingletonUnityRegistration : UnityRegistration
+    public class SingletonUnityRegistration : Registration
     {
         public override void Register<TFrom, TTo>(object container)
         {

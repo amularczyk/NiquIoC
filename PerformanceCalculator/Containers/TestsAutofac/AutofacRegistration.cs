@@ -1,15 +1,10 @@
 ﻿using Autofac;
-using PerformanceCalculator.Interfaces;
 
 namespace PerformanceCalculator.Containers.TestsAutofac
 {
-    public abstract class AutofacRegistration : IRegistration
+    public abstract class AutofacRegistration : Registration
     {
-        public abstract void Register<TFrom, TTo>(object container)
-            where TFrom : class
-            where TTo : class, TFrom;
-
-        public object RegisterCallback(object container)
+        public override object AfterRegisterCallback(object container)
         {
             return ((ContainerBuilder)container).Build();
         }

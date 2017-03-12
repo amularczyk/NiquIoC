@@ -2,7 +2,7 @@
 
 namespace PerformanceCalculator.Containers.TestsGrace
 {
-    public class TransientGraceRegistration : GraceRegistration
+    public class TransientGraceRegistration : Registration
     {
         public override void Register<TFrom, TTo>(object container)
         {

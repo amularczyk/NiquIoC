@@ -3,18 +3,14 @@ using PerformanceCalculator.TestCases;
 
 namespace PerformanceCalculator.Containers
 {
-    public class TestCaseC : ITestCase
+    public class TestCaseC : TestCase
     {
-        private readonly IRegistration _registration;
-        private readonly IResolving _resolving;
-
         public TestCaseC(IRegistration registration, IResolving resolving)
+            : base(registration, resolving)
         {
-            _registration = registration;
-            _resolving = resolving;
         }
 
-        public object Register(object container)
+        public override void RegisterClasses(object container)
         {
             _registration.Register<ITestCa0, TestCa0>(container);
             _registration.Register<ITestCa1, TestCa1>(container);
@@ -53,11 +49,9 @@ namespace PerformanceCalculator.Containers
             _registration.Register<ITestCc10, TestCc10>(container);
 
             _registration.Register<ITestC, TestC>(container);
-
-            return _registration.RegisterCallback(container);
         }
 
-        public void Resolve(object container, int testCasesNumber)
+        public override void Resolve(object container, int testCasesNumber)
         {
             _resolving.Resolve<ITestC>(container, testCasesNumber);
         }

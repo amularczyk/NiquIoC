@@ -2,7 +2,7 @@
 
 namespace PerformanceCalculator.Containers.TestsDryIoc
 {
-    public class TransientDryIocRegistration : DryIocRegistration
+    public class TransientDryIocRegistration : Registration
     {
         public override void Register<TFrom, TTo>(object container)
         {

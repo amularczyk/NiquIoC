@@ -3,7 +3,7 @@ using Castle.Windsor;
 
 namespace PerformanceCalculator.Containers.TestsWindsor
 {
-    public class PerThreadWindsorRegistration : WindsorRegistration
+    public class PerThreadWindsorRegistration : Registration
     {
         public override void Register<TFrom, TTo>(object container)
         {

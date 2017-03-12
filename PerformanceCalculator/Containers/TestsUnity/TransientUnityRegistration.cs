@@ -2,7 +2,7 @@
 
 namespace PerformanceCalculator.Containers.TestsUnity
 {
-    public class TransientUnityRegistration : UnityRegistration
+    public class TransientUnityRegistration : Registration
     {
         public override void Register<TFrom, TTo>(object container)
         {
