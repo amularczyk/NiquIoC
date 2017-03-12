@@ -1,9 +1,9 @@
-﻿using PerformanceCalculator.Common;
-
-namespace PerformanceCalculator.Interfaces
+﻿namespace PerformanceCalculator.Interfaces
 {
-    public interface ITestCase : IRegistration
+    public interface ITestCase
     {
+        object Register(object container);
+
         void Resolve(object container, int testCasesNumber);
     }
 }

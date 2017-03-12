@@ -89,15 +89,13 @@
   <ItemGroup>
     <Compile Include="ConsoleWriteTestResults.cs" />
     <Compile Include="Containers\PerformanceTest.cs" />
-    <Compile Include="Containers\TestsAutofac\PerThreadTestCaseC.cs" />
-    <Compile Include="Containers\TestsAutofac\PerThreadTestCaseB.cs" />
-    <Compile Include="Containers\TestsAutofac\SingletonTestCaseC.cs" />
-    <Compile Include="Containers\TestsAutofac\SingletonTestCaseB.cs" />
-    <Compile Include="Containers\TestsAutofac\TransientTestCaseC.cs" />
-    <Compile Include="Containers\TestsAutofac\TransientTestCaseB.cs" />
-    <Compile Include="Containers\TestsAutofac\TransientTestCaseA.cs" />
-    <Compile Include="Containers\TestsAutofac\PerThreadTestCaseA.cs" />
-    <Compile Include="Containers\TestsAutofac\SingletonTestCaseA.cs" />
+    <Compile Include="Containers\TestCaseC.cs" />
+    <Compile Include="Containers\TestCaseB.cs" />
+    <Compile Include="Containers\TestCaseA.cs" />
+    <Compile Include="Containers\TestsAutofac\AutofacResolving.cs" />
+    <Compile Include="Containers\TestsAutofac\TransientAutofacRegistration.cs" />
+    <Compile Include="Containers\TestsAutofac\PerThreadAutofacRegistration.cs" />
+    <Compile Include="Containers\TestsAutofac\SingletonAutofacRegistration.cs" />
     <Compile Include="Containers\TestsDryIoc\DryIocPerformanceTest.cs" />
     <Compile Include="Containers\TestsDryIoc\PerThreadTestCaseA.cs" />
     <Compile Include="Containers\TestsDryIoc\PerThreadTestCaseB.cs" />
@@ -212,9 +210,7 @@
     <Compile Include="Containers\TestsWindsor\WindsorPerformanceTest.cs" />
     <Compile Include="Exceptions\PerformanceTestNotFoundException.cs" />
     <Compile Include="Interfaces\IRegistration.cs" />
-    <Compile Include="Interfaces\ITestCaseC.cs" />
-    <Compile Include="Interfaces\ITestCaseB.cs" />
-    <Compile Include="Interfaces\ITestCaseA.cs" />
+    <Compile Include="Interfaces\IResolving.cs" />
     <Compile Include="Interfaces\IWriteTestResults.cs" />
     <Compile Include="PerformanceCalculatorArguments.cs" />
     <Compile Include="PerformanceTestFactory.cs" />
@@ -226,9 +222,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Containers\TestsAutofac\AutofacPerformanceTest.cs" />
-    <Compile Include="Containers\TestsAutofac\TestCaseA.cs" />
-    <Compile Include="Containers\TestsAutofac\TestCaseB.cs" />
-    <Compile Include="Containers\TestsAutofac\TestCaseC.cs" />
+    <Compile Include="Containers\TestsAutofac\AutofacRegistration.cs" />
     <Compile Include="Containers\TestsDryIoc\TestCaseA.cs" />
     <Compile Include="Containers\TestsDryIoc\TestCaseB.cs" />
     <Compile Include="Containers\TestsDryIoc\TestCaseC.cs" />

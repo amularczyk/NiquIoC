@@ -12,7 +12,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsDryIoc
         {
             public ITestCase CaseFactoryMock(string testCase, RegistrationKind registrationKind)
             {
-                return TestCaseFactory(testCase, registrationKind);
+                return GetTestCase(testCase, registrationKind);
             }
         }
 

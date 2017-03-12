@@ -7,7 +7,7 @@ namespace PerformanceCalculator.Containers.TestsStructureMap
 {
     public class StructureMapPerformanceTest : PerformanceTest
     {
-        protected override ITestCase TestCaseFactory(string testCase, RegistrationKind registrationKind)
+        protected override ITestCase GetTestCase(string testCase, RegistrationKind registrationKind)
         {
             switch (testCase)
             {

@@ -8,7 +8,7 @@ namespace PerformanceCalculator.Containers.TestsWindsor
 {
     public class WindsorPerformanceTest : PerformanceTest
     {
-        protected override ITestCase TestCaseFactory(string testCase, RegistrationKind registrationKind)
+        protected override ITestCase GetTestCase(string testCase, RegistrationKind registrationKind)
         {
             switch (testCase)
             {

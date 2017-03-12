@@ -7,7 +7,7 @@ namespace PerformanceCalculator.Containers.TestsNiquIoC_Full
 {
     public class NiquIoCFullPerformanceTest : PerformanceTest
     {
-        protected override ITestCase TestCaseFactory(string testCase, RegistrationKind registrationKind)
+        protected override ITestCase GetTestCase(string testCase, RegistrationKind registrationKind)
         {
             switch (testCase)
             {

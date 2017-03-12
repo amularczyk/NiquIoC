@@ -2,6 +2,8 @@
 {
     public interface IRegistration
     {
-        object Register(object container);
+        object RegisterCallback(object container);
+
+        void Register<TFrom, TTo>(object container);
     }
 }

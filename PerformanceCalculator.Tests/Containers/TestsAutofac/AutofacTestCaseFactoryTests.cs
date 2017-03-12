@@ -12,7 +12,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsAutofac
         {
             public ITestCase CaseFactoryMock(string testCase, RegistrationKind registrationKind)
             {
-                return TestCaseFactory(testCase, registrationKind);
+                return GetTestCase(testCase, registrationKind);
             }
         }
 

@@ -1,14 +1,11 @@
 ﻿using Autofac;
 using PerformanceCalculator.Interfaces;
-using PerformanceCalculator.TestCases;
 
 namespace PerformanceCalculator.Containers.TestsAutofac
 {
-    public abstract class TestCaseC : ITestCaseC
+    public class AutofacResolving : IResolving
     {
-        public abstract object Register(object container);
-
-        public void Resolve(object container, int testCasesNumber)
+        public void Resolve<T>(object container, int testCasesNumber)
         {
             if (container is ILifetimeScope)
             {
@@ -16,7 +13,7 @@ namespace PerformanceCalculator.Containers.TestsAutofac
 
                 for (var i = 0; i < testCasesNumber; i++)
                 {
-                    c.Resolve<ITestC>();
+                    c.Resolve<T>();
                 }
             }
             else
@@ -26,7 +23,7 @@ namespace PerformanceCalculator.Containers.TestsAutofac
 
                 for (var i = 0; i < testCasesNumber; i++)
                 {
-                    c.Resolve<ITestC>();
+                    c.Resolve<T>();
                 }
             }
         }

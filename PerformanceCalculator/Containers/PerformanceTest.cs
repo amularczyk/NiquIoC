@@ -12,7 +12,7 @@ namespace PerformanceCalculator.Containers
             var testResult = new TestResult { TestCaseName = testCaseName, RegistrationKind = registrationKind, TestCasesCount = count };
             var sw = new Stopwatch();
 
-            var testCase = TestCaseFactory(testCaseName, registrationKind);
+            var testCase = GetTestCase(testCaseName, registrationKind);
             var container = RunRegister(sw, testCase, GetContainer(registrationKind), registrationKind);
             testResult.RegisterTime = sw.ElapsedMilliseconds;
 
@@ -24,7 +24,7 @@ namespace PerformanceCalculator.Containers
             return testResult;
         }
 
-        protected abstract ITestCase TestCaseFactory(string testCase, RegistrationKind registrationKind);
+        protected abstract ITestCase GetTestCase(string testCase, RegistrationKind registrationKind);
 
         protected abstract object GetContainer(RegistrationKind registrationKind);
 

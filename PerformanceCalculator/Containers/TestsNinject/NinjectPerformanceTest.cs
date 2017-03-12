@@ -8,7 +8,7 @@ namespace PerformanceCalculator.Containers.TestsNinject
 {
     public class NinjectPerformanceTest : PerformanceTest
     {
-        protected override ITestCase TestCaseFactory(string testCase, RegistrationKind registrationKind)
+        protected override ITestCase GetTestCase(string testCase, RegistrationKind registrationKind)
         {
             switch (testCase)
             {
