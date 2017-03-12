@@ -74,11 +74,6 @@ namespace PerformanceCalculator.Containers.TestsWindsor
         {
             try
             {
-                //if (testCasesCount >= 10000 || (testCase is TestsLightInject.TestCaseB && testCasesCount >= 100))
-                //{
-                //    throw new OutOfMemoryException("Process takes more than 5 seconds!");
-                //}
-
                 return base.RunResolve(sw, testCase, container, testCasesCount, registrationKind);
             }
             catch (OutOfMemoryException)

@@ -74,11 +74,6 @@ namespace PerformanceCalculator.Containers.TestsAutofac
         {
             try
             {
-                //if (testCasesCount >= 10000 || (testCase is TestCaseB && testCasesCount >= 100))
-                //{
-                //    throw new OutOfMemoryException("Process takes more than 5 seconds!");
-                //}
-
                 if (registrationKind == RegistrationKind.PerThread)
                 {
                     sw.Start();
