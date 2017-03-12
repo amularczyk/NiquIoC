@@ -6,6 +6,7 @@ namespace PerformanceCalculator.Containers.TestsAutofac
     public class AutofacResolving : IResolving
     {
         public void Resolve<T>(object container, int testCasesNumber)
+            where T : class
         {
             if (container is ILifetimeScope)
             {

@@ -1,8 +1,8 @@
 ﻿using PerformanceCalculator.Interfaces;
 
-namespace PerformanceCalculator.Containers.TestsDryIoc
+namespace PerformanceCalculator.Containers.TestsWindsor
 {
-    public abstract class DryIocRegistration : IRegistration
+    public abstract class WindsorRegistration : IRegistration
     {
         public abstract void Register<TFrom, TTo>(object container)
             where TFrom : class

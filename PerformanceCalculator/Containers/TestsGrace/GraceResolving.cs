@@ -6,6 +6,7 @@ namespace PerformanceCalculator.Containers.TestsGrace
     public class GraceResolving : IResolving
     {
         public void Resolve<T>(object container, int testCasesNumber)
+            where T : class
         {
             if (container is IExportLocatorScope)
             {

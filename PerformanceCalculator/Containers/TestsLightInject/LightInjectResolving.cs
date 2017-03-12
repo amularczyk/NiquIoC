@@ -1,18 +1,18 @@
-﻿using DryIoc;
+﻿using LightInject;
 using PerformanceCalculator.Interfaces;
 
-namespace PerformanceCalculator.Containers.TestsDryIoc
+namespace PerformanceCalculator.Containers.TestsLightInject
 {
-    public class DryIocResolving : IResolving
+    public class LightInjectResolving : IResolving
     {
         public void Resolve<T>(object container, int testCasesNumber)
             where T : class
         {
-            var c = (Container)container;
+            var c = (ServiceContainer)container;
 
             for (var i = 0; i < testCasesNumber; i++)
             {
-                c.Resolve<T>();
+                c.GetInstance<T>();
             }
         }
     }

@@ -1,9 +1,9 @@
-﻿using DryIoc;
-using PerformanceCalculator.Interfaces;
+﻿using PerformanceCalculator.Interfaces;
+using StructureMap;
 
-namespace PerformanceCalculator.Containers.TestsDryIoc
+namespace PerformanceCalculator.Containers.TestsStructureMap
 {
-    public class DryIocResolving : IResolving
+    public class StructureMapResolving : IResolving
     {
         public void Resolve<T>(object container, int testCasesNumber)
             where T : class
@@ -12,7 +12,7 @@ namespace PerformanceCalculator.Containers.TestsDryIoc
 
             for (var i = 0; i < testCasesNumber; i++)
             {
-                c.Resolve<T>();
+                c.GetInstance<T>();
             }
         }
     }

@@ -1,8 +1,8 @@
 ﻿using PerformanceCalculator.Interfaces;
 
-namespace PerformanceCalculator.Containers.TestsDryIoc
+namespace PerformanceCalculator.Containers.TestsSimpleInjector
 {
-    public abstract class DryIocRegistration : IRegistration
+    public abstract class SimpleInjectorRegistration : IRegistration
     {
         public abstract void Register<TFrom, TTo>(object container)
             where TFrom : class

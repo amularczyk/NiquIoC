@@ -1,9 +1,10 @@
-﻿using DryIoc;
+﻿using NiquIoC;
+using NiquIoC.Enums;
 using PerformanceCalculator.Interfaces;
 
-namespace PerformanceCalculator.Containers.TestsDryIoc
+namespace PerformanceCalculator.Containers.TestsNiquIoC_Partial
 {
-    public class DryIocResolving : IResolving
+    public class NiquIoCPartialResolving : IResolving
     {
         public void Resolve<T>(object container, int testCasesNumber)
             where T : class
@@ -12,7 +13,7 @@ namespace PerformanceCalculator.Containers.TestsDryIoc
 
             for (var i = 0; i < testCasesNumber; i++)
             {
-                c.Resolve<T>();
+                c.Resolve<T>(ResolveKind.PartialEmitFunction);
             }
         }
     }

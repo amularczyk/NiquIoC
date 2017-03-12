@@ -1,18 +1,18 @@
-﻿using DryIoc;
+﻿using Ninject;
 using PerformanceCalculator.Interfaces;
 
-namespace PerformanceCalculator.Containers.TestsDryIoc
+namespace PerformanceCalculator.Containers.TestsNinject
 {
-    public class DryIocResolving : IResolving
+    public class NinjectResolving : IResolving
     {
         public void Resolve<T>(object container, int testCasesNumber)
             where T : class
         {
-            var c = (Container)container;
+            var c = (StandardKernel)container;
 
             for (var i = 0; i < testCasesNumber; i++)
             {
-                c.Resolve<T>();
+                c.Get<T>();
             }
         }
     }
