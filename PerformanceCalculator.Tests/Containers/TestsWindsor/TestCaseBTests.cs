@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using Castle.Windsor;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using PerformanceCalculator.Containers;
 using PerformanceCalculator.Containers.TestsWindsor;
 using PerformanceCalculator.Interfaces;
 using PerformanceCalculator.TestCases;
@@ -13,7 +14,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsWindsor
         [TestMethod]
         public void RegisterSingleton_Success()
         {
-            ITestCase testCase = new SingletonTestCaseB();
+            ITestCase testCase = new TestCaseB(new SingletonWindsorRegistration(), new WindsorResolving());
 
 
             var c = new WindsorContainer();
@@ -31,7 +32,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsWindsor
         [TestMethod]
         public void RegisterTransient_Success()
         {
-            ITestCase testCase = new TransientTestCaseB();
+            ITestCase testCase = new TestCaseB(new TransientWindsorRegistration(), new WindsorResolving());
 
 
             var c = new WindsorContainer();
@@ -49,7 +50,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsWindsor
         [TestMethod]
         public void RegisterPerThread_SameThread_Success()
         {
-            ITestCase testCase = new PerThreadTestCaseB();
+            ITestCase testCase = new TestCaseB(new PerThreadWindsorRegistration(), new WindsorResolving());
 
             var c = new WindsorContainer();
             c = (WindsorContainer)testCase.Register(c);
@@ -74,7 +75,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsWindsor
         [TestMethod]
         public void RegisterPerThread_DifferentThreads_Success()
         {
-            ITestCase testCase = new PerThreadTestCaseB();
+            ITestCase testCase = new TestCaseB(new PerThreadWindsorRegistration(), new WindsorResolving());
 
             var c = new WindsorContainer();
             c = (WindsorContainer)testCase.Register(c);

@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NiquIoC;
 using NiquIoC.Enums;
+using PerformanceCalculator.Containers;
 using PerformanceCalculator.Containers.TestsNiquIoC_Partial;
 using PerformanceCalculator.Interfaces;
 using PerformanceCalculator.TestCases;
@@ -14,7 +15,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsNiquIoC_Partial
         [TestMethod]
         public void RegisterSingleton_Success()
         {
-            ITestCase testCase = new SingletonTestCaseB();
+            ITestCase testCase = new TestCaseB(new SingletonNiquIoCPartialRegistration(), new NiquIoCPartialResolving());
 
 
             var c = new Container();
@@ -32,7 +33,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsNiquIoC_Partial
         [TestMethod]
         public void RegisterTransient_Success()
         {
-            ITestCase testCase = new TransientTestCaseB();
+            ITestCase testCase = new TestCaseB(new TransientNiquIoCPartialRegistration(), new NiquIoCPartialResolving());
 
 
             var c = new Container();
@@ -50,7 +51,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsNiquIoC_Partial
         [TestMethod]
         public void RegisterPerThread_SameThread_Success()
         {
-            ITestCase testCase = new PerThreadTestCaseB();
+            ITestCase testCase = new TestCaseB(new PerThreadNiquIoCPartialRegistration(), new NiquIoCPartialResolving());
 
             var c = new Container();
             c = (Container)testCase.Register(c);
@@ -75,7 +76,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsNiquIoC_Partial
         [TestMethod]
         public void RegisterPerThread_DifferentThreads_Success()
         {
-            ITestCase testCase = new PerThreadTestCaseB();
+            ITestCase testCase = new TestCaseB(new PerThreadNiquIoCPartialRegistration(), new NiquIoCPartialResolving());
 
             var c = new Container();
             c = (Container)testCase.Register(c);

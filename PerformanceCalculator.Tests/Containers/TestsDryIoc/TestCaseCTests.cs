@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using DryIoc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using PerformanceCalculator.Containers;
 using PerformanceCalculator.Containers.TestsDryIoc;
 using PerformanceCalculator.Interfaces;
 using PerformanceCalculator.TestCases;
@@ -13,7 +14,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsDryIoc
         [TestMethod]
         public void RegisterSingleton_Success()
         {
-            ITestCase testCase = new SingletonTestCaseC();
+            ITestCase testCase = new TestCaseC(new SingletonDryIocRegistration(), new DryIocResolving());
 
 
             var c = new Container();
@@ -31,7 +32,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsDryIoc
         [TestMethod]
         public void RegisterTransient_Success()
         {
-            ITestCase testCase = new TransientTestCaseC();
+            ITestCase testCase = new TestCaseC(new TransientDryIocRegistration(), new DryIocResolving());
 
 
             var c = new Container();
@@ -49,7 +50,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsDryIoc
         [TestMethod]
         public void RegisterPerThread_SameThread_Success()
         {
-            ITestCase testCase = new PerThreadTestCaseC();
+            ITestCase testCase = new TestCaseC(new PerThreadDryIocRegistration(), new DryIocResolving());
 
             var c = new Container(scopeContext: new ThreadScopeContext());
             c = (Container)testCase.Register(c);
@@ -77,7 +78,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsDryIoc
         [TestMethod]
         public void RegisterPerThread_DifferentThreads_Success()
         {
-            ITestCase testCase = new PerThreadTestCaseC();
+            ITestCase testCase = new TestCaseC(new PerThreadDryIocRegistration(), new DryIocResolving());
 
             var c = new Container(scopeContext: new ThreadScopeContext());
             c = (Container)testCase.Register(c);

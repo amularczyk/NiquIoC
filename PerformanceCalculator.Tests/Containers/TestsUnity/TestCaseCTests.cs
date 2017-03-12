@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using Microsoft.Practices.Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using PerformanceCalculator.Containers;
 using PerformanceCalculator.Containers.TestsUnity;
 using PerformanceCalculator.Interfaces;
 using PerformanceCalculator.TestCases;
@@ -13,7 +14,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsUnity
         [TestMethod]
         public void RegisterSingleton_Success()
         {
-            ITestCase testCase = new SingletonTestCaseC();
+            ITestCase testCase = new TestCaseC(new SingletonUnityRegistration(), new UnityResolving());
 
 
             var c = new UnityContainer();
@@ -31,7 +32,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsUnity
         [TestMethod]
         public void RegisterTransient_Success()
         {
-            ITestCase testCase = new TransientTestCaseC();
+            ITestCase testCase = new TestCaseC(new TransientUnityRegistration(), new UnityResolving());
 
 
             var c = new UnityContainer();
@@ -49,7 +50,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsUnity
         [TestMethod]
         public void RegisterPerThread_SameThread_Success()
         {
-            ITestCase testCase = new PerThreadTestCaseC();
+            ITestCase testCase = new TestCaseC(new PerThreadUnityRegistration(), new UnityResolving());
 
             var c = new UnityContainer();
             c = (UnityContainer)testCase.Register(c);
@@ -74,7 +75,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsUnity
         [TestMethod]
         public void RegisterPerThread_DifferentThreads_Success()
         {
-            ITestCase testCase = new PerThreadTestCaseC();
+            ITestCase testCase = new TestCaseC(new PerThreadUnityRegistration(), new UnityResolving());
 
             var c = new UnityContainer();
             c = (UnityContainer)testCase.Register(c);

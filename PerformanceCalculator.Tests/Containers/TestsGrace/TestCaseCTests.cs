@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using Grace.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using PerformanceCalculator.Containers;
 using PerformanceCalculator.Containers.TestsGrace;
 using PerformanceCalculator.Interfaces;
 using PerformanceCalculator.TestCases;
@@ -13,7 +14,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsGrace
         [TestMethod]
         public void RegisterSingleton_Success()
         {
-            ITestCase testCase = new SingletonTestCaseC();
+            ITestCase testCase = new TestCaseC(new SingletonGraceRegistration(), new GraceResolving());
 
             var c = new DependencyInjectionContainer();
             c = (DependencyInjectionContainer)testCase.Register(c);
@@ -31,7 +32,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsGrace
         [TestMethod]
         public void RegisterTransient_Success()
         {
-            ITestCase testCase = new TransientTestCaseC();
+            ITestCase testCase = new TestCaseC(new TransientGraceRegistration(), new GraceResolving());
 
             var c = new DependencyInjectionContainer();
             c = (DependencyInjectionContainer)testCase.Register(c);
@@ -49,7 +50,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsGrace
         [TestMethod]
         public void RegisterPerThread_SameThread_Success()
         {
-            ITestCase testCase = new PerThreadTestCaseC();
+            ITestCase testCase = new TestCaseC(new PerThreadGraceRegistration(), new GraceResolving());
 
             var c = new DependencyInjectionContainer();
             c = (DependencyInjectionContainer)testCase.Register(c);
@@ -77,7 +78,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsGrace
         [TestMethod]
         public void RegisterPerThread_DifferentThreads_Success()
         {
-            ITestCase testCase = new PerThreadTestCaseC();
+            ITestCase testCase = new TestCaseC(new PerThreadGraceRegistration(), new GraceResolving());
 
             var c = new DependencyInjectionContainer();
             c = (DependencyInjectionContainer)testCase.Register(c);

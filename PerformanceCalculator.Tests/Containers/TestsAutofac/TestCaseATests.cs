@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using Autofac;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using PerformanceCalculator.Containers;
 using PerformanceCalculator.Containers.TestsAutofac;
 using PerformanceCalculator.Interfaces;
 using PerformanceCalculator.TestCases;
@@ -13,7 +14,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsAutofac
         [TestMethod]
         public void RegisterSingleton_Success()
         {
-            ITestCase testCase = new SingletonTestCaseA();
+            ITestCase testCase = new TestCaseA(new SingletonAutofacRegistration(), new AutofacResolving());
 
             var cb = new ContainerBuilder();
             var c = (IContainer)testCase.Register(cb);
@@ -30,7 +31,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsAutofac
         [TestMethod]
         public void RegisterTransient_Success()
         {
-            ITestCase testCase = new TransientTestCaseA();
+            ITestCase testCase = new TestCaseA(new TransientAutofacRegistration(), new AutofacResolving());
 
             var cb = new ContainerBuilder();
             var c = (IContainer)testCase.Register(cb);
@@ -47,7 +48,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsAutofac
         [TestMethod]
         public void RegisterPerThread_SameThread_Success()
         {
-            ITestCase testCase = new PerThreadTestCaseA();
+            ITestCase testCase = new TestCaseA(new PerThreadAutofacRegistration(), new AutofacResolving());
 
             var cb = new ContainerBuilder();
             var c = (IContainer)testCase.Register(cb);
@@ -75,7 +76,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsAutofac
         [TestMethod]
         public void RegisterPerThread_DifferentThreads_Success()
         {
-            ITestCase testCase = new PerThreadTestCaseA();
+            ITestCase testCase = new TestCaseA(new PerThreadAutofacRegistration(), new AutofacResolving());
 
             var cb = new ContainerBuilder();
             var c = (IContainer)testCase.Register(cb);
