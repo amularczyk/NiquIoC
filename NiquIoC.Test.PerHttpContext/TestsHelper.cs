@@ -37,10 +37,24 @@ namespace NiquIoC.Test.PerHttpContext
         {
             var controller = new DefaultController();
             HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
-            
+
             var result = controller.BuildUpObject(c, obj, resolveKind);
 
             return (T)((ViewResult)result).Model;
+        }
+
+        public static Tuple<T, T> BuildUpObject<T>(Container c, T obj1, T obj2, ResolveKind resolveKind)
+        {
+            var controller = new DefaultController();
+            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
+
+            var result1 = controller.BuildUpObject(c, obj1, resolveKind);
+            var newObj1 = (T)((ViewResult)result1).Model;
+
+            var result2 = controller.BuildUpObject(c, obj2, resolveKind);
+            var newObj2 = (T)((ViewResult)result2).Model;
+
+            return Tuple.Create(newObj1, newObj2);
         }
     }
 }
