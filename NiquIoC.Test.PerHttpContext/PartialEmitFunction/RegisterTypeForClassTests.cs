@@ -1,11 +1,7 @@
-﻿using System.IO;
-using System.Web;
-using System.Web.Mvc;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NiquIoC.Enums;
 using NiquIoC.Exceptions;
 using NiquIoC.Test.Model;
-using NiquIoC.Test.WebApplication.Controllers;
 
 namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction
 {
@@ -19,10 +15,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction
             c.RegisterType<EmptyClass>().AsPerHttpContext();
 
 
-            var controller = new DefaultController();
-            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
-            var result = controller.ResolveObject<EmptyClass>(c, ResolveKind.PartialEmitFunction);
-            var emptyClass = (EmptyClass)((ViewResult)result).Model;
+            var emptyClass = TestsHelper.ResolveObject<EmptyClass>(c, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(emptyClass);
@@ -36,10 +29,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction
             c.RegisterType<SampleClass>().AsPerHttpContext();
 
 
-            var controller = new DefaultController();
-            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
-            var result = controller.ResolveObject<SampleClass>(c, ResolveKind.PartialEmitFunction);
-            var sampleClass = (SampleClass)((ViewResult)result).Model;
+            var sampleClass = TestsHelper.ResolveObject<SampleClass>(c, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNull(sampleClass);
@@ -53,13 +43,10 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction
             c.RegisterType<SampleClassWithStringType>().AsPerHttpContext();
 
 
-            var controller = new DefaultController();
-            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
-            var result = controller.ResolveObject<SampleClassWithStringType>(c, ResolveKind.PartialEmitFunction);
-            var sampleClassWithSimpleType = (SampleClassWithStringType)((ViewResult)result).Model;
+            var sampleClass = TestsHelper.ResolveObject<SampleClassWithStringType>(c, ResolveKind.PartialEmitFunction);
 
 
-            Assert.IsNull(sampleClassWithSimpleType);
+            Assert.IsNull(sampleClass);
         }
 
         [TestMethod]
@@ -70,13 +57,10 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction
             c.RegisterType<SampleClassWithIntType>().AsPerHttpContext();
 
 
-            var controller = new DefaultController();
-            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
-            var result = controller.ResolveObject<SampleClassWithIntType>(c, ResolveKind.PartialEmitFunction);
-            var sampleClassWithSimpleType = (SampleClassWithIntType)((ViewResult)result).Model;
+            var sampleClass = TestsHelper.ResolveObject<SampleClassWithIntType>(c, ResolveKind.PartialEmitFunction);
 
 
-            Assert.IsNull(sampleClassWithSimpleType);
+            Assert.IsNull(sampleClass);
         }
 
         [TestMethod]
@@ -87,10 +71,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction
             c.RegisterType<SampleClass>().AsPerHttpContext();
 
 
-            var controller = new DefaultController();
-            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
-            var result = controller.ResolveObject<SampleClass>(c, ResolveKind.PartialEmitFunction);
-            var sampleClass = (SampleClass)((ViewResult)result).Model;
+            var sampleClass = TestsHelper.ResolveObject<SampleClass>(c, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass);
@@ -106,10 +87,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction
             c.RegisterType<FirstClassWithCycleInConstructor>().AsPerHttpContext();
 
 
-            var controller = new DefaultController();
-            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
-            var result = controller.ResolveObject<FirstClassWithCycleInConstructor>(c, ResolveKind.PartialEmitFunction);
-            var sampleClass = (FirstClassWithCycleInConstructor)((ViewResult)result).Model;
+            var sampleClass = TestsHelper.ResolveObject<FirstClassWithCycleInConstructor>(c, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNull(sampleClass);
@@ -123,12 +101,9 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction
             c.RegisterType<SampleClass>().AsPerHttpContext();
 
 
-            var controller = new DefaultController();
-            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
-            var result1 = controller.ResolveObject<SampleClass>(c, ResolveKind.PartialEmitFunction);
-            var sampleClass1 = (SampleClass)((ViewResult)result1).Model;
-            var result2 = controller.ResolveObject<SampleClass>(c, ResolveKind.PartialEmitFunction);
-            var sampleClass2 = (SampleClass)((ViewResult)result2).Model;
+            var objs = TestsHelper.ResolveObjects<SampleClass>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass1 = objs.Item1;
+            var sampleClass2 = objs.Item2;
 
 
             Assert.IsNotNull(sampleClass1);
@@ -147,13 +122,8 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction
             c.RegisterType<SampleClass>().AsPerHttpContext();
 
 
-            var controller = new DefaultController();
-            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
-            var result1 = controller.ResolveObject<SampleClass>(c, ResolveKind.PartialEmitFunction);
-            var sampleClass1 = (SampleClass)((ViewResult)result1).Model;
-            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
-            var result2 = controller.ResolveObject<SampleClass>(c, ResolveKind.PartialEmitFunction);
-            var sampleClass2 = (SampleClass)((ViewResult)result2).Model;
+            var sampleClass1 = TestsHelper.ResolveObject<SampleClass>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass2 = TestsHelper.ResolveObject<SampleClass>(c, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass1);
@@ -172,17 +142,12 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction
             c.RegisterType<SampleClass>().AsPerHttpContext();
 
 
-            var controller = new DefaultController();
-            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
-            var result11 = controller.ResolveObject<SampleClass>(c, ResolveKind.PartialEmitFunction);
-            var sampleClass11 = (SampleClass)((ViewResult)result11).Model;
-            var result12 = controller.ResolveObject<SampleClass>(c, ResolveKind.PartialEmitFunction);
-            var sampleClass12 = (SampleClass)((ViewResult)result12).Model;
-            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
-            var result21 = controller.ResolveObject<SampleClass>(c, ResolveKind.PartialEmitFunction);
-            var sampleClass21 = (SampleClass)((ViewResult)result21).Model;
-            var result22 = controller.ResolveObject<SampleClass>(c, ResolveKind.PartialEmitFunction);
-            var sampleClass22 = (SampleClass)((ViewResult)result22).Model;
+            var objs1 = TestsHelper.ResolveObjects<SampleClass>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass11 = objs1.Item1;
+            var sampleClass12 = objs1.Item2;
+            var objs2 = TestsHelper.ResolveObjects<SampleClass>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass21 = objs2.Item1;
+            var sampleClass22 = objs2.Item2;
 
 
             Assert.IsNotNull(sampleClass11);
