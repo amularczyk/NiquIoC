@@ -60,16 +60,10 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerHttpContext();
             c.RegisterType<ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithSameType, SampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithSameType>();
-            ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithSameType sampleClass1 = null;
-            ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithSameType sampleClass2 = null;
 
 
-            var thread1 = new Thread(() => { sampleClass1 = c.Resolve<ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithSameType>(ResolveKind.PartialEmitFunction); });
-            thread1.Start();
-            thread1.Join();
-            var thread2 = new Thread(() => { sampleClass2 = c.Resolve<ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithSameType>(ResolveKind.PartialEmitFunction); });
-            thread2.Start();
-            thread2.Join();
+            var sampleClass1 = TestsHelper.ResolveObject<ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithSameType>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass2 = TestsHelper.ResolveObject<ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithSameType>(c, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass1.EmptyClassFromDependencyProperty);
@@ -141,16 +135,10 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerHttpContext();
             c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsPerHttpContext();
             c.RegisterType<ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes, SampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes>();
-            ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes sampleClass1 = null;
-            ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes sampleClass2 = null;
 
 
-            var thread1 = new Thread(() => { sampleClass1 = c.Resolve<ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes>(ResolveKind.PartialEmitFunction); });
-            thread1.Start();
-            thread1.Join();
-            var thread2 = new Thread(() => { sampleClass2 = c.Resolve<ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes>(ResolveKind.PartialEmitFunction); });
-            thread2.Start();
-            thread2.Join();
+            var sampleClass1 = TestsHelper.ResolveObject<ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass2 = TestsHelper.ResolveObject<ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes>(c, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass1.SampleClass);

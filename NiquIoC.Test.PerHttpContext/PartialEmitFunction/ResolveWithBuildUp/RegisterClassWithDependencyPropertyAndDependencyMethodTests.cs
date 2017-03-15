@@ -60,16 +60,10 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
             var c = new Container();
             c.RegisterType<EmptyClass>().AsPerHttpContext();
             c.RegisterType<SampleClassWithClassDependencyPropertyAndDependencyMethodWithSameType>();
-            SampleClassWithClassDependencyPropertyAndDependencyMethodWithSameType sampleClass1 = null;
-            SampleClassWithClassDependencyPropertyAndDependencyMethodWithSameType sampleClass2 = null;
 
 
-            var thread1 = new Thread(() => { sampleClass1 = c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithSameType>(ResolveKind.PartialEmitFunction); });
-            thread1.Start();
-            thread1.Join();
-            var thread2 = new Thread(() => { sampleClass2 = c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithSameType>(ResolveKind.PartialEmitFunction); });
-            thread2.Start();
-            thread2.Join();
+            var sampleClass1 = TestsHelper.ResolveObject<SampleClassWithClassDependencyPropertyAndDependencyMethodWithSameType>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass2 = TestsHelper.ResolveObject<SampleClassWithClassDependencyPropertyAndDependencyMethodWithSameType>(c, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass1.EmptyClassFromDependencyProperty);
@@ -141,16 +135,10 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
             c.RegisterType<EmptyClass>().AsPerHttpContext();
             c.RegisterType<SampleClass>().AsPerHttpContext();
             c.RegisterType<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>();
-            SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes sampleClass1 = null;
-            SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes sampleClass2 = null;
 
 
-            var thread1 = new Thread(() => { sampleClass1 = c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>(ResolveKind.PartialEmitFunction); });
-            thread1.Start();
-            thread1.Join();
-            var thread2 = new Thread(() => { sampleClass2 = c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>(ResolveKind.PartialEmitFunction); });
-            thread2.Start();
-            thread2.Join();
+            var sampleClass1 = TestsHelper.ResolveObject<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass2 = TestsHelper.ResolveObject<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>(c, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass1.SampleClass);
