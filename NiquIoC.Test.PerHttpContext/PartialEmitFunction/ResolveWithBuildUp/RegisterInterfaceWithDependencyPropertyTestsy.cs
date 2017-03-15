@@ -1,5 +1,4 @@
-﻿using System.Threading;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NiquIoC.Enums;
 using NiquIoC.Test.Model;
 
@@ -96,17 +95,11 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerHttpContext();
             c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsPerHttpContext();
             c.RegisterType<ISampleClassWithManyInterfaceDependencyProperties, SampleClassWithManyInterfaceDependencyProperties>();
-            ISampleClassWithManyInterfaceDependencyProperties sampleClass1 = null;
-            ISampleClassWithManyInterfaceDependencyProperties sampleClass2 = null;
 
 
-            var thread = new Thread(() =>
-            {
-                sampleClass1 = c.Resolve<ISampleClassWithManyInterfaceDependencyProperties>(ResolveKind.PartialEmitFunction);
-                sampleClass2 = c.Resolve<ISampleClassWithManyInterfaceDependencyProperties>(ResolveKind.PartialEmitFunction);
-            });
-            thread.Start();
-            thread.Join();
+            var objs = TestsHelper.ResolveObjects<ISampleClassWithManyInterfaceDependencyProperties>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass1 = objs.Item1;
+            var sampleClass2 = objs.Item2;
 
 
             Assert.IsNotNull(sampleClass1.EmptyClass);
@@ -163,17 +156,11 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerHttpContext();
             c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithInterfaceDependencyProperty>().AsPerHttpContext();
             c.RegisterType<ISampleClassWithNestedInterfaceDependencyProperty, SampleClassWithNestedInterfaceDependencyProperty>();
-            ISampleClassWithNestedInterfaceDependencyProperty sampleClass1 = null;
-            ISampleClassWithNestedInterfaceDependencyProperty sampleClass2 = null;
 
 
-            var thread = new Thread(() =>
-            {
-                sampleClass1 = c.Resolve<ISampleClassWithNestedInterfaceDependencyProperty>(ResolveKind.PartialEmitFunction);
-                sampleClass2 = c.Resolve<ISampleClassWithNestedInterfaceDependencyProperty>(ResolveKind.PartialEmitFunction);
-            });
-            thread.Start();
-            thread.Join();
+            var objs = TestsHelper.ResolveObjects<ISampleClassWithNestedInterfaceDependencyProperty>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass1 = objs.Item1;
+            var sampleClass2 = objs.Item2;
 
 
             Assert.IsNotNull(sampleClass1.SampleClassWithInterfaceDependencyProperty);
@@ -245,17 +232,11 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerHttpContext();
             c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithInterfaceDependencyProperty>().AsPerHttpContext();
             c.RegisterType<ISampleClassWithNestedInterfaceDependencyProperty, SampleClassWithClassInConstructorWithNestedInterfaceDependencyProperty>();
-            ISampleClassWithNestedInterfaceDependencyProperty sampleClass1 = null;
-            ISampleClassWithNestedInterfaceDependencyProperty sampleClass2 = null;
 
 
-            var thread = new Thread(() =>
-            {
-                sampleClass1 = c.Resolve<ISampleClassWithNestedInterfaceDependencyProperty>(ResolveKind.PartialEmitFunction);
-                sampleClass2 = c.Resolve<ISampleClassWithNestedInterfaceDependencyProperty>(ResolveKind.PartialEmitFunction);
-            });
-            thread.Start();
-            thread.Join();
+            var objs = TestsHelper.ResolveObjects<ISampleClassWithNestedInterfaceDependencyProperty>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass1 = objs.Item1;
+            var sampleClass2 = objs.Item2;
 
 
             Assert.IsNotNull(sampleClass1.SampleClassWithInterfaceDependencyProperty);

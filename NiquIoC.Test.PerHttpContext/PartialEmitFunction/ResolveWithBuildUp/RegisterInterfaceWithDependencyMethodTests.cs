@@ -1,5 +1,4 @@
-﻿using System.Threading;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NiquIoC.Enums;
 using NiquIoC.Test.Model;
 
@@ -29,17 +28,11 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerHttpContext();
             c.RegisterType<ISampleClassWithInterfaceMethod, SampleClassWithInterfaceDependencyMethod>();
-            ISampleClassWithInterfaceMethod sampleClass1 = null;
-            ISampleClassWithInterfaceMethod sampleClass2 = null;
 
 
-            var thread = new Thread(() =>
-            {
-                sampleClass1 = c.Resolve<ISampleClassWithInterfaceMethod>(ResolveKind.PartialEmitFunction);
-                sampleClass2 = c.Resolve<ISampleClassWithInterfaceMethod>(ResolveKind.PartialEmitFunction);
-            });
-            thread.Start();
-            thread.Join();
+            var objs = TestsHelper.ResolveObjects<ISampleClassWithInterfaceMethod>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass1 = objs.Item1;
+            var sampleClass2 = objs.Item2;
 
 
             Assert.IsNotNull(sampleClass1.EmptyClass);
@@ -119,17 +112,11 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerHttpContext();
             c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsPerHttpContext();
             c.RegisterType<ISampleClassWithManyInterfaceDependencyMethods, SampleClassWithManyInterfaceDependencyMethods>();
-            ISampleClassWithManyInterfaceDependencyMethods sampleClass1 = null;
-            ISampleClassWithManyInterfaceDependencyMethods sampleClass2 = null;
 
 
-            var thread = new Thread(() =>
-            {
-                sampleClass1 = c.Resolve<ISampleClassWithManyInterfaceDependencyMethods>(ResolveKind.PartialEmitFunction);
-                sampleClass2 = c.Resolve<ISampleClassWithManyInterfaceDependencyMethods>(ResolveKind.PartialEmitFunction);
-            });
-            thread.Start();
-            thread.Join();
+            var objs = TestsHelper.ResolveObjects<ISampleClassWithManyInterfaceDependencyMethods>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass1 = objs.Item1;
+            var sampleClass2 = objs.Item2;
 
 
             Assert.IsNotNull(sampleClass1.EmptyClass);
@@ -186,17 +173,11 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerHttpContext();
             c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsPerHttpContext();
             c.RegisterType<ISampleClassWithManyInterfaceParametersInDependencyMethod, SampleClassWithManyInterfaceParametersInDependencyMethod>();
-            ISampleClassWithManyInterfaceParametersInDependencyMethod sampleClass1 = null;
-            ISampleClassWithManyInterfaceParametersInDependencyMethod sampleClass2 = null;
 
 
-            var thread = new Thread(() =>
-            {
-                sampleClass1 = c.Resolve<ISampleClassWithManyInterfaceParametersInDependencyMethod>(ResolveKind.PartialEmitFunction);
-                sampleClass2 = c.Resolve<ISampleClassWithManyInterfaceParametersInDependencyMethod>(ResolveKind.PartialEmitFunction);
-            });
-            thread.Start();
-            thread.Join();
+            var objs = TestsHelper.ResolveObjects<ISampleClassWithManyInterfaceParametersInDependencyMethod>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass1 = objs.Item1;
+            var sampleClass2 = objs.Item2;
 
 
             Assert.IsNotNull(sampleClass1.EmptyClass);
@@ -253,17 +234,11 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerHttpContext();
             c.RegisterType<ISampleClassWithInterfaceMethod, SampleClassWithInterfaceDependencyMethod>().AsPerHttpContext();
             c.RegisterType<ISampleClassWithNestedInterfaceDependencyMethod, SampleClassWithNestedInterfaceDependencyMethod>();
-            ISampleClassWithNestedInterfaceDependencyMethod sampleClass1 = null;
-            ISampleClassWithNestedInterfaceDependencyMethod sampleClass2 = null;
 
 
-            var thread = new Thread(() =>
-            {
-                sampleClass1 = c.Resolve<ISampleClassWithNestedInterfaceDependencyMethod>(ResolveKind.PartialEmitFunction);
-                sampleClass2 = c.Resolve<ISampleClassWithNestedInterfaceDependencyMethod>(ResolveKind.PartialEmitFunction);
-            });
-            thread.Start();
-            thread.Join();
+            var objs = TestsHelper.ResolveObjects<ISampleClassWithNestedInterfaceDependencyMethod>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass1 = objs.Item1;
+            var sampleClass2 = objs.Item2;
 
 
             Assert.IsNotNull(sampleClass1.SampleClass);

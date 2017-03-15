@@ -1,5 +1,4 @@
-﻿using System.Threading;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NiquIoC.Enums;
 using NiquIoC.Test.Model;
 
@@ -28,17 +27,11 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
             var c = new Container();
             c.RegisterType<EmptyClass>().AsPerHttpContext();
             c.RegisterType<SampleClassWithClassDependencyProperty>();
-            SampleClassWithClassDependencyProperty sampleClass1 = null;
-            SampleClassWithClassDependencyProperty sampleClass2 = null;
 
 
-            var thread = new Thread(() =>
-            {
-                sampleClass1 = c.Resolve<SampleClassWithClassDependencyProperty>(ResolveKind.PartialEmitFunction);
-                sampleClass2 = c.Resolve<SampleClassWithClassDependencyProperty>(ResolveKind.PartialEmitFunction);
-            });
-            thread.Start();
-            thread.Join();
+            var objs = TestsHelper.ResolveObjects<SampleClassWithClassDependencyProperty>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass1 = objs.Item1;
+            var sampleClass2 = objs.Item2;
 
 
             Assert.IsNotNull(sampleClass1.EmptyClass);
@@ -71,12 +64,9 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
             var c = new Container();
             c.RegisterType<EmptyClass>().AsPerHttpContext();
             c.RegisterType<SampleClassWithoutClassDependencyProperty>();
-            SampleClassWithoutClassDependencyProperty sampleClass = null;
 
 
-            var thread = new Thread(() => { sampleClass = c.Resolve<SampleClassWithoutClassDependencyProperty>(ResolveKind.PartialEmitFunction); });
-            thread.Start();
-            thread.Join();
+            var sampleClass = TestsHelper.ResolveObject<SampleClassWithoutClassDependencyProperty>(c, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNull(sampleClass.EmptyClass);
@@ -105,17 +95,11 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
             c.RegisterType<EmptyClass>().AsPerHttpContext();
             c.RegisterType<SampleClass>().AsPerHttpContext();
             c.RegisterType<SampleClassWithManyClassDependencyProperties>();
-            SampleClassWithManyClassDependencyProperties sampleClass1 = null;
-            SampleClassWithManyClassDependencyProperties sampleClass2 = null;
 
 
-            var thread = new Thread(() =>
-            {
-                sampleClass1 = c.Resolve<SampleClassWithManyClassDependencyProperties>(ResolveKind.PartialEmitFunction);
-                sampleClass2 = c.Resolve<SampleClassWithManyClassDependencyProperties>(ResolveKind.PartialEmitFunction);
-            });
-            thread.Start();
-            thread.Join();
+            var objs = TestsHelper.ResolveObjects<SampleClassWithManyClassDependencyProperties>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass1 = objs.Item1;
+            var sampleClass2 = objs.Item2;
 
 
             Assert.IsNotNull(sampleClass1.EmptyClass);
@@ -172,17 +156,11 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
             c.RegisterType<EmptyClass>().AsPerHttpContext();
             c.RegisterType<SampleClassWithClassDependencyProperty>().AsPerHttpContext();
             c.RegisterType<SampleClassWithNestedClassDependencyProperty>();
-            SampleClassWithNestedClassDependencyProperty sampleClass1 = null;
-            SampleClassWithNestedClassDependencyProperty sampleClass2 = null;
 
 
-            var thread = new Thread(() =>
-            {
-                sampleClass1 = c.Resolve<SampleClassWithNestedClassDependencyProperty>(ResolveKind.PartialEmitFunction);
-                sampleClass2 = c.Resolve<SampleClassWithNestedClassDependencyProperty>(ResolveKind.PartialEmitFunction);
-            });
-            thread.Start();
-            thread.Join();
+            var objs = TestsHelper.ResolveObjects<SampleClassWithNestedClassDependencyProperty>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass1 = objs.Item1;
+            var sampleClass2 = objs.Item2;
 
 
             Assert.IsNotNull(sampleClass1.SampleClassWithClassDependencyProperty);
@@ -254,17 +232,11 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
             c.RegisterType<EmptyClass>().AsPerHttpContext();
             c.RegisterType<SampleClassWithClassDependencyProperty>().AsPerHttpContext();
             c.RegisterType<SampleClassWithClassInConstructorWithNestedClassDependencyProperty>();
-            SampleClassWithClassInConstructorWithNestedClassDependencyProperty sampleClass1 = null;
-            SampleClassWithClassInConstructorWithNestedClassDependencyProperty sampleClass2 = null;
 
 
-            var thread = new Thread(() =>
-            {
-                sampleClass1 = c.Resolve<SampleClassWithClassInConstructorWithNestedClassDependencyProperty>(ResolveKind.PartialEmitFunction);
-                sampleClass2 = c.Resolve<SampleClassWithClassInConstructorWithNestedClassDependencyProperty>(ResolveKind.PartialEmitFunction);
-            });
-            thread.Start();
-            thread.Join();
+            var objs = TestsHelper.ResolveObjects<SampleClassWithClassInConstructorWithNestedClassDependencyProperty>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass1 = objs.Item1;
+            var sampleClass2 = objs.Item2;
 
 
             Assert.IsNotNull(sampleClass1.SampleClassWithClassDependencyProperty);
