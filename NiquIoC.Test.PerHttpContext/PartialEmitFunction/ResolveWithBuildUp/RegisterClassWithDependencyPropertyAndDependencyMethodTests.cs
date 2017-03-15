@@ -1,11 +1,7 @@
-﻿using System.IO;
-using System.Threading;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NiquIoC.Enums;
 using NiquIoC.Test.Model;
-using NiquIoC.Test.WebApplication.Controllers;
 
 namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
 {
@@ -94,12 +90,9 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
             c.RegisterType<EmptyClass>().AsPerHttpContext();
             c.RegisterType<SampleClass>().AsPerHttpContext();
             c.RegisterType<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>();
-            SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes sampleClass = null;
 
 
-            var thread = new Thread(() => { sampleClass = c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>(ResolveKind.PartialEmitFunction); });
-            thread.Start();
-            thread.Join();
+            var sampleClass = TestsHelper.ResolveObject<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>(c, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass.SampleClass);

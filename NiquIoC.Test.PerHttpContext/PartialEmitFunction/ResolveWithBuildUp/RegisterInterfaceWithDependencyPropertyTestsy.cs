@@ -1,13 +1,7 @@
-﻿using System;
-using System.IO;
-using System.Threading;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NiquIoC.Enums;
-using NiquIoC.Interfaces;
 using NiquIoC.Test.Model;
-using NiquIoC.Test.WebApplication.Controllers;
 
 namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
 {
@@ -21,7 +15,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerHttpContext();
             c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithInterfaceDependencyProperty>();
 
-            
+
             var sampleClass = TestsHelper.ResolveObject<ISampleClassWithInterfaceProperty>(c, ResolveKind.PartialEmitFunction);
 
 
@@ -57,16 +51,10 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
             ISampleClassWithInterfaceProperty sampleClass2 = null;
 
 
-            var thread1 = new Thread(() =>
-            {
-                sampleClass1 = c.Resolve<ISampleClassWithInterfaceProperty>(ResolveKind.PartialEmitFunction);
-            });
+            var thread1 = new Thread(() => { sampleClass1 = c.Resolve<ISampleClassWithInterfaceProperty>(ResolveKind.PartialEmitFunction); });
             thread1.Start();
             thread1.Join();
-            var thread2 = new Thread(() =>
-            {
-                sampleClass2 = c.Resolve<ISampleClassWithInterfaceProperty>(ResolveKind.PartialEmitFunction);
-            });
+            var thread2 = new Thread(() => { sampleClass2 = c.Resolve<ISampleClassWithInterfaceProperty>(ResolveKind.PartialEmitFunction); });
             thread2.Start();
             thread2.Join();
 
@@ -83,12 +71,9 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerHttpContext();
             c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithoutInterfaceDependencyProperty>();
-            ISampleClassWithInterfaceProperty sampleClass = null;
 
 
-            var thread = new Thread(() => { sampleClass = c.Resolve<ISampleClassWithInterfaceProperty>(ResolveKind.PartialEmitFunction); });
-            thread.Start();
-            thread.Join();
+            var sampleClass = TestsHelper.ResolveObject<ISampleClassWithInterfaceProperty>(c, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNull(sampleClass.EmptyClass);
@@ -101,12 +86,9 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerHttpContext();
             c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsPerHttpContext();
             c.RegisterType<ISampleClassWithManyInterfaceDependencyProperties, SampleClassWithManyInterfaceDependencyProperties>();
-            ISampleClassWithManyInterfaceDependencyProperties sampleClass = null;
 
 
-            var thread = new Thread(() => { sampleClass = c.Resolve<ISampleClassWithManyInterfaceDependencyProperties>(ResolveKind.PartialEmitFunction); });
-            thread.Start();
-            thread.Join();
+            var sampleClass = TestsHelper.ResolveObject<ISampleClassWithManyInterfaceDependencyProperties>(c, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass.EmptyClass);
@@ -153,16 +135,10 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
             ISampleClassWithManyInterfaceDependencyProperties sampleClass2 = null;
 
 
-            var thread1 = new Thread(() =>
-            {
-                sampleClass1 = c.Resolve<ISampleClassWithManyInterfaceDependencyProperties>(ResolveKind.PartialEmitFunction);
-            });
+            var thread1 = new Thread(() => { sampleClass1 = c.Resolve<ISampleClassWithManyInterfaceDependencyProperties>(ResolveKind.PartialEmitFunction); });
             thread1.Start();
             thread1.Join();
-            var thread2 = new Thread(() =>
-            {
-                sampleClass2 = c.Resolve<ISampleClassWithManyInterfaceDependencyProperties>(ResolveKind.PartialEmitFunction);
-            });
+            var thread2 = new Thread(() => { sampleClass2 = c.Resolve<ISampleClassWithManyInterfaceDependencyProperties>(ResolveKind.PartialEmitFunction); });
             thread2.Start();
             thread2.Join();
 
@@ -183,12 +159,9 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerHttpContext();
             c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithInterfaceDependencyProperty>().AsPerHttpContext();
             c.RegisterType<ISampleClassWithNestedInterfaceDependencyProperty, SampleClassWithNestedInterfaceDependencyProperty>();
-            ISampleClassWithNestedInterfaceDependencyProperty sampleClass = null;
 
 
-            var thread = new Thread(() => { sampleClass = c.Resolve<ISampleClassWithNestedInterfaceDependencyProperty>(ResolveKind.PartialEmitFunction); });
-            thread.Start();
-            thread.Join();
+            var sampleClass = TestsHelper.ResolveObject<ISampleClassWithNestedInterfaceDependencyProperty>(c, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass.SampleClassWithInterfaceDependencyProperty);
@@ -235,16 +208,10 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
             ISampleClassWithNestedInterfaceDependencyProperty sampleClass2 = null;
 
 
-            var thread1 = new Thread(() =>
-            {
-                sampleClass1 = c.Resolve<ISampleClassWithNestedInterfaceDependencyProperty>(ResolveKind.PartialEmitFunction);
-            });
+            var thread1 = new Thread(() => { sampleClass1 = c.Resolve<ISampleClassWithNestedInterfaceDependencyProperty>(ResolveKind.PartialEmitFunction); });
             thread1.Start();
             thread1.Join();
-            var thread2 = new Thread(() =>
-            {
-                sampleClass2 = c.Resolve<ISampleClassWithNestedInterfaceDependencyProperty>(ResolveKind.PartialEmitFunction);
-            });
+            var thread2 = new Thread(() => { sampleClass2 = c.Resolve<ISampleClassWithNestedInterfaceDependencyProperty>(ResolveKind.PartialEmitFunction); });
             thread2.Start();
             thread2.Join();
 
@@ -264,12 +231,9 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerHttpContext();
             c.RegisterType<ISampleClassWithClassDependencyPropertyWithoutSetMethodWithInterface, SampleClassWithClassDependencyPropertyWithoutSetMethodWithInterface>();
-            ISampleClassWithClassDependencyPropertyWithoutSetMethodWithInterface sampleClass = null;
 
 
-            var thread = new Thread(() => { sampleClass = c.Resolve<ISampleClassWithClassDependencyPropertyWithoutSetMethodWithInterface>(ResolveKind.PartialEmitFunction); });
-            thread.Start();
-            thread.Join();
+            var sampleClass = TestsHelper.ResolveObject<ISampleClassWithClassDependencyPropertyWithoutSetMethodWithInterface>(c, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass);
@@ -283,12 +247,9 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerHttpContext();
             c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithInterfaceDependencyProperty>().AsPerHttpContext();
             c.RegisterType<ISampleClassWithNestedInterfaceDependencyProperty, SampleClassWithClassInConstructorWithNestedInterfaceDependencyProperty>();
-            ISampleClassWithNestedInterfaceDependencyProperty sampleClass = null;
 
 
-            var thread = new Thread(() => { sampleClass = c.Resolve<ISampleClassWithNestedInterfaceDependencyProperty>(ResolveKind.PartialEmitFunction); });
-            thread.Start();
-            thread.Join();
+            var sampleClass = TestsHelper.ResolveObject<ISampleClassWithNestedInterfaceDependencyProperty>(c, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass.SampleClassWithInterfaceDependencyProperty);
@@ -335,16 +296,10 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
             ISampleClassWithNestedInterfaceDependencyProperty sampleClass2 = null;
 
 
-            var thread1 = new Thread(() =>
-            {
-                sampleClass1 = c.Resolve<ISampleClassWithNestedInterfaceDependencyProperty>(ResolveKind.PartialEmitFunction);
-            });
+            var thread1 = new Thread(() => { sampleClass1 = c.Resolve<ISampleClassWithNestedInterfaceDependencyProperty>(ResolveKind.PartialEmitFunction); });
             thread1.Start();
             thread1.Join();
-            var thread2 = new Thread(() =>
-            {
-                sampleClass2 = c.Resolve<ISampleClassWithNestedInterfaceDependencyProperty>(ResolveKind.PartialEmitFunction);
-            });
+            var thread2 = new Thread(() => { sampleClass2 = c.Resolve<ISampleClassWithNestedInterfaceDependencyProperty>(ResolveKind.PartialEmitFunction); });
             thread2.Start();
             thread2.Join();
 
