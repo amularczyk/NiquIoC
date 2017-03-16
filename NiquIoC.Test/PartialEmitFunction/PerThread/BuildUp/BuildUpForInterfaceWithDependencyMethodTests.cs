@@ -83,46 +83,7 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.BuildUp
             Assert.AreNotEqual(sampleClass1, sampleClass2);
             Assert.AreNotEqual(sampleClass1.EmptyClass, sampleClass2.EmptyClass);
         }
-
-        [TestMethod]
-        [ExpectedException(typeof(CycleForTypeException),
-            "Appeared cycle when resolving constructor for object of type NiquIoC.Test.Model.SampleClassWithCycleInConstructorWithInterfaceDependencyMethod")]
-        public void ResolveInterfaceWithCycleInConstructorWithClassDependencyMethodAfterBuildUpObjectOfThisInterface_Failed()
-        {
-            var c = new Container();
-            c.RegisterType<IEmptyClass, EmptyClass>().AsPerThread();
-            c.RegisterType<ISampleClassWithInterfaceMethod, SampleClassWithCycleInConstructorWithInterfaceDependencyMethod>();
-            ISampleClassWithInterfaceMethod sampleClass1 = new SampleClassWithCycleInConstructorWithInterfaceDependencyMethod(null);
-            SampleClassWithCycleInConstructorWithInterfaceDependencyMethod sampleClass2 = null;
-            Exception exception = null;
-
-
-            var thread = new Thread(() =>
-            {
-                try
-                {
-                    c.BuildUp(sampleClass1, ResolveKind.PartialEmitFunction);
-                    sampleClass2 = c.Resolve<SampleClassWithCycleInConstructorWithInterfaceDependencyMethod>(ResolveKind.PartialEmitFunction);
-                }
-                catch (Exception ex)
-                {
-                    exception = ex;
-                }
-            });
-            thread.Start();
-            thread.Join();
-
-            if (exception != null)
-            {
-                throw exception;
-            }
-
-
-            Assert.IsNotNull(sampleClass1);
-            Assert.IsNotNull(sampleClass1.EmptyClass);
-            Assert.IsNull(sampleClass2);
-        }
-
+        
         [TestMethod]
         public void BuildUpInterfaceWithCycleInConstructorWithClassDependencyMethod_Success()
         {
