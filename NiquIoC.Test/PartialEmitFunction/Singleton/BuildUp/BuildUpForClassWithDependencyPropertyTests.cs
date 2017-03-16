@@ -49,20 +49,29 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.BuildUp
         }
 
         [TestMethod]
-        [ExpectedException(typeof(CycleForTypeException), "Appeared cycle when resolving constructor for object of type NiquIoC.Test.Model.SampleClassWithCycleInConstructorWithClassDependencyProperty")]
-        public void ResolveClassWithCycleInConstructorWithClassDependencyPropertyAfterBuildUpObjectOfThisClass_Failed()
+        public void BuildUpClassWithCycleInConstructorWithClassDependencyMethod_Success()
         {
             var c = new Container();
-            c.RegisterType<EmptyClass>().AsSingleton();
+            c.RegisterType<EmptyClass>();
+            var sampleClass = new SampleClassWithCycleInConstructorWithClassDependencyProperty(null);
+
+            c.BuildUp(sampleClass, ResolveKind.PartialEmitFunction);
+
+            Assert.IsNotNull(sampleClass);
+            Assert.IsNotNull(sampleClass.EmptyClass);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(CycleForTypeException), "Appeared cycle when resolving constructor for object of type NiquIoC.Test.Model.SampleClassWithCycleInConstructorWithClassDependencyProperty")]
+        public void ResolveClassWithCycleInConstructorWithClassDependencyMethod_Failed()
+        {
+            var c = new Container();
+            c.RegisterType<EmptyClass>();
             c.RegisterType<SampleClassWithCycleInConstructorWithClassDependencyProperty>();
-            var sampleClass1 = new SampleClassWithCycleInConstructorWithClassDependencyProperty(null);
 
-            c.BuildUp(sampleClass1, ResolveKind.PartialEmitFunction);
-            var sampleClass2 = c.Resolve<SampleClassWithCycleInConstructorWithClassDependencyProperty>(ResolveKind.PartialEmitFunction);
+            var sampleClass = c.Resolve<SampleClassWithCycleInConstructorWithClassDependencyProperty>(ResolveKind.PartialEmitFunction);
 
-            Assert.IsNotNull(sampleClass1);
-            Assert.IsNotNull(sampleClass1.EmptyClass);
-            Assert.IsNull(sampleClass2);
+            Assert.IsNull(sampleClass);
         }
 
         [TestMethod]

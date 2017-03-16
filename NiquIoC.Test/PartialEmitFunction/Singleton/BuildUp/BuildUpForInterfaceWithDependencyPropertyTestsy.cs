@@ -49,20 +49,29 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.BuildUp
         }
 
         [TestMethod]
-        [ExpectedException(typeof(CycleForTypeException), "Appeared cycle when resolving constructor for object of type NiquIoC.Test.Model.SampleClassWithCycleInConstructorWithInterfaceDependencyProperty")]
-        public void ResolveInterfaceWithCycleInConstructorWithClassDependencyMethodAfterBuildUpObjectOfThisInterface_Failed()
+        public void BuildUpInterfaceWithCycleInConstructorWithClassDependencyMethod_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
-            c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithCycleInConstructorWithInterfaceDependencyProperty>();
-            ISampleClassWithInterfaceProperty sampleClass1 = new SampleClassWithCycleInConstructorWithInterfaceDependencyProperty(null);
+            var sampleClass = new SampleClassWithCycleInConstructorWithInterfaceDependencyProperty(null);
 
-            c.BuildUp(sampleClass1, ResolveKind.PartialEmitFunction);
-            var sampleClass2 = c.Resolve<SampleClassWithCycleInConstructorWithInterfaceDependencyProperty>(ResolveKind.PartialEmitFunction);
+            c.BuildUp(sampleClass, ResolveKind.PartialEmitFunction);
 
-            Assert.IsNotNull(sampleClass1);
-            Assert.IsNotNull(sampleClass1.EmptyClass);
-            Assert.IsNull(sampleClass2);
+            Assert.IsNotNull(sampleClass);
+            Assert.IsNotNull(sampleClass.EmptyClass);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(CycleForTypeException), "Appeared cycle when resolving constructor for object of type NiquIoC.Test.Model.SampleClassWithCycleInConstructorWithInterfaceDependencyProperty")]
+        public void ResolveInterfaceWithCycleInConstructorWithClassDependencyMethod_Failed()
+        {
+            var c = new Container();
+            c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
+            c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithCycleInConstructorWithInterfaceDependencyProperty>().AsSingleton();
+
+            var sampleClass = c.Resolve<ISampleClassWithInterfaceProperty>(ResolveKind.PartialEmitFunction);
+
+            Assert.IsNull(sampleClass);
         }
 
         [TestMethod]

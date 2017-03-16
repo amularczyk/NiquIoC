@@ -49,20 +49,29 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.BuildUp
         }
 
         [TestMethod]
-        [ExpectedException(typeof(CycleForTypeException), "Appeared cycle when resolving constructor for object of type NiquIoC.Test.Model.SampleClassWithCycleInConstructorWithClassDependencyMethod")]
-        public void ResolveClassWithCycleInConstructorWithClassDependencyMethodAfterBuildUpObjectOfThisClass_Failed()
+        public void BuildUpClassWithCycleInConstructorWithClassDependencyMethod_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsSingleton();
-            c.RegisterType<SampleClassWithCycleInConstructorWithClassDependencyMethod>();
-            var sampleClass1 = new SampleClassWithCycleInConstructorWithClassDependencyMethod(null);
+            var sampleClass = new SampleClassWithCycleInConstructorWithClassDependencyMethod(null);
 
-            c.BuildUp(sampleClass1, ResolveKind.PartialEmitFunction);
-            var sampleClass2 = c.Resolve<SampleClassWithCycleInConstructorWithClassDependencyMethod>(ResolveKind.PartialEmitFunction);
+            c.BuildUp(sampleClass, ResolveKind.PartialEmitFunction);
 
-            Assert.IsNotNull(sampleClass1);
-            Assert.IsNotNull(sampleClass1.EmptyClass);
-            Assert.IsNull(sampleClass2);
+            Assert.IsNotNull(sampleClass);
+            Assert.IsNotNull(sampleClass.EmptyClass);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(CycleForTypeException), "Appeared cycle when resolving constructor for object of type NiquIoC.Test.Model.SampleClassWithCycleInConstructorWithClassDependencyMethod")]
+        public void ResolveClassWithCycleInConstructorWithClassDependencyMethod_Failed()
+        {
+            var c = new Container();
+            c.RegisterType<EmptyClass>().AsSingleton();
+            c.RegisterType<SampleClassWithCycleInConstructorWithClassDependencyMethod>().AsSingleton();
+
+            var sampleClass = c.Resolve<SampleClassWithCycleInConstructorWithClassDependencyMethod>(ResolveKind.PartialEmitFunction);
+
+            Assert.IsNull(sampleClass);
         }
 
         [TestMethod]

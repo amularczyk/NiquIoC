@@ -75,42 +75,33 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.BuildUp
         }
 
         [TestMethod]
-        [ExpectedException(typeof(CycleForTypeException), "Appeared cycle when resolving constructor for object of type NiquIoC.Test.Model.SampleClassWithCycleInConstructorWithClassDependencyProperty"
-            )]
-        public void ResolveClassWithCycleInConstructorWithClassDependencyPropertyAfterBuildUpObjectOfThisClass_Failed()
+        public void BuildUpClassWithCycleInConstructorWithClassDependencyProperty_Success()
+        {
+            var c = new Container();
+            c.RegisterType<EmptyClass>().AsPerHttpContext();
+            var sampleClass = new SampleClassWithCycleInConstructorWithClassDependencyProperty(null);
+
+
+            sampleClass = TestsHelper.BuildUpObject(c, sampleClass, ResolveKind.PartialEmitFunction);
+
+
+            Assert.IsNotNull(sampleClass);
+            Assert.IsNotNull(sampleClass.EmptyClass);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(CycleForTypeException), "Appeared cycle when resolving constructor for object of type NiquIoC.Test.Model.SampleClassWithCycleInConstructorWithClassDependencyProperty")]
+        public void ResolveClassWithCycleInConstructorWithClassDependencyProperty_Failed()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsPerHttpContext();
             c.RegisterType<SampleClassWithCycleInConstructorWithClassDependencyProperty>();
-            var sampleClass1 = new SampleClassWithCycleInConstructorWithClassDependencyProperty(null);
-            SampleClassWithCycleInConstructorWithClassDependencyProperty sampleClass2 = null;
-            Exception exception = null;
 
 
-            var thread = new Thread(() =>
-            {
-                try
-                {
-                    c.BuildUp(sampleClass1, ResolveKind.PartialEmitFunction);
-                    sampleClass2 = c.Resolve<SampleClassWithCycleInConstructorWithClassDependencyProperty>(ResolveKind.PartialEmitFunction);
-                }
-                catch (Exception ex)
-                {
-                    exception = ex;
-                }
-            });
-            thread.Start();
-            thread.Join();
-
-            if (exception != null)
-            {
-                throw exception;
-            }
+            var sampleClass = TestsHelper.ResolveObject<SampleClassWithCycleInConstructorWithClassDependencyProperty>(c, ResolveKind.PartialEmitFunction);
 
 
-            Assert.IsNotNull(sampleClass1);
-            Assert.IsNotNull(sampleClass1.EmptyClass);
-            Assert.IsNull(sampleClass2);
+            Assert.IsNull(sampleClass);
         }
 
         [TestMethod]

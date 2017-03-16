@@ -49,20 +49,29 @@ namespace NiquIoC.Test.PartialEmitFunction.Transient.BuildUp
         }
 
         [TestMethod]
+        public void BuildUpInterfaceWithCycleInConstructorWithClassDependencyMethod_Success()
+        {
+            var c = new Container();
+            c.RegisterType<IEmptyClass, EmptyClass>();
+            var sampleClass = new SampleClassWithCycleInConstructorWithInterfaceDependencyMethod(null);
+
+            c.BuildUp(sampleClass, ResolveKind.PartialEmitFunction);
+
+            Assert.IsNotNull(sampleClass);
+            Assert.IsNotNull(sampleClass.EmptyClass);
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(CycleForTypeException), "Appeared cycle when resolving constructor for object of type NiquIoC.Test.Model.SampleClassWithCycleInConstructorWithInterfaceDependencyMethod")]
-        public void ResolveInterfaceWithCycleInConstructorWithClassDependencyMethodAfterBuildUpObjectOfThisInterface_Failed()
+        public void ResolveInterfaceWithCycleInConstructorWithClassDependencyMethod_Failed()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();
             c.RegisterType<ISampleClassWithInterfaceMethod, SampleClassWithCycleInConstructorWithInterfaceDependencyMethod>();
-            ISampleClassWithInterfaceMethod sampleClass1 = new SampleClassWithCycleInConstructorWithInterfaceDependencyMethod(null);
 
-            c.BuildUp(sampleClass1, ResolveKind.PartialEmitFunction);
-            var sampleClass2 = c.Resolve<SampleClassWithCycleInConstructorWithInterfaceDependencyMethod>(ResolveKind.PartialEmitFunction);
+            var sampleClass = c.Resolve<ISampleClassWithInterfaceMethod>(ResolveKind.PartialEmitFunction);
 
-            Assert.IsNotNull(sampleClass1);
-            Assert.IsNotNull(sampleClass1.EmptyClass);
-            Assert.IsNull(sampleClass2);
+            Assert.IsNull(sampleClass);
         }
 
         [TestMethod]

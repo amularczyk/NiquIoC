@@ -124,6 +124,59 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.BuildUp
         }
 
         [TestMethod]
+        public void BuildUpInterfaceWithCycleInConstructorWithClassDependencyMethod_Success()
+        {
+            var c = new Container();
+            c.RegisterType<IEmptyClass, EmptyClass>().AsPerThread();
+            var sampleClass = new SampleClassWithCycleInConstructorWithInterfaceDependencyMethod(null);
+
+
+            var thread = new Thread(() =>
+            {
+                c.BuildUp(sampleClass, ResolveKind.PartialEmitFunction);
+            });
+            thread.Start();
+            thread.Join();
+
+
+            Assert.IsNotNull(sampleClass);
+            Assert.IsNotNull(sampleClass.EmptyClass);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(CycleForTypeException), "Appeared cycle when resolving constructor for object of type NiquIoC.Test.Model.SampleClassWithCycleInConstructorWithClassDependencyMethod")]
+        public void ResolveInterfaceWithCycleInConstructorWithClassDependencyMethod_Failed()
+        {
+            var c = new Container();
+            c.RegisterType<IEmptyClass, EmptyClass>().AsPerThread();
+            c.RegisterType<ISampleClassWithInterfaceMethod, SampleClassWithCycleInConstructorWithInterfaceDependencyMethod>();
+            ISampleClassWithInterfaceMethod sampleClass = null;
+            Exception exception = null;
+
+            var thread = new Thread(() =>
+            {
+                try
+                {
+                    sampleClass = c.Resolve<ISampleClassWithInterfaceMethod>(ResolveKind.PartialEmitFunction);
+                }
+                catch (Exception ex)
+                {
+                    exception = ex;
+                }
+            });
+            thread.Start();
+            thread.Join();
+
+            if (exception != null)
+            {
+                throw exception;
+            }
+
+
+            Assert.IsNull(sampleClass);
+        }
+
+        [TestMethod]
         public void BuildUpInterfaceWithoutDependencyMethod_Success()
         {
             var c = new Container();

@@ -85,15 +85,33 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.BuildUp
         }
 
         [TestMethod]
-        [ExpectedException(typeof(CycleForTypeException), "Appeared cycle when resolving constructor for object of type NiquIoC.Test.Model.SampleClassWithCycleInConstructorWithClassDependencyProperty"
-            )]
-        public void ResolveClassWithCycleInConstructorWithClassDependencyPropertyAfterBuildUpObjectOfThisClass_Failed()
+        public void BuildUpClassWithCycleInConstructorWithClassDependencyMethod_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsPerThread();
-            c.RegisterType<SampleClassWithCycleInConstructorWithClassDependencyProperty>();
-            var sampleClass1 = new SampleClassWithCycleInConstructorWithClassDependencyProperty(null);
-            SampleClassWithCycleInConstructorWithClassDependencyProperty sampleClass2 = null;
+            var sampleClass = new SampleClassWithCycleInConstructorWithClassDependencyProperty(null);
+
+
+            var thread = new Thread(() =>
+            {
+                c.BuildUp(sampleClass, ResolveKind.PartialEmitFunction);
+            });
+            thread.Start();
+            thread.Join();
+
+
+            Assert.IsNotNull(sampleClass);
+            Assert.IsNotNull(sampleClass.EmptyClass);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(CycleForTypeException), "Appeared cycle when resolving constructor for object of type NiquIoC.Test.Model.SampleClassWithCycleInConstructorWithClassDependencyProperty")]
+        public void ResolveClassWithCycleInConstructorWithClassDependencyMethod_Failed()
+        {
+            var c = new Container();
+            c.RegisterType<EmptyClass>().AsPerThread();
+            c.RegisterType<SampleClassWithCycleInConstructorWithClassDependencyProperty>().AsPerThread();
+            SampleClassWithCycleInConstructorWithClassDependencyProperty sampleClass = null;
             Exception exception = null;
 
 
@@ -101,8 +119,7 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.BuildUp
             {
                 try
                 {
-                    c.BuildUp(sampleClass1, ResolveKind.PartialEmitFunction);
-                    sampleClass2 = c.Resolve<SampleClassWithCycleInConstructorWithClassDependencyProperty>(ResolveKind.PartialEmitFunction);
+                    sampleClass = c.Resolve<SampleClassWithCycleInConstructorWithClassDependencyProperty>(ResolveKind.PartialEmitFunction);
                 }
                 catch (Exception ex)
                 {
@@ -118,9 +135,7 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.BuildUp
             }
 
 
-            Assert.IsNotNull(sampleClass1);
-            Assert.IsNotNull(sampleClass1.EmptyClass);
-            Assert.IsNull(sampleClass2);
+            Assert.IsNull(sampleClass);
         }
 
         [TestMethod]

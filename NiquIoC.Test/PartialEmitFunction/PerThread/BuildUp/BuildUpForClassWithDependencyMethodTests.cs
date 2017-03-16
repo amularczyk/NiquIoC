@@ -83,25 +83,42 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.BuildUp
             Assert.AreNotEqual(sampleClass1, sampleClass2);
             Assert.AreNotEqual(sampleClass1.EmptyClass, sampleClass2.EmptyClass);
         }
-
+        
         [TestMethod]
-        [ExpectedException(typeof(CycleForTypeException), "Appeared cycle when resolving constructor for object of type NiquIoC.Test.Model.SampleClassWithCycleInConstructorWithClassDependencyMethod")]
-        public void ResolveClassWithCycleInConstructorWithClassDependencyMethodAfterBuildUpObjectOfThisClass_Failed()
+        public void BuildUpClasWithCycleInConstructorWithClassDependencyMethod_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsPerThread();
-            c.RegisterType<SampleClassWithCycleInConstructorWithClassDependencyMethod>();
-            var sampleClass1 = new SampleClassWithCycleInConstructorWithClassDependencyMethod(null);
-            SampleClassWithCycleInConstructorWithClassDependencyMethod sampleClass2 = null;
-            Exception exception = null;
+            var sampleClass = new SampleClassWithCycleInConstructorWithClassDependencyMethod(null);
 
+
+            var thread = new Thread(() =>
+            {
+                c.BuildUp(sampleClass, ResolveKind.PartialEmitFunction);
+            });
+            thread.Start();
+            thread.Join();
+
+
+            Assert.IsNotNull(sampleClass);
+            Assert.IsNotNull(sampleClass.EmptyClass);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(CycleForTypeException), "Appeared cycle when resolving constructor for object of type NiquIoC.Test.Model.SampleClassWithCycleInConstructorWithClassDependencyMethod")]
+        public void ResolveClaseWithCycleInConstructorWithClassDependencyMethod_Failed()
+        {
+            var c = new Container();
+            c.RegisterType<EmptyClass>().AsPerThread();
+            c.RegisterType<SampleClassWithCycleInConstructorWithClassDependencyMethod>().AsPerThread();
+            SampleClassWithCycleInConstructorWithClassDependencyMethod sampleClass = null;
+            Exception exception = null;
 
             var thread = new Thread(() =>
             {
                 try
                 {
-                    c.BuildUp(sampleClass1, ResolveKind.PartialEmitFunction);
-                    sampleClass2 = c.Resolve<SampleClassWithCycleInConstructorWithClassDependencyMethod>(ResolveKind.PartialEmitFunction);
+                    sampleClass = c.Resolve<SampleClassWithCycleInConstructorWithClassDependencyMethod>(ResolveKind.PartialEmitFunction);
                 }
                 catch (Exception ex)
                 {
@@ -117,9 +134,7 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.BuildUp
             }
 
 
-            Assert.IsNotNull(sampleClass1);
-            Assert.IsNotNull(sampleClass1.EmptyClass);
-            Assert.IsNull(sampleClass2);
+            Assert.IsNull(sampleClass);
         }
 
         [TestMethod]
