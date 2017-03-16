@@ -40,9 +40,27 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FullEmitFunction\BuildUp\BuildUpForClassWithDependencyMethodTests.cs" />
+    <Compile Include="FullEmitFunction\BuildUp\BuildUpForClassWithDependencyPropertyTests.cs" />
+    <Compile Include="FullEmitFunction\BuildUp\BuildUpForInterfaceWithDependencyMethodTests.cs" />
+    <Compile Include="FullEmitFunction\BuildUp\BuildUpForInterfaceWithDependencyPropertyTestsy.cs" />
+    <Compile Include="FullEmitFunction\DependencyConstrutor\RegisterTypeForClassWithDependencyConstrutorTests.cs" />
+    <Compile Include="FullEmitFunction\DependencyConstrutor\RegisterTypeForClassWithDependencyConstrutorWithInterfaceTests.cs" />
+    <Compile Include="FullEmitFunction\DependencyConstrutor\RegisterTypeForInterfaceWithDependencyConstrutorTests.cs" />
+    <Compile Include="FullEmitFunction\DependencyConstrutor\RegisterTypeForInterfaceWithDependencyConstrutorWithClassTests.cs" />
+    <Compile Include="FullEmitFunction\FactoryObject\RegisterTypeByFactoryObjectForClassTests.cs" />
+    <Compile Include="FullEmitFunction\FactoryObject\RegisterTypeByFactoryObjectForClassWithInterfaceTests.cs" />
+    <Compile Include="FullEmitFunction\FactoryObject\RegisterTypeByFactoryObjectForInterfaceTests.cs" />
+    <Compile Include="FullEmitFunction\FactoryObject\RegisterTypeByFactoryObjectForInterfaceWithClassTests.cs" />
     <Compile Include="FullEmitFunction\RegisterGenericTypeForClassTests.cs" />
     <Compile Include="FullEmitFunction\RegisterGenericTypeForInterfaceTests.cs" />
     <Compile Include="FullEmitFunction\RegisterTypeForClassTests.cs" />
+    <Compile Include="FullEmitFunction\ReRegister\ReRegistereClassTests.cs" />
+    <Compile Include="FullEmitFunction\ReRegister\ReRegistereInterfaceTests.cs" />
+    <Compile Include="FullEmitFunction\ResolveWithBuildUp\RegisterClassWithDependencyMethodTests.cs" />
+    <Compile Include="FullEmitFunction\ResolveWithBuildUp\RegisterClassWithDependencyPropertyTests.cs" />
+    <Compile Include="FullEmitFunction\ResolveWithBuildUp\RegisterInterfaceWithDependencyMethodTests.cs" />
+    <Compile Include="FullEmitFunction\ResolveWithBuildUp\RegisterInterfaceWithDependencyPropertyTestsy.cs" />
     <Compile Include="PartialEmitFunction\BuildUp\BuildUpForClassWithDependencyMethodTests.cs" />
     <Compile Include="PartialEmitFunction\BuildUp\BuildUpForClassWithDependencyPropertyAndDependencyMethodTests.cs" />
     <Compile Include="PartialEmitFunction\BuildUp\BuildUpForClassWithDependencyPropertyTests.cs" />

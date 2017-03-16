@@ -2,7 +2,7 @@
 using NiquIoC.Enums;
 using NiquIoC.Test.Model;
 
-namespace NiquIoC.Test.FullEmitFunction.Singleton.ResolveWithBuildUp
+namespace NiquIoC.Test.PerHttpContext.FullEmitFunction.ResolveWithBuildUp
 {
     [TestClass]
     public class RegisterClassWithDependencyPropertyTests
@@ -11,10 +11,12 @@ namespace NiquIoC.Test.FullEmitFunction.Singleton.ResolveWithBuildUp
         public void RegisterClassWithDependencyProperty_Fail()
         {
             var c = new Container();
-            c.RegisterType<EmptyClass>().AsSingleton();
-            c.RegisterType<SampleClassWithClassDependencyProperty>().AsSingleton();
+            c.RegisterType<EmptyClass>().AsPerHttpContext();
+            c.RegisterType<SampleClassWithClassDependencyProperty>().AsPerHttpContext();
 
-            var sampleClass = c.Resolve<SampleClassWithClassDependencyProperty>(ResolveKind.FullEmitFunction);
+
+            var sampleClass = TestsHelper.ResolveObject<SampleClassWithClassDependencyProperty>(c, ResolveKind.FullEmitFunction);
+
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNull(sampleClass.EmptyClass);
@@ -24,10 +26,12 @@ namespace NiquIoC.Test.FullEmitFunction.Singleton.ResolveWithBuildUp
         public void RegisterClassWithoutDependencyProperty_Fail()
         {
             var c = new Container();
-            c.RegisterType<EmptyClass>().AsSingleton();
-            c.RegisterType<SampleClassWithoutClassDependencyProperty>().AsSingleton();
+            c.RegisterType<EmptyClass>().AsPerHttpContext();
+            c.RegisterType<SampleClassWithoutClassDependencyProperty>().AsPerHttpContext();
 
-            var sampleClass = c.Resolve<SampleClassWithoutClassDependencyProperty>(ResolveKind.FullEmitFunction);
+
+            var sampleClass = TestsHelper.ResolveObject<SampleClassWithoutClassDependencyProperty>(c, ResolveKind.FullEmitFunction);
+
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNull(sampleClass.EmptyClass);

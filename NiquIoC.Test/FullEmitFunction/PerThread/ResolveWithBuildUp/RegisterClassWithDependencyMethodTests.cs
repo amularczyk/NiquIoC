@@ -13,8 +13,8 @@ namespace NiquIoC.Test.FullEmitFunction.PerThread.ResolveWithBuildUp
         public void RegisterClassWithDependencyMethod_Fail()
         {
             var c = new Container();
-            c.RegisterType<EmptyClass>().AsSingleton();
-            c.RegisterType<SampleClassWithClassDependencyMethod>();
+            c.RegisterType<EmptyClass>().AsPerThread();
+            c.RegisterType<SampleClassWithClassDependencyMethod>().AsPerThread();
 
             var sampleClass = c.Resolve<SampleClassWithClassDependencyMethod>(ResolveKind.FullEmitFunction);
 
@@ -26,8 +26,8 @@ namespace NiquIoC.Test.FullEmitFunction.PerThread.ResolveWithBuildUp
         public void RegisterClassWithoutDependencyMethod_Fail()
         {
             var c = new Container();
-            c.RegisterType<EmptyClass>().AsSingleton();
-            c.RegisterType<SampleClassWithoutClassDependencyMethod>();
+            c.RegisterType<EmptyClass>().AsPerThread();
+            c.RegisterType<SampleClassWithoutClassDependencyMethod>().AsPerThread();
             SampleClassWithoutClassDependencyMethod sampleClass = null;
             Exception exception = null;
 

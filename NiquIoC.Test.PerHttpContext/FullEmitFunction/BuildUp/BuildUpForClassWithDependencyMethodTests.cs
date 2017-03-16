@@ -1,11 +1,9 @@
-﻿using System;
-using System.Threading;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NiquIoC.Enums;
 using NiquIoC.Exceptions;
 using NiquIoC.Test.Model;
 
-namespace NiquIoC.Test.FullEmitFunction.PerThread.BuildUp
+namespace NiquIoC.Test.PerHttpContext.FullEmitFunction.BuildUp
 {
     [TestClass]
     public class BuildUpForClassWithDependencyMethodTests
@@ -14,7 +12,7 @@ namespace NiquIoC.Test.FullEmitFunction.PerThread.BuildUp
         public void ClassWithoutBuildUpWithDependencyMethod_Success()
         {
             var c = new Container();
-            c.RegisterType<EmptyClass>().AsPerThread();
+            c.RegisterType<EmptyClass>().AsPerHttpContext();
             var sampleClass = new SampleClassWithoutClassDependencyMethod();
 
             Assert.IsNotNull(sampleClass);
@@ -26,29 +24,11 @@ namespace NiquIoC.Test.FullEmitFunction.PerThread.BuildUp
         public void BuildUpClassWithDependencyMethod_Fail()
         {
             var c = new Container();
-            c.RegisterType<EmptyClass>().AsPerThread();
+            c.RegisterType<EmptyClass>().AsPerHttpContext();
             var sampleClass = new SampleClassWithClassDependencyMethod();
-            Exception exception = null;
 
 
-            var thread = new Thread(() =>
-            {
-                try
-                {
-                    c.BuildUp(sampleClass, ResolveKind.FullEmitFunction);
-                }
-                catch (Exception ex)
-                {
-                    exception = ex;
-                }
-            });
-            thread.Start();
-            thread.Join();
-
-            if (exception != null)
-            {
-                throw exception;
-            }
+            sampleClass = TestsHelper.BuildUpObject(c, sampleClass, ResolveKind.FullEmitFunction);
 
 
             Assert.IsNotNull(sampleClass.EmptyClass);

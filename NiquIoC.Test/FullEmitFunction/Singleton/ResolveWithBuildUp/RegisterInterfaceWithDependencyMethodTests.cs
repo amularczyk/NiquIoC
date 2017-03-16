@@ -12,7 +12,7 @@ namespace NiquIoC.Test.FullEmitFunction.Singleton.ResolveWithBuildUp
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
-            c.RegisterType<ISampleClassWithInterfaceMethod, SampleClassWithInterfaceDependencyMethod>();
+            c.RegisterType<ISampleClassWithInterfaceMethod, SampleClassWithInterfaceDependencyMethod>().AsSingleton();
 
             var sampleClass = c.Resolve<ISampleClassWithInterfaceMethod>(ResolveKind.FullEmitFunction);
 
@@ -25,7 +25,7 @@ namespace NiquIoC.Test.FullEmitFunction.Singleton.ResolveWithBuildUp
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
-            c.RegisterType<ISampleClassWithInterfaceMethod, SampleClassWithoutInterfaceDependencyMethod>();
+            c.RegisterType<ISampleClassWithInterfaceMethod, SampleClassWithoutInterfaceDependencyMethod>().AsSingleton();
 
             var sampleClass = c.Resolve<ISampleClassWithInterfaceMethod>(ResolveKind.FullEmitFunction);
 

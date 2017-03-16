@@ -13,8 +13,8 @@ namespace NiquIoC.Test.FullEmitFunction.PerThread.ResolveWithBuildUp
         public void RegisterClassWithDependencyProperty_Fail()
         {
             var c = new Container();
-            c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
-            c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithInterfaceDependencyProperty>();
+            c.RegisterType<IEmptyClass, EmptyClass>().AsPerThread();
+            c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithInterfaceDependencyProperty>().AsPerThread();
 
             var sampleClass = c.Resolve<ISampleClassWithInterfaceProperty>(ResolveKind.FullEmitFunction);
 
@@ -26,8 +26,8 @@ namespace NiquIoC.Test.FullEmitFunction.PerThread.ResolveWithBuildUp
         public void RegisterClassWithoutDependencyProperty_Fail()
         {
             var c = new Container();
-            c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
-            c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithoutInterfaceDependencyProperty>();
+            c.RegisterType<IEmptyClass, EmptyClass>().AsPerThread();
+            c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithoutInterfaceDependencyProperty>().AsPerThread();
             ISampleClassWithInterfaceProperty sampleClass = null;
             Exception exception = null;
 
