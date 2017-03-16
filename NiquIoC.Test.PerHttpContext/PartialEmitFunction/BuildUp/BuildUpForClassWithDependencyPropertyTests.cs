@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NiquIoC.Enums;
 using NiquIoC.Exceptions;
 using NiquIoC.Test.Model;
@@ -36,7 +34,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.BuildUp
         }
 
         [TestMethod]
-        public void SameThread_DifferentObjects_BuildUpClassWithDependencyProperty_Success()
+        public void SameHttpContext_DifferentObjects_BuildUpClassWithDependencyProperty_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsPerHttpContext();
@@ -56,7 +54,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.BuildUp
         }
 
         [TestMethod]
-        public void DifferentThreads_DifferentObjects_BuildUpClassWithDependencyProperty_Success()
+        public void DifferentHttpContexts_DifferentObjects_BuildUpClassWithDependencyProperty_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsPerHttpContext();
@@ -90,7 +88,8 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.BuildUp
         }
 
         [TestMethod]
-        [ExpectedException(typeof(CycleForTypeException), "Appeared cycle when resolving constructor for object of type NiquIoC.Test.Model.SampleClassWithCycleInConstructorWithClassDependencyProperty")]
+        [ExpectedException(typeof(CycleForTypeException), "Appeared cycle when resolving constructor for object of type NiquIoC.Test.Model.SampleClassWithCycleInConstructorWithClassDependencyProperty"
+            )]
         public void ResolveClassWithCycleInConstructorWithClassDependencyProperty_Failed()
         {
             var c = new Container();
@@ -135,7 +134,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.BuildUp
         }
 
         [TestMethod]
-        public void SameThread_DifferentObjects_BuildUpClassWithManyClassDependencyProperties_Success()
+        public void SameHttpContext_DifferentObjects_BuildUpClassWithManyClassDependencyProperties_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsPerHttpContext();
@@ -159,7 +158,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.BuildUp
         }
 
         [TestMethod]
-        public void DifferentThreads_DifferentObjects_BuildUpClassWithManyClassDependencyProperties_Success()
+        public void DifferentHttpContexts_DifferentObjects_BuildUpClassWithManyClassDependencyProperties_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsPerHttpContext();
@@ -198,7 +197,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.BuildUp
         }
 
         [TestMethod]
-        public void SameThread_DifferentObjects_BuildUpClassWithNestedClassDependencyProperty_Success()
+        public void SameHttpContext_DifferentObjects_BuildUpClassWithNestedClassDependencyProperty_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsPerHttpContext();
@@ -222,7 +221,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.BuildUp
         }
 
         [TestMethod]
-        public void DifferentThreads_DifferentObjects_BuildUpClassWithNestedClassDependencyProperty_Success()
+        public void DifferentHttpContexts_DifferentObjects_BuildUpClassWithNestedClassDependencyProperty_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsPerHttpContext();

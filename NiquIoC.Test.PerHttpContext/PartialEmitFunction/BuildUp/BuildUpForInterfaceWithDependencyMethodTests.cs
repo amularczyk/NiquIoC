@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NiquIoC.Enums;
 using NiquIoC.Exceptions;
 using NiquIoC.Test.Model;
@@ -36,7 +34,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.BuildUp
         }
 
         [TestMethod]
-        public void SameThread_DifferentObjects_BuildUpInterfaceWithDependencyMethod_Success()
+        public void SameHttpContext_DifferentObjects_BuildUpInterfaceWithDependencyMethod_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerHttpContext();
@@ -56,7 +54,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.BuildUp
         }
 
         [TestMethod]
-        public void DifferentThreads_DifferentObjects_BuildUpInterfaceWithDependencyMethod_Success()
+        public void DifferentHttpContexts_DifferentObjects_BuildUpInterfaceWithDependencyMethod_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerHttpContext();
@@ -149,7 +147,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.BuildUp
         }
 
         [TestMethod]
-        public void SameThread_DifferentObjects_BuildUpInterfaceWithManyInterfaceDependencyMethods_Success()
+        public void SameHttpContext_DifferentObjects_BuildUpInterfaceWithManyInterfaceDependencyMethods_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerHttpContext();
@@ -173,7 +171,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.BuildUp
         }
 
         [TestMethod]
-        public void DifferentThreads_DifferentObjects_BuildUpInterfaceWithManyInterfaceDependencyMethods_Success()
+        public void DifferentHttpContexts_DifferentObjects_BuildUpInterfaceWithManyInterfaceDependencyMethods_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerHttpContext();
@@ -212,7 +210,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.BuildUp
         }
 
         [TestMethod]
-        public void SameThread_DifferentObjects_BuildUpInterfaceWithManyInterfaceParametersInDependencyMethod_Success()
+        public void SameHttpContext_DifferentObjects_BuildUpInterfaceWithManyInterfaceParametersInDependencyMethod_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerHttpContext();
@@ -236,7 +234,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.BuildUp
         }
 
         [TestMethod]
-        public void DifferentThreads_DifferentObjects_BuildUpInterfaceWithManyInterfaceParametersInDependencyMethod_Success()
+        public void DifferentHttpContexts_DifferentObjects_BuildUpInterfaceWithManyInterfaceParametersInDependencyMethod_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerHttpContext();
@@ -275,7 +273,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.BuildUp
         }
 
         [TestMethod]
-        public void SameThread_DifferentObjects_BuildUpInterfaceWithNestedInterfaceDependencyMethod_Success()
+        public void SameHttpContext_DifferentObjects_BuildUpInterfaceWithNestedInterfaceDependencyMethod_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerHttpContext();
@@ -299,7 +297,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.BuildUp
         }
 
         [TestMethod]
-        public void DifferentThreads_DifferentObjects_BuildUpInterfaceWithNestedInterfaceDependencyMethod_Success()
+        public void DifferentHttpContexts_DifferentObjects_BuildUpInterfaceWithNestedInterfaceDependencyMethod_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerHttpContext();

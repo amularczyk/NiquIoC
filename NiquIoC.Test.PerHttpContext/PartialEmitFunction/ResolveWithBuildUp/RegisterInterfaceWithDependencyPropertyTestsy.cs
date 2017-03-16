@@ -22,7 +22,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
         }
 
         [TestMethod]
-        public void SameThread_DifferentObjects_BuildUpInterfaceWithDependencyProperty_Success()
+        public void SameHttpContext_DifferentObjects_BuildUpInterfaceWithDependencyProperty_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerHttpContext();
@@ -41,7 +41,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
         }
 
         [TestMethod]
-        public void DifferentThreads_DifferentObjects_BuildUpInterfaceWithDependencyProperty_Success()
+        public void DifferentHttpContexts_DifferentObjects_BuildUpInterfaceWithDependencyProperty_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerHttpContext();
@@ -89,7 +89,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
         }
 
         [TestMethod]
-        public void SameThread_DifferentObjects_BuildUpInterfaceWithManyInterfaceDependencyProperties_Success()
+        public void SameHttpContext_DifferentObjects_BuildUpInterfaceWithManyInterfaceDependencyProperties_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerHttpContext();
@@ -112,7 +112,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
         }
 
         [TestMethod]
-        public void DifferentThreads_DifferentObjects_BuildUpInterfaceWithManyInterfaceDependencyProperties_Success()
+        public void DifferentHttpContexts_DifferentObjects_BuildUpInterfaceWithManyInterfaceDependencyProperties_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerHttpContext();
@@ -150,7 +150,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
         }
 
         [TestMethod]
-        public void SameThread_DifferentObjects_BuildUpInterfaceWithNestedInterfaceDependencyProperty_Success()
+        public void SameHttpContext_DifferentObjects_BuildUpInterfaceWithNestedInterfaceDependencyProperty_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerHttpContext();
@@ -173,7 +173,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
         }
 
         [TestMethod]
-        public void DifferentThreads_DifferentObjects_BuildUpInterfaceWithNestedInterfaceDependencyProperty_Success()
+        public void DifferentHttpContexts_DifferentObjects_BuildUpInterfaceWithNestedInterfaceDependencyProperty_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerHttpContext();
@@ -226,7 +226,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
         }
 
         [TestMethod]
-        public void SameThread_DifferentObjects_RegisterClassWithClassInConstructorWithNestedClassDependencyProperty_Success()
+        public void SameHttpContext_DifferentObjects_RegisterClassWithClassInConstructorWithNestedClassDependencyProperty_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerHttpContext();
@@ -249,7 +249,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
         }
 
         [TestMethod]
-        public void DifferentThreads_DifferentObjects_RegisterClassWithClassInConstructorWithNestedClassDependencyProperty_Success()
+        public void DifferentHttpContexts_DifferentObjects_RegisterClassWithClassInConstructorWithNestedClassDependencyProperty_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerHttpContext();

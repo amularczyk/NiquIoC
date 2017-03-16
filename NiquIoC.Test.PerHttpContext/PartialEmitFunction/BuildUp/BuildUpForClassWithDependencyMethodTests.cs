@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NiquIoC.Enums;
 using NiquIoC.Exceptions;
 using NiquIoC.Test.Model;
@@ -36,7 +34,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.BuildUp
         }
 
         [TestMethod]
-        public void SameThread_DifferentObjects_BuildUpClassWithDependencyMethod_Success()
+        public void SameHttpContext_DifferentObjects_BuildUpClassWithDependencyMethod_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsPerHttpContext();
@@ -56,7 +54,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.BuildUp
         }
 
         [TestMethod]
-        public void DifferentThreads_DifferentObjects_BuildUpClassWithDependencyMethod_Success()
+        public void DifferentHttpContexts_DifferentObjects_BuildUpClassWithDependencyMethod_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsPerHttpContext();
@@ -84,7 +82,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.BuildUp
 
             sampleClass = TestsHelper.BuildUpObject(c, sampleClass, ResolveKind.PartialEmitFunction);
 
-            
+
             Assert.IsNotNull(sampleClass);
             Assert.IsNotNull(sampleClass.EmptyClass);
         }
@@ -149,7 +147,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.BuildUp
         }
 
         [TestMethod]
-        public void SameThread_DifferentObjects_BuildUpClassWithManyClassDependencyMethods_Success()
+        public void SameHttpContext_DifferentObjects_BuildUpClassWithManyClassDependencyMethods_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsPerHttpContext();
@@ -173,7 +171,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.BuildUp
         }
 
         [TestMethod]
-        public void DifferentThreads_DifferentObjects_BuildUpClassWithManyClassDependencyMethods_Success()
+        public void DifferentHttpContexts_DifferentObjects_BuildUpClassWithManyClassDependencyMethods_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsPerHttpContext();
@@ -212,7 +210,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.BuildUp
         }
 
         [TestMethod]
-        public void SameThread_DifferentObjects_BuildUpClassWithManyClassParametersInDependencyMethod_Success()
+        public void SameHttpContext_DifferentObjects_BuildUpClassWithManyClassParametersInDependencyMethod_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsPerHttpContext();
@@ -236,7 +234,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.BuildUp
         }
 
         [TestMethod]
-        public void DifferentThreads_DifferentObjects_BuildUpClassWithManyClassParametersInDependencyMethod_Success()
+        public void DifferentHttpContexts_DifferentObjects_BuildUpClassWithManyClassParametersInDependencyMethod_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsPerHttpContext();
@@ -275,7 +273,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.BuildUp
         }
 
         [TestMethod]
-        public void SameThread_DifferentObjects_BuildUpClassWithNestedClassDependencyMethod_Success()
+        public void SameHttpContext_DifferentObjects_BuildUpClassWithNestedClassDependencyMethod_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsPerHttpContext();
@@ -299,7 +297,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.BuildUp
         }
 
         [TestMethod]
-        public void DifferentThreads_DifferentObjects_BuildUpClassWithNestedClassDependencyMethod_Success()
+        public void DifferentHttpContexts_DifferentObjects_BuildUpClassWithNestedClassDependencyMethod_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsPerHttpContext();

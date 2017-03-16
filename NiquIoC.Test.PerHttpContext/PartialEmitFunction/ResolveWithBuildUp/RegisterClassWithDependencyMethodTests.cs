@@ -23,7 +23,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
         }
 
         [TestMethod]
-        public void SameThread_DifferentObjects_RegisterClassWithDependencyMethod_Success()
+        public void SameHttpContext_DifferentObjects_RegisterClassWithDependencyMethod_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsPerHttpContext();
@@ -42,7 +42,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
         }
 
         [TestMethod]
-        public void DifferentThreads_DifferentObjects_RegisterClassWithDependencyMethod_Success()
+        public void DifferentHttpContexts_DifferentObjects_RegisterClassWithDependencyMethod_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsPerHttpContext();
@@ -106,7 +106,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
         }
 
         [TestMethod]
-        public void SameThread_DifferentObjects_RegisterClassWithManyClassDependencyMethods_Success()
+        public void SameHttpContext_DifferentObjects_RegisterClassWithManyClassDependencyMethods_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsPerHttpContext();
@@ -129,7 +129,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
         }
 
         [TestMethod]
-        public void DifferentThreads_DifferentObjects_RegisterClassWithManyClassDependencyMethods_Success()
+        public void DifferentHttpContexts_DifferentObjects_RegisterClassWithManyClassDependencyMethods_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsPerHttpContext();
@@ -167,7 +167,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
         }
 
         [TestMethod]
-        public void SameThread_DifferentObjects_RegisterClassWithManyClassParametersInDependencyMethod_Success()
+        public void SameHttpContext_DifferentObjects_RegisterClassWithManyClassParametersInDependencyMethod_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsPerHttpContext();
@@ -190,7 +190,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
         }
 
         [TestMethod]
-        public void DifferentThreads_DifferentObjects_RegisterClassWithManyClassParametersInDependencyMethod_Success()
+        public void DifferentHttpContexts_DifferentObjects_RegisterClassWithManyClassParametersInDependencyMethod_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsPerHttpContext();
@@ -228,7 +228,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
         }
 
         [TestMethod]
-        public void SameThread_DifferentObjects_RegisterClassWithNestedClassDependencyMethod_Success()
+        public void SameHttpContext_DifferentObjects_RegisterClassWithNestedClassDependencyMethod_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsPerHttpContext();
@@ -251,7 +251,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
         }
 
         [TestMethod]
-        public void DifferentThreads_DifferentObjects_RegisterClassWithNestedClassDependencyMethod_Success()
+        public void DifferentHttpContexts_DifferentObjects_RegisterClassWithNestedClassDependencyMethod_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsPerHttpContext();

@@ -72,7 +72,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction
         }
 
         [TestMethod]
-        public void SameThread_RegisterManyGenericClasses_Success()
+        public void SameHttpContext_RegisterManyGenericClasses_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsPerHttpContext();
@@ -96,7 +96,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction
         }
 
         [TestMethod]
-        public void DifferentThreads_RegisterManyGenericClasses_Success()
+        public void DifferentHttpContexts_RegisterManyGenericClasses_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsPerHttpContext();

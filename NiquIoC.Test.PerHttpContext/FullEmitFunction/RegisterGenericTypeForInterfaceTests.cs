@@ -73,7 +73,7 @@ namespace NiquIoC.Test.PerHttpContext.FullEmitFunction
         }
 
         [TestMethod]
-        public void SameThread_RegisterManyGenericClasses_Success()
+        public void SameHttpContext_RegisterManyGenericClasses_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerHttpContext();
@@ -97,7 +97,7 @@ namespace NiquIoC.Test.PerHttpContext.FullEmitFunction
         }
 
         [TestMethod]
-        public void DifferentThreads_RegisterManyGenericClasses_Success()
+        public void DifferentHttpContexts_RegisterManyGenericClasses_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerHttpContext();
