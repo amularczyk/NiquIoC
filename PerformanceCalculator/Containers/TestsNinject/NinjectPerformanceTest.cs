@@ -3,48 +3,20 @@ using System.Diagnostics;
 using Ninject;
 using PerformanceCalculator.Common;
 using PerformanceCalculator.Interfaces;
+using PerformanceCalculator.TestCase.TestCaseA;
 
 namespace PerformanceCalculator.Containers.TestsNinject
 {
     public class NinjectPerformanceTest : PerformanceTest
     {
-        protected override ITestCase GetTestCase(string testCase, RegistrationKind registrationKind)
+        protected override IRegistration GetRegistration()
         {
-            switch (testCase)
-            {
-                case TestCaseName.A:
-                    return new TestCaseA(GetRegistration(registrationKind), new NinjectResolving());
-
-                case TestCaseName.B:
-                    return new TestCaseB(GetRegistration(registrationKind), new NinjectResolving());
-
-                case TestCaseName.C:
-                    return new TestCaseC(GetRegistration(registrationKind), new NinjectResolving());
-
-                case TestCaseName.D:
-                    return new TestCaseD(GetRegistration(registrationKind), new NinjectResolving());
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(registrationKind), registrationKind, null);
-            }
+            return new NinjectRegistration();
         }
 
-        protected IRegistration GetRegistration(RegistrationKind registrationKind)
+        protected override IResolving GetResolving()
         {
-            switch (registrationKind)
-            {
-                case RegistrationKind.Singleton:
-                    return new SingletonNinjectRegistration();
-
-                case RegistrationKind.Transient:
-                    return new TransientNinjectRegistration();
-
-                case RegistrationKind.PerThread:
-                    return new PerThreadNinjectRegistration();
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(registrationKind), registrationKind, null);
-            }
+            return new NinjectResolving();
         }
 
         protected override object GetContainer(RegistrationKind registrationKind)

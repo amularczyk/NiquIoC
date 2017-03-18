@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PerformanceCalculator.Containers;
 using PerformanceCalculator.Containers.TestsAutofac;
 using PerformanceCalculator.Interfaces;
+using PerformanceCalculator.TestCase.TestCaseB;
 using PerformanceCalculator.TestCases;
 
 namespace PerformanceCalculator.Tests.Containers.TestsAutofac
@@ -14,7 +15,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsAutofac
         [TestMethod]
         public void RegisterSingleton_Success()
         {
-            ITestCase testCase = new TestCaseB(new SingletonAutofacRegistration(), new AutofacResolving());
+            ITestCase testCase = new SingletonTestCaseB(new AutofacRegistration(), new AutofacResolving());
 
 
             var cb = new ContainerBuilder();
@@ -32,7 +33,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsAutofac
         [TestMethod]
         public void RegisterTransient_Success()
         {
-            ITestCase testCase = new TestCaseB(new TransientAutofacRegistration(), new AutofacResolving());
+            ITestCase testCase = new TransientTestCaseB(new AutofacRegistration(), new AutofacResolving());
 
 
             var cb = new ContainerBuilder();
@@ -50,7 +51,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsAutofac
         [TestMethod]
         public void RegisterPerThread_SameThread_Success()
         {
-            ITestCase testCase = new TestCaseB(new PerThreadAutofacRegistration(), new AutofacResolving());
+            ITestCase testCase = new PerThreadTestCaseB(new AutofacRegistration(), new AutofacResolving());
 
 
             var cb = new ContainerBuilder();
@@ -79,7 +80,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsAutofac
         [TestMethod]
         public void RegisterPerThread_DifferentThreads_Success()
         {
-            ITestCase testCase = new TestCaseB(new PerThreadAutofacRegistration(), new AutofacResolving());
+            ITestCase testCase = new PerThreadTestCaseB(new AutofacRegistration(), new AutofacResolving());
 
 
             var cb = new ContainerBuilder();

@@ -8,43 +8,14 @@ namespace PerformanceCalculator.Containers.TestsGrace
 {
     public class GracePerformanceTest : PerformanceTest
     {
-        protected override ITestCase GetTestCase(string testCase, RegistrationKind registrationKind)
+        protected override IRegistration GetRegistration()
         {
-            switch (testCase)
-            {
-                case TestCaseName.A:
-                    return new TestCaseA(GetRegistration(registrationKind), new GraceResolving());
-
-                case TestCaseName.B:
-                    return new TestCaseB(GetRegistration(registrationKind), new GraceResolving());
-
-                case TestCaseName.C:
-                    return new TestCaseC(GetRegistration(registrationKind), new GraceResolving());
-
-                case TestCaseName.D:
-                    return new TestCaseD(GetRegistration(registrationKind), new GraceResolving());
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(registrationKind), registrationKind, null);
-            }
+            return new GraceRegistration();
         }
 
-        protected IRegistration GetRegistration(RegistrationKind registrationKind)
+        protected override IResolving GetResolving()
         {
-            switch (registrationKind)
-            {
-                case RegistrationKind.Singleton:
-                    return new SingletonGraceRegistration();
-
-                case RegistrationKind.Transient:
-                    return new TransientGraceRegistration();
-
-                case RegistrationKind.PerThread:
-                    return new PerThreadGraceRegistration();
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(registrationKind), registrationKind, null);
-            }
+            return new GraceResolving();
         }
 
         protected override object GetContainer(RegistrationKind registrationKind)

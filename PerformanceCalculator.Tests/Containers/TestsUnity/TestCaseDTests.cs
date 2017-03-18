@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PerformanceCalculator.Containers;
 using PerformanceCalculator.Containers.TestsUnity;
 using PerformanceCalculator.Interfaces;
+using PerformanceCalculator.TestCase.TestCaseD;
 using PerformanceCalculator.TestCases;
 
 namespace PerformanceCalculator.Tests.Containers.TestsUnity
@@ -14,7 +15,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsUnity
         [TestMethod]
         public void RegisterSingleton_Success()
         {
-            ITestCase testCase = new TestCaseD(new SingletonUnityRegistration(), new UnityResolving());
+            ITestCase testCase = new SingletonTestCaseD(new UnityRegistration(), new UnityResolving());
 
 
             var c = new UnityContainer();
@@ -32,7 +33,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsUnity
         [TestMethod]
         public void RegisterTransient_Success()
         {
-            ITestCase testCase = new TestCaseD(new TransientUnityRegistration(), new UnityResolving());
+            ITestCase testCase = new TransientTestCaseD(new UnityRegistration(), new UnityResolving());
 
 
             var c = new UnityContainer();
@@ -50,7 +51,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsUnity
         [TestMethod]
         public void RegisterPerThread_SameThread_Success()
         {
-            ITestCase testCase = new TestCaseD(new PerThreadUnityRegistration(), new UnityResolving());
+            ITestCase testCase = new PerThreadTestCaseD(new UnityRegistration(), new UnityResolving());
 
             var c = new UnityContainer();
             c = (UnityContainer)testCase.Register(c);
@@ -75,7 +76,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsUnity
         [TestMethod]
         public void RegisterPerThread_DifferentThreads_Success()
         {
-            ITestCase testCase = new TestCaseD(new PerThreadUnityRegistration(), new UnityResolving());
+            ITestCase testCase = new PerThreadTestCaseD(new UnityRegistration(), new UnityResolving());
 
             var c = new UnityContainer();
             c = (UnityContainer)testCase.Register(c);

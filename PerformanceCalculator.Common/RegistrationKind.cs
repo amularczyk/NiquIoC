@@ -6,5 +6,6 @@
         Singleton = 1,
         Transient = 2,
         PerThread = 3,
+        TransientSingleton = 4,
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PerformanceCalculator.Containers;
 using PerformanceCalculator.Containers.TestsWindsor;
 using PerformanceCalculator.Interfaces;
+using PerformanceCalculator.TestCase.TestCaseA;
 using PerformanceCalculator.TestCases;
 
 namespace PerformanceCalculator.Tests.Containers.TestsWindsor
@@ -14,7 +15,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsWindsor
         [TestMethod]
         public void RegisterSingleton_Success()
         {
-            ITestCase testCase = new TestCaseA(new SingletonWindsorRegistration(), new WindsorResolving());
+            ITestCase testCase = new SingletonTestCaseA(new WindsorRegistration(), new WindsorResolving());
 
 
             var c = new WindsorContainer();
@@ -32,7 +33,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsWindsor
         [TestMethod]
         public void RegisterTransient_Success()
         {
-            ITestCase testCase = new TestCaseA(new TransientWindsorRegistration(), new WindsorResolving());
+            ITestCase testCase = new TransientTestCaseA(new WindsorRegistration(), new WindsorResolving());
 
 
             var c = new WindsorContainer();
@@ -50,7 +51,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsWindsor
         [TestMethod]
         public void RegisterPerThread_SameThread_Success()
         {
-            ITestCase testCase = new TestCaseA(new PerThreadWindsorRegistration(), new WindsorResolving());
+            ITestCase testCase = new PerThreadTestCaseA(new WindsorRegistration(), new WindsorResolving());
 
             var c = new WindsorContainer();
             c = (WindsorContainer)testCase.Register(c);
@@ -75,7 +76,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsWindsor
         [TestMethod]
         public void RegisterPerThread_DifferentThreads_Success()
         {
-            ITestCase testCase = new TestCaseA(new PerThreadWindsorRegistration(), new WindsorResolving());
+            ITestCase testCase = new PerThreadTestCaseA(new WindsorRegistration(), new WindsorResolving());
 
             var c = new WindsorContainer();
             c = (WindsorContainer)testCase.Register(c);

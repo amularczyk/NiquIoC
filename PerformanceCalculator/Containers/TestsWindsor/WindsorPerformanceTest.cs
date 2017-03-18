@@ -8,43 +8,14 @@ namespace PerformanceCalculator.Containers.TestsWindsor
 {
     public class WindsorPerformanceTest : PerformanceTest
     {
-        protected override ITestCase GetTestCase(string testCase, RegistrationKind registrationKind)
+        protected override IRegistration GetRegistration()
         {
-            switch (testCase)
-            {
-                case TestCaseName.A:
-                    return new TestCaseA(GetRegistration(registrationKind), new WindsorResolving());
-
-                case TestCaseName.B:
-                    return new TestCaseB(GetRegistration(registrationKind), new WindsorResolving());
-
-                case TestCaseName.C:
-                    return new TestCaseC(GetRegistration(registrationKind), new WindsorResolving());
-
-                case TestCaseName.D:
-                    return new TestCaseD(GetRegistration(registrationKind), new WindsorResolving());
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(registrationKind), registrationKind, null);
-            }
+            return new WindsorRegistration();
         }
 
-        protected IRegistration GetRegistration(RegistrationKind registrationKind)
+        protected override IResolving GetResolving()
         {
-            switch (registrationKind)
-            {
-                case RegistrationKind.Singleton:
-                    return new SingletonWindsorRegistration();
-
-                case RegistrationKind.Transient:
-                    return new TransientWindsorRegistration();
-
-                case RegistrationKind.PerThread:
-                    return new PerThreadWindsorRegistration();
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(registrationKind), registrationKind, null);
-            }
+            return new WindsorResolving();
         }
 
         protected override object GetContainer(RegistrationKind registrationKind)

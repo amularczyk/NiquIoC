@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PerformanceCalculator.Containers;
 using PerformanceCalculator.Containers.TestsSimpleInjector;
 using PerformanceCalculator.Interfaces;
+using PerformanceCalculator.TestCase.TestCaseA;
 using PerformanceCalculator.TestCases;
 using SimpleInjector;
 
@@ -14,7 +15,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsSimpleInjector
         [TestMethod]
         public void RegisterSingleton_Success()
         {
-            ITestCase testCase = new TestCaseA(new SingletonSimpleInjectorRegistration(), new SimpleInjectorResolving());
+            ITestCase testCase = new SingletonTestCaseA(new SimpleInjectorRegistration(), new SimpleInjectorResolving());
 
 
             var c = new Container();
@@ -32,7 +33,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsSimpleInjector
         [TestMethod]
         public void RegisterTransient_Success()
         {
-            ITestCase testCase = new TestCaseA(new TransientSimpleInjectorRegistration(), new SimpleInjectorResolving());
+            ITestCase testCase = new TransientTestCaseA(new SimpleInjectorRegistration(), new SimpleInjectorResolving());
 
             var c = new Container();
             c = (Container)testCase.Register(c);
@@ -50,7 +51,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsSimpleInjector
         [TestMethod]
         public void RegisterPerThread_SameThread_Success()
         {
-            ITestCase testCase = new TestCaseA(new PerThreadSimpleInjectorRegistration(), new SimpleInjectorResolving());
+            ITestCase testCase = new PerThreadTestCaseA(new SimpleInjectorRegistration(), new SimpleInjectorResolving());
 
             var c = new Container();
             c = (Container)testCase.Register(c);
@@ -78,7 +79,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsSimpleInjector
         [TestMethod]
         public void RegisterPerThread_DifferentThreads_Success()
         {
-            ITestCase testCase = new TestCaseA(new PerThreadSimpleInjectorRegistration(), new SimpleInjectorResolving());
+            ITestCase testCase = new PerThreadTestCaseA(new SimpleInjectorRegistration(), new SimpleInjectorResolving());
 
             var c = new Container();
             c = (Container)testCase.Register(c);

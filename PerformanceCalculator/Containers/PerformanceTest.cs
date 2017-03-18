@@ -2,6 +2,10 @@
 using System.Diagnostics;
 using PerformanceCalculator.Common;
 using PerformanceCalculator.Interfaces;
+using PerformanceCalculator.TestCase.TestCaseA;
+using PerformanceCalculator.TestCase.TestCaseB;
+using PerformanceCalculator.TestCase.TestCaseC;
+using PerformanceCalculator.TestCase.TestCaseD;
 
 namespace PerformanceCalculator.Containers
 {
@@ -24,7 +28,94 @@ namespace PerformanceCalculator.Containers
             return testResult;
         }
 
-        protected abstract ITestCase GetTestCase(string testCase, RegistrationKind registrationKind);
+        protected ITestCase GetTestCase(string testCase, RegistrationKind registrationKind)
+        {
+            switch (testCase)
+            {
+                case TestCaseName.A:
+                    switch (registrationKind)
+                    {
+                        case RegistrationKind.Singleton:
+                            return new SingletonTestCaseA(GetRegistration(), GetResolving());
+
+                        case RegistrationKind.Transient:
+                            return new TransientTestCaseA(GetRegistration(), GetResolving());
+
+                        case RegistrationKind.TransientSingleton:
+                            return new TransientSingletonTestCaseA(GetRegistration(), GetResolving());
+
+                        case RegistrationKind.PerThread:
+                            return new PerThreadTestCaseA(GetRegistration(), GetResolving());
+
+                        default:
+                            throw new ArgumentOutOfRangeException(nameof(registrationKind), registrationKind, null);
+                    }
+
+                case TestCaseName.B:
+                    switch (registrationKind)
+                    {
+                        case RegistrationKind.Singleton:
+                            return new SingletonTestCaseB(GetRegistration(), GetResolving());
+
+                        case RegistrationKind.Transient:
+                            return new TransientTestCaseB(GetRegistration(), GetResolving());
+
+                        case RegistrationKind.TransientSingleton:
+                            return new TransientSingletonTestCaseB(GetRegistration(), GetResolving());
+
+                        case RegistrationKind.PerThread:
+                            return new PerThreadTestCaseB(GetRegistration(), GetResolving());
+
+                        default:
+                            throw new ArgumentOutOfRangeException(nameof(registrationKind), registrationKind, null);
+                    }
+
+                case TestCaseName.C:
+                    switch (registrationKind)
+                    {
+                        case RegistrationKind.Singleton:
+                            return new SingletonTestCaseC(GetRegistration(), GetResolving());
+
+                        case RegistrationKind.Transient:
+                            return new TransientTestCaseC(GetRegistration(), GetResolving());
+
+                        case RegistrationKind.TransientSingleton:
+                            return new TransientSingletonTestCaseC(GetRegistration(), GetResolving());
+
+                        case RegistrationKind.PerThread:
+                            return new PerThreadTestCaseC(GetRegistration(), GetResolving());
+
+                        default:
+                            throw new ArgumentOutOfRangeException(nameof(registrationKind), registrationKind, null);
+                    }
+
+                case TestCaseName.D:
+                    switch (registrationKind)
+                    {
+                        case RegistrationKind.Singleton:
+                            return new SingletonTestCaseD(GetRegistration(), GetResolving());
+
+                        case RegistrationKind.Transient:
+                            return new TransientTestCaseD(GetRegistration(), GetResolving());
+
+                        case RegistrationKind.TransientSingleton:
+                            return new TransientSingletonTestCaseD(GetRegistration(), GetResolving());
+
+                        case RegistrationKind.PerThread:
+                            return new PerThreadTestCaseD(GetRegistration(), GetResolving());
+
+                        default:
+                            throw new ArgumentOutOfRangeException(nameof(registrationKind), registrationKind, null);
+                    }
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(registrationKind), registrationKind, null);
+            }
+        }
+
+        protected abstract IRegistration GetRegistration();
+
+        protected abstract IResolving GetResolving();
 
         protected abstract object GetContainer(RegistrationKind registrationKind);
 

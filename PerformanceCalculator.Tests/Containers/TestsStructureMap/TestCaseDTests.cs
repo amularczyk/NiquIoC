@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PerformanceCalculator.Containers;
 using PerformanceCalculator.Containers.TestsStructureMap;
 using PerformanceCalculator.Interfaces;
+using PerformanceCalculator.TestCase.TestCaseD;
 using PerformanceCalculator.TestCases;
 using StructureMap;
 
@@ -14,7 +15,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsStructureMap
         [TestMethod]
         public void RegisterSingleton_Success()
         {
-            ITestCase testCase = new TestCaseD(new SingletonStructureMapRegistration(), new StructureMapResolving());
+            ITestCase testCase = new SingletonTestCaseD(new StructureMapRegistration(), new StructureMapResolving());
 
 
             var c = new Container();
@@ -32,7 +33,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsStructureMap
         [TestMethod]
         public void RegisterTransient_Success()
         {
-            ITestCase testCase = new TestCaseD(new TransientStructureMapRegistration(), new StructureMapResolving());
+            ITestCase testCase = new TransientTestCaseD(new StructureMapRegistration(), new StructureMapResolving());
 
 
             var c = new Container();
@@ -50,7 +51,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsStructureMap
         [TestMethod]
         public void RegisterPerThread_SameThread_Success()
         {
-            ITestCase testCase = new TestCaseD(new PerThreadStructureMapRegistration(), new StructureMapResolving());
+            ITestCase testCase = new PerThreadTestCaseD(new StructureMapRegistration(), new StructureMapResolving());
 
             var c = new Container();
             c = (Container)testCase.Register(c);
@@ -75,7 +76,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsStructureMap
         [TestMethod]
         public void RegisterPerThread_DifferentThreads_Success()
         {
-            ITestCase testCase = new TestCaseD(new PerThreadStructureMapRegistration(), new StructureMapResolving());
+            ITestCase testCase = new PerThreadTestCaseD(new StructureMapRegistration(), new StructureMapResolving());
 
             var c = new Container();
             c = (Container)testCase.Register(c);

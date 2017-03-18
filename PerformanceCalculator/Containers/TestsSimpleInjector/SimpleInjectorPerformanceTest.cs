@@ -8,43 +8,14 @@ namespace PerformanceCalculator.Containers.TestsSimpleInjector
 {
     public class SimpleInjectorPerformanceTest : PerformanceTest
     {
-        protected override ITestCase GetTestCase(string testCase, RegistrationKind registrationKind)
+        protected override IRegistration GetRegistration()
         {
-            switch (testCase)
-            {
-                case TestCaseName.A:
-                    return new TestCaseA(GetRegistration(registrationKind), new SimpleInjectorResolving());
-
-                case TestCaseName.B:
-                    return new TestCaseB(GetRegistration(registrationKind), new SimpleInjectorResolving());
-
-                case TestCaseName.C:
-                    return new TestCaseC(GetRegistration(registrationKind), new SimpleInjectorResolving());
-
-                case TestCaseName.D:
-                    return new TestCaseD(GetRegistration(registrationKind), new SimpleInjectorResolving());
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(registrationKind), registrationKind, null);
-            }
+            return new SimpleInjectorRegistration();
         }
 
-        protected IRegistration GetRegistration(RegistrationKind registrationKind)
+        protected override IResolving GetResolving()
         {
-            switch (registrationKind)
-            {
-                case RegistrationKind.Singleton:
-                    return new SingletonSimpleInjectorRegistration();
-
-                case RegistrationKind.Transient:
-                    return new TransientSimpleInjectorRegistration();
-
-                case RegistrationKind.PerThread:
-                    return new PerThreadSimpleInjectorRegistration();
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(registrationKind), registrationKind, null);
-            }
+            return new SimpleInjectorResolving();
         }
 
         protected override object GetContainer(RegistrationKind registrationKind)

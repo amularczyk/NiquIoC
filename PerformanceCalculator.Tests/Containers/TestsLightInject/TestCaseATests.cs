@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PerformanceCalculator.Containers;
 using PerformanceCalculator.Containers.TestsLightInject;
 using PerformanceCalculator.Interfaces;
+using PerformanceCalculator.TestCase.TestCaseA;
 using PerformanceCalculator.TestCases;
 
 namespace PerformanceCalculator.Tests.Containers.TestsLightInject
@@ -14,7 +15,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsLightInject
         [TestMethod]
         public void RegisterSingleton_Success()
         {
-            ITestCase testCase = new TestCaseA(new SingletonLightInjectRegistration(), new LightInjectResolving());
+            ITestCase testCase = new SingletonTestCaseA(new LightInjectRegistration(), new LightInjectResolving());
 
 
             var c = new ServiceContainer();
@@ -32,7 +33,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsLightInject
         [TestMethod]
         public void RegisterTransient_Success()
         {
-            ITestCase testCase = new TestCaseA(new TransientLightInjectRegistration(), new LightInjectResolving());
+            ITestCase testCase = new TransientTestCaseA(new LightInjectRegistration(), new LightInjectResolving());
 
 
             var c = new ServiceContainer();
@@ -50,7 +51,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsLightInject
         [TestMethod]
         public void RegisterPerThread_SameThread_Success()
         {
-            ITestCase testCase = new TestCaseA(new PerThreadLightInjectRegistration(), new LightInjectResolving());
+            ITestCase testCase = new PerThreadTestCaseA(new LightInjectRegistration(), new LightInjectResolving());
 
             var c = new ServiceContainer();
             c = (ServiceContainer)testCase.Register(c);
@@ -78,7 +79,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsLightInject
         [TestMethod]
         public void RegisterPerThread_DifferentThreads_Success()
         {
-            ITestCase testCase = new TestCaseA(new PerThreadLightInjectRegistration(), new LightInjectResolving());
+            ITestCase testCase = new PerThreadTestCaseA(new LightInjectRegistration(), new LightInjectResolving());
 
             var c = new ServiceContainer();
             c = (ServiceContainer)testCase.Register(c);

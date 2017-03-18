@@ -3,48 +3,20 @@ using System.Diagnostics;
 using LightInject;
 using PerformanceCalculator.Common;
 using PerformanceCalculator.Interfaces;
+using PerformanceCalculator.TestCase.TestCaseD;
 
 namespace PerformanceCalculator.Containers.TestsLightInject
 {
     public class LightInjectPerformanceTest : PerformanceTest
     {
-        protected override ITestCase GetTestCase(string testCase, RegistrationKind registrationKind)
+        protected override IRegistration GetRegistration()
         {
-            switch (testCase)
-            {
-                case TestCaseName.A:
-                    return new TestCaseA(GetRegistration(registrationKind), new LightInjectResolving());
-
-                case TestCaseName.B:
-                    return new TestCaseB(GetRegistration(registrationKind), new LightInjectResolving());
-
-                case TestCaseName.C:
-                    return new TestCaseC(GetRegistration(registrationKind), new LightInjectResolving());
-
-                case TestCaseName.D:
-                    return new TestCaseD(GetRegistration(registrationKind), new LightInjectResolving());
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(registrationKind), registrationKind, null);
-            }
+            return new LightInjectRegistration();
         }
 
-        protected IRegistration GetRegistration(RegistrationKind registrationKind)
+        protected override IResolving GetResolving()
         {
-            switch (registrationKind)
-            {
-                case RegistrationKind.Singleton:
-                    return new SingletonLightInjectRegistration();
-
-                case RegistrationKind.Transient:
-                    return new TransientLightInjectRegistration();
-
-                case RegistrationKind.PerThread:
-                    return new PerThreadLightInjectRegistration();
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(registrationKind), registrationKind, null);
-            }
+            return new LightInjectResolving();
         }
 
         protected override object GetContainer(RegistrationKind registrationKind)
@@ -58,7 +30,7 @@ namespace PerformanceCalculator.Containers.TestsLightInject
             {
                 if (registrationKind == RegistrationKind.PerThread)
                 {
-                    if (testCase is TestCaseD || testCase is TestCaseC)
+                    if (testCase is PerThreadTestCaseD)
                     {
                         throw new OutOfMemoryException("Process takes more than 20 minutes!");
                     }

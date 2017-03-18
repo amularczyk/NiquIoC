@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PerformanceCalculator.Containers;
 using PerformanceCalculator.Containers.TestsAutofac;
 using PerformanceCalculator.Interfaces;
+using PerformanceCalculator.TestCase.TestCaseA;
 using PerformanceCalculator.TestCases;
 
 namespace PerformanceCalculator.Tests.Containers.TestsAutofac
@@ -14,7 +15,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsAutofac
         [TestMethod]
         public void RegisterSingleton_Success()
         {
-            ITestCase testCase = new TestCaseA(new SingletonAutofacRegistration(), new AutofacResolving());
+            ITestCase testCase = new SingletonTestCaseA(new AutofacRegistration(), new AutofacResolving());
 
             var cb = new ContainerBuilder();
             var c = (IContainer)testCase.Register(cb);
@@ -31,7 +32,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsAutofac
         [TestMethod]
         public void RegisterTransient_Success()
         {
-            ITestCase testCase = new TestCaseA(new TransientAutofacRegistration(), new AutofacResolving());
+            ITestCase testCase = new TransientTestCaseA(new AutofacRegistration(), new AutofacResolving());
 
             var cb = new ContainerBuilder();
             var c = (IContainer)testCase.Register(cb);
@@ -48,7 +49,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsAutofac
         [TestMethod]
         public void RegisterPerThread_SameThread_Success()
         {
-            ITestCase testCase = new TestCaseA(new PerThreadAutofacRegistration(), new AutofacResolving());
+            ITestCase testCase = new PerThreadTestCaseA(new AutofacRegistration(), new AutofacResolving());
 
             var cb = new ContainerBuilder();
             var c = (IContainer)testCase.Register(cb);
@@ -76,7 +77,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsAutofac
         [TestMethod]
         public void RegisterPerThread_DifferentThreads_Success()
         {
-            ITestCase testCase = new TestCaseA(new PerThreadAutofacRegistration(), new AutofacResolving());
+            ITestCase testCase = new PerThreadTestCaseA(new AutofacRegistration(), new AutofacResolving());
 
             var cb = new ContainerBuilder();
             var c = (IContainer)testCase.Register(cb);

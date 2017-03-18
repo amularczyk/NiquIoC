@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PerformanceCalculator.Containers;
 using PerformanceCalculator.Containers.TestsGrace;
 using PerformanceCalculator.Interfaces;
+using PerformanceCalculator.TestCase.TestCaseC;
 using PerformanceCalculator.TestCases;
 
 namespace PerformanceCalculator.Tests.Containers.TestsGrace
@@ -14,7 +15,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsGrace
         [TestMethod]
         public void RegisterSingleton_Success()
         {
-            ITestCase testCase = new TestCaseC(new SingletonGraceRegistration(), new GraceResolving());
+            ITestCase testCase = new SingletonTestCaseC(new GraceRegistration(), new GraceResolving());
 
             var c = new DependencyInjectionContainer();
             c = (DependencyInjectionContainer)testCase.Register(c);
@@ -32,7 +33,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsGrace
         [TestMethod]
         public void RegisterTransient_Success()
         {
-            ITestCase testCase = new TestCaseC(new TransientGraceRegistration(), new GraceResolving());
+            ITestCase testCase = new TransientTestCaseC(new GraceRegistration(), new GraceResolving());
 
             var c = new DependencyInjectionContainer();
             c = (DependencyInjectionContainer)testCase.Register(c);
@@ -50,7 +51,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsGrace
         [TestMethod]
         public void RegisterPerThread_SameThread_Success()
         {
-            ITestCase testCase = new TestCaseC(new PerThreadGraceRegistration(), new GraceResolving());
+            ITestCase testCase = new PerThreadTestCaseC(new GraceRegistration(), new GraceResolving());
 
             var c = new DependencyInjectionContainer();
             c = (DependencyInjectionContainer)testCase.Register(c);
@@ -78,7 +79,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsGrace
         [TestMethod]
         public void RegisterPerThread_DifferentThreads_Success()
         {
-            ITestCase testCase = new TestCaseC(new PerThreadGraceRegistration(), new GraceResolving());
+            ITestCase testCase = new PerThreadTestCaseC(new GraceRegistration(), new GraceResolving());
 
             var c = new DependencyInjectionContainer();
             c = (DependencyInjectionContainer)testCase.Register(c);

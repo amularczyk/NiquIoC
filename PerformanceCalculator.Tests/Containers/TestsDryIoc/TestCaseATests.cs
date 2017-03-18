@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PerformanceCalculator.Containers;
 using PerformanceCalculator.Containers.TestsDryIoc;
 using PerformanceCalculator.Interfaces;
+using PerformanceCalculator.TestCase.TestCaseA;
 using PerformanceCalculator.TestCases;
 
 namespace PerformanceCalculator.Tests.Containers.TestsDryIoc
@@ -14,7 +15,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsDryIoc
         [TestMethod]
         public void RegisterSingleton_Success()
         {
-            ITestCase testCase = new TestCaseA(new SingletonDryIocRegistration(), new DryIocResolving());
+            ITestCase testCase = new SingletonTestCaseA(new DryIocRegistration(), new DryIocResolving());
 
 
             var c = new Container();
@@ -32,7 +33,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsDryIoc
         [TestMethod]
         public void RegisterTransient_Success()
         {
-            ITestCase testCase = new TestCaseA(new TransientDryIocRegistration(), new DryIocResolving());
+            ITestCase testCase = new TransientTestCaseA(new DryIocRegistration(), new DryIocResolving());
 
 
             var c = new Container();
@@ -50,7 +51,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsDryIoc
         [TestMethod]
         public void RegisterPerThread_SameThread_Success()
         {
-            ITestCase testCase = new TestCaseA(new PerThreadDryIocRegistration(), new DryIocResolving());
+            ITestCase testCase = new PerThreadTestCaseA(new DryIocRegistration(), new DryIocResolving());
 
             var c = new Container(scopeContext: new ThreadScopeContext());
             c = (Container)testCase.Register(c);
@@ -78,7 +79,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsDryIoc
         [TestMethod]
         public void RegisterPerThread_DifferentThreads_Success()
         {
-            ITestCase testCase = new TestCaseA(new PerThreadDryIocRegistration(), new DryIocResolving());
+            ITestCase testCase = new PerThreadTestCaseA(new DryIocRegistration(), new DryIocResolving());
 
             var c = new Container(scopeContext: new ThreadScopeContext());
             c = (Container)testCase.Register(c);

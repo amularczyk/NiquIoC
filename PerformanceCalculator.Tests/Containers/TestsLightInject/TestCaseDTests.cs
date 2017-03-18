@@ -5,6 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PerformanceCalculator.Containers;
 using PerformanceCalculator.Containers.TestsLightInject;
 using PerformanceCalculator.Interfaces;
+using PerformanceCalculator.TestCase.TestCaseD;
 using PerformanceCalculator.TestCases;
 
 namespace PerformanceCalculator.Tests.Containers.TestsLightInject
@@ -15,7 +16,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsLightInject
         [TestMethod]
         public void RegisterSingleton_Success()
         {
-            ITestCase testCase = new TestCaseD(new SingletonLightInjectRegistration(), new LightInjectResolving());
+            ITestCase testCase = new SingletonTestCaseD(new LightInjectRegistration(), new LightInjectResolving());
 
 
             var c = new ServiceContainer();
@@ -33,7 +34,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsLightInject
         [TestMethod]
         public void RegisterTransient_Success()
         {
-            ITestCase testCase = new TestCaseD(new TransientLightInjectRegistration(), new LightInjectResolving());
+            ITestCase testCase = new TransientTestCaseD(new LightInjectRegistration(), new LightInjectResolving());
 
 
             var c = new ServiceContainer();
@@ -52,7 +53,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsLightInject
         public void RegisterPerThread_SameThread_Success()
         {
             throw new OutOfMemoryException("Process takes more than 20 minutes!");
-            ITestCase testCase = new TestCaseD(new PerThreadLightInjectRegistration(), new LightInjectResolving());
+            ITestCase testCase = new PerThreadTestCaseD(new LightInjectRegistration(), new LightInjectResolving());
 
             var c = new ServiceContainer();
             c = (ServiceContainer)testCase.Register(c);
@@ -81,7 +82,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsLightInject
         public void RegisterPerThread_DifferentThreads_Success()
         {
             throw new OutOfMemoryException("Process takes more than 20 minutes!");
-            ITestCase testCase = new TestCaseD(new PerThreadLightInjectRegistration(), new LightInjectResolving());
+            ITestCase testCase = new PerThreadTestCaseD(new LightInjectRegistration(), new LightInjectResolving());
 
             var c = new ServiceContainer();
             c = (ServiceContainer)testCase.Register(c);

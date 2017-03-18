@@ -4,6 +4,7 @@ using Ninject;
 using PerformanceCalculator.Containers;
 using PerformanceCalculator.Containers.TestsNinject;
 using PerformanceCalculator.Interfaces;
+using PerformanceCalculator.TestCase.TestCaseD;
 using PerformanceCalculator.TestCases;
 
 namespace PerformanceCalculator.Tests.Containers.TestsNinject
@@ -14,7 +15,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsNinject
         [TestMethod]
         public void RegisterSingleton_Success()
         {
-            ITestCase testCase = new TestCaseD(new SingletonNinjectRegistration(), new NinjectResolving());
+            ITestCase testCase = new SingletonTestCaseD(new NinjectRegistration(), new NinjectResolving());
 
 
             var c = new StandardKernel();
@@ -32,7 +33,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsNinject
         [TestMethod]
         public void RegisterTransient_Success()
         {
-            ITestCase testCase = new TestCaseD(new TransientNinjectRegistration(), new NinjectResolving());
+            ITestCase testCase = new TransientTestCaseD(new NinjectRegistration(), new NinjectResolving());
 
 
             var c = new StandardKernel();
@@ -50,7 +51,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsNinject
         [TestMethod]
         public void RegisterPerThread_SameThread_Success()
         {
-            ITestCase testCase = new TestCaseD(new PerThreadNinjectRegistration(), new NinjectResolving());
+            ITestCase testCase = new PerThreadTestCaseD(new NinjectRegistration(), new NinjectResolving());
 
             var c = new StandardKernel();
             c = (StandardKernel)testCase.Register(c);
@@ -75,7 +76,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsNinject
         [TestMethod]
         public void RegisterPerThread_DifferentThreads_Success()
         {
-            ITestCase testCase = new TestCaseD(new PerThreadNinjectRegistration(), new NinjectResolving());
+            ITestCase testCase = new PerThreadTestCaseD(new NinjectRegistration(), new NinjectResolving());
 
             var c = new StandardKernel();
             c = (StandardKernel)testCase.Register(c);
