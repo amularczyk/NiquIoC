@@ -1,11 +1,11 @@
 ﻿using System.Threading;
 using Autofac;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using PerformanceCalculator.Containers;
+using PerformanceCalculator.Common;
 using PerformanceCalculator.Containers.TestsAutofac;
 using PerformanceCalculator.Interfaces;
 using PerformanceCalculator.TestCase.TestCaseB;
-using PerformanceCalculator.TestCases;
+using PerformanceCalculator.TestCasesData;
 
 namespace PerformanceCalculator.Tests.Containers.TestsAutofac
 {
@@ -19,7 +19,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsAutofac
 
 
             var cb = new ContainerBuilder();
-            var c = (IContainer)testCase.Register(cb);
+            var c = (IContainer)testCase.Register(cb, RegistrationKind.Singleton);
 
             var obj1 = c.Resolve<ITestB>();
             var obj2 = c.Resolve<ITestB>();
@@ -37,7 +37,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsAutofac
 
 
             var cb = new ContainerBuilder();
-            var c = (IContainer)testCase.Register(cb);
+            var c = (IContainer)testCase.Register(cb, RegistrationKind.Transient);
 
             var obj1 = c.Resolve<ITestB>();
             var obj2 = c.Resolve<ITestB>();
@@ -55,7 +55,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsAutofac
 
 
             var cb = new ContainerBuilder();
-            var c = (IContainer)testCase.Register(cb);
+            var c = (IContainer)testCase.Register(cb, RegistrationKind.PerThread);
             ITestB obj1 = null;
             ITestB obj2 = null;
 
@@ -84,7 +84,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsAutofac
 
 
             var cb = new ContainerBuilder();
-            var c = (IContainer)testCase.Register(cb);
+            var c = (IContainer)testCase.Register(cb, RegistrationKind.PerThread);
             ITestB obj1 = null;
             ITestB obj2 = null;
 

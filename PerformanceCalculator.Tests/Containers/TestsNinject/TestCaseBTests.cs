@@ -1,11 +1,11 @@
 ﻿using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ninject;
-using PerformanceCalculator.Containers;
+using PerformanceCalculator.Common;
 using PerformanceCalculator.Containers.TestsNinject;
 using PerformanceCalculator.Interfaces;
 using PerformanceCalculator.TestCase.TestCaseB;
-using PerformanceCalculator.TestCases;
+using PerformanceCalculator.TestCasesData;
 
 namespace PerformanceCalculator.Tests.Containers.TestsNinject
 {
@@ -19,7 +19,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsNinject
 
 
             var c = new StandardKernel();
-            c = (StandardKernel)testCase.Register(c);
+            c = (StandardKernel)testCase.Register(c, RegistrationKind.Singleton);
 
             var obj1 = c.Get<ITestB>();
             var obj2 = c.Get<ITestB>();
@@ -37,7 +37,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsNinject
 
 
             var c = new StandardKernel();
-            c = (StandardKernel)testCase.Register(c);
+            c = (StandardKernel)testCase.Register(c, RegistrationKind.Transient);
 
             var obj1 = c.Get<ITestB>();
             var obj2 = c.Get<ITestB>();
@@ -54,7 +54,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsNinject
             ITestCase testCase = new PerThreadTestCaseB(new NinjectRegistration(), new NinjectResolving());
 
             var c = new StandardKernel();
-            c = (StandardKernel)testCase.Register(c);
+            c = (StandardKernel)testCase.Register(c, RegistrationKind.PerThread);
             ITestB obj1 = null;
             ITestB obj2 = null;
 
@@ -79,7 +79,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsNinject
             ITestCase testCase = new PerThreadTestCaseB(new NinjectRegistration(), new NinjectResolving());
 
             var c = new StandardKernel();
-            c = (StandardKernel)testCase.Register(c);
+            c = (StandardKernel)testCase.Register(c, RegistrationKind.PerThread);
             ITestB obj1 = null;
             ITestB obj2 = null;
 

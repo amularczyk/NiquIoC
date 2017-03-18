@@ -1,4 +1,5 @@
-﻿using PerformanceCalculator.Interfaces;
+﻿using PerformanceCalculator.Common;
+using PerformanceCalculator.Interfaces;
 
 namespace PerformanceCalculator.TestCase
 {
@@ -13,13 +14,13 @@ namespace PerformanceCalculator.TestCase
             _resolving = resolving;
         }
 
-        public object Register(object container)
+        public object Register(object container, RegistrationKind registrationKind)
         {
-            container = _registration.BeforeRegisterCallback(container);
+            container = _registration.BeforeRegisterCallback(container, registrationKind);
 
             RegisterClasses(container);
 
-            return _registration.AfterRegisterCallback(container);
+            return _registration.AfterRegisterCallback(container, registrationKind);
         }
 
         public abstract void Resolve(object container, int testCasesNumber);

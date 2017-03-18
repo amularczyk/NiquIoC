@@ -1,8 +1,10 @@
-﻿namespace PerformanceCalculator.Interfaces
+﻿using PerformanceCalculator.Common;
+
+namespace PerformanceCalculator.Interfaces
 {
     public interface IRegistration
     {
-        object BeforeRegisterCallback(object container);
+        object BeforeRegisterCallback(object container, RegistrationKind registrationKind);
 
         void RegisterSingleton<TFrom, TTo>(object container)
             where TFrom : class
@@ -16,6 +18,6 @@
             where TFrom : class
             where TTo : class, TFrom;
 
-        object AfterRegisterCallback(object container);
+        object AfterRegisterCallback(object container, RegistrationKind registrationKind);
     }
 }

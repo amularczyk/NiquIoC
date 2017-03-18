@@ -122,7 +122,7 @@ namespace PerformanceCalculator.Containers
         protected virtual object RunRegister(Stopwatch sw, ITestCase testCase, object container, RegistrationKind registrationKind)
         {
             sw.Start();
-            var newContainer = testCase.Register(container);
+            var newContainer = testCase.Register(container, registrationKind);
             sw.Stop();
 
             return newContainer;

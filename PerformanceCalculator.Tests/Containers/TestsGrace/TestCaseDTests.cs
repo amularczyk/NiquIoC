@@ -1,11 +1,11 @@
 ﻿using System.Threading;
 using Grace.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using PerformanceCalculator.Containers;
+using PerformanceCalculator.Common;
 using PerformanceCalculator.Containers.TestsGrace;
 using PerformanceCalculator.Interfaces;
 using PerformanceCalculator.TestCase.TestCaseD;
-using PerformanceCalculator.TestCases;
+using PerformanceCalculator.TestCasesData;
 
 namespace PerformanceCalculator.Tests.Containers.TestsGrace
 {
@@ -18,7 +18,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsGrace
             ITestCase testCase = new SingletonTestCaseD(new GraceRegistration(), new GraceResolving());
 
             var c = new DependencyInjectionContainer();
-            c = (DependencyInjectionContainer)testCase.Register(c);
+            c = (DependencyInjectionContainer)testCase.Register(c, RegistrationKind.Singleton);
 
 
             var obj1 = c.Locate<ITestD>();
@@ -36,7 +36,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsGrace
             ITestCase testCase = new TransientTestCaseD(new GraceRegistration(), new GraceResolving());
 
             var c = new DependencyInjectionContainer();
-            c = (DependencyInjectionContainer)testCase.Register(c);
+            c = (DependencyInjectionContainer)testCase.Register(c, RegistrationKind.Transient);
 
 
             var obj1 = c.Locate<ITestD>();
@@ -54,7 +54,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsGrace
             ITestCase testCase = new PerThreadTestCaseD(new GraceRegistration(), new GraceResolving());
 
             var c = new DependencyInjectionContainer();
-            c = (DependencyInjectionContainer)testCase.Register(c);
+            c = (DependencyInjectionContainer)testCase.Register(c, RegistrationKind.PerThread);
             ITestD obj1 = null;
             ITestD obj2 = null;
 
@@ -82,7 +82,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsGrace
             ITestCase testCase = new PerThreadTestCaseD(new GraceRegistration(), new GraceResolving());
 
             var c = new DependencyInjectionContainer();
-            c = (DependencyInjectionContainer)testCase.Register(c);
+            c = (DependencyInjectionContainer)testCase.Register(c, RegistrationKind.PerThread);
             ITestD obj1 = null;
             ITestD obj2 = null;
 

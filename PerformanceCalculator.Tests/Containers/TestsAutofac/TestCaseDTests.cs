@@ -1,11 +1,11 @@
 ﻿using System.Threading;
 using Autofac;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using PerformanceCalculator.Containers;
+using PerformanceCalculator.Common;
 using PerformanceCalculator.Containers.TestsAutofac;
 using PerformanceCalculator.Interfaces;
 using PerformanceCalculator.TestCase.TestCaseD;
-using PerformanceCalculator.TestCases;
+using PerformanceCalculator.TestCasesData;
 
 namespace PerformanceCalculator.Tests.Containers.TestsAutofac
 {
@@ -18,7 +18,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsAutofac
             ITestCase testCase = new SingletonTestCaseD(new AutofacRegistration(), new AutofacResolving());
 
             var cb = new ContainerBuilder();
-            var c = (IContainer)testCase.Register(cb);
+            var c = (IContainer)testCase.Register(cb, RegistrationKind.Singleton);
 
             var obj1 = c.Resolve<ITestD>();
             var obj2 = c.Resolve<ITestD>();
@@ -35,7 +35,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsAutofac
             ITestCase testCase = new TransientTestCaseD(new AutofacRegistration(), new AutofacResolving());
 
             var cb = new ContainerBuilder();
-            var c = (IContainer)testCase.Register(cb);
+            var c = (IContainer)testCase.Register(cb, RegistrationKind.Transient);
 
             var obj1 = c.Resolve<ITestD>();
             var obj2 = c.Resolve<ITestD>();
@@ -52,7 +52,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsAutofac
             ITestCase testCase = new PerThreadTestCaseD(new AutofacRegistration(), new AutofacResolving());
 
             var cb = new ContainerBuilder();
-            var c = (IContainer)testCase.Register(cb);
+            var c = (IContainer)testCase.Register(cb, RegistrationKind.PerThread);
             ITestD obj1 = null;
             ITestD obj2 = null;
 
@@ -80,7 +80,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsAutofac
             ITestCase testCase = new PerThreadTestCaseD(new AutofacRegistration(), new AutofacResolving());
 
             var cb = new ContainerBuilder();
-            var c = (IContainer)testCase.Register(cb);
+            var c = (IContainer)testCase.Register(cb, RegistrationKind.PerThread);
             ITestD obj1 = null;
             ITestD obj2 = null;
 

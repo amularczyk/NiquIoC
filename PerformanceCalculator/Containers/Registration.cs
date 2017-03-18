@@ -1,10 +1,11 @@
-﻿using PerformanceCalculator.Interfaces;
+﻿using PerformanceCalculator.Common;
+using PerformanceCalculator.Interfaces;
 
 namespace PerformanceCalculator.Containers
 {
     public abstract class Registration : IRegistration
     {
-        public virtual object BeforeRegisterCallback(object container)
+        public virtual object BeforeRegisterCallback(object container, RegistrationKind registrationKind)
         {
             return container;
         }
@@ -15,7 +16,7 @@ namespace PerformanceCalculator.Containers
 
         public abstract void RegisterPerThread<TFrom, TTo>(object container) where TFrom : class where TTo : class, TFrom;
 
-        public virtual object AfterRegisterCallback(object container)
+        public virtual object AfterRegisterCallback(object container, RegistrationKind registrationKind)
         {
             return container;
         }

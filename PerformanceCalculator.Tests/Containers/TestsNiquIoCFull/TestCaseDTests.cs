@@ -2,10 +2,11 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NiquIoC;
 using NiquIoC.Enums;
+using PerformanceCalculator.Common;
 using PerformanceCalculator.Containers.TestsNiquIoCFull;
 using PerformanceCalculator.Interfaces;
 using PerformanceCalculator.TestCase.TestCaseD;
-using PerformanceCalculator.TestCases;
+using PerformanceCalculator.TestCasesData;
 
 namespace PerformanceCalculator.Tests.Containers.TestsNiquIoCFull
 {
@@ -19,7 +20,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsNiquIoCFull
 
 
             var c = new Container();
-            c = (Container)testCase.Register(c);
+            c = (Container)testCase.Register(c, RegistrationKind.Singleton);
 
             var obj1 = c.Resolve<ITestD>(ResolveKind.FullEmitFunction);
             var obj2 = c.Resolve<ITestD>(ResolveKind.FullEmitFunction);
@@ -37,7 +38,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsNiquIoCFull
 
 
             var c = new Container();
-            c = (Container)testCase.Register(c);
+            c = (Container)testCase.Register(c, RegistrationKind.Transient);
 
             var obj1 = c.Resolve<ITestD>(ResolveKind.FullEmitFunction);
             var obj2 = c.Resolve<ITestD>(ResolveKind.FullEmitFunction);
@@ -54,7 +55,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsNiquIoCFull
             ITestCase testCase = new PerThreadTestCaseD(new NiquIoCFullRegistration(), new NiquIoCFullResolving());
 
             var c = new Container();
-            c = (Container)testCase.Register(c);
+            c = (Container)testCase.Register(c, RegistrationKind.PerThread);
             ITestD obj1 = null;
             ITestD obj2 = null;
 
@@ -79,7 +80,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsNiquIoCFull
             ITestCase testCase = new PerThreadTestCaseD(new NiquIoCFullRegistration(), new NiquIoCFullResolving());
 
             var c = new Container();
-            c = (Container)testCase.Register(c);
+            c = (Container)testCase.Register(c, RegistrationKind.PerThread);
             ITestD obj1 = null;
             ITestD obj2 = null;
 

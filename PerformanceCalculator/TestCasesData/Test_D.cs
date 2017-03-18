@@ -1,4 +1,4 @@
-﻿namespace PerformanceCalculator.TestCases
+﻿namespace PerformanceCalculator.TestCasesData
 {
     public interface ITestD00
     {

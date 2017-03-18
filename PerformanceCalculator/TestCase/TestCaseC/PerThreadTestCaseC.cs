@@ -1,5 +1,5 @@
 ﻿using PerformanceCalculator.Interfaces;
-using PerformanceCalculator.TestCases;
+using PerformanceCalculator.TestCasesData;
 
 namespace PerformanceCalculator.TestCase.TestCaseC
 {

@@ -1,11 +1,11 @@
 ﻿using System.Threading;
 using DryIoc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using PerformanceCalculator.Containers;
+using PerformanceCalculator.Common;
 using PerformanceCalculator.Containers.TestsDryIoc;
 using PerformanceCalculator.Interfaces;
 using PerformanceCalculator.TestCase.TestCaseB;
-using PerformanceCalculator.TestCases;
+using PerformanceCalculator.TestCasesData;
 
 namespace PerformanceCalculator.Tests.Containers.TestsDryIoc
 {
@@ -19,7 +19,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsDryIoc
 
 
             var c = new Container();
-            c = (Container)testCase.Register(c);
+            c = (Container)testCase.Register(c, RegistrationKind.Singleton);
 
             var obj1 = c.Resolve<ITestB>();
             var obj2 = c.Resolve<ITestB>();
@@ -37,7 +37,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsDryIoc
 
 
             var c = new Container();
-            c = (Container)testCase.Register(c);
+            c = (Container)testCase.Register(c, RegistrationKind.Transient);
 
             var obj1 = c.Resolve<ITestB>();
             var obj2 = c.Resolve<ITestB>();
@@ -54,7 +54,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsDryIoc
             ITestCase testCase = new PerThreadTestCaseB(new DryIocRegistration(), new DryIocResolving());
 
             var c = new Container(scopeContext: new ThreadScopeContext());
-            c = (Container)testCase.Register(c);
+            c = (Container)testCase.Register(c, RegistrationKind.PerThread);
             ITestB obj1 = null;
             ITestB obj2 = null;
 
@@ -82,7 +82,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsDryIoc
             ITestCase testCase = new PerThreadTestCaseB(new DryIocRegistration(), new DryIocResolving());
 
             var c = new Container(scopeContext: new ThreadScopeContext());
-            c = (Container)testCase.Register(c);
+            c = (Container)testCase.Register(c, RegistrationKind.PerThread);
             ITestB obj1 = null;
             ITestB obj2 = null;
 

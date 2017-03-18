@@ -144,10 +144,10 @@
     <Compile Include="Interfaces\IWriteTestResults.cs" />
     <Compile Include="PerformanceCalculatorArguments.cs" />
     <Compile Include="PerformanceTestFactory.cs" />
-    <Compile Include="TestCases\Test_A.cs" />
-    <Compile Include="TestCases\Test_C.cs" />
-    <Compile Include="TestCases\Test_D.cs" />
-    <Compile Include="TestCases\Test_B.cs" />
+    <Compile Include="TestCasesData\Test_A.cs" />
+    <Compile Include="TestCasesData\Test_C.cs" />
+    <Compile Include="TestCasesData\Test_D.cs" />
+    <Compile Include="TestCasesData\Test_B.cs" />
     <Compile Include="Interfaces\ITestCase.cs" />
     <Compile Include="Interfaces\IPerformanceTest.cs" />
     <Compile Include="Program.cs" />

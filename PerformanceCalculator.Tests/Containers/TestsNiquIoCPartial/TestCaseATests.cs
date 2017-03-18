@@ -2,10 +2,11 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NiquIoC;
 using NiquIoC.Enums;
+using PerformanceCalculator.Common;
 using PerformanceCalculator.Containers.TestsNiquIoCPartial;
 using PerformanceCalculator.Interfaces;
 using PerformanceCalculator.TestCase.TestCaseA;
-using PerformanceCalculator.TestCases;
+using PerformanceCalculator.TestCasesData;
 
 namespace PerformanceCalculator.Tests.Containers.TestsNiquIoCPartial
 {
@@ -19,7 +20,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsNiquIoCPartial
 
 
             var c = new Container();
-            c = (Container)testCase.Register(c);
+            c = (Container)testCase.Register(c, RegistrationKind.Singleton);
 
             var obj1 = c.Resolve<ITestA>(ResolveKind.PartialEmitFunction);
             var obj2 = c.Resolve<ITestA>(ResolveKind.PartialEmitFunction);
@@ -37,7 +38,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsNiquIoCPartial
 
 
             var c = new Container();
-            c = (Container)testCase.Register(c);
+            c = (Container)testCase.Register(c, RegistrationKind.Transient);
 
             var obj1 = c.Resolve<ITestA>(ResolveKind.PartialEmitFunction);
             var obj2 = c.Resolve<ITestA>(ResolveKind.PartialEmitFunction);
@@ -54,7 +55,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsNiquIoCPartial
             ITestCase testCase = new PerThreadTestCaseA(new NiquIoCPartialRegistration(), new NiquIoCPartialResolving());
 
             var c = new Container();
-            c = (Container)testCase.Register(c);
+            c = (Container)testCase.Register(c, RegistrationKind.PerThread);
             ITestA obj1 = null;
             ITestA obj2 = null;
 
@@ -79,7 +80,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsNiquIoCPartial
             ITestCase testCase = new PerThreadTestCaseA(new NiquIoCPartialRegistration(), new NiquIoCPartialResolving());
 
             var c = new Container();
-            c = (Container)testCase.Register(c);
+            c = (Container)testCase.Register(c, RegistrationKind.PerThread);
             ITestA obj1 = null;
             ITestA obj2 = null;
 

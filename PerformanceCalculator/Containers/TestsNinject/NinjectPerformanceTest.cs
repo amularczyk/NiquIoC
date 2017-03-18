@@ -3,7 +3,6 @@ using System.Diagnostics;
 using Ninject;
 using PerformanceCalculator.Common;
 using PerformanceCalculator.Interfaces;
-using PerformanceCalculator.TestCase.TestCaseA;
 
 namespace PerformanceCalculator.Containers.TestsNinject
 {

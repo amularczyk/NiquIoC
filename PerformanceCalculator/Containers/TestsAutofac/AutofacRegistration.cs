@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using PerformanceCalculator.Common;
 
 namespace PerformanceCalculator.Containers.TestsAutofac
 {
@@ -25,7 +26,7 @@ namespace PerformanceCalculator.Containers.TestsAutofac
             cb.RegisterType<TTo>().As<TFrom>().InstancePerLifetimeScope();
         }
 
-        public override object AfterRegisterCallback(object container)
+        public override object AfterRegisterCallback(object container, RegistrationKind registrationKind)
         {
             return ((ContainerBuilder)container).Build();
         }

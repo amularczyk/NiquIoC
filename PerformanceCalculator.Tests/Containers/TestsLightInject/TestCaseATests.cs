@@ -1,11 +1,11 @@
 ﻿using System.Threading;
 using LightInject;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using PerformanceCalculator.Containers;
+using PerformanceCalculator.Common;
 using PerformanceCalculator.Containers.TestsLightInject;
 using PerformanceCalculator.Interfaces;
 using PerformanceCalculator.TestCase.TestCaseA;
-using PerformanceCalculator.TestCases;
+using PerformanceCalculator.TestCasesData;
 
 namespace PerformanceCalculator.Tests.Containers.TestsLightInject
 {
@@ -19,7 +19,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsLightInject
 
 
             var c = new ServiceContainer();
-            c = (ServiceContainer)testCase.Register(c);
+            c = (ServiceContainer)testCase.Register(c, RegistrationKind.Singleton);
 
             var obj1 = c.GetInstance<ITestA>();
             var obj2 = c.GetInstance<ITestA>();
@@ -37,7 +37,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsLightInject
 
 
             var c = new ServiceContainer();
-            c = (ServiceContainer)testCase.Register(c);
+            c = (ServiceContainer)testCase.Register(c, RegistrationKind.Transient);
 
             var obj1 = c.GetInstance<ITestA>();
             var obj2 = c.GetInstance<ITestA>();
@@ -54,7 +54,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsLightInject
             ITestCase testCase = new PerThreadTestCaseA(new LightInjectRegistration(), new LightInjectResolving());
 
             var c = new ServiceContainer();
-            c = (ServiceContainer)testCase.Register(c);
+            c = (ServiceContainer)testCase.Register(c, RegistrationKind.PerThread);
             ITestA obj1 = null;
             ITestA obj2 = null;
 
@@ -82,7 +82,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsLightInject
             ITestCase testCase = new PerThreadTestCaseA(new LightInjectRegistration(), new LightInjectResolving());
 
             var c = new ServiceContainer();
-            c = (ServiceContainer)testCase.Register(c);
+            c = (ServiceContainer)testCase.Register(c, RegistrationKind.PerThread);
             ITestA obj1 = null;
             ITestA obj2 = null;
 

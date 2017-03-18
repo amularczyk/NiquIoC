@@ -1,17 +1,23 @@
-﻿using SimpleInjector;
+﻿using PerformanceCalculator.Common;
+using SimpleInjector;
 using SimpleInjector.Extensions.LifetimeScoping;
 
 namespace PerformanceCalculator.Containers.TestsSimpleInjector
 {
     public class SimpleInjectorRegistration : Registration
     {
-        public override object BeforeRegisterCallback(object container)
+        public override object BeforeRegisterCallback(object container, RegistrationKind registrationKind)
         {
-            var c = (Container)container;
+            if (registrationKind == RegistrationKind.PerThread)
+            {
+                var c = (Container)container;
 
-            c.Options.DefaultScopedLifestyle = new LifetimeScopeLifestyle(); //ToDo - only for PerThread
+                c.Options.DefaultScopedLifestyle = new LifetimeScopeLifestyle();
 
-            return c;
+                return c;
+            }
+
+            return base.BeforeRegisterCallback(container, registrationKind);
         }
 
         public override void RegisterSingleton<TFrom, TTo>(object container)
