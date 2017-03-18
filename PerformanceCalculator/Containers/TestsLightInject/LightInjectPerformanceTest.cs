@@ -15,8 +15,8 @@ namespace PerformanceCalculator.Containers.TestsLightInject
                 case TestCaseName.A:
                     return new TestCaseA(GetRegistration(registrationKind), new LightInjectResolving());
 
-                case TestCaseName.B:
-                    return new TestCaseB(GetRegistration(registrationKind), new LightInjectResolving());
+                case TestCaseName.D:
+                    return new TestCaseD(GetRegistration(registrationKind), new LightInjectResolving());
 
                 case TestCaseName.C:
                     return new TestCaseC(GetRegistration(registrationKind), new LightInjectResolving());
@@ -55,7 +55,7 @@ namespace PerformanceCalculator.Containers.TestsLightInject
             {
                 if (registrationKind == RegistrationKind.PerThread)
                 {
-                    if (testCase is TestCaseB || testCase is TestCaseC)
+                    if (testCase is TestCaseD || testCase is TestCaseC)
                     {
                         throw new OutOfMemoryException("Process takes more than 20 minutes!");
                     }

@@ -14,14 +14,14 @@ namespace PerformanceCalculator.Tests.Containers.TestsStructureMap
         [TestMethod]
         public void RegisterSingleton_Success()
         {
-            ITestCase testCase = new TestCaseB(new SingletonStructureMapRegistration(), new StructureMapResolving());
+            ITestCase testCase = new TestCaseD(new SingletonStructureMapRegistration(), new StructureMapResolving());
 
 
             var c = new Container();
             c = (Container)testCase.Register(c);
 
-            var obj1 = c.GetInstance<ITestB>();
-            var obj2 = c.GetInstance<ITestB>();
+            var obj1 = c.GetInstance<ITestD>();
+            var obj2 = c.GetInstance<ITestD>();
 
 
             CheckHelper.Check(obj1, true);
@@ -32,14 +32,14 @@ namespace PerformanceCalculator.Tests.Containers.TestsStructureMap
         [TestMethod]
         public void RegisterTransient_Success()
         {
-            ITestCase testCase = new TestCaseB(new TransientStructureMapRegistration(), new StructureMapResolving());
+            ITestCase testCase = new TestCaseD(new TransientStructureMapRegistration(), new StructureMapResolving());
 
 
             var c = new Container();
             c = (Container)testCase.Register(c);
 
-            var obj1 = c.GetInstance<ITestB>();
-            var obj2 = c.GetInstance<ITestB>();
+            var obj1 = c.GetInstance<ITestD>();
+            var obj2 = c.GetInstance<ITestD>();
 
 
             CheckHelper.Check(obj1, false);
@@ -50,18 +50,18 @@ namespace PerformanceCalculator.Tests.Containers.TestsStructureMap
         [TestMethod]
         public void RegisterPerThread_SameThread_Success()
         {
-            ITestCase testCase = new TestCaseB(new PerThreadStructureMapRegistration(), new StructureMapResolving());
+            ITestCase testCase = new TestCaseD(new PerThreadStructureMapRegistration(), new StructureMapResolving());
 
             var c = new Container();
             c = (Container)testCase.Register(c);
-            ITestB obj1 = null;
-            ITestB obj2 = null;
+            ITestD obj1 = null;
+            ITestD obj2 = null;
 
 
             var thread = new Thread(() =>
             {
-                obj1 = c.GetInstance<ITestB>();
-                obj2 = c.GetInstance<ITestB>();
+                obj1 = c.GetInstance<ITestD>();
+                obj2 = c.GetInstance<ITestD>();
             });
             thread.Start();
             thread.Join();
@@ -75,16 +75,16 @@ namespace PerformanceCalculator.Tests.Containers.TestsStructureMap
         [TestMethod]
         public void RegisterPerThread_DifferentThreads_Success()
         {
-            ITestCase testCase = new TestCaseB(new PerThreadStructureMapRegistration(), new StructureMapResolving());
+            ITestCase testCase = new TestCaseD(new PerThreadStructureMapRegistration(), new StructureMapResolving());
 
             var c = new Container();
             c = (Container)testCase.Register(c);
-            ITestB obj1 = null;
-            ITestB obj2 = null;
+            ITestD obj1 = null;
+            ITestD obj2 = null;
 
 
-            var thread1 = new Thread(() => { obj1 = c.GetInstance<ITestB>(); });
-            var thread2 = new Thread(() => { obj2 = c.GetInstance<ITestB>(); });
+            var thread1 = new Thread(() => { obj1 = c.GetInstance<ITestD>(); });
+            var thread2 = new Thread(() => { obj2 = c.GetInstance<ITestD>(); });
             thread1.Start();
             thread1.Join();
             thread2.Start();

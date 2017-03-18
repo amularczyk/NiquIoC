@@ -35,24 +35,24 @@ namespace PerformanceCalculator.Tests.Containers.TestsStructureMap
         }
 
         [TestMethod]
-        public void DoTestB_Singleton_Success()
+        public void DoTestD_Singleton_Success()
         {
             var performance = GetPerformance();
-            performance.RunTest(1, TestCaseName.B, RegistrationKind.Singleton);
+            performance.RunTest(1, TestCaseName.D, RegistrationKind.Singleton);
         }
 
         [TestMethod]
-        public void DoTestB_Transient_Success()
+        public void DoTestD_Transient_Success()
         {
             var performance = GetPerformance();
-            performance.RunTest(1, TestCaseName.B, RegistrationKind.Transient);
+            performance.RunTest(1, TestCaseName.D, RegistrationKind.Transient);
         }
 
         [TestMethod]
-        public void DoTestB_PerThread_Success()
+        public void DoTestD_PerThread_Success()
         {
             var performance = GetPerformance();
-            performance.RunTest(1, TestCaseName.B, RegistrationKind.PerThread);
+            performance.RunTest(1, TestCaseName.D, RegistrationKind.PerThread);
         }
 
         [TestMethod]

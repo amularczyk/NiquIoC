@@ -14,13 +14,13 @@ namespace PerformanceCalculator.Tests.Containers.TestsAutofac
         [TestMethod]
         public void RegisterSingleton_Success()
         {
-            ITestCase testCase = new TestCaseB(new SingletonAutofacRegistration(), new AutofacResolving());
+            ITestCase testCase = new TestCaseD(new SingletonAutofacRegistration(), new AutofacResolving());
 
             var cb = new ContainerBuilder();
             var c = (IContainer)testCase.Register(cb);
 
-            var obj1 = c.Resolve<ITestB>();
-            var obj2 = c.Resolve<ITestB>();
+            var obj1 = c.Resolve<ITestD>();
+            var obj2 = c.Resolve<ITestD>();
 
 
             CheckHelper.Check(obj1, true);
@@ -31,13 +31,13 @@ namespace PerformanceCalculator.Tests.Containers.TestsAutofac
         [TestMethod]
         public void RegisterTransient_Success()
         {
-            ITestCase testCase = new TestCaseB(new TransientAutofacRegistration(), new AutofacResolving());
+            ITestCase testCase = new TestCaseD(new TransientAutofacRegistration(), new AutofacResolving());
 
             var cb = new ContainerBuilder();
             var c = (IContainer)testCase.Register(cb);
 
-            var obj1 = c.Resolve<ITestB>();
-            var obj2 = c.Resolve<ITestB>();
+            var obj1 = c.Resolve<ITestD>();
+            var obj2 = c.Resolve<ITestD>();
 
 
             CheckHelper.Check(obj1, false);
@@ -48,20 +48,20 @@ namespace PerformanceCalculator.Tests.Containers.TestsAutofac
         [TestMethod]
         public void RegisterPerThread_SameThread_Success()
         {
-            ITestCase testCase = new TestCaseB(new PerThreadAutofacRegistration(), new AutofacResolving());
+            ITestCase testCase = new TestCaseD(new PerThreadAutofacRegistration(), new AutofacResolving());
 
             var cb = new ContainerBuilder();
             var c = (IContainer)testCase.Register(cb);
-            ITestB obj1 = null;
-            ITestB obj2 = null;
+            ITestD obj1 = null;
+            ITestD obj2 = null;
 
 
             var thread = new Thread(() =>
             {
                 using (var threadLifetime = c.BeginLifetimeScope())
                 {
-                    obj1 = threadLifetime.Resolve<ITestB>();
-                    obj2 = threadLifetime.Resolve<ITestB>();
+                    obj1 = threadLifetime.Resolve<ITestD>();
+                    obj2 = threadLifetime.Resolve<ITestD>();
                 }
             });
             thread.Start();
@@ -76,26 +76,26 @@ namespace PerformanceCalculator.Tests.Containers.TestsAutofac
         [TestMethod]
         public void RegisterPerThread_DifferentThreads_Success()
         {
-            ITestCase testCase = new TestCaseB(new PerThreadAutofacRegistration(), new AutofacResolving());
+            ITestCase testCase = new TestCaseD(new PerThreadAutofacRegistration(), new AutofacResolving());
 
             var cb = new ContainerBuilder();
             var c = (IContainer)testCase.Register(cb);
-            ITestB obj1 = null;
-            ITestB obj2 = null;
+            ITestD obj1 = null;
+            ITestD obj2 = null;
 
 
             var thread1 = new Thread(() =>
             {
                 using (var threadLifetime = c.BeginLifetimeScope())
                 {
-                    obj1 = threadLifetime.Resolve<ITestB>();
+                    obj1 = threadLifetime.Resolve<ITestD>();
                 }
             });
             var thread2 = new Thread(() =>
             {
                 using (var threadLifetime = c.BeginLifetimeScope())
                 {
-                    obj2 = threadLifetime.Resolve<ITestB>();
+                    obj2 = threadLifetime.Resolve<ITestD>();
                 }
             });
             thread1.Start();

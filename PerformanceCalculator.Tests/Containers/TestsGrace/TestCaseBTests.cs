@@ -14,14 +14,14 @@ namespace PerformanceCalculator.Tests.Containers.TestsGrace
         [TestMethod]
         public void RegisterSingleton_Success()
         {
-            ITestCase testCase = new TestCaseB(new SingletonGraceRegistration(), new GraceResolving());
+            ITestCase testCase = new TestCaseD(new SingletonGraceRegistration(), new GraceResolving());
 
             var c = new DependencyInjectionContainer();
             c = (DependencyInjectionContainer)testCase.Register(c);
 
 
-            var obj1 = c.Locate<ITestB>();
-            var obj2 = c.Locate<ITestB>();
+            var obj1 = c.Locate<ITestD>();
+            var obj2 = c.Locate<ITestD>();
 
 
             CheckHelper.Check(obj1, true);
@@ -32,14 +32,14 @@ namespace PerformanceCalculator.Tests.Containers.TestsGrace
         [TestMethod]
         public void RegisterTransient_Success()
         {
-            ITestCase testCase = new TestCaseB(new TransientGraceRegistration(), new GraceResolving());
+            ITestCase testCase = new TestCaseD(new TransientGraceRegistration(), new GraceResolving());
 
             var c = new DependencyInjectionContainer();
             c = (DependencyInjectionContainer)testCase.Register(c);
 
 
-            var obj1 = c.Locate<ITestB>();
-            var obj2 = c.Locate<ITestB>();
+            var obj1 = c.Locate<ITestD>();
+            var obj2 = c.Locate<ITestD>();
 
 
             CheckHelper.Check(obj1, false);
@@ -50,20 +50,20 @@ namespace PerformanceCalculator.Tests.Containers.TestsGrace
         [TestMethod]
         public void RegisterPerThread_SameThread_Success()
         {
-            ITestCase testCase = new TestCaseB(new PerThreadGraceRegistration(), new GraceResolving());
+            ITestCase testCase = new TestCaseD(new PerThreadGraceRegistration(), new GraceResolving());
 
             var c = new DependencyInjectionContainer();
             c = (DependencyInjectionContainer)testCase.Register(c);
-            ITestB obj1 = null;
-            ITestB obj2 = null;
+            ITestD obj1 = null;
+            ITestD obj2 = null;
 
 
             var thread = new Thread(() =>
             {
                 using (var scope = c.BeginLifetimeScope())
                 {
-                    obj1 = scope.Locate<ITestB>();
-                    obj2 = scope.Locate<ITestB>();
+                    obj1 = scope.Locate<ITestD>();
+                    obj2 = scope.Locate<ITestD>();
                 }
             });
             thread.Start();
@@ -78,26 +78,26 @@ namespace PerformanceCalculator.Tests.Containers.TestsGrace
         [TestMethod]
         public void RegisterPerThread_DifferentThreads_Success()
         {
-            ITestCase testCase = new TestCaseB(new PerThreadGraceRegistration(), new GraceResolving());
+            ITestCase testCase = new TestCaseD(new PerThreadGraceRegistration(), new GraceResolving());
 
             var c = new DependencyInjectionContainer();
             c = (DependencyInjectionContainer)testCase.Register(c);
-            ITestB obj1 = null;
-            ITestB obj2 = null;
+            ITestD obj1 = null;
+            ITestD obj2 = null;
 
 
             var thread1 = new Thread(() =>
             {
                 using (var scope = c.BeginLifetimeScope())
                 {
-                    obj1 = scope.Locate<ITestB>();
+                    obj1 = scope.Locate<ITestD>();
                 }
             });
             var thread2 = new Thread(() =>
             {
                 using (var scope = c.BeginLifetimeScope())
                 {
-                    obj2 = scope.Locate<ITestB>();
+                    obj2 = scope.Locate<ITestD>();
                 }
             });
             thread1.Start();

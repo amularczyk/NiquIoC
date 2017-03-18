@@ -15,8 +15,8 @@ namespace PerformanceCalculator.Containers.TestsNinject
                 case TestCaseName.A:
                     return new TestCaseA(GetRegistration(registrationKind), new NinjectResolving());
 
-                case TestCaseName.B:
-                    return new TestCaseB(GetRegistration(registrationKind), new NinjectResolving());
+                case TestCaseName.D:
+                    return new TestCaseD(GetRegistration(registrationKind), new NinjectResolving());
 
                 case TestCaseName.C:
                     return new TestCaseC(GetRegistration(registrationKind), new NinjectResolving());
