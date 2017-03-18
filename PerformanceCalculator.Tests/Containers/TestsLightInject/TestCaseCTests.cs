@@ -51,7 +51,6 @@ namespace PerformanceCalculator.Tests.Containers.TestsLightInject
         [TestMethod]
         public void RegisterPerThread_SameThread_Success()
         {
-            throw new OutOfMemoryException("Process takes more than 20 minutes!");
             ITestCase testCase = new TestCaseC(new PerThreadLightInjectRegistration(), new LightInjectResolving());
 
             var c = new ServiceContainer();
@@ -80,7 +79,6 @@ namespace PerformanceCalculator.Tests.Containers.TestsLightInject
         [TestMethod]
         public void RegisterPerThread_DifferentThreads_Success()
         {
-            throw new OutOfMemoryException("Process takes more than 20 minutes!");
             ITestCase testCase = new TestCaseC(new PerThreadLightInjectRegistration(), new LightInjectResolving());
 
             var c = new ServiceContainer();

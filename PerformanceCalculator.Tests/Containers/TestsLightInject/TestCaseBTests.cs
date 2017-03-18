@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using LightInject;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PerformanceCalculator.Containers;
@@ -51,7 +50,6 @@ namespace PerformanceCalculator.Tests.Containers.TestsLightInject
         [TestMethod]
         public void RegisterPerThread_SameThread_Success()
         {
-            throw new OutOfMemoryException("Process takes more than 20 minutes!");
             ITestCase testCase = new TestCaseB(new PerThreadLightInjectRegistration(), new LightInjectResolving());
 
             var c = new ServiceContainer();
@@ -80,7 +78,6 @@ namespace PerformanceCalculator.Tests.Containers.TestsLightInject
         [TestMethod]
         public void RegisterPerThread_DifferentThreads_Success()
         {
-            throw new OutOfMemoryException("Process takes more than 20 minutes!");
             ITestCase testCase = new TestCaseB(new PerThreadLightInjectRegistration(), new LightInjectResolving());
 
             var c = new ServiceContainer();

@@ -58,7 +58,7 @@ namespace PerformanceCalculator.Containers.TestsLightInject
             {
                 if (registrationKind == RegistrationKind.PerThread)
                 {
-                    if (testCase is TestCaseD || testCase is TestCaseB)
+                    if (testCase is TestCaseD || testCase is TestCaseC)
                     {
                         throw new OutOfMemoryException("Process takes more than 20 minutes!");
                     }
