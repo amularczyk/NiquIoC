@@ -21,8 +21,8 @@ namespace PerformanceCalculator.Tests.Containers.TestsNiquIoC_Full
             var c = new Container();
             c = (Container)testCase.Register(c);
 
-            var obj1 = c.Resolve<ITestC>(ResolveKind.FullEmitFunction);
-            var obj2 = c.Resolve<ITestC>(ResolveKind.FullEmitFunction);
+            var obj1 = c.Resolve<ITestB>(ResolveKind.FullEmitFunction);
+            var obj2 = c.Resolve<ITestB>(ResolveKind.FullEmitFunction);
 
 
             CheckHelper.Check(obj1, true);
@@ -39,8 +39,8 @@ namespace PerformanceCalculator.Tests.Containers.TestsNiquIoC_Full
             var c = new Container();
             c = (Container)testCase.Register(c);
 
-            var obj1 = c.Resolve<ITestC>(ResolveKind.FullEmitFunction);
-            var obj2 = c.Resolve<ITestC>(ResolveKind.FullEmitFunction);
+            var obj1 = c.Resolve<ITestB>(ResolveKind.FullEmitFunction);
+            var obj2 = c.Resolve<ITestB>(ResolveKind.FullEmitFunction);
 
 
             CheckHelper.Check(obj1, false);
@@ -55,14 +55,14 @@ namespace PerformanceCalculator.Tests.Containers.TestsNiquIoC_Full
 
             var c = new Container();
             c = (Container)testCase.Register(c);
-            ITestC obj1 = null;
-            ITestC obj2 = null;
+            ITestB obj1 = null;
+            ITestB obj2 = null;
 
 
             var thread = new Thread(() =>
             {
-                obj1 = c.Resolve<ITestC>(ResolveKind.FullEmitFunction);
-                obj2 = c.Resolve<ITestC>(ResolveKind.FullEmitFunction);
+                obj1 = c.Resolve<ITestB>(ResolveKind.FullEmitFunction);
+                obj2 = c.Resolve<ITestB>(ResolveKind.FullEmitFunction);
             });
             thread.Start();
             thread.Join();
@@ -80,12 +80,12 @@ namespace PerformanceCalculator.Tests.Containers.TestsNiquIoC_Full
 
             var c = new Container();
             c = (Container)testCase.Register(c);
-            ITestC obj1 = null;
-            ITestC obj2 = null;
+            ITestB obj1 = null;
+            ITestB obj2 = null;
 
 
-            var thread1 = new Thread(() => { obj1 = c.Resolve<ITestC>(ResolveKind.FullEmitFunction); });
-            var thread2 = new Thread(() => { obj2 = c.Resolve<ITestC>(ResolveKind.FullEmitFunction); });
+            var thread1 = new Thread(() => { obj1 = c.Resolve<ITestB>(ResolveKind.FullEmitFunction); });
+            var thread2 = new Thread(() => { obj2 = c.Resolve<ITestB>(ResolveKind.FullEmitFunction); });
             thread1.Start();
             thread1.Join();
             thread2.Start();

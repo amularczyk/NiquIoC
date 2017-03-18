@@ -20,8 +20,8 @@ namespace PerformanceCalculator.Tests.Containers.TestsAutofac
             var cb = new ContainerBuilder();
             var c = (IContainer)testCase.Register(cb);
 
-            var obj1 = c.Resolve<ITestC>();
-            var obj2 = c.Resolve<ITestC>();
+            var obj1 = c.Resolve<ITestB>();
+            var obj2 = c.Resolve<ITestB>();
 
 
             CheckHelper.Check(obj1, true);
@@ -38,8 +38,8 @@ namespace PerformanceCalculator.Tests.Containers.TestsAutofac
             var cb = new ContainerBuilder();
             var c = (IContainer)testCase.Register(cb);
 
-            var obj1 = c.Resolve<ITestC>();
-            var obj2 = c.Resolve<ITestC>();
+            var obj1 = c.Resolve<ITestB>();
+            var obj2 = c.Resolve<ITestB>();
 
 
             CheckHelper.Check(obj1, false);
@@ -55,16 +55,16 @@ namespace PerformanceCalculator.Tests.Containers.TestsAutofac
 
             var cb = new ContainerBuilder();
             var c = (IContainer)testCase.Register(cb);
-            ITestC obj1 = null;
-            ITestC obj2 = null;
+            ITestB obj1 = null;
+            ITestB obj2 = null;
 
 
             var thread = new Thread(() =>
             {
                 using (var threadLifetime = c.BeginLifetimeScope())
                 {
-                    obj1 = threadLifetime.Resolve<ITestC>();
-                    obj2 = threadLifetime.Resolve<ITestC>();
+                    obj1 = threadLifetime.Resolve<ITestB>();
+                    obj2 = threadLifetime.Resolve<ITestB>();
                 }
             });
             thread.Start();
@@ -84,22 +84,22 @@ namespace PerformanceCalculator.Tests.Containers.TestsAutofac
 
             var cb = new ContainerBuilder();
             var c = (IContainer)testCase.Register(cb);
-            ITestC obj1 = null;
-            ITestC obj2 = null;
+            ITestB obj1 = null;
+            ITestB obj2 = null;
 
 
             var thread1 = new Thread(() =>
             {
                 using (var threadLifetime = c.BeginLifetimeScope())
                 {
-                    obj1 = threadLifetime.Resolve<ITestC>();
+                    obj1 = threadLifetime.Resolve<ITestB>();
                 }
             });
             var thread2 = new Thread(() =>
             {
                 using (var threadLifetime = c.BeginLifetimeScope())
                 {
-                    obj2 = threadLifetime.Resolve<ITestC>();
+                    obj2 = threadLifetime.Resolve<ITestB>();
                 }
             });
             thread1.Start();

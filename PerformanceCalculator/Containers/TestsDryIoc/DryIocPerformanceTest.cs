@@ -18,7 +18,7 @@ namespace PerformanceCalculator.Containers.TestsDryIoc
                 case TestCaseName.D:
                     return new TestCaseD(GetRegistration(registrationKind), new DryIocResolving());
 
-                case TestCaseName.C:
+                case TestCaseName.B:
                     return new TestCaseC(GetRegistration(registrationKind), new DryIocResolving());
 
                 default:

@@ -18,7 +18,7 @@ namespace PerformanceCalculator.Containers.TestsAutofac
                 case TestCaseName.D:
                     return new TestCaseD(GetRegistration(registrationKind), new AutofacResolving());
 
-                case TestCaseName.C:
+                case TestCaseName.B:
                     return new TestCaseC(GetRegistration(registrationKind), new AutofacResolving());
 
                 default:

@@ -17,7 +17,7 @@ namespace PerformanceCalculator.Containers.TestsNiquIoC_Partial
                 case TestCaseName.D:
                     return new TestCaseD(GetRegistration(registrationKind), new NiquIoCPartialResolving());
 
-                case TestCaseName.C:
+                case TestCaseName.B:
                     return new TestCaseC(GetRegistration(registrationKind), new NiquIoCPartialResolving());
 
                 default:

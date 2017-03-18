@@ -18,7 +18,7 @@ namespace PerformanceCalculator.Containers.TestsSimpleInjector
                 case TestCaseName.D:
                     return new TestCaseD(GetRegistration(registrationKind), new SimpleInjectorResolving());
 
-                case TestCaseName.C:
+                case TestCaseName.B:
                     return new TestCaseC(GetRegistration(registrationKind), new SimpleInjectorResolving());
 
                 default:

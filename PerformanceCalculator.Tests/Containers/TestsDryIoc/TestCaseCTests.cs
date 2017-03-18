@@ -20,8 +20,8 @@ namespace PerformanceCalculator.Tests.Containers.TestsDryIoc
             var c = new Container();
             c = (Container)testCase.Register(c);
 
-            var obj1 = c.Resolve<ITestC>();
-            var obj2 = c.Resolve<ITestC>();
+            var obj1 = c.Resolve<ITestB>();
+            var obj2 = c.Resolve<ITestB>();
 
 
             CheckHelper.Check(obj1, true);
@@ -38,8 +38,8 @@ namespace PerformanceCalculator.Tests.Containers.TestsDryIoc
             var c = new Container();
             c = (Container)testCase.Register(c);
 
-            var obj1 = c.Resolve<ITestC>();
-            var obj2 = c.Resolve<ITestC>();
+            var obj1 = c.Resolve<ITestB>();
+            var obj2 = c.Resolve<ITestB>();
 
 
             CheckHelper.Check(obj1, false);
@@ -54,16 +54,16 @@ namespace PerformanceCalculator.Tests.Containers.TestsDryIoc
 
             var c = new Container(scopeContext: new ThreadScopeContext());
             c = (Container)testCase.Register(c);
-            ITestC obj1 = null;
-            ITestC obj2 = null;
+            ITestB obj1 = null;
+            ITestB obj2 = null;
 
 
             var thread = new Thread(() =>
             {
                 using (var s = c.OpenScope())
                 {
-                    obj1 = c.Resolve<ITestC>();
-                    obj2 = c.Resolve<ITestC>();
+                    obj1 = c.Resolve<ITestB>();
+                    obj2 = c.Resolve<ITestB>();
                 }
             });
             thread.Start();
@@ -82,22 +82,22 @@ namespace PerformanceCalculator.Tests.Containers.TestsDryIoc
 
             var c = new Container(scopeContext: new ThreadScopeContext());
             c = (Container)testCase.Register(c);
-            ITestC obj1 = null;
-            ITestC obj2 = null;
+            ITestB obj1 = null;
+            ITestB obj2 = null;
 
 
             var thread1 = new Thread(() =>
             {
                 using (var s = c.OpenScope())
                 {
-                    obj1 = c.Resolve<ITestC>();
+                    obj1 = c.Resolve<ITestB>();
                 }
             });
             var thread2 = new Thread(() =>
             {
                 using (var s = c.OpenScope())
                 {
-                    obj2 = c.Resolve<ITestC>();
+                    obj2 = c.Resolve<ITestB>();
                 }
             });
             thread1.Start();

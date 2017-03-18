@@ -20,8 +20,8 @@ namespace PerformanceCalculator.Tests.Containers.TestsWindsor
             var c = new WindsorContainer();
             c = (WindsorContainer)testCase.Register(c);
 
-            var obj1 = c.Resolve<ITestC>();
-            var obj2 = c.Resolve<ITestC>();
+            var obj1 = c.Resolve<ITestB>();
+            var obj2 = c.Resolve<ITestB>();
 
 
             CheckHelper.Check(obj1, true);
@@ -38,8 +38,8 @@ namespace PerformanceCalculator.Tests.Containers.TestsWindsor
             var c = new WindsorContainer();
             c = (WindsorContainer)testCase.Register(c);
 
-            var obj1 = c.Resolve<ITestC>();
-            var obj2 = c.Resolve<ITestC>();
+            var obj1 = c.Resolve<ITestB>();
+            var obj2 = c.Resolve<ITestB>();
 
 
             CheckHelper.Check(obj1, false);
@@ -54,14 +54,14 @@ namespace PerformanceCalculator.Tests.Containers.TestsWindsor
 
             var c = new WindsorContainer();
             c = (WindsorContainer)testCase.Register(c);
-            ITestC obj1 = null;
-            ITestC obj2 = null;
+            ITestB obj1 = null;
+            ITestB obj2 = null;
 
 
             var thread = new Thread(() =>
             {
-                obj1 = c.Resolve<ITestC>();
-                obj2 = c.Resolve<ITestC>();
+                obj1 = c.Resolve<ITestB>();
+                obj2 = c.Resolve<ITestB>();
             });
             thread.Start();
             thread.Join();
@@ -79,12 +79,12 @@ namespace PerformanceCalculator.Tests.Containers.TestsWindsor
 
             var c = new WindsorContainer();
             c = (WindsorContainer)testCase.Register(c);
-            ITestC obj1 = null;
-            ITestC obj2 = null;
+            ITestB obj1 = null;
+            ITestB obj2 = null;
 
 
-            var thread1 = new Thread(() => { obj1 = c.Resolve<ITestC>(); });
-            var thread2 = new Thread(() => { obj2 = c.Resolve<ITestC>(); });
+            var thread1 = new Thread(() => { obj1 = c.Resolve<ITestB>(); });
+            var thread2 = new Thread(() => { obj2 = c.Resolve<ITestB>(); });
             thread1.Start();
             thread1.Join();
             thread2.Start();

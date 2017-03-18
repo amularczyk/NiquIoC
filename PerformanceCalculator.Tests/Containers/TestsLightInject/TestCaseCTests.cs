@@ -21,8 +21,8 @@ namespace PerformanceCalculator.Tests.Containers.TestsLightInject
             var c = new ServiceContainer();
             c = (ServiceContainer)testCase.Register(c);
 
-            var obj1 = c.GetInstance<ITestC>();
-            var obj2 = c.GetInstance<ITestC>();
+            var obj1 = c.GetInstance<ITestB>();
+            var obj2 = c.GetInstance<ITestB>();
 
 
             CheckHelper.Check(obj1, true);
@@ -39,8 +39,8 @@ namespace PerformanceCalculator.Tests.Containers.TestsLightInject
             var c = new ServiceContainer();
             c = (ServiceContainer)testCase.Register(c);
 
-            var obj1 = c.GetInstance<ITestC>();
-            var obj2 = c.GetInstance<ITestC>();
+            var obj1 = c.GetInstance<ITestB>();
+            var obj2 = c.GetInstance<ITestB>();
 
 
             CheckHelper.Check(obj1, false);
@@ -56,16 +56,16 @@ namespace PerformanceCalculator.Tests.Containers.TestsLightInject
 
             var c = new ServiceContainer();
             c = (ServiceContainer)testCase.Register(c);
-            ITestC obj1 = null;
-            ITestC obj2 = null;
+            ITestB obj1 = null;
+            ITestB obj2 = null;
 
 
             var thread = new Thread(() =>
             {
                 using (c.BeginScope())
                 {
-                    obj1 = c.GetInstance<ITestC>();
-                    obj2 = c.GetInstance<ITestC>();
+                    obj1 = c.GetInstance<ITestB>();
+                    obj2 = c.GetInstance<ITestB>();
                 }
             });
             thread.Start();
@@ -85,22 +85,22 @@ namespace PerformanceCalculator.Tests.Containers.TestsLightInject
 
             var c = new ServiceContainer();
             c = (ServiceContainer)testCase.Register(c);
-            ITestC obj1 = null;
-            ITestC obj2 = null;
+            ITestB obj1 = null;
+            ITestB obj2 = null;
 
 
             var thread1 = new Thread(() =>
             {
                 using (c.BeginScope())
                 {
-                    obj1 = c.GetInstance<ITestC>();
+                    obj1 = c.GetInstance<ITestB>();
                 }
             });
             var thread2 = new Thread(() =>
             {
                 using (c.BeginScope())
                 {
-                    obj2 = c.GetInstance<ITestC>();
+                    obj2 = c.GetInstance<ITestB>();
                 }
             });
             thread1.Start();

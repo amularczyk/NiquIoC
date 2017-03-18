@@ -4,6 +4,6 @@
     {
         object Register(object container);
 
-        void Resolve(object container, int testCasesNumber);
+        void Resolve(object container, int TestCasesNumber);
     }
 }

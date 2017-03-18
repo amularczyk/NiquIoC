@@ -20,8 +20,8 @@ namespace PerformanceCalculator.Tests.Containers.TestsGrace
             c = (DependencyInjectionContainer)testCase.Register(c);
 
 
-            var obj1 = c.Locate<ITestC>();
-            var obj2 = c.Locate<ITestC>();
+            var obj1 = c.Locate<ITestB>();
+            var obj2 = c.Locate<ITestB>();
 
 
             CheckHelper.Check(obj1, true);
@@ -38,8 +38,8 @@ namespace PerformanceCalculator.Tests.Containers.TestsGrace
             c = (DependencyInjectionContainer)testCase.Register(c);
 
 
-            var obj1 = c.Locate<ITestC>();
-            var obj2 = c.Locate<ITestC>();
+            var obj1 = c.Locate<ITestB>();
+            var obj2 = c.Locate<ITestB>();
 
 
             CheckHelper.Check(obj1, false);
@@ -54,16 +54,16 @@ namespace PerformanceCalculator.Tests.Containers.TestsGrace
 
             var c = new DependencyInjectionContainer();
             c = (DependencyInjectionContainer)testCase.Register(c);
-            ITestC obj1 = null;
-            ITestC obj2 = null;
+            ITestB obj1 = null;
+            ITestB obj2 = null;
 
 
             var thread = new Thread(() =>
             {
                 using (var scope = c.BeginLifetimeScope())
                 {
-                    obj1 = scope.Locate<ITestC>();
-                    obj2 = scope.Locate<ITestC>();
+                    obj1 = scope.Locate<ITestB>();
+                    obj2 = scope.Locate<ITestB>();
                 }
             });
             thread.Start();
@@ -82,22 +82,22 @@ namespace PerformanceCalculator.Tests.Containers.TestsGrace
 
             var c = new DependencyInjectionContainer();
             c = (DependencyInjectionContainer)testCase.Register(c);
-            ITestC obj1 = null;
-            ITestC obj2 = null;
+            ITestB obj1 = null;
+            ITestB obj2 = null;
 
 
             var thread1 = new Thread(() =>
             {
                 using (var scope = c.BeginLifetimeScope())
                 {
-                    obj1 = scope.Locate<ITestC>();
+                    obj1 = scope.Locate<ITestB>();
                 }
             });
             var thread2 = new Thread(() =>
             {
                 using (var scope = c.BeginLifetimeScope())
                 {
-                    obj2 = scope.Locate<ITestC>();
+                    obj2 = scope.Locate<ITestB>();
                 }
             });
             thread1.Start();

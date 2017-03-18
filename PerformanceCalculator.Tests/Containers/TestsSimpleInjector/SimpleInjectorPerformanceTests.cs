@@ -56,24 +56,24 @@ namespace PerformanceCalculator.Tests.Containers.TestsSimpleInjector
         }
 
         [TestMethod]
-        public void DoTestC_Singleton_Success()
+        public void DoTestB_Singleton_Success()
         {
             var performance = GetPerformance();
-            performance.RunTest(1, TestCaseName.C, RegistrationKind.Singleton);
+            performance.RunTest(1, TestCaseName.B, RegistrationKind.Singleton);
         }
 
         [TestMethod]
-        public void DoTestC_Transient_Success()
+        public void DoTestB_Transient_Success()
         {
             var performance = GetPerformance();
-            performance.RunTest(1, TestCaseName.C, RegistrationKind.Transient);
+            performance.RunTest(1, TestCaseName.B, RegistrationKind.Transient);
         }
 
         [TestMethod]
-        public void DoTestC_PerThread_Success()
+        public void DoTestB_PerThread_Success()
         {
             var performance = GetPerformance();
-            performance.RunTest(1, TestCaseName.C, RegistrationKind.PerThread);
+            performance.RunTest(1, TestCaseName.B, RegistrationKind.PerThread);
         }
     }
 }

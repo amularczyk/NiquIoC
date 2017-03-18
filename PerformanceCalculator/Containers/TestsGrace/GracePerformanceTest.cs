@@ -18,7 +18,7 @@ namespace PerformanceCalculator.Containers.TestsGrace
                 case TestCaseName.D:
                     return new TestCaseD(GetRegistration(registrationKind), new GraceResolving());
 
-                case TestCaseName.C:
+                case TestCaseName.B:
                     return new TestCaseC(GetRegistration(registrationKind), new GraceResolving());
 
                 default:

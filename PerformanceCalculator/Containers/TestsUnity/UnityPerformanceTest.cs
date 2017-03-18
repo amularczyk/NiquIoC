@@ -17,7 +17,7 @@ namespace PerformanceCalculator.Containers.TestsUnity
                 case TestCaseName.D:
                     return new TestCaseD(GetRegistration(registrationKind), new UnityResolving());
 
-                case TestCaseName.C:
+                case TestCaseName.B:
                     return new TestCaseC(GetRegistration(registrationKind), new UnityResolving());
 
                 default:

@@ -17,7 +17,7 @@ namespace PerformanceCalculator.Containers.TestsNiquIoC_Full
                 case TestCaseName.D:
                     return new TestCaseD(GetRegistration(registrationKind), new NiquIoCFullResolving());
 
-                case TestCaseName.C:
+                case TestCaseName.B:
                     return new TestCaseC(GetRegistration(registrationKind), new NiquIoCFullResolving());
 
                 default:

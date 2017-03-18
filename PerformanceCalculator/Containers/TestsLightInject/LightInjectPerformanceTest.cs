@@ -18,7 +18,7 @@ namespace PerformanceCalculator.Containers.TestsLightInject
                 case TestCaseName.D:
                     return new TestCaseD(GetRegistration(registrationKind), new LightInjectResolving());
 
-                case TestCaseName.C:
+                case TestCaseName.B:
                     return new TestCaseC(GetRegistration(registrationKind), new LightInjectResolving());
 
                 default:

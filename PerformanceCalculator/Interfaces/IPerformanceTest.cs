@@ -4,6 +4,6 @@ namespace PerformanceCalculator.Interfaces
 {
     public interface IPerformanceTest
     {
-        TestResult RunTest(int count, string testCaseName, RegistrationKind registrationKind);
+        TestResult RunTest(int count, string TestCase, RegistrationKind registrationKind);
     }
 }
