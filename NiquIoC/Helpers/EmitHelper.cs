@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
-using NiquIoC.Extensions;
-using NiquIoC.Interfaces;
+﻿using System.Reflection.Emit;
 
 namespace NiquIoC.Helpers
 {
@@ -44,7 +39,7 @@ namespace NiquIoC.Helpers
                 default:
                     if (value <= 127)
                     {
-                        il.Emit(OpCodes.Ldc_I4_S, (sbyte) value);
+                        il.Emit(OpCodes.Ldc_I4_S, (sbyte)value);
                     }
                     else
                     {
