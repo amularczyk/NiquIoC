@@ -10,19 +10,19 @@ using PerformanceCalculator.TestCases;
 namespace PerformanceCalculator.Tests.Containers.TestsLightInject
 {
     [TestClass]
-    public class TestCaseCTests
+    public class TestCaseDTests
     {
         [TestMethod]
         public void RegisterSingleton_Success()
         {
-            ITestCase testCase = new TestCaseC(new SingletonLightInjectRegistration(), new LightInjectResolving());
+            ITestCase testCase = new TestCaseD(new SingletonLightInjectRegistration(), new LightInjectResolving());
 
 
             var c = new ServiceContainer();
             c = (ServiceContainer)testCase.Register(c);
 
-            var obj1 = c.GetInstance<ITestB>();
-            var obj2 = c.GetInstance<ITestB>();
+            var obj1 = c.GetInstance<ITestD>();
+            var obj2 = c.GetInstance<ITestD>();
 
 
             CheckHelper.Check(obj1, true);
@@ -33,14 +33,14 @@ namespace PerformanceCalculator.Tests.Containers.TestsLightInject
         [TestMethod]
         public void RegisterTransient_Success()
         {
-            ITestCase testCase = new TestCaseC(new TransientLightInjectRegistration(), new LightInjectResolving());
+            ITestCase testCase = new TestCaseD(new TransientLightInjectRegistration(), new LightInjectResolving());
 
 
             var c = new ServiceContainer();
             c = (ServiceContainer)testCase.Register(c);
 
-            var obj1 = c.GetInstance<ITestB>();
-            var obj2 = c.GetInstance<ITestB>();
+            var obj1 = c.GetInstance<ITestD>();
+            var obj2 = c.GetInstance<ITestD>();
 
 
             CheckHelper.Check(obj1, false);
@@ -52,20 +52,20 @@ namespace PerformanceCalculator.Tests.Containers.TestsLightInject
         public void RegisterPerThread_SameThread_Success()
         {
             throw new OutOfMemoryException("Process takes more than 20 minutes!");
-            ITestCase testCase = new TestCaseC(new PerThreadLightInjectRegistration(), new LightInjectResolving());
+            ITestCase testCase = new TestCaseD(new PerThreadLightInjectRegistration(), new LightInjectResolving());
 
             var c = new ServiceContainer();
             c = (ServiceContainer)testCase.Register(c);
-            ITestB obj1 = null;
-            ITestB obj2 = null;
+            ITestD obj1 = null;
+            ITestD obj2 = null;
 
 
             var thread = new Thread(() =>
             {
                 using (c.BeginScope())
                 {
-                    obj1 = c.GetInstance<ITestB>();
-                    obj2 = c.GetInstance<ITestB>();
+                    obj1 = c.GetInstance<ITestD>();
+                    obj2 = c.GetInstance<ITestD>();
                 }
             });
             thread.Start();
@@ -81,26 +81,26 @@ namespace PerformanceCalculator.Tests.Containers.TestsLightInject
         public void RegisterPerThread_DifferentThreads_Success()
         {
             throw new OutOfMemoryException("Process takes more than 20 minutes!");
-            ITestCase testCase = new TestCaseC(new PerThreadLightInjectRegistration(), new LightInjectResolving());
+            ITestCase testCase = new TestCaseD(new PerThreadLightInjectRegistration(), new LightInjectResolving());
 
             var c = new ServiceContainer();
             c = (ServiceContainer)testCase.Register(c);
-            ITestB obj1 = null;
-            ITestB obj2 = null;
+            ITestD obj1 = null;
+            ITestD obj2 = null;
 
 
             var thread1 = new Thread(() =>
             {
                 using (c.BeginScope())
                 {
-                    obj1 = c.GetInstance<ITestB>();
+                    obj1 = c.GetInstance<ITestD>();
                 }
             });
             var thread2 = new Thread(() =>
             {
                 using (c.BeginScope())
                 {
-                    obj2 = c.GetInstance<ITestB>();
+                    obj2 = c.GetInstance<ITestD>();
                 }
             });
             thread1.Start();

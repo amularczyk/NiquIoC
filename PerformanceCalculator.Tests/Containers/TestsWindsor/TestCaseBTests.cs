@@ -14,14 +14,14 @@ namespace PerformanceCalculator.Tests.Containers.TestsWindsor
         [TestMethod]
         public void RegisterSingleton_Success()
         {
-            ITestCase testCase = new TestCaseD(new SingletonWindsorRegistration(), new WindsorResolving());
+            ITestCase testCase = new TestCaseC(new SingletonWindsorRegistration(), new WindsorResolving());
 
 
             var c = new WindsorContainer();
             c = (WindsorContainer)testCase.Register(c);
 
-            var obj1 = c.Resolve<ITestD>();
-            var obj2 = c.Resolve<ITestD>();
+            var obj1 = c.Resolve<ITestB>();
+            var obj2 = c.Resolve<ITestB>();
 
 
             CheckHelper.Check(obj1, true);
@@ -32,14 +32,14 @@ namespace PerformanceCalculator.Tests.Containers.TestsWindsor
         [TestMethod]
         public void RegisterTransient_Success()
         {
-            ITestCase testCase = new TestCaseD(new TransientWindsorRegistration(), new WindsorResolving());
+            ITestCase testCase = new TestCaseC(new TransientWindsorRegistration(), new WindsorResolving());
 
 
             var c = new WindsorContainer();
             c = (WindsorContainer)testCase.Register(c);
 
-            var obj1 = c.Resolve<ITestD>();
-            var obj2 = c.Resolve<ITestD>();
+            var obj1 = c.Resolve<ITestB>();
+            var obj2 = c.Resolve<ITestB>();
 
 
             CheckHelper.Check(obj1, false);
@@ -50,18 +50,18 @@ namespace PerformanceCalculator.Tests.Containers.TestsWindsor
         [TestMethod]
         public void RegisterPerThread_SameThread_Success()
         {
-            ITestCase testCase = new TestCaseD(new PerThreadWindsorRegistration(), new WindsorResolving());
+            ITestCase testCase = new TestCaseC(new PerThreadWindsorRegistration(), new WindsorResolving());
 
             var c = new WindsorContainer();
             c = (WindsorContainer)testCase.Register(c);
-            ITestD obj1 = null;
-            ITestD obj2 = null;
+            ITestB obj1 = null;
+            ITestB obj2 = null;
 
 
             var thread = new Thread(() =>
             {
-                obj1 = c.Resolve<ITestD>();
-                obj2 = c.Resolve<ITestD>();
+                obj1 = c.Resolve<ITestB>();
+                obj2 = c.Resolve<ITestB>();
             });
             thread.Start();
             thread.Join();
@@ -75,16 +75,16 @@ namespace PerformanceCalculator.Tests.Containers.TestsWindsor
         [TestMethod]
         public void RegisterPerThread_DifferentThreads_Success()
         {
-            ITestCase testCase = new TestCaseD(new PerThreadWindsorRegistration(), new WindsorResolving());
+            ITestCase testCase = new TestCaseC(new PerThreadWindsorRegistration(), new WindsorResolving());
 
             var c = new WindsorContainer();
             c = (WindsorContainer)testCase.Register(c);
-            ITestD obj1 = null;
-            ITestD obj2 = null;
+            ITestB obj1 = null;
+            ITestB obj2 = null;
 
 
-            var thread1 = new Thread(() => { obj1 = c.Resolve<ITestD>(); });
-            var thread2 = new Thread(() => { obj2 = c.Resolve<ITestD>(); });
+            var thread1 = new Thread(() => { obj1 = c.Resolve<ITestB>(); });
+            var thread2 = new Thread(() => { obj2 = c.Resolve<ITestB>(); });
             thread1.Start();
             thread1.Join();
             thread2.Start();

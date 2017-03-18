@@ -14,14 +14,14 @@ namespace PerformanceCalculator.Tests.Containers.TestsSimpleInjector
         [TestMethod]
         public void RegisterSingleton_Success()
         {
-            ITestCase testCase = new TestCaseD(new SingletonSimpleInjectorRegistration(), new SimpleInjectorResolving());
+            ITestCase testCase = new TestCaseC(new SingletonSimpleInjectorRegistration(), new SimpleInjectorResolving());
 
 
             var c = new Container();
             c = (Container)testCase.Register(c);
 
-            var obj1 = c.GetInstance<ITestD>();
-            var obj2 = c.GetInstance<ITestD>();
+            var obj1 = c.GetInstance<ITestB>();
+            var obj2 = c.GetInstance<ITestB>();
 
 
             CheckHelper.Check(obj1, true);
@@ -32,14 +32,14 @@ namespace PerformanceCalculator.Tests.Containers.TestsSimpleInjector
         [TestMethod]
         public void RegisterTransient_Success()
         {
-            ITestCase testCase = new TestCaseD(new TransientSimpleInjectorRegistration(), new SimpleInjectorResolving());
+            ITestCase testCase = new TestCaseC(new TransientSimpleInjectorRegistration(), new SimpleInjectorResolving());
+
 
             var c = new Container();
             c = (Container)testCase.Register(c);
 
-
-            var obj1 = c.GetInstance<ITestD>();
-            var obj2 = c.GetInstance<ITestD>();
+            var obj1 = c.GetInstance<ITestB>();
+            var obj2 = c.GetInstance<ITestB>();
 
 
             CheckHelper.Check(obj1, false);
@@ -50,20 +50,20 @@ namespace PerformanceCalculator.Tests.Containers.TestsSimpleInjector
         [TestMethod]
         public void RegisterPerThread_SameThread_Success()
         {
-            ITestCase testCase = new TestCaseD(new PerThreadSimpleInjectorRegistration(), new SimpleInjectorResolving());
+            ITestCase testCase = new TestCaseC(new PerThreadSimpleInjectorRegistration(), new SimpleInjectorResolving());
 
             var c = new Container();
             c = (Container)testCase.Register(c);
-            ITestD obj1 = null;
-            ITestD obj2 = null;
+            ITestB obj1 = null;
+            ITestB obj2 = null;
 
 
             var thread = new Thread(() =>
             {
                 using (c.BeginLifetimeScope())
                 {
-                    obj1 = c.GetInstance<ITestD>();
-                    obj2 = c.GetInstance<ITestD>();
+                    obj1 = c.GetInstance<ITestB>();
+                    obj2 = c.GetInstance<ITestB>();
                 }
             });
             thread.Start();
@@ -78,26 +78,26 @@ namespace PerformanceCalculator.Tests.Containers.TestsSimpleInjector
         [TestMethod]
         public void RegisterPerThread_DifferentThreads_Success()
         {
-            ITestCase testCase = new TestCaseD(new PerThreadSimpleInjectorRegistration(), new SimpleInjectorResolving());
+            ITestCase testCase = new TestCaseC(new PerThreadSimpleInjectorRegistration(), new SimpleInjectorResolving());
 
             var c = new Container();
             c = (Container)testCase.Register(c);
-            ITestD obj1 = null;
-            ITestD obj2 = null;
+            ITestB obj1 = null;
+            ITestB obj2 = null;
 
 
             var thread1 = new Thread(() =>
             {
                 using (c.BeginLifetimeScope())
                 {
-                    obj1 = c.GetInstance<ITestD>();
+                    obj1 = c.GetInstance<ITestB>();
                 }
             });
             var thread2 = new Thread(() =>
             {
                 using (c.BeginLifetimeScope())
                 {
-                    obj2 = c.GetInstance<ITestD>();
+                    obj2 = c.GetInstance<ITestB>();
                 }
             });
             thread1.Start();

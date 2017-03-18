@@ -9,19 +9,19 @@ using PerformanceCalculator.TestCases;
 namespace PerformanceCalculator.Tests.Containers.TestsNinject
 {
     [TestClass]
-    public class TestCaseCTests
+    public class TestCaseDTests
     {
         [TestMethod]
         public void RegisterSingleton_Success()
         {
-            ITestCase testCase = new TestCaseC(new SingletonNinjectRegistration(), new NinjectResolving());
+            ITestCase testCase = new TestCaseD(new SingletonNinjectRegistration(), new NinjectResolving());
 
 
             var c = new StandardKernel();
             c = (StandardKernel)testCase.Register(c);
 
-            var obj1 = c.Get<ITestB>();
-            var obj2 = c.Get<ITestB>();
+            var obj1 = c.Get<ITestD>();
+            var obj2 = c.Get<ITestD>();
 
 
             CheckHelper.Check(obj1, true);
@@ -32,14 +32,14 @@ namespace PerformanceCalculator.Tests.Containers.TestsNinject
         [TestMethod]
         public void RegisterTransient_Success()
         {
-            ITestCase testCase = new TestCaseC(new TransientNinjectRegistration(), new NinjectResolving());
+            ITestCase testCase = new TestCaseD(new TransientNinjectRegistration(), new NinjectResolving());
 
 
             var c = new StandardKernel();
             c = (StandardKernel)testCase.Register(c);
 
-            var obj1 = c.Get<ITestB>();
-            var obj2 = c.Get<ITestB>();
+            var obj1 = c.Get<ITestD>();
+            var obj2 = c.Get<ITestD>();
 
 
             CheckHelper.Check(obj1, false);
@@ -50,18 +50,18 @@ namespace PerformanceCalculator.Tests.Containers.TestsNinject
         [TestMethod]
         public void RegisterPerThread_SameThread_Success()
         {
-            ITestCase testCase = new TestCaseC(new PerThreadNinjectRegistration(), new NinjectResolving());
+            ITestCase testCase = new TestCaseD(new PerThreadNinjectRegistration(), new NinjectResolving());
 
             var c = new StandardKernel();
             c = (StandardKernel)testCase.Register(c);
-            ITestB obj1 = null;
-            ITestB obj2 = null;
+            ITestD obj1 = null;
+            ITestD obj2 = null;
 
 
             var thread = new Thread(() =>
             {
-                obj1 = c.Get<ITestB>();
-                obj2 = c.Get<ITestB>();
+                obj1 = c.Get<ITestD>();
+                obj2 = c.Get<ITestD>();
             });
             thread.Start();
             thread.Join();
@@ -75,16 +75,16 @@ namespace PerformanceCalculator.Tests.Containers.TestsNinject
         [TestMethod]
         public void RegisterPerThread_DifferentThreads_Success()
         {
-            ITestCase testCase = new TestCaseC(new PerThreadNinjectRegistration(), new NinjectResolving());
+            ITestCase testCase = new TestCaseD(new PerThreadNinjectRegistration(), new NinjectResolving());
 
             var c = new StandardKernel();
             c = (StandardKernel)testCase.Register(c);
-            ITestB obj1 = null;
-            ITestB obj2 = null;
+            ITestD obj1 = null;
+            ITestD obj2 = null;
 
 
-            var thread1 = new Thread(() => { obj1 = c.Get<ITestB>(); });
-            var thread2 = new Thread(() => { obj2 = c.Get<ITestB>(); });
+            var thread1 = new Thread(() => { obj1 = c.Get<ITestD>(); });
+            var thread2 = new Thread(() => { obj2 = c.Get<ITestD>(); });
             thread1.Start();
             thread1.Join();
             thread2.Start();

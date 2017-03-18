@@ -14,14 +14,14 @@ namespace PerformanceCalculator.Tests.Containers.TestsDryIoc
         [TestMethod]
         public void RegisterSingleton_Success()
         {
-            ITestCase testCase = new TestCaseD(new SingletonDryIocRegistration(), new DryIocResolving());
+            ITestCase testCase = new TestCaseC(new SingletonDryIocRegistration(), new DryIocResolving());
 
 
             var c = new Container();
             c = (Container)testCase.Register(c);
 
-            var obj1 = c.Resolve<ITestD>();
-            var obj2 = c.Resolve<ITestD>();
+            var obj1 = c.Resolve<ITestB>();
+            var obj2 = c.Resolve<ITestB>();
 
 
             CheckHelper.Check(obj1, true);
@@ -32,14 +32,14 @@ namespace PerformanceCalculator.Tests.Containers.TestsDryIoc
         [TestMethod]
         public void RegisterTransient_Success()
         {
-            ITestCase testCase = new TestCaseD(new TransientDryIocRegistration(), new DryIocResolving());
+            ITestCase testCase = new TestCaseC(new TransientDryIocRegistration(), new DryIocResolving());
 
 
             var c = new Container();
             c = (Container)testCase.Register(c);
 
-            var obj1 = c.Resolve<ITestD>();
-            var obj2 = c.Resolve<ITestD>();
+            var obj1 = c.Resolve<ITestB>();
+            var obj2 = c.Resolve<ITestB>();
 
 
             CheckHelper.Check(obj1, false);
@@ -50,20 +50,20 @@ namespace PerformanceCalculator.Tests.Containers.TestsDryIoc
         [TestMethod]
         public void RegisterPerThread_SameThread_Success()
         {
-            ITestCase testCase = new TestCaseD(new PerThreadDryIocRegistration(), new DryIocResolving());
+            ITestCase testCase = new TestCaseC(new PerThreadDryIocRegistration(), new DryIocResolving());
 
             var c = new Container(scopeContext: new ThreadScopeContext());
             c = (Container)testCase.Register(c);
-            ITestD obj1 = null;
-            ITestD obj2 = null;
+            ITestB obj1 = null;
+            ITestB obj2 = null;
 
 
             var thread = new Thread(() =>
             {
                 using (var s = c.OpenScope())
                 {
-                    obj1 = c.Resolve<ITestD>();
-                    obj2 = c.Resolve<ITestD>();
+                    obj1 = c.Resolve<ITestB>();
+                    obj2 = c.Resolve<ITestB>();
                 }
             });
             thread.Start();
@@ -78,26 +78,26 @@ namespace PerformanceCalculator.Tests.Containers.TestsDryIoc
         [TestMethod]
         public void RegisterPerThread_DifferentThreads_Success()
         {
-            ITestCase testCase = new TestCaseD(new PerThreadDryIocRegistration(), new DryIocResolving());
+            ITestCase testCase = new TestCaseC(new PerThreadDryIocRegistration(), new DryIocResolving());
 
             var c = new Container(scopeContext: new ThreadScopeContext());
             c = (Container)testCase.Register(c);
-            ITestD obj1 = null;
-            ITestD obj2 = null;
+            ITestB obj1 = null;
+            ITestB obj2 = null;
 
 
             var thread1 = new Thread(() =>
             {
                 using (var s = c.OpenScope())
                 {
-                    obj1 = c.Resolve<ITestD>();
+                    obj1 = c.Resolve<ITestB>();
                 }
             });
             var thread2 = new Thread(() =>
             {
                 using (var s = c.OpenScope())
                 {
-                    obj2 = c.Resolve<ITestD>();
+                    obj2 = c.Resolve<ITestB>();
                 }
             });
             thread1.Start();

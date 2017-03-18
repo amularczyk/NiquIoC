@@ -1,27 +1,28 @@
 ﻿using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NiquIoC;
+using NiquIoC.Enums;
 using PerformanceCalculator.Containers;
-using PerformanceCalculator.Containers.TestsStructureMap;
+using PerformanceCalculator.Containers.TestsNiquIoC_Partial;
 using PerformanceCalculator.Interfaces;
 using PerformanceCalculator.TestCases;
-using StructureMap;
 
-namespace PerformanceCalculator.Tests.Containers.TestsStructureMap
+namespace PerformanceCalculator.Tests.Containers.TestsNiquIoC_Partial
 {
     [TestClass]
-    public class TestCaseCTests
+    public class TestCaseDTests
     {
         [TestMethod]
         public void RegisterSingleton_Success()
         {
-            ITestCase testCase = new TestCaseC(new SingletonStructureMapRegistration(), new StructureMapResolving());
+            ITestCase testCase = new TestCaseD(new SingletonNiquIoCPartialRegistration(), new NiquIoCPartialResolving());
 
 
             var c = new Container();
             c = (Container)testCase.Register(c);
 
-            var obj1 = c.GetInstance<ITestB>();
-            var obj2 = c.GetInstance<ITestB>();
+            var obj1 = c.Resolve<ITestD>(ResolveKind.PartialEmitFunction);
+            var obj2 = c.Resolve<ITestD>(ResolveKind.PartialEmitFunction);
 
 
             CheckHelper.Check(obj1, true);
@@ -32,14 +33,14 @@ namespace PerformanceCalculator.Tests.Containers.TestsStructureMap
         [TestMethod]
         public void RegisterTransient_Success()
         {
-            ITestCase testCase = new TestCaseC(new TransientStructureMapRegistration(), new StructureMapResolving());
+            ITestCase testCase = new TestCaseD(new TransientNiquIoCPartialRegistration(), new NiquIoCPartialResolving());
 
 
             var c = new Container();
             c = (Container)testCase.Register(c);
 
-            var obj1 = c.GetInstance<ITestB>();
-            var obj2 = c.GetInstance<ITestB>();
+            var obj1 = c.Resolve<ITestD>(ResolveKind.PartialEmitFunction);
+            var obj2 = c.Resolve<ITestD>(ResolveKind.PartialEmitFunction);
 
 
             CheckHelper.Check(obj1, false);
@@ -50,18 +51,18 @@ namespace PerformanceCalculator.Tests.Containers.TestsStructureMap
         [TestMethod]
         public void RegisterPerThread_SameThread_Success()
         {
-            ITestCase testCase = new TestCaseC(new PerThreadStructureMapRegistration(), new StructureMapResolving());
+            ITestCase testCase = new TestCaseD(new PerThreadNiquIoCPartialRegistration(), new NiquIoCPartialResolving());
 
             var c = new Container();
             c = (Container)testCase.Register(c);
-            ITestB obj1 = null;
-            ITestB obj2 = null;
+            ITestD obj1 = null;
+            ITestD obj2 = null;
 
 
             var thread = new Thread(() =>
             {
-                obj1 = c.GetInstance<ITestB>();
-                obj2 = c.GetInstance<ITestB>();
+                obj1 = c.Resolve<ITestD>(ResolveKind.PartialEmitFunction);
+                obj2 = c.Resolve<ITestD>(ResolveKind.PartialEmitFunction);
             });
             thread.Start();
             thread.Join();
@@ -75,16 +76,16 @@ namespace PerformanceCalculator.Tests.Containers.TestsStructureMap
         [TestMethod]
         public void RegisterPerThread_DifferentThreads_Success()
         {
-            ITestCase testCase = new TestCaseC(new PerThreadStructureMapRegistration(), new StructureMapResolving());
+            ITestCase testCase = new TestCaseD(new PerThreadNiquIoCPartialRegistration(), new NiquIoCPartialResolving());
 
             var c = new Container();
             c = (Container)testCase.Register(c);
-            ITestB obj1 = null;
-            ITestB obj2 = null;
+            ITestD obj1 = null;
+            ITestD obj2 = null;
 
 
-            var thread1 = new Thread(() => { obj1 = c.GetInstance<ITestB>(); });
-            var thread2 = new Thread(() => { obj2 = c.GetInstance<ITestB>(); });
+            var thread1 = new Thread(() => { obj1 = c.Resolve<ITestD>(ResolveKind.PartialEmitFunction); });
+            var thread2 = new Thread(() => { obj2 = c.Resolve<ITestD>(ResolveKind.PartialEmitFunction); });
             thread1.Start();
             thread1.Join();
             thread2.Start();

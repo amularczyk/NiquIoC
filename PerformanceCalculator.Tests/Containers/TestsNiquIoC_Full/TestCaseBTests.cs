@@ -15,14 +15,14 @@ namespace PerformanceCalculator.Tests.Containers.TestsNiquIoC_Full
         [TestMethod]
         public void RegisterSingleton_Success()
         {
-            ITestCase testCase = new TestCaseD(new SingletonNiquIoCFullRegistration(), new NiquIoCFullResolving());
+            ITestCase testCase = new TestCaseC(new SingletonNiquIoCFullRegistration(), new NiquIoCFullResolving());
 
 
             var c = new Container();
             c = (Container)testCase.Register(c);
 
-            var obj1 = c.Resolve<ITestD>(ResolveKind.FullEmitFunction);
-            var obj2 = c.Resolve<ITestD>(ResolveKind.FullEmitFunction);
+            var obj1 = c.Resolve<ITestB>(ResolveKind.FullEmitFunction);
+            var obj2 = c.Resolve<ITestB>(ResolveKind.FullEmitFunction);
 
 
             CheckHelper.Check(obj1, true);
@@ -33,14 +33,14 @@ namespace PerformanceCalculator.Tests.Containers.TestsNiquIoC_Full
         [TestMethod]
         public void RegisterTransient_Success()
         {
-            ITestCase testCase = new TestCaseD(new TransientNiquIoCFullRegistration(), new NiquIoCFullResolving());
+            ITestCase testCase = new TestCaseC(new TransientNiquIoCFullRegistration(), new NiquIoCFullResolving());
 
 
             var c = new Container();
             c = (Container)testCase.Register(c);
 
-            var obj1 = c.Resolve<ITestD>(ResolveKind.FullEmitFunction);
-            var obj2 = c.Resolve<ITestD>(ResolveKind.FullEmitFunction);
+            var obj1 = c.Resolve<ITestB>(ResolveKind.FullEmitFunction);
+            var obj2 = c.Resolve<ITestB>(ResolveKind.FullEmitFunction);
 
 
             CheckHelper.Check(obj1, false);
@@ -51,18 +51,18 @@ namespace PerformanceCalculator.Tests.Containers.TestsNiquIoC_Full
         [TestMethod]
         public void RegisterPerThread_SameThread_Success()
         {
-            ITestCase testCase = new TestCaseD(new PerThreadNiquIoCFullRegistration(), new NiquIoCFullResolving());
+            ITestCase testCase = new TestCaseC(new PerThreadNiquIoCFullRegistration(), new NiquIoCFullResolving());
 
             var c = new Container();
             c = (Container)testCase.Register(c);
-            ITestD obj1 = null;
-            ITestD obj2 = null;
+            ITestB obj1 = null;
+            ITestB obj2 = null;
 
 
             var thread = new Thread(() =>
             {
-                obj1 = c.Resolve<ITestD>(ResolveKind.FullEmitFunction);
-                obj2 = c.Resolve<ITestD>(ResolveKind.FullEmitFunction);
+                obj1 = c.Resolve<ITestB>(ResolveKind.FullEmitFunction);
+                obj2 = c.Resolve<ITestB>(ResolveKind.FullEmitFunction);
             });
             thread.Start();
             thread.Join();
@@ -76,16 +76,16 @@ namespace PerformanceCalculator.Tests.Containers.TestsNiquIoC_Full
         [TestMethod]
         public void RegisterPerThread_DifferentThreads_Success()
         {
-            ITestCase testCase = new TestCaseD(new PerThreadNiquIoCFullRegistration(), new NiquIoCFullResolving());
+            ITestCase testCase = new TestCaseC(new PerThreadNiquIoCFullRegistration(), new NiquIoCFullResolving());
 
             var c = new Container();
             c = (Container)testCase.Register(c);
-            ITestD obj1 = null;
-            ITestD obj2 = null;
+            ITestB obj1 = null;
+            ITestB obj2 = null;
 
 
-            var thread1 = new Thread(() => { obj1 = c.Resolve<ITestD>(ResolveKind.FullEmitFunction); });
-            var thread2 = new Thread(() => { obj2 = c.Resolve<ITestD>(ResolveKind.FullEmitFunction); });
+            var thread1 = new Thread(() => { obj1 = c.Resolve<ITestB>(ResolveKind.FullEmitFunction); });
+            var thread2 = new Thread(() => { obj2 = c.Resolve<ITestB>(ResolveKind.FullEmitFunction); });
             thread1.Start();
             thread1.Join();
             thread2.Start();
