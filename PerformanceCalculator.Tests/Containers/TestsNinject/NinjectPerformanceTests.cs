@@ -75,5 +75,26 @@ namespace PerformanceCalculator.Tests.Containers.TestsNinject
             var performance = GetPerformance();
             performance.RunTest(1, TestCaseName.B, RegistrationKind.PerThread);
         }
+
+        [TestMethod]
+        public void DoTestC_Singleton_Success()
+        {
+            var performance = GetPerformance();
+            performance.RunTest(1, TestCaseName.C, RegistrationKind.Singleton);
+        }
+
+        [TestMethod]
+        public void DoTestC_Transient_Success()
+        {
+            var performance = GetPerformance();
+            performance.RunTest(1, TestCaseName.C, RegistrationKind.Transient);
+        }
+
+        [TestMethod]
+        public void DoTestC_PerThread_Success()
+        {
+            var performance = GetPerformance();
+            performance.RunTest(1, TestCaseName.C, RegistrationKind.PerThread);
+        }
     }
 }
