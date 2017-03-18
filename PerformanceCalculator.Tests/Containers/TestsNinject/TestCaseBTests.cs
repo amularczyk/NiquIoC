@@ -14,7 +14,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsNinject
         [TestMethod]
         public void RegisterSingleton_Success()
         {
-            ITestCase testCase = new TestCaseC(new SingletonNinjectRegistration(), new NinjectResolving());
+            ITestCase testCase = new TestCaseB(new SingletonNinjectRegistration(), new NinjectResolving());
 
 
             var c = new StandardKernel();
@@ -32,7 +32,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsNinject
         [TestMethod]
         public void RegisterTransient_Success()
         {
-            ITestCase testCase = new TestCaseC(new TransientNinjectRegistration(), new NinjectResolving());
+            ITestCase testCase = new TestCaseB(new TransientNinjectRegistration(), new NinjectResolving());
 
 
             var c = new StandardKernel();
@@ -50,7 +50,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsNinject
         [TestMethod]
         public void RegisterPerThread_SameThread_Success()
         {
-            ITestCase testCase = new TestCaseC(new PerThreadNinjectRegistration(), new NinjectResolving());
+            ITestCase testCase = new TestCaseB(new PerThreadNinjectRegistration(), new NinjectResolving());
 
             var c = new StandardKernel();
             c = (StandardKernel)testCase.Register(c);
@@ -75,7 +75,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsNinject
         [TestMethod]
         public void RegisterPerThread_DifferentThreads_Success()
         {
-            ITestCase testCase = new TestCaseC(new PerThreadNinjectRegistration(), new NinjectResolving());
+            ITestCase testCase = new TestCaseB(new PerThreadNinjectRegistration(), new NinjectResolving());
 
             var c = new StandardKernel();
             c = (StandardKernel)testCase.Register(c);

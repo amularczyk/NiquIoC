@@ -15,11 +15,14 @@ namespace PerformanceCalculator.Containers.TestsGrace
                 case TestCaseName.A:
                     return new TestCaseA(GetRegistration(registrationKind), new GraceResolving());
 
+                case TestCaseName.B:
+                    return new TestCaseB(GetRegistration(registrationKind), new GraceResolving());
+
+                case TestCaseName.C:
+                    return new TestCaseC(GetRegistration(registrationKind), new GraceResolving());
+
                 case TestCaseName.D:
                     return new TestCaseD(GetRegistration(registrationKind), new GraceResolving());
-
-                case TestCaseName.B:
-                    return new TestCaseC(GetRegistration(registrationKind), new GraceResolving());
 
                 default:
                     throw new ArgumentOutOfRangeException(nameof(registrationKind), registrationKind, null);

@@ -15,7 +15,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsNiquIoC_Full
         [TestMethod]
         public void RegisterSingleton_Success()
         {
-            ITestCase testCase = new TestCaseC(new SingletonNiquIoCFullRegistration(), new NiquIoCFullResolving());
+            ITestCase testCase = new TestCaseB(new SingletonNiquIoCFullRegistration(), new NiquIoCFullResolving());
 
 
             var c = new Container();
@@ -33,7 +33,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsNiquIoC_Full
         [TestMethod]
         public void RegisterTransient_Success()
         {
-            ITestCase testCase = new TestCaseC(new TransientNiquIoCFullRegistration(), new NiquIoCFullResolving());
+            ITestCase testCase = new TestCaseB(new TransientNiquIoCFullRegistration(), new NiquIoCFullResolving());
 
 
             var c = new Container();
@@ -51,7 +51,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsNiquIoC_Full
         [TestMethod]
         public void RegisterPerThread_SameThread_Success()
         {
-            ITestCase testCase = new TestCaseC(new PerThreadNiquIoCFullRegistration(), new NiquIoCFullResolving());
+            ITestCase testCase = new TestCaseB(new PerThreadNiquIoCFullRegistration(), new NiquIoCFullResolving());
 
             var c = new Container();
             c = (Container)testCase.Register(c);
@@ -76,7 +76,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsNiquIoC_Full
         [TestMethod]
         public void RegisterPerThread_DifferentThreads_Success()
         {
-            ITestCase testCase = new TestCaseC(new PerThreadNiquIoCFullRegistration(), new NiquIoCFullResolving());
+            ITestCase testCase = new TestCaseB(new PerThreadNiquIoCFullRegistration(), new NiquIoCFullResolving());
 
             var c = new Container();
             c = (Container)testCase.Register(c);

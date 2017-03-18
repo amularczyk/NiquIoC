@@ -14,11 +14,14 @@ namespace PerformanceCalculator.Containers.TestsStructureMap
                 case TestCaseName.A:
                     return new TestCaseA(GetRegistration(registrationKind), new StructureMapResolving());
 
+                case TestCaseName.B:
+                    return new TestCaseB(GetRegistration(registrationKind), new StructureMapResolving());
+
+                case TestCaseName.C:
+                    return new TestCaseC(GetRegistration(registrationKind), new StructureMapResolving());
+
                 case TestCaseName.D:
                     return new TestCaseD(GetRegistration(registrationKind), new StructureMapResolving());
-
-                case TestCaseName.B:
-                    return new TestCaseC(GetRegistration(registrationKind), new StructureMapResolving());
 
                 default:
                     throw new ArgumentOutOfRangeException(nameof(registrationKind), registrationKind, null);

@@ -15,11 +15,14 @@ namespace PerformanceCalculator.Containers.TestsDryIoc
                 case TestCaseName.A:
                     return new TestCaseA(GetRegistration(registrationKind), new DryIocResolving());
 
+                case TestCaseName.B:
+                    return new TestCaseB(GetRegistration(registrationKind), new DryIocResolving());
+
+                case TestCaseName.C:
+                    return new TestCaseC(GetRegistration(registrationKind), new DryIocResolving());
+
                 case TestCaseName.D:
                     return new TestCaseD(GetRegistration(registrationKind), new DryIocResolving());
-
-                case TestCaseName.B:
-                    return new TestCaseC(GetRegistration(registrationKind), new DryIocResolving());
 
                 default:
                     throw new ArgumentOutOfRangeException(nameof(registrationKind), registrationKind, null);

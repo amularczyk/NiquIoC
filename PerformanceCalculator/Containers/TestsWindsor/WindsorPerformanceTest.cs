@@ -15,11 +15,14 @@ namespace PerformanceCalculator.Containers.TestsWindsor
                 case TestCaseName.A:
                     return new TestCaseA(GetRegistration(registrationKind), new WindsorResolving());
 
+                case TestCaseName.B:
+                    return new TestCaseB(GetRegistration(registrationKind), new WindsorResolving());
+
+                case TestCaseName.C:
+                    return new TestCaseC(GetRegistration(registrationKind), new WindsorResolving());
+
                 case TestCaseName.D:
                     return new TestCaseD(GetRegistration(registrationKind), new WindsorResolving());
-
-                case TestCaseName.B:
-                    return new TestCaseC(GetRegistration(registrationKind), new WindsorResolving());
 
                 default:
                     throw new ArgumentOutOfRangeException(nameof(registrationKind), registrationKind, null);

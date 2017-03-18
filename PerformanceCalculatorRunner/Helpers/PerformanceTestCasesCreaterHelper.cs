@@ -11,8 +11,9 @@ namespace PerformanceCalculatorRunner.Helpers
             var testCases = new List<PerformanceTestCase>();
 
             CreatePerformanceTestCasesAForRegister(testCases);
-            CreatePerformanceTestCasesDForRegister(testCases);
             CreatePerformanceTestCasesBForRegister(testCases);
+            CreatePerformanceTestCasesCForRegister(testCases);
+            CreatePerformanceTestCasesDForRegister(testCases);
 
             return testCases;
         }
@@ -32,6 +33,13 @@ namespace PerformanceCalculatorRunner.Helpers
             testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.PerThread, TestsCount = 1, TestCase = TestCaseName.B });
         }
 
+        private static void CreatePerformanceTestCasesCForRegister(ICollection<PerformanceTestCase> testCases)
+        {
+            testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.Singleton, TestsCount = 1, TestCase = TestCaseName.C });
+            testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.Transient, TestsCount = 1, TestCase = TestCaseName.C });
+            testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.PerThread, TestsCount = 1, TestCase = TestCaseName.C });
+        }
+
         private static void CreatePerformanceTestCasesDForRegister(ICollection<PerformanceTestCase> testCases)
         {
             testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.Singleton, TestsCount = 1, TestCase = TestCaseName.D });
@@ -45,8 +53,9 @@ namespace PerformanceCalculatorRunner.Helpers
             var testCases = new List<PerformanceTestCase>();
 
             CreatePerformanceTestCasesA(testCases);
-            CreatePerformanceTestCasesD(testCases);
             CreatePerformanceTestCasesB(testCases);
+            CreatePerformanceTestCasesC(testCases);
+            CreatePerformanceTestCasesD(testCases);
 
             return testCases;
         }
@@ -116,6 +125,33 @@ namespace PerformanceCalculatorRunner.Helpers
             testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.PerThread, TestsCount = 1000, TestCase = TestCaseName.B });
         }
         #endregion CreatePerformanceTestCasesB
+
+        #region CreatePerformanceTestCasesC
+        private static void CreatePerformanceTestCasesC(ICollection<PerformanceTestCase> testCases)
+        {
+            CreatePerformanceTestCasesCSingleton(testCases);
+            CreatePerformanceTestCasesCTransient(testCases);
+            CreatePerformanceTestCasesCPerThread(testCases);
+        }
+
+        private static void CreatePerformanceTestCasesCSingleton(ICollection<PerformanceTestCase> testCases)
+        {
+            testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.Singleton, TestsCount = 1, TestCase = TestCaseName.C });
+            testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.Singleton, TestsCount = 10, TestCase = TestCaseName.C });
+        }
+
+        private static void CreatePerformanceTestCasesCTransient(ICollection<PerformanceTestCase> testCases)
+        {
+            testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.Transient, TestsCount = 1, TestCase = TestCaseName.C });
+            testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.Transient, TestsCount = 10, TestCase = TestCaseName.C });
+        }
+
+        private static void CreatePerformanceTestCasesCPerThread(ICollection<PerformanceTestCase> testCases)
+        {
+            testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.PerThread, TestsCount = 1, TestCase = TestCaseName.C });
+            testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.PerThread, TestsCount = 10, TestCase = TestCaseName.C });
+        }
+        #endregion CreatePerformanceTestCasesC
 
         #region CreatePerformanceTestCasesD
         private static void CreatePerformanceTestCasesD(ICollection<PerformanceTestCase> testCases)

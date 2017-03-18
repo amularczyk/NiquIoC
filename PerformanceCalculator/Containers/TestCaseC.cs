@@ -12,48 +12,42 @@ namespace PerformanceCalculator.Containers
 
         public override void RegisterClasses(object container)
         {
-            _registration.Register<ITestBa0, TestBa0>(container);
-            _registration.Register<ITestBa1, TestBa1>(container);
-            _registration.Register<ITestBa2, TestBa2>(container);
-            _registration.Register<ITestBa3, TestBa3>(container);
-            _registration.Register<ITestBa4, TestBa4>(container);
-            _registration.Register<ITestBa5, TestBa5>(container);
-            _registration.Register<ITestBa6, TestBa6>(container);
-            _registration.Register<ITestBa7, TestBa7>(container);
-            _registration.Register<ITestBa8, TestBa8>(container);
-            _registration.Register<ITestBa9, TestBa9>(container);
-            _registration.Register<ITestBa10, TestBa10>(container);
+            _registration.Register<ITestC00, TestC00>(container);
+            _registration.Register<ITestC01, TestC01>(container);
+            _registration.Register<ITestC02, TestC02>(container);
+            _registration.Register<ITestC03, TestC03>(container);
+            _registration.Register<ITestC04, TestC04>(container);
 
-            _registration.Register<ITestBb0, TestBb0>(container);
-            _registration.Register<ITestBb1, TestBb1>(container);
-            _registration.Register<ITestBb2, TestBb2>(container);
-            _registration.Register<ITestBb3, TestBb3>(container);
-            _registration.Register<ITestBb4, TestBb4>(container);
-            _registration.Register<ITestBb5, TestBb5>(container);
-            _registration.Register<ITestBb6, TestBb6>(container);
-            _registration.Register<ITestBb7, TestBb7>(container);
-            _registration.Register<ITestBb8, TestBb8>(container);
-            _registration.Register<ITestBb9, TestBb9>(container);
-            _registration.Register<ITestBb10, TestBb10>(container);
+            _registration.Register<ITestC10, TestC10>(container);
+            _registration.Register<ITestC11, TestC11>(container);
+            _registration.Register<ITestC12, TestC12>(container);
+            _registration.Register<ITestC13, TestC13>(container);
+            _registration.Register<ITestC14, TestC14>(container);
 
-            _registration.Register<ITestBc0, TestBc0>(container);
-            _registration.Register<ITestBc1, TestBc1>(container);
-            _registration.Register<ITestBc2, TestBc2>(container);
-            _registration.Register<ITestBc3, TestBc3>(container);
-            _registration.Register<ITestBc4, TestBc4>(container);
-            _registration.Register<ITestBc5, TestBc5>(container);
-            _registration.Register<ITestBc6, TestBc6>(container);
-            _registration.Register<ITestBc7, TestBc7>(container);
-            _registration.Register<ITestBc8, TestBc8>(container);
-            _registration.Register<ITestBc9, TestBc9>(container);
-            _registration.Register<ITestBc10, TestBc10>(container);
+            _registration.Register<ITestC20, TestC20>(container);
+            _registration.Register<ITestC21, TestC21>(container);
+            _registration.Register<ITestC22, TestC22>(container);
+            _registration.Register<ITestC23, TestC23>(container);
+            _registration.Register<ITestC24, TestC24>(container);
 
-            _registration.Register<ITestB, TestB>(container);
+            _registration.Register<ITestC30, TestC30>(container);
+            _registration.Register<ITestC31, TestC31>(container);
+            _registration.Register<ITestC32, TestC32>(container);
+            _registration.Register<ITestC33, TestC33>(container);
+            _registration.Register<ITestC34, TestC34>(container);
+
+            _registration.Register<ITestC40, TestC40>(container);
+            _registration.Register<ITestC41, TestC41>(container);
+            _registration.Register<ITestC42, TestC42>(container);
+            _registration.Register<ITestC43, TestC43>(container);
+            _registration.Register<ITestC44, TestC44>(container);
+
+            _registration.Register<ITestC, TestC>(container);
         }
 
         public override void Resolve(object container, int testCasesNumber)
         {
-            _resolving.Resolve<ITestB>(container, testCasesNumber);
+            _resolving.Resolve<ITestC>(container, testCasesNumber);
         }
     }
 }

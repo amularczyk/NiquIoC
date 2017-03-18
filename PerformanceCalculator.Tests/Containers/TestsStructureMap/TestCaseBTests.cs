@@ -14,7 +14,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsStructureMap
         [TestMethod]
         public void RegisterSingleton_Success()
         {
-            ITestCase testCase = new TestCaseC(new SingletonStructureMapRegistration(), new StructureMapResolving());
+            ITestCase testCase = new TestCaseB(new SingletonStructureMapRegistration(), new StructureMapResolving());
 
 
             var c = new Container();
@@ -32,7 +32,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsStructureMap
         [TestMethod]
         public void RegisterTransient_Success()
         {
-            ITestCase testCase = new TestCaseC(new TransientStructureMapRegistration(), new StructureMapResolving());
+            ITestCase testCase = new TestCaseB(new TransientStructureMapRegistration(), new StructureMapResolving());
 
 
             var c = new Container();
@@ -50,7 +50,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsStructureMap
         [TestMethod]
         public void RegisterPerThread_SameThread_Success()
         {
-            ITestCase testCase = new TestCaseC(new PerThreadStructureMapRegistration(), new StructureMapResolving());
+            ITestCase testCase = new TestCaseB(new PerThreadStructureMapRegistration(), new StructureMapResolving());
 
             var c = new Container();
             c = (Container)testCase.Register(c);
@@ -75,7 +75,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsStructureMap
         [TestMethod]
         public void RegisterPerThread_DifferentThreads_Success()
         {
-            ITestCase testCase = new TestCaseC(new PerThreadStructureMapRegistration(), new StructureMapResolving());
+            ITestCase testCase = new TestCaseB(new PerThreadStructureMapRegistration(), new StructureMapResolving());
 
             var c = new Container();
             c = (Container)testCase.Register(c);

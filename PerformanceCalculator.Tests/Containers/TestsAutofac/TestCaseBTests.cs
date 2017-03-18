@@ -14,7 +14,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsAutofac
         [TestMethod]
         public void RegisterSingleton_Success()
         {
-            ITestCase testCase = new TestCaseC(new SingletonAutofacRegistration(), new AutofacResolving());
+            ITestCase testCase = new TestCaseB(new SingletonAutofacRegistration(), new AutofacResolving());
 
 
             var cb = new ContainerBuilder();
@@ -32,7 +32,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsAutofac
         [TestMethod]
         public void RegisterTransient_Success()
         {
-            ITestCase testCase = new TestCaseC(new TransientAutofacRegistration(), new AutofacResolving());
+            ITestCase testCase = new TestCaseB(new TransientAutofacRegistration(), new AutofacResolving());
 
 
             var cb = new ContainerBuilder();
@@ -50,7 +50,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsAutofac
         [TestMethod]
         public void RegisterPerThread_SameThread_Success()
         {
-            ITestCase testCase = new TestCaseC(new PerThreadAutofacRegistration(), new AutofacResolving());
+            ITestCase testCase = new TestCaseB(new PerThreadAutofacRegistration(), new AutofacResolving());
 
 
             var cb = new ContainerBuilder();
@@ -79,7 +79,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsAutofac
         [TestMethod]
         public void RegisterPerThread_DifferentThreads_Success()
         {
-            ITestCase testCase = new TestCaseC(new PerThreadAutofacRegistration(), new AutofacResolving());
+            ITestCase testCase = new TestCaseB(new PerThreadAutofacRegistration(), new AutofacResolving());
 
 
             var cb = new ContainerBuilder();

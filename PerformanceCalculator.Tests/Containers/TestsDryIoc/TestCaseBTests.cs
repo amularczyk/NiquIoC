@@ -14,7 +14,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsDryIoc
         [TestMethod]
         public void RegisterSingleton_Success()
         {
-            ITestCase testCase = new TestCaseC(new SingletonDryIocRegistration(), new DryIocResolving());
+            ITestCase testCase = new TestCaseB(new SingletonDryIocRegistration(), new DryIocResolving());
 
 
             var c = new Container();
@@ -32,7 +32,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsDryIoc
         [TestMethod]
         public void RegisterTransient_Success()
         {
-            ITestCase testCase = new TestCaseC(new TransientDryIocRegistration(), new DryIocResolving());
+            ITestCase testCase = new TestCaseB(new TransientDryIocRegistration(), new DryIocResolving());
 
 
             var c = new Container();
@@ -50,7 +50,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsDryIoc
         [TestMethod]
         public void RegisterPerThread_SameThread_Success()
         {
-            ITestCase testCase = new TestCaseC(new PerThreadDryIocRegistration(), new DryIocResolving());
+            ITestCase testCase = new TestCaseB(new PerThreadDryIocRegistration(), new DryIocResolving());
 
             var c = new Container(scopeContext: new ThreadScopeContext());
             c = (Container)testCase.Register(c);
@@ -78,7 +78,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsDryIoc
         [TestMethod]
         public void RegisterPerThread_DifferentThreads_Success()
         {
-            ITestCase testCase = new TestCaseC(new PerThreadDryIocRegistration(), new DryIocResolving());
+            ITestCase testCase = new TestCaseB(new PerThreadDryIocRegistration(), new DryIocResolving());
 
             var c = new Container(scopeContext: new ThreadScopeContext());
             c = (Container)testCase.Register(c);

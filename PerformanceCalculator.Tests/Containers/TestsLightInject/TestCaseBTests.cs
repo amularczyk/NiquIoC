@@ -15,7 +15,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsLightInject
         [TestMethod]
         public void RegisterSingleton_Success()
         {
-            ITestCase testCase = new TestCaseC(new SingletonLightInjectRegistration(), new LightInjectResolving());
+            ITestCase testCase = new TestCaseB(new SingletonLightInjectRegistration(), new LightInjectResolving());
 
 
             var c = new ServiceContainer();
@@ -33,7 +33,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsLightInject
         [TestMethod]
         public void RegisterTransient_Success()
         {
-            ITestCase testCase = new TestCaseC(new TransientLightInjectRegistration(), new LightInjectResolving());
+            ITestCase testCase = new TestCaseB(new TransientLightInjectRegistration(), new LightInjectResolving());
 
 
             var c = new ServiceContainer();
@@ -52,7 +52,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsLightInject
         public void RegisterPerThread_SameThread_Success()
         {
             throw new OutOfMemoryException("Process takes more than 20 minutes!");
-            ITestCase testCase = new TestCaseC(new PerThreadLightInjectRegistration(), new LightInjectResolving());
+            ITestCase testCase = new TestCaseB(new PerThreadLightInjectRegistration(), new LightInjectResolving());
 
             var c = new ServiceContainer();
             c = (ServiceContainer)testCase.Register(c);
@@ -81,7 +81,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsLightInject
         public void RegisterPerThread_DifferentThreads_Success()
         {
             throw new OutOfMemoryException("Process takes more than 20 minutes!");
-            ITestCase testCase = new TestCaseC(new PerThreadLightInjectRegistration(), new LightInjectResolving());
+            ITestCase testCase = new TestCaseB(new PerThreadLightInjectRegistration(), new LightInjectResolving());
 
             var c = new ServiceContainer();
             c = (ServiceContainer)testCase.Register(c);

@@ -15,11 +15,14 @@ namespace PerformanceCalculator.Containers.TestsSimpleInjector
                 case TestCaseName.A:
                     return new TestCaseA(GetRegistration(registrationKind), new SimpleInjectorResolving());
 
+                case TestCaseName.B:
+                    return new TestCaseB(GetRegistration(registrationKind), new SimpleInjectorResolving());
+
+                case TestCaseName.C:
+                    return new TestCaseC(GetRegistration(registrationKind), new SimpleInjectorResolving());
+
                 case TestCaseName.D:
                     return new TestCaseD(GetRegistration(registrationKind), new SimpleInjectorResolving());
-
-                case TestCaseName.B:
-                    return new TestCaseC(GetRegistration(registrationKind), new SimpleInjectorResolving());
 
                 default:
                     throw new ArgumentOutOfRangeException(nameof(registrationKind), registrationKind, null);
