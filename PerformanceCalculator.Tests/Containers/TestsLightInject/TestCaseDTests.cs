@@ -26,9 +26,9 @@ namespace PerformanceCalculator.Tests.Containers.TestsLightInject
             var obj2 = c.GetInstance<ITestD>();
 
 
-            CheckHelper.Check(obj1, true);
-            CheckHelper.Check(obj2, true);
-            CheckHelper.Check(obj1, obj2, true);
+            CheckHelper.Check(obj1, true, true);
+            CheckHelper.Check(obj2, true, true);
+            CheckHelper.Check(obj1, obj2, true, true);
         }
 
         [TestMethod]
@@ -44,9 +44,26 @@ namespace PerformanceCalculator.Tests.Containers.TestsLightInject
             var obj2 = c.GetInstance<ITestD>();
 
 
-            CheckHelper.Check(obj1, false);
-            CheckHelper.Check(obj2, false);
-            CheckHelper.Check(obj1, obj2, false);
+            CheckHelper.Check(obj1, false, false);
+            CheckHelper.Check(obj2, false, false);
+            CheckHelper.Check(obj1, obj2, false, false);
+        }
+
+        [TestMethod]
+        public void RegisterTransientSingleton_Success()
+        {
+            ITestCase testCase = new TransientSingletonTestCaseD(new LightInjectRegistration(), new LightInjectResolving());
+
+            var c = new ServiceContainer();
+            c = (ServiceContainer)testCase.Register(c, RegistrationKind.TransientSingleton);
+
+            var obj1 = c.GetInstance<ITestD>();
+            var obj2 = c.GetInstance<ITestD>();
+
+
+            CheckHelper.Check(obj1, false, true);
+            CheckHelper.Check(obj2, false, true);
+            CheckHelper.Check(obj1, obj2, false, true);
         }
 
         [TestMethod]
@@ -73,9 +90,9 @@ namespace PerformanceCalculator.Tests.Containers.TestsLightInject
             thread.Join();
 
 
-            CheckHelper.Check(obj1, true);
-            CheckHelper.Check(obj2, true);
-            CheckHelper.Check(obj1, obj2, true);
+            CheckHelper.Check(obj1, true, true);
+            CheckHelper.Check(obj2, true, true);
+            CheckHelper.Check(obj1, obj2, true, true);
         }
 
         [TestMethod]
@@ -110,9 +127,9 @@ namespace PerformanceCalculator.Tests.Containers.TestsLightInject
             thread2.Join();
 
 
-            CheckHelper.Check(obj1, true);
-            CheckHelper.Check(obj2, true);
-            CheckHelper.Check(obj1, obj2, false);
+            CheckHelper.Check(obj1, true, true);
+            CheckHelper.Check(obj2, true, true);
+            CheckHelper.Check(obj1, obj2, false, false);
         }
     }
 }

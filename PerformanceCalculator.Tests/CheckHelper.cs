@@ -5,7 +5,7 @@ namespace PerformanceCalculator.Tests
 {
     public static class CheckHelper
     {
-        public static void Check(ITestA testA, bool singleton)
+        public static void Check(ITestA testA, bool singleton, bool singletonLast)
         {
             Assert.IsNotNull(testA);
 
@@ -40,7 +40,6 @@ namespace PerformanceCalculator.Tests
                 Assert.AreEqual(testA.TestA3, testA.TestA9.TestA3);
                 Assert.AreEqual(testA.TestA2, testA.TestA9.TestA2);
                 Assert.AreEqual(testA.TestA1, testA.TestA9.TestA1);
-                Assert.AreEqual(testA.TestA0, testA.TestA9.TestA0);
             }
             else
             {
@@ -52,6 +51,14 @@ namespace PerformanceCalculator.Tests
                 Assert.AreNotEqual(testA.TestA3, testA.TestA9.TestA3);
                 Assert.AreNotEqual(testA.TestA2, testA.TestA9.TestA2);
                 Assert.AreNotEqual(testA.TestA1, testA.TestA9.TestA1);
+            }
+
+            if (singletonLast)
+            {
+                Assert.AreEqual(testA.TestA0, testA.TestA9.TestA0);
+            }
+            else
+            {
                 Assert.AreNotEqual(testA.TestA0, testA.TestA9.TestA0);
             }
 
@@ -100,7 +107,7 @@ namespace PerformanceCalculator.Tests
             Assert.IsNotNull(testA.TestA9.TestA8.TestA7.TestA6.TestA5.TestA4.TestA3.TestA2.TestA1.TestA0);
         }
 
-        public static void Check(ITestA testA1, ITestA testA2, bool singleton)
+        public static void Check(ITestA testA1, ITestA testA2, bool singleton, bool singletonLast)
         {
             Assert.AreEqual(testA1.Equals(testA2), singleton);
 
@@ -113,7 +120,7 @@ namespace PerformanceCalculator.Tests
             Assert.AreEqual(testA1.TestA3.Equals(testA2.TestA3), singleton);
             Assert.AreEqual(testA1.TestA2.Equals(testA2.TestA2), singleton);
             Assert.AreEqual(testA1.TestA1.Equals(testA2.TestA1), singleton);
-            Assert.AreEqual(testA1.TestA0.Equals(testA2.TestA0), singleton);
+            Assert.AreEqual(testA1.TestA0.Equals(testA2.TestA0), singletonLast);
 
             Assert.AreEqual(testA1.TestA9.TestA8.Equals(testA2.TestA9.TestA8), singleton);
             Assert.AreEqual(testA1.TestA9.TestA7.Equals(testA2.TestA9.TestA7), singleton);
@@ -123,7 +130,7 @@ namespace PerformanceCalculator.Tests
             Assert.AreEqual(testA1.TestA9.TestA3.Equals(testA2.TestA9.TestA3), singleton);
             Assert.AreEqual(testA1.TestA9.TestA2.Equals(testA2.TestA9.TestA2), singleton);
             Assert.AreEqual(testA1.TestA9.TestA1.Equals(testA2.TestA9.TestA1), singleton);
-            Assert.AreEqual(testA1.TestA9.TestA0.Equals(testA2.TestA9.TestA0), singleton);
+            Assert.AreEqual(testA1.TestA9.TestA0.Equals(testA2.TestA9.TestA0), singletonLast);
             
             Assert.AreEqual(testA1.TestA9.TestA8.TestA7.Equals(testA2.TestA9.TestA8.TestA7), singleton);
             Assert.AreEqual(testA1.TestA9.TestA8.TestA6.Equals(testA2.TestA9.TestA8.TestA6), singleton);
@@ -132,7 +139,7 @@ namespace PerformanceCalculator.Tests
             Assert.AreEqual(testA1.TestA9.TestA8.TestA3.Equals(testA2.TestA9.TestA8.TestA3), singleton);
             Assert.AreEqual(testA1.TestA9.TestA8.TestA2.Equals(testA2.TestA9.TestA8.TestA2), singleton);
             Assert.AreEqual(testA1.TestA9.TestA8.TestA1.Equals(testA2.TestA9.TestA8.TestA1), singleton);
-            Assert.AreEqual(testA1.TestA9.TestA8.TestA0.Equals(testA2.TestA9.TestA8.TestA0), singleton);
+            Assert.AreEqual(testA1.TestA9.TestA8.TestA0.Equals(testA2.TestA9.TestA8.TestA0), singletonLast);
 
             Assert.AreEqual(testA1.TestA9.TestA8.TestA7.TestA6.Equals(testA2.TestA9.TestA8.TestA7.TestA6), singleton);
             Assert.AreEqual(testA1.TestA9.TestA8.TestA7.TestA5.Equals(testA2.TestA9.TestA8.TestA7.TestA5), singleton);
@@ -140,37 +147,37 @@ namespace PerformanceCalculator.Tests
             Assert.AreEqual(testA1.TestA9.TestA8.TestA7.TestA3.Equals(testA2.TestA9.TestA8.TestA7.TestA3), singleton);
             Assert.AreEqual(testA1.TestA9.TestA8.TestA7.TestA2.Equals(testA2.TestA9.TestA8.TestA7.TestA2), singleton);
             Assert.AreEqual(testA1.TestA9.TestA8.TestA7.TestA1.Equals(testA2.TestA9.TestA8.TestA7.TestA1), singleton);
-            Assert.AreEqual(testA1.TestA9.TestA8.TestA7.TestA0.Equals(testA2.TestA9.TestA8.TestA7.TestA0), singleton);
+            Assert.AreEqual(testA1.TestA9.TestA8.TestA7.TestA0.Equals(testA2.TestA9.TestA8.TestA7.TestA0), singletonLast);
 
             Assert.AreEqual(testA1.TestA9.TestA8.TestA7.TestA6.TestA5.Equals(testA2.TestA9.TestA8.TestA7.TestA6.TestA5), singleton);
             Assert.AreEqual(testA1.TestA9.TestA8.TestA7.TestA6.TestA4.Equals(testA2.TestA9.TestA8.TestA7.TestA6.TestA4), singleton);
             Assert.AreEqual(testA1.TestA9.TestA8.TestA7.TestA6.TestA3.Equals(testA2.TestA9.TestA8.TestA7.TestA6.TestA3), singleton);
             Assert.AreEqual(testA1.TestA9.TestA8.TestA7.TestA6.TestA2.Equals(testA2.TestA9.TestA8.TestA7.TestA6.TestA2), singleton);
             Assert.AreEqual(testA1.TestA9.TestA8.TestA7.TestA6.TestA1.Equals(testA2.TestA9.TestA8.TestA7.TestA6.TestA1), singleton);
-            Assert.AreEqual(testA1.TestA9.TestA8.TestA7.TestA6.TestA0.Equals(testA2.TestA9.TestA8.TestA7.TestA6.TestA0), singleton);
+            Assert.AreEqual(testA1.TestA9.TestA8.TestA7.TestA6.TestA0.Equals(testA2.TestA9.TestA8.TestA7.TestA6.TestA0), singletonLast);
 
             Assert.AreEqual(testA1.TestA9.TestA8.TestA7.TestA6.TestA5.TestA4.Equals(testA2.TestA9.TestA8.TestA7.TestA6.TestA5.TestA4), singleton);
             Assert.AreEqual(testA1.TestA9.TestA8.TestA7.TestA6.TestA5.TestA3.Equals(testA2.TestA9.TestA8.TestA7.TestA6.TestA5.TestA3), singleton);
             Assert.AreEqual(testA1.TestA9.TestA8.TestA7.TestA6.TestA5.TestA2.Equals(testA2.TestA9.TestA8.TestA7.TestA6.TestA5.TestA2), singleton);
             Assert.AreEqual(testA1.TestA9.TestA8.TestA7.TestA6.TestA5.TestA1.Equals(testA2.TestA9.TestA8.TestA7.TestA6.TestA5.TestA1), singleton);
-            Assert.AreEqual(testA1.TestA9.TestA8.TestA7.TestA6.TestA5.TestA0.Equals(testA2.TestA9.TestA8.TestA7.TestA6.TestA5.TestA0), singleton);
+            Assert.AreEqual(testA1.TestA9.TestA8.TestA7.TestA6.TestA5.TestA0.Equals(testA2.TestA9.TestA8.TestA7.TestA6.TestA5.TestA0), singletonLast);
 
             Assert.AreEqual(testA1.TestA9.TestA8.TestA7.TestA6.TestA5.TestA4.TestA3.Equals(testA2.TestA9.TestA8.TestA7.TestA6.TestA5.TestA4.TestA3), singleton);
             Assert.AreEqual(testA1.TestA9.TestA8.TestA7.TestA6.TestA5.TestA4.TestA2.Equals(testA2.TestA9.TestA8.TestA7.TestA6.TestA5.TestA4.TestA2), singleton);
             Assert.AreEqual(testA1.TestA9.TestA8.TestA7.TestA6.TestA5.TestA4.TestA1.Equals(testA2.TestA9.TestA8.TestA7.TestA6.TestA5.TestA4.TestA1), singleton);
-            Assert.AreEqual(testA1.TestA9.TestA8.TestA7.TestA6.TestA5.TestA4.TestA0.Equals(testA2.TestA9.TestA8.TestA7.TestA6.TestA5.TestA4.TestA0), singleton);
+            Assert.AreEqual(testA1.TestA9.TestA8.TestA7.TestA6.TestA5.TestA4.TestA0.Equals(testA2.TestA9.TestA8.TestA7.TestA6.TestA5.TestA4.TestA0), singletonLast);
 
             Assert.AreEqual(testA1.TestA9.TestA8.TestA7.TestA6.TestA5.TestA4.TestA3.TestA2.Equals(testA2.TestA9.TestA8.TestA7.TestA6.TestA5.TestA4.TestA3.TestA2), singleton);
             Assert.AreEqual(testA1.TestA9.TestA8.TestA7.TestA6.TestA5.TestA4.TestA3.TestA1.Equals(testA2.TestA9.TestA8.TestA7.TestA6.TestA5.TestA4.TestA3.TestA1), singleton);
-            Assert.AreEqual(testA1.TestA9.TestA8.TestA7.TestA6.TestA5.TestA4.TestA3.TestA0.Equals(testA2.TestA9.TestA8.TestA7.TestA6.TestA5.TestA4.TestA3.TestA0), singleton);
+            Assert.AreEqual(testA1.TestA9.TestA8.TestA7.TestA6.TestA5.TestA4.TestA3.TestA0.Equals(testA2.TestA9.TestA8.TestA7.TestA6.TestA5.TestA4.TestA3.TestA0), singletonLast);
 
             Assert.AreEqual(testA1.TestA9.TestA8.TestA7.TestA6.TestA5.TestA4.TestA3.TestA2.TestA1.Equals(testA2.TestA9.TestA8.TestA7.TestA6.TestA5.TestA4.TestA3.TestA2.TestA1), singleton);
-            Assert.AreEqual(testA1.TestA9.TestA8.TestA7.TestA6.TestA5.TestA4.TestA3.TestA2.TestA0.Equals(testA2.TestA9.TestA8.TestA7.TestA6.TestA5.TestA4.TestA3.TestA2.TestA0), singleton);
+            Assert.AreEqual(testA1.TestA9.TestA8.TestA7.TestA6.TestA5.TestA4.TestA3.TestA2.TestA0.Equals(testA2.TestA9.TestA8.TestA7.TestA6.TestA5.TestA4.TestA3.TestA2.TestA0), singletonLast);
 
-            Assert.AreEqual(testA1.TestA9.TestA8.TestA7.TestA6.TestA5.TestA4.TestA3.TestA2.TestA1.TestA0.Equals(testA2.TestA9.TestA8.TestA7.TestA6.TestA5.TestA4.TestA3.TestA2.TestA1.TestA0), singleton);
+            Assert.AreEqual(testA1.TestA9.TestA8.TestA7.TestA6.TestA5.TestA4.TestA3.TestA2.TestA1.TestA0.Equals(testA2.TestA9.TestA8.TestA7.TestA6.TestA5.TestA4.TestA3.TestA2.TestA1.TestA0), singletonLast);
         }
 
-        public static void Check(ITestB testB, bool singleton)
+        public static void Check(ITestB testB, bool singleton, bool singletonLast)
         {
             Assert.IsNotNull(testB);
 
@@ -209,7 +216,6 @@ namespace PerformanceCalculator.Tests
                 Assert.AreEqual(testB.TestBa10.TestBa3, testB.TestBa10.TestBa9.TestBa3);
                 Assert.AreEqual(testB.TestBa10.TestBa2, testB.TestBa10.TestBa9.TestBa2);
                 Assert.AreEqual(testB.TestBa10.TestBa1, testB.TestBa10.TestBa9.TestBa1);
-                Assert.AreEqual(testB.TestBa10.TestBa0, testB.TestBa10.TestBa9.TestBa0);
             }
             else
             {
@@ -221,6 +227,14 @@ namespace PerformanceCalculator.Tests
                 Assert.AreNotEqual(testB.TestBa10.TestBa3, testB.TestBa10.TestBa9.TestBa3);
                 Assert.AreNotEqual(testB.TestBa10.TestBa2, testB.TestBa10.TestBa9.TestBa2);
                 Assert.AreNotEqual(testB.TestBa10.TestBa1, testB.TestBa10.TestBa9.TestBa1);
+            }
+
+            if (singletonLast)
+            {
+                Assert.AreEqual(testB.TestBa10.TestBa0, testB.TestBa10.TestBa9.TestBa0);
+            }
+            else
+            {
                 Assert.AreNotEqual(testB.TestBa10.TestBa0, testB.TestBa10.TestBa9.TestBa0);
             }
 
@@ -269,7 +283,7 @@ namespace PerformanceCalculator.Tests
             Assert.IsNotNull(testB.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa5.TestBa4.TestBa3.TestBa2.TestBa1.TestBa0);
         }
 
-        public static void Check(ITestB testB1, ITestB testB2, bool singleton)
+        public static void Check(ITestB testB1, ITestB testB2, bool singleton, bool singletonLast)
         {
             Assert.AreEqual(testB1.Equals(testB2), singleton);
 
@@ -286,7 +300,7 @@ namespace PerformanceCalculator.Tests
             Assert.AreEqual(testB1.TestBa10.TestBa3.Equals(testB2.TestBa10.TestBa3), singleton);
             Assert.AreEqual(testB1.TestBa10.TestBa2.Equals(testB2.TestBa10.TestBa2), singleton);
             Assert.AreEqual(testB1.TestBa10.TestBa1.Equals(testB2.TestBa10.TestBa1), singleton);
-            Assert.AreEqual(testB1.TestBa10.TestBa0.Equals(testB2.TestBa10.TestBa0), singleton);
+            Assert.AreEqual(testB1.TestBa10.TestBa0.Equals(testB2.TestBa10.TestBa0), singletonLast);
 
             Assert.AreEqual(testB1.TestBa10.TestBa9.TestBa8.Equals(testB2.TestBa10.TestBa9.TestBa8), singleton);
             Assert.AreEqual(testB1.TestBa10.TestBa9.TestBa7.Equals(testB2.TestBa10.TestBa9.TestBa7), singleton);
@@ -296,7 +310,7 @@ namespace PerformanceCalculator.Tests
             Assert.AreEqual(testB1.TestBa10.TestBa9.TestBa3.Equals(testB2.TestBa10.TestBa9.TestBa3), singleton);
             Assert.AreEqual(testB1.TestBa10.TestBa9.TestBa2.Equals(testB2.TestBa10.TestBa9.TestBa2), singleton);
             Assert.AreEqual(testB1.TestBa10.TestBa9.TestBa1.Equals(testB2.TestBa10.TestBa9.TestBa1), singleton);
-            Assert.AreEqual(testB1.TestBa10.TestBa9.TestBa0.Equals(testB2.TestBa10.TestBa9.TestBa0), singleton);
+            Assert.AreEqual(testB1.TestBa10.TestBa9.TestBa0.Equals(testB2.TestBa10.TestBa9.TestBa0), singletonLast);
             
             Assert.AreEqual(testB1.TestBa10.TestBa9.TestBa8.TestBa7.Equals(testB2.TestBa10.TestBa9.TestBa8.TestBa7), singleton);
             Assert.AreEqual(testB1.TestBa10.TestBa9.TestBa8.TestBa6.Equals(testB2.TestBa10.TestBa9.TestBa8.TestBa6), singleton);
@@ -305,7 +319,7 @@ namespace PerformanceCalculator.Tests
             Assert.AreEqual(testB1.TestBa10.TestBa9.TestBa8.TestBa3.Equals(testB2.TestBa10.TestBa9.TestBa8.TestBa3), singleton);
             Assert.AreEqual(testB1.TestBa10.TestBa9.TestBa8.TestBa2.Equals(testB2.TestBa10.TestBa9.TestBa8.TestBa2), singleton);
             Assert.AreEqual(testB1.TestBa10.TestBa9.TestBa8.TestBa1.Equals(testB2.TestBa10.TestBa9.TestBa8.TestBa1), singleton);
-            Assert.AreEqual(testB1.TestBa10.TestBa9.TestBa8.TestBa0.Equals(testB2.TestBa10.TestBa9.TestBa8.TestBa0), singleton);
+            Assert.AreEqual(testB1.TestBa10.TestBa9.TestBa8.TestBa0.Equals(testB2.TestBa10.TestBa9.TestBa8.TestBa0), singletonLast);
 
             Assert.AreEqual(testB1.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.Equals(testB2.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6), singleton);
             Assert.AreEqual(testB1.TestBa10.TestBa9.TestBa8.TestBa7.TestBa5.Equals(testB2.TestBa10.TestBa9.TestBa8.TestBa7.TestBa5), singleton);
@@ -313,37 +327,37 @@ namespace PerformanceCalculator.Tests
             Assert.AreEqual(testB1.TestBa10.TestBa9.TestBa8.TestBa7.TestBa3.Equals(testB2.TestBa10.TestBa9.TestBa8.TestBa7.TestBa3), singleton);
             Assert.AreEqual(testB1.TestBa10.TestBa9.TestBa8.TestBa7.TestBa2.Equals(testB2.TestBa10.TestBa9.TestBa8.TestBa7.TestBa2), singleton);
             Assert.AreEqual(testB1.TestBa10.TestBa9.TestBa8.TestBa7.TestBa1.Equals(testB2.TestBa10.TestBa9.TestBa8.TestBa7.TestBa1), singleton);
-            Assert.AreEqual(testB1.TestBa10.TestBa9.TestBa8.TestBa7.TestBa0.Equals(testB2.TestBa10.TestBa9.TestBa8.TestBa7.TestBa0), singleton);
+            Assert.AreEqual(testB1.TestBa10.TestBa9.TestBa8.TestBa7.TestBa0.Equals(testB2.TestBa10.TestBa9.TestBa8.TestBa7.TestBa0), singletonLast);
 
             Assert.AreEqual(testB1.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa5.Equals(testB2.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa5), singleton);
             Assert.AreEqual(testB1.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa4.Equals(testB2.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa4), singleton);
             Assert.AreEqual(testB1.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa3.Equals(testB2.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa3), singleton);
             Assert.AreEqual(testB1.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa2.Equals(testB2.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa2), singleton);
             Assert.AreEqual(testB1.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa1.Equals(testB2.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa1), singleton);
-            Assert.AreEqual(testB1.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa0.Equals(testB2.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa0), singleton);
+            Assert.AreEqual(testB1.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa0.Equals(testB2.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa0), singletonLast);
 
             Assert.AreEqual(testB1.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa5.TestBa4.Equals(testB2.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa5.TestBa4), singleton);
             Assert.AreEqual(testB1.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa5.TestBa3.Equals(testB2.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa5.TestBa3), singleton);
             Assert.AreEqual(testB1.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa5.TestBa2.Equals(testB2.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa5.TestBa2), singleton);
             Assert.AreEqual(testB1.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa5.TestBa1.Equals(testB2.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa5.TestBa1), singleton);
-            Assert.AreEqual(testB1.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa5.TestBa0.Equals(testB2.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa5.TestBa0), singleton);
+            Assert.AreEqual(testB1.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa5.TestBa0.Equals(testB2.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa5.TestBa0), singletonLast);
 
             Assert.AreEqual(testB1.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa5.TestBa4.TestBa3.Equals(testB2.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa5.TestBa4.TestBa3), singleton);
             Assert.AreEqual(testB1.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa5.TestBa4.TestBa2.Equals(testB2.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa5.TestBa4.TestBa2), singleton);
             Assert.AreEqual(testB1.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa5.TestBa4.TestBa1.Equals(testB2.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa5.TestBa4.TestBa1), singleton);
-            Assert.AreEqual(testB1.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa5.TestBa4.TestBa0.Equals(testB2.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa5.TestBa4.TestBa0), singleton);
+            Assert.AreEqual(testB1.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa5.TestBa4.TestBa0.Equals(testB2.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa5.TestBa4.TestBa0), singletonLast);
 
             Assert.AreEqual(testB1.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa5.TestBa4.TestBa3.TestBa2.Equals(testB2.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa5.TestBa4.TestBa3.TestBa2), singleton);
             Assert.AreEqual(testB1.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa5.TestBa4.TestBa3.TestBa1.Equals(testB2.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa5.TestBa4.TestBa3.TestBa1), singleton);
-            Assert.AreEqual(testB1.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa5.TestBa4.TestBa3.TestBa0.Equals(testB2.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa5.TestBa4.TestBa3.TestBa0), singleton);
+            Assert.AreEqual(testB1.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa5.TestBa4.TestBa3.TestBa0.Equals(testB2.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa5.TestBa4.TestBa3.TestBa0), singletonLast);
 
             Assert.AreEqual(testB1.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa5.TestBa4.TestBa3.TestBa2.TestBa1.Equals(testB2.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa5.TestBa4.TestBa3.TestBa2.TestBa1), singleton);
-            Assert.AreEqual(testB1.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa5.TestBa4.TestBa3.TestBa2.TestBa0.Equals(testB2.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa5.TestBa4.TestBa3.TestBa2.TestBa0), singleton);
+            Assert.AreEqual(testB1.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa5.TestBa4.TestBa3.TestBa2.TestBa0.Equals(testB2.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa5.TestBa4.TestBa3.TestBa2.TestBa0), singletonLast);
 
-            Assert.AreEqual(testB1.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa5.TestBa4.TestBa3.TestBa2.TestBa1.TestBa0.Equals(testB2.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa5.TestBa4.TestBa3.TestBa2.TestBa1.TestBa0), singleton);
+            Assert.AreEqual(testB1.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa5.TestBa4.TestBa3.TestBa2.TestBa1.TestBa0.Equals(testB2.TestBa10.TestBa9.TestBa8.TestBa7.TestBa6.TestBa5.TestBa4.TestBa3.TestBa2.TestBa1.TestBa0), singletonLast);
         }
 
-        public static void Check(ITestC testC, bool singleton)
+        public static void Check(ITestC testC, bool singleton, bool singletonLast)
         {
             Assert.IsNotNull(testC);
             
@@ -375,7 +389,16 @@ namespace PerformanceCalculator.Tests
                 Assert.AreNotEqual(testC.TestC44.TestC31, testC.TestC43.TestC31);
                 Assert.AreNotEqual(testC.TestC44.TestC30, testC.TestC43.TestC30);
             }
-            
+
+            if (singletonLast)
+            {
+                Assert.AreEqual(testC.TestC44.TestC34.TestC24.TestC14.TestC04, testC.TestC43.TestC34.TestC24.TestC14.TestC04);
+            }
+            else
+            {
+                Assert.AreNotEqual(testC.TestC44.TestC34.TestC24.TestC14.TestC04, testC.TestC43.TestC34.TestC24.TestC14.TestC04);
+            }
+
             Assert.IsNotNull(testC.TestC44.TestC34.TestC24);
             Assert.IsNotNull(testC.TestC44.TestC34.TestC23);
             Assert.IsNotNull(testC.TestC44.TestC34.TestC22);
@@ -395,7 +418,7 @@ namespace PerformanceCalculator.Tests
             Assert.IsNotNull(testC.TestC44.TestC34.TestC24.TestC14.TestC00);
         }
 
-        public static void Check(ITestC testC1, ITestC testC2, bool singleton)
+        public static void Check(ITestC testC1, ITestC testC2, bool singleton, bool singletonLast)
         {
             Assert.AreEqual(testC1.Equals(testC2), singleton);
             
@@ -423,14 +446,14 @@ namespace PerformanceCalculator.Tests
             Assert.AreEqual(testC1.TestC44.TestC34.TestC24.TestC11.Equals(testC2.TestC44.TestC34.TestC24.TestC11), singleton);
             Assert.AreEqual(testC1.TestC44.TestC34.TestC24.TestC10.Equals(testC2.TestC44.TestC34.TestC24.TestC10), singleton);
             
-            Assert.AreEqual(testC1.TestC44.TestC34.TestC24.TestC14.TestC04.Equals(testC2.TestC44.TestC34.TestC24.TestC14.TestC04), singleton);
-            Assert.AreEqual(testC1.TestC44.TestC34.TestC24.TestC14.TestC03.Equals(testC2.TestC44.TestC34.TestC24.TestC14.TestC03), singleton);
-            Assert.AreEqual(testC1.TestC44.TestC34.TestC24.TestC14.TestC02.Equals(testC2.TestC44.TestC34.TestC24.TestC14.TestC02), singleton);
-            Assert.AreEqual(testC1.TestC44.TestC34.TestC24.TestC14.TestC01.Equals(testC2.TestC44.TestC34.TestC24.TestC14.TestC01), singleton);
-            Assert.AreEqual(testC1.TestC44.TestC34.TestC24.TestC14.TestC00.Equals(testC2.TestC44.TestC34.TestC24.TestC14.TestC00), singleton);
+            Assert.AreEqual(testC1.TestC44.TestC34.TestC24.TestC14.TestC04.Equals(testC2.TestC44.TestC34.TestC24.TestC14.TestC04), singletonLast);
+            Assert.AreEqual(testC1.TestC44.TestC34.TestC24.TestC14.TestC03.Equals(testC2.TestC44.TestC34.TestC24.TestC14.TestC03), singletonLast);
+            Assert.AreEqual(testC1.TestC44.TestC34.TestC24.TestC14.TestC02.Equals(testC2.TestC44.TestC34.TestC24.TestC14.TestC02), singletonLast);
+            Assert.AreEqual(testC1.TestC44.TestC34.TestC24.TestC14.TestC01.Equals(testC2.TestC44.TestC34.TestC24.TestC14.TestC01), singletonLast);
+            Assert.AreEqual(testC1.TestC44.TestC34.TestC24.TestC14.TestC00.Equals(testC2.TestC44.TestC34.TestC24.TestC14.TestC00), singletonLast);
         }
 
-        public static void Check(ITestD testD, bool singleton)
+        public static void Check(ITestD testD, bool singleton, bool singletonLast)
         {
             Assert.IsNotNull(testD);
 
@@ -483,6 +506,15 @@ namespace PerformanceCalculator.Tests
                 Assert.AreNotEqual(testD.TestD49.TestD30, testD.TestD48.TestD30);
             }
 
+            if (singletonLast)
+            {
+                Assert.AreEqual(testD.TestD49.TestD39.TestD29.TestD19.TestD09, testD.TestD48.TestD39.TestD29.TestD19.TestD09);
+            }
+            else
+            {
+                Assert.AreNotEqual(testD.TestD49.TestD39.TestD29.TestD19.TestD09, testD.TestD48.TestD39.TestD29.TestD19.TestD09);
+            }
+
             Assert.IsNotNull(testD.TestD49.TestD39.TestD29);
             Assert.IsNotNull(testD.TestD49.TestD39.TestD28);
             Assert.IsNotNull(testD.TestD49.TestD39.TestD27);
@@ -517,7 +549,7 @@ namespace PerformanceCalculator.Tests
             Assert.IsNotNull(testD.TestD49.TestD39.TestD29.TestD19.TestD00);
         }
 
-        public static void Check(ITestD testD1, ITestD testD2, bool singleton)
+        public static void Check(ITestD testD1, ITestD testD2, bool singleton, bool singletonLast)
         {
             Assert.AreEqual(testD1.Equals(testD2), singleton);
 
@@ -565,16 +597,16 @@ namespace PerformanceCalculator.Tests
             Assert.AreEqual(testD1.TestD49.TestD39.TestD29.TestD11.Equals(testD2.TestD49.TestD39.TestD29.TestD11), singleton);
             Assert.AreEqual(testD1.TestD49.TestD39.TestD29.TestD10.Equals(testD2.TestD49.TestD39.TestD29.TestD10), singleton);
 
-            Assert.AreEqual(testD1.TestD49.TestD39.TestD29.TestD19.TestD09.Equals(testD2.TestD49.TestD39.TestD29.TestD19.TestD09), singleton);
-            Assert.AreEqual(testD1.TestD49.TestD39.TestD29.TestD19.TestD08.Equals(testD2.TestD49.TestD39.TestD29.TestD19.TestD08), singleton);
-            Assert.AreEqual(testD1.TestD49.TestD39.TestD29.TestD19.TestD07.Equals(testD2.TestD49.TestD39.TestD29.TestD19.TestD07), singleton);
-            Assert.AreEqual(testD1.TestD49.TestD39.TestD29.TestD19.TestD06.Equals(testD2.TestD49.TestD39.TestD29.TestD19.TestD06), singleton);
-            Assert.AreEqual(testD1.TestD49.TestD39.TestD29.TestD19.TestD05.Equals(testD2.TestD49.TestD39.TestD29.TestD19.TestD05), singleton);
-            Assert.AreEqual(testD1.TestD49.TestD39.TestD29.TestD19.TestD04.Equals(testD2.TestD49.TestD39.TestD29.TestD19.TestD04), singleton);
-            Assert.AreEqual(testD1.TestD49.TestD39.TestD29.TestD19.TestD03.Equals(testD2.TestD49.TestD39.TestD29.TestD19.TestD03), singleton);
-            Assert.AreEqual(testD1.TestD49.TestD39.TestD29.TestD19.TestD02.Equals(testD2.TestD49.TestD39.TestD29.TestD19.TestD02), singleton);
-            Assert.AreEqual(testD1.TestD49.TestD39.TestD29.TestD19.TestD01.Equals(testD2.TestD49.TestD39.TestD29.TestD19.TestD01), singleton);
-            Assert.AreEqual(testD1.TestD49.TestD39.TestD29.TestD19.TestD00.Equals(testD2.TestD49.TestD39.TestD29.TestD19.TestD00), singleton);
+            Assert.AreEqual(testD1.TestD49.TestD39.TestD29.TestD19.TestD09.Equals(testD2.TestD49.TestD39.TestD29.TestD19.TestD09), singletonLast);
+            Assert.AreEqual(testD1.TestD49.TestD39.TestD29.TestD19.TestD08.Equals(testD2.TestD49.TestD39.TestD29.TestD19.TestD08), singletonLast);
+            Assert.AreEqual(testD1.TestD49.TestD39.TestD29.TestD19.TestD07.Equals(testD2.TestD49.TestD39.TestD29.TestD19.TestD07), singletonLast);
+            Assert.AreEqual(testD1.TestD49.TestD39.TestD29.TestD19.TestD06.Equals(testD2.TestD49.TestD39.TestD29.TestD19.TestD06), singletonLast);
+            Assert.AreEqual(testD1.TestD49.TestD39.TestD29.TestD19.TestD05.Equals(testD2.TestD49.TestD39.TestD29.TestD19.TestD05), singletonLast);
+            Assert.AreEqual(testD1.TestD49.TestD39.TestD29.TestD19.TestD04.Equals(testD2.TestD49.TestD39.TestD29.TestD19.TestD04), singletonLast);
+            Assert.AreEqual(testD1.TestD49.TestD39.TestD29.TestD19.TestD03.Equals(testD2.TestD49.TestD39.TestD29.TestD19.TestD03), singletonLast);
+            Assert.AreEqual(testD1.TestD49.TestD39.TestD29.TestD19.TestD02.Equals(testD2.TestD49.TestD39.TestD29.TestD19.TestD02), singletonLast);
+            Assert.AreEqual(testD1.TestD49.TestD39.TestD29.TestD19.TestD01.Equals(testD2.TestD49.TestD39.TestD29.TestD19.TestD01), singletonLast);
+            Assert.AreEqual(testD1.TestD49.TestD39.TestD29.TestD19.TestD00.Equals(testD2.TestD49.TestD39.TestD29.TestD19.TestD00), singletonLast);
         }
     }
 }

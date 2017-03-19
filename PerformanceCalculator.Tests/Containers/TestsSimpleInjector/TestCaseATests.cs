@@ -21,13 +21,14 @@ namespace PerformanceCalculator.Tests.Containers.TestsSimpleInjector
             var c = new Container();
             c = (Container)testCase.Register(c, RegistrationKind.Singleton);
 
+
             var obj1 = c.GetInstance<ITestA>();
             var obj2 = c.GetInstance<ITestA>();
 
 
-            CheckHelper.Check(obj1, true);
-            CheckHelper.Check(obj2, true);
-            CheckHelper.Check(obj1, obj2, true);
+            CheckHelper.Check(obj1, true, true);
+            CheckHelper.Check(obj2, true, true);
+            CheckHelper.Check(obj1, obj2, true, true);
         }
 
         [TestMethod]
@@ -43,9 +44,27 @@ namespace PerformanceCalculator.Tests.Containers.TestsSimpleInjector
             var obj2 = c.GetInstance<ITestA>();
 
 
-            CheckHelper.Check(obj1, false);
-            CheckHelper.Check(obj2, false);
-            CheckHelper.Check(obj1, obj2, false);
+            CheckHelper.Check(obj1, false, false);
+            CheckHelper.Check(obj2, false, false);
+            CheckHelper.Check(obj1, obj2, false, false);
+        }
+
+        [TestMethod]
+        public void RegisterTransientSingleton_Success()
+        {
+            ITestCase testCase = new TransientSingletonTestCaseA(new SimpleInjectorRegistration(), new SimpleInjectorResolving());
+
+            var c = new Container();
+            c = (Container)testCase.Register(c, RegistrationKind.TransientSingleton);
+
+
+            var obj1 = c.GetInstance<ITestA>();
+            var obj2 = c.GetInstance<ITestA>();
+
+
+            CheckHelper.Check(obj1, false, true);
+            CheckHelper.Check(obj2, false, true);
+            CheckHelper.Check(obj1, obj2, false, true);
         }
 
         [TestMethod]
@@ -71,9 +90,9 @@ namespace PerformanceCalculator.Tests.Containers.TestsSimpleInjector
             thread.Join();
 
 
-            CheckHelper.Check(obj1, true);
-            CheckHelper.Check(obj2, true);
-            CheckHelper.Check(obj1, obj2, true);
+            CheckHelper.Check(obj1, true, true);
+            CheckHelper.Check(obj2, true, true);
+            CheckHelper.Check(obj1, obj2, true, true);
         }
 
         [TestMethod]
@@ -107,9 +126,9 @@ namespace PerformanceCalculator.Tests.Containers.TestsSimpleInjector
             thread2.Join();
 
 
-            CheckHelper.Check(obj1, true);
-            CheckHelper.Check(obj2, true);
-            CheckHelper.Check(obj1, obj2, false);
+            CheckHelper.Check(obj1, true, true);
+            CheckHelper.Check(obj2, true, true);
+            CheckHelper.Check(obj1, obj2, false, false);
         }
     }
 }

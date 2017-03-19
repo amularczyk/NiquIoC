@@ -25,9 +25,9 @@ namespace PerformanceCalculator.Tests.Containers.TestsStructureMap
             var obj2 = c.GetInstance<ITestD>();
 
 
-            CheckHelper.Check(obj1, true);
-            CheckHelper.Check(obj2, true);
-            CheckHelper.Check(obj1, obj2, true);
+            CheckHelper.Check(obj1, true, true);
+            CheckHelper.Check(obj2, true, true);
+            CheckHelper.Check(obj1, obj2, true, true);
         }
 
         [TestMethod]
@@ -43,21 +43,39 @@ namespace PerformanceCalculator.Tests.Containers.TestsStructureMap
             var obj2 = c.GetInstance<ITestD>();
 
 
-            CheckHelper.Check(obj1, false);
-            CheckHelper.Check(obj2, false);
-            CheckHelper.Check(obj1, obj2, false);
+            CheckHelper.Check(obj1, false, false);
+            CheckHelper.Check(obj2, false, false);
+            CheckHelper.Check(obj1, obj2, false, false);
+        }
+
+        [TestMethod]
+        public void RegisterTransientSingleton_Success()
+        {
+            ITestCase testCase = new TransientSingletonTestCaseD(new StructureMapRegistration(), new StructureMapResolving());
+
+
+            var c = new Container();
+            c = (Container)testCase.Register(c, RegistrationKind.TransientSingleton);
+
+            var obj1 = c.GetInstance<ITestD>();
+            var obj2 = c.GetInstance<ITestD>();
+
+
+            CheckHelper.Check(obj1, false, true);
+            CheckHelper.Check(obj2, false, true);
+            CheckHelper.Check(obj1, obj2, false, true);
         }
 
         [TestMethod]
         public void RegisterPerThread_SameThread_Success()
         {
             ITestCase testCase = new PerThreadTestCaseD(new StructureMapRegistration(), new StructureMapResolving());
-
-            var c = new Container();
-            c = (Container)testCase.Register(c, RegistrationKind.PerThread);
             ITestD obj1 = null;
             ITestD obj2 = null;
 
+
+            var c = new Container();
+            c = (Container)testCase.Register(c, RegistrationKind.PerThread);
 
             var thread = new Thread(() =>
             {
@@ -68,21 +86,21 @@ namespace PerformanceCalculator.Tests.Containers.TestsStructureMap
             thread.Join();
 
 
-            CheckHelper.Check(obj1, true);
-            CheckHelper.Check(obj2, true);
-            CheckHelper.Check(obj1, obj2, true);
+            CheckHelper.Check(obj1, true, true);
+            CheckHelper.Check(obj2, true, true);
+            CheckHelper.Check(obj1, obj2, true, true);
         }
 
         [TestMethod]
         public void RegisterPerThread_DifferentThreads_Success()
         {
             ITestCase testCase = new PerThreadTestCaseD(new StructureMapRegistration(), new StructureMapResolving());
-
-            var c = new Container();
-            c = (Container)testCase.Register(c, RegistrationKind.PerThread);
             ITestD obj1 = null;
             ITestD obj2 = null;
 
+
+            var c = new Container();
+            c = (Container)testCase.Register(c, RegistrationKind.PerThread);
 
             var thread1 = new Thread(() => { obj1 = c.GetInstance<ITestD>(); });
             var thread2 = new Thread(() => { obj2 = c.GetInstance<ITestD>(); });
@@ -92,9 +110,9 @@ namespace PerformanceCalculator.Tests.Containers.TestsStructureMap
             thread2.Join();
 
 
-            CheckHelper.Check(obj1, true);
-            CheckHelper.Check(obj2, true);
-            CheckHelper.Check(obj1, obj2, false);
+            CheckHelper.Check(obj1, true, true);
+            CheckHelper.Check(obj2, true, true);
+            CheckHelper.Check(obj1, obj2, false, false);
         }
     }
 }
