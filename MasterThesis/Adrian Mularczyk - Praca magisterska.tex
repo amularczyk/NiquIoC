@@ -159,7 +159,7 @@ Przestrzeń nazw Reflection.Emit pozwala ona na stworzenie ciągu operacji w ję
 }
 
 \subsection{Opis}
-Aplikacja składa się z 1 projektu i 4 projektów na potrzeby testów. Rozwiązanie jest skomplikowana i aby mieć pewność, że działa w pełni dobrze zostało stworzone {\color{red} ponad 1000} testów jednostkowych.\\
+Aplikacja składa się z 1 projektu i 4 projektów na potrzeby testów. Rozwiązanie jest skomplikowana i aby mieć pewność, że działa w pełni dobrze zostało stworzone {\color{red} ponad 1200} testów jednostkowych.\\
 
 W wykonanej implementacji został stworzony interfejs IConatiner, który definiuje operacje, jakie powinny się znaleźć w każdym kontenerze:
 \begin{itemize}
@@ -251,6 +251,7 @@ Każdy z przypadków testowych wykonuje testy dla następujący rejestracji:
 \begin{itemize}
 	\item Register as Singleton
 	\item Register as Transient
+	\item Register as TransientSingleton
 	\item Register as PerThread (dla niektórych przemysłowych implementacji - PerScope)
 \end{itemize}
 Każdy z testów dla każdej implementacji wstrzykiwania zależności był uruchamiany w osobnym procesie. Każdy test był uruchamiany {\color{red}10} razy, a w wynikach zostały przedstawione następujące czasy: minimalny,  maksymalny i średni.
@@ -260,6 +261,9 @@ Każdy typ jest zarejestrowany jako "Singleton", czyli obiekt jest tworzony raz 
 
 \subsubsection{Register as Transient}
 Każdy typ jest zarejestrowany jako "Transient", czyli za każdym razem jest tworzony nowy obiekt.
+
+\subsubsection{Register as TransientSingleton}
+Każdy typ jest zarejestrowany jako "Transient" za wyjątkiem typów, które maja konstruktor bezparametrowy - te typy są zarejestrowane jako singleton.
 
 \subsubsection{Register as PerThread}
 Każdy typ jest zarejestrowany jako "PerThread", czyli obiekt jest tworzony raz dla każdego wątku, a następnie w obrębie danego wątku jest on cały czas zwracany.
@@ -300,14 +304,14 @@ Zatem tworząc nasz główny obiekt typu TestA, tworzymy: 1 obiekt typu TestA, 1
      		Ilość & & 1 & & & 10 & & & 100 & & & 1000 & \\ \hline
      		 & min & max & avg & min & max & avg & min & max & avg & min & max & avg \\ \hline
     		Autofac & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
-   		DryIoc & 2 & 3 & 2 & 2 & 3 & 2 & 2 & 2 & 2 & 2 & 2 & 2 \\ \hline
-		Grace & 2 & 2 & 2 & 2 & 3 & 2 & 2 & 3 & 2 & 2 & 4 & 3 \\ \hline
+   		DryIoc & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 \\ \hline
+		Grace & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 \\ \hline
 		LightInject & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 \\ \hline
 		Ninject & 3 & 3 & 3 & 3 & 3 & 3 & 3 & 3 & 3 & 6 & 6 & 6 \\ \hline
 		NiquIoCPartial & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 \\ \hline
-		NiquIoCFull & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 \\ \hline
+		NiquIoCFull & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 3 & 2 \\ \hline
 		SimpleInjector & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 \\ \hline
-		StructureMap & 9 & 9 & 9 & 9 & 9 & 9 & 9 & 9 & 9 & 10 & 10 & 10 \\ \hline
+		StructureMap & 9 & 10 & 9 & 9 & 9 & 9 & 9 & 9 & 9 & 10 & 10 & 10 \\ \hline
 		Unity & 7 & 7 & 7 & 7 & 7 & 7 & 7 & 7 & 7 & 8 & 8 & 8 \\ \hline
 		Windsor & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
     		\hline
@@ -324,17 +328,17 @@ Najlepiej poradziły sobie najpopularniejsze rozwiązania - Windsor i Aurofac. R
     		\hline
      		Ilość & & 1 & & & 10 & & & 100 & & & 1000 & \\ \hline
      		 & min & max & avg & min & max & avg & min & max & avg & min & max & avg \\ \hline
-    		Autofac & 0 & 0 & 0 & 6 & 7 & 6 & 61 & 70 & 65 & 615 & 687 & 632 \\ \hline
-		DryIoc & 14 & 15 & 15 & 15 & 16 & 15 & 16 & 18 & 17 & 30 & 31 & 30 \\ \hline
-		Grace & 16 & 18 & 16 & 16 & 17 & 16 & 19 & 20 & 19 & 39 & 40 & 40 \\ \hline
-		LightInject & 10 & 10 & 10 & 10 & 10 & 10 & 11 & 12 & 11 & 19 & 19 & 19 \\ \hline
-		Ninject & 10 & 11 & 10 & 86 & 90 & 88 & 858 & 951 & 873 & 8673 & 9035 & 8812 \\ \hline
-		NiquIoCPartial & 1 & 1 & 1 & 3 & 3 & 3 & 19 & 19 & 19 & 172 & 174 & 172 \\ \hline
-		NiquIoCFull & 8 & 8 & 8 & 8 & 9 & 8 & 9 & 10 & 9 & 18 & 18 & 18 \\ \hline
-		SimpleInjector & 13 & 13 & 13 & 13 & 14 & 13 & 15 & 15 & 15 & 28 & 29 & 29 \\ \hline
-		StructureMap & 10 & 10 & 10 & 13 & 14 & 14 & 52 & 54 & 52 & 415 & 420 & 417 \\ \hline
-		Unity & 8 & 8 & 8 & 15 & 16 & 15 & 84 & 86 & 84 & 767 & 820 & 773 \\ \hline
-		Windsor & 1 & 1 & 1 & 16 & 18 & 17 & 155 & 169 & 159 & 1528 & 1602 & 1548 \\
+    		Autofac & 0 & 0 & 0 & 6 & 7 & 6 & 59 & 63 & 60 & 593 & 635 & 602 \\ \hline
+		DryIoc & 14 & 14 & 14 & 14 & 15 & 14 & 16 & 16 & 16 & 29 & 29 & 29 \\ \hline
+		Grace & 15 & 15 & 15 & 15 & 16 & 15 & 18 & 19 & 18 & 36 & 37 & 36 \\ \hline
+		LightInject & 10 & 10 & 10 & 10 & 10 & 10 & 11 & 12 & 11 & 19 & 20 & 19 \\ \hline
+		Ninject & 10 & 11 & 10 & 86 & 91 & 87 & 843 & 1089 & 875 & 8585 & 9298 & 8759 \\ \hline
+		NiquIoCPartial & 1 & 1 & 1 & 3 & 3 & 3 & 19 & 20 & 19 & 170 & 173 & 171 \\ \hline
+		NiquIoCFull & 8 & 8 & 8 & 8 & 8 & 8 & 9 & 10 & 9 & 18 & 19 & 18 \\ \hline
+		SimpleInjector & 13 & 14 & 13 & 13 & 14 & 13 & 15 & 15 & 15 & 28 & 29 & 29 \\ \hline
+		StructureMap & 10 & 10 & 10 & 13 & 13 & 13 & 53 & 55 & 54 & 415 & 445 & 420 \\ \hline
+		Unity & 8 & 8 & 8 & 15 & 15 & 15 & 84 & 86 & 84 & 762 & 765 & 764 \\ \hline
+		Windsor & 1 & 1 & 1 & 16 & 18 & 16 & 151 & 156 & 152 & 1504 & 1652 & 1533 \\
     		\hline
   	\end{tabular}
 \end{small}
@@ -345,7 +349,30 @@ Gdy mamy 100 operacji na prowadzenie wysuneły się mniej popularne rozwiązania
 Dla przypadku z 1000 operacji do czołówki dołączył DryIoc (czasy zbliżone do SimpleInjector). Na pierwszym miejscu wciąż pozostaje NiquIoCFull, a zaraz za nim LightInject i SimpleInjector. Pozostałe rozwiązania mają czasy od kilka do kilkanaście razy gorsze.\\
 Warto tutaj zaznaczyć, że najmniejszy wzorst czasu miały kolejno rozwiązania: LightInject, NiquIoCFull, SimpleInjector, DryIoc oraz Grace.
 
-\clearpage
+\subsubsection{Wyniki dla TransientSingleton}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | r r r | r r r | r r r | }
+    		\hline
+     		Ilość & & 1 & & & 10 & & & 100 & & & 1000 & \\ \hline
+     		 & min & max & avg & min & max & avg & min & max & avg & min & max & avg \\ \hline
+    		Autofac & 0 & 0 & 0 & 6 & 6 & 6 & 54 & 56 & 54 & 540 & 566 & 544 \\ \hline
+		DryIoc & 18 & 18 & 18 & 19 & 19 & 19 & 20 & 20 & 20 & 31 & 32 & 31 \\ \hline
+		Grace & 9 & 9 & 9 & 9 & 10 & 9 & 10 & 11 & 10 & 18 & 18 & 18 \\ \hline
+		LightInject & 14 & 14 & 14 & 14 & 14 & 14 & 14 & 14 & 14 & 20 & 20 & 20 \\ \hline
+		Ninject & 9 & 10 & 10 & 67 & 73 & 69 & 637 & 678 & 652 & 6426 & 6810 & 6544 \\ \hline
+		NiquIoCPartial & 1 & 1 & 1 & 2 & 2 & 2 & 14 & 14 & 14 & 118 & 120 & 118 \\ \hline
+		NiquIoCFull & 5 & 5 & 5 & 5 & 6 & 5 & 6 & 6 & 6 & 10 & 11 & 10 \\ \hline
+		SimpleInjector & 9 & 9 & 9 & 9 & 10 & 9 & 10 & 10 & 10 & 17 & 17 & 17 \\ \hline
+		StructureMap & 9 & 9 & 9 & 12 & 13 & 12 & 35 & 38 & 36 & 252 & 287 & 257 \\ \hline
+		Unity & 8 & 8 & 8 & 14 & 14 & 14 & 72 & 72 & 72 & 643 & 650 & 646 \\ \hline
+		Windsor & 1 & 1 & 1 & 12 & 12 & 12 & 112 & 129 & 117 & 1108 & 1386 & 1151 \\
+    		\hline
+  	\end{tabular}
+\end{small}
+\end{center}
+<<opis>>
+
 \subsubsection{Wyniki dla PerThread}
 \begin{center}
 \begin{small}
@@ -374,7 +401,7 @@ Jeśli chodzi o najlepsze rozwiązania, to wyglądają one tak samo jak dla Sing
 
 \subsection{Przypadek testowy B}
 \subsubsection{Opis}
-W tym teście mamy zdefiniowanych 51 typów. 10 z tych typów ma konstruktor bezparametrowy, a pozostałe 41 ma konstuktor z dziesięcioma parametrami. Typem głównym jest typ "TestB". Obiekt tego typy w konstruktorze przymuje 10 innych obiektów, kolejno następujących typów: "TestB40", "TestB41", "TestB42", "TestB43", "TestB44", "TestB45", "TestB46", "TestB47", "TestB48", "TestB49". Każdy z tych 10 typów w konstruktorze przyjmuje 10 obiektów o takich samych typach, ale z pierwszym numerkiem o 1 mniejszym (czyli obiekty typów od "TestB40" do "TestB49", przyjmują w konstruktorze obiekty typów od "TestB30" do "TestB39"). Dla typów od "TestB30" do "TestB39" zasad z konstruktorami wygląda tak samo.Na końcu dochodzimy do typów od "TestB00" do "TestB09", które mają konstruktor bezparametrowy. Rys. \ref{fig:testB} przedstawia graf zależności typów dla tego przypadku testowego.
+Ten test jest bardzo podobny do przypadku testowego A, tylko dochodzi nam 1 dodatkowy poziom, który wygląda trochę inaczej. W głównym obiekcie "TestB" konstruktor przyjmuje 3 parametry następujących typów: "TestBa10", "TestBb10", "TestBc10". Każdy z tych 3 typów odpowiada typowi "TestA", więc przyjmuje on w konstruktorze 10 parametrów. Dla "TestBa10" są to parametry typów od "TestBa0" do "TestBa9", dla "TestBb10" są to parametry typów od "TestBb0" do "TestBb9", a dla "TestBc10" są to parametry typów od "TestBc0" do "TestBc9". Zależności tych typów wyglądają tak samo, jak dla typów z przypadku testowego A - rys. \ref{fig:testB} przedstawia te zależności. \\
 
 \clearpage
 \begin{figure}[h]
@@ -385,16 +412,268 @@ W tym teście mamy zdefiniowanych 51 typów. 10 z tych typów ma konstruktor bez
 	\end{center}
 \end{figure}
 
+Łatwo wywnioskować, że tworząc obiekty poszczególnych typów ilość tworzonych obiektów rośnie dwukrotnie (tak jak dla testu A):
+\begin{itemize}
+	\item TestBa0 - 1 obiekt,
+	\item TestBa1 - 2 obiekty (obiekt typu TestBa1 i obiekt typu TestBa0),
+	\item TestBa2 - 4 obiekty (obiekt typu TestBa2, obiekt typu TestBa1 - 2 obiekty, obiekt typu TestBa0 - 1 obiekt),
+	\item TestBa3 - 8 obiektów (obiekt typu TestBa3, obiekt typu TestBa2 - 4 obiekty, obiekt typu TestBa1, obiekt typu TestBa0),
+	\item TestBa4 - 16 obiektów,
+	\item TestBa5 - 32 obiektów,
+	\item TestBa6 - 64 obiektów,
+	\item TestBa7 - 128 obiektów,
+	\item TestBa8 - 256 obiektów,
+	\item TestBa9 - 512 obiektów,
+	\item TestBa10 - 1 024 obiektów,
+	\item \ldots (dla TestBb i TestBc sytuacja wygląda dokłądnie tak samo jak dla TestBa),
+	\item TestB - 3 073 obiektów.
+\end{itemize}
+Zatem tworząc obiekt typu TestB, tworzymy: 1 obiekt typu TestB, 1 obiekt typu TestBa10, TestBb10 i TestBc10,1 obiekt typu TestBa9, TestBb9 i TestBc9, 2 obiekty typu TestBa8, TestBb8 i TestBc8, 4 obiekty typu TestBa7, TestBb7 i TestBc7, 8 obiektów typu TestBa6, TestBb6 i TestBc6, 16 obiektów typu TestBa5, TestBb5 i TestBc5, 32 obiektów typu TestBa4, TestBb4 i TestBc4, 64 obiektów typu TestBa3, TestBb3 i TestBc3, 128 obiektów typu TestBa2, TestBb2 i TestBc2, 256 obiektów typu TestBa1, TestBb1 i TestBc1, 512 obiektów typu TestBa0, TestBb0 i TestBc0 - co daje w sumie 3 073 obiektów.
+
+\subsubsection{Wyniki dla Singleton}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | r r r | r r r | r r r | }
+    		\hline
+     		Ilość & & 1 & & & 10 & & & 100 & & & 1000 & \\ \hline
+     		 & min & max & avg & min & max & avg & min & max & avg & min & max & avg \\ \hline
+    		Autofac & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+   		DryIoc & 8 & 9 & 8 & 8 & 9 & 9 & 8 & 9 & 9 & 8 & 9 & 8 \\ \hline
+		Grace & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 \\ \hline
+		LightInject & 6 & 7 & 6 & 6 & 7 & 6 & 6 & 6 & 6 & 6 & 7 & 6 \\ \hline
+		Ninject & 9 & 9 & 9 & 9 & 9 & 9 & 9 & 10 & 9 & 12 & 13 & 12 \\ \hline
+		NiquIoCPartial & 4 & 4 & 4 & 4 & 4 & 4 & 4 & 4 & 4 & 4 & 4 & 4 \\ \hline
+		NiquIoCFull & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 \\ \hline
+		SimpleInjector & 6 & 6 & 6 & 6 & 6 & 6 & 6 & 6 & 6 & 6 & 6 & 6 \\ \hline
+		StructureMap & 30 & 30 & 30 & 30 & 30 & 30 & 30 & 30 & 30 & 32 & 33 & 33 \\ \hline
+		Unity & 23 & 23 & 23 & 23 & 23 & 23 & 23 & 23 & 23 & 24 & 24 & 24 \\ \hline
+		Windsor & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+    		\hline
+  	\end{tabular}
+\end{small}
+\end{center}
+Dla tego przypadku testowego również najlepiej poradziły sobie najpopularniejsze rozwiązania - Aurofac i Windso. Kontener NiquIoCPartial uplasował się tutaj również na 3 miejscu. Najsłabiej poradził sobie rozwiązania StructureMap, Unity oraz Ninject.
+
+\subsubsection{Wyniki dla Transient}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | r r r | r r r | r r r | }
+    		\hline
+     		Ilość & & 1 & & & 10 & & & 100 & & & 1000 & \\ \hline
+     		 & min & max & avg & min & max & avg & min & max & avg & min & max & avg \\ \hline
+    		Autofac & 2 & 2 & 2 & 21 & 23 & 22 & 194 & 218 & 204 & 1972 & 2043 & 2008 \\ \hline
+		DryIoc & 44 & 46 & 45 & 45 & 46 & 45 & 52 & 55 & 53 & 100 & 104 & 102 \\ \hline
+		Grace & 51 & 52 & 51 & 52 & 53 & 52 & 58 & 59 & 58 & 123 & 126 & 124 \\ \hline
+		LightInject & 32 & 32 & 32 & 32 & 33 & 32 & 37 & 39 & 37 & 71 & 72 & 72 \\ \hline
+		Ninject & 35 & 42 & 36 & 271 & 297 & 277 & 2697 & 3014 & 2787 & 27790 & 28442 & 28038 \\ \hline
+		NiquIoCPartial & 5 & 5 & 5 & 10 & 10 & 10 & 57 & 58 & 58 & 522 & 529 & 524 \\ \hline
+		NiquIoCFull & 26 & 32 & 27 & 26 & 27 & 26 & 32 & 33 & 32 & 66 & 67 & 66 \\ \hline
+		SimpleInjector & 40 & 40 & 40 & 40 & 41 & 41 & 46 & 47 & 47 & 94 & 95 & 94 \\ \hline
+		StructureMap & 33 & 33 & 33 & 44 & 45 & 45 & 162 & 165 & 163 & 1296 & 1364 & 1311 \\ \hline
+		Unity & 27 & 28 & 28 & 48 & 50 & 49 & 257 & 265 & 258 & 2324 & 2334 & 2329 \\ \hline
+		Windsor & 6 & 6 & 6 & 48 & 64 & 50 & 466 & 498 & 474 & 4627 & 4893 & 4702 \\
+    		\hline
+  	\end{tabular}
+\end{small}
+\end{center}
+Gdy mamy tylko 1 operację najlepiej radzi sobie Autofac, a zaraz za nim NiquIoCPartial i Windsor. Najsłabiej DryIoc i SimplyInjector.\\
+Gdy mamy 10 operacji znacząco lepiej niż reszta radzi sobie NiquIoCPartial - czasy ponad dwa mniejsze niż dla zajmującego drugie Autofac. Kolejne miejsca należą do NiquIoCFull i LightInject. Pozostałe rozwiązania miałby podobne, trochę słabsze czasy. Najgorzej poradził sobie Ninject, który czas miał ponad 5 razy większy niż rozwiązanie z przedostatnim czasem (Grace).\\
+Tutaj również gdy mamy 100 operacji na prowadzenie wysuneły się mniej popularne rozwiązania. Kolejne miejsca to: NiquIoCFull, LightInject i SimpleInjector. Najsłabiej w tym przypadku poradziłysobie Ninject, Windsor, Unity i Autofac. Grace w 9 miejsca od końca awansował na 6, a NiquIoCPartial z pierwszego spadł na 5.\\
+Dla przypadku z 1000 operacji do czołówki dołączył DryIoc i Grace - czasy trochę słabsze niż SimpleInjector. Pierwsze trzy miejsca nie uległu zmianie.\\
+Tutaj najmniejszy wzorst czasu miały rozwiążania: NiquIoCFull, LightInject, SimpleInjector, DryIoc oraz Grace.
+
+\subsubsection{Wyniki dla TransientSingleton}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | r r r | r r r | r r r | }
+    		\hline
+     		Ilość & & 1 & & & 10 & & & 100 & & & 1000 & \\ \hline
+     		 & min & max & avg & min & max & avg & min & max & avg & min & max & avg \\ \hline
+    		Autofac & 1 & 1 & 1 & 18 & 19 & 18 & 175 & 179 & 176 & 1732 & 1806 & 1751 \\ \hline
+		DryIoc & 56 & 56 & 56 & 57 & 57 & 57 & 63 & 64 & 63 & 107 & 108 & 108 \\ \hline
+		Grace & 30 & 30 & 30 & 30 & 30 & 30 & 34 & 35 & 34 & 67 & 68 & 68 \\ \hline
+		LightInject & 47 & 48 & 48 & 48 & 49 & 48 & 50 & 52 & 51 & 80 & 80 & 80 \\ \hline
+		Ninject & 29 & 31 & 30 & 214 & 220 & 217 & 2016 & 2102 & 2045 & 20354 & 21113 & 20622 \\ \hline
+		NiquIoCPartial & 4 & 5 & 5 & 8 & 8 & 8 & 42 & 42 & 42 & 369 & 371 & 369 \\ \hline
+		NiquIoCFull & 16 & 16 & 16 & 16 & 16 & 16 & 18 & 20 & 18 & 37 & 38 & 37 \\ \hline
+		SimpleInjector & 27 & 28 & 28 & 28 & 28 & 28 & 32 & 33 & 32 & 60 & 62 & 61 \\ \hline
+		StructureMap & 32 & 33 & 32 & 39 & 40 & 39 & 111 & 118 & 113 & 795 & 805 & 800 \\ \hline
+		Unity & 27 & 28 & 28 & 46 & 47 & 46 & 225 & 228 & 227 & 2010 & 2025 & 2018 \\ \hline
+		Windsor & 3 & 4 & 3 & 35 & 36 & 35 & 338 & 395 & 348 & 3368 & 3589 & 3416 \\
+    		\hline
+  	\end{tabular}
+\end{small}
+\end{center}
+<<opis>>
+
+\subsubsection{Wyniki dla PerThread}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | r r r | r r r | r r r | }
+    		\hline
+     		Ilość & & 1 & & & 10 & & & 100 & & & 1000 & \\ \hline
+     		 & min & max & avg & min & max & avg & min & max & avg & min & max & avg \\ \hline
+    		Autofac & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+   		DryIoc & 247 & 260 & 252 & 247 & 257 & 250 & 247 & 271 & 255 & 256 & 272 & 263 \\ \hline
+		Grace & 13 & 13 & 13 & 13 & 13 & 13 & 13 & 13 & 13 & 13 & 13 & 13 \\ \hline
+		LightInject & -1 & -1 & -1 & -1 & -1 & -1 & -1 & -1 & -1 & -1 & -1 & -1 \\ \hline
+		Ninject & 9 & 9 & 9 & 9 & 9 & 9 & 9 & 10 & 9 & 12 & 13 & 12 \\ \hline
+		NiquIoCPartial & 4 & 4 & 4 & 4 & 4 & 4 & 4 & 4 & 4 & 4 & 4 & 4 \\ \hline
+		NiquIoCFull & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 \\ \hline
+		SimpleInjector & 23 & 23 & 23 & 23 & 23 & 23 & 23 & 23 & 23 & 23 & 23 & 23 \\ \hline
+		StructureMap & 30 & 30 & 30 & 30 & 30 & 30 & 30 & 30 & 30 & 32 & 33 & 33 \\ \hline
+		Unity & 23 & 23 & 23 & 23 & 23 & 23 & 23 & 23 & 23 & 24 & 24 & 24 \\ \hline
+		Windsor & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+    		\hline
+  	\end{tabular}
+\end{small}
+\end{center}
+Tutaj również nie wszystkie rozwiązania mają czasy zbliżone do Singleton. Są to te same rozwiązania co dla przypadku testowego B, czyli: DryIoc, Grace, LightInject, SimpleInjector.\\
+Tak samo jak w przypadku Signleton czołówka wygląda następująco: Aurofac, Windsor i NiquIoCPartial. Kolejne miejsca to NiquIoCFull, Ninject i Grace. Najsłabiej poradził sobie rozwiążania LightInject i DryIoc.
+
+
+\subsection{Przypadek testowy C}
+\subsubsection{Opis}
+W tym teście mamy zdefiniowanych 26 typów. 5 z tych typów ma konstruktor bezparametrowy, a pozostałe 21 ma konstuktor z pięcioma parametrami. Typem głównym jest typ "TestC". Obiekt tego typy w konstruktorze przymuje 5 innych obiektów, kolejno następujących typów: "TestC40", "TestC41", "TestC42", "TestC43" i "TestC44". Każdy z tych pięciu typów ma taki sam konstruktor - przyjmuje w nim 5 obiektów o typach z pierwszym numerkiem o 1 mniejszym (czyli przyjmują w konstruktorze obiekty typów od "TestC30" do "TestC34"). Dla typów od "TestC30" do "TestC34" zasad z konstruktorami wygląda tak samo. Na końcu dochodzimy do typów od "TestC00" do "TestC04", które mają konstruktor bezparametrowy. Rys. \ref{fig:testC} przedstawia graf zależności typów dla tego przypadku testowego.
+
+\begin{figure}[h]
+	\begin{center}
+  		\includegraphics[height=10cm]{TestC.png}
+  		\caption{Graf zależności dla testu C.}
+  		\label{fig:testC}
+	\end{center}
+\end{figure}
+
 Łatwo wywnioskować, że tworząc obiekty poszczególnych typów ilość tworzonych obiektów rośnie ponad dziesięciokortnie:
 \begin{itemize}
-	\item typy od TestB00 do TestB09 - 1 obiekt,
-	\item typy od TestB10 do TestB19 - 11 obiektów (obiekt danego typu plus 10 obiektów typów od TestB00 do TestB09),
-	\item typy od TestB20 do TestB29 - 111 obiektów (obiekt danego typu plus 10 obiektów typów od TestB10 do TestB19),
-	\item typy od TestB30 do TestB39 - 1 111 obiektów,
-	\item  typy od TestB40 do TestB49 - 11 111 obiektów,
-	\item TestB - 111 111 obiektów.
+	\item typy od TestC00 do TestC04 - 1 obiekt,
+	\item typy od TestC10 do TestC14 - 6 obiektów (obiekt danego typu plus 5 obiektów typów od TestC00 do TestC04),
+	\item typy od TestC20 do TestC24 - 31 obiektów (obiekt danego typu plus 5 obiektów typów od TestC10 do TestC14),
+	\item typy od TestC30 do TestC34 - 156 obiektów,
+	\item  typy od TestC40 do TestC44 - 781 obiektów,
+	\item TestC - 3 906 obiektów.
 \end{itemize}
-Zatem tworząc obiekt typu TestB, tworzymy: 1 obiekt typu TestB, 10 obiektów typów od TestB40 do TestB49, 100 obiektów typów od TestB30 do TestB39, 1 000 obiektów typów od TestB20 do TestB29, 10 000 obiektów typów od TestB10 do TestB19, 100 000 obiektów typów od TestB00 do TestB09 - co daje w sumie 111 111 obiektów..
+Zatem tworząc obiekt typu TestC, tworzymy: 1 obiekt typu TestC, 5 obiektów typów od TestC40 do TestC44, 25 obiektów typów od TestC30 do TestC34, 125 obiektów typów od TestC20 do TestC24, 625 obiektów typów od TestC10 do TestC14, 3 125 obiektów typów od TestC00 do TestC04 - co daje w sumie 3 906 obiektów.
+
+\subsubsection{Wyniki dla Singleton}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | r r r | r r r | r r r | }
+    		\hline
+     		Ilość & & 1 & & & 10 & & & 100 & & & 1000 & \\ \hline
+     		 & min & max & avg & min & max & avg & min & max & avg & min & max & avg \\ \hline
+    		Autofac & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+		DryIoc & 5 & 5 & 5 & 5 & 5 & 5 & 5 & 5 & 5 & 5 & 5 & 5 \\ \hline
+		Grace & 5 & 5 & 5 & 5 & 5 & 5 & 5 & 5 & 5 & 5 & 5 & 5 \\ \hline
+		LightInject & 4 & 4 & 4 & 4 & 4 & 4 & 4 & 4 & 4 & 4 & 4 & 4 \\ \hline
+		Ninject & 6 & 6 & 6 & 6 & 6 & 6 & 6 & 7 & 6 & 9 & 10 & 9 \\ \hline
+		NiquIoCPartial & 3 & 3 & 3 & 3 & 3 & 3 & 3 & 3 & 3 & 3 & 3 & 3 \\ \hline
+		NiquIoCFull & 5 & 6 & 5 & 5 & 5 & 5 & 5 & 5 & 5 & 5 & 6 & 5 \\ \hline
+		SimpleInjector & 4 & 4 & 4 & 4 & 4 & 4 & 4 & 4 & 4 & 4 & 4 & 4 \\ \hline
+		StructureMap & 22 & 22 & 22 & 22 & 22 & 22 & 22 & 22 & 22 & 23 & 23 & 23 \\ \hline
+		Unity & 15 & 16 & 15 & 15 & 16 & 15 & 15 & 16 & 16 & 16 & 16 & 16 \\ \hline
+		Windsor & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+    		\hline
+  	\end{tabular}
+\end{small}
+\end{center}
+<<opis>>
+
+\subsubsection{Wyniki dla Transient}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | r r r | r r r | r r r | }
+    		\hline
+     		Ilość & & 1 & & & 10 & & & 100 & & & 1000 & \\ \hline
+     		 & min & max & avg & min & max & avg & min & max & avg & min & max & avg \\ \hline
+    		Autofac & 2 & 2 & 2 & 24 & 25 & 24 & 234 & 240 & 235 & 2315 & 2330 & 2322 \\ \hline
+		DryIoc & 39 & 39 & 39 & 40 & 40 & 40 & 47 & 48 & 47 & 98 & 99 & 98 \\ \hline
+		Grace & 60 & 61 & 61 & 61 & 64 & 62 & 72 & 73 & 72 & 150 & 155 & 151 \\ \hline
+		LightInject & 36 & 37 & 36 & 36 & 37 & 37 & 43 & 44 & 44 & 86 & 86 & 86 \\ \hline
+		Ninject & 38 & 40 & 38 & 343 & 354 & 348 & 3386 & 3498 & 3432 & 36355 & 37506 & 36938 \\ \hline
+		NiquIoCPartial & 3 & 4 & 3 & 10 & 10 & 10 & 71 & 72 & 71 & 676 & 683 & 678 \\ \hline
+		NiquIoCFull & 31 & 33 & 31 & 31 & 33 & 32 & 38 & 38 & 38 & 81 & 86 & 84 \\ \hline
+		SimpleInjector & 40 & 41 & 40 & 41 & 42 & 41 & 49 & 49 & 49 & 113 & 114 & 114 \\ \hline
+		StructureMap & 26 & 26 & 26 & 40 & 40 & 40 & 179 & 182 & 180 & 1530 & 1553 & 1542 \\ \hline
+		Unity & 19 & 19 & 19 & 47 & 49 & 47 & 311 & 351 & 316 & 2954 & 3069 & 2974 \\ \hline
+		Windsor & 6 & 7 & 7 & 59 & 75 & 61 & 575 & 585 & 581 & 5755 & 6318 & 5846 \\
+    		\hline
+  	\end{tabular}
+\end{small}
+\end{center}
+<<opis>>
+
+\subsubsection{Wyniki dla TransientSingleton}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | r r r | r r r | r r r | }
+    		\hline
+     		Ilość & & 1 & & & 10 & & & 100 & & & 1000 & \\ \hline
+     		 & min & max & avg & min & max & avg & min & max & avg & min & max & avg \\ \hline
+    		Autofac & 1 & 2 & 1 & 19 & 20 & 19 & 182 & 188 & 184 & 1790 & 1827 & 1806 \\ \hline
+		DryIoc & 58 & 58 & 58 & 59 & 107 & 64 & 64 & 65 & 64 & 104 & 106 & 105 \\ \hline
+		Grace & 22 & 22 & 22 & 22 & 23 & 22 & 25 & 25 & 25 & 43 & 44 & 44 \\ \hline
+		LightInject & 52 & 52 & 52 & 52 & 54 & 52 & 55 & 55 & 55 & 82 & 84 & 83 \\ \hline
+		Ninject & 26 & 28 & 27 & 199 & 219 & 204 & 1908 & 2017 & 1938 & 19238 & 20310 & 19572 \\ \hline
+		NiquIoCPartial & 3 & 3 & 3 & 6 & 7 & 6 & 38 & 38 & 38 & 337 & 346 & 341 \\ \hline
+		NiquIoCFull & 12 & 13 & 12 & 12 & 12 & 12 & 13 & 14 & 13 & 25 & 25 & 25 \\ \hline
+		SimpleInjector & 21 & 21 & 21 & 21 & 21 & 21 & 23 & 24 & 23 & 44 & 44 & 44 \\ \hline
+		StructureMap & 22 & 22 & 22 & 29 & 29 & 29 & 79 & 80 & 80 & 546 & 549 & 547 \\ \hline
+		Unity & 18 & 18 & 18 & 39 & 40 & 40 & 240 & 242 & 241 & 2246 & 2372 & 2268 \\ \hline
+		Windsor & 3 & 3 & 3 & 32 & 33 & 33 & 319 & 383 & 328 & 3162 & 3316 & 3195 \\
+    		\hline
+  	\end{tabular}
+\end{small}
+\end{center}
+<<opis>>
+
+\subsubsection{Wyniki dla PerThread}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | r r r | r r r | r r r | }
+    		\hline
+     		Ilość & & 1 & & & 10 & & & 100 & & & 1000 & \\ \hline
+     		 & min & max & avg & min & max & avg & min & max & avg & min & max & avg \\ \hline
+    		Autofac & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+		DryIoc & 155 & 156 & 155 & 155 & 155 & 155 & 155 & 157 & 155 & 155 & 156 & 156 \\ \hline
+		Grace & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 \\ \hline
+		LightInject & 523 & 541 & 526 & 523 & 529 & 526 & 523 & 527 & 525 & 523 & 528 & 527 \\ \hline
+		Ninject & 6 & 7 & 6 & 6 & 6 & 6 & 6 & 7 & 6 & 9 & 10 & 9 \\ \hline
+		NiquIoCPartial & 3 & 3 & 3 & 3 & 3 & 3 & 3 & 3 & 3 & 3 & 3 & 3 \\ \hline
+		NiquIoCFull & 5 & 5 & 5 & 5 & 5 & 5 & 5 & 5 & 5 & 5 & 5 & 5 \\ \hline
+		SimpleInjector & 15 & 16 & 16 & 15 & 16 & 16 & 15 & 16 & 16 & 16 & 16 & 16 \\ \hline
+		StructureMap & 22 & 22 & 22 & 22 & 22 & 22 & 22 & 22 & 22 & 23 & 23 & 23 \\ \hline
+		Unity & 15 & 16 & 15 & 15 & 16 & 16 & 15 & 16 & 16 & 16 & 16 & 16 \\ \hline
+		Windsor & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+    		\hline
+  	\end{tabular}
+\end{small}
+\end{center}
+<<opis>>
+
+
+\subsection{Przypadek testowy D}
+\subsubsection{Opis}
+W tym teście mamy zdefiniowanych 51 typów. 10 z tych typów ma konstruktor bezparametrowy, a pozostałe 41 ma konstuktor z dziesięcioma parametrami. Typem głównym jest typ "TestD". Obiekt tego typy w konstruktorze przymuje 10 innych obiektów, kolejno następujących typów: "TestD40", "TestD41", "TestD42", "TestD43", "TestD44", "TestD45", "TestD46", "TestD47", "TestD48", "TestD49". Każdy z tych 10 typów w konstruktorze przyjmuje 10 obiektów o takich samych typach, ale z pierwszym numerkiem o 1 mniejszym (czyli obiekty typów od "TestD40" do "TestD49", przyjmują w konstruktorze obiekty typów od "TestD30" do "TestD39"). Dla typów od "TestD30" do "TestD39" zasad z konstruktorami wygląda tak samo. Na końcu dochodzimy do typów od "TestD00" do "TestD09", które mają konstruktor bezparametrowy. Rys. \ref{fig:testD} przedstawia graf zależności typów dla tego przypadku testowego.
+
+\begin{figure}[h]
+	\begin{center}
+  		\includegraphics[width=\linewidth]{TestD.png}
+  		\caption{Graf zależności dla testu D.}
+  		\label{fig:testD}
+	\end{center}
+\end{figure}
+
+Łatwo wywnioskować, że tworząc obiekty poszczególnych typów ilość tworzonych obiektów rośnie ponad dziesięciokortnie:
+\begin{itemize}
+	\item typy od TestD00 do TestD09 - 1 obiekt,
+	\item typy od TestD10 do TestD19 - 11 obiektów (obiekt danego typu plus 10 obiektów typów od TestD00 do TestD09),
+	\item typy od TestD20 do TestD29 - 111 obiektów (obiekt danego typu plus 10 obiektów typów od TestD10 do TestD19),
+	\item typy od TestD30 do TestD39 - 1 111 obiektów,
+	\item  typy od TestD40 do TestD49 - 11 111 obiektów,
+	\item TestD - 111 111 obiektów.
+\end{itemize}
+Zatem tworząc obiekt typu TestD, tworzymy: 1 obiekt typu TestD, 10 obiektów typów od TestD40 do TestD49, 100 obiektów typów od TestD30 do TestD39, 1 000 obiektów typów od TestD20 do TestD29, 10 000 obiektów typów od TestD10 do TestD19, 100 000 obiektów typów od TestD00 do TestD09 - co daje w sumie 111 111 obiektów..
 
 \subsubsection{Wyniki dla Singleton}
 \begin{center}
@@ -447,6 +726,30 @@ Gdy mamy tylko 1 operację najlepiej radzi sobie NiquIoCPartial. Czasy pozostał
 Dla 10 operacji znacząco najlepiej radzi sobie SimplyInjector i NiquIoCPartial. Czołówkę zamykają StrucutreMap i NiquIoCFull. Pozostałe rozwiązania miały podobne, dużo słabsze czasy. Wyjątkiem jest ponownie Ninject, którego czasy są kilkukrotnie większe.\\
 W tym przypadku najmniejszy wzorst czasu miały kolejno rozwiązania: DryIoc, SimpleInjector, LightInject, Grace oraz NiquIoCFull.
 
+\subsubsection{Wyniki dla TransientSingleton}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | r r r | }
+    		\hline
+     		Ilość & & 1 & & & 10 &  \\ \hline
+     		 & min & max & avg & min & max & avg \\ \hline
+		Autofac & 77 & 78 & 77 & 898 & 917 & 904 \\ \hline
+		DryIoc & 891 & 896 & 893 & 921 & 959 & 928 \\ \hline
+		Grace & 362 & 369 & 364 & 369 & 378 & 371 \\ \hline
+		LightInject & 1278 & 1368 & 1303 & 1290 & 1332 & 1303 \\ \hline
+		Ninject & 511 & 561 & 524 & 4824 & 5067 & 4881 \\ \hline
+		NiquIoCPartial & 17 & 17 & 17 & 100 & 101 & 101 \\ \hline
+		NiquIoCFull & 143 & 144 & 143 & 150 & 158 & 154 \\ \hline
+		SimpleInjector & 85 & 86 & 85 & 90 & 91 & 90 \\ \hline
+		StructureMap & 60 & 66 & 61 & 166 & 169 & 167 \\ \hline
+		Unity & 116 & 117 & 116 & 693 & 699 & 695 \\ \hline
+		Windsor & 83 & 89 & 85 & 832 & 918 & 853 \\
+    		\hline
+  	\end{tabular}
+\end{small}
+\end{center}
+<<opis>>
+
 \subsubsection{Wyniki dla PerThread}
 \begin{center}
 \begin{small}
@@ -472,117 +775,6 @@ W tym przypadku najmniejszy wzorst czasu miały kolejno rozwiązania: DryIoc, Si
 Tutaj tak samo jak dla przypadku testowego A czasy powinny być zbliżone do czasów dla Singleton. Niestety dla tego testu również nie wszystkie rozwiązania sobie z tym poradziły. Dużo słabsze czasy niż w przypadku Singleton miały rozwiązania: DryIoc, Grace, LightInject, SimpleInjector.\\
 Zarówno dla 1 jak i 10 powtórzeń najlepiej radzi sobie Autofac i Windsor. Podium ponownie zamyka NiquIoCPartial.\\
 Najgorzej poradził sobie tutaj LightInject, który trwał ponad 20 minut (stąd w rozwiążaniu czas "-1"). DryIoc również poradził sobie bardzo słabo - czasy ponad 20 raz gorsze niż rozwiążanie na miejscu o 1 wyższym (Unity).
-
-
-\subsection{Przypadek testowy C}
-\subsubsection{Opis}
-Ten test jest bardzo podobny do przypadku testowego A, tylko dochodzi nam 1 dodatkowy poziom, który wygląda trochę inaczej. W głównym obiekcie "TestC" konstruktor przyjmuje 3 parametry następujących typów: "TestCa10", "TestCb10", "TestCc10". Każdy z tych 3 typów odpowiada typowi "TestA", więc przyjmuje on w konstruktorze 10 parametrów. Dla "TestCa10" są to parametry typów od "TestCa0" do "TestCa9", dla "TestCb10" są to parametry typów od "TestCb0" do "TestCb9", a dla "TestCc10" są to parametry typów od "TestCc0" do "TestCc9". Zależności tych typów wyglądają tak samo, jak dla typów z przypadku testowego A - rys. \ref{fig:testC} przedstawia te zależności. \\
-
-\clearpage
-\begin{figure}[h]
-	\begin{center}
-  		\includegraphics[width=\linewidth]{TestC.png}
-  		\caption{Graf zależności dla testu C.}
-  		\label{fig:testC}
-	\end{center}
-\end{figure}
-
-Łatwo wywnioskować, że tworząc obiekty poszczególnych typów ilość tworzonych obiektów rośnie dwukrotnie (tak jak dla testu A):
-\begin{itemize}
-	\item TestCa0 - 1 obiekt,
-	\item TestCa1 - 2 obiekty (obiekt typu TestCa1 i obiekt typu TestCa0),
-	\item TestCa2 - 4 obiekty (obiekt typu TestCa2, obiekt typu TestCa1 - 2 obiekty, obiekt typu TestCa0 - 1 obiekt),
-	\item TestCa3 - 8 obiektów (obiekt typu TestCa3, obiekt typu TestCa2 - 4 obiekty, obiekt typu TestCa1, obiekt typu TestCa0),
-	\item TestCa4 - 16 obiektów,
-	\item TestCa5 - 32 obiektów,
-	\item TestCa6 - 64 obiektów,
-	\item TestCa7 - 128 obiektów,
-	\item TestCa8 - 256 obiektów,
-	\item TestCa9 - 512 obiektów,
-	\item TestCa10 - 1 024 obiektów,
-	\item \ldots (dla TestCb i TestCc sytuacja wygląda dokłądnie tak samo jak dla TestCa),
-	\item TestC - 3 073 obiektów.
-\end{itemize}
-Zatem tworząc obiekt typu TestC, tworzymy: 1 obiekt typu TestC, 1 obiekt typu TestCa10, TestCb10 i TestCc10,1 obiekt typu TestCa9, TestCb9 i TestCc9, 2 obiekty typu TestCa8, TestCb8 i TestCc8, 4 obiekty typu TestCa7, TestCb7 i TestCc7, 8 obiektów typu TestCa6, TestCb6 i TestCc6, 16 obiektów typu TestCa5, TestCb5 i TestCc5, 32 obiektów typu TestCa4, TestCb4 i TestCc4, 64 obiektów typu TestCa3, TestCb3 i TestCc3, 128 obiektów typu TestCa2, TestCb2 i TestCc2, 256 obiektów typu TestCa1, TestCb1 i TestCc1, 512 obiektów typu TestCa0, TestCb0 i TestCc0 - co daje w sumie 3 073 obiektów.
-
-\subsubsection{Wyniki dla Singleton}
-\begin{center}
-\begin{small}
-	\begin{tabular}{ | l | r r r | r r r | r r r | r r r | }
-    		\hline
-     		Ilość & & 1 & & & 10 & & & 100 & & & 1000 & \\ \hline
-     		 & min & max & avg & min & max & avg & min & max & avg & min & max & avg \\ \hline
-    		Autofac & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
-   		DryIoc & 8 & 9 & 8 & 8 & 9 & 9 & 8 & 9 & 9 & 8 & 9 & 8 \\ \hline
-		Grace & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 \\ \hline
-		LightInject & 6 & 7 & 6 & 6 & 7 & 6 & 6 & 6 & 6 & 6 & 7 & 6 \\ \hline
-		Ninject & 9 & 9 & 9 & 9 & 9 & 9 & 9 & 10 & 9 & 12 & 13 & 12 \\ \hline
-		NiquIoCPartial & 4 & 4 & 4 & 4 & 4 & 4 & 4 & 4 & 4 & 4 & 4 & 4 \\ \hline
-		NiquIoCFull & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 \\ \hline
-		SimpleInjector & 6 & 6 & 6 & 6 & 6 & 6 & 6 & 6 & 6 & 6 & 6 & 6 \\ \hline
-		StructureMap & 30 & 30 & 30 & 30 & 30 & 30 & 30 & 30 & 30 & 32 & 33 & 33 \\ \hline
-		Unity & 23 & 23 & 23 & 23 & 23 & 23 & 23 & 23 & 23 & 24 & 24 & 24 \\ \hline
-		Windsor & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
-    		\hline
-  	\end{tabular}
-\end{small}
-\end{center}
-Dla tego przypadku testowego również najlepiej poradziły sobie najpopularniejsze rozwiązania - Aurofac i Windso. Kontener NiquIoCPartial uplasował się tutaj również na 3 miejscu. Najsłabiej poradził sobie rozwiązania StructureMap, Unity oraz Ninject.
-
-\clearpage
-\subsubsection{Wyniki dla Transient}
-\begin{center}
-\begin{small}
-	\begin{tabular}{ | l | r r r | r r r | r r r | r r r | }
-    		\hline
-     		Ilość & & 1 & & & 10 & & & 100 & & & 1000 & \\ \hline
-     		 & min & max & avg & min & max & avg & min & max & avg & min & max & avg \\ \hline
-    		Autofac & 2 & 2 & 2 & 21 & 23 & 22 & 194 & 218 & 204 & 1972 & 2043 & 2008 \\ \hline
-		DryIoc & 44 & 46 & 45 & 45 & 46 & 45 & 52 & 55 & 53 & 100 & 104 & 102 \\ \hline
-		Grace & 51 & 52 & 51 & 52 & 53 & 52 & 58 & 59 & 58 & 123 & 126 & 124 \\ \hline
-		LightInject & 32 & 32 & 32 & 32 & 33 & 32 & 37 & 39 & 37 & 71 & 72 & 72 \\ \hline
-		Ninject & 35 & 42 & 36 & 271 & 297 & 277 & 2697 & 3014 & 2787 & 27790 & 28442 & 28038 \\ \hline
-		NiquIoCPartial & 5 & 5 & 5 & 10 & 10 & 10 & 57 & 58 & 58 & 522 & 529 & 524 \\ \hline
-		NiquIoCFull & 26 & 32 & 27 & 26 & 27 & 26 & 32 & 33 & 32 & 66 & 67 & 66 \\ \hline
-		SimpleInjector & 40 & 40 & 40 & 40 & 41 & 41 & 46 & 47 & 47 & 94 & 95 & 94 \\ \hline
-		StructureMap & 33 & 33 & 33 & 44 & 45 & 45 & 162 & 165 & 163 & 1296 & 1364 & 1311 \\ \hline
-		Unity & 27 & 28 & 28 & 48 & 50 & 49 & 257 & 265 & 258 & 2324 & 2334 & 2329 \\ \hline
-		Windsor & 6 & 6 & 6 & 48 & 64 & 50 & 466 & 498 & 474 & 4627 & 4893 & 4702 \\
-    		\hline
-  	\end{tabular}
-\end{small}
-\end{center}
-Gdy mamy tylko 1 operację najlepiej radzi sobie Autofac, a zaraz za nim NiquIoCPartial i Windsor. Najsłabiej DryIoc i SimplyInjector.\\
-Gdy mamy 10 operacji znacząco lepiej niż reszta radzi sobie NiquIoCPartial - czasy ponad dwa mniejsze niż dla zajmującego drugie Autofac. Kolejne miejsca należą do NiquIoCFull i LightInject. Pozostałe rozwiązania miałby podobne, trochę słabsze czasy. Najgorzej poradził sobie Ninject, który czas miał ponad 5 razy większy niż rozwiązanie z przedostatnim czasem (Grace).\\
-Tutaj również gdy mamy 100 operacji na prowadzenie wysuneły się mniej popularne rozwiązania. Kolejne miejsca to: NiquIoCFull, LightInject i SimpleInjector. Najsłabiej w tym przypadku poradziłysobie Ninject, Windsor, Unity i Autofac. Grace w 9 miejsca od końca awansował na 6, a NiquIoCPartial z pierwszego spadł na 5.\\
-Dla przypadku z 1000 operacji do czołówki dołączył DryIoc i Grace - czasy trochę słabsze niż SimpleInjector. Pierwsze trzy miejsca nie uległu zmianie.\\
-Tutaj najmniejszy wzorst czasu miały rozwiążania: NiquIoCFull, LightInject, SimpleInjector, DryIoc oraz Grace.
-
-\clearpage
-\subsubsection{Wyniki dla PerThread}
-\begin{center}
-\begin{small}
-	\begin{tabular}{ | l | r r r | r r r | r r r | r r r | }
-    		\hline
-     		Ilość & & 1 & & & 10 & & & 100 & & & 1000 & \\ \hline
-     		 & min & max & avg & min & max & avg & min & max & avg & min & max & avg \\ \hline
-    		Autofac & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
-   		DryIoc & 247 & 260 & 252 & 247 & 257 & 250 & 247 & 271 & 255 & 256 & 272 & 263 \\ \hline
-		Grace & 13 & 13 & 13 & 13 & 13 & 13 & 13 & 13 & 13 & 13 & 13 & 13 \\ \hline
-		LightInject & -1 & -1 & -1 & -1 & -1 & -1 & -1 & -1 & -1 & -1 & -1 & -1 \\ \hline
-		Ninject & 9 & 9 & 9 & 9 & 9 & 9 & 9 & 10 & 9 & 12 & 13 & 12 \\ \hline
-		NiquIoCPartial & 4 & 4 & 4 & 4 & 4 & 4 & 4 & 4 & 4 & 4 & 4 & 4 \\ \hline
-		NiquIoCFull & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 \\ \hline
-		SimpleInjector & 23 & 23 & 23 & 23 & 23 & 23 & 23 & 23 & 23 & 23 & 23 & 23 \\ \hline
-		StructureMap & 30 & 30 & 30 & 30 & 30 & 30 & 30 & 30 & 30 & 32 & 33 & 33 \\ \hline
-		Unity & 23 & 23 & 23 & 23 & 23 & 23 & 23 & 23 & 23 & 24 & 24 & 24 \\ \hline
-		Windsor & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
-    		\hline
-  	\end{tabular}
-\end{small}
-\end{center}
-Tutaj również nie wszystkie rozwiązania mają czasy zbliżone do Singleton. Są to te same rozwiązania co dla przypadku testowego B, czyli: DryIoc, Grace, LightInject, SimpleInjector.\\
-Tak samo jak w przypadku Signleton czołówka wygląda następująco: Aurofac, Windsor i NiquIoCPartial. Kolejne miejsca to NiquIoCFull, Ninject i Grace. Najsłabiej poradził sobie rozwiążania LightInject i DryIoc.
 
 
 \clearpage
