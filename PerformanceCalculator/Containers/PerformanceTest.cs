@@ -47,6 +47,9 @@ namespace PerformanceCalculator.Containers
                         case RegistrationKind.PerThread:
                             return new PerThreadTestCaseA(GetRegistration(), GetResolving());
 
+                        case RegistrationKind.FactoryMethod:
+                            return new FactoryMethodTestCaseA(GetRegistration(), GetResolving());
+
                         default:
                             throw new ArgumentOutOfRangeException(nameof(registrationKind), registrationKind, null);
                     }
@@ -65,6 +68,9 @@ namespace PerformanceCalculator.Containers
 
                         case RegistrationKind.PerThread:
                             return new PerThreadTestCaseB(GetRegistration(), GetResolving());
+
+                        case RegistrationKind.FactoryMethod:
+                            return new FactoryMethodTestCaseB(GetRegistration(), GetResolving());
 
                         default:
                             throw new ArgumentOutOfRangeException(nameof(registrationKind), registrationKind, null);
@@ -85,6 +91,9 @@ namespace PerformanceCalculator.Containers
                         case RegistrationKind.PerThread:
                             return new PerThreadTestCaseC(GetRegistration(), GetResolving());
 
+                        case RegistrationKind.FactoryMethod:
+                            return new FactoryMethodTestCaseC(GetRegistration(), GetResolving());
+
                         default:
                             throw new ArgumentOutOfRangeException(nameof(registrationKind), registrationKind, null);
                     }
@@ -103,6 +112,9 @@ namespace PerformanceCalculator.Containers
 
                         case RegistrationKind.PerThread:
                             return new PerThreadTestCaseD(GetRegistration(), GetResolving());
+
+                        case RegistrationKind.FactoryMethod:
+                            return new FactoryMethodTestCaseD(GetRegistration(), GetResolving());
 
                         default:
                             throw new ArgumentOutOfRangeException(nameof(registrationKind), registrationKind, null);
