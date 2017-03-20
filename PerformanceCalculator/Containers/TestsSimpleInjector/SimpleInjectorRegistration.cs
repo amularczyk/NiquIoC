@@ -40,5 +40,12 @@ namespace PerformanceCalculator.Containers.TestsSimpleInjector
 
             c.Register<TFrom, TTo>(Lifestyle.Scoped);
         }
+
+        public override void RegisterFactoryMethod<TFrom, TTo>(object container, TTo obj)
+        {
+            var c = (Container)container;
+
+            c.Register<TFrom>(() => obj);
+        }
     }
 }

@@ -30,5 +30,12 @@ namespace PerformanceCalculator.Containers.TestsAutofac
         {
             return ((ContainerBuilder)container).Build();
         }
+
+        public override void RegisterFactoryMethod<TFrom, TTo>(object container, TTo obj)
+        {
+            var cb = (ContainerBuilder)container;
+
+            cb.Register<TFrom>(c => obj);
+        }
     }
 }

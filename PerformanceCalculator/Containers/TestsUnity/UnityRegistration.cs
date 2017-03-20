@@ -24,5 +24,13 @@ namespace PerformanceCalculator.Containers.TestsUnity
 
             c.RegisterType<TFrom, TTo>(new PerThreadLifetimeManager());
         }
+
+        public override void RegisterFactoryMethod<TFrom, TTo>(object container, TTo obj)
+        {
+            var c = (UnityContainer)container;
+
+            c.RegisterType<TFrom>(new InjectionFactory(con => obj));
+            throw new System.NotImplementedException();
+        }
     }
 }

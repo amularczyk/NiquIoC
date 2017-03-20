@@ -24,5 +24,12 @@ namespace PerformanceCalculator.Containers.TestsGrace
 
             c.Configure(x => { x.Export<TTo>().As<TFrom>().Lifestyle.SingletonPerScope(); });
         }
+
+        public override void RegisterFactoryMethod<TFrom, TTo>(object container, TTo obj)
+        {
+            var c = (DependencyInjectionContainer)container;
+
+            c.Configure(x => { x.ExportFactory<TFrom>(() => obj); });
+        }
     }
 }

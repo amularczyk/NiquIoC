@@ -24,5 +24,12 @@ namespace PerformanceCalculator.Containers.TestsDryIoc
 
             c.Register<TFrom, TTo>(Reuse.InThread);
         }
+
+        public override void RegisterFactoryMethod<TFrom, TTo>(object container, TTo obj)
+        {
+            var c = (Container)container;
+
+            c.RegisterDelegate<TFrom>(r => obj);
+        }
     }
 }

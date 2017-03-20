@@ -25,5 +25,12 @@ namespace PerformanceCalculator.Containers.TestsStructureMap
 
             c.Configure(x => { x.For<TFrom>(Lifecycles.ThreadLocal).Use<TTo>(); });
         }
+
+        public override void RegisterFactoryMethod<TFrom, TTo>(object container, TTo obj)
+        {
+            var c = (Container)container;
+
+            c.Configure(x => { x.For<TFrom>().Use(() => obj); });
+        }
     }
 }

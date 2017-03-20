@@ -25,5 +25,12 @@ namespace PerformanceCalculator.Containers.TestsWindsor
 
             c.Register(Component.For<TFrom>().ImplementedBy<TTo>().LifeStyle.PerThread);
         }
+
+        public override void RegisterFactoryMethod<TFrom, TTo>(object container, TTo obj)
+        {
+            var c = (WindsorContainer)container;
+
+            c.Register(Component.For<TFrom>().UsingFactoryMethod(() => obj));
+        }
     }
 }

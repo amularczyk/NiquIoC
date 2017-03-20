@@ -1,4 +1,5 @@
-﻿using NiquIoC;
+﻿using System.Reflection;
+using NiquIoC;
 
 namespace PerformanceCalculator.Containers.TestsNiquIoCPartial
 {
@@ -23,6 +24,13 @@ namespace PerformanceCalculator.Containers.TestsNiquIoCPartial
             var c = (Container)container;
 
             c.RegisterType<TFrom, TTo>().AsPerThread();
+        }
+
+        public override void RegisterFactoryMethod<TFrom, TTo>(object container, TTo obj)
+        {
+            var c = (Container)container;
+
+            c.RegisterType<TFrom>(() => obj);
         }
     }
 }

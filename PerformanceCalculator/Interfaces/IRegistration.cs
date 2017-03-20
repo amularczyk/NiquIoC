@@ -18,6 +18,10 @@ namespace PerformanceCalculator.Interfaces
             where TFrom : class
             where TTo : class, TFrom;
 
+        void RegisterFactoryMethod<TFrom, TTo>(object container, TTo obj)
+            where TFrom : class
+            where TTo : class, TFrom;
+
         object AfterRegisterCallback(object container, RegistrationKind registrationKind);
     }
 }

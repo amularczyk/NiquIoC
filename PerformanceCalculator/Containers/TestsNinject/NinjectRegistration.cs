@@ -24,5 +24,12 @@ namespace PerformanceCalculator.Containers.TestsNinject
 
             c.Bind<TFrom>().To<TTo>().InThreadScope();
         }
+
+        public override void RegisterFactoryMethod<TFrom, TTo>(object container, TTo obj)
+        {
+            var c = (StandardKernel)container;
+
+            c.Bind<TFrom>().ToMethod(con => obj);
+        }
     }
 }

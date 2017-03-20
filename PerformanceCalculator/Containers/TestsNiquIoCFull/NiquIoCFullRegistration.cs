@@ -24,5 +24,12 @@ namespace PerformanceCalculator.Containers.TestsNiquIoCFull
 
             c.RegisterType<TFrom, TTo>().AsPerThread();
         }
+
+        public override void RegisterFactoryMethod<TFrom, TTo>(object container, TTo obj)
+        {
+            var c = (Container)container;
+
+            c.RegisterType<TFrom>(() => obj);
+        }
     }
 }

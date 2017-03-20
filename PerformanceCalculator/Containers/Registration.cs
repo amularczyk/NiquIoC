@@ -10,11 +10,21 @@ namespace PerformanceCalculator.Containers
             return container;
         }
 
-        public abstract void RegisterSingleton<TFrom, TTo>(object container) where TFrom : class where TTo : class, TFrom;
+        public abstract void RegisterSingleton<TFrom, TTo>(object container)
+            where TFrom : class
+            where TTo : class, TFrom;
 
-        public abstract void RegisterTransient<TFrom, TTo>(object container) where TFrom : class where TTo : class, TFrom;
+        public abstract void RegisterTransient<TFrom, TTo>(object container)
+            where TFrom : class
+            where TTo : class, TFrom;
 
-        public abstract void RegisterPerThread<TFrom, TTo>(object container) where TFrom : class where TTo : class, TFrom;
+        public abstract void RegisterPerThread<TFrom, TTo>(object container)
+            where TFrom : class
+            where TTo : class, TFrom;
+
+        public abstract void RegisterFactoryMethod<TFrom, TTo>(object container, TTo obj)
+            where TFrom : class
+            where TTo : class, TFrom;
 
         public virtual object AfterRegisterCallback(object container, RegistrationKind registrationKind)
         {
