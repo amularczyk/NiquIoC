@@ -35,6 +35,20 @@ namespace PerformanceCalculator.Tests.Containers.TestsDryIoc
         }
 
         [TestMethod]
+        public void DoTestA_TransientSingletond_Success()
+        {
+            var performance = GetPerformance();
+            performance.RunTest(1, TestCaseName.A, RegistrationKind.TransientSingleton);
+        }
+
+        [TestMethod]
+        public void DoTestA_FactoryMethod_Success()
+        {
+            var performance = GetPerformance();
+            performance.RunTest(1, TestCaseName.A, RegistrationKind.FactoryMethod);
+        }
+
+        [TestMethod]
         public void DoTestB_Singleton_Success()
         {
             var performance = GetPerformance();
@@ -53,6 +67,20 @@ namespace PerformanceCalculator.Tests.Containers.TestsDryIoc
         {
             var performance = GetPerformance();
             performance.RunTest(1, TestCaseName.B, RegistrationKind.PerThread);
+        }
+
+        [TestMethod]
+        public void DoTestB_TransientSingletond_Success()
+        {
+            var performance = GetPerformance();
+            performance.RunTest(1, TestCaseName.B, RegistrationKind.TransientSingleton);
+        }
+
+        [TestMethod]
+        public void DoTestB_FactoryMethod_Success()
+        {
+            var performance = GetPerformance();
+            performance.RunTest(1, TestCaseName.B, RegistrationKind.FactoryMethod);
         }
 
         [TestMethod]
@@ -77,6 +105,20 @@ namespace PerformanceCalculator.Tests.Containers.TestsDryIoc
         }
 
         [TestMethod]
+        public void DoTestC_TransientSingletond_Success()
+        {
+            var performance = GetPerformance();
+            performance.RunTest(1, TestCaseName.C, RegistrationKind.TransientSingleton);
+        }
+
+        [TestMethod]
+        public void DoTestC_FactoryMethod_Success()
+        {
+            var performance = GetPerformance();
+            performance.RunTest(1, TestCaseName.C, RegistrationKind.FactoryMethod);
+        }
+
+        [TestMethod]
         public void DoTestD_Singleton_Success()
         {
             var performance = GetPerformance();
@@ -95,6 +137,20 @@ namespace PerformanceCalculator.Tests.Containers.TestsDryIoc
         {
             var performance = GetPerformance();
             performance.RunTest(1, TestCaseName.D, RegistrationKind.PerThread);
+        }
+
+        [TestMethod]
+        public void DoTestD_TransientSingletond_Success()
+        {
+            var performance = GetPerformance();
+            performance.RunTest(1, TestCaseName.D, RegistrationKind.TransientSingleton);
+        }
+
+        [TestMethod]
+        public void DoTestD_FactoryMethod_Success()
+        {
+            var performance = GetPerformance();
+            performance.RunTest(1, TestCaseName.D, RegistrationKind.FactoryMethod);
         }
     }
 }
