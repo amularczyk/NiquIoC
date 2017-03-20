@@ -128,5 +128,22 @@ namespace PerformanceCalculator.Tests.Containers.TestsDryIoc
             CheckHelper.Check(obj2, true, true);
             CheckHelper.Check(obj1, obj2, false, false);
         }
+
+        [TestMethod]
+        public void RegisterFactoryMethod_Success()
+        {
+            ITestCase testCase = new FactoryMethodTestCaseA(new DryIocRegistration(), new DryIocResolving());
+
+            var c = new Container();
+            c = (Container)testCase.Register(c, RegistrationKind.FactoryMethod);
+
+            var obj1 = c.Resolve<ITestA>();
+            var obj2 = c.Resolve<ITestA>();
+
+
+            CheckHelper.Check(obj1, true, true);
+            CheckHelper.Check(obj2, true, true);
+            CheckHelper.Check(obj1, obj2, true, true);
+        }
     }
 }

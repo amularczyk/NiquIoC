@@ -5,7 +5,8 @@
         None = 0,
         Singleton = 1,
         Transient = 2,
-        PerThread = 3,
-        TransientSingleton = 4,
+        TransientSingleton = 3,
+        PerThread = 4,
+        FactoryMethod = 5,
     }
 }

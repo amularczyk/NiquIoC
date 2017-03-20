@@ -30,7 +30,6 @@ namespace PerformanceCalculator.Containers.TestsUnity
             var c = (UnityContainer)container;
 
             c.RegisterType<TFrom>(new InjectionFactory(con => obj));
-            throw new System.NotImplementedException();
         }
     }
 }
