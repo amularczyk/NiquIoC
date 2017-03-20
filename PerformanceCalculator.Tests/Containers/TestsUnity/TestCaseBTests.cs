@@ -113,5 +113,22 @@ namespace PerformanceCalculator.Tests.Containers.TestsUnity
             CheckHelper.Check(obj2, true, true);
             CheckHelper.Check(obj1, obj2, false, false);
         }
+
+        [TestMethod]
+        public void RegisterFactoryMethod_Success()
+        {
+            ITestCase testCase = new FactoryMethodTestCaseB(new UnityRegistration(), new UnityResolving());
+
+            var c = new UnityContainer();
+            c = (UnityContainer)testCase.Register(c, RegistrationKind.FactoryMethod);
+
+            var obj1 = c.Resolve<ITestB>();
+            var obj2 = c.Resolve<ITestB>();
+
+
+            CheckHelper.Check(obj1, true, true);
+            CheckHelper.Check(obj2, true, true);
+            CheckHelper.Check(obj1, obj2, true, true);
+        }
     }
 }

@@ -128,5 +128,22 @@ namespace PerformanceCalculator.Tests.Containers.TestsLightInject
             CheckHelper.Check(obj2, true, true);
             CheckHelper.Check(obj1, obj2, false, false);
         }
+
+        [TestMethod]
+        public void RegisterFactoryMethod_Success()
+        {
+            ITestCase testCase = new FactoryMethodTestCaseB(new LightInjectRegistration(), new LightInjectResolving());
+
+            var c = new ServiceContainer();
+            c = (ServiceContainer)testCase.Register(c, RegistrationKind.FactoryMethod);
+
+            var obj1 = c.GetInstance<ITestB>();
+            var obj2 = c.GetInstance<ITestB>();
+
+
+            CheckHelper.Check(obj1, true, true);
+            CheckHelper.Check(obj2, true, true);
+            CheckHelper.Check(obj1, obj2, true, true);
+        }
     }
 }

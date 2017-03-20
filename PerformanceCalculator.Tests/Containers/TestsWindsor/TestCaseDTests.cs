@@ -113,5 +113,21 @@ namespace PerformanceCalculator.Tests.Containers.TestsWindsor
             CheckHelper.Check(obj2, true, true);
             CheckHelper.Check(obj1, obj2, false, false);
         }
+        [TestMethod]
+        public void RegisterFactoryMethod_Success()
+        {
+            ITestCase testCase = new FactoryMethodTestCaseD(new WindsorRegistration(), new WindsorResolving());
+
+            var c = new WindsorContainer();
+            c = (WindsorContainer)testCase.Register(c, RegistrationKind.FactoryMethod);
+
+            var obj1 = c.Resolve<ITestD>();
+            var obj2 = c.Resolve<ITestD>();
+
+
+            CheckHelper.Check(obj1, true, true);
+            CheckHelper.Check(obj2, true, true);
+            CheckHelper.Check(obj1, obj2, true, true);
+        }
     }
 }

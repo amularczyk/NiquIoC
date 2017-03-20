@@ -114,5 +114,22 @@ namespace PerformanceCalculator.Tests.Containers.TestsStructureMap
             CheckHelper.Check(obj2, true, true);
             CheckHelper.Check(obj1, obj2, false, false);
         }
+
+        [TestMethod]
+        public void RegisterFactoryMethod_Success()
+        {
+            ITestCase testCase = new FactoryMethodTestCaseD(new StructureMapRegistration(), new StructureMapResolving());
+
+            var c = new Container();
+            c = (Container)testCase.Register(c, RegistrationKind.FactoryMethod);
+
+            var obj1 = c.GetInstance<ITestD>();
+            var obj2 = c.GetInstance<ITestD>();
+
+
+            CheckHelper.Check(obj1, true, true);
+            CheckHelper.Check(obj2, true, true);
+            CheckHelper.Check(obj1, obj2, true, true);
+        }
     }
 }

@@ -128,5 +128,22 @@ namespace PerformanceCalculator.Tests.Containers.TestsGrace
             CheckHelper.Check(obj2, true, true);
             CheckHelper.Check(obj1, obj2, false, false);
         }
+
+        [TestMethod]
+        public void RegisterFactoryMethod_Success()
+        {
+            ITestCase testCase = new FactoryMethodTestCaseD(new GraceRegistration(), new GraceResolving());
+
+            var c = new DependencyInjectionContainer();
+            c = (DependencyInjectionContainer)testCase.Register(c, RegistrationKind.FactoryMethod);
+
+            var obj1 = c.Locate<ITestD>();
+            var obj2 = c.Locate<ITestD>();
+
+
+            CheckHelper.Check(obj1, true, true);
+            CheckHelper.Check(obj2, true, true);
+            CheckHelper.Check(obj1, obj2, true, true);
+        }
     }
 }

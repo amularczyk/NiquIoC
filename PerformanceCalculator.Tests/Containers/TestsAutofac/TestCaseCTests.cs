@@ -126,5 +126,22 @@ namespace PerformanceCalculator.Tests.Containers.TestsAutofac
             CheckHelper.Check(obj2, true, true);
             CheckHelper.Check(obj1, obj2, false, false);
         }
+
+        [TestMethod]
+        public void RegisterFactoryMethod_Success()
+        {
+            ITestCase testCase = new FactoryMethodTestCaseC(new AutofacRegistration(), new AutofacResolving());
+
+            var cb = new ContainerBuilder();
+            var c = (IContainer)testCase.Register(cb, RegistrationKind.FactoryMethod);
+
+            var obj1 = c.Resolve<ITestC>();
+            var obj2 = c.Resolve<ITestC>();
+
+
+            CheckHelper.Check(obj1, true, true);
+            CheckHelper.Check(obj2, true, true);
+            CheckHelper.Check(obj1, obj2, true, true);
+        }
     }
 }

@@ -113,5 +113,22 @@ namespace PerformanceCalculator.Tests.Containers.TestsNinject
             CheckHelper.Check(obj2, true, true);
             CheckHelper.Check(obj1, obj2, false, false);
         }
+
+        [TestMethod]
+        public void RegisterFactoryMethod_Success()
+        {
+            ITestCase testCase = new FactoryMethodTestCaseC(new NinjectRegistration(), new NinjectResolving());
+
+            var c = new StandardKernel();
+            c = (StandardKernel)testCase.Register(c, RegistrationKind.FactoryMethod);
+
+            var obj1 = c.Get<ITestC>();
+            var obj2 = c.Get<ITestC>();
+
+
+            CheckHelper.Check(obj1, true, true);
+            CheckHelper.Check(obj2, true, true);
+            CheckHelper.Check(obj1, obj2, true, true);
+        }
     }
 }
