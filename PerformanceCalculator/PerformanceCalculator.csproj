@@ -106,14 +106,17 @@
     <Compile Include="TestCase\TestCaseA\TransientTestCaseA.cs" />
     <Compile Include="TestCase\TestCase.cs" />
     <Compile Include="TestCase\TestCaseB\PerThreadTestCaseB.cs" />
+    <Compile Include="TestCase\TestCaseB\FactoryMethodTestCaseB.cs" />
     <Compile Include="TestCase\TestCaseB\TransientTestCaseB.cs" />
     <Compile Include="TestCase\TestCaseB\TransientSingletonTestCaseB.cs" />
     <Compile Include="TestCase\TestCaseB\SingletonTestCaseB.cs" />
     <Compile Include="TestCase\TestCaseC\PerThreadTestCaseC.cs" />
+    <Compile Include="TestCase\TestCaseC\FactoryMethodTestCaseC.cs" />
     <Compile Include="TestCase\TestCaseC\TransientTestCaseC.cs" />
     <Compile Include="TestCase\TestCaseC\TransientSingletonTestCaseC.cs" />
     <Compile Include="TestCase\TestCaseC\SingletonTestCaseC.cs" />
     <Compile Include="TestCase\TestCaseD\PerThreadTestCaseD.cs" />
+    <Compile Include="TestCase\TestCaseD\FactoryMethodTestCaseD.cs" />
     <Compile Include="TestCase\TestCaseD\TransientTestCaseD.cs" />
     <Compile Include="TestCase\TestCaseD\TransientSingletonTestCaseD.cs" />
     <Compile Include="TestCase\TestCaseD\SingletonTestCaseD.cs" />

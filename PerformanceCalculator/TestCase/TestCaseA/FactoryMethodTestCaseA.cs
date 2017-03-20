@@ -22,7 +22,9 @@ namespace PerformanceCalculator.TestCase.TestCaseA
             var testA7 = new TestA7(testA0, testA1, testA2, testA3, testA4, testA5, testA6);
             var testA8 = new TestA8(testA0, testA1, testA2, testA3, testA4, testA5, testA6, testA7);
             var testA9 = new TestA9(testA0, testA1, testA2, testA3, testA4, testA5, testA6, testA7, testA8);
+
             var testA = new TestA(testA0, testA1, testA2, testA3, testA4, testA5, testA6, testA7, testA8, testA9);
+
             _registration.RegisterFactoryMethod<ITestA, TestA>(container, testA);
         }
 
