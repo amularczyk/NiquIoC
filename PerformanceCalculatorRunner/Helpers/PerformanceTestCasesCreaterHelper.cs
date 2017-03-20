@@ -25,6 +25,7 @@ namespace PerformanceCalculatorRunner.Helpers
             testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.Transient, TestsCount = 1, TestCase = TestCaseName.A });
             testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.TransientSingleton, TestsCount = 1, TestCase = TestCaseName.A });
             testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.PerThread, TestsCount = 1, TestCase = TestCaseName.A });
+            testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.FactoryMethod, TestsCount = 1, TestCase = TestCaseName.A });
         }
 
         private static void CreatePerformanceTestCasesBForRegister(ICollection<PerformanceTestCase> testCases)
@@ -33,6 +34,7 @@ namespace PerformanceCalculatorRunner.Helpers
             testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.Transient, TestsCount = 1, TestCase = TestCaseName.B });
             testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.TransientSingleton, TestsCount = 1, TestCase = TestCaseName.B });
             testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.PerThread, TestsCount = 1, TestCase = TestCaseName.B });
+            testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.FactoryMethod, TestsCount = 1, TestCase = TestCaseName.B });
         }
 
         private static void CreatePerformanceTestCasesCForRegister(ICollection<PerformanceTestCase> testCases)
@@ -41,6 +43,7 @@ namespace PerformanceCalculatorRunner.Helpers
             testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.Transient, TestsCount = 1, TestCase = TestCaseName.C });
             testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.TransientSingleton, TestsCount = 1, TestCase = TestCaseName.C });
             testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.PerThread, TestsCount = 1, TestCase = TestCaseName.C });
+            testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.FactoryMethod, TestsCount = 1, TestCase = TestCaseName.C });
         }
 
         private static void CreatePerformanceTestCasesDForRegister(ICollection<PerformanceTestCase> testCases)
@@ -49,6 +52,7 @@ namespace PerformanceCalculatorRunner.Helpers
             testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.Transient, TestsCount = 1, TestCase = TestCaseName.D });
             testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.TransientSingleton, TestsCount = 1, TestCase = TestCaseName.D });
             testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.PerThread, TestsCount = 1, TestCase = TestCaseName.D });
+            testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.FactoryMethod, TestsCount = 1, TestCase = TestCaseName.D });
         }
         #endregion CreatePerformanceTestCasesForRegister
 
@@ -71,6 +75,7 @@ namespace PerformanceCalculatorRunner.Helpers
             CreatePerformanceTestCasesATransient(testCases);
             CreatePerformanceTestCasesATransientSingleton(testCases);
             CreatePerformanceTestCasesAPerThread(testCases);
+            CreatePerformanceTestCasesAFactoryMethod(testCases);
         }
 
         private static void CreatePerformanceTestCasesASingleton(ICollection<PerformanceTestCase> testCases)
@@ -104,6 +109,14 @@ namespace PerformanceCalculatorRunner.Helpers
             testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.PerThread, TestsCount = 100, TestCase = TestCaseName.A });
             testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.PerThread, TestsCount = 1009, TestCase = TestCaseName.A });
         }
+
+        private static void CreatePerformanceTestCasesAFactoryMethod(ICollection<PerformanceTestCase> testCases)
+        {
+            testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.FactoryMethod, TestsCount = 1, TestCase = TestCaseName.A });
+            testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.FactoryMethod, TestsCount = 10, TestCase = TestCaseName.A });
+            testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.FactoryMethod, TestsCount = 100, TestCase = TestCaseName.A });
+            testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.FactoryMethod, TestsCount = 1009, TestCase = TestCaseName.A });
+        }
         #endregion CreatePerformanceTestCasesA
 
         #region CreatePerformanceTestCasesB
@@ -113,6 +126,7 @@ namespace PerformanceCalculatorRunner.Helpers
             CreatePerformanceTestCasesBTransient(testCases);
             CreatePerformanceTestCasesBTransientSingleton(testCases);
             CreatePerformanceTestCasesBPerThread(testCases);
+            CreatePerformanceTestCasesBFactoryMethod(testCases);
         }
 
         private static void CreatePerformanceTestCasesBSingleton(ICollection<PerformanceTestCase> testCases)
@@ -146,6 +160,14 @@ namespace PerformanceCalculatorRunner.Helpers
             testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.PerThread, TestsCount = 100, TestCase = TestCaseName.B });
             testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.PerThread, TestsCount = 1000, TestCase = TestCaseName.B });
         }
+
+        private static void CreatePerformanceTestCasesBFactoryMethod(ICollection<PerformanceTestCase> testCases)
+        {
+            testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.FactoryMethod, TestsCount = 1, TestCase = TestCaseName.B });
+            testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.FactoryMethod, TestsCount = 10, TestCase = TestCaseName.B });
+            testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.FactoryMethod, TestsCount = 100, TestCase = TestCaseName.B });
+            testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.FactoryMethod, TestsCount = 1000, TestCase = TestCaseName.B });
+        }
         #endregion CreatePerformanceTestCasesB
 
         #region CreatePerformanceTestCasesC
@@ -155,6 +177,7 @@ namespace PerformanceCalculatorRunner.Helpers
             CreatePerformanceTestCasesCTransient(testCases);
             CreatePerformanceTestCasesCTransientSingleton(testCases);
             CreatePerformanceTestCasesCPerThread(testCases);
+            CreatePerformanceTestCasesCFactoryMethod(testCases);
         }
 
         private static void CreatePerformanceTestCasesCSingleton(ICollection<PerformanceTestCase> testCases)
@@ -188,6 +211,14 @@ namespace PerformanceCalculatorRunner.Helpers
             testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.PerThread, TestsCount = 100, TestCase = TestCaseName.C });
             testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.PerThread, TestsCount = 1000, TestCase = TestCaseName.C });
         }
+
+        private static void CreatePerformanceTestCasesCFactoryMethod(ICollection<PerformanceTestCase> testCases)
+        {
+            testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.FactoryMethod, TestsCount = 1, TestCase = TestCaseName.C });
+            testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.FactoryMethod, TestsCount = 10, TestCase = TestCaseName.C });
+            testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.FactoryMethod, TestsCount = 100, TestCase = TestCaseName.C });
+            testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.FactoryMethod, TestsCount = 1000, TestCase = TestCaseName.C });
+        }
         #endregion CreatePerformanceTestCasesC
 
         #region CreatePerformanceTestCasesD
@@ -197,6 +228,7 @@ namespace PerformanceCalculatorRunner.Helpers
             CreatePerformanceTestCasesDTransient(testCases);
             CreatePerformanceTestCasesDTransientSingleton(testCases);
             CreatePerformanceTestCasesDPerThread(testCases);
+            CreatePerformanceTestCasesDFactoryMethod(testCases);
         }
 
         private static void CreatePerformanceTestCasesDSingleton(ICollection<PerformanceTestCase> testCases)
@@ -221,6 +253,12 @@ namespace PerformanceCalculatorRunner.Helpers
         {
             testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.PerThread, TestsCount = 1, TestCase = TestCaseName.D });
             testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.PerThread, TestsCount = 10, TestCase = TestCaseName.D });
+        }
+
+        private static void CreatePerformanceTestCasesDFactoryMethod(ICollection<PerformanceTestCase> testCases)
+        {
+            testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.FactoryMethod, TestsCount = 1, TestCase = TestCaseName.D });
+            testCases.Add(new PerformanceTestCase { RegistrationKind = RegistrationKind.FactoryMethod, TestsCount = 10, TestCase = TestCaseName.D });
         }
         #endregion CreatePerformanceTestCasesD
     }
