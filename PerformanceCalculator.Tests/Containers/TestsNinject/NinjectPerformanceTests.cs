@@ -35,27 +35,6 @@ namespace PerformanceCalculator.Tests.Containers.TestsNinject
         }
 
         [TestMethod]
-        public void DoTestD_Singleton_Success()
-        {
-            var performance = GetPerformance();
-            performance.RunTest(1, TestCaseName.D, RegistrationKind.Singleton);
-        }
-
-        [TestMethod]
-        public void DoTestD_Transient_Success()
-        {
-            var performance = GetPerformance();
-            performance.RunTest(1, TestCaseName.D, RegistrationKind.Transient);
-        }
-
-        [TestMethod]
-        public void DoTestD_PerThread_Success()
-        {
-            var performance = GetPerformance();
-            performance.RunTest(1, TestCaseName.D, RegistrationKind.PerThread);
-        }
-
-        [TestMethod]
         public void DoTestB_Singleton_Success()
         {
             var performance = GetPerformance();
@@ -95,6 +74,27 @@ namespace PerformanceCalculator.Tests.Containers.TestsNinject
         {
             var performance = GetPerformance();
             performance.RunTest(1, TestCaseName.C, RegistrationKind.PerThread);
+        }
+
+        [TestMethod]
+        public void DoTestD_Singleton_Success()
+        {
+            var performance = GetPerformance();
+            performance.RunTest(1, TestCaseName.D, RegistrationKind.Singleton);
+        }
+
+        [TestMethod]
+        public void DoTestD_Transient_Success()
+        {
+            var performance = GetPerformance();
+            performance.RunTest(1, TestCaseName.D, RegistrationKind.Transient);
+        }
+
+        [TestMethod]
+        public void DoTestD_PerThread_Success()
+        {
+            var performance = GetPerformance();
+            performance.RunTest(1, TestCaseName.D, RegistrationKind.PerThread);
         }
     }
 }
