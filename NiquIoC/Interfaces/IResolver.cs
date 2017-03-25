@@ -2,7 +2,7 @@
 
 namespace NiquIoC.Interfaces
 {
-    internal interface IResolve //ToDo: Change to Resolver
+    internal interface IResolver
     {
         object Resolve(ContainerMember containerMember, Action<object, ContainerMember> afterObjectCreate);
         void ClearCache(Type type);

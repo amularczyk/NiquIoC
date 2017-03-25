@@ -28,8 +28,8 @@ namespace NiquIoC
         private readonly Dictionary<Type, ContainerMember> _registeredTypesCache;
         private readonly Dictionary<MethodInfo, List<ParameterInfo>> _parametersInfoForMethodCache;
 
-        private readonly IResolve _partialEmitFunctionResolve;
-        private readonly IResolve _fullEmitFunctionResolve;
+        private readonly IResolver _partialEmitFunctionResolve;
+        private readonly IResolver _fullEmitFunctionResolve;
         #endregion
 
         #region IContainer

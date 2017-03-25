@@ -7,7 +7,7 @@ using NiquIoC.Interfaces;
 
 namespace NiquIoC.Resolve
 {
-    internal class PartialEmitFunctionResolve : IResolve
+    internal class PartialEmitFunctionResolve : IResolver
     {
         private readonly Dictionary<Type, Func<object[], object>> _createPartialEmitFunctionForConstructorCache;
         private readonly Dictionary<Type, ContainerMember> _registeredTypesCache;

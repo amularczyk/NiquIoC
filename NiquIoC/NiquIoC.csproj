@@ -59,7 +59,7 @@
     <Compile Include="Interfaces\IContainerMemberPrivate.cs" />
     <Compile Include="Interfaces\IContainerMember.cs" />
     <Compile Include="Interfaces\IObjectLifetimeManager.cs" />
-    <Compile Include="Interfaces\IResolve.cs" />
+    <Compile Include="Interfaces\IResolver.cs" />
     <Compile Include="ObjectLifetimeManagers\HttpContextObjectLifetimeManager.cs" />
     <Compile Include="ObjectLifetimeManagers\ThreadObjectLifetimeManager.cs" />
     <Compile Include="Resolve\FullEmitFunctionResolve.cs" />

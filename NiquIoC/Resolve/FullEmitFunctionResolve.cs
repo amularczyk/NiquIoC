@@ -9,7 +9,7 @@ using NiquIoC.ObjectLifetimeManagers;
 
 namespace NiquIoC.Resolve
 {
-    internal class FullEmitFunctionResolve : IResolve
+    internal class FullEmitFunctionResolve : IResolver
     {
         private readonly Dictionary<Type, Func<Dictionary<Type, ContainerMember>, Dictionary<int, Type>, object>> _createFullEmitFunctionForConstructorCache;
         private readonly Dictionary<Type, ContainerMember> _registeredTypesCache;
