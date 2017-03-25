@@ -62,8 +62,8 @@
     <Compile Include="Interfaces\IResolver.cs" />
     <Compile Include="ObjectLifetimeManagers\HttpContextObjectLifetimeManager.cs" />
     <Compile Include="ObjectLifetimeManagers\ThreadObjectLifetimeManager.cs" />
-    <Compile Include="Resolve\FullEmitFunctionResolve.cs" />
-    <Compile Include="Resolve\PartialEmitFunctionResolve.cs" />
+    <Compile Include="Resolver\FullEmitFunctionResolver.cs" />
+    <Compile Include="Resolver\PartialEmitFunctionResolver.cs" />
     <Compile Include="ObjectLifetimeManagers\SingletonObjectLifetimeManager.cs" />
     <Compile Include="ObjectLifetimeManagers\TransientObjectLifetimeManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

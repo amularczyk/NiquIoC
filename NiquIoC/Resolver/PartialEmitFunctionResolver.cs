@@ -5,14 +5,14 @@ using NiquIoC.Extensions;
 using NiquIoC.Helpers;
 using NiquIoC.Interfaces;
 
-namespace NiquIoC.Resolve
+namespace NiquIoC.Resolver
 {
-    internal class PartialEmitFunctionResolve : IResolver
+    internal class PartialEmitFunctionResolver : IResolver
     {
         private readonly Dictionary<Type, Func<object[], object>> _createPartialEmitFunctionForConstructorCache;
         private readonly Dictionary<Type, ContainerMember> _registeredTypesCache;
 
-        public PartialEmitFunctionResolve(Dictionary<Type, ContainerMember> registeredTypesCache)
+        public PartialEmitFunctionResolver(Dictionary<Type, ContainerMember> registeredTypesCache)
         {
             _registeredTypesCache = registeredTypesCache;
             _createPartialEmitFunctionForConstructorCache = new Dictionary<Type, Func<object[], object>>();

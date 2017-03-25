@@ -8,7 +8,7 @@ using NiquIoC.Exceptions;
 using NiquIoC.Extensions;
 using NiquIoC.Interfaces;
 using NiquIoC.ObjectLifetimeManagers;
-using NiquIoC.Resolve;
+using NiquIoC.Resolver;
 
 namespace NiquIoC
 {
@@ -20,16 +20,16 @@ namespace NiquIoC
             _registeredTypesCache = new Dictionary<Type, ContainerMember>();
             _parametersInfoForMethodCache = new Dictionary<MethodInfo, List<ParameterInfo>>();
 
-            _partialEmitFunctionResolve = new PartialEmitFunctionResolve(_registeredTypesCache);
-            _fullEmitFunctionResolve = new FullEmitFunctionResolve(_registeredTypesCache);
+            _partialEmitFunctionResolver = new PartialEmitFunctionResolver(_registeredTypesCache);
+            _fullEmitFunctionResolver = new FullEmitFunctionResolver(_registeredTypesCache);
         }
 
         #region Private Fields
         private readonly Dictionary<Type, ContainerMember> _registeredTypesCache;
         private readonly Dictionary<MethodInfo, List<ParameterInfo>> _parametersInfoForMethodCache;
 
-        private readonly IResolver _partialEmitFunctionResolve;
-        private readonly IResolver _fullEmitFunctionResolve;
+        private readonly IResolver _partialEmitFunctionResolver;
+        private readonly IResolver _fullEmitFunctionResolver;
         #endregion
 
         #region IContainer
@@ -114,8 +114,8 @@ namespace NiquIoC
 
         private void ClearCacheInResolves(Type type)
         {
-            _partialEmitFunctionResolve.ClearCache(type);
-            _fullEmitFunctionResolve.ClearCache(type);
+            _partialEmitFunctionResolver.ClearCache(type);
+            _fullEmitFunctionResolver.ClearCache(type);
         }
 
         private IContainerMember Register(ContainerMember containerMember)
@@ -144,10 +144,10 @@ namespace NiquIoC
             switch (resolveKind) //we call method for given resolve kind
             {
                 case ResolveKind.PartialEmitFunction:
-                    return _partialEmitFunctionResolve.Resolve(containerMember, (obj, cMember) => BuildUp(obj, cMember, resolveKind));
+                    return _partialEmitFunctionResolver.Resolve(containerMember, (obj, cMember) => BuildUp(obj, cMember, resolveKind));
 
                 case ResolveKind.FullEmitFunction:
-                    return _fullEmitFunctionResolve.Resolve(containerMember, (obj, cMember) => {} ); //We do not do build up in FullEmitFunction
+                    return _fullEmitFunctionResolver.Resolve(containerMember, (obj, cMember) => {} ); //We do not do build up in FullEmitFunction
 
                 default:
                     throw new ResolveKindMissingException(resolveKind);

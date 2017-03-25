@@ -7,9 +7,9 @@ using NiquIoC.Helpers;
 using NiquIoC.Interfaces;
 using NiquIoC.ObjectLifetimeManagers;
 
-namespace NiquIoC.Resolve
+namespace NiquIoC.Resolver
 {
-    internal class FullEmitFunctionResolve : IResolver
+    internal class FullEmitFunctionResolver : IResolver
     {
         private readonly Dictionary<Type, Func<Dictionary<Type, ContainerMember>, Dictionary<int, Type>, object>> _createFullEmitFunctionForConstructorCache;
         private readonly Dictionary<Type, ContainerMember> _registeredTypesCache;
@@ -17,7 +17,7 @@ namespace NiquIoC.Resolve
 
         private Dictionary<int, Type> _typesIndexCache;
 
-        public FullEmitFunctionResolve(Dictionary<Type, ContainerMember> registeredTypesCache)
+        public FullEmitFunctionResolver(Dictionary<Type, ContainerMember> registeredTypesCache)
         {
             _registeredTypesCache = registeredTypesCache;
             _typesIndexCache = _registeredTypesCache.ToDictionary(k => k.Value.GetHashCode(), v => v.Key);
