@@ -22,7 +22,7 @@ namespace NiquIoC.ObjectLifetimeManagers
 
         public object GetInstance()
         {
-            var httpContext = HttpContext.Current; //TODO: Change on HttpContextBase?
+            var httpContext = HttpContext.Current;
             if (httpContext == null)
             {
                 throw new HttpContextNoSetException();

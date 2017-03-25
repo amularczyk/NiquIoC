@@ -60,6 +60,7 @@ namespace NiquIoC.Resolver
             return obj;
         }
 
+        //To create this function I read this threads:
         //http://stackoverflow.com/questions/8219343/reflection-emit-create-object-with-parameters
         //http://stackoverflow.com/questions/13478933/reflection-emit-to-create-class-instance
         private static Func<object[], object> CreateObjectFunction(ContainerMember containerMember)

@@ -110,7 +110,7 @@ namespace NiquIoC.Resolver
                     var localSingleton = ilgen.DeclareLocal(type); //we create local variable (this local variable will contain our object)
                     localSingletons.Add(type, localSingleton); //we add this local variable into cache
 
-                    AddEmitOperationsToCraeteObjectFromObjectLifetimeManager(type, ilgen, afterObjectCreate, containerMember);
+                    AddObjectCreatedByObjectLifetimeManager(type, ilgen, afterObjectCreate, containerMember);
 
                     var localVariable = localSingletons[type]; //we take local variable from cache
                     ilgen.Emit(OpCodes.Stloc, localVariable); //we store value in local variable
@@ -119,11 +119,11 @@ namespace NiquIoC.Resolver
             }
             else
             {
-                AddEmitOperationsToCraeteObjectFromObjectLifetimeManager(type, ilgen, afterObjectCreate, containerMember);
+                AddObjectCreatedByObjectLifetimeManager(type, ilgen, afterObjectCreate, containerMember);
             }
         }
 
-        private void AddEmitOperationsToCraeteObjectFromObjectLifetimeManager(Type type, ILGenerator ilgen, Action<object, ContainerMember> afterObjectCreate, ContainerMember containerMember)
+        private void AddObjectCreatedByObjectLifetimeManager(Type type, ILGenerator ilgen, Action<object, ContainerMember> afterObjectCreate, ContainerMember containerMember)
         {
             if (containerMember.ObjectLifetimeManager.ObjectFactory == null)
             {

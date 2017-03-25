@@ -14,7 +14,6 @@ namespace NiquIoC
 {
     public class Container : IContainer
     {
-        //ToDo: WarmUp?
         public Container()
         {
             _registeredTypesCache = new Dictionary<Type, ContainerMember>();
