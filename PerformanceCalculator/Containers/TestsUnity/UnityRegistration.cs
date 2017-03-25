@@ -1,4 +1,5 @@
-﻿using Microsoft.Practices.Unity;
+﻿using System;
+using Microsoft.Practices.Unity;
 
 namespace PerformanceCalculator.Containers.TestsUnity
 {
@@ -25,11 +26,11 @@ namespace PerformanceCalculator.Containers.TestsUnity
             c.RegisterType<TFrom, TTo>(new PerThreadLifetimeManager());
         }
 
-        public override void RegisterFactoryMethod<TFrom, TTo>(object container, TTo obj)
+        public override void RegisterFactoryMethod<TFrom, TTo>(object container, Func<object, TTo> obj)
         {
             var c = (UnityContainer)container;
 
-            c.RegisterType<TFrom>(new InjectionFactory(con => obj));
+            c.RegisterType<TFrom>(new InjectionFactory(obj));
         }
     }
 }

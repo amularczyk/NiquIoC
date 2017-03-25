@@ -1,4 +1,5 @@
-﻿using PerformanceCalculator.Common;
+﻿using System;
+using PerformanceCalculator.Common;
 using PerformanceCalculator.Interfaces;
 
 namespace PerformanceCalculator.Containers
@@ -22,7 +23,7 @@ namespace PerformanceCalculator.Containers
             where TFrom : class
             where TTo : class, TFrom;
 
-        public abstract void RegisterFactoryMethod<TFrom, TTo>(object container, TTo obj)
+        public abstract void RegisterFactoryMethod<TFrom, TTo>(object container, Func<object, TTo> obj)
             where TFrom : class
             where TTo : class, TFrom;
 

@@ -1,4 +1,5 @@
-﻿using LightInject;
+﻿using System;
+using LightInject;
 
 namespace PerformanceCalculator.Containers.TestsLightInject
 {
@@ -25,11 +26,11 @@ namespace PerformanceCalculator.Containers.TestsLightInject
             c.Register<TFrom, TTo>(new PerScopeLifetime());
         }
 
-        public override void RegisterFactoryMethod<TFrom, TTo>(object container, TTo obj)
+        public override void RegisterFactoryMethod<TFrom, TTo>(object container, Func<object, TTo> obj)
         {
             var c = (ServiceContainer)container;
 
-            c.Register<TFrom>(factory => obj);
+            c.Register<TFrom>(obj);
         }
     }
 }

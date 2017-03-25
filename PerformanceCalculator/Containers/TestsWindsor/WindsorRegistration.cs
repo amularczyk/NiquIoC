@@ -1,4 +1,5 @@
-﻿using Castle.MicroKernel.Registration;
+﻿using System;
+using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 
 namespace PerformanceCalculator.Containers.TestsWindsor
@@ -26,11 +27,11 @@ namespace PerformanceCalculator.Containers.TestsWindsor
             c.Register(Component.For<TFrom>().ImplementedBy<TTo>().LifeStyle.PerThread);
         }
 
-        public override void RegisterFactoryMethod<TFrom, TTo>(object container, TTo obj)
+        public override void RegisterFactoryMethod<TFrom, TTo>(object container, Func<object, TTo> obj)
         {
             var c = (WindsorContainer)container;
 
-            c.Register(Component.For<TFrom>().UsingFactoryMethod(() => obj));
+            c.Register(Component.For<TFrom>().UsingFactoryMethod(() => obj(null)).LifeStyle.Transient);
         }
     }
 }

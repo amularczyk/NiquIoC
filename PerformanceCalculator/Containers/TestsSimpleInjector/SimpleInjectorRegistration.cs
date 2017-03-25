@@ -1,4 +1,5 @@
-﻿using PerformanceCalculator.Common;
+﻿using System;
+using PerformanceCalculator.Common;
 using SimpleInjector;
 using SimpleInjector.Extensions.LifetimeScoping;
 
@@ -41,11 +42,11 @@ namespace PerformanceCalculator.Containers.TestsSimpleInjector
             c.Register<TFrom, TTo>(Lifestyle.Scoped);
         }
 
-        public override void RegisterFactoryMethod<TFrom, TTo>(object container, TTo obj)
+        public override void RegisterFactoryMethod<TFrom, TTo>(object container, Func<object, TTo> obj)
         {
             var c = (Container)container;
 
-            c.Register<TFrom>(() => obj);
+            c.Register<TFrom>(() => obj(null));
         }
     }
 }

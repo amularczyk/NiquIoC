@@ -1,4 +1,5 @@
-﻿using PerformanceCalculator.Common;
+﻿using System;
+using PerformanceCalculator.Common;
 
 namespace PerformanceCalculator.Interfaces
 {
@@ -18,7 +19,7 @@ namespace PerformanceCalculator.Interfaces
             where TFrom : class
             where TTo : class, TFrom;
 
-        void RegisterFactoryMethod<TFrom, TTo>(object container, TTo obj)
+        void RegisterFactoryMethod<TFrom, TTo>(object container, Func<object, TTo> obj)
             where TFrom : class
             where TTo : class, TFrom;
 

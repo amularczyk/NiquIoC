@@ -1,4 +1,5 @@
-﻿using Ninject;
+﻿using System;
+using Ninject;
 
 namespace PerformanceCalculator.Containers.TestsNinject
 {
@@ -25,11 +26,11 @@ namespace PerformanceCalculator.Containers.TestsNinject
             c.Bind<TFrom>().To<TTo>().InThreadScope();
         }
 
-        public override void RegisterFactoryMethod<TFrom, TTo>(object container, TTo obj)
+        public override void RegisterFactoryMethod<TFrom, TTo>(object container, Func<object, TTo> obj)
         {
             var c = (StandardKernel)container;
 
-            c.Bind<TFrom>().ToMethod(con => obj);
+            c.Bind<TFrom>().ToMethod(obj);
         }
     }
 }

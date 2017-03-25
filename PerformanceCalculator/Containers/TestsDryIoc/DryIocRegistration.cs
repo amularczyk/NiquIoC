@@ -1,4 +1,5 @@
-﻿using DryIoc;
+﻿using System;
+using DryIoc;
 
 namespace PerformanceCalculator.Containers.TestsDryIoc
 {
@@ -25,11 +26,11 @@ namespace PerformanceCalculator.Containers.TestsDryIoc
             c.Register<TFrom, TTo>(Reuse.InThread);
         }
 
-        public override void RegisterFactoryMethod<TFrom, TTo>(object container, TTo obj)
+        public override void RegisterFactoryMethod<TFrom, TTo>(object container, Func<object, TTo> obj)
         {
             var c = (Container)container;
 
-            c.RegisterDelegate<TFrom>(r => obj);
+            c.RegisterDelegate<TFrom>(obj);
         }
     }
 }

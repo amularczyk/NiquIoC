@@ -1,4 +1,5 @@
-﻿using Grace.DependencyInjection;
+﻿using System;
+using Grace.DependencyInjection;
 
 namespace PerformanceCalculator.Containers.TestsGrace
 {
@@ -25,11 +26,11 @@ namespace PerformanceCalculator.Containers.TestsGrace
             c.Configure(x => { x.Export<TTo>().As<TFrom>().Lifestyle.SingletonPerScope(); });
         }
 
-        public override void RegisterFactoryMethod<TFrom, TTo>(object container, TTo obj)
+        public override void RegisterFactoryMethod<TFrom, TTo>(object container, Func<object, TTo> obj)
         {
             var c = (DependencyInjectionContainer)container;
 
-            c.Configure(x => { x.ExportFactory<TFrom>(() => obj); });
+            c.Configure(x => { x.ExportFactory<TFrom>(() => obj(null)); });
         }
     }
 }

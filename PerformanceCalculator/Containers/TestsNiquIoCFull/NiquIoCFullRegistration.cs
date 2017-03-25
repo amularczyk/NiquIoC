@@ -1,4 +1,5 @@
-﻿using NiquIoC;
+﻿using System;
+using NiquIoC;
 
 namespace PerformanceCalculator.Containers.TestsNiquIoCFull
 {
@@ -25,11 +26,11 @@ namespace PerformanceCalculator.Containers.TestsNiquIoCFull
             c.RegisterType<TFrom, TTo>().AsPerThread();
         }
 
-        public override void RegisterFactoryMethod<TFrom, TTo>(object container, TTo obj)
+        public override void RegisterFactoryMethod<TFrom, TTo>(object container, Func<object, TTo> obj)
         {
             var c = (Container)container;
 
-            c.RegisterType<TFrom>(() => obj);
+            c.RegisterType<TFrom>(() => obj(null));
         }
     }
 }

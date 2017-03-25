@@ -1,4 +1,5 @@
-﻿using StructureMap;
+﻿using System;
+using StructureMap;
 using StructureMap.Pipeline;
 
 namespace PerformanceCalculator.Containers.TestsStructureMap
@@ -26,11 +27,11 @@ namespace PerformanceCalculator.Containers.TestsStructureMap
             c.Configure(x => { x.For<TFrom>(Lifecycles.ThreadLocal).Use<TTo>(); });
         }
 
-        public override void RegisterFactoryMethod<TFrom, TTo>(object container, TTo obj)
+        public override void RegisterFactoryMethod<TFrom, TTo>(object container, Func<object, TTo> obj)
         {
             var c = (Container)container;
 
-            c.Configure(x => { x.For<TFrom>().Use(() => obj); });
+            c.Configure(x => { x.For<TFrom>().Use(() => obj(null)); });
         }
     }
 }

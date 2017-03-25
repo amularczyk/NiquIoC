@@ -143,7 +143,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsGrace
 
             CheckHelper.Check(obj1, true, true);
             CheckHelper.Check(obj2, true, true);
-            CheckHelper.Check(obj1, obj2, true, true);
+            CheckHelper.Check(obj1, obj2, false, false);
         }
     }
 }
