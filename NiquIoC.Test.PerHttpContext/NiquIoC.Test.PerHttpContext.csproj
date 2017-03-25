@@ -40,10 +40,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PartialEmitFunction\CommonTests.cs" />
     <Compile Include="FullEmitFunction\BuildUp\BuildUpForClassWithDependencyMethodTests.cs" />
     <Compile Include="FullEmitFunction\BuildUp\BuildUpForClassWithDependencyPropertyTests.cs" />
     <Compile Include="FullEmitFunction\BuildUp\BuildUpForInterfaceWithDependencyMethodTests.cs" />
     <Compile Include="FullEmitFunction\BuildUp\BuildUpForInterfaceWithDependencyPropertyTestsy.cs" />
+    <Compile Include="FullEmitFunction\CommonTests.cs" />
     <Compile Include="FullEmitFunction\DependencyConstrutor\RegisterTypeForClassWithDependencyConstrutorTests.cs" />
     <Compile Include="FullEmitFunction\DependencyConstrutor\RegisterTypeForClassWithDependencyConstrutorWithInterfaceTests.cs" />
     <Compile Include="FullEmitFunction\DependencyConstrutor\RegisterTypeForInterfaceWithDependencyConstrutorTests.cs" />

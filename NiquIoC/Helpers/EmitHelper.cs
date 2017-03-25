@@ -2,9 +2,9 @@
 
 namespace NiquIoC.Helpers
 {
-    internal static class EmitHelper
+    public static class EmitHelper
     {
-        internal static void EmitIntOntoStack(ILGenerator il, int value)
+        public static void EmitIntOntoStack(ILGenerator il, int value)
         {
             //this method helps put an int value onto the stack
             switch (value)

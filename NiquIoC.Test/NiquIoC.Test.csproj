@@ -57,6 +57,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="EmitIntOntoStackTests.cs" />
+    <Compile Include="CommonTests.cs" />
     <Compile Include="FullEmitFunction\MixObjectsLifeTime\FactoryObject\RegisterTypeByFactoryObjectForClassTests.cs" />
     <Compile Include="FullEmitFunction\MixObjectsLifeTime\RegisterGenericTypeForClassTests.cs" />
     <Compile Include="FullEmitFunction\MixObjectsLifeTime\RegisterGenericTypeForInterfaceTests.cs" />
