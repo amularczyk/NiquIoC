@@ -3,7 +3,7 @@
 namespace NiquIoC.Attributes
 {
     [AttributeUsage(System.AttributeTargets.Constructor, AllowMultiple = false)]
-    public class DependencyConstrutor : Attribute
+    public class DependencyConstructor : Attribute
     {
     }
 }

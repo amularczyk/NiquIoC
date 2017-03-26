@@ -212,7 +212,7 @@ namespace NiquIoC
             var allConstructors = containerMember.ReturnType.GetConstructors();
 
             //first we are look for the constructor with attribute DependencyConstrutor
-            var goodConstructors = allConstructors.Where(c => c.GetCustomAttributes(typeof(DependencyConstrutor), false).Any()).ToList();
+            var goodConstructors = allConstructors.Where(c => c.GetCustomAttributes(typeof(DependencyConstructor), false).Any()).ToList();
 
             if (!goodConstructors.Any()) //if there is no constructor with this attribute, then we choose constructor with max number of parameters
             {

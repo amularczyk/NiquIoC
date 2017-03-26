@@ -96,15 +96,43 @@ Poza wstępem i podsumowaniem praca składa się jeszcze z trzech rozdziałów. 
 Jest to zbiór zasad projektowania oprogramowania i wzorców, które pozwalają nam rozwijać luźno powiązany kod.\\
 Jakiemu celowi ma służyć wstrzykiwanie zależności? Wstrzykiwanie zależnści nie jestem celem samym w sobie, raczej jest to środek do celu. Ostatecznie celem większości technik programowania jest dostarczenie jak najwydajniej działającego oprogramowania. Jednym z aspektów tego jest napisanie utrzymywalnego kodu.\\
 O ile nie pisze się prototypu lub aplikacji, które nigdy nie mają kolejnych wersji (kończą się na wersji 1), to wkrótce będzie trzeba zająć się utrzymaniem i rozwijaniem istniejącego kodu. Aby być w stanie pracować wydajnie z takim kodem bazowym, musi on być jak najlepiej utrzymywalny.\\
-Wstrzykiwanie zależności jest niczym więcej niż techniką, która umożliwia luźne powiązania, a luźne powiązania sprawiają, że kod jest rozszerzalny i łatwy w utrzymaniu. \cite{dependency_injection}\\
-Wstrzykiwanie zależności może odbywać się na 3 sposoby\\
-- wstrzykiwanie przez konstruktor (główna i najbardziej popularna)\\
-- wstrzykiwanie przez metodę\\
-- wstrzykiwanie przez właściwość\\
-{\color{red} Dodać jak działa/jak wygląda każde z tych wstrzykiwań?}
+Wstrzykiwanie zależności jest niczym więcej niż techniką, która umożliwia luźne powiązania, a luźne powiązania sprawiają, że kod jest rozszerzalny i łatwy w utrzymaniu.\cite{dependency_injection}\\
+Wstrzykiwanie zależności może odbywać się na 3 sposoby:
+\begin{itemize}
+	\item wstrzykiwanie przez konstruktor
+	\item wstrzykiwanie przez metodę
+	\item wstrzykiwanie przez właściwość
+\end{itemize}
 
+\subsubsection{Wstrzykiwanie przez konstruktor}
+\begin{figure}[h]
+	\begin{raggedleft}
+  		\includegraphics{DependencyConstructor.png}
+	\end{raggedleft}
+\end{figure}
+Jest to główny i najbardziej popularny sposób wstrzykiwania zależności. Niektóre klasy mają kilka konstruktor i atrybut "DependencyConstructor" przydaje się wtedy do oznaczenia, który z nich ma zostać wybrany przy tworzeniu nowego obiektu. Jednakże nie zawsze jest on potrzebny. W większości przypadków klasy mają tylko jeden konstruktor, a także rozwiązania przemsysłowe mają logikę, która wybierze odpowiedni konstruktor (np. ten oznaczony atrybutem, albo ten co ma najwięcej parametrów, albo ten co ma najmniej parametrów).
+
+\subsubsection{Wstrzykiwanie przez metodę}
+\begin{figure}[h]
+	\begin{raggedleft}
+  		\includegraphics{DependencyMethod.png}
+	\end{raggedleft}
+\end{figure}
+W przemysłowych rozwiązaniach to wstrzykiwanie z reguły odbywa się albo poprzez oznaczenie metody przez którą chcemy wstrzyknąć zaleźności odpowiednim atrybutem, albo przy rejestracji danej klasy definijumey przez jakie metody chcemy wstrzyknąć zależności.
+
+\subsubsection{Wstrzykiwanie przez właściwość}
+\begin{figure}[h]
+	\begin{raggedleft}
+  		\includegraphics{DependencyProperty.png}
+	\end{raggedleft}
+\end{figure}
+Tutaj podobnie jak dla wstrzykiwania przez metodę w przemysłowych rozwiązaniach to wstrzykiwanie z reguły odbywa się albo poprzez oznaczenie właściwoci przez którą chcemy wstrzyknąć zaleźności odpowiednim atrybutem, albo przy rejestracji danej klasy definijumey przez jakie właściwości chcemy wstrzyknąć zależności.
+
+
+\clearpage
 \subsection{Implementacje przemysłowe}
-Na rynku jest wiele implementacji wstrzykiwania zależności. Przedstawię tutaj kilka najbardziej popularnych (według ilości pobrań z NuGet) oraz kilka najszybszych (według rankingu na stronie: http://www.palmmedia.de/Blog/2011/8/30/ioc-container-benchmark-performance-comparison). Dane zostały wzięte z dnia 21-02-2017.\\
+Na rynku jest wiele implementacji wstrzykiwania zależności. Przedstawię tutaj kilka najbardziej popularnych (według ilości pobrań z NuGet) oraz kilka najszybszych (według rankingu na stronie: http://www.palmmedia.de/Blog/2011/8/30/ioc-container-benchmark-performance-comparison). Dane zostały wzięte z dnia 21-02-2017. W nawiasie znajduje się wersja implementacji, która została użyta w testach (najnowsza na ten dzień).\\
+\\
 Najbardziej popularne:
 \begin{itemize}
 	\item Unity (4.0.1) - ponad 5.2 mln pobrań
@@ -124,10 +152,10 @@ Najszybsze:
 
 
 \clearpage
-
 \section{Implementacja}
-Kod źródłowy programu jest dostępnym w repozytorium pod adresem: \url{https://github.com/amularczyk/NiquIoC}\\
-Znajduje się tam też również kod programu, który posłużył do wykonania testów wydajnościowych, a także ta praca napisana w języku LateX i wszystkie obrazki.
+Kod źródłowy programu jest dostępnym w repozytorium pod adresem:\\
+\url{https://github.com/amularczyk/NiquIoC}\\
+Znajduje się tam również kod programu, który posłużył do wykonania testów wydajnościowych, a także ta praca napisana w języku LateX i wszystkie obrazki.
 
 \subsection{Środowisko pracy}
 Prac oraz wszystkie testy powstały na komputerze z parametrami:
@@ -141,77 +169,93 @@ Narzędzia użyte do stworzenia pracy i testów:
 	\item {\color{red} System operacyjny Windows 10 Pro}
 	\item .Net Framework w wersji 4.6.1
 	\item Visual Studio 2015 Comunnity
+	\item MSTest
 	\item ReSharper
+	\item dotCover
 	\item Dia
 \end{itemize}
-Testy zostały wykonane we frameworku XUnity, który jest wbudowany w Visual Studio.\\
-Rozwiązanie opiera się na użyciu operacji z przestrzeni nazw System.Reflection.Emit.
 
-{\color{red}
-\subsection{Microsoft Intermediate Language}
+
+\subsection{Wstęp}
+Na początku chciałbym pokrótce opisać dwie rzeczy, które są istotne dla mojego rozwiązania. Pierwszą z nich jest Microsoft Intermediate Language, a drugą przestrzeń nazw Reflection.Emit.
+
+\subsubsection{Microsoft Intermediate Language}
 Microsoft Intermediate Language - MSIL (w skrócie IL) to język pośredni do którego kod C\# jest kompilowany. Język ten pozwala na komunikację między aplikacjami napisanymi na platformie .Net, a systemem operacyjnym. Jest on jądrem tej platformy.
-}
 
+\subsubsection{Reflection.Emit}
+Przestrzeń nazw Reflection.Emit pozwala w języku C\# na stworzenie ciągu operacji w języku IL, a następnie zapamiętaniu ciągu tych operacji jako delegat. Za każdym razem, gdy ten delegat zostanie wywołany, to wykona się ciąg wczeniej zdefiniowanych operacji IL.
 
-{\color{red}
-\subsection{Reflection.Emit}
-Przestrzeń nazw Reflection.Emit pozwala ona na stworzenie ciągu operacji w języku IL, a następnie zapamiętaniu ciągu tych operacji jako delegat. Za każdym razem, gdy ten delegat zostanie wywołany, to wykona się ciąg wczeniej zdefiniowanych operacji IL.
-}
 
 \subsection{Opis}
-Aplikacja składa się z 1 projektu i 4 projektów na potrzeby testów. Rozwiązanie jest skomplikowana i aby mieć pewność, że działa w pełni dobrze zostało stworzone {\color{red} ponad 1200} testów jednostkowych.\\
+Aplikacja składa się z 1 projektu i 4 projektów na potrzeby testów. Rozwiązanie jest skomplikowana i aby mieć pewność, że działa w pełni dobrze zostało stworzone  ponad 1200 testów jednostkowych, a pokrycie kodu testami wynosi ponad 97\%.\\
 
 W wykonanej implementacji został stworzony interfejs IConatiner, który definiuje operacje, jakie powinny się znaleźć w każdym kontenerze:
-\begin{itemize}
-	\item IContainerMember RegisterType<T>() where T : class
-	\item IContainerMember RegisterType<TFrom, TTo>() where TTo : TFrom
-	\item IContainerMember RegisterType<T>(Func<object> objectFactory) where T : class
-	\item IContainerMember RegisterInstance<T>(T instance)
-	\item T Resolve<T>(ResolveKind resolveKind)
-	\item void BuildUp<T>(T instance, ResolveKind resolveKind) - metoda opcjonalna
-\end{itemize}
-Pierwsze cztery metody służą do rejestracji typów do kontenera, piąta - Resolve, do zwracana obiektów wczeniej zarejestrowanego typu, a szczósta do uzupełnienia istniejącej istancji obiektu z wykorzystaniem wstrzykiwania zależności przez metodę i właściwość.
+\begin{figure}[h]
+	\begin{raggedleft}
+  		\includegraphics{IContainer.png}
+	\end{raggedleft}
+\end{figure}\\
+Pierwsze cztery metody służą do rejestracji typów w kontenerze. Metoda piąta (Resolve) służy do tworzenia i zwracania obiektów wczeniej zarejestrowanych typów. Ostatnia metoda (BuildUp) do uzupełnienia istniejącej istancji obiektu z wykorzystaniem wstrzykiwania zależności przez metodę i właściwość - jest to metoda opcjonalna i nie każde przemysłowe rozwiązanie ją zawiera.\\
+Poniżej znajduje się dokładniejszy opis każdej z metod.
 
+\clearpage
 \subsubsection{Register}
-W pierwszej metodzie możemy zarejestrować zwykłe klasy. W drugiej interfejsy i klasy, które implementują dany interfejs. W trzeciej metodzie rejestrujemy klasę jako fabrykę obiektów - funkcję, która ma nam zwrócić pożądany obiekt. W czwartej natomiast możemy zarejestrować konkretną instancję danej klasy. W mojej implementacji kontenera każdy typ może być zarejestrowany tylko raz - ponowna rejestracja tego samego typu nadpisuje istniejącą rejestrację.\\
-Każda z tych czterech pierwszy metod zwraca interfejs IContainerMember, który umożliwia nam zarejestrowanie danej klasy lub interfejsu z określonym menadżerem czasu życia (podanie implementacji interfejsu IObjectLifetimeManager). Jest to po to, ponieważ dla różnych przypadków biznesowych możemy potrzebować, aby obiekt danego typu miał konretny czas życia. Interfejs IContainerMember daje nam możliwość ustawienia czasu życia na:
+W pierwszej metodzie możemy zarejestrować zwykłe klasy. W drugiej interfejsy i klasy, które implementują dany interfejs lub klasy i klasy po nich dziedziczące. W trzeciej metodzie rejestrujemy klasę jako fabrykę obiektów - funkcję, która ma nam zwrócić pożądany obiekt. W czwartej natomiast możemy zarejestrować konkretną instancję danego typu.\\
+W moim rozwiązaniu każdy typ może być zarejestrowany tylko raz - ponowna rejestracja tego samego typu nadpisuje istniejącą rejestrację.\\
+Każda z tych czterech metod rejestracji zwraca interfejs IContainerMember, który umożliwia nam zarejestrowanie danego typu z określonym menadżerem czasu życia (czyli implementacją interfejsu IObjectLifetimeManager). Jest to po to, ponieważ dla różnych przypadków biznesowych możemy potrzebować, aby obiekt danego typu miał konretny czas życia. Interfejs IContainerMember wygląda następująco:
+\begin{figure}[h]
+	\begin{raggedleft}
+  		\includegraphics{IContainerMember.png}
+	\end{raggedleft}
+\end{figure}\\
+Pierwsze cztery metody tego interfejsu to wbudowane implementacje interfejsu IObjectLifetimeManager. Piąta metoda dostarcza możliwoć podania przez użytkownika jego własnej implementacji tego interfejsu. W moim rozwiązaniu każdy typ domyślnie ma czas życia Transient.\\
+\\
+Wyjaśnienie rozdajów czasu życia:
 \begin{itemize}
-	\item Singleton
-	\item Transient
-	\item PerThread
-	\item PerHttpContext
-	\item Custom
+	\item Singleton - za każdym razem zwracany jest ten sam obiekt
+	\item Transient - za każdym razem zwracany jest nowy obiekt
+	\item PerThread - wewnątrz danego wątku zwracany jest ten sam obiekt, ale dla innego wątku zwracany jest nowy (inny) obiekt
+	\item PerHttpContext - wewnątrz danego żądania Http zwracany jest ten sam obiekt, ale dla innego żądania zwracany jest nowy (inny) obiekt
 \end{itemize}
-Opcje: Singleton, Transient, PerThread i PerHttpContext to wbudowane implementacje interfejsu IObjectLifetimeManager. Custom, to opcja na podanie przez użytkownika jego własnej implementacji tego interfejsu. W mojej implementacji kontenera każdy typ domyślnie ma czas życia Transient.\\
-Interfejs IObjectLifetimeManager zawiera w sobie następujące metody:
-\begin{itemize}
-	\item  Func<object> ObjectFactory { get; set; }
-	\item object GetInstance()
-\end{itemize}
-Pierwsza z nich służy to ustawienia fabryki, która zwraca obiekt. Druga służy do zwracania obiektu przy użyciu fabryki. W zależności od konkretnego czasu życia, to obiekt zwracany z metody GetInstance może być zawsze ten sam, zawsze różny albo ten sam tylko dla określonych sytuacji (np. ten sam dla tego samego wątku albo tego samego żądania http).
+
+\clearpage
+Interfejs IObjectLifetimeManager prezentuje się tak:
+\begin{figure}[h]
+	\begin{raggedleft}
+  		\includegraphics{IObjectLifetimeManager.png}
+	\end{raggedleft}
+\end{figure}\\
+Właściwość ObjectFactory służy do ustawienia funkcji, która zwraca obiekt. Metoda GetInstance służy do pobrania obiektu.\\
+W zależności od implementacji tego interfesju, to obiekt zwracany z metody GetInstance może być zawsze taki sam, zawsze różny albo taki sam tylko dla określonych sytuacji (np. taki sam dla tego samego wątku albo tego samego żądania http).
 
 \subsubsection{Resolve}
-Metoda piąta - Resolve, jest to główna operacja. Register można nazwać sercem kontenera, a Resolve mózgiem. Odpowiada ona za stworzenie i zwrócenie obiektu odpowiedniego typu. W mojej pracy zaproponowałem dwa rozwiązania - PartialEmitFunction i FullEmitFunction, dlatego ta metoda jako parametr przyjmuje wartość enuma ResolveKind.\\
+Metoda piąta - Resolve, jest to główna operacja. Register można nazwać sercem kontenera, a Resolve mózgiem. Odpowiada ona za stworzenie i zwrócenie obiektu odpowiedniego typu.\\
+W mojej pracy zaproponowałem dwa rozwiązania - PartialEmitFunction i FullEmitFunction, dlatego ta metoda jako parametr przyjmuje wartość enuma ResolveKind (dzięki temu w przyszłości może być ona w łatwy sposób rozszerzona o kolejne rozwiązania).
 
 \subsubsection{BuildUp}
-Szósta metoda to taki dodatek - gdy mamy stworzony obiekt, ale nie jest w pełni uzupełniony, wtedy możemy go zbudować (używająć odpowiednio PartialEmitFunction lub FullEmitFunction). Z tą metodą są powiązane bezpośrednio dwa pojęcia - wstrzykiwanie przez metodę i wstrzykiwanie przez właściwość. Do tego celu zostały stworzone dwa atrybuty:
+Szósta metoda to taki dodatek - gdy mamy stworzony obiekt, ale nie jest w pełni uzupełniony, wtedy możemy go zbudować (używająć odpowiedniej wartości z enuma ResolveKind). Z tą metodą są powiązane bezpośrednio dwa pojęcia - wstrzykiwanie przez metodę i wstrzykiwanie przez właściwość. Do tego celu w moim rozwiążaniu stworzyłem dwa atrybuty:
 \begin{itemize}
 	\item DependencyMethod (dla metod)
-	\item DependencyProperty (dla propercji)
+	\item DependencyProperty (dla właściwości)
 \end{itemize}
-Podczas operacji BuildUp uzupełniane są wywoływane wszystie metody i właściwości, które mają te atrybuty. BuildUp jest również wykonywany podczas operacji Resolve.\\
-Warto tutaj odnotować, że ze względu na szczegóły implementacyjne tylko jedno z moich rozwiązań wspiera operację BuildUp - PartialEmitFunction. W FullEmitFunction ta funckonalność nie została zaimplementowana. Jest to spowodowane skomplikowaniem FullEmitFunction i małą potrzebą biznesową używania operacji BuildUp.\\
+Podczas operacji BuildUp wywoływane są wszystie metody i uzupełniane są wszystkie właściwości, które mają te atrybuty. Ta operacja jest również wykonywany podczas operacji Resolve.\\
 
-W aplikacji istnieje również atrybut DependencyConstrutor. Można go użyć przy definicji konstruktora danej klasy. Obiekty każdej klasy tworzy się przy użyciu konstruktora. Klasa może mieć kilka konstruktorów. W mojej implementacji stworzyłem logikę wyboru konstruktora przy pomocy którego ma zostać stworzony obiekt. Jeśli jest kilka konstrutkrów, odpowiedni jest wybierany w następującej kolejności:
-\begin{enumerate}
-	\item Konstruktor z atrybutem DependencyConstrutor
-	\item Konstrutkro z największą liczbą parametrów
-\end{enumerate}
-Jeśli jest kilka konstrutkrów z atrybutem DependencyConstrutor albo kilka z największą liczbą parametrów, to rzucany jest wyjątek.
+Warto tutaj odnotować, że ze względu na szczegóły implementacyjne tylko jedno z moich rozwiązań wspiera operację BuildUp - jest to rozwiązanie PartialEmitFunction. W rozwiązaniu FullEmitFunction ta funckonalność nie została zaimplementowana. Jest to spowodowane skomplikowaniem tego rozwiązania i małą potrzebą biznesową używania tej operacji. Jednakże w przyszłości istnieje możliwość dodania implementacji tej funkcjonalności.\\
+
+W aplikacji istnieje również atrybut DependencyConstrutor. Można go użyć przy definicji konstruktora danej klasy. Obiekt każdej klasy jest tworzony przy użyciu konstruktora. Klasa może mieć kilka konstruktorów. W moim rozwiązaniu stworzyłem logikę wyboru odpowiedniego konstruktora, przy pomocy którego ma zostać stworzony obiekt. Wygląda ona następująco:
+\begin{itemize}
+	\item Jeśli jest jeden konstruktor, to go wybierz.
+	\item Jeśli jest kilka konstruktorów, to odpowiedni wybierz w poniższej kolejności:
+	\begin{enumerate}
+		\item Konstruktor z atrybutem DependencyConstrutor
+		\item Konstruktor z największą liczbą parametrów
+	\end{enumerate}
+	\item Jeśli jest kilka konstrutkrów z atrybutem DependencyConstrutor albo nie ma żadnego konstruktora z tym atrybutem i jest kilka z największą liczbą parametrów, to rzuć wyjątek.
+\end{itemize}
 
 
 \subsection{Rozwiązanie}
-Aby kontener działał wydajnie dla złożonych grafów zależności, należy jak najwięcej informacji przechowywać w cache i należy to robić mądrze. W tym celum wykorzystałem Reflection.Emit, aby zapamiętać ciągu operacji niezbędnych do stworzenia obiektu nowej klasy (na potrzeby metody Resolve). Wykorzystałem to na dwa sposoby, które zostały opisane poniżej.
+Aby kontener działał wydajnie dla złożonych grafów zależności, należy jak najwięcej informacji przechowywać w pamięci podręcznej i należy to robić mądrze. W tym celum wykorzystałem operacji z przestrzeni nazw Reflection.Emit, aby zapamiętać ciągu kroków niezbędnych do stworzenia obiektu danej klasy (na potrzeby metody Resolve). Zrobiłem to na dwa sposoby, które zostały opisane poniżej.
 
 \subsubsection{Rozwiązanie 1 - PartialEmitFunction}
 W pierwszym rozwiązanu, które nazwałem PartialEmitFunction tworzę delegata z wykorzystaniem Reflection.Emit. Delegat ten jako parametr przyjmuje listę obiektów, które są potrzebne do stworzenia obiektu danej klasy wykorzystując odpowiedni konstruktor. Jeśli kontener do stworzenia obiektu danej klasy wybrał konstruktor bezparametrowy, to do takiego delegata trafi pusta lista. Jeśli natomiast został wybrany konstruktor, który w parametrze przynmuje obiekty jakiś typów, to lista tych obiektów w odpowiedniej kolejności zostanie przekazana do delegata (np. obiekt, który chcemy stworzyć w konstrutkorze który został wybrany potrzebuje obiektu klasy A i B, to do delegata zostanie przekazana lista zawierająca obiekt klasy A i B w kolejności takiej, jakiej są one zdefiniowane z konstruktorze).\\

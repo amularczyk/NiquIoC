@@ -4,7 +4,7 @@ namespace NiquIoC.Test.Model
 {
     public class SampleClassWithDependencyConstrutor : ISampleClass
     {
-        [DependencyConstrutor]
+        [DependencyConstructor]
         public SampleClassWithDependencyConstrutor(EmptyClass emptyClass)
         {
             EmptyClass = emptyClass;
@@ -15,13 +15,13 @@ namespace NiquIoC.Test.Model
 
     public class SampleClassWithTwoDependencyConstrutor : ISampleClass
     {
-        [DependencyConstrutor]
+        [DependencyConstructor]
         public SampleClassWithTwoDependencyConstrutor(EmptyClass emptyClass)
         {
             EmptyClass = emptyClass;
         }
 
-        [DependencyConstrutor]
+        [DependencyConstructor]
         public SampleClassWithTwoDependencyConstrutor()
         {
         }
@@ -45,7 +45,7 @@ namespace NiquIoC.Test.Model
 
     public class SampleClassWithInterfaceAsParameterWithDependencyConstrutor : ISampleClassWithInterfaceAsParameter
     {
-        [DependencyConstrutor]
+        [DependencyConstructor]
         public SampleClassWithInterfaceAsParameterWithDependencyConstrutor(IEmptyClass emptyClass)
         {
             EmptyClass = emptyClass;
@@ -56,13 +56,13 @@ namespace NiquIoC.Test.Model
 
     public class SampleClassWithInterfaceAsParameterWithTwoDependencyConstrutor : ISampleClassWithInterfaceAsParameter
     {
-        [DependencyConstrutor]
+        [DependencyConstructor]
         public SampleClassWithInterfaceAsParameterWithTwoDependencyConstrutor(IEmptyClass emptyClass)
         {
             EmptyClass = emptyClass;
         }
 
-        [DependencyConstrutor]
+        [DependencyConstructor]
         public SampleClassWithInterfaceAsParameterWithTwoDependencyConstrutor()
         {
         }
@@ -77,7 +77,7 @@ namespace NiquIoC.Test.Model
 
     public class SampleClassWithNestedInterfaceAsParameterWithDependencyConstrutor : ISampleClassISampleClassWithInterfaceAsParameter
     {
-        [DependencyConstrutor]
+        [DependencyConstructor]
         public SampleClassWithNestedInterfaceAsParameterWithDependencyConstrutor(ISampleClassWithInterfaceAsParameter sampleClassWithInterfaceAsParameter)
         {
             SampleClassWithInterfaceAsParameter = sampleClassWithInterfaceAsParameter;
