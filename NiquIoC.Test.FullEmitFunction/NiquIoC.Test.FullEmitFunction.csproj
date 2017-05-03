@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4C1B82C6-E62C-4E52-A724-F396D49EC63D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NiquIoC.Test.FullEmitFunction</RootNamespace>
+    <AssemblyName>NiquIoC.Test.FullEmitFunction</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">15.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
+    <IsCodedUITest>False</IsCodedUITest>
+    <TestProjectType>UnitTest</TestProjectType>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MSTest.TestFramework.1.1.11\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MSTest.TestFramework.1.1.11\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CommonTests.cs" />
+    <Compile Include="MixObjectsLifeTime\FactoryObject\RegisterTypeByFactoryObjectForClassTests.cs" />
+    <Compile Include="MixObjectsLifeTime\RegisterGenericTypeForClassTests.cs" />
+    <Compile Include="MixObjectsLifeTime\RegisterGenericTypeForInterfaceTests.cs" />
+    <Compile Include="MixObjectsLifeTime\RegisterTypeForClassTests.cs" />
+    <Compile Include="MixObjectsLifeTime\RegisterTypeForInterfaceTests.cs" />
+    <Compile Include="MixObjectsLifeTime\ReRegister\ReRegistereClassTests.cs" />
+    <Compile Include="MixObjectsLifeTime\ReRegister\ReRegistereInterfaceTests.cs" />
+    <Compile Include="PerThread\BuildUp\BuildUpForClassWithDependencyMethodTests.cs" />
+    <Compile Include="PerThread\BuildUp\BuildUpForClassWithDependencyPropertyTests.cs" />
+    <Compile Include="PerThread\BuildUp\BuildUpForInterfaceWithDependencyMethodTests.cs" />
+    <Compile Include="PerThread\BuildUp\BuildUpForInterfaceWithDependencyPropertyTestsy.cs" />
+    <Compile Include="PerThread\DependencyConstrutor\RegisterTypeForClassWithDependencyConstrutorTests.cs" />
+    <Compile Include="PerThread\DependencyConstrutor\RegisterTypeForClassWithDependencyConstrutorWithInterfaceTests.cs" />
+    <Compile Include="PerThread\DependencyConstrutor\RegisterTypeForInterfaceWithDependencyConstrutorTests.cs" />
+    <Compile Include="PerThread\DependencyConstrutor\RegisterTypeForInterfaceWithDependencyConstrutorWithClassTests.cs" />
+    <Compile Include="PerThread\FactoryObject\RegisterTypeByFactoryObjectForClassTests.cs" />
+    <Compile Include="PerThread\FactoryObject\RegisterTypeByFactoryObjectForClassWithInterfaceTests.cs" />
+    <Compile Include="PerThread\FactoryObject\RegisterTypeByFactoryObjectForInterfaceTests.cs" />
+    <Compile Include="PerThread\FactoryObject\RegisterTypeByFactoryObjectForInterfaceWithClassTests.cs" />
+    <Compile Include="PerThread\RegisterGenericTypeForClassTests.cs" />
+    <Compile Include="PerThread\RegisterGenericTypeForInterfaceTests.cs" />
+    <Compile Include="PerThread\RegisterTypeForClassTests.cs" />
+    <Compile Include="PerThread\ReRegister\ReRegistereClassTests.cs" />
+    <Compile Include="PerThread\ReRegister\ReRegistereInterfaceTests.cs" />
+    <Compile Include="PerThread\ResolveWithBuildUp\RegisterClassWithDependencyMethodTests.cs" />
+    <Compile Include="PerThread\ResolveWithBuildUp\RegisterClassWithDependencyPropertyTests.cs" />
+    <Compile Include="PerThread\ResolveWithBuildUp\RegisterInterfaceWithDependencyMethodTests.cs" />
+    <Compile Include="PerThread\ResolveWithBuildUp\RegisterInterfaceWithDependencyPropertyTestsy.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RegisterClassInstanceTests.cs" />
+    <Compile Include="RegisterInterfaceInstanceTests.cs" />
+    <Compile Include="Singleton\BuildUp\BuildUpForClassWithDependencyMethodTests.cs" />
+    <Compile Include="Singleton\BuildUp\BuildUpForClassWithDependencyPropertyTests.cs" />
+    <Compile Include="Singleton\BuildUp\BuildUpForInterfaceWithDependencyMethodTests.cs" />
+    <Compile Include="Singleton\BuildUp\BuildUpForInterfaceWithDependencyPropertyTestsy.cs" />
+    <Compile Include="Singleton\DependencyConstrutor\RegisterTypeForClassWithDependencyConstrutorTests.cs" />
+    <Compile Include="Singleton\DependencyConstrutor\RegisterTypeForClassWithDependencyConstrutorWithInterfaceTests.cs" />
+    <Compile Include="Singleton\DependencyConstrutor\RegisterTypeForInterfaceWithDependencyConstrutorTests.cs" />
+    <Compile Include="Singleton\DependencyConstrutor\RegisterTypeForInterfaceWithDependencyConstrutorWithClassTests.cs" />
+    <Compile Include="Singleton\FactoryObject\RegisterTypeByFactoryObjectForClassTests.cs" />
+    <Compile Include="Singleton\FactoryObject\RegisterTypeByFactoryObjectForClassWithInterfaceTests.cs" />
+    <Compile Include="Singleton\FactoryObject\RegisterTypeByFactoryObjectForInterfaceTests.cs" />
+    <Compile Include="Singleton\FactoryObject\RegisterTypeByFactoryObjectForInterfaceWithClassTests.cs" />
+    <Compile Include="Singleton\RegisterGenericTypeForClassTests.cs" />
+    <Compile Include="Singleton\RegisterGenericTypeForInterfaceTests.cs" />
+    <Compile Include="Singleton\RegisterTypeForClassTests.cs" />
+    <Compile Include="Singleton\RegisterTypeForClassWithInterfaceTests.cs" />
+    <Compile Include="Singleton\RegisterTypeForInterfaceTests.cs" />
+    <Compile Include="Singleton\RegisterTypeForInterfaceWithClassTests.cs" />
+    <Compile Include="Singleton\ReRegister\ReRegistereClassTests.cs" />
+    <Compile Include="Singleton\ReRegister\ReRegistereInterfaceTests.cs" />
+    <Compile Include="Singleton\ResolveWithBuildUp\RegisterClassWithDependencyMethodTests.cs" />
+    <Compile Include="Singleton\ResolveWithBuildUp\RegisterClassWithDependencyPropertyTests.cs" />
+    <Compile Include="Singleton\ResolveWithBuildUp\RegisterInterfaceWithDependencyMethodTests.cs" />
+    <Compile Include="Singleton\ResolveWithBuildUp\RegisterInterfaceWithDependencyPropertyTestsy.cs" />
+    <Compile Include="Transient\BuildUp\BuildUpForClassWithDependencyMethodTests.cs" />
+    <Compile Include="Transient\BuildUp\BuildUpForClassWithDependencyPropertyTests.cs" />
+    <Compile Include="Transient\BuildUp\BuildUpForInterfaceWithDependencyMethodTests.cs" />
+    <Compile Include="Transient\BuildUp\BuildUpForInterfaceWithDependencyPropertyTestsy.cs" />
+    <Compile Include="Transient\DependencyConstrutor\RegisterTypeForClassWithDependencyConstrutorTests.cs" />
+    <Compile Include="Transient\DependencyConstrutor\RegisterTypeForClassWithDependencyConstrutorWithInterfaceTests.cs" />
+    <Compile Include="Transient\DependencyConstrutor\RegisterTypeForInterfaceWithDependencyConstrutorTests.cs" />
+    <Compile Include="Transient\DependencyConstrutor\RegisterTypeForInterfaceWithDependencyConstrutorWithClassTests.cs" />
+    <Compile Include="Transient\FactoryObject\RegisterTypeByFactoryObjectForClassTests.cs" />
+    <Compile Include="Transient\FactoryObject\RegisterTypeByFactoryObjectForClassWithInterfaceTests.cs" />
+    <Compile Include="Transient\FactoryObject\RegisterTypeByFactoryObjectForInterfaceTests.cs" />
+    <Compile Include="Transient\FactoryObject\RegisterTypeByFactoryObjectForInterfaceWithClassTests.cs" />
+    <Compile Include="Transient\RegisterGenericTypeForClassTests.cs" />
+    <Compile Include="Transient\RegisterGenericTypeForInterfaceTests.cs" />
+    <Compile Include="Transient\RegisterTypeForClassTests.cs" />
+    <Compile Include="Transient\RegisterTypeForClassWithInterfaceTests.cs" />
+    <Compile Include="Transient\RegisterTypeForInterfaceTests.cs" />
+    <Compile Include="Transient\RegisterTypeForInterfaceWithClassTests.cs" />
+    <Compile Include="Transient\ReRegister\ReRegistereClassTests.cs" />
+    <Compile Include="Transient\ReRegister\ReRegistereInterfaceTests.cs" />
+    <Compile Include="Transient\ResolveWithBuildUp\RegisterClassWithDependencyMethodTests.cs" />
+    <Compile Include="Transient\ResolveWithBuildUp\RegisterClassWithDependencyPropertyTests.cs" />
+    <Compile Include="Transient\ResolveWithBuildUp\RegisterInterfaceWithDependencyMethodTests.cs" />
+    <Compile Include="Transient\ResolveWithBuildUp\RegisterInterfaceWithDependencyPropertyTestsy.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NiquIoC.Test.Model\NiquIoC.Test.Model.csproj">
+      <Project>{38f35253-087f-425c-8cae-e55394affe39}</Project>
+      <Name>NiquIoC.Test.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NiquIoC\NiquIoC.csproj">
+      <Project>{6e444464-c09e-4be8-b6ae-ca743f7cb9ce}</Project>
+      <Name>NiquIoC</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

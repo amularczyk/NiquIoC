@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NiquIoC", "NiquIoC\NiquIoC.csproj", "{6E444464-C09E-4BE8-B6AE-CA743F7CB9CE}"
 EndProject
@@ -12,6 +12,14 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NiquIoC.Test.WebApplication", "NiquIoC.Test.WebApplication\NiquIoC.Test.WebApplication.csproj", "{B881C40B-4366-4570-A76D-13EFA1358163}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NiquIoC.Test.PerHttpContext", "NiquIoC.Test.PerHttpContext\NiquIoC.Test.PerHttpContext.csproj", "{2304066B-593B-400F-9AA9-399D4AFA441C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NiquIoC.Test.FullEmitFunction", "NiquIoC.Test.FullEmitFunction\NiquIoC.Test.FullEmitFunction.csproj", "{4C1B82C6-E62C-4E52-A724-F396D49EC63D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NiquIoC.Test.PartialEmitFunction", "NiquIoC.Test.PartialEmitFunction\NiquIoC.Test.PartialEmitFunction.csproj", "{05865C8D-0B0B-47E6-8AEA-563E488E0C1A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NiquIoC.Test.PerHttpContext.PartialEmitFunction", "NiquIoC.Test.PerHttpContext.PartialEmitFunction\NiquIoC.Test.PerHttpContext.PartialEmitFunction.csproj", "{CDBC211B-4EF4-413C-BFFB-02C4B3CE537A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NiquIoC.Test.PerHttpContext.FullEmitFunction", "NiquIoC.Test.PerHttpContext.FullEmitFunction\NiquIoC.Test.PerHttpContext.FullEmitFunction.csproj", "{C6FF2153-FAA6-45BF-BC6E-89B4DFFC01DF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +47,22 @@ Global
 		{2304066B-593B-400F-9AA9-399D4AFA441C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2304066B-593B-400F-9AA9-399D4AFA441C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2304066B-593B-400F-9AA9-399D4AFA441C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C1B82C6-E62C-4E52-A724-F396D49EC63D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C1B82C6-E62C-4E52-A724-F396D49EC63D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C1B82C6-E62C-4E52-A724-F396D49EC63D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C1B82C6-E62C-4E52-A724-F396D49EC63D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05865C8D-0B0B-47E6-8AEA-563E488E0C1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05865C8D-0B0B-47E6-8AEA-563E488E0C1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05865C8D-0B0B-47E6-8AEA-563E488E0C1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05865C8D-0B0B-47E6-8AEA-563E488E0C1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDBC211B-4EF4-413C-BFFB-02C4B3CE537A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDBC211B-4EF4-413C-BFFB-02C4B3CE537A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDBC211B-4EF4-413C-BFFB-02C4B3CE537A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDBC211B-4EF4-413C-BFFB-02C4B3CE537A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6FF2153-FAA6-45BF-BC6E-89B4DFFC01DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6FF2153-FAA6-45BF-BC6E-89B4DFFC01DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6FF2153-FAA6-45BF-BC6E-89B4DFFC01DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6FF2153-FAA6-45BF-BC6E-89B4DFFC01DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

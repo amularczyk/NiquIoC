@@ -30,7 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -44,60 +43,8 @@
     <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FullEmitFunction\DependencyConstrutor\RegisterTypeForClassWithDependencyConstrutorTests.cs" />
-    <Compile Include="FullEmitFunction\DependencyConstrutor\RegisterTypeForClassWithDependencyConstrutorWithInterfaceTests.cs" />
-    <Compile Include="FullEmitFunction\DependencyConstrutor\RegisterTypeForInterfaceWithDependencyConstrutorTests.cs" />
-    <Compile Include="FullEmitFunction\DependencyConstrutor\RegisterTypeForInterfaceWithDependencyConstrutorWithClassTests.cs" />
-    <Compile Include="FullEmitFunction\FactoryObject\RegisterTypeByFactoryObjectForClassTests.cs" />
-    <Compile Include="FullEmitFunction\FactoryObject\RegisterTypeByFactoryObjectForClassWithInterfaceTests.cs" />
-    <Compile Include="FullEmitFunction\FactoryObject\RegisterTypeByFactoryObjectForInterfaceTests.cs" />
-    <Compile Include="FullEmitFunction\FactoryObject\RegisterTypeByFactoryObjectForInterfaceWithClassTests.cs" />
-    <Compile Include="FullEmitFunction\RegisterGenericTypeForClassTests.cs" />
-    <Compile Include="FullEmitFunction\RegisterGenericTypeForInterfaceTests.cs" />
-    <Compile Include="FullEmitFunction\RegisterTypeForClassTests.cs" />
-    <Compile Include="FullEmitFunction\ReRegister\ReRegistereClassTests.cs" />
-    <Compile Include="FullEmitFunction\ReRegister\ReRegistereInterfaceTests.cs" />
-    <Compile Include="PartialEmitFunction\CommonTests.cs" />
-    <Compile Include="FullEmitFunction\BuildUp\BuildUpForClassWithDependencyMethodTests.cs" />
-    <Compile Include="FullEmitFunction\BuildUp\BuildUpForClassWithDependencyPropertyTests.cs" />
-    <Compile Include="FullEmitFunction\BuildUp\BuildUpForInterfaceWithDependencyMethodTests.cs" />
-    <Compile Include="FullEmitFunction\BuildUp\BuildUpForInterfaceWithDependencyPropertyTestsy.cs" />
-    <Compile Include="FullEmitFunction\CommonTests.cs" />
-    <Compile Include="FullEmitFunction\ResolveWithBuildUp\RegisterClassWithDependencyMethodTests.cs" />
-    <Compile Include="FullEmitFunction\ResolveWithBuildUp\RegisterClassWithDependencyPropertyTests.cs" />
-    <Compile Include="FullEmitFunction\ResolveWithBuildUp\RegisterInterfaceWithDependencyMethodTests.cs" />
-    <Compile Include="FullEmitFunction\ResolveWithBuildUp\RegisterInterfaceWithDependencyPropertyTestsy.cs" />
-    <Compile Include="PartialEmitFunction\BuildUp\BuildUpForClassWithDependencyMethodTests.cs" />
-    <Compile Include="PartialEmitFunction\BuildUp\BuildUpForClassWithDependencyPropertyAndDependencyMethodTests.cs" />
-    <Compile Include="PartialEmitFunction\BuildUp\BuildUpForClassWithDependencyPropertyTests.cs" />
-    <Compile Include="PartialEmitFunction\BuildUp\BuildUpForInterfaceWithDependencyMethodTests.cs" />
-    <Compile Include="PartialEmitFunction\BuildUp\BuildUpForInterfaceWithDependencyPropertyAndDependencyMethodTests.cs" />
-    <Compile Include="PartialEmitFunction\BuildUp\BuildUpForInterfaceWithDependencyPropertyTestsy.cs" />
-    <Compile Include="PartialEmitFunction\DependencyConstrutor\RegisterTypeForClassWithDependencyConstrutorTests.cs" />
-    <Compile Include="PartialEmitFunction\DependencyConstrutor\RegisterTypeForClassWithDependencyConstrutorWithInterfaceTests.cs" />
-    <Compile Include="PartialEmitFunction\DependencyConstrutor\RegisterTypeForInterfaceWithDependencyConstrutorTests.cs" />
-    <Compile Include="PartialEmitFunction\DependencyConstrutor\RegisterTypeForInterfaceWithDependencyConstrutorWithClassTests.cs" />
-    <Compile Include="PartialEmitFunction\FactoryObject\RegisterTypeByFactoryObjectForClassTests.cs" />
-    <Compile Include="PartialEmitFunction\FactoryObject\RegisterTypeByFactoryObjectForClassWithInterfaceTests.cs" />
-    <Compile Include="PartialEmitFunction\FactoryObject\RegisterTypeByFactoryObjectForInterfaceTests.cs" />
-    <Compile Include="PartialEmitFunction\FactoryObject\RegisterTypeByFactoryObjectForInterfaceWithClassTests.cs" />
-    <Compile Include="PartialEmitFunction\RegisterGenericTypeForClassTests.cs" />
-    <Compile Include="PartialEmitFunction\RegisterGenericTypeForInterfaceTests.cs" />
-    <Compile Include="PartialEmitFunction\RegisterTypeForClassTests.cs" />
-    <Compile Include="PartialEmitFunction\ReRegister\ReRegistereClassTests.cs" />
-    <Compile Include="PartialEmitFunction\ReRegister\ReRegistereInterfaceTests.cs" />
-    <Compile Include="PartialEmitFunction\ResolveWithBuildUp\RegisterClassWithDependencyMethodTests.cs" />
-    <Compile Include="PartialEmitFunction\ResolveWithBuildUp\RegisterClassWithDependencyPropertyAndDependencyMethodTests.cs" />
-    <Compile Include="PartialEmitFunction\ResolveWithBuildUp\RegisterClassWithDependencyPropertyTests.cs" />
-    <Compile Include="PartialEmitFunction\ResolveWithBuildUp\RegisterInterfaceWithDependencyMethodTests.cs" />
-    <Compile Include="PartialEmitFunction\ResolveWithBuildUp\RegisterInterfaceWithDependencyPropertyAndDependencyMethodTests.cs" />
-    <Compile Include="PartialEmitFunction\ResolveWithBuildUp\RegisterInterfaceWithDependencyPropertyTestsy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="HttpContextTestsHelper.cs" />
   </ItemGroup>
@@ -105,10 +52,6 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NiquIoC.Test.Model\NiquIoC.Test.Model.csproj">
-      <Project>{38f35253-087f-425c-8cae-e55394affe39}</Project>
-      <Name>NiquIoC.Test.Model</Name>
-    </ProjectReference>
     <ProjectReference Include="..\NiquIoC.Test.WebApplication\NiquIoC.Test.WebApplication.csproj">
       <Project>{b881c40b-4366-4570-a76d-13efa1358163}</Project>
       <Name>NiquIoC.Test.WebApplication</Name>

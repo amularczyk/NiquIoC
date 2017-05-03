@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Reflection.Emit;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NiquIoC.Exceptions;
 using NiquIoC.Helpers;
 
 namespace NiquIoC.Test
