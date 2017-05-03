@@ -1,10 +1,6 @@
-﻿using System.IO;
-using System.Web;
-using System.Web.Mvc;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NiquIoC.Enums;
 using NiquIoC.Test.Model;
-using NiquIoC.Test.WebApplication.Controllers;
 
 namespace NiquIoC.Test.PerHttpContext.FullEmitFunction
 {
@@ -19,10 +15,8 @@ namespace NiquIoC.Test.PerHttpContext.FullEmitFunction
             c.RegisterType<IGenericClass<IEmptyClass>, GenericClass<IEmptyClass>>().AsPerHttpContext();
 
 
-            var controller = new DefaultController();
-            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
-            var result = controller.ResolveObject<IGenericClass<IEmptyClass>>(c, ResolveKind.FullEmitFunction);
-            var genericClass = (IGenericClass<IEmptyClass>)((ViewResult)result).Model;
+            var genericClass =
+                TestsHelper.ResolveObject<IGenericClass<IEmptyClass>>(c, ResolveKind.FullEmitFunction);
 
 
             Assert.IsNotNull(genericClass);
@@ -34,15 +28,17 @@ namespace NiquIoC.Test.PerHttpContext.FullEmitFunction
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerHttpContext();
-            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsPerHttpContext();
-            c.RegisterType<IGenericClass<ISampleClassWithInterfaceAsParameter>, GenericClass<ISampleClassWithInterfaceAsParameter>>().AsPerHttpContext();
+            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>()
+                .AsPerHttpContext();
+            c.RegisterType<IGenericClass<ISampleClassWithInterfaceAsParameter>,
+                    GenericClass<ISampleClassWithInterfaceAsParameter>>()
+                .AsPerHttpContext();
 
 
-            var controller = new DefaultController();
-            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
-            var result = controller.ResolveObject<IGenericClass<ISampleClassWithInterfaceAsParameter>>(c, ResolveKind.FullEmitFunction);
-            var genericClass = (IGenericClass<ISampleClassWithInterfaceAsParameter>)((ViewResult)result).Model;
-            
+            var genericClass =
+                TestsHelper.ResolveObject<IGenericClass<ISampleClassWithInterfaceAsParameter>>(c,
+                    ResolveKind.FullEmitFunction);
+
 
             Assert.IsNotNull(genericClass);
             Assert.IsNotNull(genericClass.NestedClass);
@@ -54,16 +50,18 @@ namespace NiquIoC.Test.PerHttpContext.FullEmitFunction
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerHttpContext();
-            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsPerHttpContext();
+            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>()
+                .AsPerHttpContext();
             c.RegisterType<IGenericClassWithManyParameters<IEmptyClass, ISampleClassWithInterfaceAsParameter>,
-                GenericClassWithManyParameters<IEmptyClass, ISampleClassWithInterfaceAsParameter>>().AsPerHttpContext();
+                    GenericClassWithManyParameters<IEmptyClass, ISampleClassWithInterfaceAsParameter>>()
+                .AsPerHttpContext();
 
 
-            var controller = new DefaultController();
-            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
-            var result = controller.ResolveObject<IGenericClassWithManyParameters<IEmptyClass, ISampleClassWithInterfaceAsParameter>>(c, ResolveKind.FullEmitFunction);
-            var genericClass = (IGenericClassWithManyParameters<IEmptyClass, ISampleClassWithInterfaceAsParameter>)((ViewResult)result).Model;
-            
+            var genericClass =
+                TestsHelper
+                    .ResolveObject<IGenericClassWithManyParameters<IEmptyClass, ISampleClassWithInterfaceAsParameter>>(
+                        c, ResolveKind.FullEmitFunction);
+
 
             Assert.IsNotNull(genericClass);
             Assert.IsNotNull(genericClass.NestedClass1);
@@ -77,18 +75,21 @@ namespace NiquIoC.Test.PerHttpContext.FullEmitFunction
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerHttpContext();
-            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsPerHttpContext();
+            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>()
+                .AsPerHttpContext();
             c.RegisterType<IGenericClass<IEmptyClass>, GenericClass<IEmptyClass>>().AsPerHttpContext();
-            c.RegisterType<IGenericClass<ISampleClassWithInterfaceAsParameter>, GenericClass<ISampleClassWithInterfaceAsParameter>>().AsPerHttpContext();
-            
+            c.RegisterType<IGenericClass<ISampleClassWithInterfaceAsParameter>,
+                    GenericClass<ISampleClassWithInterfaceAsParameter>>()
+                .AsPerHttpContext();
 
-            var controller = new DefaultController();
-            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
-            var result1 = controller.ResolveObject<IGenericClass<IEmptyClass>>(c, ResolveKind.FullEmitFunction);
-            var genericClass1 = (IGenericClass<IEmptyClass>)((ViewResult)result1).Model;
-            var result2 = controller.ResolveObject<IGenericClass<ISampleClassWithInterfaceAsParameter>>(c, ResolveKind.FullEmitFunction);
-            var genericClass2 = (IGenericClass<ISampleClassWithInterfaceAsParameter>)((ViewResult)result2).Model;
-            
+
+            var objs1 =
+                TestsHelper
+                    .ResolveObjects<IGenericClass<IEmptyClass>, IGenericClass<ISampleClassWithInterfaceAsParameter>>(c,
+                        ResolveKind.FullEmitFunction);
+            var genericClass1 = objs1.Item1;
+            var genericClass2 = objs1.Item2;
+
 
             Assert.AreNotEqual(genericClass1, genericClass2);
             Assert.AreNotEqual(genericClass1.GetType(), genericClass2.GetType());
@@ -101,20 +102,20 @@ namespace NiquIoC.Test.PerHttpContext.FullEmitFunction
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerHttpContext();
-            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsPerHttpContext();
+            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>()
+                .AsPerHttpContext();
             c.RegisterType<IGenericClass<IEmptyClass>, GenericClass<IEmptyClass>>().AsPerHttpContext();
-            c.RegisterType<IGenericClass<ISampleClassWithInterfaceAsParameter>, GenericClass<ISampleClassWithInterfaceAsParameter>>().AsPerHttpContext();
-            
+            c.RegisterType<IGenericClass<ISampleClassWithInterfaceAsParameter>,
+                    GenericClass<ISampleClassWithInterfaceAsParameter>>()
+                .AsPerHttpContext();
 
-            var controller = new DefaultController();
-            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
-            var result1 = controller.ResolveObject<IGenericClass<IEmptyClass>>(c, ResolveKind.FullEmitFunction);
-            var genericClass1 = (IGenericClass<IEmptyClass>)((ViewResult)result1).Model;
 
-            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
-            var result2 = controller.ResolveObject<IGenericClass<ISampleClassWithInterfaceAsParameter>>(c, ResolveKind.FullEmitFunction);
-            var genericClass2 = (IGenericClass<ISampleClassWithInterfaceAsParameter>)((ViewResult)result2).Model;
-            
+            var genericClass1 =
+                TestsHelper.ResolveObject<IGenericClass<IEmptyClass>>(c, ResolveKind.FullEmitFunction);
+            var genericClass2 =
+                TestsHelper.ResolveObject<IGenericClass<ISampleClassWithInterfaceAsParameter>>(c,
+                    ResolveKind.FullEmitFunction);
+
 
             Assert.AreNotEqual(genericClass1, genericClass2);
             Assert.AreNotEqual(genericClass1.GetType(), genericClass2.GetType());

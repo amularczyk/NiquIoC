@@ -1,10 +1,6 @@
-﻿using System.IO;
-using System.Web;
-using System.Web.Mvc;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NiquIoC.Enums;
 using NiquIoC.Test.Model;
-using NiquIoC.Test.WebApplication.Controllers;
 
 namespace NiquIoC.Test.PerHttpContext.FullEmitFunction.FactoryObject
 {
@@ -17,14 +13,11 @@ namespace NiquIoC.Test.PerHttpContext.FullEmitFunction.FactoryObject
             var c = new Container();
             var emptyClass = new EmptyClass();
             c.RegisterType<ISampleClass>(() => new SampleClass(emptyClass)).AsPerHttpContext();
+            
 
-
-            var controller = new DefaultController();
-            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
-            var result1 = controller.ResolveObject<ISampleClass>(c, ResolveKind.FullEmitFunction);
-            var sampleClass1 = (ISampleClass)((ViewResult)result1).Model;
-            var result2 = controller.ResolveObject<ISampleClass>(c, ResolveKind.FullEmitFunction);
-            var sampleClass2 = (ISampleClass)((ViewResult)result2).Model;
+            var objs1 = TestsHelper.ResolveObjects<ISampleClass>(c, ResolveKind.FullEmitFunction);
+            var sampleClass1 = objs1.Item1;
+            var sampleClass2 = objs1.Item2;
 
 
             Assert.AreEqual(sampleClass1, sampleClass2);
@@ -39,14 +32,11 @@ namespace NiquIoC.Test.PerHttpContext.FullEmitFunction.FactoryObject
             var emptyClass = new EmptyClass();
             ISampleClass sampleClass = new SampleClass(emptyClass);
             c.RegisterType<ISampleClass>(() => sampleClass).AsPerHttpContext();
+            
 
-
-            var controller = new DefaultController();
-            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
-            var result1 = controller.ResolveObject<ISampleClass>(c, ResolveKind.FullEmitFunction);
-            var sampleClass1 = (ISampleClass)((ViewResult)result1).Model;
-            var result2 = controller.ResolveObject<ISampleClass>(c, ResolveKind.FullEmitFunction);
-            var sampleClass2 = (ISampleClass)((ViewResult)result2).Model;
+            var objs1 = TestsHelper.ResolveObjects<ISampleClass>(c, ResolveKind.FullEmitFunction);
+            var sampleClass1 = objs1.Item1;
+            var sampleClass2 = objs1.Item2;
 
 
             Assert.AreEqual(sampleClass1, sampleClass2);
@@ -60,14 +50,11 @@ namespace NiquIoC.Test.PerHttpContext.FullEmitFunction.FactoryObject
             var c = new Container();
             c.RegisterType<EmptyClass>(() => new EmptyClass()).AsPerHttpContext();
             c.RegisterType<ISampleClass, SampleClass>().AsPerHttpContext();
+            
 
-
-            var controller = new DefaultController();
-            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
-            var result1 = controller.ResolveObject<ISampleClass>(c, ResolveKind.FullEmitFunction);
-            var sampleClass1 = (ISampleClass)((ViewResult)result1).Model;
-            var result2 = controller.ResolveObject<ISampleClass>(c, ResolveKind.FullEmitFunction);
-            var sampleClass2 = (ISampleClass)((ViewResult)result2).Model;
+            var objs1 = TestsHelper.ResolveObjects<ISampleClass>(c, ResolveKind.FullEmitFunction);
+            var sampleClass1 = objs1.Item1;
+            var sampleClass2 = objs1.Item2;
 
 
             Assert.AreEqual(sampleClass1, sampleClass2);
@@ -81,14 +68,11 @@ namespace NiquIoC.Test.PerHttpContext.FullEmitFunction.FactoryObject
             var emptyClass = new EmptyClass();
             c.RegisterType<EmptyClass>(() => emptyClass).AsPerHttpContext();
             c.RegisterType<ISampleClass, SampleClass>().AsPerHttpContext();
+            
 
-
-            var controller = new DefaultController();
-            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
-            var result1 = controller.ResolveObject<ISampleClass>(c, ResolveKind.FullEmitFunction);
-            var sampleClass1 = (ISampleClass)((ViewResult)result1).Model;
-            var result2 = controller.ResolveObject<ISampleClass>(c, ResolveKind.FullEmitFunction);
-            var sampleClass2 = (ISampleClass)((ViewResult)result2).Model;
+            var objs1 = TestsHelper.ResolveObjects<ISampleClass>(c, ResolveKind.FullEmitFunction);
+            var sampleClass1 = objs1.Item1;
+            var sampleClass2 = objs1.Item2;
 
 
             Assert.AreEqual(sampleClass1, sampleClass2);

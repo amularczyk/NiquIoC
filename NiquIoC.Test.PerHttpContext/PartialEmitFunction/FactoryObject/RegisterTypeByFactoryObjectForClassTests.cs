@@ -1,10 +1,6 @@
-﻿using System.IO;
-using System.Web;
-using System.Web.Mvc;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NiquIoC.Enums;
 using NiquIoC.Test.Model;
-using NiquIoC.Test.WebApplication.Controllers;
 
 namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.FactoryObject
 {
@@ -17,14 +13,11 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.FactoryObject
             var c = new Container();
             var emptyClass = new EmptyClass();
             c.RegisterType<SampleClass>(() => new SampleClass(emptyClass)).AsPerHttpContext();
+            
 
-
-            var controller = new DefaultController();
-            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
-            var result1 = controller.ResolveObject<SampleClass>(c, ResolveKind.PartialEmitFunction);
-            var sampleClass1 = (SampleClass)((ViewResult)result1).Model;
-            var result2 = controller.ResolveObject<SampleClass>(c, ResolveKind.PartialEmitFunction);
-            var sampleClass2 = (SampleClass)((ViewResult)result2).Model;
+            var objs1 = TestsHelper.ResolveObjects<SampleClass>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass1 = objs1.Item1;
+            var sampleClass2 = objs1.Item2;
 
 
             Assert.AreEqual(sampleClass1, sampleClass2);
@@ -39,14 +32,11 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.FactoryObject
             var emptyClass = new EmptyClass();
             var sampleClass = new SampleClass(emptyClass);
             c.RegisterType<SampleClass>(() => sampleClass).AsPerHttpContext();
+            
 
-
-            var controller = new DefaultController();
-            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
-            var result1 = controller.ResolveObject<SampleClass>(c, ResolveKind.PartialEmitFunction);
-            var sampleClass1 = (SampleClass)((ViewResult)result1).Model;
-            var result2 = controller.ResolveObject<SampleClass>(c, ResolveKind.PartialEmitFunction);
-            var sampleClass2 = (SampleClass)((ViewResult)result2).Model;
+            var objs1 = TestsHelper.ResolveObjects<SampleClass>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass1 = objs1.Item1;
+            var sampleClass2 = objs1.Item2;
 
 
             Assert.AreEqual(sampleClass1, sampleClass2);
@@ -60,14 +50,11 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.FactoryObject
             var c = new Container();
             c.RegisterType<EmptyClass>(() => new EmptyClass()).AsPerHttpContext();
             c.RegisterType<SampleClass>().AsPerHttpContext();
+            
 
-
-            var controller = new DefaultController();
-            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
-            var result1 = controller.ResolveObject<SampleClass>(c, ResolveKind.PartialEmitFunction);
-            var sampleClass1 = (SampleClass)((ViewResult)result1).Model;
-            var result2 = controller.ResolveObject<SampleClass>(c, ResolveKind.PartialEmitFunction);
-            var sampleClass2 = (SampleClass)((ViewResult)result2).Model;
+            var objs1 = TestsHelper.ResolveObjects<SampleClass>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass1 = objs1.Item1;
+            var sampleClass2 = objs1.Item2;
 
 
             Assert.AreEqual(sampleClass1, sampleClass2);
@@ -82,13 +69,10 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.FactoryObject
             c.RegisterType<EmptyClass>(() => emptyClass).AsPerHttpContext();
             c.RegisterType<SampleClass>().AsPerHttpContext();
 
-
-            var controller = new DefaultController();
-            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
-            var result1 = controller.ResolveObject<SampleClass>(c, ResolveKind.PartialEmitFunction);
-            var sampleClass1 = (SampleClass)((ViewResult)result1).Model;
-            var result2 = controller.ResolveObject<SampleClass>(c, ResolveKind.PartialEmitFunction);
-            var sampleClass2 = (SampleClass)((ViewResult)result2).Model;
+            
+            var objs1 = TestsHelper.ResolveObjects<SampleClass>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass1 = objs1.Item1;
+            var sampleClass2 = objs1.Item2;
 
 
             Assert.AreEqual(sampleClass1, sampleClass2);

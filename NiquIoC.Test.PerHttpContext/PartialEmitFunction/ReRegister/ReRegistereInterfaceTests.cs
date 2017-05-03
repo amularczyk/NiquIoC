@@ -4,7 +4,6 @@ using System.Web.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NiquIoC.Enums;
 using NiquIoC.Test.Model;
-using NiquIoC.Test.WebApplication.Controllers;
 
 namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ReRegister
 {

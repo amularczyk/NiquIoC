@@ -1,11 +1,7 @@
-﻿using System.IO;
-using System.Web;
-using System.Web.Mvc;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NiquIoC.Enums;
 using NiquIoC.Exceptions;
 using NiquIoC.Test.Model;
-using NiquIoC.Test.WebApplication.Controllers;
 
 namespace NiquIoC.Test.PerHttpContext.FullEmitFunction.DependencyConstrutor
 {
@@ -18,12 +14,10 @@ namespace NiquIoC.Test.PerHttpContext.FullEmitFunction.DependencyConstrutor
             var c = new Container();
             c.RegisterType<EmptyClass>().AsPerHttpContext();
             c.RegisterType<SampleClassWithDependencyConstrutor>().AsPerHttpContext();
-            
 
-            var controller = new DefaultController();
-            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
-            var result = controller.ResolveObject<SampleClassWithDependencyConstrutor>(c, ResolveKind.FullEmitFunction);
-            var sampleClass = (SampleClassWithDependencyConstrutor)((ViewResult)result).Model;
+
+            var sampleClass =
+                TestsHelper.ResolveObject<SampleClassWithDependencyConstrutor>(c, ResolveKind.FullEmitFunction);
 
 
             Assert.IsNotNull(sampleClass);
@@ -37,12 +31,10 @@ namespace NiquIoC.Test.PerHttpContext.FullEmitFunction.DependencyConstrutor
             var c = new Container();
             c.RegisterType<EmptyClass>().AsPerHttpContext();
             c.RegisterType<SampleClassWithTwoDependencyConstrutor>().AsPerHttpContext();
-            
 
-            var controller = new DefaultController();
-            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
-            var result = controller.ResolveObject<SampleClassWithTwoDependencyConstrutor>(c, ResolveKind.FullEmitFunction);
-            var sampleClass = (SampleClassWithTwoDependencyConstrutor)((ViewResult)result).Model;
+
+            var sampleClass =
+                TestsHelper.ResolveObject<SampleClassWithTwoDependencyConstrutor>(c, ResolveKind.FullEmitFunction);
 
 
             Assert.IsNull(sampleClass);
@@ -55,12 +47,11 @@ namespace NiquIoC.Test.PerHttpContext.FullEmitFunction.DependencyConstrutor
             c.RegisterType<EmptyClass>().AsPerHttpContext();
             c.RegisterType<SampleClassWithDependencyConstrutor>().AsPerHttpContext();
             c.RegisterType<SampleClassWithNestedClassWithDependencyConstrutor>().AsPerHttpContext();
-            
 
-            var controller = new DefaultController();
-            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
-            var result = controller.ResolveObject<SampleClassWithNestedClassWithDependencyConstrutor>(c, ResolveKind.FullEmitFunction);
-            var sampleClass = (SampleClassWithNestedClassWithDependencyConstrutor)((ViewResult)result).Model;
+
+            var sampleClass =
+                TestsHelper.ResolveObject<SampleClassWithNestedClassWithDependencyConstrutor>(c,
+                    ResolveKind.FullEmitFunction);
 
 
             Assert.IsNotNull(sampleClass);
