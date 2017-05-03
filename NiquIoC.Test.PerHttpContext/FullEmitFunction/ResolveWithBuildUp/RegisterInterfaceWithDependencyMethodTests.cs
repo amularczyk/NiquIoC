@@ -15,7 +15,7 @@ namespace NiquIoC.Test.PerHttpContext.FullEmitFunction.ResolveWithBuildUp
             c.RegisterType<ISampleClassWithInterfaceMethod, SampleClassWithInterfaceDependencyMethod>().AsPerHttpContext();
 
 
-            var sampleClass = TestsHelper.ResolveObject<ISampleClassWithInterfaceMethod>(c, ResolveKind.FullEmitFunction);
+            var sampleClass = HttpContextTestsHelper.Initialize().ResolveObject<ISampleClassWithInterfaceMethod>(c, ResolveKind.FullEmitFunction);
 
 
             Assert.IsNotNull(sampleClass);
@@ -30,7 +30,7 @@ namespace NiquIoC.Test.PerHttpContext.FullEmitFunction.ResolveWithBuildUp
             c.RegisterType<ISampleClassWithInterfaceMethod, SampleClassWithoutInterfaceDependencyMethod>().AsPerHttpContext();
 
 
-            var sampleClass = TestsHelper.ResolveObject<ISampleClassWithInterfaceMethod>(c, ResolveKind.FullEmitFunction);
+            var sampleClass = HttpContextTestsHelper.Initialize().ResolveObject<ISampleClassWithInterfaceMethod>(c, ResolveKind.FullEmitFunction);
 
 
             Assert.IsNotNull(sampleClass);

@@ -15,7 +15,7 @@ namespace NiquIoC.Test.PerHttpContext.FullEmitFunction.ResolveWithBuildUp
             c.RegisterType<SampleClassWithClassDependencyProperty>().AsPerHttpContext();
 
 
-            var sampleClass = TestsHelper.ResolveObject<SampleClassWithClassDependencyProperty>(c, ResolveKind.FullEmitFunction);
+            var sampleClass = HttpContextTestsHelper.Initialize().ResolveObject<SampleClassWithClassDependencyProperty>(c, ResolveKind.FullEmitFunction);
 
 
             Assert.IsNotNull(sampleClass);
@@ -30,7 +30,7 @@ namespace NiquIoC.Test.PerHttpContext.FullEmitFunction.ResolveWithBuildUp
             c.RegisterType<SampleClassWithoutClassDependencyProperty>().AsPerHttpContext();
 
 
-            var sampleClass = TestsHelper.ResolveObject<SampleClassWithoutClassDependencyProperty>(c, ResolveKind.FullEmitFunction);
+            var sampleClass = HttpContextTestsHelper.Initialize().ResolveObject<SampleClassWithoutClassDependencyProperty>(c, ResolveKind.FullEmitFunction);
 
 
             Assert.IsNotNull(sampleClass);

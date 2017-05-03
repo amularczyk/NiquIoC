@@ -15,7 +15,7 @@ namespace NiquIoC.Test.PerHttpContext.FullEmitFunction
             c.RegisterType<GenericClass<EmptyClass>>().AsPerHttpContext();
             
 
-            var genericClass = TestsHelper.ResolveObject<GenericClass<EmptyClass>>(c, ResolveKind.FullEmitFunction);
+            var genericClass = HttpContextTestsHelper.Initialize().ResolveObject<GenericClass<EmptyClass>>(c, ResolveKind.FullEmitFunction);
 
 
             Assert.IsNotNull(genericClass);
@@ -31,7 +31,7 @@ namespace NiquIoC.Test.PerHttpContext.FullEmitFunction
             c.RegisterType<GenericClass<SampleClass>>().AsPerHttpContext();
 
             
-            var genericClass = TestsHelper.ResolveObject<GenericClass<SampleClass>>(c, ResolveKind.FullEmitFunction);
+            var genericClass = HttpContextTestsHelper.Initialize().ResolveObject<GenericClass<SampleClass>>(c, ResolveKind.FullEmitFunction);
 
 
             Assert.IsNotNull(genericClass);
@@ -48,7 +48,7 @@ namespace NiquIoC.Test.PerHttpContext.FullEmitFunction
             c.RegisterType<GenericClassWithManyParameters<EmptyClass, SampleClass>>().AsPerHttpContext();
             
             
-            var genericClass = TestsHelper.ResolveObject<GenericClassWithManyParameters<EmptyClass, SampleClass>>(c, ResolveKind.FullEmitFunction);
+            var genericClass = HttpContextTestsHelper.Initialize().ResolveObject<GenericClassWithManyParameters<EmptyClass, SampleClass>>(c, ResolveKind.FullEmitFunction);
 
 
             Assert.IsNotNull(genericClass);
@@ -69,7 +69,7 @@ namespace NiquIoC.Test.PerHttpContext.FullEmitFunction
 
             
             var objs1 =
-                TestsHelper
+                HttpContextTestsHelper.Initialize()
                     .ResolveObjects<GenericClass<EmptyClass>, GenericClass<SampleClass>>(c,
                         ResolveKind.FullEmitFunction);
             var genericClass1 = objs1.Item1;
@@ -92,8 +92,8 @@ namespace NiquIoC.Test.PerHttpContext.FullEmitFunction
             c.RegisterType<GenericClass<SampleClass>>().AsPerHttpContext();
 
             
-            var genericClass1 = TestsHelper.ResolveObject<GenericClass<EmptyClass>>(c, ResolveKind.FullEmitFunction);
-            var genericClass2 = TestsHelper.ResolveObject<GenericClass<SampleClass>>(c, ResolveKind.FullEmitFunction);
+            var genericClass1 = HttpContextTestsHelper.Initialize().ResolveObject<GenericClass<EmptyClass>>(c, ResolveKind.FullEmitFunction);
+            var genericClass2 = HttpContextTestsHelper.Initialize().ResolveObject<GenericClass<SampleClass>>(c, ResolveKind.FullEmitFunction);
 
 
             Assert.AreNotEqual(genericClass1, genericClass2);

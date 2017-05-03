@@ -61,14 +61,14 @@
     <Compile Include="FullEmitFunction\RegisterGenericTypeForClassTests.cs" />
     <Compile Include="FullEmitFunction\RegisterGenericTypeForInterfaceTests.cs" />
     <Compile Include="FullEmitFunction\RegisterTypeForClassTests.cs" />
+    <Compile Include="FullEmitFunction\ReRegister\ReRegistereClassTests.cs" />
+    <Compile Include="FullEmitFunction\ReRegister\ReRegistereInterfaceTests.cs" />
     <Compile Include="PartialEmitFunction\CommonTests.cs" />
     <Compile Include="FullEmitFunction\BuildUp\BuildUpForClassWithDependencyMethodTests.cs" />
     <Compile Include="FullEmitFunction\BuildUp\BuildUpForClassWithDependencyPropertyTests.cs" />
     <Compile Include="FullEmitFunction\BuildUp\BuildUpForInterfaceWithDependencyMethodTests.cs" />
     <Compile Include="FullEmitFunction\BuildUp\BuildUpForInterfaceWithDependencyPropertyTestsy.cs" />
     <Compile Include="FullEmitFunction\CommonTests.cs" />
-    <Compile Include="FullEmitFunction\ReRegister\ReRegistereClassTests.cs" />
-    <Compile Include="FullEmitFunction\ReRegister\ReRegistereInterfaceTests.cs" />
     <Compile Include="FullEmitFunction\ResolveWithBuildUp\RegisterClassWithDependencyMethodTests.cs" />
     <Compile Include="FullEmitFunction\ResolveWithBuildUp\RegisterClassWithDependencyPropertyTests.cs" />
     <Compile Include="FullEmitFunction\ResolveWithBuildUp\RegisterInterfaceWithDependencyMethodTests.cs" />
@@ -99,7 +99,7 @@
     <Compile Include="PartialEmitFunction\ResolveWithBuildUp\RegisterInterfaceWithDependencyPropertyAndDependencyMethodTests.cs" />
     <Compile Include="PartialEmitFunction\ResolveWithBuildUp\RegisterInterfaceWithDependencyPropertyTestsy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestsHelper.cs" />
+    <Compile Include="HttpContextTestsHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />

@@ -1,7 +1,4 @@
-﻿using System.IO;
-using System.Web;
-using System.Web.Mvc;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NiquIoC.Enums;
 using NiquIoC.Test.Model;
 
@@ -17,18 +14,15 @@ namespace NiquIoC.Test.PerHttpContext.FullEmitFunction.ReRegister
             c.RegisterType<EmptyClass>().AsPerHttpContext();
 
 
-            var controller = new DefaultController();
-            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
-            var result1 = controller.ResolveObject<EmptyClass>(c, ResolveKind.FullEmitFunction);
-            var emptyClass1 = (EmptyClass)((ViewResult)result1).Model;
-            var result2 = controller.ResolveObject<EmptyClass>(c, ResolveKind.FullEmitFunction);
-            var emptyClass2 = (EmptyClass)((ViewResult)result2).Model;
+            var httpContextTestsHelper = HttpContextTestsHelper.Initialize();
+            var objs1 = httpContextTestsHelper.ResolveObjects<EmptyClass>(c, ResolveKind.FullEmitFunction);
+            var emptyClass1 = objs1.Item1;
+            var emptyClass2 = objs1.Item2;
 
             c.RegisterType<EmptyClass>().AsPerHttpContext();
-            var result3 = controller.ResolveObject<EmptyClass>(c, ResolveKind.FullEmitFunction);
-            var emptyClass3 = (EmptyClass)((ViewResult)result3).Model;
-            var result4 = controller.ResolveObject<EmptyClass>(c, ResolveKind.FullEmitFunction);
-            var emptyClass4 = (EmptyClass)((ViewResult)result4).Model;
+            var objs2 = httpContextTestsHelper.ResolveObjects<EmptyClass>(c, ResolveKind.FullEmitFunction);
+            var emptyClass3 = objs2.Item1;
+            var emptyClass4 = objs2.Item2;
 
 
             Assert.AreEqual(emptyClass1, emptyClass2);
@@ -44,19 +38,16 @@ namespace NiquIoC.Test.PerHttpContext.FullEmitFunction.ReRegister
             c.RegisterInstance(emptyClass).AsPerHttpContext();
 
 
-            var controller = new DefaultController();
-            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
-            var result1 = controller.ResolveObject<EmptyClass>(c, ResolveKind.FullEmitFunction);
-            var emptyClass1 = (EmptyClass)((ViewResult)result1).Model;
-            var result2 = controller.ResolveObject<EmptyClass>(c, ResolveKind.FullEmitFunction);
-            var emptyClass2 = (EmptyClass)((ViewResult)result2).Model;
+            var httpContextTestsHelper = HttpContextTestsHelper.Initialize();
+            var objs1 = httpContextTestsHelper.ResolveObjects<EmptyClass>(c, ResolveKind.FullEmitFunction);
+            var emptyClass1 = objs1.Item1;
+            var emptyClass2 = objs1.Item2;
 
             var emptyClass3 = new EmptyClass();
             c.RegisterInstance(emptyClass3).AsPerHttpContext();
-            var result4 = controller.ResolveObject<EmptyClass>(c, ResolveKind.FullEmitFunction);
-            var emptyClass4 = (EmptyClass)((ViewResult)result4).Model;
-            var result5 = controller.ResolveObject<EmptyClass>(c, ResolveKind.FullEmitFunction);
-            var emptyClass5 = (EmptyClass)((ViewResult)result5).Model;
+            var objs2 = httpContextTestsHelper.ResolveObjects<EmptyClass>(c, ResolveKind.FullEmitFunction);
+            var emptyClass4 = objs2.Item1;
+            var emptyClass5 = objs2.Item2;
 
 
             Assert.AreEqual(emptyClass, emptyClass1);
@@ -74,18 +65,15 @@ namespace NiquIoC.Test.PerHttpContext.FullEmitFunction.ReRegister
             c.RegisterType<EmptyClass>(() => emptyClass).AsPerHttpContext();
 
 
-            var controller = new DefaultController();
-            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
-            var result1 = controller.ResolveObject<EmptyClass>(c, ResolveKind.FullEmitFunction);
-            var emptyClass1 = (EmptyClass)((ViewResult)result1).Model;
-            var result2 = controller.ResolveObject<EmptyClass>(c, ResolveKind.FullEmitFunction);
-            var emptyClass2 = (EmptyClass)((ViewResult)result2).Model;
+            var httpContextTestsHelper = HttpContextTestsHelper.Initialize();
+            var objs1 = httpContextTestsHelper.ResolveObjects<EmptyClass>(c, ResolveKind.FullEmitFunction);
+            var emptyClass1 = objs1.Item1;
+            var emptyClass2 = objs1.Item2;
 
             c.RegisterType<EmptyClass>(() => new EmptyClass()).AsPerHttpContext();
-            var result3 = controller.ResolveObject<EmptyClass>(c, ResolveKind.FullEmitFunction);
-            var emptyClass3 = (EmptyClass)((ViewResult)result3).Model;
-            var result4 = controller.ResolveObject<EmptyClass>(c, ResolveKind.FullEmitFunction);
-            var emptyClass4 = (EmptyClass)((ViewResult)result4).Model;
+            var objs2 = httpContextTestsHelper.ResolveObjects<EmptyClass>(c, ResolveKind.FullEmitFunction);
+            var emptyClass3 = objs2.Item1;
+            var emptyClass4 = objs2.Item2;
 
 
             Assert.AreEqual(emptyClass, emptyClass1);
@@ -103,18 +91,15 @@ namespace NiquIoC.Test.PerHttpContext.FullEmitFunction.ReRegister
             c.RegisterInstance(emptyClass).AsPerHttpContext();
 
 
-            var controller = new DefaultController();
-            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
-            var result1 = controller.ResolveObject<EmptyClass>(c, ResolveKind.FullEmitFunction);
-            var emptyClass1 = (EmptyClass)((ViewResult)result1).Model;
-            var result2 = controller.ResolveObject<EmptyClass>(c, ResolveKind.FullEmitFunction);
-            var emptyClass2 = (EmptyClass)((ViewResult)result2).Model;
+            var httpContextTestsHelper = HttpContextTestsHelper.Initialize();
+            var objs1 = httpContextTestsHelper.ResolveObjects<EmptyClass>(c, ResolveKind.FullEmitFunction);
+            var emptyClass1 = objs1.Item1;
+            var emptyClass2 = objs1.Item2;
 
             c.RegisterType<EmptyClass>(() => new EmptyClass()).AsPerHttpContext();
-            var result3 = controller.ResolveObject<EmptyClass>(c, ResolveKind.FullEmitFunction);
-            var emptyClass3 = (EmptyClass)((ViewResult)result3).Model;
-            var result4 = controller.ResolveObject<EmptyClass>(c, ResolveKind.FullEmitFunction);
-            var emptyClass4 = (EmptyClass)((ViewResult)result4).Model;
+            var objs2 = httpContextTestsHelper.ResolveObjects<EmptyClass>(c, ResolveKind.FullEmitFunction);
+            var emptyClass3 = objs2.Item1;
+            var emptyClass4 = objs2.Item2;
 
 
             Assert.AreEqual(emptyClass, emptyClass1);
@@ -131,19 +116,16 @@ namespace NiquIoC.Test.PerHttpContext.FullEmitFunction.ReRegister
             c.RegisterType<EmptyClass>(() => new EmptyClass()).AsPerHttpContext();
 
 
-            var controller = new DefaultController();
-            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
-            var result1 = controller.ResolveObject<EmptyClass>(c, ResolveKind.FullEmitFunction);
-            var emptyClass1 = (EmptyClass)((ViewResult)result1).Model;
-            var result2 = controller.ResolveObject<EmptyClass>(c, ResolveKind.FullEmitFunction);
-            var emptyClass2 = (EmptyClass)((ViewResult)result2).Model;
+            var httpContextTestsHelper = HttpContextTestsHelper.Initialize();
+            var objs1 = httpContextTestsHelper.ResolveObjects<EmptyClass>(c, ResolveKind.FullEmitFunction);
+            var emptyClass1 = objs1.Item1;
+            var emptyClass2 = objs1.Item2;
 
             var emptyClass = new EmptyClass();
             c.RegisterInstance(emptyClass).AsPerHttpContext();
-            var result3 = controller.ResolveObject<EmptyClass>(c, ResolveKind.FullEmitFunction);
-            var emptyClass3 = (EmptyClass)((ViewResult)result3).Model;
-            var result4 = controller.ResolveObject<EmptyClass>(c, ResolveKind.FullEmitFunction);
-            var emptyClass4 = (EmptyClass)((ViewResult)result4).Model;
+            var objs2 = httpContextTestsHelper.ResolveObjects<EmptyClass>(c, ResolveKind.FullEmitFunction);
+            var emptyClass3 = objs2.Item1;
+            var emptyClass4 = objs2.Item2;
 
 
             Assert.AreEqual(emptyClass1, emptyClass2);
@@ -159,18 +141,15 @@ namespace NiquIoC.Test.PerHttpContext.FullEmitFunction.ReRegister
             c.RegisterType<EmptyClass>().AsPerHttpContext();
 
 
-            var controller = new DefaultController();
-            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
-            var result1 = controller.ResolveObject<EmptyClass>(c, ResolveKind.FullEmitFunction);
-            var emptyClass1 = (EmptyClass)((ViewResult)result1).Model;
-            var result2 = controller.ResolveObject<EmptyClass>(c, ResolveKind.FullEmitFunction);
-            var emptyClass2 = (EmptyClass)((ViewResult)result2).Model;
+            var httpContextTestsHelper = HttpContextTestsHelper.Initialize();
+            var objs1 = httpContextTestsHelper.ResolveObjects<EmptyClass>(c, ResolveKind.FullEmitFunction);
+            var emptyClass1 = objs1.Item1;
+            var emptyClass2 = objs1.Item2;
 
             c.RegisterType<EmptyClass>(() => new EmptyClass()).AsPerHttpContext();
-            var result3 = controller.ResolveObject<EmptyClass>(c, ResolveKind.FullEmitFunction);
-            var emptyClass3 = (EmptyClass)((ViewResult)result3).Model;
-            var result4 = controller.ResolveObject<EmptyClass>(c, ResolveKind.FullEmitFunction);
-            var emptyClass4 = (EmptyClass)((ViewResult)result4).Model;
+            var objs2 = httpContextTestsHelper.ResolveObjects<EmptyClass>(c, ResolveKind.FullEmitFunction);
+            var emptyClass3 = objs2.Item1;
+            var emptyClass4 = objs2.Item2;
 
 
             Assert.AreEqual(emptyClass1, emptyClass2);
@@ -185,19 +164,16 @@ namespace NiquIoC.Test.PerHttpContext.FullEmitFunction.ReRegister
             c.RegisterType<EmptyClass>().AsPerHttpContext();
 
 
-            var controller = new DefaultController();
-            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
-            var result1 = controller.ResolveObject<EmptyClass>(c, ResolveKind.FullEmitFunction);
-            var emptyClass1 = (EmptyClass)((ViewResult)result1).Model;
-            var result2 = controller.ResolveObject<EmptyClass>(c, ResolveKind.FullEmitFunction);
-            var emptyClass2 = (EmptyClass)((ViewResult)result2).Model;
+            var httpContextTestsHelper = HttpContextTestsHelper.Initialize();
+            var objs1 = httpContextTestsHelper.ResolveObjects<EmptyClass>(c, ResolveKind.FullEmitFunction);
+            var emptyClass1 = objs1.Item1;
+            var emptyClass2 = objs1.Item2;
 
             var emptyClass = new EmptyClass();
             c.RegisterInstance(emptyClass).AsPerHttpContext();
-            var result3 = controller.ResolveObject<EmptyClass>(c, ResolveKind.FullEmitFunction);
-            var emptyClass3 = (EmptyClass)((ViewResult)result3).Model;
-            var result4 = controller.ResolveObject<EmptyClass>(c, ResolveKind.FullEmitFunction);
-            var emptyClass4 = (EmptyClass)((ViewResult)result4).Model;
+            var objs2 = httpContextTestsHelper.ResolveObjects<EmptyClass>(c, ResolveKind.FullEmitFunction);
+            var emptyClass3 = objs2.Item1;
+            var emptyClass4 = objs2.Item2;
 
 
             Assert.AreEqual(emptyClass1, emptyClass2);

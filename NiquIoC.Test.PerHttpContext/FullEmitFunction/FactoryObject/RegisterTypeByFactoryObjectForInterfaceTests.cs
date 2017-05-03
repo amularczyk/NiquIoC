@@ -15,7 +15,7 @@ namespace NiquIoC.Test.PerHttpContext.FullEmitFunction.FactoryObject
             c.RegisterType<ISampleClassWithInterfaceAsParameter>(() => new SampleClassWithInterfaceAsParameter(emptyClass)).AsPerHttpContext();
             
 
-            var objs1 = TestsHelper.ResolveObjects<ISampleClassWithInterfaceAsParameter>(c, ResolveKind.FullEmitFunction);
+            var objs1 = HttpContextTestsHelper.Initialize().ResolveObjects<ISampleClassWithInterfaceAsParameter>(c, ResolveKind.FullEmitFunction);
             var sampleClass1 = objs1.Item1;
             var sampleClass2 = objs1.Item2;
 
@@ -34,7 +34,7 @@ namespace NiquIoC.Test.PerHttpContext.FullEmitFunction.FactoryObject
             c.RegisterType<ISampleClassWithInterfaceAsParameter>(() => sampleClass).AsPerHttpContext();
             
 
-            var objs1 = TestsHelper.ResolveObjects<ISampleClassWithInterfaceAsParameter>(c, ResolveKind.FullEmitFunction);
+            var objs1 = HttpContextTestsHelper.Initialize().ResolveObjects<ISampleClassWithInterfaceAsParameter>(c, ResolveKind.FullEmitFunction);
             var sampleClass1 = objs1.Item1;
             var sampleClass2 = objs1.Item2;
 
@@ -52,7 +52,7 @@ namespace NiquIoC.Test.PerHttpContext.FullEmitFunction.FactoryObject
             c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsPerHttpContext();
             
 
-            var objs1 = TestsHelper.ResolveObjects<ISampleClassWithInterfaceAsParameter>(c, ResolveKind.FullEmitFunction);
+            var objs1 = HttpContextTestsHelper.Initialize().ResolveObjects<ISampleClassWithInterfaceAsParameter>(c, ResolveKind.FullEmitFunction);
             var sampleClass1 = objs1.Item1;
             var sampleClass2 = objs1.Item2;
 
@@ -70,7 +70,7 @@ namespace NiquIoC.Test.PerHttpContext.FullEmitFunction.FactoryObject
             c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsPerHttpContext();
             
 
-            var objs1 = TestsHelper.ResolveObjects<ISampleClassWithInterfaceAsParameter>(c, ResolveKind.FullEmitFunction);
+            var objs1 = HttpContextTestsHelper.Initialize().ResolveObjects<ISampleClassWithInterfaceAsParameter>(c, ResolveKind.FullEmitFunction);
             var sampleClass1 = objs1.Item1;
             var sampleClass2 = objs1.Item2;
 

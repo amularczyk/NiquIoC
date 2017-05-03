@@ -16,7 +16,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction
 
 
             var genericClass =
-                TestsHelper.ResolveObject<IGenericClass<IEmptyClass>>(c, ResolveKind.PartialEmitFunction);
+                HttpContextTestsHelper.Initialize().ResolveObject<IGenericClass<IEmptyClass>>(c, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(genericClass);
@@ -36,7 +36,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction
 
 
             var genericClass =
-                TestsHelper.ResolveObject<IGenericClass<ISampleClassWithInterfaceAsParameter>>(c,
+                HttpContextTestsHelper.Initialize().ResolveObject<IGenericClass<ISampleClassWithInterfaceAsParameter>>(c,
                     ResolveKind.PartialEmitFunction);
 
 
@@ -58,7 +58,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction
 
 
             var genericClass =
-                TestsHelper
+                HttpContextTestsHelper.Initialize()
                     .ResolveObject<IGenericClassWithManyParameters<IEmptyClass, ISampleClassWithInterfaceAsParameter>>(
                         c, ResolveKind.PartialEmitFunction);
 
@@ -84,7 +84,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction
 
 
             var objs1 =
-                TestsHelper
+                HttpContextTestsHelper.Initialize()
                     .ResolveObjects<IGenericClass<IEmptyClass>, IGenericClass<ISampleClassWithInterfaceAsParameter>>(c,
                         ResolveKind.PartialEmitFunction);
             var genericClass1 = objs1.Item1;
@@ -111,9 +111,9 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction
 
 
             var genericClass1 =
-                TestsHelper.ResolveObject<IGenericClass<IEmptyClass>>(c, ResolveKind.PartialEmitFunction);
+                HttpContextTestsHelper.Initialize().ResolveObject<IGenericClass<IEmptyClass>>(c, ResolveKind.PartialEmitFunction);
             var genericClass2 =
-                TestsHelper.ResolveObject<IGenericClass<ISampleClassWithInterfaceAsParameter>>(c,
+                HttpContextTestsHelper.Initialize().ResolveObject<IGenericClass<ISampleClassWithInterfaceAsParameter>>(c,
                     ResolveKind.PartialEmitFunction);
 
 

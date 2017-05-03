@@ -1,7 +1,4 @@
-﻿using System.IO;
-using System.Web;
-using System.Web.Mvc;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NiquIoC.Enums;
 using NiquIoC.Test.Model;
 
@@ -18,19 +15,16 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ReRegister
             c.RegisterInstance(emptyClass).AsPerHttpContext();
 
 
-            var controller = new DefaultController();
-            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
-            var result1 = controller.ResolveObject<IEmptyClass>(c, ResolveKind.PartialEmitFunction);
-            var emptyClass1 = (IEmptyClass)((ViewResult)result1).Model;
-            var result2 = controller.ResolveObject<IEmptyClass>(c, ResolveKind.PartialEmitFunction);
-            var emptyClass2 = (IEmptyClass)((ViewResult)result2).Model;
+            var httpContextTestsHelper = HttpContextTestsHelper.Initialize();
+            var objs1 = httpContextTestsHelper.ResolveObjects<IEmptyClass>(c, ResolveKind.PartialEmitFunction);
+            var emptyClass1 = objs1.Item1;
+            var emptyClass2 = objs1.Item2;
 
             IEmptyClass emptyClass3 = new EmptyClass();
             c.RegisterInstance(emptyClass3).AsPerHttpContext();
-            var result4 = controller.ResolveObject<IEmptyClass>(c, ResolveKind.PartialEmitFunction);
-            var emptyClass4 = (IEmptyClass)((ViewResult)result4).Model;
-            var result5 = controller.ResolveObject<IEmptyClass>(c, ResolveKind.PartialEmitFunction);
-            var emptyClass5 = (IEmptyClass)((ViewResult)result5).Model;
+            var objs2 = httpContextTestsHelper.ResolveObjects<IEmptyClass>(c, ResolveKind.PartialEmitFunction);
+            var emptyClass4 = objs2.Item1;
+            var emptyClass5 = objs2.Item2;
 
 
             Assert.AreEqual(emptyClass, emptyClass1);
@@ -48,18 +42,15 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ReRegister
             c.RegisterType<IEmptyClass>(() => emptyClass).AsPerHttpContext();
 
 
-            var controller = new DefaultController();
-            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
-            var result1 = controller.ResolveObject<IEmptyClass>(c, ResolveKind.PartialEmitFunction);
-            var emptyClass1 = (IEmptyClass)((ViewResult)result1).Model;
-            var result2 = controller.ResolveObject<IEmptyClass>(c, ResolveKind.PartialEmitFunction);
-            var emptyClass2 = (IEmptyClass)((ViewResult)result2).Model;
+            var httpContextTestsHelper = HttpContextTestsHelper.Initialize();
+            var objs1 = httpContextTestsHelper.ResolveObjects<IEmptyClass>(c, ResolveKind.PartialEmitFunction);
+            var emptyClass1 = objs1.Item1;
+            var emptyClass2 = objs1.Item2;
 
             c.RegisterType<IEmptyClass>(() => new EmptyClass()).AsPerHttpContext();
-            var result3 = controller.ResolveObject<IEmptyClass>(c, ResolveKind.PartialEmitFunction);
-            var emptyClass3 = (IEmptyClass)((ViewResult)result3).Model;
-            var result4 = controller.ResolveObject<IEmptyClass>(c, ResolveKind.PartialEmitFunction);
-            var emptyClass4 = (IEmptyClass)((ViewResult)result4).Model;
+            var objs2 = httpContextTestsHelper.ResolveObjects<IEmptyClass>(c, ResolveKind.PartialEmitFunction);
+            var emptyClass3 = objs2.Item1;
+            var emptyClass4 = objs2.Item2;
 
 
             Assert.AreEqual(emptyClass, emptyClass1);
@@ -76,18 +67,15 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ReRegister
             c.RegisterInstance(emptyClass).AsPerHttpContext();
 
 
-            var controller = new DefaultController();
-            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
-            var result1 = controller.ResolveObject<IEmptyClass>(c, ResolveKind.PartialEmitFunction);
-            var emptyClass1 = (IEmptyClass)((ViewResult)result1).Model;
-            var result2 = controller.ResolveObject<IEmptyClass>(c, ResolveKind.PartialEmitFunction);
-            var emptyClass2 = (IEmptyClass)((ViewResult)result2).Model;
+            var httpContextTestsHelper = HttpContextTestsHelper.Initialize();
+            var objs1 = httpContextTestsHelper.ResolveObjects<IEmptyClass>(c, ResolveKind.PartialEmitFunction);
+            var emptyClass1 = objs1.Item1;
+            var emptyClass2 = objs1.Item2;
 
             c.RegisterType<IEmptyClass>(() => new EmptyClass()).AsPerHttpContext();
-            var result3 = controller.ResolveObject<IEmptyClass>(c, ResolveKind.PartialEmitFunction);
-            var emptyClass3 = (IEmptyClass)((ViewResult)result3).Model;
-            var result4 = controller.ResolveObject<IEmptyClass>(c, ResolveKind.PartialEmitFunction);
-            var emptyClass4 = (IEmptyClass)((ViewResult)result4).Model;
+            var objs2 = httpContextTestsHelper.ResolveObjects<IEmptyClass>(c, ResolveKind.PartialEmitFunction);
+            var emptyClass3 = objs2.Item1;
+            var emptyClass4 = objs2.Item2;
 
 
             Assert.AreEqual(emptyClass, emptyClass1);
@@ -103,19 +91,16 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ReRegister
             c.RegisterType<IEmptyClass>(() => new EmptyClass()).AsPerHttpContext();
 
 
-            var controller = new DefaultController();
-            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
-            var result1 = controller.ResolveObject<IEmptyClass>(c, ResolveKind.PartialEmitFunction);
-            var emptyClass1 = (IEmptyClass)((ViewResult)result1).Model;
-            var result2 = controller.ResolveObject<IEmptyClass>(c, ResolveKind.PartialEmitFunction);
-            var emptyClass2 = (IEmptyClass)((ViewResult)result2).Model;
+            var httpContextTestsHelper = HttpContextTestsHelper.Initialize();
+            var objs1 = httpContextTestsHelper.ResolveObjects<IEmptyClass>(c, ResolveKind.PartialEmitFunction);
+            var emptyClass1 = objs1.Item1;
+            var emptyClass2 = objs1.Item2;
 
             IEmptyClass emptyClass = new EmptyClass();
             c.RegisterInstance(emptyClass).AsPerHttpContext();
-            var result3 = controller.ResolveObject<IEmptyClass>(c, ResolveKind.PartialEmitFunction);
-            var emptyClass3 = (IEmptyClass)((ViewResult)result3).Model;
-            var result4 = controller.ResolveObject<IEmptyClass>(c, ResolveKind.PartialEmitFunction);
-            var emptyClass4 = (IEmptyClass)((ViewResult)result4).Model;
+            var objs2 = httpContextTestsHelper.ResolveObjects<IEmptyClass>(c, ResolveKind.PartialEmitFunction);
+            var emptyClass3 = objs2.Item1;
+            var emptyClass4 = objs2.Item2;
 
 
             Assert.AreEqual(emptyClass1, emptyClass2);
@@ -131,18 +116,15 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ReRegister
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerHttpContext();
 
 
-            var controller = new DefaultController();
-            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
-            var result1 = controller.ResolveObject<IEmptyClass>(c, ResolveKind.PartialEmitFunction);
-            var emptyClass1 = (IEmptyClass)((ViewResult)result1).Model;
-            var result2 = controller.ResolveObject<IEmptyClass>(c, ResolveKind.PartialEmitFunction);
-            var emptyClass2 = (IEmptyClass)((ViewResult)result2).Model;
+            var httpContextTestsHelper = HttpContextTestsHelper.Initialize();
+            var objs1 = httpContextTestsHelper.ResolveObjects<IEmptyClass>(c, ResolveKind.PartialEmitFunction);
+            var emptyClass1 = objs1.Item1;
+            var emptyClass2 = objs1.Item2;
 
             c.RegisterType<IEmptyClass>(() => new EmptyClass()).AsPerHttpContext();
-            var result3 = controller.ResolveObject<IEmptyClass>(c, ResolveKind.PartialEmitFunction);
-            var emptyClass3 = (IEmptyClass)((ViewResult)result3).Model;
-            var result4 = controller.ResolveObject<IEmptyClass>(c, ResolveKind.PartialEmitFunction);
-            var emptyClass4 = (IEmptyClass)((ViewResult)result4).Model;
+            var objs2 = httpContextTestsHelper.ResolveObjects<IEmptyClass>(c, ResolveKind.PartialEmitFunction);
+            var emptyClass3 = objs2.Item1;
+            var emptyClass4 = objs2.Item2;
 
 
             Assert.AreEqual(emptyClass1, emptyClass2);
@@ -157,19 +139,16 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ReRegister
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerHttpContext();
 
 
-            var controller = new DefaultController();
-            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
-            var result1 = controller.ResolveObject<IEmptyClass>(c, ResolveKind.PartialEmitFunction);
-            var emptyClass1 = (IEmptyClass)((ViewResult)result1).Model;
-            var result2 = controller.ResolveObject<IEmptyClass>(c, ResolveKind.PartialEmitFunction);
-            var emptyClass2 = (IEmptyClass)((ViewResult)result2).Model;
+            var httpContextTestsHelper = HttpContextTestsHelper.Initialize();
+            var objs1 = httpContextTestsHelper.ResolveObjects<IEmptyClass>(c, ResolveKind.PartialEmitFunction);
+            var emptyClass1 = objs1.Item1;
+            var emptyClass2 = objs1.Item2;
 
             IEmptyClass emptyClass = new EmptyClass();
             c.RegisterInstance(emptyClass).AsPerHttpContext();
-            var result3 = controller.ResolveObject<IEmptyClass>(c, ResolveKind.PartialEmitFunction);
-            var emptyClass3 = (IEmptyClass)((ViewResult)result3).Model;
-            var result4 = controller.ResolveObject<IEmptyClass>(c, ResolveKind.PartialEmitFunction);
-            var emptyClass4 = (IEmptyClass)((ViewResult)result4).Model;
+            var objs2 = httpContextTestsHelper.ResolveObjects<IEmptyClass>(c, ResolveKind.PartialEmitFunction);
+            var emptyClass3 = objs2.Item1;
+            var emptyClass4 = objs2.Item2;
 
 
             Assert.AreEqual(emptyClass1, emptyClass2);
@@ -177,7 +156,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ReRegister
             Assert.AreEqual(emptyClass3, emptyClass4);
             Assert.AreNotEqual(emptyClass1, emptyClass3);
         }
-        
+
         [TestMethod]
         public void InterfaceReRegisteredFromOneClassToTheSameClass_Success()
         {
@@ -186,15 +165,12 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ReRegister
             c.RegisterType<ISampleClass, SampleClass>().AsPerHttpContext();
 
 
-            var controller = new DefaultController();
-            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
-            var result1 = controller.ResolveObject<ISampleClass>(c, ResolveKind.PartialEmitFunction);
-            var sampleClass1 = (ISampleClass)((ViewResult)result1).Model;
+            var httpContextTestsHelper = HttpContextTestsHelper.Initialize();
+            var sampleClass1 = httpContextTestsHelper.ResolveObject<ISampleClass>(c, ResolveKind.PartialEmitFunction);
 
             c.RegisterType<ISampleClass, SampleClass>().AsPerHttpContext();
-            var result2 = controller.ResolveObject<ISampleClass>(c, ResolveKind.PartialEmitFunction);
-            var sampleClass2 = (ISampleClass)((ViewResult)result2).Model;
-            
+            var sampleClass2 = httpContextTestsHelper.ResolveObject<ISampleClass>(c, ResolveKind.PartialEmitFunction);
+
 
             Assert.IsNotNull(sampleClass1);
             Assert.IsNotNull(sampleClass1.EmptyClass);
@@ -212,18 +188,15 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ReRegister
             c.RegisterType<ISampleClass, SampleClass>().AsPerHttpContext();
 
 
-            var controller = new DefaultController();
-            HttpContext.Current = new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()));
-            var result1 = controller.ResolveObject<ISampleClass>(c, ResolveKind.PartialEmitFunction);
-            var sampleClass1 = (ISampleClass)((ViewResult)result1).Model;
-            var result2 = controller.ResolveObject<ISampleClass>(c, ResolveKind.PartialEmitFunction);
-            var sampleClass2 = (ISampleClass)((ViewResult)result2).Model;
+            var httpContextTestsHelper = HttpContextTestsHelper.Initialize();
+            var objs1 = httpContextTestsHelper.ResolveObjects<ISampleClass>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass1 = objs1.Item1;
+            var sampleClass2 = objs1.Item2;
 
             c.RegisterType<ISampleClass, SampleClassOther>().AsPerHttpContext();
-            var result3 = controller.ResolveObject<ISampleClass>(c, ResolveKind.PartialEmitFunction);
-            var sampleClass3 = (ISampleClass)((ViewResult)result3).Model;
-            var result4 = controller.ResolveObject<ISampleClass>(c, ResolveKind.PartialEmitFunction);
-            var sampleClass4 = (ISampleClass)((ViewResult)result4).Model;
+            var objs2 = httpContextTestsHelper.ResolveObjects<ISampleClass>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass3 = objs2.Item1;
+            var sampleClass4 = objs2.Item2;
 
 
             Assert.AreEqual(sampleClass1, sampleClass2);

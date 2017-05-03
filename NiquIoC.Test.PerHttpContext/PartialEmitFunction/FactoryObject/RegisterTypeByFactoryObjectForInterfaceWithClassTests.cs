@@ -15,7 +15,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.FactoryObject
             c.RegisterType<ISampleClass>(() => new SampleClass(emptyClass)).AsPerHttpContext();
             
 
-            var objs1 = TestsHelper.ResolveObjects<ISampleClass>(c, ResolveKind.PartialEmitFunction);
+            var objs1 = HttpContextTestsHelper.Initialize().ResolveObjects<ISampleClass>(c, ResolveKind.PartialEmitFunction);
             var sampleClass1 = objs1.Item1;
             var sampleClass2 = objs1.Item2;
 
@@ -34,7 +34,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.FactoryObject
             c.RegisterType<ISampleClass>(() => sampleClass).AsPerHttpContext();
             
 
-            var objs1 = TestsHelper.ResolveObjects<ISampleClass>(c, ResolveKind.PartialEmitFunction);
+            var objs1 = HttpContextTestsHelper.Initialize().ResolveObjects<ISampleClass>(c, ResolveKind.PartialEmitFunction);
             var sampleClass1 = objs1.Item1;
             var sampleClass2 = objs1.Item2;
 
@@ -52,7 +52,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.FactoryObject
             c.RegisterType<ISampleClass, SampleClass>().AsPerHttpContext();
             
 
-            var objs1 = TestsHelper.ResolveObjects<ISampleClass>(c, ResolveKind.PartialEmitFunction);
+            var objs1 = HttpContextTestsHelper.Initialize().ResolveObjects<ISampleClass>(c, ResolveKind.PartialEmitFunction);
             var sampleClass1 = objs1.Item1;
             var sampleClass2 = objs1.Item2;
 
@@ -70,7 +70,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.FactoryObject
             c.RegisterType<ISampleClass, SampleClass>().AsPerHttpContext();
             
 
-            var objs1 = TestsHelper.ResolveObjects<ISampleClass>(c, ResolveKind.PartialEmitFunction);
+            var objs1 = HttpContextTestsHelper.Initialize().ResolveObjects<ISampleClass>(c, ResolveKind.PartialEmitFunction);
             var sampleClass1 = objs1.Item1;
             var sampleClass2 = objs1.Item2;
 
