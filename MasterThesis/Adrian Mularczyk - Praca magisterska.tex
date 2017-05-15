@@ -255,10 +255,19 @@ W aplikacji istnieje również atrybut DependencyConstrutor. Można go użyć pr
 
 
 \subsection{Rozwiązanie}
-Aby kontener działał wydajnie dla złożonych grafów zależności, należy jak najwięcej informacji przechowywać w pamięci podręcznej i należy to robić mądrze. W tym celum wykorzystałem operacji z przestrzeni nazw Reflection.Emit, aby zapamiętać ciągu kroków niezbędnych do stworzenia obiektu danej klasy (na potrzeby metody Resolve). Zrobiłem to na dwa sposoby, które zostały opisane poniżej.
+Stworzenie nowego obiektu zajmuje czas. Gdy graf zależności dla jakiegoś typu jest bardzo rozbudowany, to stworzenie takiego obiektu zajmuje dużo czasu. Proces ten można podzielić na trzy etapy:
+\begin{itemize}
+	\item Uzyskanie informacji obiekty jakich typów są potrzebne do stworzenia danego obiektu.
+	\item Stworzenie tych pomocnicznych obiektów.
+	\item Stworzenie docelowego obiektu.
+\end{itemize}
+Gdy mamy rozbudowane grafy zależności, to często zdaża się, że niektóre typy się powtarzają. Zatem pewne informacje możemy uzyskać raz, a następnie je zapamiętać. Aby implementacja wzorca wstrzykiwania zależności działała wydajnie dla złożonych grafów zależności, należy jak najwięcej informacji przechowywać w pamięci podręcznej i należy to robić mądrze.\\
+W mojej implementacji stworzyłem dwie strategie, które realizują te założenia. W pierwszym rozwiązaniu zapamiętuje każdy z tych 3 puntków osobno, a w drugim rozwiązaniu zapamiętuję wszystko na raz. Do zapamiętania kroków potrzebnych do stworzenia obiektu danego typu wykorzystałem operacje z przestrzeni nazw Reflection.Emit.
 
 \subsubsection{Rozwiązanie 1 - PartialEmitFunction}
-W pierwszym rozwiązanu, które nazwałem PartialEmitFunction tworzę delegata z wykorzystaniem Reflection.Emit. Delegat ten jako parametr przyjmuje listę obiektów, które są potrzebne do stworzenia obiektu danej klasy wykorzystując odpowiedni konstruktor. Jeśli kontener do stworzenia obiektu danej klasy wybrał konstruktor bezparametrowy, to do takiego delegata trafi pusta lista. Jeśli natomiast został wybrany konstruktor, który w parametrze przynmuje obiekty jakiś typów, to lista tych obiektów w odpowiedniej kolejności zostanie przekazana do delegata (np. obiekt, który chcemy stworzyć w konstrutkorze który został wybrany potrzebuje obiektu klasy A i B, to do delegata zostanie przekazana lista zawierająca obiekt klasy A i B w kolejności takiej, jakiej są one zdefiniowane z konstruktorze).\\
+Pierwsze rozwiązanie nazwałem PartialEmitFunction, ponieważ cały process tworzenia nowego obiektu został rozbity na mniejsze części (docelowy obiekt tworzę po kawałku).\\
+
+Tworzę w nim delegata z wykorzystaniem Reflection.Emit. Delegat ten jako parametr przyjmuje listę obiektów, które są potrzebne do stworzenia obiektu danej klasy wykorzystując odpowiedni konstruktor. Jeśli kontener do stworzenia obiektu danej klasy wybrał konstruktor bezparametrowy, to do takiego delegata trafi pusta lista. Jeśli natomiast został wybrany konstruktor, który w parametrze przynmuje obiekty jakiś typów, to lista tych obiektów w odpowiedniej kolejności zostanie przekazana do delegata (np. obiekt, który chcemy stworzyć w konstrutkorze który został wybrany potrzebuje obiektu klasy A i B, to do delegata zostanie przekazana lista zawierająca obiekt klasy A i B w kolejności takiej, jakiej są one zdefiniowane z konstruktorze).\\
 Pseudokod tego rozwiązana wygląda następująco:
 \begin{enumerate}
 	\item Dla każdego argumentu umieść ten argument na stosie
