@@ -66,17 +66,18 @@ namespace NiquIoC.Resolver
         private object CreateInstanceFunction(ContainerMember containerMember, object[] parameters)
         {
             //if we do not have a create object function in the cache, we create it
-            if (!_createPartialEmitFunctionForConstructorCache.ContainsKey(containerMember
-                .ReturnType))
+            if (!_createPartialEmitFunctionForConstructorCache.ContainsKey(
+                containerMember.ReturnType))
             {
                 var factoryMethod = CreateObjectFunction(containerMember);
-                _createPartialEmitFunctionForConstructorCache.Add(containerMember.ReturnType,
-                    factoryMethod);
+                _createPartialEmitFunctionForConstructorCache.Add(
+                    containerMember.ReturnType, factoryMethod);
             }
 
             var obj =
                 _createPartialEmitFunctionForConstructorCache[containerMember.ReturnType](
                     parameters);
+
             return obj;
         }
 
@@ -105,7 +106,8 @@ namespace NiquIoC.Resolver
                 ilgen.Emit(OpCodes.Ldelem_Ref);
                 var paramType = parameters[i].ParameterType;
                 //finally we cast the parameter to the correct type
-                ilgen.Emit(paramType.IsValueType ? OpCodes.Unbox_Any : OpCodes.Castclass,
+                ilgen.Emit(
+                    paramType.IsValueType ? OpCodes.Unbox_Any : OpCodes.Castclass,
                     paramType);
             }
             //at the end we create a new object that takes an array of parameters as constructor parameters
