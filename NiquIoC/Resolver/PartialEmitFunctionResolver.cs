@@ -27,7 +27,7 @@ namespace NiquIoC.Resolver
             if (containerMember.ObjectLifetimeManager.ObjectFactory == null)
             {
                 containerMember.ObjectLifetimeManager.ObjectFactory =
-                    () => CreateInstanceFunction(containerMember, afterObjectCreate);
+                    () => GetObject(containerMember, afterObjectCreate);
             }
 
             return containerMember.ObjectLifetimeManager.GetInstance();
@@ -41,7 +41,7 @@ namespace NiquIoC.Resolver
             }
         }
 
-        private object CreateInstanceFunction(ContainerMember containerMember,
+        private object GetObject(ContainerMember containerMember,
             Action<object, ContainerMember> afterObjectCreate)
         {
             var ctorParameters = containerMember.Parameters;
@@ -56,6 +56,15 @@ namespace NiquIoC.Resolver
                 parameters[i] = Resolve(parameterContainerMember, afterObjectCreate);
             }
 
+            var obj = CreateInstanceFunction(containerMember, parameters);
+            //when we have a new instance of the type, we have to resolve the properties and the methods also
+            afterObjectCreate(obj, containerMember);
+
+            return obj;
+        }
+
+        private object CreateInstanceFunction(ContainerMember containerMember, object[] parameters)
+        {
             //if we do not have a create object function in the cache, we create it
             if (!_createPartialEmitFunctionForConstructorCache.ContainsKey(containerMember
                 .ReturnType))
@@ -68,9 +77,6 @@ namespace NiquIoC.Resolver
             var obj =
                 _createPartialEmitFunctionForConstructorCache[containerMember.ReturnType](
                     parameters);
-            //when we have a new instance of the type, we have to resolve the properties and the methods also
-            afterObjectCreate(obj, containerMember);
-
             return obj;
         }
 
