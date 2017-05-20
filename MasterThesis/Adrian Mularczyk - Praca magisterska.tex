@@ -255,18 +255,40 @@ W aplikacji istnieje również atrybut DependencyConstrutor. Można go użyć pr
 
 
 \subsection{Rozwiązanie}
-Stworzenie nowego obiektu zajmuje czas. Gdy graf zależności dla jakiegoś typu jest bardzo rozbudowany, to stworzenie takiego obiektu zajmuje dużo czasu. Proces ten można podzielić na trzy etapy:
+Stworzenie nowego obiektu zajmuje czas. Gdy graf zależności dla jakiegoś typu jest bardzo rozbudowany, to stworzenie obiektu takiego typu zajmuje dużo czasu. Proces ten można podzielić na trzy etapy:
 \begin{itemize}
-	\item Uzyskanie informacji obiekty jakich typów są potrzebne do stworzenia danego obiektu.
+	\item Uzyskanie informacji jakich typów obiekty są potrzebne do stworzenia danego obiektu.
 	\item Stworzenie tych pomocnicznych obiektów.
 	\item Stworzenie docelowego obiektu.
 \end{itemize}
 Gdy mamy rozbudowane grafy zależności, to często zdaża się, że niektóre typy się powtarzają. Zatem pewne informacje możemy uzyskać raz, a następnie je zapamiętać. Aby implementacja wzorca wstrzykiwania zależności działała wydajnie dla złożonych grafów zależności, należy jak najwięcej informacji przechowywać w pamięci podręcznej i należy to robić mądrze.\\
-W mojej implementacji stworzyłem dwie strategie, które realizują te założenia. W pierwszym rozwiązaniu zapamiętuje każdy z tych 3 puntków osobno, a w drugim rozwiązaniu zapamiętuję wszystko na raz. Do zapamiętania kroków potrzebnych do stworzenia obiektu danego typu wykorzystałem operacje z przestrzeni nazw Reflection.Emit.
+W mojej implementacji stworzyłem dwie strategie, które realizują te założenia. Pierwszy krok jest taki sam dla obu rozwiązań (uzyskanie informacji jakich typów obiekty są potrzebne do stworzenia danego obiektu), natomiast kolejne kroki już się różnią. W pierwszym rozwiązaniu, które nazwałem PartialEmitFunction całym process tworzenia nowego obiektu został rozbity na mniejsze części (docelowy obiekt jest tworzony po kawałku). Każda taka osobna część jest zapisywana w pamięci podręcznej. W drugim rozwiązaniu w pamięci podręcznej jest zapisana tylko jedna operacja. Zawiera ona listę wszystkich kroków, które są niezbędne do stworzenia docelowego obiektu. Więc finalnie docelowy obiekt jest tworzony przy pomocy jednej operacji (kroki drugi i trzeci są połączone). To rozwiązanie nazwałem FullEmitFunction.\\
+W obu rozwiązaniach do zapamiętania kroków potrzebnych do stworzenia obiektu danego typu wykorzystałem operacje z przestrzeni nazw Reflection.Emit.
+
+\subsubsection{Krok pierwszy}
+Na początku algorytmu znajdujemy odpowiedni kontstruktor, przy pomocy którego ma zostać stworzony nowy obiekt. Jeśli robimy to poraz pierwszy dla danego typu, to informację o tym konstruktorze zapisujemy w pamięci podręcznej. Do tego celu została użyta struktura danych Dictionary, gdzie kluczem jest typ obiektu, a wartością obiekt klasy ContainerMember (w którym przechowujemy wszystkie zapamiętane informacje dla danego typu). Następnym krokiem, jest rekurencyjne wywołanie tej operacji dla wszystkich typów, których obiekty są niezbędne do stworzenia obiektu docelowego typu.\\
+W tej operacji jest kilka wyjątków - są nimi typy zarejestrowane jako Instance albo FactoryObject. Dla pierwszego przypadku nie musimy uzyskiwać informacji o tym jak stworzyć obiekt takiego  typu, ponieważ mamy już taki obiekt stworzony i go po prostu wykorzystamy. Dla drugiego przypadku obiekt tworzony jest przy użyciu wcześniej zdefiniowanej przez użytkownika funkcji, której wywołanie spowoduje stworzenie obiektu oczekiwanego typu.
+\clearpage
+Klasa ContainerMember prezentuje się następująco:
+\begin{figure}[h]
+	\begin{raggedleft}
+  		\includegraphics{ContainerMember.png}
+	\end{raggedleft}
+\end{figure}\\
+Ta klasa przechowuje:
+\begin{itemize}
+	\item Informacje o konstruktor, przy pomocy którego należy utworzyć obiekt danego typu.
+	\item Informacje o parametrach tego konstruktora.
+	\item Informacje o właciwościach danego typu (na potrzeby operacji BuildUp).
+	\item Informacje o metodach danego typu (na potrzeby operacji BuildUp).
+	\item Czy występuję cykl w konstruktorze.
+	\item Przy należy zapamiętać infrmacje dla danego typu (domyślnie tak, dla typóW zarejestrowanych jako Instance albo ObjectFactory - nie).
+	\item Zarejestrowany typ (ta sama wartoć, co klucz ze słownika).
+	\item Zwracany typ.
+	\item Informacje o menadżerze cyklu życia.
+\end{itemize}
 
 \subsubsection{Rozwiązanie 1 - PartialEmitFunction}
-Pierwsze rozwiązanie nazwałem PartialEmitFunction, ponieważ cały process tworzenia nowego obiektu został rozbity na mniejsze części (docelowy obiekt tworzę po kawałku).\\
-
 Tworzę w nim delegata z wykorzystaniem Reflection.Emit. Delegat ten jako parametr przyjmuje listę obiektów, które są potrzebne do stworzenia obiektu danej klasy wykorzystując odpowiedni konstruktor. Jeśli kontener do stworzenia obiektu danej klasy wybrał konstruktor bezparametrowy, to do takiego delegata trafi pusta lista. Jeśli natomiast został wybrany konstruktor, który w parametrze przynmuje obiekty jakiś typów, to lista tych obiektów w odpowiedniej kolejności zostanie przekazana do delegata (np. obiekt, który chcemy stworzyć w konstrutkorze który został wybrany potrzebuje obiektu klasy A i B, to do delegata zostanie przekazana lista zawierająca obiekt klasy A i B w kolejności takiej, jakiej są one zdefiniowane z konstruktorze).\\
 Pseudokod tego rozwiązana wygląda następująco:
 \begin{enumerate}
