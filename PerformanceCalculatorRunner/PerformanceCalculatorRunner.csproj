@@ -52,6 +52,7 @@
     <Compile Include="PerformanceTestsRunner.cs" />
     <Compile Include="Models\WriteKind.cs" />
     <Compile Include="Writers\FileWriter.cs" />
+    <Compile Include="Writers\LatexTableWriter.cs" />
     <Compile Include="Writers\RegisterAndResolveCsvVerticalFileWriter.cs" />
     <Compile Include="Writers\RegisterCsvVerticalFileWriter.cs" />
     <Compile Include="Writers\ResolveCsvVerticalFileWriter.cs" />

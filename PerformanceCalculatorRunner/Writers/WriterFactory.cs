@@ -28,6 +28,9 @@ namespace PerformanceCalculatorRunner.Writers
                 case WriteKind.VerticalResolve:
                     return new ResolveCsvVerticalFileWriter(resultFile);
 
+                case WriteKind.LatexTable:
+                    return new LatexTableWriter(resultFile);
+
                 default:
                     throw new ArgumentOutOfRangeException(nameof(writeKind), writeKind, null);
             }

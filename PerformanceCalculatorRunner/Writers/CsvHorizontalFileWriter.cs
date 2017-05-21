@@ -7,7 +7,7 @@ namespace PerformanceCalculatorRunner.Writers
 {
     public abstract class CsvHorizontalFileWriter : FileWriter
     {
-        protected CsvHorizontalFileWriter(string resultFile) : base(resultFile)
+        protected CsvHorizontalFileWriter(string resultFile) : base(resultFile, "csv")
         {
         }
 

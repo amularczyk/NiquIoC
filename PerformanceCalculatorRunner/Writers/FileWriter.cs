@@ -9,9 +9,9 @@ namespace PerformanceCalculatorRunner.Writers
     {
         private readonly string _resultFile;
 
-        protected FileWriter(string resultFile)
+        protected FileWriter(string resultFile, string extension)
         {
-            _resultFile = resultFile;
+            _resultFile = $"{resultFile}.{extension}";
         }
 
         public abstract void Write(Dictionary<string, IEnumerable<FinalTestResult>> results, IEnumerable<PerformanceTestCase> testCases);

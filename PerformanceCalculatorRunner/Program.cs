@@ -8,7 +8,7 @@ namespace PerformanceCalculatorRunner
     public class Program
     {
         private static readonly string _processPath = @"..\..\..\PerformanceCalculator\bin\Release\PerformanceCalculator.exe";
-        private static readonly string _resultFile = $"PerformanceCalculator_{DateTime.Now.ToString("yyyy_MM_dd_HH_mm")}.csv";
+        private static readonly string _resultFile = $"PerformanceCalculator_{DateTime.Now:yyyy_MM_dd_HH_mm}";
 
         private static void Main(string[] args)
         {
@@ -25,7 +25,7 @@ namespace PerformanceCalculatorRunner
             var performanceTestsRunner = new PerformanceTestsRunner(_processPath);
             var results = PerformanceTestCasesRunnerHelper.RunPerformanceTests(performanceTestsRunner, repetitionsNumber, testCases);
 
-            var writer = WriterFactory.GetTextFormatter(WriteKind.VerticalResolve, _resultFile);
+            var writer = WriterFactory.GetTextFormatter(WriteKind.LatexTable, _resultFile);
             writer.Write(results, testCases);
         }
     }
