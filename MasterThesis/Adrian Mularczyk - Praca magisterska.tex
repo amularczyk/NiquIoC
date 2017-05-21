@@ -397,7 +397,7 @@ Metoda AddObjectCreatedByObjectLifetimeManager, za wyjątkiem pierwszej operacji
 	\item Dodaj do listy kroków operację, która zdejmie obiekt ze szczytu stosu (będzie to obiekt typu IObjectLifeTimeManager), wywoła na nim metodę, która zwróci instancję obiektu i na szczycie stosu umieści rezultat tej metody.
 	\item Dodaj do listy kroków operację, która zrzutuje obiekt ze szczytu stosu na odpowiedni typ.
 \end{enumerate}
-<ToDelete>
+Po wykonaniu tych 10 operacji na szczycie stosu znajdzie się obiekt danego typu utworzony przy pomocy menadżera czasu życia.
 \begin{figure}[h]
 	\begin{raggedleft}
   		\includegraphics{FullEmitFunction_AddObjectCreatedByObjectLifetimeManager.png}
@@ -410,46 +410,55 @@ W tej sytuacji wywołujemy po prostu metodę AddObjectCreatedByObjectLifetimeMan
 
 \clearpage
 \section{Testy wydajnościowe}
-Do przeprowadzania testów wydajnościowych stworzyłem osobną aplikację w której zaimplementowałem 3 przypadki testowe (przypadek testowy A, przypadek testowy B i przypadek testowy C). Każdy z przypadków testowych sprawdza czas wykoniania operacji "Resolve" dla różnych rodzajów rejestracji (operacji Register).\\
-Każdy z przypadków testowych wykonuje testy dla następujący rejestracji:
+Do przeprowadzania testów wydajnościowych stworzyłem osobną aplikację w której utworzyłem 4 przypadki testowe:
 \begin{itemize}
-	\item Register as Singleton
-	\item Register as Transient
-	\item Register as TransientSingleton
-	\item Register as PerThread (dla niektórych przemysłowych implementacji - PerScope)
+	\item Przypadek testowy A,
+	\item Przypadek testowy B,
+	\item Przypadek testowy C,
+	\item Przypadek testowy D.
 \end{itemize}
-Każdy z testów dla każdej implementacji wstrzykiwania zależności był uruchamiany w osobnym procesie. Każdy test był uruchamiany {\color{red}10} razy, a w wynikach zostały przedstawione następujące czasy: minimalny,  maksymalny i średni.
+Dla każdego z przypadków sprawdzany jest czas wykoniania operacji "Resolve" dla różnych rodzajów rejestracji (operacji Register).Testy zostały wykonane dla następujących wariantów rejestracji:
+\begin{itemize}
+	\item Register as Singleton,
+	\item Register as Transient,
+	\item Register as TransientSingleton,
+	\item Register as PerThread (dla niektórych przemysłowych rozwiązań - PerScope),
+	\item {\color{red}Register as FactoryMethod.}
+\end{itemize}
+Każdy z testów dla każdego rozwiązania był uruchamiany w osobnym procesie. Każdy test był uruchamiany 10 razy, a w wynikach zostały przedstawione następujące czasy: minimalny, maksymalny i średni.
 
 \subsubsection{Register as Singleton}
-Każdy typ jest zarejestrowany jako "Singleton", czyli obiekt jest tworzony raz i potem cały czas jest zwracany ten sam obiekt.
+Każdy typ jest zarejestrowany jako "Singleton", czyli obiekt jest tworzony raz, a następnie cały czas zwracany.
 
 \subsubsection{Register as Transient}
 Każdy typ jest zarejestrowany jako "Transient", czyli za każdym razem jest tworzony nowy obiekt.
 
 \subsubsection{Register as TransientSingleton}
-Każdy typ jest zarejestrowany jako "Transient" za wyjątkiem typów, które maja konstruktor bezparametrowy - te typy są zarejestrowane jako singleton.
+Każdy typ jest zarejestrowany jako "Transient" za wyjątkiem typów, które maja konstruktor bezparametrowy - są one zarejestrowane jako "Singleton".
 
 \subsubsection{Register as PerThread}
-Każdy typ jest zarejestrowany jako "PerThread", czyli obiekt jest tworzony raz dla każdego wątku, a następnie w obrębie danego wątku jest on cały czas zwracany.
+Każdy typ jest zarejestrowany jako "PerThread", czyli obiekt jest tworzony raz dla każdego wątku, a następnie w obrębie tego wątku cały czas zwracany.
+
+\subsubsection{Register as FactoryMethod}
+{\color{red}Typ główny jest zarejestrowany jako "FactoryMethod", czyli jako funkcja, która zwraca nam obiekt danego typu.}
 
 \subsection{Przypadek testowy A}
 \subsubsection{Opis}
-W tym teście mamy zdefiniowanych 11 typów i każdy z nich przymuje w konstruktorze od jeden mniej parametr mniej niż typ poprzedni (czyli przyjmują one kolejno od 10 do 0 parametrów w konstruktorze). Typem głównym, a zarazem typem o największej licznie parametrów, jest typ "TestA". Przyjmuje on w konstruktorze 10 parametrów, kolejno następujących typów: "TestA0", "TestA1", "TestA2", "TestA3", "TestA4", "TestA5", "TestA6", "TestA7", "TestA8", "TestA9". Każdy z tych 10 typów w konstruktorze przyjmuje tyle obiekt, jaki ma numerek w nazwie (czyli obiekt typu "TestA0" ma konstruktore bezparametrowy, obiekt typy "TestA1" ma konstuktor z jednym parametrem; i tak dalej aż do typu "TestA9", który ma konstruktor z dziewięcioma parametrami). Każdy z tych typów jako parametry w konstruktorze przyjmuje kolejne obiekty typów z niższym numerkiem (czyli obiekt typu "TestA1" w konstruktorze przyjmuje parametr typu "TestA0", obiekt typu "TestA2" przymuje w konstruktorze obiekty typu "TestA0" i "TestA1";  i tak dalej aż do typu "TestA9", który w konstruktorze przyjmuje parametry z typami od "TestA0" do "TestA8"). Graf zależności poszczególnych typów został przedstawiony na Rys. \ref{fig:testA}.\\
-
+W tym teście mamy zdefiniowanych 11 typów. Każdy z nich przymuje w konstruktorze o jeden parametr mniej niż typ poprzedni (czyli przyjmują one kolejno od 10 do 0 parametrów w konstruktorze). Typem głównym, a zarazem typem o największej liczbie parametrów, jest typ "TestA". Przyjmuje on w konstruktorze 10 parametrów następujących typów: "TestA0", "TestA1", "TestA2", "TestA3", "TestA4", "TestA5", "TestA6", "TestA7", "TestA8", "TestA9". Każdy z tych 10 typów w konstruktorze przyjmuje tyle parametrów, jaki ma numerek w nazwie (czyli obiekt typu "TestA0" ma konstruktore bezparametrowy, obiekt typy "TestA1" ma konstuktor z jednym parametrem; i tak dalej aż do typu "TestA9", który ma konstruktor z dziewięcioma parametrami). Wszystkie typy jako parametry w konstruktorze przyjmuje obiekty typów z niższymi numerkami (czyli obiekt typu "TestA1" w konstruktorze przyjmuje obiekt typu "TestA0", obiekt typu "TestA2" przymuje w konstruktorze obiekty typóW "TestA0" i "TestA1";  i tak dalej aż do typu "TestA9", który w konstruktorze przyjmuje obiekty z typami od "TestA0" do "TestA8"). Graf zależności poszczególnych typów został przedstawiony na Rys. \ref{fig:testA}.
 \begin{figure}[h]
 	\begin{center}
   		\includegraphics[height=12cm]{TestA.png}
   		\caption{Graf zależności dla testu A.}
   		\label{fig:testA}
 	\end{center}
-\end{figure}
+\end{figure}\\
 
 Łatwo wywnioskować, że tworząc obiekty poszczególnych typów ilość tworzonych obiektów rośnie dwukrotnie:
 \begin{itemize}
 	\item TestA0 - 1 obiekt,
 	\item TestA1 - 2 obiekty (obiekt typu TestA1 i obiekt typu TestA0),
 	\item TestA2 - 4 obiekty (obiekt typu TestA2, obiekt typu TestA1 - 2 obiekty, obiekt typu TestA0 - 1 obiekt),
-	\item TestA3 - 8 obiektów (obiekt typu TestA3, obiekt typu TestA2 - 4 obiekty, obiekt typu TestA1, obiekt typu TestA0),
+	\item TestA3 - 8 obiektów (obiekt typu TestA3, obiekt typu TestA2 - 4 obiekty, obiekt typu TestA1 - 2 obiekty, obiekt typu TestA0 - 1 obiekt),
 	\item TestA4 - 16 obiektów,
 	\item TestA5 - 32 obiektów,
 	\item TestA6 - 64 obiektów,
@@ -482,8 +491,7 @@ Zatem tworząc nasz główny obiekt typu TestA, tworzymy: 1 obiekt typu TestA, 1
   	\end{tabular}
 \end{small}
 \end{center}
-
-Najlepiej poradziły sobie najpopularniejsze rozwiązania - Windsor i Aurofac. Rozwiązanie NiquIoCPartial uplasowało się na 3 miejscu. Najsłabiej poradził sobie rozwiązania StructureMap, Unity oraz Ninject.
+Dla tego testu najlepiej poradziły sobie dwa z najpopularniejszych rozwiązania - Windsor i Aurofac. Rozwiązanie NiquIoCPartial uplasowało się na 3 miejscu. Najsłabiej poradził sobie pozostałę najpopularniejsze rozwiązania: StructureMap, Unity oraz Ninject. Pozostałe rozwiązania miały zbliżone czasy.
 
 \subsubsection{Wyniki dla Transient}
 \begin{center}
@@ -507,10 +515,10 @@ Najlepiej poradziły sobie najpopularniejsze rozwiązania - Windsor i Aurofac. R
   	\end{tabular}
 \end{small}
 \end{center}
-Gdy mamy tylko 1 operację najlepiej radzi sobie Autofac, a zaraz za nim NiquIoCPartial i Windsor. Najsłabiej Grace, DryIoc i SimplyInjector.\\
-Dla 10 operacji sytuacja lekko zaczyna się zmieniać. Tym razem znacząco najlepiej radzi sobie NiquIoCPartial (ponad dwa razy lepiej niż drugi Autofac). Kolejne miejsca należą do NiquIoCFull i LightInject. Pozostałe rozwiązania miały podobne, dużo słabsze czasy.Wyjątkiem jest jedynie Ninject, który poradził sobie najgorzej i jego czas jest ponad 5 razy większy niż dla rozwiązania z przedostatnim czasem (Windsor).\\
-Gdy mamy 100 operacji na prowadzenie wysuneły się mniej popularne rozwiązania, które prawdopodobniej mają najlepsze cachowanie. Na pierwszym miejscu jest NiquIoCFull, a kolejne miejsca to LightInject i SimpleInjector. Do grona najsłabszym (Ninject, Windsor, Unity) w tym przypadku dołączył również Autofac, który z drugiego miejsca spadł na ósme.\\
-Dla przypadku z 1000 operacji do czołówki dołączył DryIoc (czasy zbliżone do SimpleInjector). Na pierwszym miejscu wciąż pozostaje NiquIoCFull, a zaraz za nim LightInject i SimpleInjector. Pozostałe rozwiązania mają czasy od kilka do kilkanaście razy gorsze.\\
+W tym teście jest już spora rozbieżność czasów. Gdy mamy tylko 1 operację najlepiej radzi sobie Autofac, a zaraz za nim NiquIoCPartial i Windsor. Najsłabiej natomiast SimplyInjector, DryIoc i Grace. Pozostałe rozwiązania wypadły przeciętnie i bliżej im było do czasów najgorszych, niż najlepszych.\\
+Dla 10 operacji sytuacja zaczyna się lekko zmieniać. Tym razem znacząco najlepiej radzi sobie NiquIoCPartial (ponad dwa razy lepiej niż drugi Autofac). Kolejne miejsca należą do NiquIoCFull i LightInject. Pozostałe rozwiązania miały podobne, trochę słabsze czasy. Wyjątkiem jest jedynie Ninject, który poradził sobie najgorzej i jego czas jest ponad 5 razy większy niż dla rozwiązania z przedostatnim czasem (Windsor).\\
+Przy 100 operacji na prowadzenie wysuneły się mniej popularne rozwiązania. Na pierwszym miejscu jest NiquIoCFull, a kolejne miejsca to LightInject i SimpleInjector. Do grona najsłabszych (Unity, Windsor, Ninject) w tym przypadku dołączył również Autofac, który z drugiego miejsca spadł na ósme. StructureMap miał czasy tylko trochę lepszy niż Autofac. DryIoc, Grace i NiquIoCPartial wypadły akceptowalnie - poradziły sobie trochę gorzej niż trzeci SimpleInjector.\\
+Już dla 1000 operacji od czołówki oddalił się NiquIoCPartial. Na pierwszym miejscu wciąż pozostaje NiquIoCFull, a zaraz za nim LightInject i SimpleInjector. DryIoc i Grace wciąż tochę słabiej, ale wciąż zadowalająco. Pozostałe rozwiązania mają czasy od kilku do kilkunastu razy gorsze.\\
 Warto tutaj zaznaczyć, że najmniejszy wzorst czasu miały kolejno rozwiązania: LightInject, NiquIoCFull, SimpleInjector, DryIoc oraz Grace.
 
 \subsubsection{Wyniki dla TransientSingleton}
@@ -535,7 +543,10 @@ Warto tutaj zaznaczyć, że najmniejszy wzorst czasu miały kolejno rozwiązania
   	\end{tabular}
 \end{small}
 \end{center}
-<<opis>>
+Przy tym teście dla 1 operacji również najlepiej poradziły sobie Autofac, NiquIoCPartial i Windsor. Trochę gorzej NiquIoCFull. Czasy dla Unity, SimpleInjector, Grace, StructureMap i Ninject są zbliżone, jednak duże. Najgorzej wypadły natomiast LightInject i DryIoc.\\
+Gdy mamy 10 operacji na drugie miejsce wskoczył NiquIoCFull. Na pierwsze przesunął się NiquIoCPartial, a Autofac spadł na miejsce trzecie. Kolejne miejsce zajmują SimpleInjector i Grace. Trochę gorzej poradził sobie Windsor, który z podium spadł na 6 miejsce. Zaraz za nim jest StrutureMap, Unity i LightInject. DryIoc nadal słabo, a ostatnie miejsce zajął Ninject.
+Dla 100 operacji na pierwszym miejscu znalazł się NiquIoCFull. NiquIoCPartial spadł poza podium i ma czasy zbliżone do LightInject. Na podium znaleźli się za to SimpleInjector i Grace. DryIoc  ma jeszcze akceptowalny czas. Pozostałe rozwiążań bardzo słabo, a ranking zamykają Unity, Windsor i Ninject.
+Test dla 1000 operacji nie spowodował żadnych zmiań z rankingu. Jedynie różnica czasów pomiędzy pierwszą 5, a pozostały miejscami znacząco się zwiększyła. Dla pierwszej piątki czasy zwrosły około dwukrotkie, a dla pozostały miejsc ponad siedmiokrotnie.
 
 \subsubsection{Wyniki dla PerThread}
 \begin{center}
@@ -560,28 +571,25 @@ Warto tutaj zaznaczyć, że najmniejszy wzorst czasu miały kolejno rozwiązania
 \end{small}
 \end{center}
 Czasy dla tego przypadku powinny być zbliżone do czasów dla Singleton, ponieważ wszystko było uruchamiane w jednym wątku. Niestety częć rozwiązań sobie z tym nie poradziła. Czasy zbliżone do czasów dla Singletona posiadają: Autofac, Grace, Ninject, NiquIoCPartial, NiquIoCFull, StructureMap, Unity i Windsor, a dla DryIoC, LightInject i SimpleInjector czasy są od kilka do nawet kilkadziesiąt razy większe.\\
-Jeśli chodzi o najlepsze rozwiązania, to wyglądają one tak samo jak dla Singleton - Windso,i Aurofac i NiquIoCPartial. Najsłabiej poradził sobie rozwiązania LightInject i DryIoc. Także w drugiej części tabeli (pod względem czasów) znalazły się Unity, SimpleInjector i StructureMap.
+Jeśli chodzi o najlepsze rozwiązania, to wyglądają one tak samo jak dla Singleton. Pierwsze trzy miejsca to Windsor, Aurofac i NiquIoCPartial. Najsłabiej poradziły sobie LightInject i DryIoc. W drugiej połowie rankingu znalazły się również Unity, SimpleInjector i StructureMap, a tuż za czołówką NiquIoCFull, Grace i Ninject.
 
 
 \subsection{Przypadek testowy B}
 \subsubsection{Opis}
-Ten test jest bardzo podobny do przypadku testowego A, tylko dochodzi nam 1 dodatkowy poziom, który wygląda trochę inaczej. W głównym obiekcie "TestB" konstruktor przyjmuje 3 parametry następujących typów: "TestBa10", "TestBb10", "TestBc10". Każdy z tych 3 typów odpowiada typowi "TestA", więc przyjmuje on w konstruktorze 10 parametrów. Dla "TestBa10" są to parametry typów od "TestBa0" do "TestBa9", dla "TestBb10" są to parametry typów od "TestBb0" do "TestBb9", a dla "TestBc10" są to parametry typów od "TestBc0" do "TestBc9". Zależności tych typów wyglądają tak samo, jak dla typów z przypadku testowego A - rys. \ref{fig:testB} przedstawia te zależności. \\
-
-\clearpage
+Ten test jest bardzo podobny do przypadku testowego A, tylko dochodzi nam 1 dodatkowy poziom, który wygląda trochę inaczej. W głównym obiekcie "TestB" konstruktor przyjmuje 3 parametry następujących typów: "TestBa10", "TestBb10", "TestBc10". Każdy z tych 3 typów odpowiada typowi "TestA", więc przyjmuje on w konstruktorze 10 parametrów. Dla "TestBa10" są to parametry typów od "TestBa0" do "TestBa9", dla "TestBb10" są to parametry typów od "TestBb0" do "TestBb9", a dla "TestBc10" są to parametry typów od "TestBc0" do "TestBc9". Zależności tych typów wyglądają tak samo, jak dla typów z przypadku testowego A - rys. \ref{fig:testB} przedstawia te zależności.
 \begin{figure}[h]
 	\begin{center}
   		\includegraphics[width=\linewidth]{TestB.png}
   		\caption{Graf zależności dla testu B.}
   		\label{fig:testB}
 	\end{center}
-\end{figure}
-
+\end{figure}\\
 Łatwo wywnioskować, że tworząc obiekty poszczególnych typów ilość tworzonych obiektów rośnie dwukrotnie (tak jak dla testu A):
 \begin{itemize}
 	\item TestBa0 - 1 obiekt,
 	\item TestBa1 - 2 obiekty (obiekt typu TestBa1 i obiekt typu TestBa0),
 	\item TestBa2 - 4 obiekty (obiekt typu TestBa2, obiekt typu TestBa1 - 2 obiekty, obiekt typu TestBa0 - 1 obiekt),
-	\item TestBa3 - 8 obiektów (obiekt typu TestBa3, obiekt typu TestBa2 - 4 obiekty, obiekt typu TestBa1, obiekt typu TestBa0),
+	\item TestBa3 - 8 obiektów (obiekt typu TestBa3, obiekt typu TestBa2 - 4 obiekty, obiekt typu TestBa1 - 2 obiekty, obiekt typu TestBa0 - 1 obiekt),
 	\item TestBa4 - 16 obiektów,
 	\item TestBa5 - 32 obiektów,
 	\item TestBa6 - 64 obiektów,
@@ -589,10 +597,10 @@ Ten test jest bardzo podobny do przypadku testowego A, tylko dochodzi nam 1 doda
 	\item TestBa8 - 256 obiektów,
 	\item TestBa9 - 512 obiektów,
 	\item TestBa10 - 1 024 obiektów,
-	\item \ldots (dla TestBb i TestBc sytuacja wygląda dokłądnie tak samo jak dla TestBa),
+	\item \ldots (dla typów od TestBb0 do TestBb10 i od TestBc0 do TestBc10 sytuacja wygląda dokłądnie tak samo jak dla typów od TestBa0 do TestBa10),
 	\item TestB - 3 073 obiektów.
 \end{itemize}
-Zatem tworząc obiekt typu TestB, tworzymy: 1 obiekt typu TestB, 1 obiekt typu TestBa10, TestBb10 i TestBc10,1 obiekt typu TestBa9, TestBb9 i TestBc9, 2 obiekty typu TestBa8, TestBb8 i TestBc8, 4 obiekty typu TestBa7, TestBb7 i TestBc7, 8 obiektów typu TestBa6, TestBb6 i TestBc6, 16 obiektów typu TestBa5, TestBb5 i TestBc5, 32 obiektów typu TestBa4, TestBb4 i TestBc4, 64 obiektów typu TestBa3, TestBb3 i TestBc3, 128 obiektów typu TestBa2, TestBb2 i TestBc2, 256 obiektów typu TestBa1, TestBb1 i TestBc1, 512 obiektów typu TestBa0, TestBb0 i TestBc0 - co daje w sumie 3 073 obiektów.
+Zatem tworząc obiekt typu TestB, tworzymy: 1 obiekt typu TestB, 1 obiekt typu TestBa10, TestBb10 i TestBc10, 1 obiekt typu TestBa9, TestBb9 i TestBc9, 2 obiekty typu TestBa8, TestBb8 i TestBc8, 4 obiekty typu TestBa7, TestBb7 i TestBc7, 8 obiektów typu TestBa6, TestBb6 i TestBc6, 16 obiektów typu TestBa5, TestBb5 i TestBc5, 32 obiektów typu TestBa4, TestBb4 i TestBc4, 64 obiektów typu TestBa3, TestBb3 i TestBc3, 128 obiektów typu TestBa2, TestBb2 i TestBc2, 256 obiektów typu TestBa1, TestBb1 i TestBc1, 512 obiektów typu TestBa0, TestBb0 i TestBc0 - co daje w sumie 3 073 obiektów.
 
 \subsubsection{Wyniki dla Singleton}
 \begin{center}
@@ -616,7 +624,7 @@ Zatem tworząc obiekt typu TestB, tworzymy: 1 obiekt typu TestB, 1 obiekt typu T
   	\end{tabular}
 \end{small}
 \end{center}
-Dla tego przypadku testowego również najlepiej poradziły sobie najpopularniejsze rozwiązania - Aurofac i Windso. Kontener NiquIoCPartial uplasował się tutaj również na 3 miejscu. Najsłabiej poradził sobie rozwiązania StructureMap, Unity oraz Ninject.
+Dla tego przypadku testowego również najlepiej poradziły sobie najpopularniejsze rozwiązania - Aurofac i Windsor. NiquIoCPartial uplasował się tutaj również na 3 miejscu, jednak z czasemi gorszymi niż dla testu A. Koniec rankingu jest taki sam, czyli StructureMap, Unity oraz Ninject. Tutaj też pozostałe rozwiążania miały zbliżone do siebie czasy, ale ponad 3 razy gorsze niż dla testu A.
 
 \subsubsection{Wyniki dla Transient}
 \begin{center}
@@ -640,11 +648,12 @@ Dla tego przypadku testowego również najlepiej poradziły sobie najpopularniej
   	\end{tabular}
 \end{small}
 \end{center}
-Gdy mamy tylko 1 operację najlepiej radzi sobie Autofac, a zaraz za nim NiquIoCPartial i Windsor. Najsłabiej DryIoc i SimplyInjector.\\
-Gdy mamy 10 operacji znacząco lepiej niż reszta radzi sobie NiquIoCPartial - czasy ponad dwa mniejsze niż dla zajmującego drugie Autofac. Kolejne miejsca należą do NiquIoCFull i LightInject. Pozostałe rozwiązania miałby podobne, trochę słabsze czasy. Najgorzej poradził sobie Ninject, który czas miał ponad 5 razy większy niż rozwiązanie z przedostatnim czasem (Grace).\\
-Tutaj również gdy mamy 100 operacji na prowadzenie wysuneły się mniej popularne rozwiązania. Kolejne miejsca to: NiquIoCFull, LightInject i SimpleInjector. Najsłabiej w tym przypadku poradziłysobie Ninject, Windsor, Unity i Autofac. Grace w 9 miejsca od końca awansował na 6, a NiquIoCPartial z pierwszego spadł na 5.\\
-Dla przypadku z 1000 operacji do czołówki dołączył DryIoc i Grace - czasy trochę słabsze niż SimpleInjector. Pierwsze trzy miejsca nie uległu zmianie.\\
-Tutaj najmniejszy wzorst czasu miały rozwiążania: NiquIoCFull, LightInject, SimpleInjector, DryIoc oraz Grace.
+W tym teście sytuacja wygląda niemal identycznie jak w teście A, z tą różnica, że czasy są około 3 razy większe.\\
+Dla 1 operację najlepiej radzi sobie Autofac, a tuż za nim NiquIoCPartial i Windsor. Ostatnie trzy miejsca to: SimplyInjector, DryIoc i Grace. Pozostałe rozwiązania wypadły słabo i jeszcze bliżej im do czasów najgorszych.\\
+Gdy mamy 10 operacji najlepiej radzi sobie NiquIoCPartial (również ponad dwa razy lepiej niż drugi Autofac). Kolejne miejsca należą do NiquIoCFull i LightInject. Tutaj również Ninject ma ponad 5 razy gorszy czas niż miejsce przedostatnie, jednakże zajmuje je Grace, a nie Windsor, który jest miejsce wyżej. Tylko trochę lepiej od Windsor poradziły sobie StructureMap, DryIoc i Unity.\\
+Przy 100 operacji pierwsze trzy miejsca zajmują  NiquIoCFull, LightInject i SimpleInjector. Tutaj nic się nie zmieniło w stosunku do testu A. Grace z miejsca przedostatniego dla 10 operacji, awansował na miejsce szóste i jego czasy w tym przypadku wyglądają zadowalająco. Trochę lepiej od niego poradziły sobie DryIoc i NiquIocPartial. Grono najsłabszych to: StructureMap, Autofac, Unity, Windsor i Ninject.\\
+Jak można się było spodziewać dla 1000 operacji sytuacja wygląda identycznie jak dla testu A - od czołówki oddalił się NiquIoCPartial, a na pierwszym miejscu wciąż pozostaje NiquIoCFull. LightInject i SimpleInjector są zaraz za nim. DryIoc i Grace słabiej, ale wciąż akceptowalnie. Pozostałe rozwiązania mają czasy o rząd lub dwa większe, niż NiquIocPartial..\\
+Tutaj również najmniejszy wzorst czasu miały rozwiązania: LightInject, NiquIoCFull, SimpleInjector, DryIoc oraz Grace.
 
 \subsubsection{Wyniki dla TransientSingleton}
 \begin{center}
