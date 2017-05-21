@@ -6,9 +6,9 @@ using PerformanceCalculatorRunner.Models;
 
 namespace PerformanceCalculatorRunner.Writers
 {
-    public class LatexTableWriter : FileWriter
+    public abstract class LatexTableWriter : FileWriter
     {
-        public LatexTableWriter(string resultFile) : base(resultFile, "txt")
+        protected LatexTableWriter(string resultFile) : base(resultFile, "txt")
         {
         }
 
@@ -51,7 +51,7 @@ namespace PerformanceCalculatorRunner.Writers
             sb.AppendLine();
         }
 
-        private static void AppendResults(Dictionary<string, IEnumerable<FinalTestResult>> results, string testCaseName,
+        private void AppendResults(Dictionary<string, IEnumerable<FinalTestResult>> results, string testCaseName,
             RegistrationKind registrationKind, StringBuilder sb)
         {
             foreach (var result in results)
@@ -60,7 +60,7 @@ namespace PerformanceCalculatorRunner.Writers
             }
         }
 
-        private static void AppendResult(string testCaseName, RegistrationKind registrationKind, StringBuilder sb,
+        private void AppendResult(string testCaseName, RegistrationKind registrationKind, StringBuilder sb,
             KeyValuePair<string, IEnumerable<FinalTestResult>> result)
         {
             var currentValues = GetCurrentValues(testCaseName, registrationKind, result);
@@ -68,8 +68,7 @@ namespace PerformanceCalculatorRunner.Writers
             sb.Append(result.Key);
             foreach (var currentValue in currentValues.OrderBy(r => r.TestCasesCount))
             {
-                sb.Append(
-                    $" & {currentValue.MinResolveTime} & {currentValue.MaxResolveTime} & {currentValue.AvgResolveTime}");
+                sb.Append(GetValuesAsText(currentValue));
             }
             sb.Append(" \\\\ \\hline");
             sb.AppendLine();
@@ -81,5 +80,7 @@ namespace PerformanceCalculatorRunner.Writers
             return result.Value.Where(r => r.TestCaseName == testCaseName &&
                                            r.RegistrationKind == registrationKind);
         }
+
+        protected abstract string GetValuesAsText(FinalTestResult currentValue);
     }
 }

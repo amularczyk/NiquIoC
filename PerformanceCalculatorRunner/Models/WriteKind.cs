@@ -8,6 +8,7 @@
         VerticalBoth,
         VerticalRegister,
         VerticalResolve,
-        LatexTable
+        LatexTableRegister,
+        LatexTableResolve,
     }
 }

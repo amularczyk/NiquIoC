@@ -56,6 +56,8 @@
     <Compile Include="Writers\RegisterAndResolveCsvVerticalFileWriter.cs" />
     <Compile Include="Writers\RegisterCsvVerticalFileWriter.cs" />
     <Compile Include="Writers\ResolveCsvVerticalFileWriter.cs" />
+    <Compile Include="Writers\RegisterLatexTableWriter.cs" />
+    <Compile Include="Writers\ResolveLatexTableWriter.cs" />
     <Compile Include="Writers\WriterFactory.cs" />
     <Compile Include="Writers\RegisterAndResolveCsvHorizontalFileWriter.cs" />
     <Compile Include="Writers\RegisterCsvHorizontalFileWriter.cs" />
