@@ -25,6 +25,7 @@ namespace PerformanceCalculatorRunner.Writers
                 {
                     var sb = new StringBuilder();
 
+                    sb.AppendLine($"{testCaseGroupByTestCase.Key} - {testCaseGroupByRegistrationKind.Key}");
                     AppendHeader(testCaseGroupByRegistrationKind, sb);
                     AppendResults(results, testCaseGroupByTestCase.Key, testCaseGroupByRegistrationKind.Key, sb);
 
