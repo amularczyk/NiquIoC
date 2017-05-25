@@ -44,7 +44,7 @@ Unity & 8 & 9 & 8 & 14 & 15 & 14 & 73 & 82 & 74 & 659 & 753 & 663 \\ \hline
 Windsor & 1 & 2 & 1 & 12 & 14 & 12 & 117 & 140 & 119 & 1161 & 1302 & 1177 \\ \hline
 
 A - PerThread
-Ilość & & 1 & & & 10 & & & 100 & & & 1009 & \\ \hline
+Ilość & & 1 & & & 10 & & & 100 & & & 1000 & \\ \hline
  & min & max & avg & min & max & avg & min & max & avg & min & max & avg \\ \hline
 Autofac & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
 DryIoc & 71 & 73 & 71 & 71 & 72 & 71 & 71 & 73 & 72 & 72 & 74 & 72 \\ \hline
@@ -59,7 +59,7 @@ Unity & 7 & 8 & 7 & 7 & 8 & 7 & 7 & 8 & 7 & 8 & 9 & 8 \\ \hline
 Windsor & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
 
 A - FactoryMethod
-Ilość & & 1 & & & 10 & & & 100 & & & 1009 & \\ \hline
+Ilość & & 1 & & & 10 & & & 100 & & & 1000 & \\ \hline
  & min & max & avg & min & max & avg & min & max & avg & min & max & avg \\ \hline
 Autofac & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
 DryIoc & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline

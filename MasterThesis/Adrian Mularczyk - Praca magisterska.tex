@@ -490,7 +490,7 @@ Windsor & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
   	\end{tabular}
 \end{small}
 \end{center}
-Dla tego testu najlepiej poradziły sobie dwa z najpopularniejszych rozwiązania - Windsor i Aurofac. Rozwiązanie NiquIoCPartial uplasowało się na 3 miejscu. Najsłabiej poradził sobie pozostałę najpopularniejsze rozwiązania: StructureMap, Unity oraz Ninject. Pozostałe rozwiązania miały zbliżone czasy.
+Dla tego testu najlepiej poradziły sobie dwa z najpopularniejszych rozwiązania - Aurofac i Windsor. Rozwiązanie NiquIoCPartial uplasowało się na 3 miejscu. Najsłabiej poradził sobie pozostałe najpopularniejsze rozwiązania: Ninject, Unity oraz StructureMap. Reszta rozwiązań miała zbliżone czasy - dwukrotnie większe niż NiquIoCPartial i trzykrotnie mniejsze niż Ninject.
 
 \subsubsection{Wyniki dla Transient}
 \begin{center}
@@ -514,10 +514,10 @@ Windsor & 1 & 2 & 1 & 16 & 21 & 16 & 152 & 192 & 155 & 1511 & 1799 & 1529 \\ \hl
 \end{small}
 \end{center}
 W tym teście jest już spora rozbieżność czasów. Gdy mamy tylko 1 operację najlepiej radzi sobie Autofac, a zaraz za nim NiquIoCPartial i Windsor. Najsłabiej natomiast SimplyInjector, DryIoc i Grace. Pozostałe rozwiązania wypadły przeciętnie i bliżej im było do czasów najgorszych, niż najlepszych.\\
-Dla 10 operacji sytuacja zaczyna się lekko zmieniać. Tym razem znacząco najlepiej radzi sobie NiquIoCPartial (ponad dwa razy lepiej niż drugi Autofac). Kolejne miejsca należą do NiquIoCFull i LightInject. Pozostałe rozwiązania miały podobne, trochę słabsze czasy. Wyjątkiem jest jedynie Ninject, który poradził sobie najgorzej i jego czas jest ponad 5 razy większy niż dla rozwiązania z przedostatnim czasem (Windsor).\\
-Przy 100 operacji na prowadzenie wysuneły się mniej popularne rozwiązania. Na pierwszym miejscu jest NiquIoCFull, a kolejne miejsca to LightInject i SimpleInjector. Do grona najsłabszych (Unity, Windsor, Ninject) w tym przypadku dołączył również Autofac, który z drugiego miejsca spadł na ósme. StructureMap miał czasy tylko trochę lepszy niż Autofac. DryIoc, Grace i NiquIoCPartial wypadły akceptowalnie - poradziły sobie trochę gorzej niż trzeci SimpleInjector.\\
-Już dla 1000 operacji od czołówki oddalił się NiquIoCPartial. Na pierwszym miejscu wciąż pozostaje NiquIoCFull, a zaraz za nim LightInject i SimpleInjector. DryIoc i Grace wciąż tochę słabiej, ale wciąż zadowalająco. Pozostałe rozwiązania mają czasy od kilku do kilkunastu razy gorsze.\\
-Warto tutaj zaznaczyć, że najmniejszy wzorst czasu miały kolejno rozwiązania: LightInject, NiquIoCFull, SimpleInjector, DryIoc oraz Grace.
+Dla 10 operacji sytuacja zaczyna się lekko zmieniać. Tym razem znacząco najlepiej radzi sobie NiquIoCPartial - ponad dwa razy lepiej niż drugi Autofac. Kolejne miejsca należą do NiquIoCFull i LightInject. Pozostałe rozwiązania miały podobne, trochę słabsze czasy. Wyjątkiem jest jedynie Ninject, który poradził sobie najgorzej i jego czas jest ponad 5 razy większy niż dla rozwiązania z przedostatnim czasem (Windsor).\\
+Przy 100 operacji na prowadzenie wysuneły się mniej popularne rozwiązania. Na pierwszym miejscu jest NiquIoCFull, a kolejne miejsca to LightInject i SimpleInjector. DryIoc, Grace oraz NiquIoCPartial wypadły akceptowalnie - poradziły sobie trochę gorzej niż trzeci SimpleInjector. Do grona najsłabszych (Unity, Windsor, Ninject) w tym przypadku dołączył również Autofac, który z drugiego miejsca spadł na ósme. StructureMap miał czasy tylko trochę lepszy niż Autofac.\\
+Natomiast dla 1000 operacji od czołówki oddalił się NiquIoCPartial. Na pierwszym miejscu wciąż pozostaje NiquIoCFull, a zaraz za nim LightInject i SimpleInjector. DryIoc i Grace wciąż tochę słabiej, ale nadal zadowalająco. Pozostałe rozwiązania mają czasy od kilku do kilkunastu razy gorsze niż reszta. Bez cienia wątpliwości najgorzej wypadł Ninjec.\\
+Warto tutaj zaznaczyć, że wraz ze wzrostem operacji najmniejszy wzorst czasów miały rozwiązania: LightInject, NiquIoCFull, SimpleInjector, DryIoc oraz Grace.
 
 \subsubsection{Wyniki dla TransientSingleton}
 \begin{center}
@@ -541,16 +541,16 @@ Windsor & 1 & 2 & 1 & 12 & 14 & 12 & 117 & 140 & 119 & 1161 & 1302 & 1177 \\ \hl
 \end{small}
 \end{center}
 Przy tym teście dla 1 operacji również najlepiej poradziły sobie Autofac, NiquIoCPartial i Windsor. Trochę gorzej NiquIoCFull. Czasy dla Unity, SimpleInjector, Grace, StructureMap i Ninject są zbliżone, jednak duże. Najgorzej wypadły natomiast LightInject i DryIoc.\\
-Gdy mamy 10 operacji na drugie miejsce wskoczył NiquIoCFull. Na pierwsze przesunął się NiquIoCPartial, a Autofac spadł na miejsce trzecie. Kolejne miejsce zajmują SimpleInjector i Grace. Trochę gorzej poradził sobie Windsor, który z podium spadł na 6 miejsce. Zaraz za nim jest StrutureMap, Unity i LightInject. DryIoc nadal słabo, a ostatnie miejsce zajął Ninject.
-Dla 100 operacji na pierwszym miejscu znalazł się NiquIoCFull. NiquIoCPartial spadł poza podium i ma czasy zbliżone do LightInject. Na podium znaleźli się za to SimpleInjector i Grace. DryIoc  ma jeszcze akceptowalny czas. Pozostałe rozwiążań bardzo słabo, a ranking zamykają Unity, Windsor i Ninject.
-Test dla 1000 operacji nie spowodował żadnych zmiań z rankingu. Jedynie różnica czasów pomiędzy pierwszą 5, a pozostały miejscami znacząco się zwiększyła. Dla pierwszej piątki czasy zwrosły około dwukrotkie, a dla pozostały miejsc ponad siedmiokrotnie.
+Gdy mamy 10 operacji na drugie miejsce wskoczył NiquIoCFull. Na pierwsze przesunął się NiquIoCPartial, a Autofac spadł na trzecie. Kolejne miejsce zajmują SimpleInjector i Grace. Trochę gorzej poradził sobie StrutureMap. Zaraz za nim jest Windsor, który z podium spadł na 7 miejsce. Kolejne miejsca to LightInject i Unity. DryIoc nadal słabo, jednakże wzrostu czasu był nieduży. Ostatnie miejsce zajął Ninject.\\
+Dla 100 operacji na pierwszym miejscu znalazł się NiquIoCFull. Na podium znaleźli się jeszcze SimpleInjector i Grace. NiquIoCPartial spadł poza podium, a tuż za nim jest LightInject. DryIoc nadal z niedużym wzrostem czasu i tym razem jego wynik jest już akceptowalny. Pozostałe rozwiążań bardzo słabo. Kolejne miejsca to StructureMap oraz Autofac, a ranking zamykają Unity, Windsor i Ninject.\\
+Test dla 1000 operacji nie spowodował żadnych zmiań w rankingu. Jedynie różnica czasów pomiędzy pierwszą 5, a pozostały miejscami znacząco się zwiększyła. Dla pierwszej piątki czasy zwrosły około dwukrotkie, a dla pozostały miejsc ponad siedmiokrotnie.
 
 \subsubsection{Wyniki dla PerThread}
 \begin{center}
 \begin{small}
 	\begin{tabular}{ | l | r r r | r r r | r r r | r r r | }
     		\hline
-Ilość & & 1 & & & 10 & & & 100 & & & 1009 & \\ \hline
+Ilość & & 1 & & & 10 & & & 100 & & & 1000 & \\ \hline
  & min & max & avg & min & max & avg & min & max & avg & min & max & avg \\ \hline
 Autofac & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
 DryIoc & 71 & 73 & 71 & 71 & 72 & 71 & 71 & 73 & 72 & 72 & 74 & 72 \\ \hline
@@ -566,8 +566,9 @@ Windsor & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
   	\end{tabular}
 \end{small}
 \end{center}
-Czasy dla tego przypadku powinny być zbliżone do czasów dla Singleton, ponieważ wszystko było uruchamiane w jednym wątku. Niestety częć rozwiązań sobie z tym nie poradziła. Czasy zbliżone do czasów dla Singletona posiadają: Autofac, Grace, Ninject, NiquIoCPartial, NiquIoCFull, StructureMap, Unity i Windsor, a dla DryIoC, LightInject i SimpleInjector czasy są od kilka do nawet kilkadziesiąt razy większe.\\
-Jeśli chodzi o najlepsze rozwiązania, to wyglądają one tak samo jak dla Singleton. Pierwsze trzy miejsca to Windsor, Aurofac i NiquIoCPartial. Najsłabiej poradziły sobie LightInject i DryIoc. W drugiej połowie rankingu znalazły się również Unity, SimpleInjector i StructureMap, a tuż za czołówką NiquIoCFull, Grace i Ninject.
+Czasy dla tego przypadku powinny być zbliżone do czasów dla przypadku Singleton, ponieważ wszystko było uruchamiane w jednym wątku. Niestety część rozwiązań sobie z tym nie poradziła.\\
+Wyniki zbliżone posiadają: Autofac, Grace, Ninject, NiquIoCPartial, NiquIoCFull, StructureMap, Unity i Windsor. Natomiast dla SimpleInjector, LightInject i DryIoC czasy są od kilku do nawet kilkudziesięciu razy większe.\\
+Jeśli chodzi o najlepsze rozwiązania, to wyglądają one tak samo jak dla Singleton. Pierwsze trzy miejsca to Aurofac, Windsor i NiquIoCPartial. Najsłabiej poradziły sobie LightInject i DryIoc. Tuż za czołówką znalazły się: NiquIoCFull, Grace i Ninject. Dla 1, 10 i 100 operacji wyżej uplasował się Ninject, a dla 1000 Grace. W drugiej połowie rankingu miejsca przypadły: SimpleInjector, Unity i StructureMap. Unity poradziło sobie gorzej niż SimpleInjector dla 1000 operacji, ale lepiej w pozostałych trzech przypadkach.
 
 
 \subsection{Przypadek testowy B}
@@ -619,7 +620,7 @@ Windsor & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
   	\end{tabular}
 \end{small}
 \end{center}
-Dla tego przypadku testowego również najlepiej poradziły sobie najpopularniejsze rozwiązania - Aurofac i Windsor. NiquIoCPartial uplasował się tutaj również na 3 miejscu, jednak z czasemi gorszymi niż dla testu A. Koniec rankingu jest taki sam, czyli StructureMap, Unity oraz Ninject. Tutaj też pozostałe rozwiążania miały zbliżone do siebie czasy, ale ponad 3 razy gorsze niż dla testu A.
+Podobnie jak dla przypadku testowego A, tutaj również najlepiej poradziły sobie najpopularniejsze rozwiązania - Aurofac i Windsor. Warto zaznaczyć, że to jedyne rozwiązania, które nie zanotowały znaczącego wzrotu czasu. Dla pozostałych rozwiązań czasy wzrosły od 2 do 4 razy. NiquIoCPartial uplasował się tutaj również na 3 miejscu, a za nim SimpleInjector oraz LightInject. Koniec rankingu jest taki sam, czyli Ninject, Unity i StructureMap. NiquIoCFull, Grace, a także DryIoc miały zbliżone do siebie czasy - trochę słabsze niż LightInject i trochę lepsze niż Ninject.
 
 \subsubsection{Wyniki dla Transient}
 \begin{center}
@@ -642,12 +643,12 @@ Windsor & 6 & 7 & 6 & 49 & 69 & 50 & 476 & 610 & 484 & 4726 & 5665 & 4799 \\ \hl
   	\end{tabular}
 \end{small}
 \end{center}
-W tym teście sytuacja wygląda niemal identycznie jak w teście A, z tą różnica, że czasy są około 3 razy większe.\\
-Dla 1 operację najlepiej radzi sobie Autofac, a tuż za nim NiquIoCPartial i Windsor. Ostatnie trzy miejsca to: SimplyInjector, DryIoc i Grace. Pozostałe rozwiązania wypadły słabo i jeszcze bliżej im do czasów najgorszych.\\
-Gdy mamy 10 operacji najlepiej radzi sobie NiquIoCPartial (również ponad dwa razy lepiej niż drugi Autofac). Kolejne miejsca należą do NiquIoCFull i LightInject. Tutaj również Ninject ma ponad 5 razy gorszy czas niż miejsce przedostatnie, jednakże zajmuje je Grace, a nie Windsor, który jest miejsce wyżej. Tylko trochę lepiej od Windsor poradziły sobie StructureMap, DryIoc i Unity.\\
-Przy 100 operacji pierwsze trzy miejsca zajmują  NiquIoCFull, LightInject i SimpleInjector. Tutaj nic się nie zmieniło w stosunku do testu A. Grace z miejsca przedostatniego dla 10 operacji, awansował na miejsce szóste i jego czasy w tym przypadku wyglądają zadowalająco. Trochę lepiej od niego poradziły sobie DryIoc i NiquIocPartial. Grono najsłabszych to: StructureMap, Autofac, Unity, Windsor i Ninject.\\
-Jak można się było spodziewać dla 1000 operacji sytuacja wygląda identycznie jak dla testu A - od czołówki oddalił się NiquIoCPartial, a na pierwszym miejscu wciąż pozostaje NiquIoCFull. LightInject i SimpleInjector są zaraz za nim. DryIoc i Grace słabiej, ale wciąż akceptowalnie. Pozostałe rozwiązania mają czasy o rząd lub dwa większe, niż NiquIocPartial..\\
-Tutaj również najmniejszy wzorst czasu miały rozwiązania: LightInject, NiquIoCFull, SimpleInjector, DryIoc oraz Grace.
+Dla tego testu sytuacja wygląda niemal identycznie jak w teście A, z tą różnicą, że czasy dla każdego rozwiązania są ponad 3 razy większe.\\
+Przy 1 operację najlepiej radzi sobie Autofac, a tuż za nim NiquIoCPartial i Windsor. Pozostałe rozwiązania wypadły słabo i mają czasy od kilku do kilkunastu razy większe niż czołówka. Kolejne miejsca to: NiquIocFull, Unity, LightInject, StructureMap oraz Ninject, a ranking zamykają SimplyInjector, DryIoc i Grace.\\
+Gdy mamy 10 operacji najlepiej radzi sobie NiquIoCPartial, a zaraz za nim z czasem dwókrotnie gorszym jest Autofac. Następnie w rankingu znajduje się NiquIoCFull i LightInject. Tutaj również jak w przypadku testowym A, Ninject ma ponad 5 razy gorszy czas niż miejsce przedostatnie, z tą różnicą, że zajmuje je Grace, a nie Windsor, który uzyskał trochę lepszy czas i jest miejsce wyżej. Lepiej od Windsor poradziły sobie jeszcze: SimpleInjector, DryIoc, StructureMap i Unity, ale do czołówki brakowało im bardzo dużo.\\
+Dla 100 operacji nic się nie zmieniło w stosunku do testu A. Pierwsze trzy miejsca zajmują: NiquIoCFull, LightInject i SimpleInjector. Grace z miejsca przedostatniego dla 10 operacji, awansował na miejsce piąte. Przed nim znalazł się DryIoc, a tuż za nim NiquIoCPartial. Czas całej trójki są zadowalające. Grono najsłabszych to: StructureMap, Autofac, Unity, Windsor i Ninject.\\
+Jak można się było spodziewać przy 1000 operacji sytuacja wygląda identycznie - pod względem czasu od czołówki oddalił się NiquIoCPartial, a na pierwszym miejscu wciąż pozostaje NiquIoCFull. LightInject oraz SimpleInjector są kawałek za nim. Dalej DryIoc i Grace wciąż akceptowalnie. Miejsce w środku rankingu zajmuje NiquIoCPartial, a pozostałe rozwiązania mają od niego o rząd lub dwa większe czasy.\\
+Tutaj również najmniejszy wzorst czasów miały rozwiązania: LightInject, NiquIoCFull, SimpleInjector, DryIoc oraz Grace.
 
 \subsubsection{Wyniki dla TransientSingleton}
 \begin{center}
@@ -670,7 +671,12 @@ Windsor & 3 & 5 & 3 & 37 & 46 & 37 & 355 & 435 & 362 & 3543 & 4824 & 3637 \\ \hl
   	\end{tabular}
 \end{small}
 \end{center}
-<<opis>>
+Jeśli chodzi o wzrost czasów w stosnku do przypadku testowego A, to sytuacja wygląda niemal identycznie jak dla testu Transient - jest on ponad trzykrotny.\\
+Dla 1 operacji podium wygląda jednak inaczej niż dla testu A - miejscami zamieniły się NiquIocPartial i Windsor. Na pierwszy miejscu pozostaje Autofac. Różnice czasów dla pozostałych rozwiązań są już dużo bardziej zauważalne. Znajdujący się tuż za podium NiquIoCFull ma wynik ponad trzy razy słabszy niż NiquIoCPartial, który to podium zamyka. Kolejne miejsca to: Unity, SimpleInjector, Ninject, Grace, StructureMap, Lightinject i na końcu DryIoc.\\
+Gry mamy 10 operacji pierwsze dwa miejsca zajmują NiquIoCPartial i NiquIoCFull. Tuż za nimi znajduje się Autofac. SimplyInjector oraz Grace zanotowały niewielki wzrost czasów i zajmują kolejne dwa miejsca. Nieduży wzrostu czasów zaliczyły również LightInject i DryIoc, ale ich czasy są wciąż duże w stosunku do pozostałych rozwiążań i zajmuje dwa przedostatnie miejsca - ustępując jedynie Ninject. Miejsca od 6 do 8 przypadły: Windsor, StructureMap oraz Unity.\\
+Przy 100 i 1000 operacjach nie ma już żadnych zmian w rankingu względem testu A.\\
+Dla pierwszego przypadku początek rankingu wygląda następująco: NiquIocFull, SimpleInjector i Grace. Zaraz za podium znajduje się NiquIocPartial. LightInject oraz DryIoc dzięki niedużemu wzrostowi czasów znalazły się na miejscach piątym i szóstym. Są to ostatnie zadowalające rozwiązania. Kolejne miejsca zajmują: StrucutreMap, Autofac, Unity, Windsor oraz Ninject.\\
+Dla drugiego przypadku pierwsze trzy miejsca są jak wyżej. Natomiast o jedno miejsce awansowały LightInject oraz Grace. NiquIoCPartial spadł na miejsce szóste i dołączył do grupy rozwiązań z bardzo dużymi czasami. Reszta rankingu nie uległa zmianie.
 
 \subsubsection{Wyniki dla PerThread}
 \begin{center}
@@ -693,8 +699,9 @@ Windsor & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
   	\end{tabular}
 \end{small}
 \end{center}
-Tutaj również nie wszystkie rozwiązania mają czasy zbliżone do Singleton. Są to te same rozwiązania co dla przypadku testowego B, czyli: DryIoc, Grace, LightInject, SimpleInjector.\\
-Tak samo jak w przypadku Signleton czołówka wygląda następująco: Aurofac, Windsor i NiquIoCPartial. Kolejne miejsca to NiquIoCFull, Ninject i Grace. Najsłabiej poradził sobie rozwiążania LightInject i DryIoc.
+Podobnie jak było dla przypadku testowego A, tutaj również nie wszystkie rozwiązania mają czasy zbliżone do Singleton.\\
+Są to te same rozwiązania co dla testu A, czyli: SimpleInjector, DryIoc i LightInject. Warto jednak zaznaczyć, że dla SimpleInjector wzrost czasów jest kilkukrotny, a dla pozostałych dwóch rozwiązań kilkudziesięciokrotny.\\
+Tak samo jak w przypadku Signleton czołówka wygląda następująco: Aurofac, Windsor i NiquIoCPartial. Kolejne miejsca zajmują: NiquIoCFull, Ninject i Grace. Najsłabiej poradziły sobie rozwiążania LightInject i DryIoc. W środku tabeli pod względem czasów znalazły się SimpleInjector, Unity i StrucutreMap. W odróżnieniu od przypadku testowego A, tutaj nie było żadnych zmian w rankingu i wszystkie rozwiązania zajmują te same miejsca dla dowolnej liczby operacji.
 
 
 \subsection{Przypadek testowy C}
