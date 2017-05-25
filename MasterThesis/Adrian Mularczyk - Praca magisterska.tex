@@ -417,7 +417,7 @@ Do przeprowadzania testów wydajnościowych stworzyłem osobną aplikację w kt�
 	\item Przypadek testowy C,
 	\item Przypadek testowy D.
 \end{itemize}
-Dla każdego z przypadków sprawdzany jest czas wykoniania operacji "Resolve" dla różnych rodzajów rejestracji (operacji Register).Testy zostały wykonane dla następujących wariantów rejestracji:
+Dla każdego z przypadków sprawdzany jest czas wykoniania operacji "Resolve" dla różnych rodzajów rejestracji (operacji Register). Testy zostały wykonane dla następujących wariantów rejestracji:
 \begin{itemize}
 	\item Register as Singleton,
 	\item Register as Transient,
@@ -425,7 +425,7 @@ Dla każdego z przypadków sprawdzany jest czas wykoniania operacji "Resolve" dl
 	\item Register as PerThread (dla niektórych przemysłowych rozwiązań - PerScope),
 	\item {\color{red}Register as FactoryMethod.}
 \end{itemize}
-Każdy z testów dla każdego rozwiązania był uruchamiany w osobnym procesie. Każdy test był uruchamiany 100 razy, a w wynikach zostały przedstawione następujące czasy: minimalny, maksymalny i średni.
+Każdy z testów dla każdego rozwiązania był uruchamiany w osobnym procesie. Każdy test był uruchamiany 100 razy, a w wynikach zostały przedstawione następujące czasy w milisekundach: minimalny, maksymalny i średni.
 
 \subsubsection{Register as Singleton}
 Każdy typ jest zarejestrowany jako "Singleton", czyli obiekt jest tworzony raz, a następnie cały czas zwracany.
@@ -706,7 +706,7 @@ Tak samo jak w przypadku Signleton czołówka wygląda następująco: Aurofac, W
 
 \subsection{Przypadek testowy C}
 \subsubsection{Opis}
-W tym teście mamy zdefiniowanych 26 typów. 5 z tych typów ma konstruktor bezparametrowy, a pozostałe 21 ma konstuktor z pięcioma parametrami. Typem głównym jest typ "TestC". Obiekt tego typy w konstruktorze przymuje 5 innych obiektów, kolejno następujących typów: "TestC40", "TestC41", "TestC42", "TestC43" i "TestC44". Każdy z tych pięciu typów ma taki sam konstruktor - przyjmuje w nim 5 obiektów o typach z pierwszym numerkiem o 1 mniejszym (czyli przyjmują w konstruktorze obiekty typów od "TestC30" do "TestC34"). Dla typów od "TestC30" do "TestC34" zasad z konstruktorami wygląda tak samo. Na końcu dochodzimy do typów od "TestC00" do "TestC04", które mają konstruktor bezparametrowy. Rys. \ref{fig:testC} przedstawia graf zależności typów dla tego przypadku testowego.
+Ten test znacząco różni się od poprzednich. Mamy tutaj zdefiniowanych 26 typów. 5 z tych typów ma konstruktor bezparametrowy, a pozostałe 21 ma konstuktor z pięcioma parametrami. Typem głównym jest typ "TestC". Obiekt tego typy w konstruktorze przymuje 5 obiektów, kolejno następujących typów: "TestC40", "TestC41", "TestC42", "TestC43" i "TestC44". Każdy z tych pięciu typów ma taki sam konstruktor - przyjmuje w nim 5 obiektów o typach, które w nazwie mają pierwszy numer o 1 mniejszy, czyli są to obiekty typów od "TestC30" do "TestC34". Dla tych i kolejnych typów zasad z konstruktorami wygląda tak samo. Na końcu dochodzimy do typów od "TestC00" do "TestC04", które mają konstruktor bezparametrowy. Rys. \ref{fig:testC} przedstawia graf zależności typów dla tego przypadku testowego.
 
 \begin{figure}[h]
 	\begin{center}
@@ -716,7 +716,7 @@ W tym teście mamy zdefiniowanych 26 typów. 5 z tych typów ma konstruktor bezp
 	\end{center}
 \end{figure}
 
-Łatwo wywnioskować, że tworząc obiekty poszczególnych typów ilość tworzonych obiektów rośnie ponad dziesięciokortnie:
+Łatwo wywnioskować, że tworząc obiekty poszczególnych typów ilość tworzonych obiektów rośnie ponad pięciokrotnie:
 \begin{itemize}
 	\item typy od TestC00 do TestC04 - 1 obiekt,
 	\item typy od TestC10 do TestC14 - 6 obiektów (obiekt danego typu plus 5 obiektów typów od TestC00 do TestC04),
@@ -725,7 +725,7 @@ W tym teście mamy zdefiniowanych 26 typów. 5 z tych typów ma konstruktor bezp
 	\item  typy od TestC40 do TestC44 - 781 obiektów,
 	\item TestC - 3 906 obiektów.
 \end{itemize}
-Zatem tworząc obiekt typu TestC, tworzymy: 1 obiekt typu TestC, 5 obiektów typów od TestC40 do TestC44, 25 obiektów typów od TestC30 do TestC34, 125 obiektów typów od TestC20 do TestC24, 625 obiektów typów od TestC10 do TestC14, 3 125 obiektów typów od TestC00 do TestC04 - co daje w sumie 3 906 obiektów.
+Zatem tworząc obiekt typu TestC, tworzymy: 1 obiekt typu TestC, 5 obiektów typów od TestC40 do TestC44, 25 obiektów typów od TestC30 do TestC34, 125 obiektów typów od TestC20 do TestC24, 625 obiektów typów od TestC10 do TestC14 oraz 3 125 obiektów typów od TestC00 do TestC04 - co daje w sumie 3 906 obiektów.
 
 \subsubsection{Wyniki dla Singleton}
 \begin{center}
@@ -748,7 +748,7 @@ Windsor & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
   	\end{tabular}
 \end{small}
 \end{center}
-<<opis>>
+Pomimo zupełnie innego przypadku testowego, wciąż najlepiej radzą sobie Autofac i Windsor. Ich czasy nawet dla 1000 operacji są mniejsze niż 1 milisekunda. Tutaj również podium zamyka NiquIoCPartial. Kolejne miejsca zajmują LightInject i SimpleInjector. Trochę gorzej od nich radzą sobie DryIoc, Grace i NiquIoCFull. Ostatnie trzy miejsca należą do Ninject, Unity i StructureMap. Zatem ranking wygląda tutaj identycznie jak dla poprzednich dwóch testów dla tego samego przypadku.
 
 \subsubsection{Wyniki dla Transient}
 \begin{center}
@@ -771,7 +771,10 @@ Windsor & 7 & 8 & 7 & 61 & 82 & 62 & 594 & 769 & 608 & 5898 & 7708 & 6037 \\ \hl
   	\end{tabular}
 \end{small}
 \end{center}
-<<opis>>
+Gdy mamy 1 operację najniższe czasy uzyskały Autofac i NiquIoCPartial. Tuż za nimi znalazł się Windsor. Kolejne rozwiązania mają już dużo większe czasy. Na czwartym miejscu znalazł się Unity, dalej StructureMap i NiquIoCFull. Następne miejsca należą kolejno do LightInject, DryIoc, Ninject i SimpleInjector. Najgorzej poradził sobie tutaj Grace.\\
+Przy 10 operacjach pierwsze dwa miejsca uległy zamianie. Tym razem najniższe czasy uzyskał NiquIoCPartial. Podium zamyka NiquIoCFull, który awansował o 3 miejsca, a niewiele za nim uplasował się LightInject.. Kolejne pozycje w rankingu należą do DryIoc, StructureMap oraz SimpleInjector, które uzyskały zbliżone do siebie czasy. Znaczący wzrost czasów zanotowały Unity i Windsor, które znalazły się na miejsach 8 i 10. Z niewielkim wzrostem czasu w stosunku do 1 operacji, między nimi znalazł się Grace. Ranking zamyka Ninject.\\
+Dla 100 operacji na prowadzenie wysunęły się NiquIoCFull oraz LightInject. Trochę słabiej poradziły sobie DryIoc i SimpleInjector, jednak ich czasy są również zadowalające. Następne miejsca z zauważalną różnicą czasów zajęły Grace oraz NiquIoCPartial. 7 miejsce w rankingu zajął StructureMap z czasem ponad dwukrotnie większym niż poprzednik. Kolejne miejsca należą do: Autofac, Unity, Windsor i Ninject.\\
+Test dla 1000 operacji nie spowodował żadnych zmian w rankingu, jednakże czasy dla NiquIoCPartial przestały być akceptowalne - wzrosły one ponad dziewięciokrotnie, a dla wyższych miejsc wzrost był maksymalnie trzykrotny. Pozostałe rozwiązania miały wzrost zbliżony do wzorstu NiquIoCPartial.
 
 \subsubsection{Wyniki dla TransientSingleton}
 \begin{center}
