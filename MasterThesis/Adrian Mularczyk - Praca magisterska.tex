@@ -706,7 +706,7 @@ Tak samo jak w przypadku Signleton czołówka wygląda następująco: Aurofac, W
 
 \subsection{Przypadek testowy C}
 \subsubsection{Opis}
-Ten test znacząco różni się od poprzednich. Mamy tutaj zdefiniowanych 26 typów. 5 z tych typów ma konstruktor bezparametrowy, a pozostałe 21 ma konstuktor z pięcioma parametrami. Typem głównym jest typ "TestC". Obiekt tego typy w konstruktorze przymuje 5 obiektów, kolejno następujących typów: "TestC40", "TestC41", "TestC42", "TestC43" i "TestC44". Każdy z tych pięciu typów ma taki sam konstruktor - przyjmuje w nim 5 obiektów o typach, które w nazwie mają pierwszy numer o 1 mniejszy, czyli są to obiekty typów od "TestC30" do "TestC34". Dla tych i kolejnych typów zasad z konstruktorami wygląda tak samo. Na końcu dochodzimy do typów od "TestC00" do "TestC04", które mają konstruktor bezparametrowy. Rys. \ref{fig:testC} przedstawia graf zależności typów dla tego przypadku testowego.
+Ten przypadek testowy znacząco różni się od dwóch poprzednich. Mamy tutaj zdefiniowanych 26 typów. 5 z tych typów ma konstruktor bezparametrowy, a pozostałe 21 ma konstuktor z pięcioma parametrami. Typem głównym jest typ "TestC". Obiekt tego typy w konstruktorze przymuje 5 obiektów, kolejno następujących typów: "TestC40", "TestC41", "TestC42", "TestC43" i "TestC44". Każdy z tych pięciu typów ma taki sam konstruktor - przyjmuje w nim 5 obiektów o typach, które w nazwie mają pierwszy numer o 1 mniejszy, czyli są to obiekty typów od "TestC30" do "TestC34". Dla tych i kolejnych typów zasad z konstruktorami wygląda tak samo. Na końcu dochodzimy do typów od "TestC00" do "TestC04", które mają konstruktor bezparametrowy. Rys. \ref{fig:testC} przedstawia graf zależności typów dla tego przypadku testowego.
 
 \begin{figure}[h]
 	\begin{center}
@@ -748,7 +748,7 @@ Windsor & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
   	\end{tabular}
 \end{small}
 \end{center}
-Pomimo zupełnie innego przypadku testowego, wciąż najlepiej radzą sobie Autofac i Windsor. Ich czasy nawet dla 1000 operacji są mniejsze niż 1 milisekunda. Tutaj również podium zamyka NiquIoCPartial. Kolejne miejsca zajmują LightInject i SimpleInjector. Trochę gorzej od nich radzą sobie DryIoc, Grace i NiquIoCFull. Ostatnie trzy miejsca należą do Ninject, Unity i StructureMap. Zatem ranking wygląda tutaj identycznie jak dla poprzednich dwóch testów dla tego samego przypadku.
+Pomimo zupełnie innego przypadku testowego, dla testu Singleton, wciąż najlepiej radzą sobie Autofac i Windsor. Ich czasy nawet dla 1000 operacji są wciąż mniejsze niż 1 milisekunda. Dodatkowo tutaj również podium zamyka NiquIoCPartial. Kolejne miejsca zajmują LightInject i SimpleInjector. Trochę gorzej od nich radzą sobie DryIoc, Grace i NiquIoCFull. Ostatnie trzy miejsca należą do Ninject, Unity i StructureMap. Zatem ranking wygląda tutaj identycznie jak dla poprzednich dwóch testów dla tego samego przypadku.
 
 \subsubsection{Wyniki dla Transient}
 \begin{center}
@@ -772,8 +772,8 @@ Windsor & 7 & 8 & 7 & 61 & 82 & 62 & 594 & 769 & 608 & 5898 & 7708 & 6037 \\ \hl
 \end{small}
 \end{center}
 Gdy mamy 1 operację najniższe czasy uzyskały Autofac i NiquIoCPartial. Tuż za nimi znalazł się Windsor. Kolejne rozwiązania mają już dużo większe czasy. Na czwartym miejscu znalazł się Unity, dalej StructureMap i NiquIoCFull. Następne miejsca należą kolejno do LightInject, DryIoc, Ninject i SimpleInjector. Najgorzej poradził sobie tutaj Grace.\\
-Przy 10 operacjach pierwsze dwa miejsca uległy zamianie. Tym razem najniższe czasy uzyskał NiquIoCPartial. Podium zamyka NiquIoCFull, który awansował o 3 miejsca, a niewiele za nim uplasował się LightInject.. Kolejne pozycje w rankingu należą do DryIoc, StructureMap oraz SimpleInjector, które uzyskały zbliżone do siebie czasy. Znaczący wzrost czasów zanotowały Unity i Windsor, które znalazły się na miejsach 8 i 10. Z niewielkim wzrostem czasu w stosunku do 1 operacji, między nimi znalazł się Grace. Ranking zamyka Ninject.\\
-Dla 100 operacji na prowadzenie wysunęły się NiquIoCFull oraz LightInject. Trochę słabiej poradziły sobie DryIoc i SimpleInjector, jednak ich czasy są również zadowalające. Następne miejsca z zauważalną różnicą czasów zajęły Grace oraz NiquIoCPartial. 7 miejsce w rankingu zajął StructureMap z czasem ponad dwukrotnie większym niż poprzednik. Kolejne miejsca należą do: Autofac, Unity, Windsor i Ninject.\\
+Przy 10 operacjach pierwsze dwa miejsca uległy zamianie. Tym razem najniższe czasy uzyskał NiquIoCPartial. Podium zamyka NiquIoCFull, który awansował o 3 miejsca. Niewiele za nim uplasował się LightInject. Kolejne pozycje w rankingu należą do DryIoc, StructureMap oraz SimpleInjector, które uzyskały zbliżone do siebie czasy. Znaczący wzrost czasów zanotowały natomiast Unity i Windsor, które znalazły się na miejsach 8 i 10. Z niewielkim wzrostem czasu w stosunku do 1 operacji, między nimi znalazł się Grace. Ranking zamyka Ninject.\\
+Dla 100 operacji na prowadzenie wysunęły się NiquIoCFull oraz LightInject. Trochę słabiej poradziły sobie DryIoc i SimpleInjector, jednak ich czasy są również zadowalające. Następne miejsca z zauważalną różnicą czasów w stosunku do czołówki zajęły Grace oraz NiquIoCPartial. Miejsce 7 w rankingu zajął StructureMap z czasem ponad dwukrotnie większym niż poprzednik. Kolejne miejsca należą do: Autofac, Unity, Windsor i Ninject.\\
 Test dla 1000 operacji nie spowodował żadnych zmian w rankingu, jednakże czasy dla NiquIoCPartial przestały być akceptowalne - wzrosły one ponad dziewięciokrotnie, a dla wyższych miejsc wzrost był maksymalnie trzykrotny. Pozostałe rozwiązania miały wzrost zbliżony do wzorstu NiquIoCPartial.
 
 \subsubsection{Wyniki dla TransientSingleton}
@@ -797,7 +797,10 @@ Windsor & 3 & 3 & 3 & 34 & 41 & 35 & 338 & 400 & 343 & 3368 & 4115 & 3429 \\ \hl
   	\end{tabular}
 \end{small}
 \end{center}
-<<opis>>
+Dla 1 operacji tylko 3 rozwiążania uzyskały wynik jednocyfrowy. Są to kolejno: Autofac, NiquIoCPartial i Windsor. Pozsotałe rozwiązania czasy mają dużo słabsze. Najniższy uzyskał NiquIoCPartial, a dalej za nim Unity i SimpleInjector. Kolejne miejsca należą do StrucutreMap, Grace i Ninject. Na końcu rankingu znalazły się LightInject oraz DryIoc.\\
+Przy 10 operacjach sytuacja lekko uległą zmianie. Pierwsze dwa miejsca zajmują NiquIoCPartial i NiquIoCFull. Kawałek za nimi są Autofac i SimpleInjector, które dzieli niewielka różnica. Trochę gorszy czas od nich uzyskał Grace. Reszta rozwiązań dość znacząco odstaje od czołówki. Ostatnie 6 miejsc to: StructureMap, Windsor, Unity, LightInject, DryIoc oraz na końcu Ninject.\\
+Gdy mamy 100 operacji na prowadzenie wysunął się NiquIoCFull, a poza pierwszą trójkę wypadł NiquIoCPartial. Miejsce drugie i trzecie należą do SimpleInjector oraz Grace. LightInject i DryIoc zanotowały niewielki wzrost czasów i przy dużym wzroście dla pozostałych rozwiązań, znalazły się na miejscach 5 i 6. Do grona najsłabszych dołączył natomiast Autofac. Zajął on miejsce pomiędzy StrucuteMap, a Unity. Ostatnia pozycja nie uległa zmianie i należy do Ninejct, przed którym znalazł się Windsor.\\
+Również i dla tego testu przy 1000 operacjach nie było dużych zmian w rankingu. Wszystkie rozwiązania zachowały swoje miejsca za wyjątkiem NiquIoCPartial, który spadł na miejsce 6.
 
 \subsubsection{Wyniki dla PerThread}
 \begin{center}
@@ -820,12 +823,12 @@ Windsor & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
   	\end{tabular}
 \end{small}
 \end{center}
-<<opis>>
+Podobnie jak dla przypadków testowych A i B, tutaj również SimpleInjector zaliczył lekki wzrost czasów w stosunku do testu Singleton. DryIoc oraz LightInject zaliczyły bardzo duże wzrosty i to one zamykają ranking. Przed nimi znalazł się StructureMap, a miejsce wyżej wcześniej wspomniany SimpleInjector. Podobne czasy do niego zanotował Unity, który uplasował się na miejscu 7. Idąc w rankingu ku górze, to przy 1, 10 i 100 operacjach lepiej radził Ninject, a przy 1000 operacjach Grace. Te dwa rozwiązania znalazły się na dwóch kolejnych miejscach. Tuż za podium jest NiquIoCFull, a pierwsze trzy miejsca bez zmian dla tego testu, czyli: Autofac, Windsor, NiquIoCPartial.
 
 
 \subsection{Przypadek testowy D}
 \subsubsection{Opis}
-W tym teście mamy zdefiniowanych 51 typów. 10 z tych typów ma konstruktor bezparametrowy, a pozostałe 41 ma konstuktor z dziesięcioma parametrami. Typem głównym jest typ "TestD". Obiekt tego typy w konstruktorze przymuje 10 innych obiektów, kolejno następujących typów: "TestD40", "TestD41", "TestD42", "TestD43", "TestD44", "TestD45", "TestD46", "TestD47", "TestD48", "TestD49". Każdy z tych 10 typów w konstruktorze przyjmuje 10 obiektów o takich samych typach, ale z pierwszym numerkiem o 1 mniejszym (czyli obiekty typów od "TestD40" do "TestD49", przyjmują w konstruktorze obiekty typów od "TestD30" do "TestD39"). Dla typów od "TestD30" do "TestD39" zasad z konstruktorami wygląda tak samo. Na końcu dochodzimy do typów od "TestD00" do "TestD09", które mają konstruktor bezparametrowy. Rys. \ref{fig:testD} przedstawia graf zależności typów dla tego przypadku testowego.
+Podobnie jak przypadek testowy B jest analigoczny z przypadkiem A, tak ten przypadek, jest zbliżony do przypadku C. Jednakże pokrewieństwo jest inne. Mamy tutaj tyle sama poziomów, co dla C, ale na każdym poziomie (poza pierwszym) obiektów jest dwa razy więcej. Zatem w tym teście mamy zdefiniowanych 51 typów. Tutaj konstruktor bezparametrowy ma 10 typów, a pozostałe 41 ma konstuktor z dziesięcioma parametrami. Typ główny to "TestD" i przymuje on w konstruktorze 10 obiektów, kolejno następujących typów: "TestD40", "TestD41", "TestD42", "TestD43", "TestD44", "TestD45", "TestD46", "TestD47", "TestD48", "TestD49". Jest więc to sytuacja niemal identyczna jak dla poprzedniego przypadku. Dla pozostałych typów jest podobnie i każdy z nich w konstruktorze przyjmuje 10 obiektów o typach z pierwszym numerem o 1 mniejszym (obiekty typów od "TestD40" do "TestD49", przyjmują w konstruktorze obiekty typów od "TestD30" do "TestD39" itd.). Ostatnie 10 typów, czyli typy od "TestD00" do "TestD09", mają konstruktor bezparametrowy. Graf zależności dla tego przypadku testowego został przedstawiony na Rys. \ref{fig:testD}.
 
 \begin{figure}[h]
 	\begin{center}
