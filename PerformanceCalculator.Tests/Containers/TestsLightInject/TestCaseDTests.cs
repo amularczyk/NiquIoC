@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using LightInject;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PerformanceCalculator.Common;
@@ -70,6 +69,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsLightInject
         public void RegisterPerThread_SameThread_Success()
         {
             throw new OutOfMemoryException("Process takes more than 20 minutes!");
+/*
             ITestCase testCase = new PerThreadTestCaseD(new LightInjectRegistration(), new LightInjectResolving());
 
             var c = new ServiceContainer();
@@ -93,12 +93,14 @@ namespace PerformanceCalculator.Tests.Containers.TestsLightInject
             CheckHelper.Check(obj1, true, true);
             CheckHelper.Check(obj2, true, true);
             CheckHelper.Check(obj1, obj2, true, true);
+*/
         }
 
         [TestMethod]
         public void RegisterPerThread_DifferentThreads_Success()
         {
             throw new OutOfMemoryException("Process takes more than 20 minutes!");
+/*
             ITestCase testCase = new PerThreadTestCaseD(new LightInjectRegistration(), new LightInjectResolving());
 
             var c = new ServiceContainer();
@@ -130,6 +132,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsLightInject
             CheckHelper.Check(obj1, true, true);
             CheckHelper.Check(obj2, true, true);
             CheckHelper.Check(obj1, obj2, false, false);
+*/
         }
 
         [TestMethod]

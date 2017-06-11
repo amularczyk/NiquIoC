@@ -417,7 +417,7 @@ Do przeprowadzania testów wydajnościowych stworzyłem osobną aplikację w kt�
 	\item Przypadek testowy C,
 	\item Przypadek testowy D.
 \end{itemize}
-Dla każdego z przypadków sprawdzany jest czas wykoniania operacji "Resolve" dla różnych rodzajów rejestracji (operacji Register). Testy zostały wykonane dla następujących wariantów rejestracji:
+Dla każdego z przypadków sprawdzany jest czas wykoniania operacji "Register" i "Resolve" dla różnych rodzajów rejestracji. Testy zostały wykonane dla następujących wariantów rejestracji:
 \begin{itemize}
 	\item Register as Singleton,
 	\item Register as Transient,
@@ -425,7 +425,7 @@ Dla każdego z przypadków sprawdzany jest czas wykoniania operacji "Resolve" dl
 	\item Register as PerThread (dla niektórych przemysłowych rozwiązań - PerScope),
 	\item {\color{red}Register as FactoryMethod.}
 \end{itemize}
-Każdy z testów dla każdego rozwiązania był uruchamiany w osobnym procesie. Każdy test był uruchamiany 100 razy, a w wynikach zostały przedstawione następujące czasy w milisekundach: minimalny, maksymalny i średni. Dla pierwszych trzech przypadków testy były wykonywane dla: 1, 10, 100 i 1000 powtórzeń, a dla ostatniego przypadku dla: 1 i 10 powtórzeń. Spowodowane jest to ilością obiektów, które są tworzone jednorazowo dla poszczególnych przypadków testowych.
+Każdy z testów dla każdego rozwiązania był uruchamiany w osobnym procesie. Najpierw zostaną zaprezentowane czasy dla operacji "Register" dla wszystkich rozdajów rejestracji, a następnie dla każdego z rodzaju czasy dla operacji "Resolve". Wynika to z tego, że czasy dla rejestracji są prawie zawsze zbliżone do 0. Ze względu na nieduży narzut czasu, te testy zostały uruchamiane tylko 1 raz. Przy operacji "Resolve" każdy test był uruchamiany 100 razy, a w wynikach zostały przedstawione następujące czasy w milisekundach: minimalny, maksymalny i średni. Dla pierwszych trzech przypadków testy były wykonywane dla: 1, 10, 100 i 1000 powtórzeń, a dla ostatniego przypadku dla: 1 i 10 powtórzeń. Spowodowane jest to ilością obiektów, które są tworzone jednorazowo dla poszczególnych przypadków testowych.
 
 \subsubsection{Register as Singleton}
 Każdy typ jest zarejestrowany jako "Singleton", czyli obiekt jest tworzony raz, a następnie cały czas zwracany.
@@ -468,6 +468,28 @@ W tym teście mamy zdefiniowanych 11 typów. Każdy z nich przymuje w konstrukto
 	\item TestA - 1 024 obiektów.
 \end{itemize}
 Zatem tworząc nasz główny obiekt typu TestA, tworzymy: 1 obiekt typu TestA, 1 obiekt typu TestA9, 2 obiekty typu TestA8, 4 obiekty typu TestA7, 8 obiektów typu TestA6, 16 obiektów typu TestA5, 32 obiektów typu TestA4, 64 obiektów typu TestA3, 128 obiektów typu TestA2, 256 obiektów typu TestA1 i 512 obiektów typu TestA0 - co w sumie daje 1024 obiekty.
+
+\subsubsection{Wyniki dla Register}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r | r | r | r | }
+    		\hline
+Test & Singleton & Transient & TransientSingleton & PerThread \\ \hline
+Autofac & 0 & 0 & 0 & 0 \\ \hline
+DryIoc & 0 & 0 & 0 & 0 \\ \hline
+Grace & 0 & 0 & 0 & 0 \\ \hline
+LightInject & 0 & 0 & 0 & 0 \\ \hline
+Ninject & 0 & 0 & 0 & 0 \\ \hline
+NiquIoCPartial & 0 & 0 & 0 & 0 \\ \hline
+NiquIoCFull & 0 & 0 & 0 & 0 \\ \hline
+SimpleInjector & 0 & 0 & 0 & 0 \\ \hline
+StructureMap & 0 & 0 & 0 & 0 \\ \hline
+Unity & 0 & 0 & 0 & 0 \\ \hline
+Windsor & 0 & 0 & 0 & 0 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+Dla każdego z rozwiązań, dla wszystkich testów w tym przypadku testowym, czasy rejestracji są równe 0, czyli poniżej 1 ms.
 
 \subsubsection{Wyniki dla Singleton}
 \begin{center}
@@ -599,6 +621,28 @@ Ten test jest bardzo podobny do przypadku testowego A, tylko dochodzi nam 1 doda
 \end{itemize}
 Zatem tworząc obiekt typu TestB, tworzymy: 1 obiekt typu TestB, 1 obiekt typu TestBa10, TestBb10 i TestBc10, 1 obiekt typu TestBa9, TestBb9 i TestBc9, 2 obiekty typu TestBa8, TestBb8 i TestBc8, 4 obiekty typu TestBa7, TestBb7 i TestBc7, 8 obiektów typu TestBa6, TestBb6 i TestBc6, 16 obiektów typu TestBa5, TestBb5 i TestBc5, 32 obiektów typu TestBa4, TestBb4 i TestBc4, 64 obiektów typu TestBa3, TestBb3 i TestBc3, 128 obiektów typu TestBa2, TestBb2 i TestBc2, 256 obiektów typu TestBa1, TestBb1 i TestBc1, 512 obiektów typu TestBa0, TestBb0 i TestBc0 - co daje w sumie 3 073 obiektów.
 
+\subsubsection{Wyniki dla Register}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r | r | r | r | }
+    		\hline
+Test & Singleton & Transient & TransientSingleton & PerThread \\ \hline
+Autofac & 0 & 0 & 0 & 0 \\ \hline
+DryIoc & 0 & 0 & 0 & 0 \\ \hline
+Grace & 0 & 0 & 0 & 0 \\ \hline
+LightInject & 0 & 0 & 0 & 0 \\ \hline
+Ninject & 0 & 0 & 0 & 0 \\ \hline
+NiquIoCPartial & 0 & 0 & 0 & 0 \\ \hline
+NiquIoCFull & 0 & 0 & 0 & 0 \\ \hline
+SimpleInjector & 0 & 0 & 0 & 0 \\ \hline
+StructureMap & 1 & 1 & 1 & 1 \\ \hline
+Unity & 0 & 0 & 0 & 0 \\ \hline
+Windsor & 1 & 1 & 1 & 1 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+Tutaj wszystkie rozwiązania za wyjątkiem StructureMap i Windsor mają zawsze czasy zbliżone do 0. Te dwa rozwiązania wszystkich testów mają czasy zbliżone do 1 ms.
+
 \subsubsection{Wyniki dla Singleton}
 \begin{center}
 \begin{small}
@@ -727,6 +771,28 @@ Ten przypadek testowy znacząco różni się od dwóch poprzednich. Mamy tutaj z
 \end{itemize}
 Zatem tworząc obiekt typu TestC, tworzymy: 1 obiekt typu TestC, 5 obiektów typów od TestC40 do TestC44, 25 obiektów typów od TestC30 do TestC34, 125 obiektów typów od TestC20 do TestC24, 625 obiektów typów od TestC10 do TestC14 oraz 3 125 obiektów typów od TestC00 do TestC04 - co daje w sumie 3 906 obiektów.
 
+\subsubsection{Wyniki dla Register}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r | r | r | r | }
+    		\hline
+Test & Singleton & Transient & TransientSingleton & PerThread \\ \hline
+Autofac & 0 & 0 & 0 & 0 \\ \hline
+DryIoc & 0 & 0 & 0 & 0 \\ \hline
+Grace & 0 & 0 & 0 & 0 \\ \hline
+LightInject & 0 & 0 & 1 & 0 \\ \hline
+Ninject & 0 & 0 & 0 & 0 \\ \hline
+NiquIoCPartial & 0 & 0 & 0 & 0 \\ \hline
+NiquIoCFull & 0 & 0 & 0 & 0 \\ \hline
+SimpleInjector & 0 & 0 & 0 & 0 \\ \hline
+StructureMap & 1 & 1 & 1 & 1 \\ \hline
+Unity & 0 & 0 & 0 & 0 \\ \hline
+Windsor & 0 & 0 & 0 & 0 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+Tym razem wszystkie rozwiązania za wyjątkiem LightInject i StructureMap mają zawsze czasy zbliżone do 0. LightInject dla testu TransientSingleton ma czas zbliżony do 1 ms, a StructureMap dla wszystkich testów.
+
 \subsubsection{Wyniki dla Singleton}
 \begin{center}
 \begin{small}
@@ -847,7 +913,29 @@ Podobnie jak przypadek testowy B jest analigoczny z przypadkiem A, tak ten przyp
 	\item  typy od TestD40 do TestD49 - 11 111 obiektów,
 	\item TestD - 111 111 obiektów.
 \end{itemize}
-Zatem tworząc obiekt typu TestD, tworzymy: 1 obiekt typu TestD, 10 obiektów typów od TestD40 do TestD49, 100 obiektów typów od TestD30 do TestD39, 1 000 obiektów typów od TestD20 do TestD29, 10 000 obiektów typów od TestD10 do TestD19, 100 000 obiektów typów od TestD00 do TestD09 - co daje w sumie 111 111 obiektów..
+Zatem tworząc obiekt typu TestD, tworzymy: 1 obiekt typu TestD, 10 obiektów typów od TestD40 do TestD49, 100 obiektów typów od TestD30 do TestD39, 1 000 obiektów typów od TestD20 do TestD29, 10 000 obiektów typów od TestD10 do TestD19, 100 000 obiektów typów od TestD00 do TestD09 - co daje w sumie 111 111 obiektów.
+
+\subsubsection{Wyniki dla Register}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r | r | r | r | }
+    		\hline
+Test & Singleton & Transient & TransientSingleton & PerThread \\ \hline
+Autofac & 0 & 0 & 0 & 0 \\ \hline
+DryIoc & 0 & 0 & 0 & 0 \\ \hline
+Grace & 0 & 0 & 0 & 0 \\ \hline
+LightInject & 0 & 0 & 0 & 0 \\ \hline
+Ninject & 0 & 0 & 0 & 0 \\ \hline
+NiquIoCPartial & 0 & 0 & 0 & 0 \\ \hline
+NiquIoCFull & 0 & 0 & 0 & 0 \\ \hline
+SimpleInjector & 0 & 0 & 0 & 0 \\ \hline
+StructureMap & 4 & 2 & 1 & 4 \\ \hline
+Unity & 0 & 0 & 0 & 0 \\ \hline
+Windsor & 1 & 1 & 1 & 2 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+Dla tego przypadku testowego również wszystkie rozwiązania za wyjątkiem StructureMap i Windsor mają czasy zbliżone do 0 ms. StructureMap radzi sobie zdecydowanie najgorzej. Zarówno dla testu Singleton jak i PerThread osiągnął czas 4 ms. Dla Transient zanotował 2 ms, a dla TransientSingleton 1 ms. Windsor natomiast dla trzech pierwszych testów (Singleton, Transient oraz TransientSingleton) ma czas zbliżony do 1 ms, a dla ostatniego testu (PerThread) osiąga 2 ms.
 
 \subsubsection{Wyniki dla Singleton}
 \begin{center}
