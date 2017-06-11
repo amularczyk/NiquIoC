@@ -442,12 +442,13 @@ Każdy typ jest zarejestrowany jako "PerThread", czyli obiekt jest tworzony raz 
 \subsubsection{Register as FactoryMethod}
 Typ główny jest zarejestrowany jako "FactoryMethod", czyli jako funkcja, która zwraca nam obiekt danego typu. Obiekty pozostałych typów są tworzone wewnątrz tej funkcji za pomocą "new".
 
+\clearpage
 \subsection{Przypadek testowy A}
 \subsubsection{Opis}
 W tym teście mamy zdefiniowanych 11 typów. Każdy z nich przymuje w konstruktorze o jeden parametr mniej niż typ poprzedni (czyli przyjmują one kolejno od 10 do 0 parametrów w konstruktorze). Typem głównym, a zarazem typem o największej liczbie parametrów, jest typ "TestA". Przyjmuje on w konstruktorze 10 parametrów następujących typów: "TestA0", "TestA1", "TestA2", "TestA3", "TestA4", "TestA5", "TestA6", "TestA7", "TestA8", "TestA9". Każdy z tych 10 typów w konstruktorze przyjmuje tyle parametrów, jaki ma numerek w nazwie (czyli obiekt typu "TestA0" ma konstruktore bezparametrowy, obiekt typy "TestA1" ma konstuktor z jednym parametrem; i tak dalej aż do typu "TestA9", który ma konstruktor z dziewięcioma parametrami). Wszystkie typy jako parametry w konstruktorze przyjmuje obiekty typów z niższymi numerkami (czyli obiekt typu "TestA1" w konstruktorze przyjmuje obiekt typu "TestA0", obiekt typu "TestA2" przymuje w konstruktorze obiekty typóW "TestA0" i "TestA1";  i tak dalej aż do typu "TestA9", który w konstruktorze przyjmuje obiekty z typami od "TestA0" do "TestA8"). Graf zależności poszczególnych typów został przedstawiony na Rys. \ref{fig:testA}.
 \begin{figure}[h]
 	\begin{center}
-  		\includegraphics[height=12cm]{TestA.png}
+  		\includegraphics[height=11.5cm]{TestA.png}
   		\caption{Graf zależności dla testu A.}
   		\label{fig:testA}
 	\end{center}
@@ -616,6 +617,7 @@ Windsor & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 1 \\ \hline
 Dla tego testu prawie wszystkie rozwiążania mają czasy zbliżone do 0 ms. Wyjątkiem są 4 rozwiązania. Trzy z nich, czyli: StrucutreMap, Unity oraz Windsor dla 1000 operacji uzyskały czas zbliżony do 1 ms. Najgorzej poradził sobie Ninject i już przy 100 operacjach uzyskał czasy na poziomie 1 ms. Natomiast w przypadku 1000 operacji poradził on sobie 5 razy gorzej.
 
 
+\clearpage
 \subsection{Przypadek testowy B}
 \subsubsection{Opis}
 Ten test jest bardzo podobny do przypadku testowego A, tylko dochodzi nam 1 dodatkowy poziom, który wygląda trochę inaczej. W głównym obiekcie "TestB" konstruktor przyjmuje 3 parametry następujących typów: "TestBa10", "TestBb10", "TestBc10". Każdy z tych 3 typów odpowiada typowi "TestA", więc przyjmuje on w konstruktorze 10 parametrów. Dla "TestBa10" są to parametry typów od "TestBa0" do "TestBa9", dla "TestBb10" są to parametry typów od "TestBb0" do "TestBb9", a dla "TestBc10" są to parametry typów od "TestBc0" do "TestBc9". Zależności tych typów wyglądają tak samo, jak dla typów z przypadku testowego A - rys. \ref{fig:testB} przedstawia te zależności.
@@ -794,18 +796,20 @@ Windsor & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 2 & 1 \\ \hline
 Dla tego przypadku testowego trochę więcej rozwiązań miało czasy 1 ms lub większe. Wyniki na poziomie 0 ms dla każdej liczby powtórzeń zanotowały: DryIoc, LightInject, NiquIoCPartial oraz NiquIoCFull. Trochę gorzej od nich poradził sobie Grace. Następne miejsca przypadły: Autofac, SimpleInjector, StructureMap i Windsor. Czasy około dwa razy gorsze od nich osiągnął Unity. Wszystkie z tych 6 rozwiązań miałby czasy powyżej 0 ms dopiero dla 1000 operacji. Ninject tym razem również już przy 100 operacjach zaczął mieć wyniki na poziomie 1 ms.  Gdy liczba operacji została zwiększona do 1000, to jego czasy wzrosły sześciokrotnie.
 
 
+\clearpage
 \subsection{Przypadek testowy C}
 \subsubsection{Opis}
 Ten przypadek testowy znacząco różni się od dwóch poprzednich. Mamy tutaj zdefiniowanych 26 typów. 5 z tych typów ma konstruktor bezparametrowy, a pozostałe 21 ma konstuktor z pięcioma parametrami. Typem głównym jest typ "TestC". Obiekt tego typy w konstruktorze przymuje 5 obiektów, kolejno następujących typów: "TestC40", "TestC41", "TestC42", "TestC43" i "TestC44". Każdy z tych pięciu typów ma taki sam konstruktor - przyjmuje w nim 5 obiektów o typach, które w nazwie mają pierwszy numer o 1 mniejszy, czyli są to obiekty typów od "TestC30" do "TestC34". Dla tych i kolejnych typów zasad z konstruktorami wygląda tak samo. Na końcu dochodzimy do typów od "TestC00" do "TestC04", które mają konstruktor bezparametrowy. Rys. \ref{fig:testC} przedstawia graf zależności typów dla tego przypadku testowego.
 
 \begin{figure}[h]
 	\begin{center}
-  		\includegraphics[height=10cm]{TestC.png}
+  		\includegraphics[height=11.5cm]{TestC.png}
   		\caption{Graf zależności dla testu C.}
   		\label{fig:testC}
 	\end{center}
 \end{figure}
 
+\clearpage
 Łatwo wywnioskować, że tworząc obiekty poszczególnych typów ilość tworzonych obiektów rośnie ponad pięciokrotnie:
 \begin{itemize}
 	\item typy od TestC00 do TestC04 - 1 obiekt,
@@ -937,6 +941,7 @@ Windsor & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
 \end{center}
 Podobnie jak dla przypadków testowych A i B, tutaj również SimpleInjector zaliczył lekki wzrost czasów w stosunku do testu Singleton. DryIoc oraz LightInject zaliczyły bardzo duże wzrosty i to one zamykają ranking. Przed nimi znalazł się StructureMap, a miejsce wyżej wcześniej wspomniany SimpleInjector. Podobne czasy do niego zanotował Unity, który uplasował się na miejscu 7. Idąc w rankingu ku górze, to przy 1, 10 i 100 operacjach lepiej radził Ninject, a przy 1000 operacjach Grace. Te dwa rozwiązania znalazły się na dwóch kolejnych miejscach. Tuż za podium jest NiquIoCFull, a pierwsze trzy miejsca bez zmian dla tego testu, czyli: Autofac, Windsor, NiquIoCPartial.
 
+\clearpage
 \subsubsection{Wyniki dla FactoryMethod}
 \begin{center}
 \begin{small}
@@ -961,6 +966,7 @@ Windsor & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 1 \\ \hline
 W tym przypadku 6 rozwiązań zanotowało wszystkie średnie czasy na poziomie 0 ms. Są to: DryIoc, Grace, LightInject, NiquIoCPartial, NiquIoCFull i Autofac, który czasem dla 1000 operacji osiągał 1 ms. Dalej znalazł się SimpleInjector, który czasami dla 1000 powtórzeń miał czasy 0 ms, ale jego średni czas to 1 ms. Następne miejsca przypadły StructureMapp i Windsor. Przedostatni w rankingu jest Unity, który czasami dla 1000 operacji uzyskiwał czasy nawet około 2 ms. Ostatnie miejsce tym razem również zajmuje Ninject i sytuacja wygląda niemal identycznie jak w pozostałych dwóch przypadkach testowych dla tego testu - już przy 100 powtórzeniach osiągnął on czasy na poziomie 1 ms, a gdy mamy 1000 operacji, to czasy średnie wynoszą około 5 ms.
 
 
+\clearpage
 \subsection{Przypadek testowy D}
 \subsubsection{Opis}
 Podobnie jak przypadek testowy B jest analigoczny z przypadkiem A, tak ten przypadek, jest zbliżony do przypadku C. Jednakże pokrewieństwo jest inne. Mamy tutaj tyle sama poziomów, co dla C, ale na każdym poziomie (poza pierwszym) obiektów jest dwa razy więcej. Zatem w tym teście mamy zdefiniowanych 51 typów. Tutaj konstruktor bezparametrowy ma 10 typów, a pozostałe 41 ma konstuktor z dziesięcioma parametrami. Typ główny to "TestD" i przymuje on w konstruktorze 10 obiektów, kolejno następujących typów: "TestD40", "TestD41", "TestD42", "TestD43", "TestD44", "TestD45", "TestD46", "TestD47", "TestD48", "TestD49". Jest więc to sytuacja niemal identyczna jak dla poprzedniego przypadku. Dla pozostałych typów jest podobnie i każdy z nich w konstruktorze przyjmuje 10 obiektów o typach z pierwszym numerem o 1 mniejszym (obiekty typów od "TestD40" do "TestD49", przyjmują w konstruktorze obiekty typów od "TestD30" do "TestD39" itd.). Ostatnie 10 typów, czyli typy od "TestD00" do "TestD09", mają konstruktor bezparametrowy. Graf zależności dla tego przypadku testowego został przedstawiony na Rys. \ref{fig:testD}.
@@ -973,6 +979,7 @@ Podobnie jak przypadek testowy B jest analigoczny z przypadkiem A, tak ten przyp
 	\end{center}
 \end{figure}
 
+\clearpage
 Łatwo wywnioskować, że tworząc obiekty poszczególnych typów ilość tworzonych obiektów rośnie ponad dziesięciokortnie:
 \begin{itemize}
 	\item typy od TestD00 do TestD09 - 1 obiekt,
