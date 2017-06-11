@@ -30,10 +30,10 @@ namespace PerformanceCalculator.Containers.TestsLightInject
             {
                 if (registrationKind == RegistrationKind.PerThread)
                 {
-                    if (testCase is PerThreadTestCaseD)
-                    {
-                        throw new OutOfMemoryException("Process takes more than 20 minutes!");
-                    }
+                    //if (testCase is PerThreadTestCaseD)
+                    //{
+                    //    throw new OutOfMemoryException("Process takes more than 20 minutes!");
+                    //}
 
                     sw.Start();
                     using (((ServiceContainer)container).BeginScope())
