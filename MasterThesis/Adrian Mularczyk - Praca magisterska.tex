@@ -80,18 +80,27 @@ Wrocław, 2016
 
 
 \clearpage
+\begin{center}
+\textbf{Streszczenie}\\
+\vspace{16pt}
+\textbf{Stworzenie wydajnego wzorca wstrzykiwania zależności dla złożonych grafów zależności}
+\end{center}
+Wstrzykiwanie zależności jest to zbiór zasad projektowania oprogramowania, które umożliwiają luźne powiązania, a dzięki temu kod jest rozszerzalny i łatwiejszy w utrzymaniu. Celem tej pracy było stworzenie takiej realizacji, która będzie sprawdzała się dla złożonych grafów zależności. Aplikacja została napisana w języku C\# z wykorzystaniem przestrzeni nazw Reflecion.Emit oraz jest w pełni przetestowana. W aplikacji zaproponowano dwa rozwiązania, które działają niezależnie i można ich używać naprzemiennie. Testowy wydajnościowe zostały przeprowadzone przy użyciu aplikacji, która powstała na potrzeby tej pracy. Porównano w nich 5 najbardziej popularnych i 4 najszybsze rozwiązania. Końcowe wyniki wykazały, że z obecnie dostępnych rozwiązań na rynku, moje radzi sobie najlepiej.
 
+
+
+
+\clearpage
 \section{Wstęp}
 \subsection{Cel pracy}
 Wstrzykiwanie zależnośc jest wzorcem projektowym, który pozwala na tworzenie kodu o luźniejszych powiązaniach, łatwiejszego w testowaniu i modyfikacji. Najbardziej popularnymi implementacjami tego wzorca w języku C\# są Unity i Ninject. Celem niniejszej pracy magisterskiej jest stworzenie wydajnej implementacji tego wzorca dla złożonych grafów zależności. Do tego celu zostanie wykorzystana funkcjolanosci z przestrzeni nazw Reflection.Emit. W tej pracy zostaną przedstawione dwa rozwiązania.
 
 \subsection{Układ pracy}
-Poza wstępem i podsumowaniem praca składa się jeszcze z trzech rozdziałów. W pierwszym znajduje się opis teoretyczny czym jest wstrzykiwanie zależności. Drugi rozdział opisuje moją implementację tego wzorca. Trzeci rozdział skupia się na testach wydajnościowych, w którym porównuję moją implementację z kilkoma najbardziej popularnym i kilkoma najszybszymi implementacjami.
+Poza wstępem i podsumowaniem praca składa się jeszcze z trzech rozdziałów. W pierwszym znajduje się opis teoretyczny czym jest wstrzykiwanie zależności. Drugi rozdział opisuje moją implementację tego wzorca. Trzeci rozdział skupia się na testach wydajnościowych, w którym porównuję moje rozwiązanie z kilkoma najbardziej popularnym i kilkoma najszybszymi rozwiązaniami.
 
 
 
 \clearpage
-
 \section{Wstrzykiwanie zależnosci}
 \subsection{Wstęp}
 Jest to zbiór zasad projektowania oprogramowania i wzorców, które pozwalają nam rozwijać luźno powiązany kod.\\
@@ -106,7 +115,7 @@ Wstrzykiwanie zależności może odbywać się na 3 sposoby:
 \end{itemize}
 
 \subsubsection{Wstrzykiwanie przez konstruktor}
-Jest to główny i najbardziej popularny sposób wstrzykiwania zależności. Niektóre klasy mają kilka konstruktor i atrybut "DependencyConstructor" przydaje się wtedy do oznaczenia, który z nich ma zostać wybrany przy tworzeniu nowego obiektu. Jednakże nie zawsze jest on potrzebny. W większości przypadków klasy mają tylko jeden konstruktor, a także rozwiązania przemsysłowe mają logikę, która wybierze odpowiedni konstruktor (np. ten oznaczony atrybutem, albo ten co ma najwięcej parametrów, albo ten co ma najmniej parametrów). Przykład klasy z atrybutem DependencyConstructor przedstawia Rys. \ref{fig:DependencyConstructor}.
+Jest to główny i najbardziej popularny sposób wstrzykiwania zależności. Niektóre klasy mają kilka konstruktor i atrybut "DependencyConstructor" przydaje się wtedy do oznaczenia, który z nich ma zostać wybrany przy tworzeniu nowego obiektu. Jednakże nie zawsze jest on potrzebny. W większości przypadków klasy mają tylko jeden konstruktor, a także rozwiązania przemsysłowe mają logikę, która wybierze odpowiedni konstruktor (np. ten oznaczony atrybutem, albo ten co ma najwięcej parametrów, albo ten co ma najmniej parametrów). Przykład klasy z atrybutem DependencyConstructor przedstawia Rys. \ref{fig:DependencyConstructor}.\\
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics{DependencyConstructor.png}
@@ -116,7 +125,7 @@ Jest to główny i najbardziej popularny sposób wstrzykiwania zależności. Nie
 \end{figure}
 
 \subsubsection{Wstrzykiwanie przez metodę}
-W przemysłowych rozwiązaniach to wstrzykiwanie z reguły odbywa się albo poprzez oznaczenie metody przez którą chcemy wstrzyknąć zaleźności odpowiednim atrybutem, albo przy rejestracji danej klasy definiujemy przez jakie metody chcemy wstrzyknąć zależności. Przykład klasy z oznaczeniem metody odpowiednim atrybutem przedstawia Rys. \ref{fig:DependencyMethod}.
+W przemysłowych rozwiązaniach to wstrzykiwanie z reguły odbywa się albo poprzez oznaczenie metody przez którą chcemy wstrzyknąć zaleźności odpowiednim atrybutem, albo przy rejestracji danej klasy definiujemy przez jakie metody chcemy wstrzyknąć zależności. Przykład klasy z oznaczeniem metody odpowiednim atrybutem przedstawia Rys. \ref{fig:DependencyMethod}.\\
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics{DependencyMethod.png}
@@ -126,7 +135,7 @@ W przemysłowych rozwiązaniach to wstrzykiwanie z reguły odbywa się albo popr
 \end{figure}
 
 \subsubsection{Wstrzykiwanie przez właściwość}
-Tutaj podobnie jak dla wstrzykiwania przez metodę w przemysłowych rozwiązaniach to wstrzykiwanie z reguły odbywa się albo poprzez oznaczenie właściwoci przez którą chcemy wstrzyknąć zaleźności odpowiednim atrybutem, albo przy rejestracji danej klasy definijumey przez jakie właściwości chcemy wstrzyknąć zależności. Przykład klasy z oznaczeniem właściwości odpowiednim atrybutem przedstawia Rys. \ref{fig:DependencyProperty}.
+Tutaj podobnie jak dla wstrzykiwania przez metodę w przemysłowych rozwiązaniach to wstrzykiwanie z reguły odbywa się albo poprzez oznaczenie właściwoci przez którą chcemy wstrzyknąć zaleźności odpowiednim atrybutem, albo przy rejestracji danej klasy definijumey przez jakie właściwości chcemy wstrzyknąć zależności. Przykład klasy z oznaczeniem właściwości odpowiednim atrybutem przedstawia Rys. \ref{fig:DependencyProperty}.\\
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics{DependencyProperty.png}
@@ -136,7 +145,6 @@ Tutaj podobnie jak dla wstrzykiwania przez metodę w przemysłowych rozwiązania
 \end{figure}
 
 
-\clearpage
 \subsection{Implementacje przemysłowe}
 Na rynku jest wiele implementacji wstrzykiwania zależności. Przedstawię tutaj kilka najbardziej popularnych (według ilości pobrań z NuGet) oraz kilka najszybszych (według rankingu na stronie: http://www.palmmedia.de/Blog/2011/8/30/ioc-container-benchmark-performance-comparison). Dane zostały wzięte z dnia 21-02-2017. W nawiasie znajduje się wersja implementacji, która została użyta w testach (najnowsza na ten dzień).\\
 \\
