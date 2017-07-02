@@ -93,15 +93,55 @@ Wstrzykiwanie zależności jest to zbiór zasad projektowania oprogramowania, kt
 \clearpage
 \section{Wstęp}
 \subsection{Cel pracy}
-Wstrzykiwanie zależnośc jest wzorcem projektowym, który pozwala na tworzenie kodu o luźniejszych powiązaniach, łatwiejszego w testowaniu i modyfikacji. Najbardziej popularnymi implementacjami tego wzorca w języku C\# są Unity i Ninject. Celem niniejszej pracy magisterskiej jest stworzenie wydajnej implementacji tego wzorca dla złożonych grafów zależności. Do tego celu zostanie wykorzystana funkcjolanosci z przestrzeni nazw Reflection.Emit. W tej pracy zostaną przedstawione dwa rozwiązania.
+Wstrzykiwanie zależnośc jest wzorcem projektowym, który pozwala na tworzenie kodu o luźniejszych powiązaniach, łatwiejszego w testowaniu i modyfikacji. Najbardziej popularnymi implementacjami tego wzorca w języku C\# są Unity i Ninject. Niestety większość rozwiązań skupia się na zapewnieniu jak największej liczby funkcjonalności, co ma negatywne skutki jeśli chodzi o wydajność. O ile przy małej ilości zależności te czasy nie są zbyt duże, to wraz ze wzrostem zależności wydajność dość mocno daje o sobie znać. Celem niniejszej pracy magisterskiej jest stworzenie takiej implementacji tego wzorca, która będzie wydajna dla złożonych grafów zależności, ale również będzie dostarczać niezbędną funkcjonalności. Do tego celu zostaną wykorzystane mechanizmy z przestrzeni nazw Reflection.Emit. W tej pracy zostaną przedstawione dwa rozwiązania tego problemu.
 
 \subsection{Układ pracy}
-Poza wstępem i podsumowaniem praca składa się jeszcze z trzech rozdziałów. W pierwszym znajduje się opis teoretyczny czym jest wstrzykiwanie zależności. Drugi rozdział opisuje moją implementację tego wzorca. Trzeci rozdział skupia się na testach wydajnościowych, w którym porównuję moje rozwiązanie z kilkoma najbardziej popularnym i kilkoma najszybszymi rozwiązaniami.
+Poza wstępem i podsumowaniem praca składa się jeszcze z czterech rozdziałów. Pierwszy z nich opisuje idee idące za wstrzykiwaniem zależności. W kolejnym znajduje się opis teoretyczny czym jest wstrzykiwanie zależności. Następny rozdział został poświęcony moje implementacji tego wzorca. Ostatni z tych czterech rozdziałów skupia się na testach wydajnościowych, w którym porównuję moje rozwiązanie z kilkoma najbardziej popularnym i kilkoma najwydajniejszymi rozwiązaniami.
 
 
 
 \clearpage
-\section{Wstrzykiwanie zależnosci}
+\section{Odwrócenie zależności}
+\subsection{SOLID}
+Na przestrzeni lat powstało bardzo dużo projektów. Część z nich była łatwiejsza w utrzymaniu, część trudniejsza. Analizując te projekty ludzie doszli do wniosku, że są pewne zasady, które powodują, że projekty rozwija się łatwiej. Te zasady zostały połączone w zbiory zasad. Najbardziej popularnych i powrzechnie stosowanym zbiorem zasad jest SOLID \cite{SOLID}:
+\begin{itemize}
+	\item S (Single responsibility principle) - Klasa powinna mieć tylko jedną odpowiedzialność (nigdy nie powinien istnieć więcej niż jeden powód do modyfikacji klasy).
+	\item O (Open/closed principle) - Klasy powinny być otwarte na rozszerzenia i zamknięte na modyfikacje.
+	\item L (Liskov substitution principle) - Funkcje które używają klas bazowych, muszą być w stanie używać również obiektów klas dziedziczących po klasach bazowych, bez dokładnej znajomości tych obiektów.
+	\item I (Interface segregation principle) - Wiele dedykowanych interfejsów jest lepsze niż jeden ogólny.
+	\item D (Dependency inversion principle) - Wysokopoziomowe moduły nie powinny zależeć od modułów niskopoziomowych - zależności między nimi powinny wynikać z abstrakcji.
+\end{itemize}
+Ta praca w dużej mieże skupia się na rozwiązaniu dla zasady D - Dependency inversion principle. 
+
+\subsubsection{Przykład dla zasady D}
+Rysynek \ref{fig:Solid_without} przedstawia przykład przed zastosowaniem zasady D.\\
+\begin{figure}[H]
+	\begin{center}
+  		\includegraphics{Solid_without.png}
+  		\caption{Przykładowa klasa bez zasady D}
+  		\label{fig:Solid_without}
+	\end{center}
+\end{figure}
+Rysunek \ref{fig:Solid_with} przedstawia przykład po zastosowaniu zasady D.\\
+\begin{figure}[H]
+	\begin{center}
+  		\includegraphics{Solid_with.png}
+  		\caption{Przykładowa klasa z zasadą D}
+  		\label{fig:Solid_with}
+	\end{center}
+\end{figure}
+Łatwo zauważyć, że teraz klasę Bar nie interesuje implementacja klasy Foo. Jest ona od niej zupełnie niezależna. Spodziewa się jedynie, że dostanie implementację interfejsu IFoo, który dostarcza metodę DoSomeWork. Dzięki takiemu podejściu w łatwy sposób można podmienić implementację interfejsu IFoo w klasie Bar. Zatem tworząc ciało metody DoSomething w klasie Bar nie przejmujemy się implementacją metody DoSomeWork, tylko skupiamy się na tym co metoda DoSomething ma faktycznie robić.
+Kolejną zaletą takiego podejścia jest to, że teraz łatwy sposób można przetesować metodę DoSomething - można stworzyć przykładową implementację interfejsu IFoo lub użyć mock'a (zewnętrznej biblioteki, która stworzy pozorną implementację interfejsu za nas). Wcześniej ta metoda nie mogła zostać przetestować przed ukończeniem metody DoSomeWork.
+
+
+\subsection{Kontenery wstrzykiwania zależności}
+Aby można było z powodzeniem stosować zasadę D, należy mieć miejsce gdzie możnaby zdefiniować jakiej klasy obiekt należy podstawić w miejsce interfejsu. Do tego celu używa się kontenerów wstrzykiwania zależności.\\
+Kontenery dostarczają nam kilku funkcjonalności. Jedną z nich jest oczywiście możliwość zdefiniowania obiekt jakiej klasy należy zwrócić w miejsce konkretnego interfejsu, ale również umożliwiają stworzenie instancji obiektu konkretnej klasy lub interfejsu. Dodatkowo zapewniają sposobność do rozwiązywania zależności, czyli stworzenia obiektów od których danym obiekt zależy. Niektóre kontenery dostarzcają również mechanizmy pozwalające rozszerzyć tworzenie nowych instancji (co sprzyja osiągnięciu efektów programowania aspektowego).
+
+
+
+\clearpage
+\section{Wstrzykiwanie zależności}
 \subsection{Wstęp}
 Jest to zbiór zasad projektowania oprogramowania i wzorców, które pozwalają nam rozwijać luźno powiązany kod.\\
 Jakiemu celowi ma służyć wstrzykiwanie zależności? Wstrzykiwanie zależnści nie jestem celem samym w sobie, raczej jest to środek do celu. Ostatecznie celem większości technik programowania jest dostarczenie jak najwydajniej działającego oprogramowania. Jednym z aspektów tego jest napisanie utrzymywalnego kodu.\\
@@ -1323,6 +1363,7 @@ Zaprezentowane przeze mnie rozwiązania są bardzo wydaje, ale mają swoje ogran
 \bibitem{dependency_injection} Mark Seemann, Dependency Injection in .NET, 2012
 \bibitem{emit} Serge Lidin, Expert .NET 2.0 IL Assembler, 2006
 \bibitem{clean_code} Robert C. Martin, Czysty kod. Podręcznik dobrego programisty, 2014
+\bibitem{SOLID} https://en.wikipedia.org/wiki/SOLID\_(object-oriented\_design)
 \end{thebibliography}
 
 \end{document}
