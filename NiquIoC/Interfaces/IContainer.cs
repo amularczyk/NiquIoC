@@ -7,17 +7,21 @@ namespace NiquIoC.Interfaces
     {
         IContainerMember RegisterType<T>()
             where T : class;
-        
+
         IContainerMember RegisterType<TFrom, TTo>()
             where TTo : TFrom;
-        
+
         IContainerMember RegisterType<T>(Func<object> objectFactory)
             where T : class;
-        
+
         IContainerMember RegisterInstance<T>(T instance);
-        
+
+        T Resolve<T>();
+
         T Resolve<T>(ResolveKind resolveKind);
-        
+
+        void BuildUp<T>(T instance);
+
         void BuildUp<T>(T instance, ResolveKind resolveKind);
     }
 }

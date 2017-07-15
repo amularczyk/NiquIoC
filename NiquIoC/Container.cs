@@ -14,6 +14,14 @@ namespace NiquIoC
 {
     public class Container : IContainer
     {
+        private readonly ResolveKind? _resolveKind;
+
+        public Container(ResolveKind resolveKind)
+            : this()
+        {
+            _resolveKind = resolveKind;
+        }
+
         public Container()
         {
             _registeredTypesCache = new Dictionary<Type, ContainerMember>();
@@ -57,9 +65,29 @@ namespace NiquIoC
             return RegisterType(type, type.IsInterface ? instance.GetType() : type, new SingletonObjectLifetimeManager { ObjectFactory = () => instance }, false);
         }
 
+        public T Resolve<T>()
+        {
+            if (_resolveKind == null)
+            {
+                throw new MissingResolveKindException();
+            }
+
+            return Resolve<T>(_resolveKind.Value);
+        }
+
         public T Resolve<T>(ResolveKind resolveKind)
         {
             return (T)Resolve(typeof(T), resolveKind);
+        }
+
+        public void BuildUp<T>(T instance)
+        {
+            if (_resolveKind == null)
+            {
+                throw new MissingResolveKindException();
+            }
+
+            BuildUp(instance, _resolveKind.Value);
         }
 
         public void BuildUp<T>(T instance, ResolveKind resolveKind)
@@ -149,7 +177,7 @@ namespace NiquIoC
                     return _fullEmitFunctionResolver.Resolve(containerMember, (obj, cMember) => {} ); //We do not do build up in FullEmitFunction
 
                 default:
-                    throw new ResolveKindMissingException(resolveKind);
+                    throw new ResolveKindNotImplementedException(resolveKind);
             }
         }
 

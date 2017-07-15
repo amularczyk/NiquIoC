@@ -3,11 +3,11 @@ using NiquIoC.Enums;
 
 namespace NiquIoC.Exceptions
 {
-    public class ResolveKindMissingException : Exception
+    public class ResolveKindNotImplementedException : Exception
     {
         private readonly ResolveKind _resolveKind;
 
-        public ResolveKindMissingException(ResolveKind resolveKind)
+        public ResolveKindNotImplementedException(ResolveKind resolveKind)
         {
             _resolveKind = resolveKind;
         }
