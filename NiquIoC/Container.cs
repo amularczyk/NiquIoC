@@ -43,19 +43,33 @@ namespace NiquIoC
         public IContainerMember RegisterType<T>()
             where T : class
         {
-            return RegisterType<T>(new TransientObjectLifetimeManager());
+            return RegisterType(typeof(T));
+        }
+
+        public IContainerMember RegisterType(Type type)
+        {
+            return RegisterType(type, new TransientObjectLifetimeManager());
         }
 
         public IContainerMember RegisterType<TFrom, TTo>()
             where TTo : TFrom
         {
-            return RegisterType<TFrom, TTo>(new TransientObjectLifetimeManager());
+            return RegisterType(typeof(TFrom), typeof(TTo));
         }
 
-        public IContainerMember RegisterType<T>(Func<object> objectFactory)
+        public IContainerMember RegisterType(Type typeFrom, Type typeTo)
+        {
+            return RegisterType(typeFrom, typeTo, new TransientObjectLifetimeManager());
+        }
+
+        public IContainerMember RegisterType<T>(Func<T> objectFactory) 
             where T : class
         {
-            var type = typeof(T);
+            return RegisterType(typeof(T), objectFactory);
+        }
+
+        public IContainerMember RegisterType(Type type, Func<object> objectFactory)
+        {
             return RegisterType(type, type, new TransientObjectLifetimeManager { ObjectFactory = objectFactory }, false);
         }
 
@@ -78,6 +92,21 @@ namespace NiquIoC
         public T Resolve<T>(ResolveKind resolveKind)
         {
             return (T)Resolve(typeof(T), resolveKind);
+        }
+
+        public object Resolve(Type type)
+        {
+            if (_resolveKind == null)
+            {
+                throw new MissingResolveKindException();
+            }
+
+            return Resolve(type, _resolveKind.Value);
+        }
+
+        public object Resolve(Type type, ResolveKind resolveKind)
+        {
+            return ResolvePrivate(type, resolveKind);
         }
 
         public void BuildUp<T>(T instance)
@@ -103,22 +132,14 @@ namespace NiquIoC
         #endregion
 
         #region Private Methods
-        private IContainerMember RegisterType<T>(IObjectLifetimeManager objectLifetimeManager)
-            where T : class
+        private IContainerMember RegisterType(Type type, IObjectLifetimeManager objectLifetimeManager)
         {
-            var type = typeof(T);
             if (type.IsInterface) //we check if a given type is not an interface (we can not register interface that way)
             {
                 throw new WrongInterfaceRegistrationException(type);
             }
 
             return RegisterType(type, type, objectLifetimeManager);
-        }
-
-        private IContainerMember RegisterType<TFrom, TTo>(IObjectLifetimeManager objectLifetimeManager)
-            where TTo : TFrom
-        {
-            return RegisterType(typeof(TFrom), typeof(TTo), objectLifetimeManager);
         }
 
         private IContainerMember RegisterType(Type typeFrom, Type typeTo, IObjectLifetimeManager objectLifetimeManager, bool createCache = true)
@@ -154,7 +175,7 @@ namespace NiquIoC
             return containerMember;
         }
 
-        private object Resolve(Type type, ResolveKind resolveKind)
+        private object ResolvePrivate(Type type, ResolveKind resolveKind)
         {
             var containerMember = _registeredTypesCache.GetValue(type); //getting a value from the cache for the correct type
 
@@ -206,7 +227,7 @@ namespace NiquIoC
 
             foreach (var property in containerMember.PropertiesInfo) //we are filling the required properties
             {
-                property.SetValue(obj, Resolve(property.PropertyType, resolveKind));
+                property.SetValue(obj, ResolvePrivate(property.PropertyType, resolveKind));
             }
         }
 
@@ -229,7 +250,7 @@ namespace NiquIoC
                 var parameters = new object[ctorParametersCount];
                 for (var i = 0; i < ctorParametersCount; i++) //we create as array with the parameters of the method and we fill it
                 {
-                    parameters[i] = Resolve(methodParameters[i].ParameterType, resolveKind);
+                    parameters[i] = ResolvePrivate(methodParameters[i].ParameterType, resolveKind);
                 }
                 method.Invoke(obj, parameters);
             }

@@ -2,10 +2,10 @@
 using NiquIoC.Enums;
 using NiquIoC.Test.Model;
 
-namespace NiquIoC.Test.FullEmitFunction
+namespace NiquIoC.Test.PartialEmitFunction
 {
     [TestClass]
-    public class RegisterClassInstanceTests
+    public class RegisterInstanceTests
     {
         [TestMethod]
         public void RegisterInstanceOfEmptyClass_Success()
@@ -14,7 +14,7 @@ namespace NiquIoC.Test.FullEmitFunction
             var emptyClass1 = new EmptyClass();
             c.RegisterInstance(emptyClass1);
 
-            var emptyClass2 = c.Resolve<EmptyClass>(ResolveKind.FullEmitFunction);
+            var emptyClass2 = c.Resolve<EmptyClass>(ResolveKind.PartialEmitFunction);
 
             Assert.AreEqual(emptyClass1, emptyClass2);
         }
@@ -27,7 +27,7 @@ namespace NiquIoC.Test.FullEmitFunction
             c.RegisterType<SampleClass>();
             c.RegisterInstance(emptyClass);
 
-            var sampleClass = c.Resolve<SampleClass>(ResolveKind.FullEmitFunction);
+            var sampleClass = c.Resolve<SampleClass>(ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass);
             Assert.AreEqual(emptyClass, sampleClass.EmptyClass);
@@ -41,7 +41,7 @@ namespace NiquIoC.Test.FullEmitFunction
             c.RegisterInstance(text);
             c.RegisterType<SampleClassWithStringType>();
 
-            var sampleClassWithSimpleType = c.Resolve<SampleClassWithStringType>(ResolveKind.FullEmitFunction);
+            var sampleClassWithSimpleType = c.Resolve<SampleClassWithStringType>(ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(sampleClassWithSimpleType);
             Assert.IsNotNull(sampleClassWithSimpleType.Text);
@@ -56,7 +56,7 @@ namespace NiquIoC.Test.FullEmitFunction
             c.RegisterInstance(value);
             c.RegisterType<SampleClassWithIntType>();
 
-            var sampleClassWithSimpleType = c.Resolve<SampleClassWithIntType>(ResolveKind.FullEmitFunction);
+            var sampleClassWithSimpleType = c.Resolve<SampleClassWithIntType>(ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(sampleClassWithSimpleType);
             Assert.IsNotNull(sampleClassWithSimpleType.Value);

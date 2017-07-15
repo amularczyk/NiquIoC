@@ -37,5 +37,94 @@ namespace NiquIoC.Test.FullEmitFunction
             var c = new Container();
             c.RegisterType<IEmptyClass>();
         }
+
+        [TestMethod]
+        public void Resolve_Without_Parameter_When_Container_With_ResolveKind_Success()
+        {
+            var c = new Container(ResolveKind.FullEmitFunction);
+            c.RegisterType<EmptyClass>();
+
+            var emptyClass = c.Resolve<EmptyClass>();
+
+            Assert.IsNotNull(emptyClass);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(BuildUpNotSupportedException))]
+        public void BuildUp_Without_Parameter_When_Container_With_ResolveKind_Fail()
+        {
+            var c = new Container(ResolveKind.FullEmitFunction);
+            var emptyClass = new EmptyClass();
+
+            c.BuildUp(emptyClass);
+
+            Assert.IsNotNull(emptyClass);
+        }
+
+        [TestMethod]
+        public void Resolve_With_Type_As_Parameter_And_Register_With_Type_As_Parameter_Success()
+        {
+            var c = new Container(ResolveKind.FullEmitFunction);
+            c.RegisterType(typeof(EmptyClass));
+
+            var emptyClass = c.Resolve(typeof(EmptyClass));
+
+            Assert.IsNotNull(emptyClass);
+        }
+
+        [TestMethod]
+        public void Resolve_With_Type_And_ResolveKind_As_Parameter_And_Register_With_Type_As_Parameter_Success()
+        {
+            var c = new Container();
+            c.RegisterType(typeof(EmptyClass));
+
+            var emptyClass = c.Resolve(typeof(EmptyClass), ResolveKind.FullEmitFunction);
+
+            Assert.IsNotNull(emptyClass);
+        }
+
+        [TestMethod]
+        public void Resolve_With_Type_As_Parameter_And_Register_With_TypeFrom_And_TypeTo_As_Parameter_Success()
+        {
+            var c = new Container(ResolveKind.FullEmitFunction);
+            c.RegisterType(typeof(IEmptyClass), typeof(EmptyClass));
+
+            var emptyClass = c.Resolve(typeof(IEmptyClass));
+
+            Assert.IsNotNull(emptyClass);
+        }
+
+        [TestMethod]
+        public void Resolve_With_Type_And_ResolveKind_As_Parameter_And_Register_With_TypeFrom_And_TypeTo_As_Parameter_Success()
+        {
+            var c = new Container(ResolveKind.FullEmitFunction);
+            c.RegisterType(typeof(IEmptyClass), typeof(EmptyClass));
+
+            var emptyClass = c.Resolve(typeof(IEmptyClass), ResolveKind.FullEmitFunction);
+
+            Assert.IsNotNull(emptyClass);
+        }
+
+        [TestMethod]
+        public void Resolve_With_Type_As_Parameter_And_Register_Object_Factory_With_Type_As_Parameter_Success()
+        {
+            var c = new Container(ResolveKind.FullEmitFunction);
+            c.RegisterType(typeof(EmptyClass), () => new EmptyClass());
+
+            var emptyClass = c.Resolve(typeof(EmptyClass));
+
+            Assert.IsNotNull(emptyClass);
+        }
+
+        [TestMethod]
+        public void Resolve_With_Type_And_ResolveKind_As_Parameter_And_Register_Object_Factory_With_Type_As_Parameter_Success()
+        {
+            var c = new Container();
+            c.RegisterType(typeof(EmptyClass), () => new EmptyClass());
+
+            var emptyClass = c.Resolve(typeof(EmptyClass), ResolveKind.FullEmitFunction);
+
+            Assert.IsNotNull(emptyClass);
+        }
     }
 }
