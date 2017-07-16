@@ -14,7 +14,7 @@ namespace NiquIoC.Interfaces
 
         IContainerMember RegisterType(Type typeFrom, Type typeTo);
 
-        IContainerMember RegisterType<T>(Func<IContainerResolve, T> objectFactory) //ToDo: Change on IContainerResolver?
+        IContainerMember RegisterType<T>(Func<IContainerResolve, T> objectFactory)
             where T : class;
 
         IContainerMember RegisterType(Type type, Func<IContainerResolve, object> objectFactory);
