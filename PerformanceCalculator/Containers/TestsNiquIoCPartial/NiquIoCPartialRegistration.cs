@@ -30,7 +30,7 @@ namespace PerformanceCalculator.Containers.TestsNiquIoCPartial
         {
             var c = (Container)container;
 
-            c.RegisterType<TFrom>(() => obj(null));
+            c.RegisterType<TFrom>(obj);
         }
     }
 }

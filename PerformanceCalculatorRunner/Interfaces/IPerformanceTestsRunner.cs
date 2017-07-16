@@ -6,6 +6,7 @@ namespace PerformanceCalculatorRunner.Interfaces
 {
     public interface IPerformanceTestsRunner
     {
-        List<List<TestResult>> RunTests(string containerName, int repetitionsNumber, IEnumerable<PerformanceTestCase> testCases);
+        List<List<TestResult>> RunTests(string containerName, int repetitionsNumber,
+            IEnumerable<PerformanceTestCase> testCases);
     }
 }

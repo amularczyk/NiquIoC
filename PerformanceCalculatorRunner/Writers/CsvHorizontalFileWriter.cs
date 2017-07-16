@@ -11,12 +11,14 @@ namespace PerformanceCalculatorRunner.Writers
         {
         }
 
-        public override void Write(Dictionary<string, IEnumerable<FinalTestResult>> results, IEnumerable<PerformanceTestCase> testCases)
+        public override void Write(Dictionary<string, IEnumerable<FinalTestResult>> results,
+            IEnumerable<PerformanceTestCase> testCases)
         {
             WriteToFile(ProcessResultsDataToCsvFormat(results, testCases));
         }
 
-        private IEnumerable<string> ProcessResultsDataToCsvFormat(Dictionary<string, IEnumerable<FinalTestResult>> results, IEnumerable<PerformanceTestCase> testCases)
+        private IEnumerable<string> ProcessResultsDataToCsvFormat(
+            Dictionary<string, IEnumerable<FinalTestResult>> results, IEnumerable<PerformanceTestCase> testCases)
         {
             var dict = new Dictionary<string, StringBuilder>();
 
@@ -24,7 +26,7 @@ namespace PerformanceCalculatorRunner.Writers
             var columnsNamesSb = new StringBuilder();
             columnsNamesSb.Append("Test Case;Registration Kind;Resolve Count;Result Kind;");
             dict.Add(columnsNames, columnsNamesSb);
-            
+
             foreach (var testCase in testCases)
             {
                 var name = $"{testCase.TestCase};{testCase.RegistrationKind};{testCase.TestsCount}";

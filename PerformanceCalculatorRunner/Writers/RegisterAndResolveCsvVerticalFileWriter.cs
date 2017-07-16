@@ -11,12 +11,14 @@ namespace PerformanceCalculatorRunner.Writers
 
         protected override string GetTestCaseColumnNameText(string containerName)
         {
-            return $"{containerName} Register;{containerName} Register;{containerName} Register;{containerName} Resolve;{containerName} Resolve;{containerName} Resolve;";
+            return
+                $"{containerName} Register;{containerName} Register;{containerName} Register;{containerName} Resolve;{containerName} Resolve;{containerName} Resolve;";
         }
 
         protected override string GetRegistrationKindColumnNameText(RegistrationKind registrationKind)
         {
-            return $"{registrationKind};{registrationKind};{registrationKind};{registrationKind};{registrationKind};{registrationKind};";
+            return
+                $"{registrationKind};{registrationKind};{registrationKind};{registrationKind};{registrationKind};{registrationKind};";
         }
 
         protected override string GetTestsCountColumnNameText(int testsCount)
@@ -31,7 +33,8 @@ namespace PerformanceCalculatorRunner.Writers
 
         protected override string GetResultText(FinalTestResult testResult)
         {
-            return $"{testResult.MinRegisterTime};{testResult.MaxRegisterTime};{testResult.AvgRegisterTime};{testResult.MinResolveTime};{testResult.MaxResolveTime};{testResult.AvgResolveTime};";
+            return
+                $"{testResult.MinRegisterTime};{testResult.MaxRegisterTime};{testResult.AvgRegisterTime};{testResult.MinResolveTime};{testResult.MaxResolveTime};{testResult.AvgResolveTime};";
         }
     }
 }

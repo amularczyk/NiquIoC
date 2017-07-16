@@ -23,7 +23,8 @@ namespace PerformanceCalculator.Containers.TestsWindsor
             return new WindsorContainer();
         }
 
-        protected override long RunResolve(Stopwatch sw, ITestCase testCase, object container, int testCasesCount, RegistrationKind registrationKind)
+        protected override long RunResolve(Stopwatch sw, ITestCase testCase, object container, int testCasesCount,
+            RegistrationKind registrationKind)
         {
             try
             {

@@ -40,7 +40,6 @@
     {
     }
 
-    
 
     public interface ITestC10
     {
@@ -177,7 +176,6 @@
         public ITestC04 TestC04 { get; }
     }
 
-    
 
     public interface ITestC20
     {
@@ -314,7 +312,6 @@
         public ITestC14 TestC14 { get; }
     }
 
-    
 
     public interface ITestC30
     {
@@ -451,7 +448,7 @@
         public ITestC24 TestC24 { get; }
     }
 
-    
+
     public interface ITestC40
     {
         ITestC30 TestC30 { get; }
@@ -587,7 +584,7 @@
         public ITestC34 TestC34 { get; }
     }
 
-   
+
     public interface ITestC
     {
         ITestC40 TestC40 { get; }

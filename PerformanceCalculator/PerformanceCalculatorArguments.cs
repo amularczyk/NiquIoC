@@ -6,15 +6,6 @@ namespace PerformanceCalculator
 {
     public class PerformanceCalculatorArguments
     {
-        public string Name { get; set; }
-
-        public RegistrationKind RegistrationKind { get; set; }
-
-        public string TestCase { get; set; }
-
-        public int Count { get; set; }
-
-
         public PerformanceCalculatorArguments(IReadOnlyList<string> args)
         {
             Name = args[0];
@@ -43,5 +34,13 @@ namespace PerformanceCalculator
                 }
             }
         }
+
+        public string Name { get; set; }
+
+        public RegistrationKind RegistrationKind { get; set; }
+
+        public string TestCase { get; set; }
+
+        public int Count { get; set; }
     }
 }

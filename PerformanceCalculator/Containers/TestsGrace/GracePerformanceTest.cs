@@ -23,7 +23,8 @@ namespace PerformanceCalculator.Containers.TestsGrace
             return new DependencyInjectionContainer();
         }
 
-        protected override long RunResolve(Stopwatch sw, ITestCase testCase, object container, int testCasesCount, RegistrationKind registrationKind)
+        protected override long RunResolve(Stopwatch sw, ITestCase testCase, object container, int testCasesCount,
+            RegistrationKind registrationKind)
         {
             try
             {

@@ -15,7 +15,8 @@ namespace PerformanceCalculator.Tests.Containers.TestsSimpleInjector
         [TestMethod]
         public void RegisterSingleton_Success()
         {
-            ITestCase testCase = new SingletonTestCaseC(new SimpleInjectorRegistration(), new SimpleInjectorResolving());
+            ITestCase testCase = new SingletonTestCaseC(new SimpleInjectorRegistration(),
+                new SimpleInjectorResolving());
 
 
             var c = new Container();
@@ -33,7 +34,8 @@ namespace PerformanceCalculator.Tests.Containers.TestsSimpleInjector
         [TestMethod]
         public void RegisterTransient_Success()
         {
-            ITestCase testCase = new TransientTestCaseC(new SimpleInjectorRegistration(), new SimpleInjectorResolving());
+            ITestCase testCase = new TransientTestCaseC(new SimpleInjectorRegistration(),
+                new SimpleInjectorResolving());
 
             var c = new Container();
             c = (Container)testCase.Register(c, RegistrationKind.Transient);
@@ -51,7 +53,8 @@ namespace PerformanceCalculator.Tests.Containers.TestsSimpleInjector
         [TestMethod]
         public void RegisterTransientSingleton_Success()
         {
-            ITestCase testCase = new TransientSingletonTestCaseC(new SimpleInjectorRegistration(), new SimpleInjectorResolving());
+            ITestCase testCase =
+                new TransientSingletonTestCaseC(new SimpleInjectorRegistration(), new SimpleInjectorResolving());
 
             var c = new Container();
             c = (Container)testCase.Register(c, RegistrationKind.TransientSingleton);
@@ -69,7 +72,8 @@ namespace PerformanceCalculator.Tests.Containers.TestsSimpleInjector
         [TestMethod]
         public void RegisterPerThread_SameThread_Success()
         {
-            ITestCase testCase = new PerThreadTestCaseC(new SimpleInjectorRegistration(), new SimpleInjectorResolving());
+            ITestCase testCase = new PerThreadTestCaseC(new SimpleInjectorRegistration(),
+                new SimpleInjectorResolving());
 
             var c = new Container();
             c = (Container)testCase.Register(c, RegistrationKind.PerThread);
@@ -97,7 +101,8 @@ namespace PerformanceCalculator.Tests.Containers.TestsSimpleInjector
         [TestMethod]
         public void RegisterPerThread_DifferentThreads_Success()
         {
-            ITestCase testCase = new PerThreadTestCaseC(new SimpleInjectorRegistration(), new SimpleInjectorResolving());
+            ITestCase testCase = new PerThreadTestCaseC(new SimpleInjectorRegistration(),
+                new SimpleInjectorResolving());
 
             var c = new Container();
             c = (Container)testCase.Register(c, RegistrationKind.PerThread);
@@ -133,7 +138,8 @@ namespace PerformanceCalculator.Tests.Containers.TestsSimpleInjector
         [TestMethod]
         public void RegisterFactoryMethod_Success()
         {
-            ITestCase testCase = new FactoryMethodTestCaseC(new SimpleInjectorRegistration(), new SimpleInjectorResolving());
+            ITestCase testCase = new FactoryMethodTestCaseC(new SimpleInjectorRegistration(),
+                new SimpleInjectorResolving());
 
             var c = new Container();
             c = (Container)testCase.Register(c, RegistrationKind.FactoryMethod);

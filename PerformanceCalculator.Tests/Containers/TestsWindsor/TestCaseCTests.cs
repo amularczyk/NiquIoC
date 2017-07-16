@@ -113,6 +113,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsWindsor
             CheckHelper.Check(obj2, true, true);
             CheckHelper.Check(obj1, obj2, false, false);
         }
+
         [TestMethod]
         public void RegisterFactoryMethod_Success()
         {

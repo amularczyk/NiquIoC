@@ -17,7 +17,8 @@ namespace PerformanceCalculatorRunner
             _processPath = processPath;
         }
 
-        public List<List<TestResult>> RunTests(string containerName, int repetitionsNumber, IEnumerable<PerformanceTestCase> testCases)
+        public List<List<TestResult>> RunTests(string containerName, int repetitionsNumber,
+            IEnumerable<PerformanceTestCase> testCases)
         {
             var testResults = new List<List<TestResult>>();
 
@@ -27,17 +28,20 @@ namespace PerformanceCalculatorRunner
                 var testResult = new List<TestResult>();
                 for (var i = 0; i < repetitionsNumber; i++)
                 {
-                    testResult.Add(ConvertToTestResult(RunTests(containerName, performanceTestCase.RegistrationKind, performanceTestCase.TestCase, performanceTestCase.TestsCount)));
+                    testResult.Add(ConvertToTestResult(RunTests(containerName, performanceTestCase.RegistrationKind,
+                        performanceTestCase.TestCase, performanceTestCase.TestsCount)));
                 }
                 testResults.Add(testResult);
             }
-            
+
             return testResults;
         }
 
-        private string RunTests(string containerName, RegistrationKind registrationKind, string testCase, int testsCount)
+        private string RunTests(string containerName, RegistrationKind registrationKind, string testCase,
+            int testsCount)
         {
-            return ProcessHelper.StartProcess(_processPath, $"{containerName} -r {(int)registrationKind} -t {testCase} -c {testsCount}");
+            return ProcessHelper.StartProcess(_processPath,
+                $"{containerName} -r {(int)registrationKind} -t {testCase} -c {testsCount}");
         }
 
         private TestResult ConvertToTestResult(string result)

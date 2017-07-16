@@ -51,7 +51,8 @@ namespace PerformanceCalculator.Tests.Containers.TestsStructureMap
         [TestMethod]
         public void RegisterTransientSingleton_Success()
         {
-            ITestCase testCase = new TransientSingletonTestCaseB(new StructureMapRegistration(), new StructureMapResolving());
+            ITestCase testCase =
+                new TransientSingletonTestCaseB(new StructureMapRegistration(), new StructureMapResolving());
 
             var c = new Container();
             c = (Container)testCase.Register(c, RegistrationKind.TransientSingleton);
@@ -117,7 +118,8 @@ namespace PerformanceCalculator.Tests.Containers.TestsStructureMap
         [TestMethod]
         public void RegisterFactoryMethod_Success()
         {
-            ITestCase testCase = new FactoryMethodTestCaseB(new StructureMapRegistration(), new StructureMapResolving());
+            ITestCase testCase = new FactoryMethodTestCaseB(new StructureMapRegistration(),
+                new StructureMapResolving());
 
             var c = new Container();
             c = (Container)testCase.Register(c, RegistrationKind.FactoryMethod);

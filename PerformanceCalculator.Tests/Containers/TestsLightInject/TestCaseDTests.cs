@@ -52,7 +52,8 @@ namespace PerformanceCalculator.Tests.Containers.TestsLightInject
         [TestMethod]
         public void RegisterTransientSingleton_Success()
         {
-            ITestCase testCase = new TransientSingletonTestCaseD(new LightInjectRegistration(), new LightInjectResolving());
+            ITestCase testCase =
+                new TransientSingletonTestCaseD(new LightInjectRegistration(), new LightInjectResolving());
 
             var c = new ServiceContainer();
             c = (ServiceContainer)testCase.Register(c, RegistrationKind.TransientSingleton);
