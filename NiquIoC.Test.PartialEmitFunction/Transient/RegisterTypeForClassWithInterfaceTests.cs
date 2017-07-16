@@ -9,7 +9,8 @@ namespace NiquIoC.Test.PartialEmitFunction.Transient
     public class RegisterTypeForClassWithInterfaceTests
     {
         [TestMethod]
-        [ExpectedException(typeof(TypeNotRegisteredException), "Type NiquIoC.Test.Model.EmptyClass has not been registered.")]
+        [ExpectedException(typeof(TypeNotRegisteredException),
+            "Type NiquIoC.Test.Model.EmptyClass has not been registered.")]
         public void InternalInterfaceNotRegistered_Fail()
         {
             var c = new Container();
@@ -34,7 +35,8 @@ namespace NiquIoC.Test.PartialEmitFunction.Transient
         }
 
         [TestMethod]
-        [ExpectedException(typeof(CycleForTypeException), "Appeared cycle when resolving constructor for object of type NiquIoC.Test.Model.FirstClassWithCycleInConstructorInRegisteredType")]
+        [ExpectedException(typeof(CycleForTypeException),
+            "Appeared cycle when resolving constructor for object of type NiquIoC.Test.Model.FirstClassWithCycleInConstructorInRegisteredType")]
         public void RegisteredInterfaceAsClassWithCycleInConstructor_Fail()
         {
             var c = new Container();
@@ -42,7 +44,8 @@ namespace NiquIoC.Test.PartialEmitFunction.Transient
             c.RegisterType<IFirstClassWithCycleInConstructor, FirstClassWithCycleInConstructorInRegisteredType>();
             c.RegisterType<InterfaceWithCycleInConstructorInRegisteredType>();
 
-            var sampleClass = c.Resolve<InterfaceWithCycleInConstructorInRegisteredType>(ResolveKind.PartialEmitFunction);
+            var sampleClass =
+                c.Resolve<InterfaceWithCycleInConstructorInRegisteredType>(ResolveKind.PartialEmitFunction);
 
             Assert.IsNull(sampleClass);
         }

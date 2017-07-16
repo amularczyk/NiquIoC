@@ -42,7 +42,8 @@ namespace NiquIoC.Test.FullEmitFunction.Transient.DependencyConstrutor
             c.RegisterType<SampleClassWithDependencyConstrutor>();
             c.RegisterType<SampleClassWithNestedClassWithDependencyConstrutor>();
 
-            var sampleClass = c.Resolve<SampleClassWithNestedClassWithDependencyConstrutor>(ResolveKind.FullEmitFunction);
+            var sampleClass =
+                c.Resolve<SampleClassWithNestedClassWithDependencyConstrutor>(ResolveKind.FullEmitFunction);
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNotNull(sampleClass.SampleClassWithDependencyConstrutor);

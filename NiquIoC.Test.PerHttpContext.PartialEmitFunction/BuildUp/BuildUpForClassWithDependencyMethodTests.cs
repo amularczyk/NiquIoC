@@ -27,7 +27,8 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.BuildUp
             var sampleClass = new SampleClassWithClassDependencyMethod();
 
 
-            sampleClass = HttpContextTestsHelper.Initialize().BuildUpObject(c, sampleClass, ResolveKind.PartialEmitFunction);
+            sampleClass = HttpContextTestsHelper.Initialize()
+                .BuildUpObject(c, sampleClass, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass.EmptyClass);
@@ -42,7 +43,8 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.BuildUp
             var sampleClass2 = new SampleClassWithClassDependencyMethod();
 
 
-            var objs = HttpContextTestsHelper.Initialize().BuildUpObject(c, sampleClass1, sampleClass2, ResolveKind.PartialEmitFunction);
+            var objs = HttpContextTestsHelper.Initialize()
+                .BuildUpObject(c, sampleClass1, sampleClass2, ResolveKind.PartialEmitFunction);
             sampleClass1 = objs.Item1;
             sampleClass2 = objs.Item2;
 
@@ -62,8 +64,10 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.BuildUp
             var sampleClass2 = new SampleClassWithClassDependencyMethod();
 
 
-            sampleClass1 = HttpContextTestsHelper.Initialize().BuildUpObject(c, sampleClass1, ResolveKind.PartialEmitFunction);
-            sampleClass2 = HttpContextTestsHelper.Initialize().BuildUpObject(c, sampleClass2, ResolveKind.PartialEmitFunction);
+            sampleClass1 = HttpContextTestsHelper.Initialize()
+                .BuildUpObject(c, sampleClass1, ResolveKind.PartialEmitFunction);
+            sampleClass2 = HttpContextTestsHelper.Initialize()
+                .BuildUpObject(c, sampleClass2, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass1.EmptyClass);
@@ -80,7 +84,8 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.BuildUp
             var sampleClass = new SampleClassWithCycleInConstructorWithClassDependencyMethod(null);
 
 
-            sampleClass = HttpContextTestsHelper.Initialize().BuildUpObject(c, sampleClass, ResolveKind.PartialEmitFunction);
+            sampleClass = HttpContextTestsHelper.Initialize()
+                .BuildUpObject(c, sampleClass, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass);
@@ -88,7 +93,8 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.BuildUp
         }
 
         [TestMethod]
-        [ExpectedException(typeof(CycleForTypeException), "Appeared cycle when resolving constructor for object of type NiquIoC.Test.Model.SampleClassWithCycleInConstructorWithClassDependencyMethod")]
+        [ExpectedException(typeof(CycleForTypeException),
+            "Appeared cycle when resolving constructor for object of type NiquIoC.Test.Model.SampleClassWithCycleInConstructorWithClassDependencyMethod")]
         public void ResolveClassWithCycleInConstructorWithClassDependencyMethod_Failed()
         {
             var c = new Container();
@@ -96,7 +102,9 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.BuildUp
             c.RegisterType<SampleClassWithCycleInConstructorWithClassDependencyMethod>();
 
 
-            var sampleClass = HttpContextTestsHelper.Initialize().ResolveObject<SampleClassWithCycleInConstructorWithClassDependencyMethod>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass = HttpContextTestsHelper.Initialize()
+                .ResolveObject<SampleClassWithCycleInConstructorWithClassDependencyMethod>(c,
+                    ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNull(sampleClass);
@@ -110,7 +118,8 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.BuildUp
             var sampleClass = new SampleClassWithoutClassDependencyMethod();
 
 
-            sampleClass = HttpContextTestsHelper.Initialize().BuildUpObject(c, sampleClass, ResolveKind.PartialEmitFunction);
+            sampleClass = HttpContextTestsHelper.Initialize()
+                .BuildUpObject(c, sampleClass, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNull(sampleClass.EmptyClass);
@@ -124,7 +133,8 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.BuildUp
             var sampleClass = new SampleClassWithClassDependencyMethodWithReturnType();
 
 
-            sampleClass = HttpContextTestsHelper.Initialize().BuildUpObject(c, sampleClass, ResolveKind.PartialEmitFunction);
+            sampleClass = HttpContextTestsHelper.Initialize()
+                .BuildUpObject(c, sampleClass, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNull(sampleClass.EmptyClass);
@@ -139,7 +149,8 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.BuildUp
             var sampleClass = new SampleClassWithManyClassDependencyMethods();
 
 
-            sampleClass = HttpContextTestsHelper.Initialize().BuildUpObject(c, sampleClass, ResolveKind.PartialEmitFunction);
+            sampleClass = HttpContextTestsHelper.Initialize()
+                .BuildUpObject(c, sampleClass, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass.EmptyClass);
@@ -156,7 +167,8 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.BuildUp
             var sampleClass2 = new SampleClassWithManyClassDependencyMethods();
 
 
-            var objs = HttpContextTestsHelper.Initialize().BuildUpObject(c, sampleClass1, sampleClass2, ResolveKind.PartialEmitFunction);
+            var objs = HttpContextTestsHelper.Initialize()
+                .BuildUpObject(c, sampleClass1, sampleClass2, ResolveKind.PartialEmitFunction);
             sampleClass1 = objs.Item1;
             sampleClass2 = objs.Item2;
 
@@ -180,8 +192,10 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.BuildUp
             var sampleClass2 = new SampleClassWithManyClassDependencyMethods();
 
 
-            sampleClass1 = HttpContextTestsHelper.Initialize().BuildUpObject(c, sampleClass1, ResolveKind.PartialEmitFunction);
-            sampleClass2 = HttpContextTestsHelper.Initialize().BuildUpObject(c, sampleClass2, ResolveKind.PartialEmitFunction);
+            sampleClass1 = HttpContextTestsHelper.Initialize()
+                .BuildUpObject(c, sampleClass1, ResolveKind.PartialEmitFunction);
+            sampleClass2 = HttpContextTestsHelper.Initialize()
+                .BuildUpObject(c, sampleClass2, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass1.EmptyClass);
@@ -202,7 +216,8 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.BuildUp
             var sampleClass = new SampleClassWithManyClassParametersInDependencyMethod();
 
 
-            sampleClass = HttpContextTestsHelper.Initialize().BuildUpObject(c, sampleClass, ResolveKind.PartialEmitFunction);
+            sampleClass = HttpContextTestsHelper.Initialize()
+                .BuildUpObject(c, sampleClass, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass.EmptyClass);
@@ -219,7 +234,8 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.BuildUp
             var sampleClass2 = new SampleClassWithManyClassParametersInDependencyMethod();
 
 
-            var objs = HttpContextTestsHelper.Initialize().BuildUpObject(c, sampleClass1, sampleClass2, ResolveKind.PartialEmitFunction);
+            var objs = HttpContextTestsHelper.Initialize()
+                .BuildUpObject(c, sampleClass1, sampleClass2, ResolveKind.PartialEmitFunction);
             sampleClass1 = objs.Item1;
             sampleClass2 = objs.Item2;
 
@@ -234,7 +250,8 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.BuildUp
         }
 
         [TestMethod]
-        public void DifferentHttpContexts_DifferentObjects_BuildUpClassWithManyClassParametersInDependencyMethod_Success()
+        public void
+            DifferentHttpContexts_DifferentObjects_BuildUpClassWithManyClassParametersInDependencyMethod_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsPerHttpContext();
@@ -243,8 +260,10 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.BuildUp
             var sampleClass2 = new SampleClassWithManyClassParametersInDependencyMethod();
 
 
-            sampleClass1 = HttpContextTestsHelper.Initialize().BuildUpObject(c, sampleClass1, ResolveKind.PartialEmitFunction);
-            sampleClass2 = HttpContextTestsHelper.Initialize().BuildUpObject(c, sampleClass2, ResolveKind.PartialEmitFunction);
+            sampleClass1 = HttpContextTestsHelper.Initialize()
+                .BuildUpObject(c, sampleClass1, ResolveKind.PartialEmitFunction);
+            sampleClass2 = HttpContextTestsHelper.Initialize()
+                .BuildUpObject(c, sampleClass2, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass1.EmptyClass);
@@ -265,7 +284,8 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.BuildUp
             var sampleClass = new SampleClassWithNestedClassDependencyMethod();
 
 
-            sampleClass = HttpContextTestsHelper.Initialize().BuildUpObject(c, sampleClass, ResolveKind.PartialEmitFunction);
+            sampleClass = HttpContextTestsHelper.Initialize()
+                .BuildUpObject(c, sampleClass, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass.SampleClassWithClassDependencyMethod);
@@ -282,7 +302,8 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.BuildUp
             var sampleClass2 = new SampleClassWithNestedClassDependencyMethod();
 
 
-            var objs = HttpContextTestsHelper.Initialize().BuildUpObject(c, sampleClass1, sampleClass2, ResolveKind.PartialEmitFunction);
+            var objs = HttpContextTestsHelper.Initialize()
+                .BuildUpObject(c, sampleClass1, sampleClass2, ResolveKind.PartialEmitFunction);
             sampleClass1 = objs.Item1;
             sampleClass2 = objs.Item2;
 
@@ -292,8 +313,10 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.BuildUp
             Assert.IsNotNull(sampleClass2.SampleClassWithClassDependencyMethod);
             Assert.IsNotNull(sampleClass2.SampleClassWithClassDependencyMethod.EmptyClass);
             Assert.AreNotEqual(sampleClass1, sampleClass2);
-            Assert.AreEqual(sampleClass1.SampleClassWithClassDependencyMethod, sampleClass2.SampleClassWithClassDependencyMethod);
-            Assert.AreEqual(sampleClass1.SampleClassWithClassDependencyMethod.EmptyClass, sampleClass2.SampleClassWithClassDependencyMethod.EmptyClass);
+            Assert.AreEqual(sampleClass1.SampleClassWithClassDependencyMethod,
+                sampleClass2.SampleClassWithClassDependencyMethod);
+            Assert.AreEqual(sampleClass1.SampleClassWithClassDependencyMethod.EmptyClass,
+                sampleClass2.SampleClassWithClassDependencyMethod.EmptyClass);
         }
 
         [TestMethod]
@@ -306,8 +329,10 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.BuildUp
             var sampleClass2 = new SampleClassWithNestedClassDependencyMethod();
 
 
-            sampleClass1 = HttpContextTestsHelper.Initialize().BuildUpObject(c, sampleClass1, ResolveKind.PartialEmitFunction);
-            sampleClass2 = HttpContextTestsHelper.Initialize().BuildUpObject(c, sampleClass2, ResolveKind.PartialEmitFunction);
+            sampleClass1 = HttpContextTestsHelper.Initialize()
+                .BuildUpObject(c, sampleClass1, ResolveKind.PartialEmitFunction);
+            sampleClass2 = HttpContextTestsHelper.Initialize()
+                .BuildUpObject(c, sampleClass2, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass1.SampleClassWithClassDependencyMethod);
@@ -315,8 +340,10 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.BuildUp
             Assert.IsNotNull(sampleClass2.SampleClassWithClassDependencyMethod);
             Assert.IsNotNull(sampleClass2.SampleClassWithClassDependencyMethod.EmptyClass);
             Assert.AreNotEqual(sampleClass1, sampleClass2);
-            Assert.AreNotEqual(sampleClass1.SampleClassWithClassDependencyMethod, sampleClass2.SampleClassWithClassDependencyMethod);
-            Assert.AreNotEqual(sampleClass1.SampleClassWithClassDependencyMethod.EmptyClass, sampleClass2.SampleClassWithClassDependencyMethod.EmptyClass);
+            Assert.AreNotEqual(sampleClass1.SampleClassWithClassDependencyMethod,
+                sampleClass2.SampleClassWithClassDependencyMethod);
+            Assert.AreNotEqual(sampleClass1.SampleClassWithClassDependencyMethod.EmptyClass,
+                sampleClass2.SampleClassWithClassDependencyMethod.EmptyClass);
         }
     }
 }

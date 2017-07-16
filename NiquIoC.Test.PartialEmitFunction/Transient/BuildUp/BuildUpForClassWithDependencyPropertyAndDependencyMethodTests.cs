@@ -18,7 +18,8 @@ namespace NiquIoC.Test.PartialEmitFunction.Transient.BuildUp
 
             Assert.IsNotNull(sampleClass.EmptyClassFromDependencyProperty);
             Assert.IsNotNull(sampleClass.EmptyClassFromDependencyMethod);
-            Assert.AreNotEqual(sampleClass.EmptyClassFromDependencyProperty, sampleClass.EmptyClassFromDependencyMethod);
+            Assert.AreNotEqual(sampleClass.EmptyClassFromDependencyProperty,
+                sampleClass.EmptyClassFromDependencyMethod);
         }
 
         [TestMethod]
@@ -34,13 +35,17 @@ namespace NiquIoC.Test.PartialEmitFunction.Transient.BuildUp
 
             Assert.IsNotNull(sampleClass1.EmptyClassFromDependencyProperty);
             Assert.IsNotNull(sampleClass1.EmptyClassFromDependencyMethod);
-            Assert.AreNotEqual(sampleClass1.EmptyClassFromDependencyProperty, sampleClass1.EmptyClassFromDependencyMethod);
+            Assert.AreNotEqual(sampleClass1.EmptyClassFromDependencyProperty,
+                sampleClass1.EmptyClassFromDependencyMethod);
             Assert.IsNotNull(sampleClass2.EmptyClassFromDependencyProperty);
             Assert.IsNotNull(sampleClass2.EmptyClassFromDependencyMethod);
-            Assert.AreNotEqual(sampleClass2.EmptyClassFromDependencyProperty, sampleClass2.EmptyClassFromDependencyMethod);
+            Assert.AreNotEqual(sampleClass2.EmptyClassFromDependencyProperty,
+                sampleClass2.EmptyClassFromDependencyMethod);
             Assert.AreNotEqual(sampleClass1, sampleClass2);
-            Assert.AreNotEqual(sampleClass1.EmptyClassFromDependencyProperty, sampleClass2.EmptyClassFromDependencyProperty);
-            Assert.AreNotEqual(sampleClass1.EmptyClassFromDependencyMethod, sampleClass2.EmptyClassFromDependencyMethod);
+            Assert.AreNotEqual(sampleClass1.EmptyClassFromDependencyProperty,
+                sampleClass2.EmptyClassFromDependencyProperty);
+            Assert.AreNotEqual(sampleClass1.EmptyClassFromDependencyMethod,
+                sampleClass2.EmptyClassFromDependencyMethod);
         }
 
         [TestMethod]

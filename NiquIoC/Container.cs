@@ -62,15 +62,15 @@ namespace NiquIoC
             return RegisterType(typeFrom, typeTo, new TransientObjectLifetimeManager());
         }
 
-        public IContainerMember RegisterType<T>(Func<T> objectFactory) 
+        public IContainerMember RegisterType<T>(Func<IContainerResolve, T> objectFactory) 
             where T : class
         {
             return RegisterType(typeof(T), objectFactory);
         }
 
-        public IContainerMember RegisterType(Type type, Func<object> objectFactory)
+        public IContainerMember RegisterType(Type type, Func<IContainerResolve, object> objectFactory)
         {
-            return RegisterType(type, type, new TransientObjectLifetimeManager { ObjectFactory = objectFactory }, false);
+            return RegisterType(type, type, new TransientObjectLifetimeManager { ObjectFactory = () => objectFactory(this) }, false);
         }
 
         public IContainerMember RegisterInstance<T>(T instance)

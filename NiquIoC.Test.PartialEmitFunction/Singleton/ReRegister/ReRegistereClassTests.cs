@@ -50,11 +50,11 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.ReRegister
         {
             var c = new Container();
             var emptyClass = new EmptyClass();
-            c.RegisterType<EmptyClass>(() => emptyClass).AsSingleton();
+            c.RegisterType(container => emptyClass).AsSingleton();
             var emptyClass1 = c.Resolve<EmptyClass>(ResolveKind.PartialEmitFunction);
             var emptyClass2 = c.Resolve<EmptyClass>(ResolveKind.PartialEmitFunction);
 
-            c.RegisterType<EmptyClass>(() => new EmptyClass()).AsSingleton();
+            c.RegisterType(container => new EmptyClass()).AsSingleton();
             var emptyClass3 = c.Resolve<EmptyClass>(ResolveKind.PartialEmitFunction);
             var emptyClass4 = c.Resolve<EmptyClass>(ResolveKind.PartialEmitFunction);
 
@@ -74,7 +74,7 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.ReRegister
             var emptyClass1 = c.Resolve<EmptyClass>(ResolveKind.PartialEmitFunction);
             var emptyClass2 = c.Resolve<EmptyClass>(ResolveKind.PartialEmitFunction);
 
-            c.RegisterType<EmptyClass>(() => new EmptyClass()).AsSingleton();
+            c.RegisterType(container => new EmptyClass()).AsSingleton();
             var emptyClass3 = c.Resolve<EmptyClass>(ResolveKind.PartialEmitFunction);
             var emptyClass4 = c.Resolve<EmptyClass>(ResolveKind.PartialEmitFunction);
 
@@ -89,7 +89,7 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.ReRegister
         public void ClassReRegisteredFromObjectFactoryToInstance_Success()
         {
             var c = new Container();
-            c.RegisterType<EmptyClass>(() => new EmptyClass()).AsSingleton();
+            c.RegisterType(container => new EmptyClass()).AsSingleton();
             var emptyClass1 = c.Resolve<EmptyClass>(ResolveKind.PartialEmitFunction);
             var emptyClass2 = c.Resolve<EmptyClass>(ResolveKind.PartialEmitFunction);
 
@@ -112,7 +112,7 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.ReRegister
             var emptyClass1 = c.Resolve<EmptyClass>(ResolveKind.PartialEmitFunction);
             var emptyClass2 = c.Resolve<EmptyClass>(ResolveKind.PartialEmitFunction);
 
-            c.RegisterType<EmptyClass>(() => new EmptyClass()).AsSingleton();
+            c.RegisterType(container => new EmptyClass()).AsSingleton();
             var emptyClass3 = c.Resolve<EmptyClass>(ResolveKind.PartialEmitFunction);
             var emptyClass4 = c.Resolve<EmptyClass>(ResolveKind.PartialEmitFunction);
 

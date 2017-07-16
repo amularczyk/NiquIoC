@@ -13,12 +13,16 @@ namespace NiquIoC.Test.FullEmitFunction.PerThread.FactoryObject
         {
             var c = new Container();
             IEmptyClass emptyClass = new EmptyClass();
-            c.RegisterType<ISampleClassWithInterfaceAsParameter>(() => new SampleClassWithInterfaceAsParameter(emptyClass)).AsPerThread();
+            c
+                .RegisterType<ISampleClassWithInterfaceAsParameter>(
+                    container => new SampleClassWithInterfaceAsParameter(emptyClass))
+                .AsPerThread();
             ISampleClassWithInterfaceAsParameter sampleClass1 = null;
             ISampleClassWithInterfaceAsParameter sampleClass2 = null;
 
 
-            var thread = new Thread(() => {
+            var thread = new Thread(container =>
+            {
                 sampleClass1 = c.Resolve<ISampleClassWithInterfaceAsParameter>(ResolveKind.FullEmitFunction);
                 sampleClass2 = c.Resolve<ISampleClassWithInterfaceAsParameter>(ResolveKind.FullEmitFunction);
             });
@@ -37,12 +41,13 @@ namespace NiquIoC.Test.FullEmitFunction.PerThread.FactoryObject
             var c = new Container();
             IEmptyClass emptyClass = new EmptyClass();
             ISampleClassWithInterfaceAsParameter sampleClass = new SampleClassWithInterfaceAsParameter(emptyClass);
-            c.RegisterType<ISampleClassWithInterfaceAsParameter>(() => sampleClass).AsPerThread();
+            c.RegisterType(container => sampleClass).AsPerThread();
             ISampleClassWithInterfaceAsParameter sampleClass1 = null;
             ISampleClassWithInterfaceAsParameter sampleClass2 = null;
 
 
-            var thread = new Thread(() => {
+            var thread = new Thread(container =>
+            {
                 sampleClass1 = c.Resolve<ISampleClassWithInterfaceAsParameter>(ResolveKind.FullEmitFunction);
                 sampleClass2 = c.Resolve<ISampleClassWithInterfaceAsParameter>(ResolveKind.FullEmitFunction);
             });
@@ -59,13 +64,14 @@ namespace NiquIoC.Test.FullEmitFunction.PerThread.FactoryObject
         public void NestedFactoryObjectReturnNewObject_Success()
         {
             var c = new Container();
-            c.RegisterType<IEmptyClass>(() => new EmptyClass()).AsPerThread();
+            c.RegisterType<IEmptyClass>(container => new EmptyClass()).AsPerThread();
             c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsPerThread();
             ISampleClassWithInterfaceAsParameter sampleClass1 = null;
             ISampleClassWithInterfaceAsParameter sampleClass2 = null;
 
 
-            var thread = new Thread(() => {
+            var thread = new Thread(container =>
+            {
                 sampleClass1 = c.Resolve<ISampleClassWithInterfaceAsParameter>(ResolveKind.FullEmitFunction);
                 sampleClass2 = c.Resolve<ISampleClassWithInterfaceAsParameter>(ResolveKind.FullEmitFunction);
             });
@@ -82,13 +88,14 @@ namespace NiquIoC.Test.FullEmitFunction.PerThread.FactoryObject
         {
             var c = new Container();
             IEmptyClass emptyClass = new EmptyClass();
-            c.RegisterType<IEmptyClass>(() => emptyClass).AsPerThread();
+            c.RegisterType(container => emptyClass).AsPerThread();
             c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsPerThread();
             ISampleClassWithInterfaceAsParameter sampleClass1 = null;
             ISampleClassWithInterfaceAsParameter sampleClass2 = null;
 
 
-            var thread = new Thread(() => {
+            var thread = new Thread(container =>
+            {
                 sampleClass1 = c.Resolve<ISampleClassWithInterfaceAsParameter>(ResolveKind.FullEmitFunction);
                 sampleClass2 = c.Resolve<ISampleClassWithInterfaceAsParameter>(ResolveKind.FullEmitFunction);
             });

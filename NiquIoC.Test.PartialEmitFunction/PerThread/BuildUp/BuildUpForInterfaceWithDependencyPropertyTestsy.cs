@@ -29,7 +29,7 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.BuildUp
             ISampleClassWithInterfaceProperty sampleClass = new SampleClassWithInterfaceDependencyProperty();
 
 
-            var thread = new Thread(() => { c.BuildUp(sampleClass, ResolveKind.PartialEmitFunction); });
+            var thread = new Thread(container => { c.BuildUp(sampleClass, ResolveKind.PartialEmitFunction); });
             thread.Start();
             thread.Join();
 
@@ -70,10 +70,10 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.BuildUp
             ISampleClassWithInterfaceProperty sampleClass2 = new SampleClassWithInterfaceDependencyProperty();
 
 
-            var thread1 = new Thread(() => { c.BuildUp(sampleClass1, ResolveKind.PartialEmitFunction); });
+            var thread1 = new Thread(container => { c.BuildUp(sampleClass1, ResolveKind.PartialEmitFunction); });
             thread1.Start();
             thread1.Join();
-            var thread2 = new Thread(() => { c.BuildUp(sampleClass2, ResolveKind.PartialEmitFunction); });
+            var thread2 = new Thread(container => { c.BuildUp(sampleClass2, ResolveKind.PartialEmitFunction); });
             thread2.Start();
             thread2.Join();
 
@@ -92,10 +92,7 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.BuildUp
             var sampleClass = new SampleClassWithCycleInConstructorWithInterfaceDependencyProperty(null);
 
 
-            var thread = new Thread(() =>
-            {
-                c.BuildUp(sampleClass, ResolveKind.PartialEmitFunction);
-            });
+            var thread = new Thread(() => { c.BuildUp(sampleClass, ResolveKind.PartialEmitFunction); });
             thread.Start();
             thread.Join();
 
@@ -105,12 +102,16 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.BuildUp
         }
 
         [TestMethod]
-        [ExpectedException(typeof(CycleForTypeException), "Appeared cycle when resolving constructor for object of type NiquIoC.Test.Model.SampleClassWithCycleInConstructorWithInterfaceDependencyProperty")]
+        [ExpectedException(typeof(CycleForTypeException),
+            "Appeared cycle when resolving constructor for object of type NiquIoC.Test.Model.SampleClassWithCycleInConstructorWithInterfaceDependencyProperty")]
         public void ResolveInterfaceWithCycleInConstructorWithClassDependencyMethod_Failed()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerThread();
-            c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithCycleInConstructorWithInterfaceDependencyProperty>().AsPerThread();
+            c
+                .RegisterType<ISampleClassWithInterfaceProperty,
+                    SampleClassWithCycleInConstructorWithInterfaceDependencyProperty>()
+                .AsPerThread();
             ISampleClassWithInterfaceProperty sampleClass = null;
             Exception exception = null;
 
@@ -146,7 +147,7 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.BuildUp
             ISampleClassWithInterfaceProperty sampleClass = new SampleClassWithoutInterfaceDependencyProperty();
 
 
-            var thread = new Thread(() => { c.BuildUp(sampleClass, ResolveKind.PartialEmitFunction); });
+            var thread = new Thread(container => { c.BuildUp(sampleClass, ResolveKind.PartialEmitFunction); });
             thread.Start();
             thread.Join();
 
@@ -160,10 +161,11 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.BuildUp
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerThread();
             c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>();
-            ISampleClassWithManyInterfaceDependencyProperties sampleClass = new SampleClassWithManyInterfaceDependencyProperties();
+            ISampleClassWithManyInterfaceDependencyProperties sampleClass =
+                new SampleClassWithManyInterfaceDependencyProperties();
 
 
-            var thread = new Thread(() => { c.BuildUp(sampleClass, ResolveKind.PartialEmitFunction); });
+            var thread = new Thread(container => { c.BuildUp(sampleClass, ResolveKind.PartialEmitFunction); });
             thread.Start();
             thread.Join();
 
@@ -178,8 +180,10 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.BuildUp
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerThread();
             c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsPerThread();
-            ISampleClassWithManyInterfaceDependencyProperties sampleClass1 = new SampleClassWithManyInterfaceDependencyProperties();
-            ISampleClassWithManyInterfaceDependencyProperties sampleClass2 = new SampleClassWithManyInterfaceDependencyProperties();
+            ISampleClassWithManyInterfaceDependencyProperties sampleClass1 =
+                new SampleClassWithManyInterfaceDependencyProperties();
+            ISampleClassWithManyInterfaceDependencyProperties sampleClass2 =
+                new SampleClassWithManyInterfaceDependencyProperties();
 
 
             var thread = new Thread(() =>
@@ -206,14 +210,16 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.BuildUp
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerThread();
             c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsPerThread();
-            ISampleClassWithManyInterfaceDependencyProperties sampleClass1 = new SampleClassWithManyInterfaceDependencyProperties();
-            ISampleClassWithManyInterfaceDependencyProperties sampleClass2 = new SampleClassWithManyInterfaceDependencyProperties();
+            ISampleClassWithManyInterfaceDependencyProperties sampleClass1 =
+                new SampleClassWithManyInterfaceDependencyProperties();
+            ISampleClassWithManyInterfaceDependencyProperties sampleClass2 =
+                new SampleClassWithManyInterfaceDependencyProperties();
 
 
-            var thread1 = new Thread(() => { c.BuildUp(sampleClass1, ResolveKind.PartialEmitFunction); });
+            var thread1 = new Thread(container => { c.BuildUp(sampleClass1, ResolveKind.PartialEmitFunction); });
             thread1.Start();
             thread1.Join();
-            var thread2 = new Thread(() => { c.BuildUp(sampleClass2, ResolveKind.PartialEmitFunction); });
+            var thread2 = new Thread(container => { c.BuildUp(sampleClass2, ResolveKind.PartialEmitFunction); });
             thread2.Start();
             thread2.Join();
 
@@ -233,10 +239,11 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.BuildUp
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerThread();
             c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithInterfaceDependencyProperty>();
-            ISampleClassWithNestedInterfaceDependencyProperty sampleClass = new SampleClassWithNestedInterfaceDependencyProperty();
+            ISampleClassWithNestedInterfaceDependencyProperty sampleClass =
+                new SampleClassWithNestedInterfaceDependencyProperty();
 
 
-            var thread = new Thread(() => { c.BuildUp(sampleClass, ResolveKind.PartialEmitFunction); });
+            var thread = new Thread(container => { c.BuildUp(sampleClass, ResolveKind.PartialEmitFunction); });
             thread.Start();
             thread.Join();
 
@@ -250,9 +257,12 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.BuildUp
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerThread();
-            c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithInterfaceDependencyProperty>().AsPerThread();
-            ISampleClassWithNestedInterfaceDependencyProperty sampleClass1 = new SampleClassWithNestedInterfaceDependencyProperty();
-            ISampleClassWithNestedInterfaceDependencyProperty sampleClass2 = new SampleClassWithNestedInterfaceDependencyProperty();
+            c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithInterfaceDependencyProperty>()
+                .AsPerThread();
+            ISampleClassWithNestedInterfaceDependencyProperty sampleClass1 =
+                new SampleClassWithNestedInterfaceDependencyProperty();
+            ISampleClassWithNestedInterfaceDependencyProperty sampleClass2 =
+                new SampleClassWithNestedInterfaceDependencyProperty();
 
 
             var thread = new Thread(() =>
@@ -269,8 +279,10 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.BuildUp
             Assert.IsNotNull(sampleClass2.SampleClassWithInterfaceDependencyProperty);
             Assert.IsNotNull(sampleClass2.SampleClassWithInterfaceDependencyProperty.EmptyClass);
             Assert.AreNotEqual(sampleClass1, sampleClass2);
-            Assert.AreEqual(sampleClass1.SampleClassWithInterfaceDependencyProperty, sampleClass2.SampleClassWithInterfaceDependencyProperty);
-            Assert.AreEqual(sampleClass1.SampleClassWithInterfaceDependencyProperty.EmptyClass, sampleClass2.SampleClassWithInterfaceDependencyProperty.EmptyClass);
+            Assert.AreEqual(sampleClass1.SampleClassWithInterfaceDependencyProperty,
+                sampleClass2.SampleClassWithInterfaceDependencyProperty);
+            Assert.AreEqual(sampleClass1.SampleClassWithInterfaceDependencyProperty.EmptyClass,
+                sampleClass2.SampleClassWithInterfaceDependencyProperty.EmptyClass);
         }
 
         [TestMethod]
@@ -278,15 +290,18 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.BuildUp
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerThread();
-            c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithInterfaceDependencyProperty>().AsPerThread();
-            ISampleClassWithNestedInterfaceDependencyProperty sampleClass1 = new SampleClassWithNestedInterfaceDependencyProperty();
-            ISampleClassWithNestedInterfaceDependencyProperty sampleClass2 = new SampleClassWithNestedInterfaceDependencyProperty();
+            c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithInterfaceDependencyProperty>()
+                .AsPerThread();
+            ISampleClassWithNestedInterfaceDependencyProperty sampleClass1 =
+                new SampleClassWithNestedInterfaceDependencyProperty();
+            ISampleClassWithNestedInterfaceDependencyProperty sampleClass2 =
+                new SampleClassWithNestedInterfaceDependencyProperty();
 
 
-            var thread1 = new Thread(() => { c.BuildUp(sampleClass1, ResolveKind.PartialEmitFunction); });
+            var thread1 = new Thread(container => { c.BuildUp(sampleClass1, ResolveKind.PartialEmitFunction); });
             thread1.Start();
             thread1.Join();
-            var thread2 = new Thread(() => { c.BuildUp(sampleClass2, ResolveKind.PartialEmitFunction); });
+            var thread2 = new Thread(container => { c.BuildUp(sampleClass2, ResolveKind.PartialEmitFunction); });
             thread2.Start();
             thread2.Join();
 
@@ -296,8 +311,10 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.BuildUp
             Assert.IsNotNull(sampleClass2.SampleClassWithInterfaceDependencyProperty);
             Assert.IsNotNull(sampleClass2.SampleClassWithInterfaceDependencyProperty.EmptyClass);
             Assert.AreNotEqual(sampleClass1, sampleClass2);
-            Assert.AreNotEqual(sampleClass1.SampleClassWithInterfaceDependencyProperty, sampleClass2.SampleClassWithInterfaceDependencyProperty);
-            Assert.AreNotEqual(sampleClass1.SampleClassWithInterfaceDependencyProperty.EmptyClass, sampleClass2.SampleClassWithInterfaceDependencyProperty.EmptyClass);
+            Assert.AreNotEqual(sampleClass1.SampleClassWithInterfaceDependencyProperty,
+                sampleClass2.SampleClassWithInterfaceDependencyProperty);
+            Assert.AreNotEqual(sampleClass1.SampleClassWithInterfaceDependencyProperty.EmptyClass,
+                sampleClass2.SampleClassWithInterfaceDependencyProperty.EmptyClass);
         }
 
         [TestMethod]
@@ -305,10 +322,11 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.BuildUp
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerThread();
-            ISampleClassWithClassDependencyPropertyWithoutSetMethodWithInterface sampleClass = new SampleClassWithClassDependencyPropertyWithoutSetMethodWithInterface();
+            ISampleClassWithClassDependencyPropertyWithoutSetMethodWithInterface sampleClass =
+                new SampleClassWithClassDependencyPropertyWithoutSetMethodWithInterface();
 
 
-            var thread = new Thread(() => { c.BuildUp(sampleClass, ResolveKind.PartialEmitFunction); });
+            var thread = new Thread(container => { c.BuildUp(sampleClass, ResolveKind.PartialEmitFunction); });
             thread.Start();
             thread.Join();
 

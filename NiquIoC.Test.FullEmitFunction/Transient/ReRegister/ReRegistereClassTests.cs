@@ -51,11 +51,11 @@ namespace NiquIoC.Test.FullEmitFunction.Transient.ReRegister
         {
             var c = new Container();
             var instanceOfEmptyClass = new EmptyClass();
-            c.RegisterType<EmptyClass>(() => instanceOfEmptyClass);
+            c.RegisterType(container => instanceOfEmptyClass);
             var emptyClass1 = c.Resolve<EmptyClass>(ResolveKind.FullEmitFunction);
             var emptyClass2 = c.Resolve<EmptyClass>(ResolveKind.FullEmitFunction);
 
-            c.RegisterType<EmptyClass>(() => new EmptyClass());
+            c.RegisterType(container => new EmptyClass());
             var emptyClass3 = c.Resolve<EmptyClass>(ResolveKind.FullEmitFunction);
             var emptyClass4 = c.Resolve<EmptyClass>(ResolveKind.FullEmitFunction);
 
@@ -75,7 +75,7 @@ namespace NiquIoC.Test.FullEmitFunction.Transient.ReRegister
             var emptyClass1 = c.Resolve<EmptyClass>(ResolveKind.FullEmitFunction);
             var emptyClass2 = c.Resolve<EmptyClass>(ResolveKind.FullEmitFunction);
 
-            c.RegisterType<EmptyClass>(() => new EmptyClass());
+            c.RegisterType(container => new EmptyClass());
             var emptyClass3 = c.Resolve<EmptyClass>(ResolveKind.FullEmitFunction);
             var emptyClass4 = c.Resolve<EmptyClass>(ResolveKind.FullEmitFunction);
 
@@ -90,7 +90,7 @@ namespace NiquIoC.Test.FullEmitFunction.Transient.ReRegister
         public void ClassReRegisteredFromObjectFactoryToInstance_Success()
         {
             var c = new Container();
-            c.RegisterType<EmptyClass>(() => new EmptyClass());
+            c.RegisterType(container => new EmptyClass());
             var emptyClass1 = c.Resolve<EmptyClass>(ResolveKind.FullEmitFunction);
             var emptyClass2 = c.Resolve<EmptyClass>(ResolveKind.FullEmitFunction);
 
@@ -114,7 +114,7 @@ namespace NiquIoC.Test.FullEmitFunction.Transient.ReRegister
             var emptyClass1 = c.Resolve<EmptyClass>(ResolveKind.FullEmitFunction);
             var emptyClass2 = c.Resolve<EmptyClass>(ResolveKind.FullEmitFunction);
 
-            c.RegisterType<EmptyClass>(() => new EmptyClass());
+            c.RegisterType(container => new EmptyClass());
             var emptyClass3 = c.Resolve<EmptyClass>(ResolveKind.FullEmitFunction);
             var emptyClass4 = c.Resolve<EmptyClass>(ResolveKind.FullEmitFunction);
 

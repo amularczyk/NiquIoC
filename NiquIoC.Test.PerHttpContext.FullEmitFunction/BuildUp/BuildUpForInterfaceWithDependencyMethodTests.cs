@@ -28,7 +28,8 @@ namespace NiquIoC.Test.PerHttpContext.FullEmitFunction.BuildUp
             ISampleClassWithInterfaceMethod sampleClass = new SampleClassWithInterfaceDependencyMethod();
 
 
-            sampleClass = HttpContextTestsHelper.Initialize().BuildUpObject(c, sampleClass, ResolveKind.FullEmitFunction);
+            sampleClass = HttpContextTestsHelper.Initialize()
+                .BuildUpObject(c, sampleClass, ResolveKind.FullEmitFunction);
 
 
             Assert.IsNotNull(sampleClass.EmptyClass);

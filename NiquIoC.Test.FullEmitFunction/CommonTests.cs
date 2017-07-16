@@ -9,7 +9,8 @@ namespace NiquIoC.Test.FullEmitFunction
     public class CommonTests
     {
         [TestMethod]
-        [ExpectedException(typeof(TypeNotRegisteredException), "Type NiquIoC.Test.ClassDefinitions.EmptyClass has not been registered.")]
+        [ExpectedException(typeof(TypeNotRegisteredException),
+            "Type NiquIoC.Test.ClassDefinitions.EmptyClass has not been registered.")]
         public void ClassNotRegistered_Fail()
         {
             var c = new Container();
@@ -20,7 +21,8 @@ namespace NiquIoC.Test.FullEmitFunction
         }
 
         [TestMethod]
-        [ExpectedException(typeof(TypeNotRegisteredException), "Type NiquIoC.Test.ClassDefinitions.IEmptyClass has not been registered.")]
+        [ExpectedException(typeof(TypeNotRegisteredException),
+            "Type NiquIoC.Test.ClassDefinitions.IEmptyClass has not been registered.")]
         public void InterfaceNotRegistered_Fail()
         {
             var c = new Container();
@@ -31,7 +33,8 @@ namespace NiquIoC.Test.FullEmitFunction
         }
 
         [TestMethod]
-        [ExpectedException(typeof(WrongInterfaceRegistrationException), "For interface type NiquIoC.Test.ClassDefinitions.IEmptyClass you must specify a class which implements it.")]
+        [ExpectedException(typeof(WrongInterfaceRegistrationException),
+            "For interface type NiquIoC.Test.ClassDefinitions.IEmptyClass you must specify a class which implements it.")]
         public void MissingClassThatImplementsInterfaceInRegister_Fail()
         {
             var c = new Container();
@@ -95,7 +98,8 @@ namespace NiquIoC.Test.FullEmitFunction
         }
 
         [TestMethod]
-        public void Resolve_With_Type_And_ResolveKind_As_Parameter_And_Register_With_TypeFrom_And_TypeTo_As_Parameter_Success()
+        public void
+            Resolve_With_Type_And_ResolveKind_As_Parameter_And_Register_With_TypeFrom_And_TypeTo_As_Parameter_Success()
         {
             var c = new Container(ResolveKind.FullEmitFunction);
             c.RegisterType(typeof(IEmptyClass), typeof(EmptyClass));
@@ -109,7 +113,7 @@ namespace NiquIoC.Test.FullEmitFunction
         public void Resolve_With_Type_As_Parameter_And_Register_Object_Factory_With_Type_As_Parameter_Success()
         {
             var c = new Container(ResolveKind.FullEmitFunction);
-            c.RegisterType(typeof(EmptyClass), () => new EmptyClass());
+            c.RegisterType(typeof(EmptyClass), container => new EmptyClass());
 
             var emptyClass = c.Resolve(typeof(EmptyClass));
 
@@ -117,10 +121,11 @@ namespace NiquIoC.Test.FullEmitFunction
         }
 
         [TestMethod]
-        public void Resolve_With_Type_And_ResolveKind_As_Parameter_And_Register_Object_Factory_With_Type_As_Parameter_Success()
+        public void
+            Resolve_With_Type_And_ResolveKind_As_Parameter_And_Register_Object_Factory_With_Type_As_Parameter_Success()
         {
             var c = new Container();
-            c.RegisterType(typeof(EmptyClass), () => new EmptyClass());
+            c.RegisterType(typeof(EmptyClass), container => new EmptyClass());
 
             var emptyClass = c.Resolve(typeof(EmptyClass), ResolveKind.FullEmitFunction);
 

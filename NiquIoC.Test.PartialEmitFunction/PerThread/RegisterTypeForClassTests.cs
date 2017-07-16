@@ -18,7 +18,10 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread
             EmptyClass emptyClass = null;
 
 
-            var thread = new Thread(() => { emptyClass = c.Resolve<EmptyClass>(ResolveKind.PartialEmitFunction); });
+            var thread = new Thread(container =>
+            {
+                emptyClass = c.Resolve<EmptyClass>(ResolveKind.PartialEmitFunction);
+            });
             thread.Start();
             thread.Join();
 
@@ -27,7 +30,8 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread
         }
 
         [TestMethod]
-        [ExpectedException(typeof(TypeNotRegisteredException), "Type NiquIoC.Test.Model.EmptyClass has not been registered.")]
+        [ExpectedException(typeof(TypeNotRegisteredException),
+            "Type NiquIoC.Test.Model.EmptyClass has not been registered.")]
         public void InternalClassNotRegistered_Fail()
         {
             var c = new Container();
@@ -134,7 +138,10 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread
             SampleClass sampleClass = null;
 
 
-            var thread = new Thread(() => { sampleClass = c.Resolve<SampleClass>(ResolveKind.PartialEmitFunction); });
+            var thread = new Thread(container =>
+            {
+                sampleClass = c.Resolve<SampleClass>(ResolveKind.PartialEmitFunction);
+            });
             thread.Start();
             thread.Join();
 
@@ -144,7 +151,8 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread
         }
 
         [TestMethod]
-        [ExpectedException(typeof(CycleForTypeException), "Appeared cycle when resolving constructor for object of type NiquIoC.Test.Model.FirstClassWithCycleInConstructor")]
+        [ExpectedException(typeof(CycleForTypeException),
+            "Appeared cycle when resolving constructor for object of type NiquIoC.Test.Model.FirstClassWithCycleInConstructor")]
         public void RegisterClassWithCycleInConstructor_Fail()
         {
             var c = new Container();
@@ -214,8 +222,14 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread
             SampleClass sampleClass2 = null;
 
 
-            var thread1 = new Thread(() => { sampleClass1 = c.Resolve<SampleClass>(ResolveKind.PartialEmitFunction); });
-            var thread2 = new Thread(() => { sampleClass2 = c.Resolve<SampleClass>(ResolveKind.PartialEmitFunction); });
+            var thread1 = new Thread(container =>
+            {
+                sampleClass1 = c.Resolve<SampleClass>(ResolveKind.PartialEmitFunction);
+            });
+            var thread2 = new Thread(container =>
+            {
+                sampleClass2 = c.Resolve<SampleClass>(ResolveKind.PartialEmitFunction);
+            });
             thread1.Start();
             thread1.Join();
             thread2.Start();

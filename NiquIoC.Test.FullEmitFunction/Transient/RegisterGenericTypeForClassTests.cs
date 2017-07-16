@@ -43,7 +43,8 @@ namespace NiquIoC.Test.FullEmitFunction.Transient
             c.RegisterType<SampleClass>();
             c.RegisterType<GenericClassWithManyParameters<EmptyClass, SampleClass>>();
 
-            var genericClass = c.Resolve<GenericClassWithManyParameters<EmptyClass, SampleClass>>(ResolveKind.FullEmitFunction);
+            var genericClass =
+                c.Resolve<GenericClassWithManyParameters<EmptyClass, SampleClass>>(ResolveKind.FullEmitFunction);
 
             Assert.IsNotNull(genericClass);
             Assert.IsNotNull(genericClass.NestedClass1);
@@ -63,7 +64,7 @@ namespace NiquIoC.Test.FullEmitFunction.Transient
 
             var genericClass1 = c.Resolve<GenericClass<EmptyClass>>(ResolveKind.FullEmitFunction);
             var genericClass2 = c.Resolve<GenericClass<SampleClass>>(ResolveKind.FullEmitFunction);
-            
+
             Assert.AreNotEqual(genericClass1, genericClass2);
             Assert.AreNotEqual(genericClass1.GetType(), genericClass2.GetType());
             Assert.AreNotEqual(genericClass1.NestedClass, genericClass2.NestedClass.EmptyClass);

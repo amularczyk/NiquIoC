@@ -12,10 +12,14 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.FactoryObject
         {
             var c = new Container();
             IEmptyClass emptyClass = new EmptyClass();
-            c.RegisterType<ISampleClassWithInterfaceAsParameter>(() => new SampleClassWithInterfaceAsParameter(emptyClass)).AsPerHttpContext();
-            
+            c
+                .RegisterType<ISampleClassWithInterfaceAsParameter>(
+                    container => new SampleClassWithInterfaceAsParameter(emptyClass))
+                .AsPerHttpContext();
 
-            var objs1 = HttpContextTestsHelper.Initialize().ResolveObjects<ISampleClassWithInterfaceAsParameter>(c, ResolveKind.PartialEmitFunction);
+
+            var objs1 = HttpContextTestsHelper.Initialize()
+                .ResolveObjects<ISampleClassWithInterfaceAsParameter>(c, ResolveKind.PartialEmitFunction);
             var sampleClass1 = objs1.Item1;
             var sampleClass2 = objs1.Item2;
 
@@ -31,10 +35,11 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.FactoryObject
             var c = new Container();
             IEmptyClass emptyClass = new EmptyClass();
             ISampleClassWithInterfaceAsParameter sampleClass = new SampleClassWithInterfaceAsParameter(emptyClass);
-            c.RegisterType<ISampleClassWithInterfaceAsParameter>(() => sampleClass).AsPerHttpContext();
-            
+            c.RegisterType(container => sampleClass).AsPerHttpContext();
 
-            var objs1 = HttpContextTestsHelper.Initialize().ResolveObjects<ISampleClassWithInterfaceAsParameter>(c, ResolveKind.PartialEmitFunction);
+
+            var objs1 = HttpContextTestsHelper.Initialize()
+                .ResolveObjects<ISampleClassWithInterfaceAsParameter>(c, ResolveKind.PartialEmitFunction);
             var sampleClass1 = objs1.Item1;
             var sampleClass2 = objs1.Item2;
 
@@ -48,11 +53,13 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.FactoryObject
         public void NestedFactoryObjectReturnNewObject_Success()
         {
             var c = new Container();
-            c.RegisterType<IEmptyClass>(() => new EmptyClass()).AsPerHttpContext();
-            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsPerHttpContext();
-            
+            c.RegisterType<IEmptyClass>(container => new EmptyClass()).AsPerHttpContext();
+            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>()
+                .AsPerHttpContext();
 
-            var objs1 = HttpContextTestsHelper.Initialize().ResolveObjects<ISampleClassWithInterfaceAsParameter>(c, ResolveKind.PartialEmitFunction);
+
+            var objs1 = HttpContextTestsHelper.Initialize()
+                .ResolveObjects<ISampleClassWithInterfaceAsParameter>(c, ResolveKind.PartialEmitFunction);
             var sampleClass1 = objs1.Item1;
             var sampleClass2 = objs1.Item2;
 
@@ -66,11 +73,13 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.FactoryObject
         {
             var c = new Container();
             IEmptyClass emptyClass = new EmptyClass();
-            c.RegisterType<IEmptyClass>(() => emptyClass).AsPerHttpContext();
-            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsPerHttpContext();
-            
+            c.RegisterType(container => emptyClass).AsPerHttpContext();
+            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>()
+                .AsPerHttpContext();
 
-            var objs1 = HttpContextTestsHelper.Initialize().ResolveObjects<ISampleClassWithInterfaceAsParameter>(c, ResolveKind.PartialEmitFunction);
+
+            var objs1 = HttpContextTestsHelper.Initialize()
+                .ResolveObjects<ISampleClassWithInterfaceAsParameter>(c, ResolveKind.PartialEmitFunction);
             var sampleClass1 = objs1.Item1;
             var sampleClass2 = objs1.Item2;
 

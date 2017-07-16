@@ -20,7 +20,8 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton
         }
 
         [TestMethod]
-        [ExpectedException(typeof(TypeNotRegisteredException), "Type NiquIoC.Test.Model.EmptyClass has not been registered.")]
+        [ExpectedException(typeof(TypeNotRegisteredException),
+            "Type NiquIoC.Test.Model.EmptyClass has not been registered.")]
         public void InternalClassNotRegistered_Fail()
         {
             var c = new Container();
@@ -69,7 +70,8 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton
         }
 
         [TestMethod]
-        [ExpectedException(typeof(CycleForTypeException), "Appeared cycle when resolving constructor for object of type NiquIoC.Test.Model.FirstClassWithCycleInConstructor")]
+        [ExpectedException(typeof(CycleForTypeException),
+            "Appeared cycle when resolving constructor for object of type NiquIoC.Test.Model.FirstClassWithCycleInConstructor")]
         public void RegisterClassWithCycleInConstructor_Fail()
         {
             var c = new Container();

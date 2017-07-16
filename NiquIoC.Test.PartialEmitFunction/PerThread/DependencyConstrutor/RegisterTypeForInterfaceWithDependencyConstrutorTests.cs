@@ -11,18 +11,25 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.DependencyConstrutor
     public class RegisterTypeForInterfaceWithDependencyConstrutorTests
     {
         [TestMethod]
-        public void RegisteredInterfaceAsClassWithInterfaceAsParameterAndWithConstructorWithAttributeDependencyConstrutor_Success()
+        public void
+            RegisteredInterfaceAsClassWithInterfaceAsParameterAndWithConstructorWithAttributeDependencyConstrutor_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerThread();
-            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameterWithDependencyConstrutor>().AsPerThread();
+            c
+                .RegisterType<ISampleClassWithInterfaceAsParameter,
+                    SampleClassWithInterfaceAsParameterWithDependencyConstrutor>()
+                .AsPerThread();
             ISampleClassWithInterfaceAsParameter sampleClass = null;
 
 
-            var thread = new Thread(() => { sampleClass = c.Resolve<ISampleClassWithInterfaceAsParameter>(ResolveKind.PartialEmitFunction); });
+            var thread = new Thread(container =>
+            {
+                sampleClass = c.Resolve<ISampleClassWithInterfaceAsParameter>(ResolveKind.PartialEmitFunction);
+            });
             thread.Start();
             thread.Join();
-            
+
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNotNull(sampleClass.EmptyClass);
@@ -30,11 +37,15 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.DependencyConstrutor
 
         [TestMethod]
         [ExpectedException(typeof(NoProperConstructorException))]
-        public void RegisteredInterfaceAsClassWithInterfaceAsParameterAndWithTwoConstructorsWithAttributeDependencyConstrutor_Fail()
+        public void
+            RegisteredInterfaceAsClassWithInterfaceAsParameterAndWithTwoConstructorsWithAttributeDependencyConstrutor_Fail()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerThread();
-            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameterWithTwoDependencyConstrutor>().AsPerThread();
+            c
+                .RegisterType<ISampleClassWithInterfaceAsParameter,
+                    SampleClassWithInterfaceAsParameterWithTwoDependencyConstrutor>()
+                .AsPerThread();
             ISampleClassWithInterfaceAsParameter sampleClass = null;
             Exception exception = null;
 
@@ -57,25 +68,36 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.DependencyConstrutor
             {
                 throw exception;
             }
-            
+
 
             Assert.IsNull(sampleClass);
         }
 
         [TestMethod]
-        public void RegisteredInterfaceAsClassWithNestedInterfaceAsParameterWithInterfaceAsParameterAndWithConstructorWithAttributeDependencyConstrutor_Success()
+        public void
+            RegisteredInterfaceAsClassWithNestedInterfaceAsParameterWithInterfaceAsParameterAndWithConstructorWithAttributeDependencyConstrutor_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerThread();
-            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameterWithDependencyConstrutor>().AsPerThread();
-            c.RegisterType<ISampleClassISampleClassWithInterfaceAsParameter, SampleClassWithNestedInterfaceAsParameterWithDependencyConstrutor>().AsPerThread();
+            c
+                .RegisterType<ISampleClassWithInterfaceAsParameter,
+                    SampleClassWithInterfaceAsParameterWithDependencyConstrutor>()
+                .AsPerThread();
+            c
+                .RegisterType<ISampleClassISampleClassWithInterfaceAsParameter,
+                    SampleClassWithNestedInterfaceAsParameterWithDependencyConstrutor>()
+                .AsPerThread();
             ISampleClassISampleClassWithInterfaceAsParameter sampleClass = null;
 
 
-            var thread = new Thread(() => { sampleClass = c.Resolve<ISampleClassISampleClassWithInterfaceAsParameter>(ResolveKind.PartialEmitFunction); });
+            var thread = new Thread(container =>
+            {
+                sampleClass =
+                    c.Resolve<ISampleClassISampleClassWithInterfaceAsParameter>(ResolveKind.PartialEmitFunction);
+            });
             thread.Start();
             thread.Join();
-            
+
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNotNull(sampleClass.SampleClassWithInterfaceAsParameter);

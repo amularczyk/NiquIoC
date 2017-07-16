@@ -62,14 +62,18 @@ namespace NiquIoC.Test.PartialEmitFunction.Transient.BuildUp
         }
 
         [TestMethod]
-        [ExpectedException(typeof(CycleForTypeException), "Appeared cycle when resolving constructor for object of type NiquIoC.Test.Model.SampleClassWithCycleInConstructorWithClassDependencyProperty")]
+        [ExpectedException(typeof(CycleForTypeException),
+            "Appeared cycle when resolving constructor for object of type NiquIoC.Test.Model.SampleClassWithCycleInConstructorWithClassDependencyProperty")]
         public void ResolveClassWithCycleInConstructorWithClassDependencyMethod_Failed()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
             c.RegisterType<SampleClassWithCycleInConstructorWithClassDependencyProperty>();
 
-            var sampleClass = c.Resolve<SampleClassWithCycleInConstructorWithClassDependencyProperty>(ResolveKind.PartialEmitFunction);
+            var sampleClass =
+                c
+                    .Resolve<SampleClassWithCycleInConstructorWithClassDependencyProperty>(ResolveKind
+                        .PartialEmitFunction);
 
             Assert.IsNull(sampleClass);
         }
@@ -152,8 +156,10 @@ namespace NiquIoC.Test.PartialEmitFunction.Transient.BuildUp
             Assert.IsNotNull(sampleClass2.SampleClassWithClassDependencyProperty);
             Assert.IsNotNull(sampleClass2.SampleClassWithClassDependencyProperty.EmptyClass);
             Assert.AreNotEqual(sampleClass1, sampleClass2);
-            Assert.AreNotEqual(sampleClass1.SampleClassWithClassDependencyProperty, sampleClass2.SampleClassWithClassDependencyProperty);
-            Assert.AreNotEqual(sampleClass1.SampleClassWithClassDependencyProperty.EmptyClass, sampleClass2.SampleClassWithClassDependencyProperty.EmptyClass);
+            Assert.AreNotEqual(sampleClass1.SampleClassWithClassDependencyProperty,
+                sampleClass2.SampleClassWithClassDependencyProperty);
+            Assert.AreNotEqual(sampleClass1.SampleClassWithClassDependencyProperty.EmptyClass,
+                sampleClass2.SampleClassWithClassDependencyProperty.EmptyClass);
         }
 
         [TestMethod]

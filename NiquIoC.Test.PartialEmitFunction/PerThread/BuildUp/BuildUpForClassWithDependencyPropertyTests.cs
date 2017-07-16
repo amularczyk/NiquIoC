@@ -29,7 +29,7 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.BuildUp
             var sampleClass = new SampleClassWithClassDependencyProperty();
 
 
-            var thread = new Thread(() => { c.BuildUp(sampleClass, ResolveKind.PartialEmitFunction); });
+            var thread = new Thread(container => { c.BuildUp(sampleClass, ResolveKind.PartialEmitFunction); });
             thread.Start();
             thread.Join();
 
@@ -70,10 +70,10 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.BuildUp
             var sampleClass2 = new SampleClassWithClassDependencyProperty();
 
 
-            var thread1 = new Thread(() => { c.BuildUp(sampleClass1, ResolveKind.PartialEmitFunction); });
+            var thread1 = new Thread(container => { c.BuildUp(sampleClass1, ResolveKind.PartialEmitFunction); });
             thread1.Start();
             thread1.Join();
-            var thread2 = new Thread(() => { c.BuildUp(sampleClass2, ResolveKind.PartialEmitFunction); });
+            var thread2 = new Thread(container => { c.BuildUp(sampleClass2, ResolveKind.PartialEmitFunction); });
             thread2.Start();
             thread2.Join();
 
@@ -92,10 +92,7 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.BuildUp
             var sampleClass = new SampleClassWithCycleInConstructorWithClassDependencyProperty(null);
 
 
-            var thread = new Thread(() =>
-            {
-                c.BuildUp(sampleClass, ResolveKind.PartialEmitFunction);
-            });
+            var thread = new Thread(() => { c.BuildUp(sampleClass, ResolveKind.PartialEmitFunction); });
             thread.Start();
             thread.Join();
 
@@ -105,7 +102,8 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.BuildUp
         }
 
         [TestMethod]
-        [ExpectedException(typeof(CycleForTypeException), "Appeared cycle when resolving constructor for object of type NiquIoC.Test.Model.SampleClassWithCycleInConstructorWithClassDependencyProperty")]
+        [ExpectedException(typeof(CycleForTypeException),
+            "Appeared cycle when resolving constructor for object of type NiquIoC.Test.Model.SampleClassWithCycleInConstructorWithClassDependencyProperty")]
         public void ResolveClassWithCycleInConstructorWithClassDependencyMethod_Failed()
         {
             var c = new Container();
@@ -119,7 +117,9 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.BuildUp
             {
                 try
                 {
-                    sampleClass = c.Resolve<SampleClassWithCycleInConstructorWithClassDependencyProperty>(ResolveKind.PartialEmitFunction);
+                    sampleClass =
+                        c.Resolve<SampleClassWithCycleInConstructorWithClassDependencyProperty>(ResolveKind
+                            .PartialEmitFunction);
                 }
                 catch (Exception ex)
                 {
@@ -146,7 +146,7 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.BuildUp
             var sampleClass = new SampleClassWithoutClassDependencyProperty();
 
 
-            var thread = new Thread(() => { c.BuildUp(sampleClass, ResolveKind.PartialEmitFunction); });
+            var thread = new Thread(container => { c.BuildUp(sampleClass, ResolveKind.PartialEmitFunction); });
             thread.Start();
             thread.Join();
 
@@ -163,7 +163,7 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.BuildUp
             var sampleClass = new SampleClassWithManyClassDependencyProperties();
 
 
-            var thread = new Thread(() => { c.BuildUp(sampleClass, ResolveKind.PartialEmitFunction); });
+            var thread = new Thread(container => { c.BuildUp(sampleClass, ResolveKind.PartialEmitFunction); });
             thread.Start();
             thread.Join();
 
@@ -210,10 +210,10 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.BuildUp
             var sampleClass2 = new SampleClassWithManyClassDependencyProperties();
 
 
-            var thread1 = new Thread(() => { c.BuildUp(sampleClass1, ResolveKind.PartialEmitFunction); });
+            var thread1 = new Thread(container => { c.BuildUp(sampleClass1, ResolveKind.PartialEmitFunction); });
             thread1.Start();
             thread1.Join();
-            var thread2 = new Thread(() => { c.BuildUp(sampleClass2, ResolveKind.PartialEmitFunction); });
+            var thread2 = new Thread(container => { c.BuildUp(sampleClass2, ResolveKind.PartialEmitFunction); });
             thread2.Start();
             thread2.Join();
 
@@ -236,7 +236,7 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.BuildUp
             var sampleClass = new SampleClassWithNestedClassDependencyProperty();
 
 
-            var thread = new Thread(() => { c.BuildUp(sampleClass, ResolveKind.PartialEmitFunction); });
+            var thread = new Thread(container => { c.BuildUp(sampleClass, ResolveKind.PartialEmitFunction); });
             thread.Start();
             thread.Join();
 
@@ -269,8 +269,10 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.BuildUp
             Assert.IsNotNull(sampleClass2.SampleClassWithClassDependencyProperty);
             Assert.IsNotNull(sampleClass2.SampleClassWithClassDependencyProperty.EmptyClass);
             Assert.AreNotEqual(sampleClass1, sampleClass2);
-            Assert.AreEqual(sampleClass1.SampleClassWithClassDependencyProperty, sampleClass2.SampleClassWithClassDependencyProperty);
-            Assert.AreEqual(sampleClass1.SampleClassWithClassDependencyProperty.EmptyClass, sampleClass2.SampleClassWithClassDependencyProperty.EmptyClass);
+            Assert.AreEqual(sampleClass1.SampleClassWithClassDependencyProperty,
+                sampleClass2.SampleClassWithClassDependencyProperty);
+            Assert.AreEqual(sampleClass1.SampleClassWithClassDependencyProperty.EmptyClass,
+                sampleClass2.SampleClassWithClassDependencyProperty.EmptyClass);
         }
 
         [TestMethod]
@@ -283,10 +285,10 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.BuildUp
             var sampleClass2 = new SampleClassWithNestedClassDependencyProperty();
 
 
-            var thread1 = new Thread(() => { c.BuildUp(sampleClass1, ResolveKind.PartialEmitFunction); });
+            var thread1 = new Thread(container => { c.BuildUp(sampleClass1, ResolveKind.PartialEmitFunction); });
             thread1.Start();
             thread1.Join();
-            var thread2 = new Thread(() => { c.BuildUp(sampleClass2, ResolveKind.PartialEmitFunction); });
+            var thread2 = new Thread(container => { c.BuildUp(sampleClass2, ResolveKind.PartialEmitFunction); });
             thread2.Start();
             thread2.Join();
 
@@ -296,8 +298,10 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.BuildUp
             Assert.IsNotNull(sampleClass2.SampleClassWithClassDependencyProperty);
             Assert.IsNotNull(sampleClass2.SampleClassWithClassDependencyProperty.EmptyClass);
             Assert.AreNotEqual(sampleClass1, sampleClass2);
-            Assert.AreNotEqual(sampleClass1.SampleClassWithClassDependencyProperty, sampleClass2.SampleClassWithClassDependencyProperty);
-            Assert.AreNotEqual(sampleClass1.SampleClassWithClassDependencyProperty.EmptyClass, sampleClass2.SampleClassWithClassDependencyProperty.EmptyClass);
+            Assert.AreNotEqual(sampleClass1.SampleClassWithClassDependencyProperty,
+                sampleClass2.SampleClassWithClassDependencyProperty);
+            Assert.AreNotEqual(sampleClass1.SampleClassWithClassDependencyProperty.EmptyClass,
+                sampleClass2.SampleClassWithClassDependencyProperty.EmptyClass);
         }
 
         [TestMethod]
@@ -308,7 +312,7 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.BuildUp
             var sampleClass = new SampleClassWithClassDependencyPropertyWithoutSetMethod();
 
 
-            var thread = new Thread(() => { c.BuildUp(sampleClass, ResolveKind.PartialEmitFunction); });
+            var thread = new Thread(container => { c.BuildUp(sampleClass, ResolveKind.PartialEmitFunction); });
             thread.Start();
             thread.Join();
 

@@ -12,7 +12,7 @@ namespace NiquIoC.Test.PartialEmitFunction.Transient.FactoryObject
         {
             var c = new Container();
             var emptyClass = new EmptyClass();
-            c.RegisterType<SampleClass>(() => new SampleClass(emptyClass));
+            c.RegisterType(container => new SampleClass(emptyClass));
 
             var sampleClass1 = c.Resolve<SampleClass>(ResolveKind.PartialEmitFunction);
             var sampleClass2 = c.Resolve<SampleClass>(ResolveKind.PartialEmitFunction);
@@ -28,7 +28,7 @@ namespace NiquIoC.Test.PartialEmitFunction.Transient.FactoryObject
             var c = new Container();
             var emptyClass = new EmptyClass();
             var sampleClass = new SampleClass(emptyClass);
-            c.RegisterType<SampleClass>(() => sampleClass);
+            c.RegisterType(container => sampleClass);
 
             var sampleClass1 = c.Resolve<SampleClass>(ResolveKind.PartialEmitFunction);
             var sampleClass2 = c.Resolve<SampleClass>(ResolveKind.PartialEmitFunction);
@@ -42,7 +42,7 @@ namespace NiquIoC.Test.PartialEmitFunction.Transient.FactoryObject
         public void NestedFactoryObjectReturnNewObject_Success()
         {
             var c = new Container();
-            c.RegisterType<EmptyClass>(() => new EmptyClass());
+            c.RegisterType(container => new EmptyClass());
             c.RegisterType<SampleClass>();
 
             var sampleClass1 = c.Resolve<SampleClass>(ResolveKind.PartialEmitFunction);
@@ -57,7 +57,7 @@ namespace NiquIoC.Test.PartialEmitFunction.Transient.FactoryObject
         {
             var c = new Container();
             var emptyClass = new EmptyClass();
-            c.RegisterType<EmptyClass>(() => emptyClass);
+            c.RegisterType(container => emptyClass);
             c.RegisterType<SampleClass>();
 
             var sampleClass1 = c.Resolve<SampleClass>(ResolveKind.PartialEmitFunction);

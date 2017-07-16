@@ -100,7 +100,7 @@
             SecondClass = secondClass;
         }
 
-        public SecondClassWithCycleInConstructor SecondClass { get; private set; }
+        public SecondClassWithCycleInConstructor SecondClass { get; }
     }
 
     public class SecondClassWithCycleInConstructor
@@ -110,7 +110,7 @@
             FirstClass = firstClass;
         }
 
-        public FirstClassWithCycleInConstructor FirstClass { get; private set; }
+        public FirstClassWithCycleInConstructor FirstClass { get; }
     }
 
     public interface IFirstClassWithCycleInConstructor
@@ -125,7 +125,7 @@
             SecondClass = secondClass;
         }
 
-        public ISecondClassWithCycleInConstructor SecondClass { get; private set; }
+        public ISecondClassWithCycleInConstructor SecondClass { get; }
     }
 
     public interface ISecondClassWithCycleInConstructor
@@ -140,7 +140,7 @@
             FirstClass = firstClass;
         }
 
-        public IFirstClassWithCycleInConstructor FirstClass { get; private set; }
+        public IFirstClassWithCycleInConstructor FirstClass { get; }
     }
 
     public interface IClassWithCycleInConstructor
@@ -155,7 +155,7 @@
             FirstClass = firstClass;
         }
 
-        public FirstClassWithCycleInConstructor FirstClass { get; private set; }
+        public FirstClassWithCycleInConstructor FirstClass { get; }
     }
 
     public interface IInterfaceWithCycleInConstructor
@@ -170,6 +170,6 @@
             FirstClass = firstClass;
         }
 
-        public IFirstClassWithCycleInConstructor FirstClass { get; private set; }
+        public IFirstClassWithCycleInConstructor FirstClass { get; }
     }
 }

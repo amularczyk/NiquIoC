@@ -14,10 +14,10 @@ namespace NiquIoC.Interfaces
 
         IContainerMember RegisterType(Type typeFrom, Type typeTo);
 
-        IContainerMember RegisterType<T>(Func<T> objectFactory)
+        IContainerMember RegisterType<T>(Func<IContainerResolve, T> objectFactory) //ToDo: Change on IContainerResolver?
             where T : class;
 
-        IContainerMember RegisterType(Type type, Func<object> objectFactory);
+        IContainerMember RegisterType(Type type, Func<IContainerResolve, object> objectFactory);
 
         IContainerMember RegisterInstance<T>(T instance);
     }

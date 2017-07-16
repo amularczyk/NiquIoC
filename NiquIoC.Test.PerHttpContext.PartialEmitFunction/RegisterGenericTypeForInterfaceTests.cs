@@ -16,7 +16,8 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction
 
 
             var genericClass =
-                HttpContextTestsHelper.Initialize().ResolveObject<IGenericClass<IEmptyClass>>(c, ResolveKind.PartialEmitFunction);
+                HttpContextTestsHelper.Initialize()
+                    .ResolveObject<IGenericClass<IEmptyClass>>(c, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(genericClass);
@@ -36,8 +37,9 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction
 
 
             var genericClass =
-                HttpContextTestsHelper.Initialize().ResolveObject<IGenericClass<ISampleClassWithInterfaceAsParameter>>(c,
-                    ResolveKind.PartialEmitFunction);
+                HttpContextTestsHelper.Initialize()
+                    .ResolveObject<IGenericClass<ISampleClassWithInterfaceAsParameter>>(c,
+                        ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(genericClass);
@@ -111,10 +113,12 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction
 
 
             var genericClass1 =
-                HttpContextTestsHelper.Initialize().ResolveObject<IGenericClass<IEmptyClass>>(c, ResolveKind.PartialEmitFunction);
+                HttpContextTestsHelper.Initialize()
+                    .ResolveObject<IGenericClass<IEmptyClass>>(c, ResolveKind.PartialEmitFunction);
             var genericClass2 =
-                HttpContextTestsHelper.Initialize().ResolveObject<IGenericClass<ISampleClassWithInterfaceAsParameter>>(c,
-                    ResolveKind.PartialEmitFunction);
+                HttpContextTestsHelper.Initialize()
+                    .ResolveObject<IGenericClass<ISampleClassWithInterfaceAsParameter>>(c,
+                        ResolveKind.PartialEmitFunction);
 
 
             Assert.AreNotEqual(genericClass1, genericClass2);

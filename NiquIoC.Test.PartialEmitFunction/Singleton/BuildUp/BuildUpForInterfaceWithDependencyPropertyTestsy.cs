@@ -62,12 +62,16 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.BuildUp
         }
 
         [TestMethod]
-        [ExpectedException(typeof(CycleForTypeException), "Appeared cycle when resolving constructor for object of type NiquIoC.Test.Model.SampleClassWithCycleInConstructorWithInterfaceDependencyProperty")]
+        [ExpectedException(typeof(CycleForTypeException),
+            "Appeared cycle when resolving constructor for object of type NiquIoC.Test.Model.SampleClassWithCycleInConstructorWithInterfaceDependencyProperty")]
         public void ResolveInterfaceWithCycleInConstructorWithClassDependencyMethod_Failed()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
-            c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithCycleInConstructorWithInterfaceDependencyProperty>().AsSingleton();
+            c
+                .RegisterType<ISampleClassWithInterfaceProperty,
+                    SampleClassWithCycleInConstructorWithInterfaceDependencyProperty>()
+                .AsSingleton();
 
             var sampleClass = c.Resolve<ISampleClassWithInterfaceProperty>(ResolveKind.PartialEmitFunction);
 
@@ -92,7 +96,8 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.BuildUp
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
             c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>();
-            ISampleClassWithManyInterfaceDependencyProperties sampleClass = new SampleClassWithManyInterfaceDependencyProperties();
+            ISampleClassWithManyInterfaceDependencyProperties sampleClass =
+                new SampleClassWithManyInterfaceDependencyProperties();
 
             c.BuildUp(sampleClass, ResolveKind.PartialEmitFunction);
 
@@ -106,8 +111,10 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.BuildUp
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
             c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsSingleton();
-            ISampleClassWithManyInterfaceDependencyProperties sampleClass1 = new SampleClassWithManyInterfaceDependencyProperties();
-            ISampleClassWithManyInterfaceDependencyProperties sampleClass2 = new SampleClassWithManyInterfaceDependencyProperties();
+            ISampleClassWithManyInterfaceDependencyProperties sampleClass1 =
+                new SampleClassWithManyInterfaceDependencyProperties();
+            ISampleClassWithManyInterfaceDependencyProperties sampleClass2 =
+                new SampleClassWithManyInterfaceDependencyProperties();
 
             c.BuildUp(sampleClass1, ResolveKind.PartialEmitFunction);
             c.BuildUp(sampleClass2, ResolveKind.PartialEmitFunction);
@@ -127,7 +134,8 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.BuildUp
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
             c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithInterfaceDependencyProperty>();
-            ISampleClassWithNestedInterfaceDependencyProperty sampleClass = new SampleClassWithNestedInterfaceDependencyProperty();
+            ISampleClassWithNestedInterfaceDependencyProperty sampleClass =
+                new SampleClassWithNestedInterfaceDependencyProperty();
 
             c.BuildUp(sampleClass, ResolveKind.PartialEmitFunction);
 
@@ -140,20 +148,25 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.BuildUp
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
-            c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithInterfaceDependencyProperty>().AsSingleton();
-            ISampleClassWithNestedInterfaceDependencyProperty sampleClass1 = new SampleClassWithNestedInterfaceDependencyProperty();
-            ISampleClassWithNestedInterfaceDependencyProperty sampleClass2 = new SampleClassWithNestedInterfaceDependencyProperty();
+            c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithInterfaceDependencyProperty>()
+                .AsSingleton();
+            ISampleClassWithNestedInterfaceDependencyProperty sampleClass1 =
+                new SampleClassWithNestedInterfaceDependencyProperty();
+            ISampleClassWithNestedInterfaceDependencyProperty sampleClass2 =
+                new SampleClassWithNestedInterfaceDependencyProperty();
 
             c.BuildUp(sampleClass1, ResolveKind.PartialEmitFunction);
             c.BuildUp(sampleClass2, ResolveKind.PartialEmitFunction);
-            
+
             Assert.IsNotNull(sampleClass1.SampleClassWithInterfaceDependencyProperty);
             Assert.IsNotNull(sampleClass1.SampleClassWithInterfaceDependencyProperty.EmptyClass);
             Assert.IsNotNull(sampleClass2.SampleClassWithInterfaceDependencyProperty);
             Assert.IsNotNull(sampleClass2.SampleClassWithInterfaceDependencyProperty.EmptyClass);
             Assert.AreNotEqual(sampleClass1, sampleClass2);
-            Assert.AreEqual(sampleClass1.SampleClassWithInterfaceDependencyProperty, sampleClass2.SampleClassWithInterfaceDependencyProperty);
-            Assert.AreEqual(sampleClass1.SampleClassWithInterfaceDependencyProperty.EmptyClass, sampleClass2.SampleClassWithInterfaceDependencyProperty.EmptyClass);
+            Assert.AreEqual(sampleClass1.SampleClassWithInterfaceDependencyProperty,
+                sampleClass2.SampleClassWithInterfaceDependencyProperty);
+            Assert.AreEqual(sampleClass1.SampleClassWithInterfaceDependencyProperty.EmptyClass,
+                sampleClass2.SampleClassWithInterfaceDependencyProperty.EmptyClass);
         }
 
         [TestMethod]
@@ -161,7 +174,8 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.BuildUp
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
-            ISampleClassWithClassDependencyPropertyWithoutSetMethodWithInterface sampleClass = new SampleClassWithClassDependencyPropertyWithoutSetMethodWithInterface();
+            ISampleClassWithClassDependencyPropertyWithoutSetMethodWithInterface sampleClass =
+                new SampleClassWithClassDependencyPropertyWithoutSetMethodWithInterface();
 
             c.BuildUp(sampleClass, ResolveKind.PartialEmitFunction);
 
