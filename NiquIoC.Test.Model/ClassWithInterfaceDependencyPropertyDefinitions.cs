@@ -58,41 +58,6 @@ namespace NiquIoC.Test.Model
         public ISampleClassWithInterfaceProperty SampleClassWithInterfaceDependencyProperty { get; set; }
     }
 
-    public interface ISampleClassWithInterfaceDependencyPropertyWithoutSetMethod
-    {
-        IEmptyClass EmptyClass { get; }
-    }
-
-    public class
-        SampleClassWithInterfaceDependencyPropertyWithoutSetMethod :
-            ISampleClassWithInterfaceDependencyPropertyWithoutSetMethod
-    {
-        public SampleClassWithInterfaceDependencyPropertyWithoutSetMethod()
-        {
-            EmptyClass = null;
-        }
-
-        [DependencyProperty]
-        public IEmptyClass EmptyClass { get; }
-    }
-
-    public interface ISampleClassWithInterfaceDependencyPropertyWithoutSetMethodWithInterface
-    {
-        IEmptyClass EmptyClass { get; }
-    }
-
-    public class SampleClassWithInterfaceDependencyPropertyWithoutSetMethodWithInterface :
-        ISampleClassWithInterfaceDependencyPropertyWithoutSetMethodWithInterface
-    {
-        public SampleClassWithInterfaceDependencyPropertyWithoutSetMethodWithInterface()
-        {
-            EmptyClass = null;
-        }
-
-        [DependencyProperty]
-        public IEmptyClass EmptyClass { get; }
-    }
-
     public class SampleClassWithCycleInConstructorWithInterfaceDependencyProperty : ISampleClassWithInterfaceProperty
     {
         public SampleClassWithCycleInConstructorWithInterfaceDependencyProperty(

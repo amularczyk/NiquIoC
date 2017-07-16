@@ -125,55 +125,6 @@ namespace NiquIoC.Test.Model
         }
     }
 
-    public interface ISampleClassWithInterfaceMethodWithInterface
-    {
-        IEmptyClass EmptyClass { get; }
-
-        void FillEmptyClass(IEmptyClass emptyClass);
-    }
-
-    public class SampleClassWithInterfaceDependencyMethodWithInterface : ISampleClassWithInterfaceMethodWithInterface
-    {
-        public IEmptyClass EmptyClass { get; private set; }
-
-        [DependencyMethod]
-        public void FillEmptyClass(IEmptyClass emptyClass)
-        {
-            EmptyClass = emptyClass;
-        }
-    }
-
-    public class SampleClassWithoutInterfaceDependencyMethodWithInterface : ISampleClassWithInterfaceMethodWithInterface
-    {
-        public IEmptyClass EmptyClass { get; private set; }
-
-        public void FillEmptyClass(IEmptyClass emptyClass)
-        {
-            EmptyClass = emptyClass;
-        }
-    }
-
-    public interface ISampleClassWithInterfaceMethodWithInterfaceWithReturnType
-    {
-        IEmptyClass EmptyClass { get; }
-
-        bool FillEmptyClass(IEmptyClass emptyClass);
-    }
-
-    public class
-        SampleClassWithInterfaceDependencyMethodWithInterfaceWithReturnType :
-            ISampleClassWithInterfaceMethodWithInterfaceWithReturnType
-    {
-        public IEmptyClass EmptyClass { get; private set; }
-
-        [DependencyMethod]
-        public bool FillEmptyClass(IEmptyClass emptyClass)
-        {
-            EmptyClass = emptyClass;
-            return true;
-        }
-    }
-
     public class SampleClassWithCycleInConstructorWithInterfaceDependencyMethod : ISampleClassWithInterfaceMethod
     {
         public SampleClassWithCycleInConstructorWithInterfaceDependencyMethod(
