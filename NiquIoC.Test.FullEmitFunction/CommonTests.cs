@@ -53,18 +53,6 @@ namespace NiquIoC.Test.FullEmitFunction
         }
 
         [TestMethod]
-        [ExpectedException(typeof(BuildUpNotSupportedException))]
-        public void BuildUp_Without_Parameter_When_Container_With_ResolveKind_Fail()
-        {
-            var c = new Container(ResolveKind.FullEmitFunction);
-            var emptyClass = new EmptyClass();
-
-            c.BuildUp(emptyClass);
-
-            Assert.IsNotNull(emptyClass);
-        }
-
-        [TestMethod]
         public void Resolve_With_Type_As_Parameter_And_Register_With_Type_As_Parameter_Success()
         {
             var c = new Container(ResolveKind.FullEmitFunction);
@@ -73,6 +61,7 @@ namespace NiquIoC.Test.FullEmitFunction
             var emptyClass = c.Resolve(typeof(EmptyClass));
 
             Assert.IsNotNull(emptyClass);
+            Assert.IsTrue(emptyClass is EmptyClass);
         }
 
         [TestMethod]
@@ -84,6 +73,7 @@ namespace NiquIoC.Test.FullEmitFunction
             var emptyClass = c.Resolve(typeof(EmptyClass), ResolveKind.FullEmitFunction);
 
             Assert.IsNotNull(emptyClass);
+            Assert.IsTrue(emptyClass is EmptyClass);
         }
 
         [TestMethod]
@@ -95,6 +85,7 @@ namespace NiquIoC.Test.FullEmitFunction
             var emptyClass = c.Resolve(typeof(IEmptyClass));
 
             Assert.IsNotNull(emptyClass);
+            Assert.IsTrue(emptyClass is IEmptyClass);
         }
 
         [TestMethod]
@@ -107,6 +98,7 @@ namespace NiquIoC.Test.FullEmitFunction
             var emptyClass = c.Resolve(typeof(IEmptyClass), ResolveKind.FullEmitFunction);
 
             Assert.IsNotNull(emptyClass);
+            Assert.IsTrue(emptyClass is IEmptyClass);
         }
 
         [TestMethod]
@@ -118,6 +110,7 @@ namespace NiquIoC.Test.FullEmitFunction
             var emptyClass = c.Resolve(typeof(EmptyClass));
 
             Assert.IsNotNull(emptyClass);
+            Assert.IsTrue(emptyClass is EmptyClass);
         }
 
         [TestMethod]
@@ -130,6 +123,38 @@ namespace NiquIoC.Test.FullEmitFunction
             var emptyClass = c.Resolve(typeof(EmptyClass), ResolveKind.FullEmitFunction);
 
             Assert.IsNotNull(emptyClass);
+            Assert.IsTrue(emptyClass is EmptyClass);
+        }
+
+        [TestMethod]
+        public void
+            Resolve_With_Type_As_Parameter_And_Register_Object_Factory_With_Type_As_Parameter_Using_Container_Success()
+        {
+            var c = new Container(ResolveKind.FullEmitFunction);
+            c.RegisterType<EmptyClass>();
+            c.RegisterType(typeof(SampleClass), container => new SampleClass(container.Resolve<EmptyClass>()));
+
+            var sampleClass = c.Resolve(typeof(SampleClass));
+
+            Assert.IsNotNull(sampleClass);
+            Assert.IsTrue(sampleClass is SampleClass);
+            Assert.IsNotNull((sampleClass as SampleClass).EmptyClass);
+        }
+
+        [TestMethod]
+        public void
+            Resolve_With_Type_And_ResolveKind_As_Parameter_And_Register_Object_Factory_With_Type_As_Parameter_Using_Container_Success()
+        {
+            var c = new Container();
+            c.RegisterType<EmptyClass>();
+            c.RegisterType(typeof(SampleClass),
+                container => new SampleClass(container.Resolve<EmptyClass>(ResolveKind.FullEmitFunction)));
+
+            var sampleClass = c.Resolve(typeof(SampleClass), ResolveKind.FullEmitFunction);
+
+            Assert.IsNotNull(sampleClass);
+            Assert.IsTrue(sampleClass is SampleClass);
+            Assert.IsNotNull((sampleClass as SampleClass).EmptyClass);
         }
     }
 }

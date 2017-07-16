@@ -172,6 +172,7 @@ namespace NiquIoC.Test.PartialEmitFunction
             var emptyClass = c.Resolve(typeof(EmptyClass));
 
             Assert.IsNotNull(emptyClass);
+            Assert.IsTrue(emptyClass is EmptyClass);
         }
 
         [TestMethod]
@@ -183,6 +184,7 @@ namespace NiquIoC.Test.PartialEmitFunction
             var emptyClass = c.Resolve(typeof(EmptyClass), ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(emptyClass);
+            Assert.IsTrue(emptyClass is EmptyClass);
         }
 
         [TestMethod]
@@ -194,6 +196,7 @@ namespace NiquIoC.Test.PartialEmitFunction
             var emptyClass = c.Resolve(typeof(IEmptyClass));
 
             Assert.IsNotNull(emptyClass);
+            Assert.IsTrue(emptyClass is IEmptyClass);
         }
 
         [TestMethod]
@@ -206,6 +209,7 @@ namespace NiquIoC.Test.PartialEmitFunction
             var emptyClass = c.Resolve(typeof(IEmptyClass), ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(emptyClass);
+            Assert.IsTrue(emptyClass is IEmptyClass);
         }
 
         [TestMethod]
@@ -217,6 +221,7 @@ namespace NiquIoC.Test.PartialEmitFunction
             var emptyClass = c.Resolve(typeof(EmptyClass));
 
             Assert.IsNotNull(emptyClass);
+            Assert.IsTrue(emptyClass is EmptyClass);
         }
 
         [TestMethod]
@@ -229,6 +234,37 @@ namespace NiquIoC.Test.PartialEmitFunction
             var emptyClass = c.Resolve(typeof(EmptyClass), ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(emptyClass);
+            Assert.IsTrue(emptyClass is EmptyClass);
+        }
+
+        [TestMethod]
+        public void
+            Resolve_With_Type_As_Parameter_And_Register_Object_Factory_With_Type_As_Parameter_Using_Container_Success()
+        {
+            var c = new Container(ResolveKind.PartialEmitFunction);
+            c.RegisterType<EmptyClass>();
+            c.RegisterType(typeof(SampleClass), container => new SampleClass(container.Resolve<EmptyClass>()));
+
+            var sampleClass = c.Resolve(typeof(SampleClass));
+
+            Assert.IsNotNull(sampleClass);
+            Assert.IsTrue(sampleClass is SampleClass);
+            Assert.IsNotNull((sampleClass as SampleClass).EmptyClass);
+        }
+
+        [TestMethod]
+        public void
+            Resolve_With_Type_And_ResolveKind_As_Parameter_And_Register_Object_Factory_With_Type_As_Parameter_Using_Container_Success()
+        {
+            var c = new Container();
+            c.RegisterType<EmptyClass>();
+            c.RegisterType(typeof(SampleClass), container => new SampleClass(container.Resolve<EmptyClass>(ResolveKind.PartialEmitFunction)));
+
+            var sampleClass = c.Resolve(typeof(SampleClass), ResolveKind.PartialEmitFunction);
+
+            Assert.IsNotNull(sampleClass);
+            Assert.IsTrue(sampleClass is SampleClass);
+            Assert.IsNotNull((sampleClass as SampleClass).EmptyClass);
         }
     }
 }
