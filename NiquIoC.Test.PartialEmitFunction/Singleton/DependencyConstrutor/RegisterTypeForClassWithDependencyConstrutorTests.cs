@@ -42,7 +42,8 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.DependencyConstrutor
             c.RegisterType<SampleClassWithDependencyConstrutor>().AsSingleton();
             c.RegisterType<SampleClassWithNestedClassWithDependencyConstrutor>().AsSingleton();
 
-            var sampleClass = c.Resolve<SampleClassWithNestedClassWithDependencyConstrutor>(ResolveKind.PartialEmitFunction);
+            var sampleClass =
+                c.Resolve<SampleClassWithNestedClassWithDependencyConstrutor>(ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNotNull(sampleClass.SampleClassWithDependencyConstrutor);

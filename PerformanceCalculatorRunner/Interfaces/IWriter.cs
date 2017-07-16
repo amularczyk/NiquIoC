@@ -5,6 +5,7 @@ namespace PerformanceCalculatorRunner.Interfaces
 {
     public interface IWriter
     {
-        void Write(Dictionary<string, IEnumerable<FinalTestResult>> results, IEnumerable<PerformanceTestCase> testCases);
+        void Write(Dictionary<string, IEnumerable<FinalTestResult>> results,
+            IEnumerable<PerformanceTestCase> testCases);
     }
 }

@@ -33,11 +33,11 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.ReRegister
         {
             var c = new Container();
             var emptyClass = new EmptyClass();
-            c.RegisterType<IEmptyClass>(() => emptyClass).AsSingleton();
+            c.RegisterType<IEmptyClass>(container => emptyClass).AsSingleton();
             var emptyClass1 = c.Resolve<IEmptyClass>(ResolveKind.PartialEmitFunction);
             var emptyClass2 = c.Resolve<IEmptyClass>(ResolveKind.PartialEmitFunction);
 
-            c.RegisterType<IEmptyClass>(() => new EmptyClass()).AsSingleton();
+            c.RegisterType<IEmptyClass>(container => new EmptyClass()).AsSingleton();
             var emptyClass3 = c.Resolve<IEmptyClass>(ResolveKind.PartialEmitFunction);
             var emptyClass4 = c.Resolve<IEmptyClass>(ResolveKind.PartialEmitFunction);
 
@@ -56,7 +56,7 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.ReRegister
             var emptyClass1 = c.Resolve<IEmptyClass>(ResolveKind.PartialEmitFunction);
             var emptyClass2 = c.Resolve<IEmptyClass>(ResolveKind.PartialEmitFunction);
 
-            c.RegisterType<IEmptyClass>(() => new EmptyClass()).AsSingleton();
+            c.RegisterType<IEmptyClass>(container => new EmptyClass()).AsSingleton();
             var emptyClass3 = c.Resolve<IEmptyClass>(ResolveKind.PartialEmitFunction);
             var emptyClass4 = c.Resolve<IEmptyClass>(ResolveKind.PartialEmitFunction);
 
@@ -70,7 +70,7 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.ReRegister
         public void InterfaceReRegisteredFromObjectFactoryToInstance_Success()
         {
             var c = new Container();
-            c.RegisterType<IEmptyClass>(() => new EmptyClass()).AsSingleton();
+            c.RegisterType<IEmptyClass>(container => new EmptyClass()).AsSingleton();
             var emptyClass1 = c.Resolve<IEmptyClass>(ResolveKind.PartialEmitFunction);
             var emptyClass2 = c.Resolve<IEmptyClass>(ResolveKind.PartialEmitFunction);
 
@@ -93,7 +93,7 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.ReRegister
             var emptyClass1 = c.Resolve<IEmptyClass>(ResolveKind.PartialEmitFunction);
             var emptyClass2 = c.Resolve<IEmptyClass>(ResolveKind.PartialEmitFunction);
 
-            c.RegisterType<IEmptyClass>(() => new EmptyClass()).AsSingleton();
+            c.RegisterType<IEmptyClass>(container => new EmptyClass()).AsSingleton();
             var emptyClass3 = c.Resolve<IEmptyClass>(ResolveKind.PartialEmitFunction);
             var emptyClass4 = c.Resolve<IEmptyClass>(ResolveKind.PartialEmitFunction);
 
@@ -120,7 +120,7 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.ReRegister
             Assert.AreEqual(emptyClass3, emptyClass4);
             Assert.AreNotEqual(emptyClass1, emptyClass3);
         }
-        
+
         [TestMethod]
         public void InterfaceReRegisteredFromOneClassToTheSameClass_Success()
         {

@@ -53,9 +53,12 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.ResolveWithBuildUp
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
             c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsSingleton();
-            c.RegisterType<ISampleClassWithManyInterfaceDependencyProperties, SampleClassWithManyInterfaceDependencyProperties>();
+            c
+                .RegisterType<ISampleClassWithManyInterfaceDependencyProperties,
+                    SampleClassWithManyInterfaceDependencyProperties>();
 
-            var sampleClass = c.Resolve<ISampleClassWithManyInterfaceDependencyProperties>(ResolveKind.PartialEmitFunction);
+            var sampleClass =
+                c.Resolve<ISampleClassWithManyInterfaceDependencyProperties>(ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass.EmptyClass);
             Assert.IsNotNull(sampleClass.SampleClass);
@@ -67,10 +70,14 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.ResolveWithBuildUp
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
             c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsSingleton();
-            c.RegisterType<ISampleClassWithManyInterfaceDependencyProperties, SampleClassWithManyInterfaceDependencyProperties>();
+            c
+                .RegisterType<ISampleClassWithManyInterfaceDependencyProperties,
+                    SampleClassWithManyInterfaceDependencyProperties>();
 
-            var sampleClass1 = c.Resolve<ISampleClassWithManyInterfaceDependencyProperties>(ResolveKind.PartialEmitFunction);
-            var sampleClass2 = c.Resolve<ISampleClassWithManyInterfaceDependencyProperties>(ResolveKind.PartialEmitFunction);
+            var sampleClass1 =
+                c.Resolve<ISampleClassWithManyInterfaceDependencyProperties>(ResolveKind.PartialEmitFunction);
+            var sampleClass2 =
+                c.Resolve<ISampleClassWithManyInterfaceDependencyProperties>(ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass1.EmptyClass);
             Assert.IsNotNull(sampleClass1.SampleClass);
@@ -86,10 +93,14 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.ResolveWithBuildUp
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
-            c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithInterfaceDependencyProperty>().AsSingleton();
-            c.RegisterType<ISampleClassWithNestedInterfaceDependencyProperty, SampleClassWithNestedInterfaceDependencyProperty>();
+            c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithInterfaceDependencyProperty>()
+                .AsSingleton();
+            c
+                .RegisterType<ISampleClassWithNestedInterfaceDependencyProperty,
+                    SampleClassWithNestedInterfaceDependencyProperty>();
 
-            var sampleClass = c.Resolve<ISampleClassWithNestedInterfaceDependencyProperty>(ResolveKind.PartialEmitFunction);
+            var sampleClass =
+                c.Resolve<ISampleClassWithNestedInterfaceDependencyProperty>(ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass.SampleClassWithInterfaceDependencyProperty);
             Assert.IsNotNull(sampleClass.SampleClassWithInterfaceDependencyProperty.EmptyClass);
@@ -100,19 +111,26 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.ResolveWithBuildUp
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
-            c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithInterfaceDependencyProperty>().AsSingleton();
-            c.RegisterType<ISampleClassWithNestedInterfaceDependencyProperty, SampleClassWithNestedInterfaceDependencyProperty>();
+            c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithInterfaceDependencyProperty>()
+                .AsSingleton();
+            c
+                .RegisterType<ISampleClassWithNestedInterfaceDependencyProperty,
+                    SampleClassWithNestedInterfaceDependencyProperty>();
 
-            var sampleClass1 = c.Resolve<ISampleClassWithNestedInterfaceDependencyProperty>(ResolveKind.PartialEmitFunction);
-            var sampleClass2 = c.Resolve<ISampleClassWithNestedInterfaceDependencyProperty>(ResolveKind.PartialEmitFunction);
+            var sampleClass1 =
+                c.Resolve<ISampleClassWithNestedInterfaceDependencyProperty>(ResolveKind.PartialEmitFunction);
+            var sampleClass2 =
+                c.Resolve<ISampleClassWithNestedInterfaceDependencyProperty>(ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass1.SampleClassWithInterfaceDependencyProperty);
             Assert.IsNotNull(sampleClass1.SampleClassWithInterfaceDependencyProperty.EmptyClass);
             Assert.IsNotNull(sampleClass2.SampleClassWithInterfaceDependencyProperty);
             Assert.IsNotNull(sampleClass2.SampleClassWithInterfaceDependencyProperty.EmptyClass);
             Assert.AreNotEqual(sampleClass1, sampleClass2);
-            Assert.AreEqual(sampleClass1.SampleClassWithInterfaceDependencyProperty, sampleClass2.SampleClassWithInterfaceDependencyProperty);
-            Assert.AreEqual(sampleClass1.SampleClassWithInterfaceDependencyProperty.EmptyClass, sampleClass2.SampleClassWithInterfaceDependencyProperty.EmptyClass);
+            Assert.AreEqual(sampleClass1.SampleClassWithInterfaceDependencyProperty,
+                sampleClass2.SampleClassWithInterfaceDependencyProperty);
+            Assert.AreEqual(sampleClass1.SampleClassWithInterfaceDependencyProperty.EmptyClass,
+                sampleClass2.SampleClassWithInterfaceDependencyProperty.EmptyClass);
         }
 
         [TestMethod]
@@ -120,9 +138,13 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.ResolveWithBuildUp
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
-            c.RegisterType<ISampleClassWithClassDependencyPropertyWithoutSetMethodWithInterface, SampleClassWithClassDependencyPropertyWithoutSetMethodWithInterface>();
+            c
+                .RegisterType<ISampleClassWithClassDependencyPropertyWithoutSetMethodWithInterface,
+                    SampleClassWithClassDependencyPropertyWithoutSetMethodWithInterface>();
 
-            var sampleClass = c.Resolve<ISampleClassWithClassDependencyPropertyWithoutSetMethodWithInterface>(ResolveKind.PartialEmitFunction);
+            var sampleClass =
+                c.Resolve<ISampleClassWithClassDependencyPropertyWithoutSetMethodWithInterface>(ResolveKind
+                    .PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNull(sampleClass.EmptyClass);
@@ -133,10 +155,14 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.ResolveWithBuildUp
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
-            c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithInterfaceDependencyProperty>().AsSingleton();
-            c.RegisterType<ISampleClassWithNestedInterfaceDependencyProperty, SampleClassWithClassInConstructorWithNestedInterfaceDependencyProperty>();
+            c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithInterfaceDependencyProperty>()
+                .AsSingleton();
+            c
+                .RegisterType<ISampleClassWithNestedInterfaceDependencyProperty,
+                    SampleClassWithClassInConstructorWithNestedInterfaceDependencyProperty>();
 
-            var sampleClass = c.Resolve<ISampleClassWithNestedInterfaceDependencyProperty>(ResolveKind.PartialEmitFunction);
+            var sampleClass =
+                c.Resolve<ISampleClassWithNestedInterfaceDependencyProperty>(ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass.SampleClassWithInterfaceDependencyProperty);
             Assert.IsNotNull(sampleClass.SampleClassWithInterfaceDependencyProperty.EmptyClass);
@@ -147,19 +173,26 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.ResolveWithBuildUp
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
-            c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithInterfaceDependencyProperty>().AsSingleton();
-            c.RegisterType<ISampleClassWithNestedInterfaceDependencyProperty, SampleClassWithClassInConstructorWithNestedInterfaceDependencyProperty>();
+            c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithInterfaceDependencyProperty>()
+                .AsSingleton();
+            c
+                .RegisterType<ISampleClassWithNestedInterfaceDependencyProperty,
+                    SampleClassWithClassInConstructorWithNestedInterfaceDependencyProperty>();
 
-            var sampleClass1 = c.Resolve<ISampleClassWithNestedInterfaceDependencyProperty>(ResolveKind.PartialEmitFunction);
-            var sampleClass2 = c.Resolve<ISampleClassWithNestedInterfaceDependencyProperty>(ResolveKind.PartialEmitFunction);
+            var sampleClass1 =
+                c.Resolve<ISampleClassWithNestedInterfaceDependencyProperty>(ResolveKind.PartialEmitFunction);
+            var sampleClass2 =
+                c.Resolve<ISampleClassWithNestedInterfaceDependencyProperty>(ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass1.SampleClassWithInterfaceDependencyProperty);
             Assert.IsNotNull(sampleClass1.SampleClassWithInterfaceDependencyProperty.EmptyClass);
             Assert.IsNotNull(sampleClass2.SampleClassWithInterfaceDependencyProperty);
             Assert.IsNotNull(sampleClass2.SampleClassWithInterfaceDependencyProperty.EmptyClass);
             Assert.AreNotEqual(sampleClass1, sampleClass2);
-            Assert.AreEqual(sampleClass1.SampleClassWithInterfaceDependencyProperty, sampleClass2.SampleClassWithInterfaceDependencyProperty);
-            Assert.AreEqual(sampleClass1.SampleClassWithInterfaceDependencyProperty.EmptyClass, sampleClass2.SampleClassWithInterfaceDependencyProperty.EmptyClass);
+            Assert.AreEqual(sampleClass1.SampleClassWithInterfaceDependencyProperty,
+                sampleClass2.SampleClassWithInterfaceDependencyProperty);
+            Assert.AreEqual(sampleClass1.SampleClassWithInterfaceDependencyProperty.EmptyClass,
+                sampleClass2.SampleClassWithInterfaceDependencyProperty.EmptyClass);
         }
     }
 }

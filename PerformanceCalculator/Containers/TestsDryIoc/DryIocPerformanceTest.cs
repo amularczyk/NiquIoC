@@ -20,10 +20,13 @@ namespace PerformanceCalculator.Containers.TestsDryIoc
 
         protected override object GetContainer(RegistrationKind registrationKind)
         {
-            return registrationKind == RegistrationKind.PerThread ? new Container(scopeContext: new ThreadScopeContext()) : new Container();
+            return registrationKind == RegistrationKind.PerThread
+                ? new Container(scopeContext: new ThreadScopeContext())
+                : new Container();
         }
 
-        protected override long RunResolve(Stopwatch sw, ITestCase testCase, object container, int testCasesCount, RegistrationKind registrationKind)
+        protected override long RunResolve(Stopwatch sw, ITestCase testCase, object container, int testCasesCount,
+            RegistrationKind registrationKind)
         {
             try
             {

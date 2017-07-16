@@ -43,7 +43,8 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton
             c.RegisterType<SampleClass>().AsSingleton();
             c.RegisterType<GenericClassWithManyParameters<EmptyClass, SampleClass>>().AsSingleton();
 
-            var genericClass = c.Resolve<GenericClassWithManyParameters<EmptyClass, SampleClass>>(ResolveKind.PartialEmitFunction);
+            var genericClass =
+                c.Resolve<GenericClassWithManyParameters<EmptyClass, SampleClass>>(ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(genericClass);
             Assert.IsNotNull(genericClass.NestedClass1);

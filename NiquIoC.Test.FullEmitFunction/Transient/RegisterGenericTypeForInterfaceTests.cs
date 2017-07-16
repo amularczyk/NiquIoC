@@ -26,9 +26,12 @@ namespace NiquIoC.Test.FullEmitFunction.Transient
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();
             c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>();
-            c.RegisterType<IGenericClass<ISampleClassWithInterfaceAsParameter>, GenericClass<ISampleClassWithInterfaceAsParameter>>();
+            c
+                .RegisterType<IGenericClass<ISampleClassWithInterfaceAsParameter>,
+                    GenericClass<ISampleClassWithInterfaceAsParameter>>();
 
-            var genericClass = c.Resolve<IGenericClass<ISampleClassWithInterfaceAsParameter>>(ResolveKind.FullEmitFunction);
+            var genericClass =
+                c.Resolve<IGenericClass<ISampleClassWithInterfaceAsParameter>>(ResolveKind.FullEmitFunction);
 
             Assert.IsNotNull(genericClass);
             Assert.IsNotNull(genericClass.NestedClass);
@@ -41,9 +44,13 @@ namespace NiquIoC.Test.FullEmitFunction.Transient
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();
             c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>();
-            c.RegisterType<IGenericClassWithManyParameters<IEmptyClass, ISampleClassWithInterfaceAsParameter>, GenericClassWithManyParameters<IEmptyClass, ISampleClassWithInterfaceAsParameter>>();
+            c
+                .RegisterType<IGenericClassWithManyParameters<IEmptyClass, ISampleClassWithInterfaceAsParameter>,
+                    GenericClassWithManyParameters<IEmptyClass, ISampleClassWithInterfaceAsParameter>>();
 
-            var genericClass = c.Resolve<IGenericClassWithManyParameters<IEmptyClass, ISampleClassWithInterfaceAsParameter>>(ResolveKind.FullEmitFunction);
+            var genericClass =
+                c.Resolve<IGenericClassWithManyParameters<IEmptyClass, ISampleClassWithInterfaceAsParameter>>(
+                    ResolveKind.FullEmitFunction);
 
             Assert.IsNotNull(genericClass);
             Assert.IsNotNull(genericClass.NestedClass1);
@@ -59,11 +66,14 @@ namespace NiquIoC.Test.FullEmitFunction.Transient
             c.RegisterType<IEmptyClass, EmptyClass>();
             c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>();
             c.RegisterType<IGenericClass<IEmptyClass>, GenericClass<IEmptyClass>>();
-            c.RegisterType<IGenericClass<ISampleClassWithInterfaceAsParameter>, GenericClass<ISampleClassWithInterfaceAsParameter>>();
+            c
+                .RegisterType<IGenericClass<ISampleClassWithInterfaceAsParameter>,
+                    GenericClass<ISampleClassWithInterfaceAsParameter>>();
 
             var genericClass1 = c.Resolve<IGenericClass<IEmptyClass>>(ResolveKind.FullEmitFunction);
-            var genericClass2 = c.Resolve<IGenericClass<ISampleClassWithInterfaceAsParameter>>(ResolveKind.FullEmitFunction);
-            
+            var genericClass2 =
+                c.Resolve<IGenericClass<ISampleClassWithInterfaceAsParameter>>(ResolveKind.FullEmitFunction);
+
             Assert.AreNotEqual(genericClass1, genericClass2);
             Assert.AreNotEqual(genericClass1.GetType(), genericClass2.GetType());
             Assert.AreNotEqual(genericClass1.NestedClass, genericClass2.NestedClass.EmptyClass);

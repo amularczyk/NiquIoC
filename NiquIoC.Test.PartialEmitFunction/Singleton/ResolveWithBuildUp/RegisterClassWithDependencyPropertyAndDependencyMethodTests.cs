@@ -14,7 +14,9 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.ResolveWithBuildUp
             c.RegisterType<EmptyClass>().AsSingleton();
             c.RegisterType<SampleClassWithClassDependencyPropertyAndDependencyMethodWithSameType>();
 
-            var sampleClass = c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithSameType>(ResolveKind.PartialEmitFunction);
+            var sampleClass =
+                c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithSameType>(ResolveKind
+                    .PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass.EmptyClassFromDependencyProperty);
             Assert.IsNotNull(sampleClass.EmptyClassFromDependencyMethod);
@@ -28,8 +30,12 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.ResolveWithBuildUp
             c.RegisterType<EmptyClass>().AsSingleton();
             c.RegisterType<SampleClassWithClassDependencyPropertyAndDependencyMethodWithSameType>();
 
-            var sampleClass1 = c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithSameType>(ResolveKind.PartialEmitFunction);
-            var sampleClass2 = c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithSameType>(ResolveKind.PartialEmitFunction);
+            var sampleClass1 =
+                c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithSameType>(ResolveKind
+                    .PartialEmitFunction);
+            var sampleClass2 =
+                c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithSameType>(ResolveKind
+                    .PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass1.EmptyClassFromDependencyProperty);
             Assert.IsNotNull(sampleClass1.EmptyClassFromDependencyMethod);
@@ -38,7 +44,8 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.ResolveWithBuildUp
             Assert.IsNotNull(sampleClass2.EmptyClassFromDependencyMethod);
             Assert.AreEqual(sampleClass2.EmptyClassFromDependencyProperty, sampleClass2.EmptyClassFromDependencyMethod);
             Assert.AreNotEqual(sampleClass1, sampleClass2);
-            Assert.AreEqual(sampleClass1.EmptyClassFromDependencyProperty, sampleClass2.EmptyClassFromDependencyProperty);
+            Assert.AreEqual(sampleClass1.EmptyClassFromDependencyProperty,
+                sampleClass2.EmptyClassFromDependencyProperty);
             Assert.AreEqual(sampleClass1.EmptyClassFromDependencyMethod, sampleClass2.EmptyClassFromDependencyMethod);
         }
 
@@ -50,7 +57,9 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.ResolveWithBuildUp
             c.RegisterType<SampleClass>().AsSingleton();
             c.RegisterType<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>();
 
-            var sampleClass = c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>(ResolveKind.PartialEmitFunction);
+            var sampleClass =
+                c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>(ResolveKind
+                    .PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass.SampleClass);
             Assert.IsNotNull(sampleClass.EmptyClass);
@@ -66,8 +75,12 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.ResolveWithBuildUp
             c.RegisterType<SampleClass>().AsSingleton();
             c.RegisterType<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>();
 
-            var sampleClass1 = c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>(ResolveKind.PartialEmitFunction);
-            var sampleClass2 = c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>(ResolveKind.PartialEmitFunction);
+            var sampleClass1 =
+                c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>(ResolveKind
+                    .PartialEmitFunction);
+            var sampleClass2 =
+                c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>(ResolveKind
+                    .PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass1.SampleClass);
             Assert.IsNotNull(sampleClass1.EmptyClass);

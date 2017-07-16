@@ -19,10 +19,13 @@ namespace NiquIoC.Test.FullEmitFunction.PerThread.DependencyConstrutor
             SampleClassWithDependencyConstrutor sampleClass = null;
 
 
-            var thread = new Thread(() => { sampleClass = c.Resolve<SampleClassWithDependencyConstrutor>(ResolveKind.FullEmitFunction); });
+            var thread = new Thread(container =>
+            {
+                sampleClass = c.Resolve<SampleClassWithDependencyConstrutor>(ResolveKind.FullEmitFunction);
+            });
             thread.Start();
             thread.Join();
-            
+
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNotNull(sampleClass.EmptyClass);
@@ -57,7 +60,7 @@ namespace NiquIoC.Test.FullEmitFunction.PerThread.DependencyConstrutor
             {
                 throw exception;
             }
-            
+
 
             Assert.IsNull(sampleClass);
         }
@@ -72,10 +75,14 @@ namespace NiquIoC.Test.FullEmitFunction.PerThread.DependencyConstrutor
             SampleClassWithNestedClassWithDependencyConstrutor sampleClass = null;
 
 
-            var thread = new Thread(() => { sampleClass = c.Resolve<SampleClassWithNestedClassWithDependencyConstrutor>(ResolveKind.FullEmitFunction); });
+            var thread = new Thread(container =>
+            {
+                sampleClass =
+                    c.Resolve<SampleClassWithNestedClassWithDependencyConstrutor>(ResolveKind.FullEmitFunction);
+            });
             thread.Start();
             thread.Join();
-            
+
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNotNull(sampleClass.SampleClassWithDependencyConstrutor);

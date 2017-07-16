@@ -46,8 +46,9 @@
     <Compile Include="Container.cs" />
     <Compile Include="ContainerMember.cs" />
     <Compile Include="Enums\ResolveKind.cs" />
+    <Compile Include="Exceptions\MissingResolveKindException.cs" />
     <Compile Include="Exceptions\BuildUpNotSupportedException.cs" />
-    <Compile Include="Exceptions\ResolveKindMissingException.cs" />
+    <Compile Include="Exceptions\ResolveKindNotImplementedException.cs" />
     <Compile Include="Exceptions\HttpContextNoSetException.cs" />
     <Compile Include="Exceptions\WrongInterfaceRegistrationException.cs" />
     <Compile Include="Extensions\DictionaryExtension.cs" />
@@ -55,6 +56,9 @@
     <Compile Include="Exceptions\CycleForTypeException.cs" />
     <Compile Include="Exceptions\NoProperConstructorException.cs" />
     <Compile Include="Exceptions\TypeNotRegisteredException.cs" />
+    <Compile Include="Interfaces\IContainerBuildUp.cs" />
+    <Compile Include="Interfaces\IContainerResolve.cs" />
+    <Compile Include="Interfaces\IContainerRegister.cs" />
     <Compile Include="Interfaces\IContainer.cs" />
     <Compile Include="Interfaces\IContainerMemberPrivate.cs" />
     <Compile Include="Interfaces\IContainerMember.cs" />

@@ -12,12 +12,14 @@ namespace PerformanceCalculatorRunner.Writers
         {
         }
 
-        public override void Write(Dictionary<string, IEnumerable<FinalTestResult>> results, IEnumerable<PerformanceTestCase> testCases)
+        public override void Write(Dictionary<string, IEnumerable<FinalTestResult>> results,
+            IEnumerable<PerformanceTestCase> testCases)
         {
             WriteToFile(ProcessResultsDataToCsvFormat(results, testCases));
         }
 
-        private IEnumerable<string> ProcessResultsDataToCsvFormat(Dictionary<string, IEnumerable<FinalTestResult>> results, IEnumerable<PerformanceTestCase> testCases)
+        private IEnumerable<string> ProcessResultsDataToCsvFormat(
+            Dictionary<string, IEnumerable<FinalTestResult>> results, IEnumerable<PerformanceTestCase> testCases)
         {
             var list = new List<StringBuilder>();
 

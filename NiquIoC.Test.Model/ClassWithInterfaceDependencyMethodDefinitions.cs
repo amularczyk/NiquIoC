@@ -23,7 +23,7 @@ namespace NiquIoC.Test.Model
     public class SampleClassWithoutInterfaceDependencyMethod : ISampleClassWithInterfaceMethod
     {
         public IEmptyClass EmptyClass { get; private set; }
-        
+
         public void FillEmptyClass(IEmptyClass emptyClass)
         {
             EmptyClass = emptyClass;
@@ -53,9 +53,9 @@ namespace NiquIoC.Test.Model
     {
         IEmptyClass EmptyClass { get; set; }
 
-        void FillEmptyClass(IEmptyClass emptyClass);
-
         ISampleClassWithInterfaceAsParameter SampleClass { get; set; }
+
+        void FillEmptyClass(IEmptyClass emptyClass);
 
         void FillSampleClass(ISampleClassWithInterfaceAsParameter emptyClass);
     }
@@ -63,7 +63,7 @@ namespace NiquIoC.Test.Model
     public class SampleClassWithManyInterfaceDependencyMethods : ISampleClassWithManyInterfaceDependencyMethods
     {
         public IEmptyClass EmptyClass { get; set; }
-        
+
         public ISampleClassWithInterfaceAsParameter SampleClass { get; set; }
 
         [DependencyMethod]
@@ -78,24 +78,28 @@ namespace NiquIoC.Test.Model
             SampleClass = sampleClassWithInterfaceAsParameter;
         }
     }
-    
+
     public interface ISampleClassWithManyInterfaceParametersInDependencyMethod
     {
         IEmptyClass EmptyClass { get; set; }
 
         ISampleClassWithInterfaceAsParameter SampleClass { get; set; }
 
-        void FillClasses(IEmptyClass emptyClass, ISampleClassWithInterfaceAsParameter sampleClassWithInterfaceAsParameter);
+        void FillClasses(IEmptyClass emptyClass,
+            ISampleClassWithInterfaceAsParameter sampleClassWithInterfaceAsParameter);
     }
 
-    public class SampleClassWithManyInterfaceParametersInDependencyMethod : ISampleClassWithManyInterfaceParametersInDependencyMethod
+    public class
+        SampleClassWithManyInterfaceParametersInDependencyMethod :
+            ISampleClassWithManyInterfaceParametersInDependencyMethod
     {
         public IEmptyClass EmptyClass { get; set; }
 
         public ISampleClassWithInterfaceAsParameter SampleClass { get; set; }
 
         [DependencyMethod]
-        public void FillClasses(IEmptyClass emptyClass, ISampleClassWithInterfaceAsParameter sampleClassWithInterfaceAsParameter)
+        public void FillClasses(IEmptyClass emptyClass,
+            ISampleClassWithInterfaceAsParameter sampleClassWithInterfaceAsParameter)
         {
             EmptyClass = emptyClass;
             SampleClass = sampleClassWithInterfaceAsParameter;
@@ -114,7 +118,8 @@ namespace NiquIoC.Test.Model
         public ISampleClassWithInterfaceMethod SampleClass { get; set; }
 
         [DependencyMethod]
-        public void FillSampleClassWithInterfaceDependencyMethod(ISampleClassWithInterfaceMethod sampleClassWithInterfaceDependencyMethod)
+        public void FillSampleClassWithInterfaceDependencyMethod(
+            ISampleClassWithInterfaceMethod sampleClassWithInterfaceDependencyMethod)
         {
             SampleClass = sampleClassWithInterfaceDependencyMethod;
         }
@@ -155,7 +160,9 @@ namespace NiquIoC.Test.Model
         bool FillEmptyClass(IEmptyClass emptyClass);
     }
 
-    public class SampleClassWithInterfaceDependencyMethodWithInterfaceWithReturnType : ISampleClassWithInterfaceMethodWithInterfaceWithReturnType
+    public class
+        SampleClassWithInterfaceDependencyMethodWithInterfaceWithReturnType :
+            ISampleClassWithInterfaceMethodWithInterfaceWithReturnType
     {
         public IEmptyClass EmptyClass { get; private set; }
 
@@ -169,9 +176,9 @@ namespace NiquIoC.Test.Model
 
     public class SampleClassWithCycleInConstructorWithInterfaceDependencyMethod : ISampleClassWithInterfaceMethod
     {
-        public SampleClassWithCycleInConstructorWithInterfaceDependencyMethod(ISampleClassWithInterfaceMethod sampleClass)
+        public SampleClassWithCycleInConstructorWithInterfaceDependencyMethod(
+            ISampleClassWithInterfaceMethod sampleClass)
         {
-
         }
 
         public IEmptyClass EmptyClass { get; private set; }

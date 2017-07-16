@@ -75,7 +75,7 @@ namespace NiquIoC.Test.FullEmitFunction.PerThread.ReRegister
         {
             var c = new Container();
             var emptyClass = new EmptyClass();
-            c.RegisterType<EmptyClass>(() => emptyClass).AsPerThread();
+            c.RegisterType(container => emptyClass).AsPerThread();
             EmptyClass emptyClass1 = null;
             EmptyClass emptyClass2 = null;
             EmptyClass emptyClass3 = null;
@@ -87,7 +87,7 @@ namespace NiquIoC.Test.FullEmitFunction.PerThread.ReRegister
                 emptyClass1 = c.Resolve<EmptyClass>(ResolveKind.FullEmitFunction);
                 emptyClass2 = c.Resolve<EmptyClass>(ResolveKind.FullEmitFunction);
 
-                c.RegisterType<EmptyClass>(() => new EmptyClass()).AsPerThread();
+                c.RegisterType(container => new EmptyClass()).AsPerThread();
                 emptyClass3 = c.Resolve<EmptyClass>(ResolveKind.FullEmitFunction);
                 emptyClass4 = c.Resolve<EmptyClass>(ResolveKind.FullEmitFunction);
             });
@@ -119,7 +119,7 @@ namespace NiquIoC.Test.FullEmitFunction.PerThread.ReRegister
                 emptyClass1 = c.Resolve<EmptyClass>(ResolveKind.FullEmitFunction);
                 emptyClass2 = c.Resolve<EmptyClass>(ResolveKind.FullEmitFunction);
 
-                c.RegisterType<EmptyClass>(() => new EmptyClass()).AsPerThread();
+                c.RegisterType(container => new EmptyClass()).AsPerThread();
                 emptyClass3 = c.Resolve<EmptyClass>(ResolveKind.FullEmitFunction);
                 emptyClass4 = c.Resolve<EmptyClass>(ResolveKind.FullEmitFunction);
             });
@@ -138,7 +138,7 @@ namespace NiquIoC.Test.FullEmitFunction.PerThread.ReRegister
         public void ClassReRegisteredFromObjectFactoryToInstance_Success()
         {
             var c = new Container();
-            c.RegisterType<EmptyClass>(() => new EmptyClass()).AsPerThread();
+            c.RegisterType(container => new EmptyClass()).AsPerThread();
             var emptyClass = new EmptyClass();
             EmptyClass emptyClass1 = null;
             EmptyClass emptyClass2 = null;
@@ -180,7 +180,7 @@ namespace NiquIoC.Test.FullEmitFunction.PerThread.ReRegister
                 emptyClass1 = c.Resolve<EmptyClass>(ResolveKind.FullEmitFunction);
                 emptyClass2 = c.Resolve<EmptyClass>(ResolveKind.FullEmitFunction);
 
-                c.RegisterType<EmptyClass>(() => new EmptyClass()).AsPerThread();
+                c.RegisterType(container => new EmptyClass()).AsPerThread();
                 emptyClass3 = c.Resolve<EmptyClass>(ResolveKind.FullEmitFunction);
                 emptyClass4 = c.Resolve<EmptyClass>(ResolveKind.FullEmitFunction);
             });

@@ -17,7 +17,8 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.DependencyConstrutor
 
 
             var sampleClass =
-                HttpContextTestsHelper.Initialize().ResolveObject<SampleClassWithDependencyConstrutor>(c, ResolveKind.PartialEmitFunction);
+                HttpContextTestsHelper.Initialize()
+                    .ResolveObject<SampleClassWithDependencyConstrutor>(c, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass);
@@ -34,7 +35,8 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.DependencyConstrutor
 
 
             var sampleClass =
-                HttpContextTestsHelper.Initialize().ResolveObject<SampleClassWithTwoDependencyConstrutor>(c, ResolveKind.PartialEmitFunction);
+                HttpContextTestsHelper.Initialize()
+                    .ResolveObject<SampleClassWithTwoDependencyConstrutor>(c, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNull(sampleClass);
@@ -50,8 +52,9 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.DependencyConstrutor
 
 
             var sampleClass =
-                HttpContextTestsHelper.Initialize().ResolveObject<SampleClassWithNestedClassWithDependencyConstrutor>(c,
-                    ResolveKind.PartialEmitFunction);
+                HttpContextTestsHelper.Initialize()
+                    .ResolveObject<SampleClassWithNestedClassWithDependencyConstrutor>(c,
+                        ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass);

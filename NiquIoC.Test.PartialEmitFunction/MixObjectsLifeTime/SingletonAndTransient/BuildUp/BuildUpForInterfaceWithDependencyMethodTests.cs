@@ -13,7 +13,8 @@ namespace NiquIoC.Test.PartialEmitFunction.MixObjectsLifeTime.SingletonAndTransi
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();
             c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsSingleton();
-            ISampleClassWithManyInterfaceDependencyMethods sampleClass = new SampleClassWithManyInterfaceDependencyMethods();
+            ISampleClassWithManyInterfaceDependencyMethods sampleClass =
+                new SampleClassWithManyInterfaceDependencyMethods();
 
 
             c.BuildUp(sampleClass, ResolveKind.PartialEmitFunction);
@@ -31,8 +32,10 @@ namespace NiquIoC.Test.PartialEmitFunction.MixObjectsLifeTime.SingletonAndTransi
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();
             c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsSingleton();
-            ISampleClassWithManyInterfaceDependencyMethods sampleClass1 = new SampleClassWithManyInterfaceDependencyMethods();
-            ISampleClassWithManyInterfaceDependencyMethods sampleClass2 = new SampleClassWithManyInterfaceDependencyMethods();
+            ISampleClassWithManyInterfaceDependencyMethods sampleClass1 =
+                new SampleClassWithManyInterfaceDependencyMethods();
+            ISampleClassWithManyInterfaceDependencyMethods sampleClass2 =
+                new SampleClassWithManyInterfaceDependencyMethods();
 
 
             c.BuildUp(sampleClass1, ResolveKind.PartialEmitFunction);
@@ -61,7 +64,8 @@ namespace NiquIoC.Test.PartialEmitFunction.MixObjectsLifeTime.SingletonAndTransi
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();
             c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsSingleton();
-            ISampleClassWithManyInterfaceParametersInDependencyMethod sampleClass = new SampleClassWithManyInterfaceParametersInDependencyMethod();
+            ISampleClassWithManyInterfaceParametersInDependencyMethod sampleClass =
+                new SampleClassWithManyInterfaceParametersInDependencyMethod();
 
 
             c.BuildUp(sampleClass, ResolveKind.PartialEmitFunction);
@@ -79,8 +83,10 @@ namespace NiquIoC.Test.PartialEmitFunction.MixObjectsLifeTime.SingletonAndTransi
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();
             c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsSingleton();
-            ISampleClassWithManyInterfaceParametersInDependencyMethod sampleClass1 = new SampleClassWithManyInterfaceParametersInDependencyMethod();
-            ISampleClassWithManyInterfaceParametersInDependencyMethod sampleClass2 = new SampleClassWithManyInterfaceParametersInDependencyMethod();
+            ISampleClassWithManyInterfaceParametersInDependencyMethod sampleClass1 =
+                new SampleClassWithManyInterfaceParametersInDependencyMethod();
+            ISampleClassWithManyInterfaceParametersInDependencyMethod sampleClass2 =
+                new SampleClassWithManyInterfaceParametersInDependencyMethod();
 
 
             c.BuildUp(sampleClass1, ResolveKind.PartialEmitFunction);
@@ -109,7 +115,8 @@ namespace NiquIoC.Test.PartialEmitFunction.MixObjectsLifeTime.SingletonAndTransi
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
             c.RegisterType<ISampleClassWithInterfaceMethod, SampleClassWithInterfaceDependencyMethod>();
-            ISampleClassWithNestedInterfaceDependencyMethod sampleClass = new SampleClassWithNestedInterfaceDependencyMethod();
+            ISampleClassWithNestedInterfaceDependencyMethod sampleClass =
+                new SampleClassWithNestedInterfaceDependencyMethod();
 
 
             c.BuildUp(sampleClass, ResolveKind.PartialEmitFunction);
@@ -125,13 +132,15 @@ namespace NiquIoC.Test.PartialEmitFunction.MixObjectsLifeTime.SingletonAndTransi
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
             c.RegisterType<ISampleClassWithInterfaceMethod, SampleClassWithInterfaceDependencyMethod>();
-            ISampleClassWithNestedInterfaceDependencyMethod sampleClass1 = new SampleClassWithNestedInterfaceDependencyMethod();
-            ISampleClassWithNestedInterfaceDependencyMethod sampleClass2 = new SampleClassWithNestedInterfaceDependencyMethod();
+            ISampleClassWithNestedInterfaceDependencyMethod sampleClass1 =
+                new SampleClassWithNestedInterfaceDependencyMethod();
+            ISampleClassWithNestedInterfaceDependencyMethod sampleClass2 =
+                new SampleClassWithNestedInterfaceDependencyMethod();
 
 
             c.BuildUp(sampleClass1, ResolveKind.PartialEmitFunction);
             c.BuildUp(sampleClass2, ResolveKind.PartialEmitFunction);
-            
+
 
             Assert.IsNotNull(sampleClass1.SampleClass);
             Assert.IsNotNull(sampleClass1.SampleClass.EmptyClass);

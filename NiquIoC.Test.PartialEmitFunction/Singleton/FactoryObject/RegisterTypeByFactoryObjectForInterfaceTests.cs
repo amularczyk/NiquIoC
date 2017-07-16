@@ -12,7 +12,10 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.FactoryObject
         {
             var c = new Container();
             IEmptyClass emptyClass = new EmptyClass();
-            c.RegisterType<ISampleClassWithInterfaceAsParameter>(() => new SampleClassWithInterfaceAsParameter(emptyClass)).AsSingleton();
+            c
+                .RegisterType<ISampleClassWithInterfaceAsParameter>(
+                    container => new SampleClassWithInterfaceAsParameter(emptyClass))
+                .AsSingleton();
 
             var sampleClass1 = c.Resolve<ISampleClassWithInterfaceAsParameter>(ResolveKind.PartialEmitFunction);
             var sampleClass2 = c.Resolve<ISampleClassWithInterfaceAsParameter>(ResolveKind.PartialEmitFunction);
@@ -28,7 +31,7 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.FactoryObject
             var c = new Container();
             IEmptyClass emptyClass = new EmptyClass();
             ISampleClassWithInterfaceAsParameter sampleClass = new SampleClassWithInterfaceAsParameter(emptyClass);
-            c.RegisterType<ISampleClassWithInterfaceAsParameter>(() => sampleClass).AsSingleton();
+            c.RegisterType(container => sampleClass).AsSingleton();
 
             var sampleClass1 = c.Resolve<ISampleClassWithInterfaceAsParameter>(ResolveKind.PartialEmitFunction);
             var sampleClass2 = c.Resolve<ISampleClassWithInterfaceAsParameter>(ResolveKind.PartialEmitFunction);
@@ -42,7 +45,7 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.FactoryObject
         public void NestedFactoryObjectReturnNewObject_Success()
         {
             var c = new Container();
-            c.RegisterType<IEmptyClass>(() => new EmptyClass()).AsSingleton();
+            c.RegisterType<IEmptyClass>(container => new EmptyClass()).AsSingleton();
             c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsSingleton();
 
             var sampleClass1 = c.Resolve<ISampleClassWithInterfaceAsParameter>(ResolveKind.PartialEmitFunction);
@@ -57,7 +60,7 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.FactoryObject
         {
             var c = new Container();
             IEmptyClass emptyClass = new EmptyClass();
-            c.RegisterType<IEmptyClass>(() => emptyClass).AsSingleton();
+            c.RegisterType(container => emptyClass).AsSingleton();
             c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsSingleton();
 
             var sampleClass1 = c.Resolve<ISampleClassWithInterfaceAsParameter>(ResolveKind.PartialEmitFunction);

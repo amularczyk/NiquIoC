@@ -39,9 +39,12 @@ namespace NiquIoC.Test.Model
         SampleClassWithClassDependencyProperty SampleClassWithClassDependencyProperty { get; set; }
     }
 
-    public class SampleClassWithClassInConstructorWithNestedClassDependencyProperty : ISampleClassWithNestedClassDependencyProperty
+    public class
+        SampleClassWithClassInConstructorWithNestedClassDependencyProperty :
+            ISampleClassWithNestedClassDependencyProperty
     {
-        public SampleClassWithClassInConstructorWithNestedClassDependencyProperty(SampleClassWithClassDependencyProperty sampleClassWithClassDependencyProperty)
+        public SampleClassWithClassInConstructorWithNestedClassDependencyProperty(
+            SampleClassWithClassDependencyProperty sampleClassWithClassDependencyProperty)
         {
             SampleClassWithClassDependencyProperty = sampleClassWithClassDependencyProperty;
         }
@@ -60,7 +63,8 @@ namespace NiquIoC.Test.Model
         EmptyClass EmptyClass { get; }
     }
 
-    public class SampleClassWithClassDependencyPropertyWithoutSetMethod : ISampleClassWithClassDependencyPropertyWithoutSetMethod
+    public class
+        SampleClassWithClassDependencyPropertyWithoutSetMethod : ISampleClassWithClassDependencyPropertyWithoutSetMethod
     {
         public SampleClassWithClassDependencyPropertyWithoutSetMethod()
         {
@@ -76,7 +80,9 @@ namespace NiquIoC.Test.Model
         EmptyClass EmptyClass { get; }
     }
 
-    public class SampleClassWithClassDependencyPropertyWithoutSetMethodWithInterface : ISampleClassWithClassDependencyPropertyWithoutSetMethodWithInterface
+    public class
+        SampleClassWithClassDependencyPropertyWithoutSetMethodWithInterface :
+            ISampleClassWithClassDependencyPropertyWithoutSetMethodWithInterface
     {
         public SampleClassWithClassDependencyPropertyWithoutSetMethodWithInterface()
         {
@@ -89,9 +95,9 @@ namespace NiquIoC.Test.Model
 
     public class SampleClassWithCycleInConstructorWithClassDependencyProperty : ISampleClassWithClassProperty
     {
-        public SampleClassWithCycleInConstructorWithClassDependencyProperty(SampleClassWithCycleInConstructorWithClassDependencyProperty sampleClass)
+        public SampleClassWithCycleInConstructorWithClassDependencyProperty(
+            SampleClassWithCycleInConstructorWithClassDependencyProperty sampleClass)
         {
-
         }
 
         [DependencyProperty]

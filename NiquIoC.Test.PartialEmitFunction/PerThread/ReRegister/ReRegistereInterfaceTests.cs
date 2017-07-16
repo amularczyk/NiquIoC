@@ -32,7 +32,7 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.ReRegister
             });
             thread.Start();
             thread.Join();
-            
+
 
             Assert.AreEqual(emptyClass, emptyClass1);
             Assert.AreEqual(emptyClass1, emptyClass2);
@@ -46,7 +46,7 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.ReRegister
         {
             var c = new Container();
             var emptyClass = new EmptyClass();
-            c.RegisterType<IEmptyClass>(() => emptyClass).AsPerThread();
+            c.RegisterType<IEmptyClass>(container => emptyClass).AsPerThread();
             IEmptyClass emptyClass1 = null;
             IEmptyClass emptyClass2 = null;
             IEmptyClass emptyClass3 = null;
@@ -58,7 +58,7 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.ReRegister
                 emptyClass1 = c.Resolve<IEmptyClass>(ResolveKind.PartialEmitFunction);
                 emptyClass2 = c.Resolve<IEmptyClass>(ResolveKind.PartialEmitFunction);
 
-                c.RegisterType<IEmptyClass>(() => new EmptyClass()).AsPerThread();
+                c.RegisterType<IEmptyClass>(container => new EmptyClass()).AsPerThread();
                 emptyClass3 = c.Resolve<IEmptyClass>(ResolveKind.PartialEmitFunction);
                 emptyClass4 = c.Resolve<IEmptyClass>(ResolveKind.PartialEmitFunction);
             });
@@ -89,7 +89,7 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.ReRegister
                 emptyClass1 = c.Resolve<IEmptyClass>(ResolveKind.PartialEmitFunction);
                 emptyClass2 = c.Resolve<IEmptyClass>(ResolveKind.PartialEmitFunction);
 
-                c.RegisterType<IEmptyClass>(() => new EmptyClass()).AsPerThread();
+                c.RegisterType<IEmptyClass>(container => new EmptyClass()).AsPerThread();
                 emptyClass3 = c.Resolve<IEmptyClass>(ResolveKind.PartialEmitFunction);
                 emptyClass4 = c.Resolve<IEmptyClass>(ResolveKind.PartialEmitFunction);
             });
@@ -108,7 +108,7 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.ReRegister
         {
             var c = new Container();
             IEmptyClass emptyClass = new EmptyClass();
-            c.RegisterType<IEmptyClass>(() => new EmptyClass()).AsPerThread();
+            c.RegisterType<IEmptyClass>(container => new EmptyClass()).AsPerThread();
             IEmptyClass emptyClass1 = null;
             IEmptyClass emptyClass2 = null;
             IEmptyClass emptyClass3 = null;
@@ -150,7 +150,7 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.ReRegister
                 emptyClass1 = c.Resolve<IEmptyClass>(ResolveKind.PartialEmitFunction);
                 emptyClass2 = c.Resolve<IEmptyClass>(ResolveKind.PartialEmitFunction);
 
-                c.RegisterType<IEmptyClass>(() => new EmptyClass()).AsPerThread();
+                c.RegisterType<IEmptyClass>(container => new EmptyClass()).AsPerThread();
                 emptyClass3 = c.Resolve<IEmptyClass>(ResolveKind.PartialEmitFunction);
                 emptyClass4 = c.Resolve<IEmptyClass>(ResolveKind.PartialEmitFunction);
             });
@@ -193,7 +193,7 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.ReRegister
             Assert.AreEqual(emptyClass3, emptyClass4);
             Assert.AreNotEqual(emptyClass1, emptyClass3);
         }
-        
+
         [TestMethod]
         public void InterfaceReRegisteredFromOneClassToTheSameClass_Success()
         {

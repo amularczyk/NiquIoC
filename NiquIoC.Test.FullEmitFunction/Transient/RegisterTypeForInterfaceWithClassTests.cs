@@ -9,7 +9,8 @@ namespace NiquIoC.Test.FullEmitFunction.Transient
     public class RegisterTypeForInterfaceWithClassTests
     {
         [TestMethod]
-        [ExpectedException(typeof(TypeNotRegisteredException), "Type NiquIoC.Test.Model.EmptyClass has not been registered.")]
+        [ExpectedException(typeof(TypeNotRegisteredException),
+            "Type NiquIoC.Test.Model.EmptyClass has not been registered.")]
         public void InternalClassNotRegistered_Fail()
         {
             var c = new Container();
@@ -34,7 +35,8 @@ namespace NiquIoC.Test.FullEmitFunction.Transient
         }
 
         [TestMethod]
-        [ExpectedException(typeof(CycleForTypeException), "Appeared cycle when resolving constructor for object of type NiquIoC.Test.Model.FirstClassWithCycleInConstructor")]
+        [ExpectedException(typeof(CycleForTypeException),
+            "Appeared cycle when resolving constructor for object of type NiquIoC.Test.Model.FirstClassWithCycleInConstructor")]
         public void RegisteredInterfaceAsClassWithCycleInConstructor_Fail()
         {
             var c = new Container();

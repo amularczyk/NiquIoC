@@ -22,7 +22,7 @@ namespace NiquIoC.Test.PerHttpContext
 
             var result = controller.Get<T>(c, resolveKind);
 
-            return (T) result;
+            return (T)result;
         }
 
         public Tuple<T, T> ResolveObjects<T>(Container c, ResolveKind resolveKind)
@@ -32,7 +32,7 @@ namespace NiquIoC.Test.PerHttpContext
             var result1 = controller.Get<T>(c, resolveKind);
             var result2 = controller.Get<T>(c, resolveKind);
 
-            return Tuple.Create((T) result1, (T) result2);
+            return Tuple.Create((T)result1, (T)result2);
         }
 
         public Tuple<T1, T2> ResolveObjects<T1, T2>(Container c, ResolveKind resolveKind)
@@ -51,7 +51,7 @@ namespace NiquIoC.Test.PerHttpContext
 
             var result = controller.Get(c, obj, resolveKind);
 
-            return (T) result;
+            return (T)result;
         }
 
         public Tuple<T, T> BuildUpObject<T>(Container c, T obj1, T obj2, ResolveKind resolveKind)
@@ -61,7 +61,7 @@ namespace NiquIoC.Test.PerHttpContext
             var result1 = controller.Get(c, obj1, resolveKind);
             var result2 = controller.Get(c, obj2, resolveKind);
 
-            return Tuple.Create((T) result1, (T) result2);
+            return Tuple.Create((T)result1, (T)result2);
         }
     }
 }

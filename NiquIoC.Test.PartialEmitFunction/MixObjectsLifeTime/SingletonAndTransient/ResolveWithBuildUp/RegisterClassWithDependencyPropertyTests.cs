@@ -90,8 +90,10 @@ namespace NiquIoC.Test.PartialEmitFunction.MixObjectsLifeTime.SingletonAndTransi
             Assert.IsNotNull(sampleClass2.SampleClassWithClassDependencyProperty.EmptyClass);
 
             Assert.AreNotEqual(sampleClass1, sampleClass2);
-            Assert.AreNotEqual(sampleClass1.SampleClassWithClassDependencyProperty, sampleClass2.SampleClassWithClassDependencyProperty);
-            Assert.AreEqual(sampleClass1.SampleClassWithClassDependencyProperty.EmptyClass, sampleClass2.SampleClassWithClassDependencyProperty.EmptyClass);
+            Assert.AreNotEqual(sampleClass1.SampleClassWithClassDependencyProperty,
+                sampleClass2.SampleClassWithClassDependencyProperty);
+            Assert.AreEqual(sampleClass1.SampleClassWithClassDependencyProperty.EmptyClass,
+                sampleClass2.SampleClassWithClassDependencyProperty.EmptyClass);
         }
     }
 }

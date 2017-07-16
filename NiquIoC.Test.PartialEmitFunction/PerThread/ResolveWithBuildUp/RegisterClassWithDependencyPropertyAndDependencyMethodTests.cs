@@ -17,7 +17,12 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.ResolveWithBuildUp
             SampleClassWithClassDependencyPropertyAndDependencyMethodWithSameType sampleClass = null;
 
 
-            var thread = new Thread(() => { sampleClass = c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithSameType>(ResolveKind.PartialEmitFunction); });
+            var thread = new Thread(container =>
+            {
+                sampleClass =
+                    c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithSameType>(ResolveKind
+                        .PartialEmitFunction);
+            });
             thread.Start();
             thread.Join();
 
@@ -28,7 +33,8 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.ResolveWithBuildUp
         }
 
         [TestMethod]
-        public void SameThread_DifferentObjects_RegisterClassWithDependencyPropertyAndDependencyMethodWithSameType_Success()
+        public void
+            SameThread_DifferentObjects_RegisterClassWithDependencyPropertyAndDependencyMethodWithSameType_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsPerThread();
@@ -39,8 +45,12 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.ResolveWithBuildUp
 
             var thread = new Thread(() =>
             {
-                sampleClass1 = c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithSameType>(ResolveKind.PartialEmitFunction);
-                sampleClass2 = c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithSameType>(ResolveKind.PartialEmitFunction);
+                sampleClass1 =
+                    c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithSameType>(ResolveKind
+                        .PartialEmitFunction);
+                sampleClass2 =
+                    c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithSameType>(ResolveKind
+                        .PartialEmitFunction);
             });
             thread.Start();
             thread.Join();
@@ -53,12 +63,14 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.ResolveWithBuildUp
             Assert.IsNotNull(sampleClass2.EmptyClassFromDependencyMethod);
             Assert.AreEqual(sampleClass2.EmptyClassFromDependencyProperty, sampleClass2.EmptyClassFromDependencyMethod);
             Assert.AreNotEqual(sampleClass1, sampleClass2);
-            Assert.AreEqual(sampleClass1.EmptyClassFromDependencyProperty, sampleClass2.EmptyClassFromDependencyProperty);
+            Assert.AreEqual(sampleClass1.EmptyClassFromDependencyProperty,
+                sampleClass2.EmptyClassFromDependencyProperty);
             Assert.AreEqual(sampleClass1.EmptyClassFromDependencyMethod, sampleClass2.EmptyClassFromDependencyMethod);
         }
 
         [TestMethod]
-        public void DifferentThreads_DifferentObjects_RegisterClassWithDependencyPropertyAndDependencyMethodWithSameType_Success()
+        public void
+            DifferentThreads_DifferentObjects_RegisterClassWithDependencyPropertyAndDependencyMethodWithSameType_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsPerThread();
@@ -67,10 +79,20 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.ResolveWithBuildUp
             SampleClassWithClassDependencyPropertyAndDependencyMethodWithSameType sampleClass2 = null;
 
 
-            var thread1 = new Thread(() => { sampleClass1 = c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithSameType>(ResolveKind.PartialEmitFunction); });
+            var thread1 = new Thread(container =>
+            {
+                sampleClass1 =
+                    c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithSameType>(ResolveKind
+                        .PartialEmitFunction);
+            });
             thread1.Start();
             thread1.Join();
-            var thread2 = new Thread(() => { sampleClass2 = c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithSameType>(ResolveKind.PartialEmitFunction); });
+            var thread2 = new Thread(container =>
+            {
+                sampleClass2 =
+                    c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithSameType>(ResolveKind
+                        .PartialEmitFunction);
+            });
             thread2.Start();
             thread2.Join();
 
@@ -82,8 +104,10 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.ResolveWithBuildUp
             Assert.IsNotNull(sampleClass2.EmptyClassFromDependencyMethod);
             Assert.AreEqual(sampleClass2.EmptyClassFromDependencyProperty, sampleClass2.EmptyClassFromDependencyMethod);
             Assert.AreNotEqual(sampleClass1, sampleClass2);
-            Assert.AreNotEqual(sampleClass1.EmptyClassFromDependencyProperty, sampleClass2.EmptyClassFromDependencyProperty);
-            Assert.AreNotEqual(sampleClass1.EmptyClassFromDependencyMethod, sampleClass2.EmptyClassFromDependencyMethod);
+            Assert.AreNotEqual(sampleClass1.EmptyClassFromDependencyProperty,
+                sampleClass2.EmptyClassFromDependencyProperty);
+            Assert.AreNotEqual(sampleClass1.EmptyClassFromDependencyMethod,
+                sampleClass2.EmptyClassFromDependencyMethod);
         }
 
         [TestMethod]
@@ -96,7 +120,12 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.ResolveWithBuildUp
             SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes sampleClass = null;
 
 
-            var thread = new Thread(() => { sampleClass = c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>(ResolveKind.PartialEmitFunction); });
+            var thread = new Thread(container =>
+            {
+                sampleClass =
+                    c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>(
+                        ResolveKind.PartialEmitFunction);
+            });
             thread.Start();
             thread.Join();
 
@@ -108,7 +137,8 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.ResolveWithBuildUp
         }
 
         [TestMethod]
-        public void SameThread_DifferentObjects_RegisterClassWithDependencyPropertyAndDependencyMethodWithDifferentTypes_Success()
+        public void
+            SameThread_DifferentObjects_RegisterClassWithDependencyPropertyAndDependencyMethodWithDifferentTypes_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsPerThread();
@@ -120,8 +150,12 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.ResolveWithBuildUp
 
             var thread = new Thread(() =>
             {
-                sampleClass1 = c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>(ResolveKind.PartialEmitFunction);
-                sampleClass2 = c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>(ResolveKind.PartialEmitFunction);
+                sampleClass1 =
+                    c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>(ResolveKind
+                        .PartialEmitFunction);
+                sampleClass2 =
+                    c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>(ResolveKind
+                        .PartialEmitFunction);
             });
             thread.Start();
             thread.Join();
@@ -141,7 +175,8 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.ResolveWithBuildUp
         }
 
         [TestMethod]
-        public void DifferentThreads_DifferentObjects_RegisterClassWithDependencyPropertyAndDependencyMethodWithDifferentTypes_Success()
+        public void
+            DifferentThreads_DifferentObjects_RegisterClassWithDependencyPropertyAndDependencyMethodWithDifferentTypes_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsPerThread();
@@ -151,10 +186,20 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.ResolveWithBuildUp
             SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes sampleClass2 = null;
 
 
-            var thread1 = new Thread(() => { sampleClass1 = c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>(ResolveKind.PartialEmitFunction); });
+            var thread1 = new Thread(container =>
+            {
+                sampleClass1 =
+                    c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>(
+                        ResolveKind.PartialEmitFunction);
+            });
             thread1.Start();
             thread1.Join();
-            var thread2 = new Thread(() => { sampleClass2 = c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>(ResolveKind.PartialEmitFunction); });
+            var thread2 = new Thread(container =>
+            {
+                sampleClass2 =
+                    c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>(
+                        ResolveKind.PartialEmitFunction);
+            });
             thread2.Start();
             thread2.Join();
 

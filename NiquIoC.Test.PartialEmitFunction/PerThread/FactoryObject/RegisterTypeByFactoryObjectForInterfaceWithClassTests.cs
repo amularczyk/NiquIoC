@@ -13,12 +13,13 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.FactoryObject
         {
             var c = new Container();
             var emptyClass = new EmptyClass();
-            c.RegisterType<ISampleClass>(() => new SampleClass(emptyClass)).AsPerThread();
+            c.RegisterType<ISampleClass>(container => new SampleClass(emptyClass)).AsPerThread();
             ISampleClass sampleClass1 = null;
             ISampleClass sampleClass2 = null;
 
 
-            var thread = new Thread(() => {
+            var thread = new Thread(container =>
+            {
                 sampleClass1 = c.Resolve<ISampleClass>(ResolveKind.PartialEmitFunction);
                 sampleClass2 = c.Resolve<ISampleClass>(ResolveKind.PartialEmitFunction);
             });
@@ -37,12 +38,13 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.FactoryObject
             var c = new Container();
             var emptyClass = new EmptyClass();
             ISampleClass sampleClass = new SampleClass(emptyClass);
-            c.RegisterType<ISampleClass>(() => sampleClass).AsPerThread();
+            c.RegisterType(container => sampleClass).AsPerThread();
             ISampleClass sampleClass1 = null;
             ISampleClass sampleClass2 = null;
 
 
-            var thread = new Thread(() => {
+            var thread = new Thread(container =>
+            {
                 sampleClass1 = c.Resolve<ISampleClass>(ResolveKind.PartialEmitFunction);
                 sampleClass2 = c.Resolve<ISampleClass>(ResolveKind.PartialEmitFunction);
             });
@@ -59,13 +61,14 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.FactoryObject
         public void NestedFactoryObjectReturnNewObject_Success()
         {
             var c = new Container();
-            c.RegisterType<EmptyClass>(() => new EmptyClass()).AsPerThread();
+            c.RegisterType(container => new EmptyClass()).AsPerThread();
             c.RegisterType<ISampleClass, SampleClass>().AsPerThread();
             ISampleClass sampleClass1 = null;
             ISampleClass sampleClass2 = null;
 
 
-            var thread = new Thread(() => {
+            var thread = new Thread(container =>
+            {
                 sampleClass1 = c.Resolve<ISampleClass>(ResolveKind.PartialEmitFunction);
                 sampleClass2 = c.Resolve<ISampleClass>(ResolveKind.PartialEmitFunction);
             });
@@ -82,13 +85,14 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.FactoryObject
         {
             var c = new Container();
             var emptyClass = new EmptyClass();
-            c.RegisterType<EmptyClass>(() => emptyClass).AsPerThread();
+            c.RegisterType(container => emptyClass).AsPerThread();
             c.RegisterType<ISampleClass, SampleClass>().AsPerThread();
             ISampleClass sampleClass1 = null;
             ISampleClass sampleClass2 = null;
 
 
-            var thread = new Thread(() => {
+            var thread = new Thread(container =>
+            {
                 sampleClass1 = c.Resolve<ISampleClass>(ResolveKind.PartialEmitFunction);
                 sampleClass2 = c.Resolve<ISampleClass>(ResolveKind.PartialEmitFunction);
             });

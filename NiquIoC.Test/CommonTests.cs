@@ -9,15 +9,37 @@ namespace NiquIoC.Test
     public class CommonTests
     {
         [TestMethod]
-        [ExpectedException(typeof(ResolveKindMissingException))]
+        [ExpectedException(typeof(ResolveKindNotImplementedException))]
         public void ClassNotRegistered_Fail()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
 
-            var sampleClass = c.Resolve<EmptyClass>((ResolveKind)3);
+            var emptyClass = c.Resolve<EmptyClass>((ResolveKind)3);
 
-            Assert.IsNull(sampleClass);
+            Assert.IsNull(emptyClass);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(MissingResolveKindException))]
+        public void Resolve_Without_Parameter_When_Container_Without_ResolveKind_Fail()
+        {
+            var c = new Container();
+            c.RegisterType<EmptyClass>();
+
+            var emptyClass = c.Resolve<EmptyClass>();
+
+            Assert.IsNull(emptyClass);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(MissingResolveKindException))]
+        public void BuildUp_Without_Parameter_When_Container_Without_ResolveKind_Fail()
+        {
+            var c = new Container();
+            var emptyClass = new EmptyClass();
+
+            c.BuildUp(emptyClass);
         }
     }
 }

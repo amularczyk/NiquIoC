@@ -42,7 +42,8 @@ namespace NiquIoC.Test.PartialEmitFunction.Transient.DependencyConstrutor
             c.RegisterType<SampleClassWithDependencyConstrutor>();
             c.RegisterType<SampleClassWithNestedClassWithDependencyConstrutor>();
 
-            var sampleClass = c.Resolve<SampleClassWithNestedClassWithDependencyConstrutor>(ResolveKind.PartialEmitFunction);
+            var sampleClass =
+                c.Resolve<SampleClassWithNestedClassWithDependencyConstrutor>(ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNotNull(sampleClass.SampleClassWithDependencyConstrutor);
