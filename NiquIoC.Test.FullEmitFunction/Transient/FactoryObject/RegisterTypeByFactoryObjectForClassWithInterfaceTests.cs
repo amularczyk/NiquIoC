@@ -12,7 +12,7 @@ namespace NiquIoC.Test.FullEmitFunction.Transient.FactoryObject
         {
             var c = new Container();
             IEmptyClass emptyClass = new EmptyClass();
-            c.RegisterType<SampleClassWithInterfaceAsParameter>(() => new SampleClassWithInterfaceAsParameter(emptyClass));
+            c.RegisterType(container => new SampleClassWithInterfaceAsParameter(emptyClass));
 
             var sampleClass1 = c.Resolve<SampleClassWithInterfaceAsParameter>(ResolveKind.FullEmitFunction);
             var sampleClass2 = c.Resolve<SampleClassWithInterfaceAsParameter>(ResolveKind.FullEmitFunction);
@@ -28,7 +28,7 @@ namespace NiquIoC.Test.FullEmitFunction.Transient.FactoryObject
             var c = new Container();
             IEmptyClass emptyClass = new EmptyClass();
             var sampleClass = new SampleClassWithInterfaceAsParameter(emptyClass);
-            c.RegisterType<SampleClassWithInterfaceAsParameter>(() => sampleClass);
+            c.RegisterType(container => sampleClass);
 
             var sampleClass1 = c.Resolve<SampleClassWithInterfaceAsParameter>(ResolveKind.FullEmitFunction);
             var sampleClass2 = c.Resolve<SampleClassWithInterfaceAsParameter>(ResolveKind.FullEmitFunction);
@@ -42,7 +42,7 @@ namespace NiquIoC.Test.FullEmitFunction.Transient.FactoryObject
         public void NestedFactoryObjectReturnNewObject_Success()
         {
             var c = new Container();
-            c.RegisterType<IEmptyClass>(() => new EmptyClass());
+            c.RegisterType<IEmptyClass>(container => new EmptyClass());
             c.RegisterType<SampleClassWithInterfaceAsParameter>();
 
             var sampleClass1 = c.Resolve<SampleClassWithInterfaceAsParameter>(ResolveKind.FullEmitFunction);
@@ -57,7 +57,7 @@ namespace NiquIoC.Test.FullEmitFunction.Transient.FactoryObject
         {
             var c = new Container();
             IEmptyClass emptyClass = new EmptyClass();
-            c.RegisterType<IEmptyClass>(() => emptyClass);
+            c.RegisterType(container => emptyClass);
             c.RegisterType<SampleClassWithInterfaceAsParameter>();
 
             var sampleClass1 = c.Resolve<SampleClassWithInterfaceAsParameter>(ResolveKind.FullEmitFunction);

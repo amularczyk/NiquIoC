@@ -16,7 +16,10 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread
             c.RegisterType<GenericClass<EmptyClass>>().AsPerThread();
             GenericClass<EmptyClass> genericClass = null;
 
-            var thread = new Thread(() => { genericClass = c.Resolve<GenericClass<EmptyClass>>(ResolveKind.PartialEmitFunction); });
+            var thread = new Thread(container =>
+            {
+                genericClass = c.Resolve<GenericClass<EmptyClass>>(ResolveKind.PartialEmitFunction);
+            });
             thread.Start();
             thread.Join();
 
@@ -33,7 +36,10 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread
             c.RegisterType<GenericClass<SampleClass>>().AsPerThread();
             GenericClass<SampleClass> genericClass = null;
 
-            var thread = new Thread(() => { genericClass = c.Resolve<GenericClass<SampleClass>>(ResolveKind.PartialEmitFunction); });
+            var thread = new Thread(container =>
+            {
+                genericClass = c.Resolve<GenericClass<SampleClass>>(ResolveKind.PartialEmitFunction);
+            });
             thread.Start();
             thread.Join();
 
@@ -51,7 +57,12 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread
             c.RegisterType<GenericClassWithManyParameters<EmptyClass, SampleClass>>().AsPerThread();
             GenericClassWithManyParameters<EmptyClass, SampleClass> genericClass = null;
 
-            var thread = new Thread(() => { genericClass = c.Resolve<GenericClassWithManyParameters<EmptyClass, SampleClass>>(ResolveKind.PartialEmitFunction); });
+            var thread = new Thread(container =>
+            {
+                genericClass =
+                    c.Resolve<GenericClassWithManyParameters<EmptyClass, SampleClass>>(ResolveKind
+                        .PartialEmitFunction);
+            });
             thread.Start();
             thread.Join();
 
@@ -98,10 +109,16 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread
             GenericClass<EmptyClass> genericClass1 = null;
             GenericClass<SampleClass> genericClass2 = null;
 
-            var thread1 = new Thread(() => { genericClass1 = c.Resolve<GenericClass<EmptyClass>>(ResolveKind.PartialEmitFunction); });
+            var thread1 = new Thread(container =>
+            {
+                genericClass1 = c.Resolve<GenericClass<EmptyClass>>(ResolveKind.PartialEmitFunction);
+            });
             thread1.Start();
             thread1.Join();
-            var thread2 = new Thread(() => { genericClass2 = c.Resolve<GenericClass<SampleClass>>(ResolveKind.PartialEmitFunction); });
+            var thread2 = new Thread(container =>
+            {
+                genericClass2 = c.Resolve<GenericClass<SampleClass>>(ResolveKind.PartialEmitFunction);
+            });
             thread2.Start();
             thread2.Join();
 

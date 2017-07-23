@@ -12,7 +12,7 @@ namespace NiquIoC.Test.FullEmitFunction.Singleton.FactoryObject
         {
             var c = new Container();
             IEmptyClass emptyClass = new EmptyClass();
-            c.RegisterType<SampleClassWithInterfaceAsParameter>(() => new SampleClassWithInterfaceAsParameter(emptyClass)).AsSingleton();
+            c.RegisterType(container => new SampleClassWithInterfaceAsParameter(emptyClass)).AsSingleton();
 
             var sampleClass1 = c.Resolve<SampleClassWithInterfaceAsParameter>(ResolveKind.FullEmitFunction);
             var sampleClass2 = c.Resolve<SampleClassWithInterfaceAsParameter>(ResolveKind.FullEmitFunction);
@@ -28,7 +28,7 @@ namespace NiquIoC.Test.FullEmitFunction.Singleton.FactoryObject
             var c = new Container();
             IEmptyClass emptyClass = new EmptyClass();
             var sampleClass = new SampleClassWithInterfaceAsParameter(emptyClass);
-            c.RegisterType<SampleClassWithInterfaceAsParameter>(() => sampleClass).AsSingleton();
+            c.RegisterType(container => sampleClass).AsSingleton();
 
             var sampleClass1 = c.Resolve<SampleClassWithInterfaceAsParameter>(ResolveKind.FullEmitFunction);
             var sampleClass2 = c.Resolve<SampleClassWithInterfaceAsParameter>(ResolveKind.FullEmitFunction);
@@ -42,7 +42,7 @@ namespace NiquIoC.Test.FullEmitFunction.Singleton.FactoryObject
         public void NestedFactoryObjectReturnNewObject_Success()
         {
             var c = new Container();
-            c.RegisterType<IEmptyClass>(() => new EmptyClass()).AsSingleton();
+            c.RegisterType<IEmptyClass>(container => new EmptyClass()).AsSingleton();
             c.RegisterType<SampleClassWithInterfaceAsParameter>().AsSingleton();
 
             var sampleClass1 = c.Resolve<SampleClassWithInterfaceAsParameter>(ResolveKind.FullEmitFunction);
@@ -57,7 +57,7 @@ namespace NiquIoC.Test.FullEmitFunction.Singleton.FactoryObject
         {
             var c = new Container();
             IEmptyClass emptyClass = new EmptyClass();
-            c.RegisterType<IEmptyClass>(() => emptyClass).AsSingleton();
+            c.RegisterType(container => emptyClass).AsSingleton();
             c.RegisterType<SampleClassWithInterfaceAsParameter>().AsSingleton();
 
             var sampleClass1 = c.Resolve<SampleClassWithInterfaceAsParameter>(ResolveKind.FullEmitFunction);

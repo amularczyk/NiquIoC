@@ -15,7 +15,8 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
             c.RegisterType<ISampleClassWithInterfaceMethod, SampleClassWithInterfaceDependencyMethod>();
 
 
-            var sampleClass = HttpContextTestsHelper.Initialize().ResolveObject<ISampleClassWithInterfaceMethod>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass = HttpContextTestsHelper.Initialize()
+                .ResolveObject<ISampleClassWithInterfaceMethod>(c, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass);
@@ -30,7 +31,8 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
             c.RegisterType<ISampleClassWithInterfaceMethod, SampleClassWithInterfaceDependencyMethod>();
 
 
-            var objs = HttpContextTestsHelper.Initialize().ResolveObjects<ISampleClassWithInterfaceMethod>(c, ResolveKind.PartialEmitFunction);
+            var objs = HttpContextTestsHelper.Initialize()
+                .ResolveObjects<ISampleClassWithInterfaceMethod>(c, ResolveKind.PartialEmitFunction);
             var sampleClass1 = objs.Item1;
             var sampleClass2 = objs.Item2;
 
@@ -49,8 +51,10 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
             c.RegisterType<ISampleClassWithInterfaceMethod, SampleClassWithInterfaceDependencyMethod>();
 
 
-            var sampleClass1 = HttpContextTestsHelper.Initialize().ResolveObject<ISampleClassWithInterfaceMethod>(c, ResolveKind.PartialEmitFunction);
-            var sampleClass2 = HttpContextTestsHelper.Initialize().ResolveObject<ISampleClassWithInterfaceMethod>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass1 = HttpContextTestsHelper.Initialize()
+                .ResolveObject<ISampleClassWithInterfaceMethod>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass2 = HttpContextTestsHelper.Initialize()
+                .ResolveObject<ISampleClassWithInterfaceMethod>(c, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass1.EmptyClass);
@@ -67,7 +71,8 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
             c.RegisterType<ISampleClassWithInterfaceMethod, SampleClassWithoutInterfaceDependencyMethod>();
 
 
-            var sampleClass = HttpContextTestsHelper.Initialize().ResolveObject<ISampleClassWithInterfaceMethod>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass = HttpContextTestsHelper.Initialize()
+                .ResolveObject<ISampleClassWithInterfaceMethod>(c, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass);
@@ -79,10 +84,13 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerHttpContext();
-            c.RegisterType<ISampleClassWithInterfaceMethodWithReturnType, SampleClassWithInterfaceDependencyMethodWithReturnType>();
+            c
+                .RegisterType<ISampleClassWithInterfaceMethodWithReturnType,
+                    SampleClassWithInterfaceDependencyMethodWithReturnType>();
 
 
-            var sampleClass = HttpContextTestsHelper.Initialize().ResolveObject<ISampleClassWithInterfaceMethodWithReturnType>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass = HttpContextTestsHelper.Initialize()
+                .ResolveObject<ISampleClassWithInterfaceMethodWithReturnType>(c, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass);
@@ -94,11 +102,15 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerHttpContext();
-            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsPerHttpContext();
-            c.RegisterType<ISampleClassWithManyInterfaceDependencyMethods, SampleClassWithManyInterfaceDependencyMethods>();
+            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>()
+                .AsPerHttpContext();
+            c
+                .RegisterType<ISampleClassWithManyInterfaceDependencyMethods,
+                    SampleClassWithManyInterfaceDependencyMethods>();
 
 
-            var sampleClass = HttpContextTestsHelper.Initialize().ResolveObject<ISampleClassWithManyInterfaceDependencyMethods>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass = HttpContextTestsHelper.Initialize()
+                .ResolveObject<ISampleClassWithManyInterfaceDependencyMethods>(c, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass.EmptyClass);
@@ -110,11 +122,15 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerHttpContext();
-            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsPerHttpContext();
-            c.RegisterType<ISampleClassWithManyInterfaceDependencyMethods, SampleClassWithManyInterfaceDependencyMethods>();
+            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>()
+                .AsPerHttpContext();
+            c
+                .RegisterType<ISampleClassWithManyInterfaceDependencyMethods,
+                    SampleClassWithManyInterfaceDependencyMethods>();
 
 
-            var objs = HttpContextTestsHelper.Initialize().ResolveObjects<ISampleClassWithManyInterfaceDependencyMethods>(c, ResolveKind.PartialEmitFunction);
+            var objs = HttpContextTestsHelper.Initialize()
+                .ResolveObjects<ISampleClassWithManyInterfaceDependencyMethods>(c, ResolveKind.PartialEmitFunction);
             var sampleClass1 = objs.Item1;
             var sampleClass2 = objs.Item2;
 
@@ -133,12 +149,17 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerHttpContext();
-            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsPerHttpContext();
-            c.RegisterType<ISampleClassWithManyInterfaceDependencyMethods, SampleClassWithManyInterfaceDependencyMethods>();
+            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>()
+                .AsPerHttpContext();
+            c
+                .RegisterType<ISampleClassWithManyInterfaceDependencyMethods,
+                    SampleClassWithManyInterfaceDependencyMethods>();
 
 
-            var sampleClass1 = HttpContextTestsHelper.Initialize().ResolveObject<ISampleClassWithManyInterfaceDependencyMethods>(c, ResolveKind.PartialEmitFunction);
-            var sampleClass2 = HttpContextTestsHelper.Initialize().ResolveObject<ISampleClassWithManyInterfaceDependencyMethods>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass1 = HttpContextTestsHelper.Initialize()
+                .ResolveObject<ISampleClassWithManyInterfaceDependencyMethods>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass2 = HttpContextTestsHelper.Initialize()
+                .ResolveObject<ISampleClassWithManyInterfaceDependencyMethods>(c, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass1.EmptyClass);
@@ -155,11 +176,16 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerHttpContext();
-            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsPerHttpContext();
-            c.RegisterType<ISampleClassWithManyInterfaceParametersInDependencyMethod, SampleClassWithManyInterfaceParametersInDependencyMethod>();
+            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>()
+                .AsPerHttpContext();
+            c
+                .RegisterType<ISampleClassWithManyInterfaceParametersInDependencyMethod,
+                    SampleClassWithManyInterfaceParametersInDependencyMethod>();
 
 
-            var sampleClass = HttpContextTestsHelper.Initialize().ResolveObject<ISampleClassWithManyInterfaceParametersInDependencyMethod>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass = HttpContextTestsHelper.Initialize()
+                .ResolveObject<ISampleClassWithManyInterfaceParametersInDependencyMethod>(c,
+                    ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass.EmptyClass);
@@ -167,15 +193,21 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
         }
 
         [TestMethod]
-        public void SameHttpContext_DifferentObjects_RegisterInterfaceWithManyInterfaceParametersInDependencyMethod_Success()
+        public void
+            SameHttpContext_DifferentObjects_RegisterInterfaceWithManyInterfaceParametersInDependencyMethod_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerHttpContext();
-            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsPerHttpContext();
-            c.RegisterType<ISampleClassWithManyInterfaceParametersInDependencyMethod, SampleClassWithManyInterfaceParametersInDependencyMethod>();
+            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>()
+                .AsPerHttpContext();
+            c
+                .RegisterType<ISampleClassWithManyInterfaceParametersInDependencyMethod,
+                    SampleClassWithManyInterfaceParametersInDependencyMethod>();
 
 
-            var objs = HttpContextTestsHelper.Initialize().ResolveObjects<ISampleClassWithManyInterfaceParametersInDependencyMethod>(c, ResolveKind.PartialEmitFunction);
+            var objs = HttpContextTestsHelper.Initialize()
+                .ResolveObjects<ISampleClassWithManyInterfaceParametersInDependencyMethod>(c,
+                    ResolveKind.PartialEmitFunction);
             var sampleClass1 = objs.Item1;
             var sampleClass2 = objs.Item2;
 
@@ -190,16 +222,24 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
         }
 
         [TestMethod]
-        public void DifferentHttpContexts_DifferentObjects_RegisterInterfaceWithManyInterfaceParametersInDependencyMethod_Success()
+        public void
+            DifferentHttpContexts_DifferentObjects_RegisterInterfaceWithManyInterfaceParametersInDependencyMethod_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerHttpContext();
-            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>().AsPerHttpContext();
-            c.RegisterType<ISampleClassWithManyInterfaceParametersInDependencyMethod, SampleClassWithManyInterfaceParametersInDependencyMethod>();
+            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>()
+                .AsPerHttpContext();
+            c
+                .RegisterType<ISampleClassWithManyInterfaceParametersInDependencyMethod,
+                    SampleClassWithManyInterfaceParametersInDependencyMethod>();
 
 
-            var sampleClass1 = HttpContextTestsHelper.Initialize().ResolveObject<ISampleClassWithManyInterfaceParametersInDependencyMethod>(c, ResolveKind.PartialEmitFunction);
-            var sampleClass2 = HttpContextTestsHelper.Initialize().ResolveObject<ISampleClassWithManyInterfaceParametersInDependencyMethod>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass1 = HttpContextTestsHelper.Initialize()
+                .ResolveObject<ISampleClassWithManyInterfaceParametersInDependencyMethod>(c,
+                    ResolveKind.PartialEmitFunction);
+            var sampleClass2 = HttpContextTestsHelper.Initialize()
+                .ResolveObject<ISampleClassWithManyInterfaceParametersInDependencyMethod>(c,
+                    ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass1.EmptyClass);
@@ -216,11 +256,15 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerHttpContext();
-            c.RegisterType<ISampleClassWithInterfaceMethod, SampleClassWithInterfaceDependencyMethod>().AsPerHttpContext();
-            c.RegisterType<ISampleClassWithNestedInterfaceDependencyMethod, SampleClassWithNestedInterfaceDependencyMethod>();
+            c.RegisterType<ISampleClassWithInterfaceMethod, SampleClassWithInterfaceDependencyMethod>()
+                .AsPerHttpContext();
+            c
+                .RegisterType<ISampleClassWithNestedInterfaceDependencyMethod,
+                    SampleClassWithNestedInterfaceDependencyMethod>();
 
 
-            var sampleClass = HttpContextTestsHelper.Initialize().ResolveObject<ISampleClassWithNestedInterfaceDependencyMethod>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass = HttpContextTestsHelper.Initialize()
+                .ResolveObject<ISampleClassWithNestedInterfaceDependencyMethod>(c, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass.SampleClass);
@@ -232,11 +276,15 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerHttpContext();
-            c.RegisterType<ISampleClassWithInterfaceMethod, SampleClassWithInterfaceDependencyMethod>().AsPerHttpContext();
-            c.RegisterType<ISampleClassWithNestedInterfaceDependencyMethod, SampleClassWithNestedInterfaceDependencyMethod>();
+            c.RegisterType<ISampleClassWithInterfaceMethod, SampleClassWithInterfaceDependencyMethod>()
+                .AsPerHttpContext();
+            c
+                .RegisterType<ISampleClassWithNestedInterfaceDependencyMethod,
+                    SampleClassWithNestedInterfaceDependencyMethod>();
 
 
-            var objs = HttpContextTestsHelper.Initialize().ResolveObjects<ISampleClassWithNestedInterfaceDependencyMethod>(c, ResolveKind.PartialEmitFunction);
+            var objs = HttpContextTestsHelper.Initialize()
+                .ResolveObjects<ISampleClassWithNestedInterfaceDependencyMethod>(c, ResolveKind.PartialEmitFunction);
             var sampleClass1 = objs.Item1;
             var sampleClass2 = objs.Item2;
 
@@ -251,16 +299,22 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
         }
 
         [TestMethod]
-        public void DifferentHttpContexts_DifferentObjects_RegisterInterfaceWithNestedInterfaceDependencyMethod_Success()
+        public void
+            DifferentHttpContexts_DifferentObjects_RegisterInterfaceWithNestedInterfaceDependencyMethod_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerHttpContext();
-            c.RegisterType<ISampleClassWithInterfaceMethod, SampleClassWithInterfaceDependencyMethod>().AsPerHttpContext();
-            c.RegisterType<ISampleClassWithNestedInterfaceDependencyMethod, SampleClassWithNestedInterfaceDependencyMethod>();
+            c.RegisterType<ISampleClassWithInterfaceMethod, SampleClassWithInterfaceDependencyMethod>()
+                .AsPerHttpContext();
+            c
+                .RegisterType<ISampleClassWithNestedInterfaceDependencyMethod,
+                    SampleClassWithNestedInterfaceDependencyMethod>();
 
 
-            var sampleClass1 = HttpContextTestsHelper.Initialize().ResolveObject<ISampleClassWithNestedInterfaceDependencyMethod>(c, ResolveKind.PartialEmitFunction);
-            var sampleClass2 = HttpContextTestsHelper.Initialize().ResolveObject<ISampleClassWithNestedInterfaceDependencyMethod>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass1 = HttpContextTestsHelper.Initialize()
+                .ResolveObject<ISampleClassWithNestedInterfaceDependencyMethod>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass2 = HttpContextTestsHelper.Initialize()
+                .ResolveObject<ISampleClassWithNestedInterfaceDependencyMethod>(c, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass1.SampleClass);

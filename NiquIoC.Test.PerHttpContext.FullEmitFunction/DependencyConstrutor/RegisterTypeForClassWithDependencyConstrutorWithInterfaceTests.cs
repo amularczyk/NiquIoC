@@ -18,8 +18,9 @@ namespace NiquIoC.Test.PerHttpContext.FullEmitFunction.DependencyConstrutor
 
 
             var sampleClass =
-                HttpContextTestsHelper.Initialize().ResolveObject<SampleClassWithInterfaceAsParameterWithDependencyConstrutor>(c,
-                    ResolveKind.FullEmitFunction);
+                HttpContextTestsHelper.Initialize()
+                    .ResolveObject<SampleClassWithInterfaceAsParameterWithDependencyConstrutor>(c,
+                        ResolveKind.FullEmitFunction);
 
 
             Assert.IsNotNull(sampleClass);
@@ -37,8 +38,9 @@ namespace NiquIoC.Test.PerHttpContext.FullEmitFunction.DependencyConstrutor
 
 
             var sampleClass =
-                HttpContextTestsHelper.Initialize().ResolveObject<SampleClassWithInterfaceAsParameterWithTwoDependencyConstrutor>(c,
-                    ResolveKind.FullEmitFunction);
+                HttpContextTestsHelper.Initialize()
+                    .ResolveObject<SampleClassWithInterfaceAsParameterWithTwoDependencyConstrutor>(c,
+                        ResolveKind.FullEmitFunction);
 
 
             Assert.IsNull(sampleClass);
@@ -58,8 +60,9 @@ namespace NiquIoC.Test.PerHttpContext.FullEmitFunction.DependencyConstrutor
 
 
             var sampleClass =
-                HttpContextTestsHelper.Initialize().ResolveObject<SampleClassWithNestedInterfaceAsParameterWithDependencyConstrutor>(c,
-                    ResolveKind.FullEmitFunction);
+                HttpContextTestsHelper.Initialize()
+                    .ResolveObject<SampleClassWithNestedInterfaceAsParameterWithDependencyConstrutor>(c,
+                        ResolveKind.FullEmitFunction);
 
 
             Assert.IsNotNull(sampleClass);

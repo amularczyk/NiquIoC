@@ -71,6 +71,7 @@ Wrocław, 2016
 \renewcommand*{\tablename}{Tab.} 
 \renewcommand{\captionsize}{\small}
 
+\setlength{\intextsep}{0pt}
 
 \clearpage
 
@@ -79,19 +80,68 @@ Wrocław, 2016
 
 
 \clearpage
+\begin{center}
+\textbf{Streszczenie}\\
+\vspace{16pt}
+\textbf{Stworzenie wydajnego wzorca wstrzykiwania zależności dla złożonych grafów zależności}
+\end{center}
+Wstrzykiwanie zależności jest to zbiór zasad projektowania oprogramowania, które umożliwiają luźne powiązania, a dzięki temu kod jest rozszerzalny i łatwiejszy w utrzymaniu. Celem tej pracy było stworzenie takiej realizacji, która będzie sprawdzała się dla złożonych grafów zależności. Aplikacja została napisana w języku C\# z wykorzystaniem przestrzeni nazw Reflecion.Emit oraz jest w pełni przetestowana. W aplikacji zaproponowano dwa rozwiązania, które działają niezależnie i można ich używać naprzemiennie. Testowy wydajnościowe zostały przeprowadzone przy użyciu aplikacji, która powstała na potrzeby tej pracy. Porównano w nich 5 najbardziej popularnych i 4 najszybsze rozwiązania. Końcowe wyniki wykazały, że z obecnie dostępnych rozwiązań na rynku, moje radzi sobie najlepiej.
 
-\section{Wstęp}
-\subsection{Cel pracy}
-Wstrzykiwanie zależnośc jest wzorcem projektowym, który pozwala na tworzenie kodu o luźniejszych powiązaniach, łatwiejszego w testowaniu i modyfikacji. Najbardziej popularnymi implementacjami tego wzorca w języku C\# są Unity i Ninject. Celem niniejszej pracy magisterskiej jest stworzenie wydajnej implementacji tego wzorca dla złożonych grafów zależności. Do tego celu zostanie wykorzystana funkcjolanosci z przestrzeni nazw Reflection.Emit. W tej pracy zostaną przedstawione dwa rozwiązania.
-
-\subsection{Układ pracy}
-Poza wstępem i podsumowaniem praca składa się jeszcze z trzech rozdziałów. W pierwszym znajduje się opis teoretyczny czym jest wstrzykiwanie zależności. Drugi rozdział opisuje moją implementację tego wzorca. Trzeci rozdział skupia się na testach wydajnościowych, w którym porównuję moją implementację z kilkoma najbardziej popularnym i kilkoma najszybszymi implementacjami.
 
 
 
 \clearpage
+\section{Wstęp}
+\subsection{Cel pracy}
+Wstrzykiwanie zależnośc jest wzorcem projektowym, który pozwala na tworzenie kodu o luźniejszych powiązaniach, łatwiejszego w testowaniu i modyfikacji. Najbardziej popularnymi implementacjami tego wzorca w języku C\# są Unity i Ninject. Niestety większość rozwiązań skupia się na zapewnieniu jak największej liczby funkcjonalności, co ma negatywne skutki jeśli chodzi o wydajność. O ile przy małej ilości zależności te czasy nie są zbyt duże, to wraz ze wzrostem zależności wydajność dość mocno daje o sobie znać. Celem niniejszej pracy magisterskiej jest stworzenie takiej implementacji tego wzorca, która będzie wydajna dla złożonych grafów zależności, ale również będzie dostarczać niezbędną funkcjonalności. Do tego celu zostaną wykorzystane mechanizmy z przestrzeni nazw Reflection.Emit. W tej pracy zostaną przedstawione dwa rozwiązania tego problemu.
 
-\section{Wstrzykiwanie zależnosci}
+\subsection{Układ pracy}
+Poza wstępem i podsumowaniem praca składa się jeszcze z czterech rozdziałów. Pierwszy z nich opisuje idee idące za wstrzykiwaniem zależności. W kolejnym znajduje się opis teoretyczny czym jest wstrzykiwanie zależności. Następny rozdział został poświęcony moje implementacji tego wzorca. Ostatni z tych czterech rozdziałów skupia się na testach wydajnościowych, w którym porównuję moje rozwiązanie z kilkoma najbardziej popularnym i kilkoma najwydajniejszymi rozwiązaniami.
+
+
+
+\clearpage
+\section{Odwrócenie zależności}
+\subsection{SOLID}
+Na przestrzeni lat powstało bardzo dużo projektów. Część z nich była łatwiejsza w utrzymaniu, część trudniejsza. Analizując te projekty ludzie doszli do wniosku, że są pewne zasady, które powodują, że projekty rozwija się łatwiej. Te zasady zostały połączone w zbiory zasad. Najbardziej popularnych i powrzechnie stosowanym zbiorem zasad jest SOLID \cite{SOLID}:
+\begin{itemize}
+	\item S (Single responsibility principle) - Klasa powinna mieć tylko jedną odpowiedzialność (nigdy nie powinien istnieć więcej niż jeden powód do modyfikacji klasy).
+	\item O (Open/closed principle) - Klasy powinny być otwarte na rozszerzenia i zamknięte na modyfikacje.
+	\item L (Liskov substitution principle) - Funkcje które używają klas bazowych, muszą być w stanie używać również obiektów klas dziedziczących po klasach bazowych, bez dokładnej znajomości tych obiektów.
+	\item I (Interface segregation principle) - Wiele dedykowanych interfejsów jest lepsze niż jeden ogólny.
+	\item D (Dependency inversion principle) - Wysokopoziomowe moduły nie powinny zależeć od modułów niskopoziomowych - zależności między nimi powinny wynikać z abstrakcji.
+\end{itemize}
+Ta praca w dużej mieże skupia się na rozwiązaniu dla zasady D - Dependency inversion principle. 
+
+\subsubsection{Przykład dla zasady D}
+Rysynek \ref{fig:Solid_without} przedstawia przykład przed zastosowaniem zasady D.\\
+\begin{figure}[H]
+	\begin{center}
+  		\includegraphics{Solid_without.png}
+  		\caption{Przykładowa klasa bez zasady D}
+  		\label{fig:Solid_without}
+	\end{center}
+\end{figure}
+Rysunek \ref{fig:Solid_with} przedstawia przykład po zastosowaniu zasady D.\\
+\begin{figure}[H]
+	\begin{center}
+  		\includegraphics{Solid_with.png}
+  		\caption{Przykładowa klasa z zasadą D}
+  		\label{fig:Solid_with}
+	\end{center}
+\end{figure}
+Łatwo zauważyć, że teraz klasę Bar nie interesuje implementacja klasy Foo. Jest ona od niej zupełnie niezależna. Spodziewa się jedynie, że dostanie implementację interfejsu IFoo, który dostarcza metodę DoSomeWork. Dzięki takiemu podejściu w łatwy sposób można podmienić implementację interfejsu IFoo w klasie Bar. Zatem tworząc ciało metody DoSomething w klasie Bar nie przejmujemy się implementacją metody DoSomeWork, tylko skupiamy się na tym co metoda DoSomething ma faktycznie robić.
+Kolejną zaletą takiego podejścia jest to, że teraz łatwy sposób można przetesować metodę DoSomething - można stworzyć przykładową implementację interfejsu IFoo lub użyć mock'a (zewnętrznej biblioteki, która stworzy pozorną implementację interfejsu za nas). Wcześniej ta metoda nie mogła zostać przetestować przed ukończeniem metody DoSomeWork.
+
+
+\subsection{Kontenery wstrzykiwania zależności}
+Aby można było z powodzeniem stosować zasadę D, należy mieć miejsce gdzie możnaby zdefiniować jakiej klasy obiekt należy podstawić w miejsce interfejsu. Do tego celu używa się kontenerów wstrzykiwania zależności.\\
+Kontenery dostarczają nam kilku funkcjonalności. Jedną z nich jest oczywiście możliwość zdefiniowania obiekt jakiej klasy należy zwrócić w miejsce konkretnego interfejsu, ale również umożliwiają stworzenie instancji obiektu konkretnej klasy lub interfejsu. Dodatkowo zapewniają sposobność do rozwiązywania zależności, czyli stworzenia obiektów od których danym obiekt zależy. Niektóre kontenery dostarzcają również mechanizmy pozwalające rozszerzyć tworzenie nowych instancji (co sprzyja osiągnięciu efektów programowania aspektowego).
+
+
+
+\clearpage
+\section{Wstrzykiwanie zależności}
 \subsection{Wstęp}
 Jest to zbiór zasad projektowania oprogramowania i wzorców, które pozwalają nam rozwijać luźno powiązany kod.\\
 Jakiemu celowi ma służyć wstrzykiwanie zależności? Wstrzykiwanie zależnści nie jestem celem samym w sobie, raczej jest to środek do celu. Ostatecznie celem większości technik programowania jest dostarczenie jak najwydajniej działającego oprogramowania. Jednym z aspektów tego jest napisanie utrzymywalnego kodu.\\
@@ -105,31 +155,36 @@ Wstrzykiwanie zależności może odbywać się na 3 sposoby:
 \end{itemize}
 
 \subsubsection{Wstrzykiwanie przez konstruktor}
-\begin{figure}[h]
-	\begin{raggedleft}
+Jest to główny i najbardziej popularny sposób wstrzykiwania zależności. Niektóre klasy mają kilka konstruktor i atrybut "DependencyConstructor" przydaje się wtedy do oznaczenia, który z nich ma zostać wybrany przy tworzeniu nowego obiektu. Jednakże nie zawsze jest on potrzebny. W większości przypadków klasy mają tylko jeden konstruktor, a także rozwiązania przemsysłowe mają logikę, która wybierze odpowiedni konstruktor (np. ten oznaczony atrybutem, albo ten co ma najwięcej parametrów, albo ten co ma najmniej parametrów). Przykład klasy z atrybutem DependencyConstructor przedstawia Rys. \ref{fig:DependencyConstructor}.\\
+\begin{figure}[H]
+	\begin{center}
   		\includegraphics{DependencyConstructor.png}
-	\end{raggedleft}
+  		\caption{Przykładowa klasa z atrybutem DependencyConstructor}
+  		\label{fig:DependencyConstructor}
+	\end{center}
 \end{figure}
-Jest to główny i najbardziej popularny sposób wstrzykiwania zależności. Niektóre klasy mają kilka konstruktor i atrybut "DependencyConstructor" przydaje się wtedy do oznaczenia, który z nich ma zostać wybrany przy tworzeniu nowego obiektu. Jednakże nie zawsze jest on potrzebny. W większości przypadków klasy mają tylko jeden konstruktor, a także rozwiązania przemsysłowe mają logikę, która wybierze odpowiedni konstruktor (np. ten oznaczony atrybutem, albo ten co ma najwięcej parametrów, albo ten co ma najmniej parametrów).
 
 \subsubsection{Wstrzykiwanie przez metodę}
-\begin{figure}[h]
-	\begin{raggedleft}
+W przemysłowych rozwiązaniach to wstrzykiwanie z reguły odbywa się albo poprzez oznaczenie metody przez którą chcemy wstrzyknąć zaleźności odpowiednim atrybutem, albo przy rejestracji danej klasy definiujemy przez jakie metody chcemy wstrzyknąć zależności. Przykład klasy z oznaczeniem metody odpowiednim atrybutem przedstawia Rys. \ref{fig:DependencyMethod}.\\
+\begin{figure}[H]
+	\begin{center}
   		\includegraphics{DependencyMethod.png}
-	\end{raggedleft}
+  		\caption{Przykładowa klasa z atrybutem DependencyMethod}
+  		\label{fig:DependencyMethod}
+	\end{center}
 \end{figure}
-W przemysłowych rozwiązaniach to wstrzykiwanie z reguły odbywa się albo poprzez oznaczenie metody przez którą chcemy wstrzyknąć zaleźności odpowiednim atrybutem, albo przy rejestracji danej klasy definijumey przez jakie metody chcemy wstrzyknąć zależności.
 
 \subsubsection{Wstrzykiwanie przez właściwość}
-\begin{figure}[h]
-	\begin{raggedleft}
+Tutaj podobnie jak dla wstrzykiwania przez metodę w przemysłowych rozwiązaniach to wstrzykiwanie z reguły odbywa się albo poprzez oznaczenie właściwoci przez którą chcemy wstrzyknąć zaleźności odpowiednim atrybutem, albo przy rejestracji danej klasy definijumey przez jakie właściwości chcemy wstrzyknąć zależności. Przykład klasy z oznaczeniem właściwości odpowiednim atrybutem przedstawia Rys. \ref{fig:DependencyProperty}.\\
+\begin{figure}[H]
+	\begin{center}
   		\includegraphics{DependencyProperty.png}
-	\end{raggedleft}
+  		\caption{Przykładowa klasa z atrybutem DependencyProperty}
+  		\label{fig:DependencyProperty}
+	\end{center}
 \end{figure}
-Tutaj podobnie jak dla wstrzykiwania przez metodę w przemysłowych rozwiązaniach to wstrzykiwanie z reguły odbywa się albo poprzez oznaczenie właściwoci przez którą chcemy wstrzyknąć zaleźności odpowiednim atrybutem, albo przy rejestracji danej klasy definijumey przez jakie właściwości chcemy wstrzyknąć zależności.
 
 
-\clearpage
 \subsection{Implementacje przemysłowe}
 Na rynku jest wiele implementacji wstrzykiwania zależności. Przedstawię tutaj kilka najbardziej popularnych (według ilości pobrań z NuGet) oraz kilka najszybszych (według rankingu na stronie: http://www.palmmedia.de/Blog/2011/8/30/ioc-container-benchmark-performance-comparison). Dane zostały wzięte z dnia 21-02-2017. W nawiasie znajduje się wersja implementacji, która została użyta w testach (najnowsza na ten dzień).\\
 \\
@@ -187,28 +242,54 @@ Przestrzeń nazw Reflection.Emit pozwala w języku C\# na stworzenie ciągu oper
 
 
 \subsection{Opis}
-Aplikacja składa się z 1 projektu i 8 projektów na potrzeby testów. Rozwiązanie jest skomplikowana i aby mieć pewność, że działa w pełni dobrze zostało stworzone  ponad 1200 testów jednostkowych, a pokrycie kodu testami wynosi ponad 97\%.\\
+Aplikacja składa się z 1 głównego projektu i 8 projektów na potrzeby testów. Rozwiązanie jest skomplikowana i aby mieć pewność, że działa w pełni dobrze, zostało stworzone  ponad 1250 testów jednostkowych, a pokrycie kodu testami wynosi ponad 97\%.\\
 
-W wykonanej implementacji został stworzony interfejs IConatiner, który definiuje operacje, jakie powinny się znaleźć w każdym kontenerze:
-\begin{figure}[h]
-	\begin{raggedleft}
+W wykonanej implementacji został stworzony interfejs IConatiner, który składa się z interfejsów zawierających niezbędne operacje, jakie powinny się znaleźć w każdym kontenerze (Rys. \ref{fig:IContainer}).\\
+\begin{figure}[H]
+	\begin{center}
   		\includegraphics{IContainer.png}
-	\end{raggedleft}
-\end{figure}\\
-Pierwsze cztery metody służą do rejestracji typów w kontenerze. Metoda piąta (Resolve) służy do tworzenia i zwracania obiektów wczeniej zarejestrowanych typów. Ostatnia metoda (BuildUp) do uzupełnienia istniejącej istancji obiektu z wykorzystaniem wstrzykiwania zależności przez metodę i właściwość - jest to metoda opcjonalna i nie każde przemysłowe rozwiązanie ją zawiera.\\
-Poniżej znajduje się dokładniejszy opis każdej z metod.
+  		\caption{Interfejs IContainer}
+  		\label{fig:IContainer}
+	\end{center}
+\end{figure}
+Pierwszy z tych interfejsów to IContainerRegister (Rys. \ref{fig:IContainerRegister}). Zawiera on metody służące do zarejestrowania typów w kontenerze.\\
+\begin{figure}[H]
+	\begin{center}
+  		\includegraphics{IContainerRegister.png}
+  		\caption{Interfejs IContainerRegister}
+  		\label{fig:IContainerRegister}
+	\end{center}
+\end{figure}
+Drugi z nich to IContainerResolve (Rys. \ref{fig:IContainerResolve}). Składa się on z metod odpowiedzialnych za  tworzenie i zwracanie obiektów wcześniej zarejestrowanych typów.\\ \\
+\begin{figure}[H]
+	\begin{center}
+  		\includegraphics{IContainerResolve.png}
+  		\caption{Interfejs IContainerResolve}
+  		\label{fig:IContainerResolve}
+	\end{center}
+\end{figure}
+Ostatni z tych interfejsów to IContainerBuildUp (Rys. \ref{fig:IContainerBuildUp}). Jego metody służą do uzupełnienia istniejącej instancji obiektu z wykorzystaniem wstrzykiwania zależności przez metodę i właściwość - są to operacje opcjonalna i nie każde przemysłowe rozwiązanie ją zawiera.\\ \\
+\begin{figure}[H]
+	\begin{center}
+  		\includegraphics{IContainerBuildUp.png}
+  		\caption{Interfejs IContainerBuildUp}
+  		\label{fig:IContainerBuildUp}
+	\end{center}
+\end{figure}
+Poniżej znajduje się dokładniejszy opis metod z każdego z powyższych interfejsów.
 
-\clearpage
 \subsubsection{Register}
-W pierwszej metodzie możemy zarejestrować zwykłe klasy. W drugiej interfejsy i klasy, które implementują dany interfejs lub klasy i klasy po nich dziedziczące. W trzeciej metodzie rejestrujemy klasę jako fabrykę obiektów - funkcję, która ma nam zwrócić pożądany obiekt. W czwartej natomiast możemy zarejestrować konkretną instancję danego typu.\\
+W pierwszej i drugiej metodzie interfejsu IContainerRegister możemy zarejestrować zwykłe klasy. W trzeciej i czwartej interfejsy oraz klasy, które implementują dany interfejs lub klasy i klasy po nich dziedziczące. W piątej i szóstej metodzie rejestrujemy klasę jako fabrykę obiektów - funkcję, która ma nam zwrócić pożądany obiekt. W siódmej (ostatniej) natomiast możemy zarejestrować konkretną instancję danego typu.\\
 W moim rozwiązaniu każdy typ może być zarejestrowany tylko raz - ponowna rejestracja tego samego typu nadpisuje istniejącą rejestrację.\\
-Każda z tych czterech metod rejestracji zwraca interfejs IContainerMember, który umożliwia nam zarejestrowanie danego typu z określonym menadżerem czasu życia (czyli implementacją interfejsu IObjectLifetimeManager). Jest to po to, ponieważ dla różnych przypadków biznesowych możemy potrzebować, aby obiekt danego typu miał konretny czas życia. Interfejs IContainerMember wygląda następująco:
-\begin{figure}[h]
-	\begin{raggedleft}
+Każda z tych siedmiu metod rejestracji zwraca interfejs IContainerMember (Rys. \ref{fig:IContainerMember}), który umożliwia nam zarejestrowanie danego typu z określonym menadżerem czasu życia (czyli implementacją interfejsu IObjectLifetimeManager - Rys. \ref{fig:IObjectLifetimeManager}). Zostało to tak zrobione, ponieważ dla różnych przypadków biznesowych możemy potrzebować, aby obiekt danego typu miał konkretny czas życia.\\ \\
+\begin{figure}[H]
+	\begin{center}
   		\includegraphics{IContainerMember.png}
-	\end{raggedleft}
-\end{figure}\\
-Pierwsze cztery metody tego interfejsu to wbudowane implementacje interfejsu IObjectLifetimeManager. Piąta metoda dostarcza możliwoć podania przez użytkownika jego własnej implementacji tego interfejsu. W moim rozwiązaniu każdy typ domyślnie ma czas życia Transient.\\
+  		\caption{Interfejs IContainerMember}
+  		\label{fig:IContainerMember}
+	\end{center}
+\end{figure}
+Pierwsze cztery metody interfejsu IContainerMember, to wbudowane implementacje interfejsu IObjectLifetimeManager. Piąta metoda dostarcza możliwość podania przez użytkownika jego własnej implementacji tego interfejsu. W moim rozwiązaniu każdy typ domyślnie ma czas życia Transient.\\
 \\
 Wyjaśnienie rozdajów czasu życia:
 \begin{itemize}
@@ -218,22 +299,22 @@ Wyjaśnienie rozdajów czasu życia:
 	\item PerHttpContext - wewnątrz danego żądania Http zwracany jest ten sam obiekt, ale dla innego żądania zwracany jest nowy (inny) obiekt
 \end{itemize}
 
-\clearpage
-Interfejs IObjectLifetimeManager prezentuje się tak:
-\begin{figure}[h]
-	\begin{raggedleft}
+W interfejsie IObjectLifetimeManager właściwość ObjectFactory służy do ustawienia funkcji, która zwraca obiekt. Metoda GetInstance służy do pobrania obiektu.\\
+W zależności od implementacji tego interfesju, to obiekt zwracany z metody GetInstance może być zawsze taki sam, zawsze różny albo taki sam tylko dla określonych sytuacji (np. taki sam dla tego samego wątku albo tego samego żądania http).\\ \\
+\begin{figure}[H]
+	\begin{center}
   		\includegraphics{IObjectLifetimeManager.png}
-	\end{raggedleft}
-\end{figure}\\
-Właściwość ObjectFactory służy do ustawienia funkcji, która zwraca obiekt. Metoda GetInstance służy do pobrania obiektu.\\
-W zależności od implementacji tego interfesju, to obiekt zwracany z metody GetInstance może być zawsze taki sam, zawsze różny albo taki sam tylko dla określonych sytuacji (np. taki sam dla tego samego wątku albo tego samego żądania http).
+  		\caption{Interfejs IObjectLifetimeManager}
+  		\label{fig:IObjectLifetimeManager}
+	\end{center}
+\end{figure}
 
 \subsubsection{Resolve}
-Metoda piąta - Resolve, jest to główna operacja. Register można nazwać sercem kontenera, a Resolve mózgiem. Odpowiada ona za stworzenie i zwrócenie obiektu odpowiedniego typu.\\
-W mojej pracy zaproponowałem dwa rozwiązania - PartialEmitFunction i FullEmitFunction, dlatego ta metoda jako parametr przyjmuje wartość enuma ResolveKind (dzięki temu w przyszłości może być ona w łatwy sposób rozszerzona o kolejne rozwiązania).
+Metody interfejsu IContainerResolve, są to głównymi operacjami. Register można nazwać sercem kontenera, a Resolve mózgiem. Każda z metod tego interfejsu odpowiada za stworzenie i zwrócenie obiektu odpowiedniego typu.\\
+W mojej pracy zaproponowałem dwa rozwiązania - PartialEmitFunction i FullEmitFunction, dlatego te metody jako parametr przyjmuje wartość enuma ResolveKind (dzięki temu w przyszłości może być ona w łatwy sposób rozszerzona o kolejne rozwiązania). W interfejsie znajdują się również metody, które nie przyjmują tego parametru - zostały one dodane na wypadek, gdy ktoś będzie zawsze korzystał tylko z jednego z rozwiązań (może ustawić je jako domyślne np. w konstruktorze).
 
 \subsubsection{BuildUp}
-Szósta metoda to taki dodatek - gdy mamy stworzony obiekt, ale nie jest w pełni uzupełniony, wtedy możemy go zbudować (używająć odpowiedniej wartości z enuma ResolveKind). Z tą metodą są powiązane bezpośrednio dwa pojęcia - wstrzykiwanie przez metodę i wstrzykiwanie przez właściwość. Do tego celu w moim rozwiążaniu stworzyłem dwa atrybuty:
+Interfejs IContainerBuildUp to taki dodatek - gdy mamy stworzony obiekt, ale nie jest on w pełni uzupełniony, to możemy go rozbudować (używająć metody z odpowiednią wartością enuma ResolveKind lub tej z wartością domyślną). Z metodami tego interfejsu są powiązane bezpośrednio dwa pojęcia - wstrzykiwanie przez metodę i wstrzykiwanie przez właściwość. Do tego celu w moim rozwiążaniu stworzyłem dwa atrybuty:
 \begin{itemize}
 	\item DependencyMethod (dla metod)
 	\item DependencyProperty (dla właściwości)
@@ -265,17 +346,12 @@ Gdy mamy rozbudowane grafy zależności, to często zdaża się, że niektóre t
 W mojej implementacji stworzyłem dwie strategie, które realizują te założenia. Pierwszy krok jest taki sam dla obu rozwiązań (uzyskanie informacji jakich typów obiekty są potrzebne do stworzenia danego obiektu), natomiast kolejne kroki już się różnią. W pierwszym rozwiązaniu, które nazwałem PartialEmitFunction całym process tworzenia nowego obiektu został rozbity na mniejsze części (docelowy obiekt jest tworzony po kawałku). Każda taka osobna część jest zapisywana w pamięci podręcznej. W drugim rozwiązaniu w pamięci podręcznej jest zapisana tylko jedna operacja. Zawiera ona listę wszystkich kroków, które są niezbędne do stworzenia docelowego obiektu. Więc finalnie docelowy obiekt jest tworzony przy pomocy jednej operacji (kroki drugi i trzeci są połączone). To rozwiązanie nazwałem FullEmitFunction.\\
 W obu rozwiązaniach do zapamiętania kroków potrzebnych do stworzenia obiektu danego typu wykorzystałem operacje z przestrzeni nazw Reflection.Emit.
 
-\subsubsection{Krok pierwszy}
-Na początku algorytmu znajdujemy odpowiedni kontstruktor, przy pomocy którego ma zostać stworzony nowy obiekt. Jeśli robimy to poraz pierwszy dla danego typu, to informację o tym konstruktorze zapisujemy w pamięci podręcznej. Do tego celu została użyta struktura danych Dictionary, gdzie kluczem jest typ obiektu, a wartością obiekt klasy ContainerMember (w którym przechowujemy wszystkie zapamiętane informacje dla danego typu). Następnym krokiem, jest rekurencyjne wywołanie tej operacji dla wszystkich typów, których obiekty są niezbędne do stworzenia obiektu docelowego typu.\\
-W tej operacji jest kilka wyjątków - są nimi typy zarejestrowane jako Instance albo FactoryObject. Dla pierwszego przypadku nie musimy uzyskiwać informacji o tym jak stworzyć obiekt takiego  typu, ponieważ mamy już taki obiekt stworzony i go po prostu wykorzystamy. Dla drugiego przypadku obiekt tworzony jest przy użyciu wcześniej zdefiniowanej przez użytkownika funkcji, której wywołanie spowoduje stworzenie obiektu oczekiwanego typu.
 \clearpage
-Klasa ContainerMember prezentuje się następująco:
-\begin{figure}[h]
-	\begin{raggedleft}
-  		\includegraphics{ContainerMember.png}
-	\end{raggedleft}
-\end{figure}\\
-Ta klasa przechowuje:
+\subsubsection{Krok pierwszy}
+Na początku algorytmu znajdujemy odpowiedni konstruktor, przy pomocy którego ma zostać stworzony nowy obiekt. Jeśli robimy to poraz pierwszy dla danego typu, to informację o tym konstruktorze zapisujemy w pamięci podręcznej. Do tego celu została użyta struktura danych Dictionary, gdzie kluczem jest typ obiektu, a wartością obiekt klasy ContainerMember (Rys. \ref{fig:ContainerMember}), w którym przechowujemy wszystkie zapamiętane informacje dla danego typu. Następnym krokiem, jest rekurencyjne wywołanie tej operacji dla wszystkich typów, których obiekty są niezbędne do stworzenia obiektu docelowego typu.\\
+W tej operacji jest kilka wyjątków - są nimi typy zarejestrowane jako Instance albo FactoryObject. Dla pierwszego przypadku nie musimy uzyskiwać informacji o tym jak stworzyć obiekt takiego  typu, ponieważ mamy już taki obiekt stworzony i go po prostu wykorzystamy. Dla drugiego przypadku obiekt tworzony jest przy użyciu wcześniej zdefiniowanej przez użytkownika funkcji, której wywołanie spowoduje stworzenie obiektu oczekiwanego typu.\\
+
+Klasa ContainerMember przechowuje:
 \begin{itemize}
 	\item Informacje o konstruktor, przy pomocy którego należy utworzyć obiekt danego typu.
 	\item Informacje o parametrach tego konstruktora.
@@ -288,28 +364,45 @@ Ta klasa przechowuje:
 	\item Informacje o menadżerze cyklu życia.
 \end{itemize}
 
+\begin{figure}[H]
+	\begin{center}
+  		\includegraphics{ContainerMember.png}
+  		\caption{Klasa ContainerMember}
+  		\label{fig:ContainerMember}
+	\end{center}
+\end{figure}
+
 \subsubsection{Rozwiązanie 1 - PartialEmitFunction}
-Cały algorytm jest zawarty w metodzie Resolve. Sama ta metoda jest dość krótka, ale wywołuje ona kolejne metody (które już są dłuższe).\\
+Cały algorytm jest zawarty w metodzie Resolve (Rys. \ref{fig:PartialEmitFunction_Resolve}). Sama ta metoda jest dość krótka, ale wywołuje ona kolejne metody (które już są dłuższe).\\
 Docelowy obiekt jest tworzony przy pomocy funkcji. Na początku sprawdzamy, czy już wcześniej utworzyliśmy taką funkcję (jeśli tak, będzie on zapisany w klasie ContainerMember we właściwoci ObjectLifetimeManager). Wywołanie funkcji kończy działanie algorytmu. Jeśli funkcja nie została jeszcze wcześniej utworzona, to ją tworzymy.\\
-Funkcja ta nie przyjmuje żadnych parametrów, a jej typem wynikowym jest obiekt. Ciało tej funkcji jest bardzo proste - po prostu ma ona wykonać metodę i zwrócić jej rezultat, którym jest nasz docelowy obiekt.
-\begin{figure}[h]
-	\begin{raggedleft}
+Funkcja ta nie przyjmuje żadnych parametrów, a jej typem wynikowym jest obiekt. Ciało tej funkcji jest bardzo proste - po prostu ma ona wykonać metodę i zwrócić jej rezultat, którym jest nasz docelowy obiekt.\\ \\
+\begin{figure}[H]
+	\begin{center}
   		\includegraphics{PartialEmitFunction_Resolve.png}
-	\end{raggedleft}
-\end{figure}\\
-Metoda GetObject jest trochę bardziej rozbudowana. Na początku pobieramy informacje o parametrach konstruktora danego typu. Następnie dla każdego z tych parametrów tworzomy obiekt (o docelowym typie) przy pomocy funkcji Resolve (opisanej wyżej). Korzystamy tutaj z rekurencji. Gdy już mamy stworzone obiekty dla każdego z parametrów konstruktora, to listę tych parametrów przekazujemy do metody CreateInstanceFunction, która zwróci nam instancję obiektu oczekiwanego typu. Na koniec wywołujemy callback afterObjectCreate i zwracamy nasz obiekt.
-\begin{figure}[h]
-	\begin{raggedleft}
+  		\caption{Metoda Resolve klasy PartialEmitFunction}
+  		\label{fig:PartialEmitFunction_Resolve}
+	\end{center}
+\end{figure}
+
+Metoda GetObject (Rys. \ref{fig:PartialEmitFunction_GetObject}) jest trochę bardziej rozbudowana. Na początku pobieramy informacje o parametrach konstruktora danego typu. Następnie dla każdego z tych parametrów tworzomy obiekt (o docelowym typie) przy pomocy funkcji Resolve (opisanej wyżej). Korzystamy tutaj z rekurencji. Gdy już mamy stworzone obiekty dla każdego z parametrów konstruktora, to listę tych parametrów przekazujemy do metody CreateInstanceFunction, która zwróci nam instancję obiektu oczekiwanego typu. Na koniec wywołujemy callback afterObjectCreate i zwracamy nasz obiekt.\\ \\
+\begin{figure}[H]
+	\begin{center}
   		\includegraphics{PartialEmitFunction_GetObject.png}
-	\end{raggedleft}
-\end{figure}\\
-Na początku metody CreateInstanceFunction sprawdzamy, czy mamy utworzoną funkcję, która umie zwrócić obiekt docelowego typu. Jeśli tak, to przy pomocy tej funkcji tworzymy obiekt  i go zwracamy. Ta funckja jako argument przyjmuje listę obiektów w kolejności zgodnej z listą parametrów konstruktora. Jeśli nie, to przy pomocy metody CreateObjectFunction tworzymy taką funkcję, a następnie zapisujemy ją w pamięci podręcznej (również w strukturze Dictionary, której kluczem jest type, a wartością jest funkcja).
-\begin{figure}[h]
-	\begin{raggedleft}
+  		\caption{Metoda GetObject klasy PartialEmitFunction}
+  		\label{fig:PartialEmitFunction_GetObject}
+	\end{center}
+\end{figure}
+
+Na początku metody CreateInstanceFunction (Rys. \ref{fig:PartialEmitFunction_CreateInstanceFunction}) sprawdzamy, czy mamy utworzoną funkcję, która umie zwrócić obiekt docelowego typu. Jeśli tak, to przy pomocy tej funkcji tworzymy obiekt  i go zwracamy. Ta funckja jako argument przyjmuje listę obiektów w kolejności zgodnej z listą parametrów konstruktora. Jeśli nie, to przy pomocy metody CreateObjectFunction tworzymy taką funkcję, a następnie zapisujemy ją w pamięci podręcznej (również w strukturze Dictionary, której kluczem jest type, a wartością jest funkcja).\\ \\
+\begin{figure}[H]
+	\begin{center}
   		\includegraphics{PartialEmitFunction_CreateInstanceFunction.png}
-	\end{raggedleft}
-\end{figure}\\
-CreateObjectFunction jest najbardziej zaawansowaną metodą w tym algorytmie. To w niej korzystamy z metod z przestrzeni nazw Reflection.Emit.\\
+  		\caption{Metoda CreateInstanceFunction klasy PartialEmitFunction}
+  		\label{fig:PartialEmitFunction_CreateInstanceFunction}
+	\end{center}
+\end{figure}
+
+CreateObjectFunction (Rys. \ref{fig:PartialEmitFunction_CreateObjectFunction}) jest najbardziej zaawansowaną metodą w tym algorytmie. To w niej korzystamy z metod z przestrzeni nazw Reflection.Emit.\\
 Na początku pobieramy informacje o konstruktorze. Następnie tworzymy DynamicMethod i z niej pobieramy ILGenerator. W nim będziemy przechowywać listę kroków niezbędnych do utworzenia docelowego obiektu.\\
 Dla każdego z parametrów konstruktora wykonujemy następujące operacje:
 \begin{enumerate}
@@ -320,71 +413,94 @@ Dla każdego z parametrów konstruktora wykonujemy następujące operacje:
 	\item Dodaj do listy kroków operację, która zrzutuje obiekt ze szczytu stosu na odpowiedni typ.
 \end{enumerate}
 Po wykonaniu kroków z listy na stosie będziemy mieli wszystkie obiekty, które są wymagane przez konstruktor do utworzenia danego typu. Teraz więc do listy kroków dodajemy operację, która stworzy obiekty przy pomocy danego konstruktora i umieści go na szczycie stosu. Na koniec dodajemy krok, który zwróci nam obiekt ze szczytu stosu.\\
-Wszystkie kroki niezbędne do stworzenia nowego elementu są zapisane w zmiennej typu DynamicMethod. Jako ostatnią operację w metodzie CreateObjectFunction, ze zmiennej typu DynamicMethod, tworzymy i zwracamy delegata, który jako parametr będzie przyjmował tablicę obiektów (nasza lista obiektów zgodna z parametrami konstruktora), a zwracał obiekt (nasz docelowy obiekt).
-\begin{figure}[h]
-	\begin{raggedleft}
+Wszystkie kroki niezbędne do stworzenia nowego elementu są zapisane w zmiennej typu DynamicMethod. Jako ostatnią operację w metodzie CreateObjectFunction, ze zmiennej typu DynamicMethod, tworzymy i zwracamy delegata, który jako parametr będzie przyjmował tablicę obiektów (nasza lista obiektów zgodna z parametrami konstruktora), a zwracał obiekt (nasz docelowy obiekt).\\ \\
+\begin{figure}[H]
+	\begin{center}
   		\includegraphics{PartialEmitFunction_CreateObjectFunction.png}
-	\end{raggedleft}
+  		\caption{Metoda CreateObjectFunction klasy PartialEmitFunction}
+  		\label{fig:PartialEmitFunction_CreateObjectFunction}
+	\end{center}
 \end{figure}
 
-\clearpage
 \subsubsection{Rozwiązanie 2 - FullEmitFunction}
-Tutaj podobnie jak dla PartialEmitFunction cały algorytm zawarty jest w metodzie Resolve. Wygląda ona identycznie jak w rozwiązaniu 1 - docelowy obiekt jest tworzony przy pomocy funkcji, która woła w sobię metodę GetObject. Jeśli funkcji nie ma w zapisanej w pamięci, to ją tworzymy i zapisuje. Na końcu ją wywołujemy.
-\begin{figure}[h]
-	\begin{raggedleft}
+Tutaj podobnie jak dla PartialEmitFunction cały algorytm zawarty jest w metodzie Resolve (Rys. \ref{fig:FullEmitFunction_Resolve}). Wygląda ona identycznie jak w rozwiązaniu 1 - docelowy obiekt jest tworzony przy pomocy funkcji, która woła w sobię metodę GetObject. Jeśli funkcji nie ma w zapisanej w pamięci, to ją tworzymy i zapisuje. Na końcu ją wywołujemy.\\ \\
+\begin{figure}[H]
+	\begin{center}
   		\includegraphics{FullEmitFunction_Resolve.png}
-	\end{raggedleft}
-\end{figure}\\
-Metoda GetObject wygląda trochę inaczej. Nie pobieramy tutaj żadnych dodatkowych informacji, tylko od razu wywołujemy metodę CreateInstanceFunction, która zwróci nam instancję obiektu oczekiwanego typu. Na koniec również wywołujemy callback afterObjectCreate i zwracamy nasz obiekt.
-\begin{figure}[h]
-	\begin{raggedleft}
+  		\caption{Metoda Resolve klasy FullEmitFunction}
+  		\label{fig:FullEmitFunction_Resolve}
+	\end{center}
+\end{figure}
+
+Metoda GetObject (Rys. \ref{fig:FullEmitFunction_GetObject}) wygląda trochę inaczej. Nie pobieramy tutaj żadnych dodatkowych informacji, tylko od razu wywołujemy metodę CreateInstanceFunction, która zwróci nam instancję obiektu oczekiwanego typu. Na koniec również wywołujemy callback afterObjectCreate i zwracamy nasz obiekt.\\ \\
+\begin{figure}[H]
+	\begin{center}
   		\includegraphics{FullEmitFunction_GetObject.png}
-	\end{raggedleft}
-\end{figure}\\
-CreateInstanceFunction ma jeden dodatkowy krok względem rozwiązania 1. Na początku również sprawdzamy, czy mamy utworzoną funkcję, która umie zwrócić obiekt docelowego typu. Jeśli nie, to przy pomocy metody CreateObjectFunction tworzymy taką funkcję, a następnie zapisujemy ją w pamięci podręcznej (również w strukturze Dictionary, której kluczem jest type, a wartością jest typ pomocniczy FullEmitFunctionResult, który ma tylko jedną właściwość - Result typu funkcja). Następnym krokiem jest zwalidowanie zapisanych danych dla typów przy pomocy metody ValidateTypesCache. Na końcu funkcji tworzymy obiekt  i go zwracamy. Tutaj funckja jako argument przyjmuje dwa słowniki. Pierwszy zawiera informacje o typie (kluczem jest typ, a wartością obiekt ContainerMember), a drugi informacje o indeksie typu (kluczem jest liczba oznaczając hasz danego typu, a wartością typ).\\
-Najpierw opiszę metodę ValidateTypesCache, ponieważ nie wywołuje ona w sobie żadnych innych metod.
-\begin{figure}[h]
-	\begin{raggedleft}
+  		\caption{Metoda GetObject klasy FullEmitFunction}
+  		\label{fig:FullEmitFunction_GetObject}
+	\end{center}
+\end{figure}
+
+CreateInstanceFunction (Rys. \ref{fig:FullEmitFunction_CreateInstanceFunction}) ma jeden dodatkowy krok względem rozwiązania 1. Na początku również sprawdzamy, czy mamy utworzoną funkcję, która umie zwrócić obiekt docelowego typu. Jeśli nie, to przy pomocy metody CreateObjectFunction tworzymy taką funkcję, a następnie zapisujemy ją w pamięci podręcznej (również w strukturze Dictionary, której kluczem jest type, a wartością jest typ pomocniczy FullEmitFunctionResult, który ma tylko jedną właściwość - Result typu funkcja). Następnym krokiem jest zwalidowanie zapisanych danych dla typów przy pomocy metody ValidateTypesCache. Na końcu funkcji tworzymy obiekt  i go zwracamy. Tutaj funckja jako argument przyjmuje dwa słowniki. Pierwszy zawiera informacje o typie (kluczem jest typ, a wartością obiekt ContainerMember), a drugi informacje o indeksie typu (kluczem jest liczba oznaczając hasz danego typu, a wartością typ).\\
+Najpierw opiszę metodę ValidateTypesCache, ponieważ nie wywołuje ona w sobie żadnej innej metody.\\ \\
+\begin{figure}[H]
+	\begin{center}
   		\includegraphics{FullEmitFunction_CreateInstanceFunction.png}
-	\end{raggedleft}
-\end{figure}\\
-W pierwszym kroku metody ValidateTypesCache sprawdzamy, czy od ostatniego zapisywania danych o typach w pamięci podręcznej jakiś typ został zarejestorwany w kontenerze (lub czy jest to pierwsze zapisanie tych danych). Jeśli tak, to tworzymy z zarejestrowanych typów tworzymy słownik, w którym kluczem jest hasz typu, a wartością typ. Potem aktualizujemy liczbę aktualnie zarejestrowanych typów.
-\begin{figure}[h]
-	\begin{raggedleft}
+  		\caption{Metoda CreateInstanceFunction klasy FullEmitFunction}
+  		\label{fig:FullEmitFunction_CreateInstanceFunction}
+	\end{center}
+\end{figure}
+
+W pierwszym kroku metody ValidateTypesCache sprawdzamy (Rys. \ref{fig:FullEmitFunction_ValidateTypesCache}), czy od ostatniego zapisywania danych o typach w pamięci podręcznej jakiś typ został zarejestorwany w kontenerze (lub czy jest to pierwsze zapisanie tych danych). Jeśli tak, to tworzymy z zarejestrowanych typów tworzymy słownik, w którym kluczem jest hasz typu, a wartością typ. Potem aktualizujemy liczbę aktualnie zarejestrowanych typów.\\ \\
+\begin{figure}[H]
+	\begin{center}
   		\includegraphics{FullEmitFunction_ValidateTypesCache.png}
-	\end{raggedleft}
-\end{figure}\\
-Metoda CreateObjectFunction jest dużo bardziej rozbudowana niż w rozwiązaniu 1. W niej również korzystamy z metod z przestrzeni nazw Reflection.Emit.\\
+  		\caption{Metoda ValidateTypesCache klasy FullEmitFunction}
+  		\label{fig:FullEmitFunction_ValidateTypesCache}
+	\end{center}
+\end{figure}
+
+Metoda CreateObjectFunction (Rys. \ref{fig:FullEmitFunction_CreateObjectFunction}) jest dużo bardziej rozbudowana niż w rozwiązaniu 1. W niej również korzystamy z metod z przestrzeni nazw Reflection.Emit.\\
 Na początku tworzymy DynamicMethod i z niej pobieramy ILGenerator, w którym będziemy przechowywać listę kroków niezbędnych do utworzenia docelowego obiektu.\\
 Dla każdego z parametrów konstruktora wywołujemy metodę CreateObjectFunctionPrivate, która uzupełni listę kroków o tworzenie pośrednich obiektów. To w tym miejscu jest główna różnica między oboma rozwiązaniami - w pierwszym rozwiązaniu w liście kroków nie przejmowaliśmy się utworzeniem pośrednich obiektów, ponieważ przychodziły one jako parametr. W tym rozwiązaniu lista kroków będzie również zawierać kroki do utworzenia wszystkich obiektów pośrednich (obiektów wymaganych przez konstruktory).\\
 Dalsze operacje są takie same jak w rozwiązaniu 1 - do listy kroków dodajemy operację, która stworzy obiekty przy pomocy danego konstruktora i umieści go na szczycie stosu, a następnie dodajemy operację, który zwróci nam obiekt ze szczytu stosu.\\
-Na końcu ze zmiennej typu DynamicMethod tworzymy delegata i go zwracamy. Delegat będzie przyjmował dwa parametry - oba typu Dictionaty. Jeden z informacjami o type, a drugi z informacjiami o indeksie typu.
-\begin{figure}[h]
-	\begin{raggedleft}
+Na końcu ze zmiennej typu DynamicMethod tworzymy delegata i go zwracamy. Delegat będzie przyjmował dwa parametry - oba typu Dictionaty. Jeden z informacjami o type, a drugi z informacjiami o indeksie typu.\\ \\
+\begin{figure}[H]
+	\begin{center}
   		\includegraphics{FullEmitFunction_CreateObjectFunction.png}
-	\end{raggedleft}
-\end{figure}\\
-W metodzie CreateObjectFunctionPrivate mamy trzy przypadki. W pierwszych dwóch przypadkach pomijamy obiekty, które zostały zarejestrowane jako Instance albo FactoryObject (określa to parametr ShouldCreateCache z obiektu typu ContainerMember).
-\begin{figure}[h]
-	\begin{raggedleft}
+  		\caption{Metoda CreateObjectFunction klasy FullEmitFunction}
+  		\label{fig:FullEmitFunction_CreateObjectFunction}
+	\end{center}
+\end{figure}
+
+W metodzie CreateObjectFunctionPrivate (Rys. \ref{fig:FullEmitFunction_CreateObjectFunctionPrivate}) mamy trzy przypadki. W pierwszych dwóch przypadkach pomijamy obiekty, które zostały zarejestrowane jako Instance albo FactoryObject (określa to parametr ShouldCreateCache z obiektu typu ContainerMember).\\
+\begin{figure}[H]
+	\begin{center}
   		\includegraphics{FullEmitFunction_CreateObjectFunctionPrivate.png}
-	\end{raggedleft}
-\end{figure}\\
-Pierwszy przypadek, to gdy typu jest Transient (obiekt został zarejestrowany jako Transient).\\
-Wtedy dla każdego z parametrów konstruktora wywołujemy rekurencyjnie tę metodę (CreateObjectFunctionPrivate), a na koniec do listy kroków dodajemy operację, która stworzy obiekty przy pomocy danego konstruktora i umieści go na szczycie stosu.
-\begin{figure}[h]
-	\begin{raggedleft}
+  		\caption{Metoda CreateObjectFunctionPrivate klasy FullEmitFunction}
+  		\label{fig:FullEmitFunction_CreateObjectFunctionPrivate}
+	\end{center}
+\end{figure}
+
+Pierwszy przypadek, to gdy typ został zarejestrowany jako Transient -  Rys. \ref{fig:FullEmitFunction_IsTransient}. Wtedy dla każdego z parametrów konstruktora wywołujemy rekurencyjnie tę metodę (CreateObjectFunctionPrivate), a na koniec do listy kroków dodajemy operację, która stworzy obiekty przy pomocy danego konstruktora i umieści go na szczycie stosu.\\ \\
+\begin{figure}[H]
+	\begin{center}
   		\includegraphics{FullEmitFunction_IsTransient.png}
-	\end{raggedleft}
-\end{figure}\\
-W drugim przypadeku typ musi być singletonem (został on zarejestrowany jako Singleton, PerThread lub PerHttpContext).\\
-Na początku sprawdzamy czy już wcześniej natrafiliśmy na ten typ. Jeśli tak, to z pamięci podręcznej pobieramy zmienną lokalną dla danego typu, a następnie do listy kroków dodajemy operację, która doda na szczyt stosu obiekt z tej zmiennej. Jeśli nie, to najpierw tworzymy nową zmienną lokalną dla danego typu i zapisuje ją w pamięci podręcznej (wykorzystujemy do tego słownik, gdzie kluczem jest typ, a wartością obiekt typu LocalBuilder). Następnie wywołujemy metodę AddObjectCreatedByObjectLifetimeManager. Na końcu dodajemy dwie operacje. Pierwsza z nich zdejmie obiekt ze szczytu stosu i zapisze go w zmiennej lokalnej, a druga umieści na szczycie stosu obiekt z tej zmiennej lokalnej. Jest to po to, ponieważ na szczycie stosu chcemy mieć dany obiekt, ale również chcemy zapamiętać sobie dany obiekt, aby nie trzeba było go tworzyć, jeśli będzie potrzebny poraz drugi (obiekt jest singletonem, więc za każdym razem będziemy chcieli mieć ten sam obiekt - w kontekście tworzenia danego typu, czyli jednej operacji Resolve).
-\begin{figure}[h]
-	\begin{raggedleft}
+  		\caption{Metoda IsTransient klasy FullEmitFunction}
+  		\label{fig:FullEmitFunction_IsTransient}
+	\end{center}
+\end{figure}
+
+W drugim przypadeku typ musi być singletonem (został on zarejestrowany jako Singleton, PerThread lub PerHttpContext) -  Rys. \ref{fig:FullEmitFunction_IsSingleton}. Na początku sprawdzamy czy już wcześniej natrafiliśmy na ten typ. Jeśli tak, to z pamięci podręcznej pobieramy zmienną lokalną dla danego typu, a następnie do listy kroków dodajemy operację, która doda na szczyt stosu obiekt z tej zmiennej. Jeśli nie, to najpierw tworzymy nową zmienną lokalną dla danego typu i zapisuje ją w pamięci podręcznej (wykorzystujemy do tego słownik, gdzie kluczem jest typ, a wartością obiekt typu LocalBuilder). Następnie wywołujemy metodę AddObjectCreatedByObjectLifetimeManager. Na końcu dodajemy dwie operacje. Pierwsza z nich zdejmie obiekt ze szczytu stosu i zapisze go w zmiennej lokalnej, a druga umieści na szczycie stosu obiekt z tej zmiennej lokalnej. Jest to po to, ponieważ na szczycie stosu chcemy mieć dany obiekt, ale również chcemy zapamiętać sobie dany obiekt, aby nie trzeba było go tworzyć, jeśli będzie potrzebny poraz drugi (obiekt jest singletonem, więc za każdym razem będziemy chcieli mieć ten sam obiekt - w kontekście tworzenia danego typu, czyli jednej operacji Resolve).\\ \\
+\begin{figure}[H]
+	\begin{center}
   		\includegraphics{FullEmitFunction_IsSingleton.png}
-	\end{raggedleft}
-\end{figure}\\
-Metoda AddObjectCreatedByObjectLifetimeManager, za wyjątkiem pierwszej operacji jaką jest stworzenie zmiennej lokalnej typu Type, zawiera jedynie operacje, które dodają kolejne kroki do listy kroków:
+  		\caption{Metoda IsSingleton klasy FullEmitFunction}
+  		\label{fig:FullEmitFunction_IsSingleton}
+	\end{center}
+\end{figure}
+
+Metoda AddObjectCreatedByObjectLifetimeManager (Rys. \ref{fig:FullEmitFunction_AddObjectCreatedByObjectLifetimeManager}), za wyjątkiem pierwszej operacji jaką jest stworzenie zmiennej lokalnej typu Type, zawiera jedynie operacje, które dodają kolejne pozycje do listy kroków:
 \begin{enumerate}
 	\item Dodaj do listy kroków operację, która umieści na szczycie stosu drugi parametr (będzie nim słownik z indeksami typów).
 	\item Dodaj do listy kroków operację, która umieści na szczycie stosu hasz danego typu.
@@ -397,14 +513,16 @@ Metoda AddObjectCreatedByObjectLifetimeManager, za wyjątkiem pierwszej operacji
 	\item Dodaj do listy kroków operację, która zdejmie obiekt ze szczytu stosu (będzie to obiekt typu IObjectLifeTimeManager), wywoła na nim metodę, która zwróci instancję obiektu i na szczycie stosu umieści rezultat tej metody.
 	\item Dodaj do listy kroków operację, która zrzutuje obiekt ze szczytu stosu na odpowiedni typ.
 \end{enumerate}
-Po wykonaniu tych 10 operacji na szczycie stosu znajdzie się obiekt danego typu utworzony przy pomocy menadżera czasu życia.
+Po wykonaniu tych 10 operacji na szczycie stosu znajdzie się obiekt danego typu utworzony przy pomocy menadżera czasu życia.\\ \\
 \begin{figure}[h]
-	\begin{raggedleft}
+	\begin{center}
   		\includegraphics{FullEmitFunction_AddObjectCreatedByObjectLifetimeManager.png}
-	\end{raggedleft}
-\end{figure}\\
-Trzeci przypadek zachodzi gdy typ został zarejestrowany jako Instance, FactoryObject lub przy pomocy własnego menadżera czasu życia (implementacji interfejsu IObjectLifetimeManager).\\
-W tej sytuacji wywołujemy po prostu metodę AddObjectCreatedByObjectLifetimeManager.
+  		\caption{Metoda AddObjectCreatedByObjectLifetimeManager klasy FullEmitFunction}
+  		\label{fig:FullEmitFunction_AddObjectCreatedByObjectLifetimeManager}
+	\end{center}
+\end{figure}
+
+Trzeci przypadek zachodzi gdy typ został zarejestrowany jako Instance, FactoryObject lub przy pomocy własnego menadżera czasu życia (implementacji interfejsu IObjectLifetimeManager). W tej sytuacji wywołujemy po prostu metodę AddObjectCreatedByObjectLifetimeManager.
 
 
 
@@ -417,15 +535,15 @@ Do przeprowadzania testów wydajnościowych stworzyłem osobną aplikację w kt�
 	\item Przypadek testowy C,
 	\item Przypadek testowy D.
 \end{itemize}
-Dla każdego z przypadków sprawdzany jest czas wykoniania operacji "Resolve" dla różnych rodzajów rejestracji (operacji Register). Testy zostały wykonane dla następujących wariantów rejestracji:
+Dla każdego z przypadków sprawdzany jest czas wykoniania operacji "Register" i "Resolve" dla różnych rodzajów rejestracji. Testy zostały wykonane dla następujących wariantów rejestracji:
 \begin{itemize}
 	\item Register as Singleton,
 	\item Register as Transient,
 	\item Register as TransientSingleton,
 	\item Register as PerThread (dla niektórych przemysłowych rozwiązań - PerScope),
-	\item {\color{red}Register as FactoryMethod.}
+	\item Register as FactoryMethod.
 \end{itemize}
-Każdy z testów dla każdego rozwiązania był uruchamiany w osobnym procesie. Każdy test był uruchamiany 100 razy, a w wynikach zostały przedstawione następujące czasy w milisekundach: minimalny, maksymalny i średni. Dla pierwszych trzech przypadków testy były wykonywane dla: 1, 10, 100 i 1000 powtórzeń, a dla ostatniego przypadku dla: 1 i 10 powtórzeń. Spowodowane jest to ilością obiektów, które są tworzone jednorazowo dla poszczególnych przypadków testowych.
+Każdy z testów dla każdego rozwiązania był uruchamiany w osobnym procesie. Najpierw zostaną zaprezentowane czasy dla operacji "Register" dla wszystkich rozdajów rejestracji, a następnie dla każdego z rodzaju czasy dla operacji "Resolve". Wynika to z tego, że czasy dla rejestracji są prawie zawsze zbliżone do 0. Ze względu na nieduży narzut czasu, te testy zostały uruchamiane tylko 1 raz. Przy operacji "Resolve" każdy test był uruchamiany 100 razy, a w wynikach zostały przedstawione następujące czasy w milisekundach: minimalny, maksymalny i średni. Dla pierwszych trzech przypadków testy były wykonywane dla: 1, 10, 100 i 1000 powtórzeń, a dla ostatniego przypadku dla: 1 i 10 powtórzeń. Spowodowane jest to ilością obiektów, które są tworzone jednorazowo dla poszczególnych przypadków testowych.
 
 \subsubsection{Register as Singleton}
 Każdy typ jest zarejestrowany jako "Singleton", czyli obiekt jest tworzony raz, a następnie cały czas zwracany.
@@ -440,20 +558,21 @@ Każdy typ jest zarejestrowany jako "Transient" za wyjątkiem typów, które maj
 Każdy typ jest zarejestrowany jako "PerThread", czyli obiekt jest tworzony raz dla każdego wątku, a następnie w obrębie tego wątku cały czas zwracany.
 
 \subsubsection{Register as FactoryMethod}
-{\color{red}Typ główny jest zarejestrowany jako "FactoryMethod", czyli jako funkcja, która zwraca nam obiekt danego typu.}
+Typ główny jest zarejestrowany jako "FactoryMethod", czyli jako funkcja, która zwraca nam obiekt danego typu. Obiekty pozostałych typów są tworzone wewnątrz tej funkcji za pomocą "new".
+
 
 \subsection{Przypadek testowy A}
 \subsubsection{Opis}
-W tym teście mamy zdefiniowanych 11 typów. Każdy z nich przymuje w konstruktorze o jeden parametr mniej niż typ poprzedni (czyli przyjmują one kolejno od 10 do 0 parametrów w konstruktorze). Typem głównym, a zarazem typem o największej liczbie parametrów, jest typ "TestA". Przyjmuje on w konstruktorze 10 parametrów następujących typów: "TestA0", "TestA1", "TestA2", "TestA3", "TestA4", "TestA5", "TestA6", "TestA7", "TestA8", "TestA9". Każdy z tych 10 typów w konstruktorze przyjmuje tyle parametrów, jaki ma numerek w nazwie (czyli obiekt typu "TestA0" ma konstruktore bezparametrowy, obiekt typy "TestA1" ma konstuktor z jednym parametrem; i tak dalej aż do typu "TestA9", który ma konstruktor z dziewięcioma parametrami). Wszystkie typy jako parametry w konstruktorze przyjmuje obiekty typów z niższymi numerkami (czyli obiekt typu "TestA1" w konstruktorze przyjmuje obiekt typu "TestA0", obiekt typu "TestA2" przymuje w konstruktorze obiekty typóW "TestA0" i "TestA1";  i tak dalej aż do typu "TestA9", który w konstruktorze przyjmuje obiekty z typami od "TestA0" do "TestA8"). Graf zależności poszczególnych typów został przedstawiony na Rys. \ref{fig:testA}.
-\begin{figure}[h]
+W tym teście mamy zdefiniowanych 11 typów. Każdy z nich przymuje w konstruktorze o jeden parametr mniej niż typ poprzedni (czyli przyjmują one kolejno od 10 do 0 parametrów w konstruktorze). Typem głównym, a zarazem typem o największej liczbie parametrów, jest typ "TestA". Przyjmuje on w konstruktorze 10 parametrów następujących typów: "TestA0", "TestA1", "TestA2", "TestA3", "TestA4", "TestA5", "TestA6", "TestA7", "TestA8", "TestA9". Każdy z tych 10 typów w konstruktorze przyjmuje tyle parametrów, jaki ma numerek w nazwie (czyli obiekt typu "TestA0" ma konstruktore bezparametrowy, obiekt typy "TestA1" ma konstuktor z jednym parametrem; i tak dalej aż do typu "TestA9", który ma konstruktor z dziewięcioma parametrami). Wszystkie typy jako parametry w konstruktorze przyjmuje obiekty typów z niższymi numerkami (czyli obiekt typu "TestA1" w konstruktorze przyjmuje obiekt typu "TestA0", obiekt typu "TestA2" przymuje w konstruktorze obiekty typóW "TestA0" i "TestA1";  i tak dalej aż do typu "TestA9", który w konstruktorze przyjmuje obiekty z typami od "TestA0" do "TestA8"). Graf zależności poszczególnych typów został przedstawiony na Rys. \ref{fig:testA}.\\
+\begin{figure}[H]
 	\begin{center}
-  		\includegraphics[height=12cm]{TestA.png}
+  		\includegraphics[height=11.5cm]{TestA.png}
   		\caption{Graf zależności dla testu A.}
   		\label{fig:testA}
 	\end{center}
-\end{figure}\\
+\end{figure}
 
-Łatwo wywnioskować, że tworząc obiekty poszczególnych typów ilość tworzonych obiektów rośnie dwukrotnie:
+Łatwo z niego wywnioskować, że tworząc obiekty poszczególnych typów ilość tworzonych obiektów rośnie dwukrotnie:
 \begin{itemize}
 	\item TestA0 - 1 obiekt,
 	\item TestA1 - 2 obiekty (obiekt typu TestA1 i obiekt typu TestA0),
@@ -469,7 +588,36 @@ W tym teście mamy zdefiniowanych 11 typów. Każdy z nich przymuje w konstrukto
 \end{itemize}
 Zatem tworząc nasz główny obiekt typu TestA, tworzymy: 1 obiekt typu TestA, 1 obiekt typu TestA9, 2 obiekty typu TestA8, 4 obiekty typu TestA7, 8 obiektów typu TestA6, 16 obiektów typu TestA5, 32 obiektów typu TestA4, 64 obiektów typu TestA3, 128 obiektów typu TestA2, 256 obiektów typu TestA1 i 512 obiektów typu TestA0 - co w sumie daje 1024 obiekty.
 
+\subsubsection{Wyniki dla Register}
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r | r | r | r | }
+    		\hline
+Test & Singleton & Transient & TransientSingleton & PerThread \\ \hline
+Autofac & 0 & 0 & 0 & 0 \\ \hline
+DryIoc & 0 & 0 & 0 & 0 \\ \hline
+Grace & 0 & 0 & 0 & 0 \\ \hline
+LightInject & 0 & 0 & 0 & 0 \\ \hline
+Ninject & 0 & 0 & 0 & 0 \\ \hline
+NiquIoCPartial & 0 & 0 & 0 & 0 \\ \hline
+NiquIoCFull & 0 & 0 & 0 & 0 \\ \hline
+SimpleInjector & 0 & 0 & 0 & 0 \\ \hline
+StructureMap & 0 & 0 & 0 & 0 \\ \hline
+Unity & 0 & 0 & 0 & 0 \\ \hline
+Windsor & 0 & 0 & 0 & 0 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla operacji Register dla Przypadku testowego A}
+\label{TestCaseA_Register}
+\end{table}
+Dla każdego z rozwiązań, dla wszystkich testów w tym przypadku testowym, czasy rejestracji są równe 0, czyli poniżej 1 ms.
+
 \subsubsection{Wyniki dla Singleton}
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
 \begin{center}
 \begin{small}
 	\begin{tabular}{ | l | r r r | r r r | r r r | r r r | }
@@ -490,9 +638,14 @@ Windsor & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
   	\end{tabular}
 \end{small}
 \end{center}
+\caption{Wyniki testów dla operacji Singleton dla Przypadku testowego A}
+\label{TestCaseA_Singleton}
+\end{table}
 Dla tego testu najlepiej poradziły sobie dwa z najpopularniejszych rozwiązania - Aurofac i Windsor. Rozwiązanie NiquIoCPartial uplasowało się na 3 miejscu. Najsłabiej poradził sobie pozostałe najpopularniejsze rozwiązania: Ninject, Unity oraz StructureMap. Reszta rozwiązań miała zbliżone czasy - dwukrotnie większe niż NiquIoCPartial i trzykrotnie mniejsze niż Ninject.
 
 \subsubsection{Wyniki dla Transient}
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
 \begin{center}
 \begin{small}
 	\begin{tabular}{ | l | r r r | r r r | r r r | r r r | }
@@ -513,6 +666,9 @@ Windsor & 1 & 2 & 1 & 16 & 21 & 16 & 152 & 192 & 155 & 1511 & 1799 & 1529 \\ \hl
   	\end{tabular}
 \end{small}
 \end{center}
+\caption{Wyniki testów dla operacji Transient dla Przypadku testowego A}
+\label{TestCaseA_Transient}
+\end{table}
 W tym teście jest już spora rozbieżność czasów. Gdy mamy tylko 1 operację najlepiej radzi sobie Autofac, a zaraz za nim NiquIoCPartial i Windsor. Najsłabiej natomiast SimplyInjector, DryIoc i Grace. Pozostałe rozwiązania wypadły przeciętnie i bliżej im było do czasów najgorszych, niż najlepszych.\\
 Dla 10 operacji sytuacja zaczyna się lekko zmieniać. Tym razem znacząco najlepiej radzi sobie NiquIoCPartial - ponad dwa razy lepiej niż drugi Autofac. Kolejne miejsca należą do NiquIoCFull i LightInject. Pozostałe rozwiązania miały podobne, trochę słabsze czasy. Wyjątkiem jest jedynie Ninject, który poradził sobie najgorzej i jego czas jest ponad 5 razy większy niż dla rozwiązania z przedostatnim czasem (Windsor).\\
 Przy 100 operacji na prowadzenie wysuneły się mniej popularne rozwiązania. Na pierwszym miejscu jest NiquIoCFull, a kolejne miejsca to LightInject i SimpleInjector. DryIoc, Grace oraz NiquIoCPartial wypadły akceptowalnie - poradziły sobie trochę gorzej niż trzeci SimpleInjector. Do grona najsłabszych (Unity, Windsor, Ninject) w tym przypadku dołączył również Autofac, który z drugiego miejsca spadł na ósme. StructureMap miał czasy tylko trochę lepszy niż Autofac.\\
@@ -520,6 +676,8 @@ Natomiast dla 1000 operacji od czołówki oddalił się NiquIoCPartial. Na pierw
 Warto tutaj zaznaczyć, że wraz ze wzrostem operacji najmniejszy wzorst czasów miały rozwiązania: LightInject, NiquIoCFull, SimpleInjector, DryIoc oraz Grace.
 
 \subsubsection{Wyniki dla TransientSingleton}
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
 \begin{center}
 \begin{small}
 	\begin{tabular}{ | l | r r r | r r r | r r r | r r r | }
@@ -540,12 +698,17 @@ Windsor & 1 & 2 & 1 & 12 & 14 & 12 & 117 & 140 & 119 & 1161 & 1302 & 1177 \\ \hl
   	\end{tabular}
 \end{small}
 \end{center}
+\caption{Wyniki testów dla operacji TransientSingleton dla Przypadku testowego A}
+\label{TestCaseA_TransientSingleton}
+\end{table}
 Przy tym teście dla 1 operacji również najlepiej poradziły sobie Autofac, NiquIoCPartial i Windsor. Trochę gorzej NiquIoCFull. Czasy dla Unity, SimpleInjector, Grace, StructureMap i Ninject są zbliżone, jednak duże. Najgorzej wypadły natomiast LightInject i DryIoc.\\
 Gdy mamy 10 operacji na drugie miejsce wskoczył NiquIoCFull. Na pierwsze przesunął się NiquIoCPartial, a Autofac spadł na trzecie. Kolejne miejsce zajmują SimpleInjector i Grace. Trochę gorzej poradził sobie StrutureMap. Zaraz za nim jest Windsor, który z podium spadł na 7 miejsce. Kolejne miejsca to LightInject i Unity. DryIoc nadal słabo, jednakże wzrostu czasu był nieduży. Ostatnie miejsce zajął Ninject.\\
 Dla 100 operacji na pierwszym miejscu znalazł się NiquIoCFull. Na podium znaleźli się jeszcze SimpleInjector i Grace. NiquIoCPartial spadł poza podium, a tuż za nim jest LightInject. DryIoc nadal z niedużym wzrostem czasu i tym razem jego wynik jest już akceptowalny. Pozostałe rozwiążań bardzo słabo. Kolejne miejsca to StructureMap oraz Autofac, a ranking zamykają Unity, Windsor i Ninject.\\
 Test dla 1000 operacji nie spowodował żadnych zmiań w rankingu. Jedynie różnica czasów pomiędzy pierwszą 5, a pozostały miejscami znacząco się zwiększyła. Dla pierwszej piątki czasy zwrosły około dwukrotkie, a dla pozostały miejsc ponad siedmiokrotnie.
 
 \subsubsection{Wyniki dla PerThread}
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
 \begin{center}
 \begin{small}
 	\begin{tabular}{ | l | r r r | r r r | r r r | r r r | }
@@ -566,21 +729,53 @@ Windsor & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
   	\end{tabular}
 \end{small}
 \end{center}
+\caption{Wyniki testów dla operacji PerThread dla Przypadku testowego A}
+\label{TestCaseA_PerThread}
+\end{table}
 Czasy dla tego przypadku powinny być zbliżone do czasów dla przypadku Singleton, ponieważ wszystko było uruchamiane w jednym wątku. Niestety część rozwiązań sobie z tym nie poradziła.\\
 Wyniki zbliżone posiadają: Autofac, Grace, Ninject, NiquIoCPartial, NiquIoCFull, StructureMap, Unity i Windsor. Natomiast dla SimpleInjector, LightInject i DryIoC czasy są od kilku do nawet kilkudziesięciu razy większe.\\
 Jeśli chodzi o najlepsze rozwiązania, to wyglądają one tak samo jak dla Singleton. Pierwsze trzy miejsca to Aurofac, Windsor i NiquIoCPartial. Najsłabiej poradziły sobie LightInject i DryIoc. Tuż za czołówką znalazły się: NiquIoCFull, Grace i Ninject. Dla 1, 10 i 100 operacji wyżej uplasował się Ninject, a dla 1000 Grace. W drugiej połowie rankingu miejsca przypadły: SimpleInjector, Unity i StructureMap. Unity poradziło sobie gorzej niż SimpleInjector dla 1000 operacji, ale lepiej w pozostałych trzech przypadkach.
 
+\subsubsection{Wyniki dla FactoryMethod}
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | r r r | r r r | r r r | }
+    		\hline
+Ilość & & 1 & & & 10 & & & 100 & & & 1000 & \\ \hline
+ & min & max & avg & min & max & avg & min & max & avg & min & max & avg \\ \hline
+Autofac & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+DryIoc & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+Grace & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+LightInject & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+Ninject & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 1 & 5 & 7 & 5 \\ \hline
+NiquIoCPartial & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+NiquIoCFull & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+SimpleInjector & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+StructureMap & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 1 \\ \hline
+Unity & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 1 \\ \hline
+Windsor & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 1 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla operacji FactoryMethod dla Przypadku testowego A}
+\label{TestCaseA_FactoryMethod}
+\end{table}
+Dla tego testu prawie wszystkie rozwiążania mają czasy zbliżone do 0 ms. Wyjątkiem są 4 rozwiązania. Trzy z nich, czyli: StrucutreMap, Unity oraz Windsor dla 1000 operacji uzyskały czas zbliżony do 1 ms. Najgorzej poradził sobie Ninject i już przy 100 operacjach uzyskał czasy na poziomie 1 ms. Natomiast w przypadku 1000 operacji poradził on sobie 5 razy gorzej.
+
 
 \subsection{Przypadek testowy B}
 \subsubsection{Opis}
-Ten test jest bardzo podobny do przypadku testowego A, tylko dochodzi nam 1 dodatkowy poziom, który wygląda trochę inaczej. W głównym obiekcie "TestB" konstruktor przyjmuje 3 parametry następujących typów: "TestBa10", "TestBb10", "TestBc10". Każdy z tych 3 typów odpowiada typowi "TestA", więc przyjmuje on w konstruktorze 10 parametrów. Dla "TestBa10" są to parametry typów od "TestBa0" do "TestBa9", dla "TestBb10" są to parametry typów od "TestBb0" do "TestBb9", a dla "TestBc10" są to parametry typów od "TestBc0" do "TestBc9". Zależności tych typów wyglądają tak samo, jak dla typów z przypadku testowego A - rys. \ref{fig:testB} przedstawia te zależności.
+Ten test jest bardzo podobny do przypadku testowego A, tylko dochodzi nam 1 dodatkowy poziom, który wygląda trochę inaczej. W głównym obiekcie "TestB" konstruktor przyjmuje 3 parametry następujących typów: "TestBa10", "TestBb10", "TestBc10". Każdy z tych 3 typów odpowiada typowi "TestA", więc przyjmuje on w konstruktorze 10 parametrów. Dla "TestBa10" są to parametry typów od "TestBa0" do "TestBa9", dla "TestBb10" są to parametry typów od "TestBb0" do "TestBb9", a dla "TestBc10" są to parametry typów od "TestBc0" do "TestBc9". Zależności tych typów wyglądają tak samo, jak dla typów z przypadku testowego A - Rys. \ref{fig:testB} przedstawia te zależności.\\
 \begin{figure}[h]
 	\begin{center}
   		\includegraphics[width=\linewidth]{TestB.png}
   		\caption{Graf zależności dla testu B.}
   		\label{fig:testB}
 	\end{center}
-\end{figure}\\
+\end{figure}
+
 Łatwo wywnioskować, że tworząc obiekty poszczególnych typów ilość tworzonych obiektów rośnie dwukrotnie (tak jak dla testu A):
 \begin{itemize}
 	\item TestBa0 - 1 obiekt,
@@ -599,7 +794,36 @@ Ten test jest bardzo podobny do przypadku testowego A, tylko dochodzi nam 1 doda
 \end{itemize}
 Zatem tworząc obiekt typu TestB, tworzymy: 1 obiekt typu TestB, 1 obiekt typu TestBa10, TestBb10 i TestBc10, 1 obiekt typu TestBa9, TestBb9 i TestBc9, 2 obiekty typu TestBa8, TestBb8 i TestBc8, 4 obiekty typu TestBa7, TestBb7 i TestBc7, 8 obiektów typu TestBa6, TestBb6 i TestBc6, 16 obiektów typu TestBa5, TestBb5 i TestBc5, 32 obiektów typu TestBa4, TestBb4 i TestBc4, 64 obiektów typu TestBa3, TestBb3 i TestBc3, 128 obiektów typu TestBa2, TestBb2 i TestBc2, 256 obiektów typu TestBa1, TestBb1 i TestBc1, 512 obiektów typu TestBa0, TestBb0 i TestBc0 - co daje w sumie 3 073 obiektów.
 
+\subsubsection{Wyniki dla Register}
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r | r | r | r | }
+    		\hline
+Test & Singleton & Transient & TransientSingleton & PerThread \\ \hline
+Autofac & 0 & 0 & 0 & 0 \\ \hline
+DryIoc & 0 & 0 & 0 & 0 \\ \hline
+Grace & 0 & 0 & 0 & 0 \\ \hline
+LightInject & 0 & 0 & 0 & 0 \\ \hline
+Ninject & 0 & 0 & 0 & 0 \\ \hline
+NiquIoCPartial & 0 & 0 & 0 & 0 \\ \hline
+NiquIoCFull & 0 & 0 & 0 & 0 \\ \hline
+SimpleInjector & 0 & 0 & 0 & 0 \\ \hline
+StructureMap & 1 & 1 & 1 & 1 \\ \hline
+Unity & 0 & 0 & 0 & 0 \\ \hline
+Windsor & 1 & 1 & 1 & 1 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla operacji Register dla Przypadku testowego B}
+\label{TestCaseB_Register}
+\end{table}
+Tutaj wszystkie rozwiązania za wyjątkiem StructureMap i Windsor mają zawsze czasy zbliżone do 0. Te dwa rozwiązania wszystkich testów mają czasy zbliżone do 1 ms.
+
 \subsubsection{Wyniki dla Singleton}
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
 \begin{center}
 \begin{small}
 	\begin{tabular}{ | l | r r r | r r r | r r r | r r r | }
@@ -620,9 +844,15 @@ Windsor & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
   	\end{tabular}
 \end{small}
 \end{center}
+\caption{Wyniki testów dla operacji Singleton dla Przypadku testowego B}
+\label{TestCaseB_Singleton}
+\end{table}
+
 Podobnie jak dla przypadku testowego A, tutaj również najlepiej poradziły sobie najpopularniejsze rozwiązania - Aurofac i Windsor. Warto zaznaczyć, że to jedyne rozwiązania, które nie zanotowały znaczącego wzrotu czasu. Dla pozostałych rozwiązań czasy wzrosły od 2 do 4 razy. NiquIoCPartial uplasował się tutaj również na 3 miejscu, a za nim SimpleInjector oraz LightInject. Koniec rankingu jest taki sam, czyli Ninject, Unity i StructureMap. NiquIoCFull, Grace, a także DryIoc miały zbliżone do siebie czasy - trochę słabsze niż LightInject i trochę lepsze niż Ninject.
 
 \subsubsection{Wyniki dla Transient}
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
 \begin{center}
 \begin{small}
 	\begin{tabular}{ | l | r r r | r r r | r r r | r r r | }
@@ -643,6 +873,10 @@ Windsor & 6 & 7 & 6 & 49 & 69 & 50 & 476 & 610 & 484 & 4726 & 5665 & 4799 \\ \hl
   	\end{tabular}
 \end{small}
 \end{center}
+\caption{Wyniki testów dla operacji Transient dla Przypadku testowego B}
+\label{TestCaseB_Transient}
+\end{table}
+
 Dla tego testu sytuacja wygląda niemal identycznie jak w teście A, z tą różnicą, że czasy dla każdego rozwiązania są ponad 3 razy większe.\\
 Przy 1 operację najlepiej radzi sobie Autofac, a tuż za nim NiquIoCPartial i Windsor. Pozostałe rozwiązania wypadły słabo i mają czasy od kilku do kilkunastu razy większe niż czołówka. Kolejne miejsca to: NiquIocFull, Unity, LightInject, StructureMap oraz Ninject, a ranking zamykają SimplyInjector, DryIoc i Grace.\\
 Gdy mamy 10 operacji najlepiej radzi sobie NiquIoCPartial, a zaraz za nim z czasem dwókrotnie gorszym jest Autofac. Następnie w rankingu znajduje się NiquIoCFull i LightInject. Tutaj również jak w przypadku testowym A, Ninject ma ponad 5 razy gorszy czas niż miejsce przedostatnie, z tą różnicą, że zajmuje je Grace, a nie Windsor, który uzyskał trochę lepszy czas i jest miejsce wyżej. Lepiej od Windsor poradziły sobie jeszcze: SimpleInjector, DryIoc, StructureMap i Unity, ale do czołówki brakowało im bardzo dużo.\\
@@ -651,6 +885,8 @@ Jak można się było spodziewać przy 1000 operacji sytuacja wygląda identyczn
 Tutaj również najmniejszy wzorst czasów miały rozwiązania: LightInject, NiquIoCFull, SimpleInjector, DryIoc oraz Grace.
 
 \subsubsection{Wyniki dla TransientSingleton}
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
 \begin{center}
 \begin{small}
 	\begin{tabular}{ | l | r r r | r r r | r r r | r r r | }
@@ -671,6 +907,9 @@ Windsor & 3 & 5 & 3 & 37 & 46 & 37 & 355 & 435 & 362 & 3543 & 4824 & 3637 \\ \hl
   	\end{tabular}
 \end{small}
 \end{center}
+\caption{Wyniki testów dla operacji TransientSingleton dla Przypadku testowego B}
+\label{TestCaseB_TransientSingleton}
+\end{table}
 Jeśli chodzi o wzrost czasów w stosnku do przypadku testowego A, to sytuacja wygląda niemal identycznie jak dla testu Transient - jest on ponad trzykrotny.\\
 Dla 1 operacji podium wygląda jednak inaczej niż dla testu A - miejscami zamieniły się NiquIocPartial i Windsor. Na pierwszy miejscu pozostaje Autofac. Różnice czasów dla pozostałych rozwiązań są już dużo bardziej zauważalne. Znajdujący się tuż za podium NiquIoCFull ma wynik ponad trzy razy słabszy niż NiquIoCPartial, który to podium zamyka. Kolejne miejsca to: Unity, SimpleInjector, Ninject, Grace, StructureMap, Lightinject i na końcu DryIoc.\\
 Gry mamy 10 operacji pierwsze dwa miejsca zajmują NiquIoCPartial i NiquIoCFull. Tuż za nimi znajduje się Autofac. SimplyInjector oraz Grace zanotowały niewielki wzrost czasów i zajmują kolejne dwa miejsca. Nieduży wzrostu czasów zaliczyły również LightInject i DryIoc, ale ich czasy są wciąż duże w stosunku do pozostałych rozwiążań i zajmuje dwa przedostatnie miejsca - ustępując jedynie Ninject. Miejsca od 6 do 8 przypadły: Windsor, StructureMap oraz Unity.\\
@@ -679,6 +918,8 @@ Dla pierwszego przypadku początek rankingu wygląda następująco: NiquIocFull,
 Dla drugiego przypadku pierwsze trzy miejsca są jak wyżej. Natomiast o jedno miejsce awansowały LightInject oraz Grace. NiquIoCPartial spadł na miejsce szóste i dołączył do grupy rozwiązań z bardzo dużymi czasami. Reszta rankingu nie uległa zmianie.
 
 \subsubsection{Wyniki dla PerThread}
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
 \begin{center}
 \begin{small}
 	\begin{tabular}{ | l | r r r | r r r | r r r | r r r | }
@@ -699,18 +940,48 @@ Windsor & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
   	\end{tabular}
 \end{small}
 \end{center}
+\caption{Wyniki testów dla operacji PerThread dla Przypadku testowego B}
+\label{TestCaseB_PerThread}
+\end{table}
 Podobnie jak było dla przypadku testowego A, tutaj również nie wszystkie rozwiązania mają czasy zbliżone do Singleton.\\
 Są to te same rozwiązania co dla testu A, czyli: SimpleInjector, DryIoc i LightInject. Warto jednak zaznaczyć, że dla SimpleInjector wzrost czasów jest kilkukrotny, a dla pozostałych dwóch rozwiązań kilkudziesięciokrotny.\\
 Tak samo jak w przypadku Signleton czołówka wygląda następująco: Aurofac, Windsor i NiquIoCPartial. Kolejne miejsca zajmują: NiquIoCFull, Ninject i Grace. Najsłabiej poradziły sobie rozwiążania LightInject i DryIoc. W środku tabeli pod względem czasów znalazły się SimpleInjector, Unity i StrucutreMap. W odróżnieniu od przypadku testowego A, tutaj nie było żadnych zmian w rankingu i wszystkie rozwiązania zajmują te same miejsca dla dowolnej liczby operacji.
 
+\subsubsection{Wyniki dla FactoryMethod}
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | r r r | r r r | r r r | }
+    		\hline
+Ilość & & 1 & & & 10 & & & 100 & & & 1000 & \\ \hline
+ & min & max & avg & min & max & avg & min & max & avg & min & max & avg \\ \hline
+Autofac & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 1 \\ \hline
+DryIoc & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+Grace & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 \\ \hline
+LightInject & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+Ninject & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 6 & 6 & 6 \\ \hline
+NiquIoCPartial & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+NiquIoCFull & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+SimpleInjector & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 1 \\ \hline
+StructureMap & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 2 & 1 \\ \hline
+Unity & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 2 & 2 & 2 \\ \hline
+Windsor & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 2 & 1 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla operacji FactoryMethod dla Przypadku testowego B}
+\label{TestCaseB_FactoryMethod}
+\end{table}
+Dla tego przypadku testowego trochę więcej rozwiązań miało czasy 1 ms lub większe. Wyniki na poziomie 0 ms dla każdej liczby powtórzeń zanotowały: DryIoc, LightInject, NiquIoCPartial oraz NiquIoCFull. Trochę gorzej od nich poradził sobie Grace. Następne miejsca przypadły: Autofac, SimpleInjector, StructureMap i Windsor. Czasy około dwa razy gorsze od nich osiągnął Unity. Wszystkie z tych 6 rozwiązań miałby czasy powyżej 0 ms dopiero dla 1000 operacji. Ninject tym razem również już przy 100 operacjach zaczął mieć wyniki na poziomie 1 ms.  Gdy liczba operacji została zwiększona do 1000, to jego czasy wzrosły sześciokrotnie.
+
 
 \subsection{Przypadek testowy C}
 \subsubsection{Opis}
-Ten przypadek testowy znacząco różni się od dwóch poprzednich. Mamy tutaj zdefiniowanych 26 typów. 5 z tych typów ma konstruktor bezparametrowy, a pozostałe 21 ma konstuktor z pięcioma parametrami. Typem głównym jest typ "TestC". Obiekt tego typy w konstruktorze przymuje 5 obiektów, kolejno następujących typów: "TestC40", "TestC41", "TestC42", "TestC43" i "TestC44". Każdy z tych pięciu typów ma taki sam konstruktor - przyjmuje w nim 5 obiektów o typach, które w nazwie mają pierwszy numer o 1 mniejszy, czyli są to obiekty typów od "TestC30" do "TestC34". Dla tych i kolejnych typów zasad z konstruktorami wygląda tak samo. Na końcu dochodzimy do typów od "TestC00" do "TestC04", które mają konstruktor bezparametrowy. Rys. \ref{fig:testC} przedstawia graf zależności typów dla tego przypadku testowego.
-
-\begin{figure}[h]
+Ten przypadek testowy znacząco różni się od dwóch poprzednich. Mamy tutaj zdefiniowanych 26 typów. 5 z tych typów ma konstruktor bezparametrowy, a pozostałe 21 ma konstuktor z pięcioma parametrami. Typem głównym jest typ "TestC". Obiekt tego typy w konstruktorze przymuje 5 obiektów, kolejno następujących typów: "TestC40", "TestC41", "TestC42", "TestC43" i "TestC44". Każdy z tych pięciu typów ma taki sam konstruktor - przyjmuje w nim 5 obiektów o typach, które w nazwie mają pierwszy numer o 1 mniejszy, czyli są to obiekty typów od "TestC30" do "TestC34". Dla tych i kolejnych typów zasad z konstruktorami wygląda tak samo. Na końcu dochodzimy do typów od "TestC00" do "TestC04", które mają konstruktor bezparametrowy. Rys. \ref{fig:testC} przedstawia graf zależności typów dla tego przypadku testowego.\\
+\begin{figure}[H]
 	\begin{center}
-  		\includegraphics[height=10cm]{TestC.png}
+  		\includegraphics[height=11.5cm]{TestC.png}
   		\caption{Graf zależności dla testu C.}
   		\label{fig:testC}
 	\end{center}
@@ -727,7 +998,36 @@ Ten przypadek testowy znacząco różni się od dwóch poprzednich. Mamy tutaj z
 \end{itemize}
 Zatem tworząc obiekt typu TestC, tworzymy: 1 obiekt typu TestC, 5 obiektów typów od TestC40 do TestC44, 25 obiektów typów od TestC30 do TestC34, 125 obiektów typów od TestC20 do TestC24, 625 obiektów typów od TestC10 do TestC14 oraz 3 125 obiektów typów od TestC00 do TestC04 - co daje w sumie 3 906 obiektów.
 
+\subsubsection{Wyniki dla Register}
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r | r | r | r | }
+    		\hline
+Test & Singleton & Transient & TransientSingleton & PerThread \\ \hline
+Autofac & 0 & 0 & 0 & 0 \\ \hline
+DryIoc & 0 & 0 & 0 & 0 \\ \hline
+Grace & 0 & 0 & 0 & 0 \\ \hline
+LightInject & 0 & 0 & 1 & 0 \\ \hline
+Ninject & 0 & 0 & 0 & 0 \\ \hline
+NiquIoCPartial & 0 & 0 & 0 & 0 \\ \hline
+NiquIoCFull & 0 & 0 & 0 & 0 \\ \hline
+SimpleInjector & 0 & 0 & 0 & 0 \\ \hline
+StructureMap & 1 & 1 & 1 & 1 \\ \hline
+Unity & 0 & 0 & 0 & 0 \\ \hline
+Windsor & 0 & 0 & 0 & 0 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla operacji Register dla Przypadku testowego C}
+\label{TestCaseC_Register}
+\end{table}
+Tym razem wszystkie rozwiązania za wyjątkiem LightInject i StructureMap mają zawsze czasy zbliżone do 0. LightInject dla testu TransientSingleton ma czas zbliżony do 1 ms, a StructureMap dla wszystkich testów.
+
 \subsubsection{Wyniki dla Singleton}
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
 \begin{center}
 \begin{small}
 	\begin{tabular}{ | l | r r r | r r r | r r r | r r r | }
@@ -748,9 +1048,14 @@ Windsor & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
   	\end{tabular}
 \end{small}
 \end{center}
+\caption{Wyniki testów dla operacji Singleton dla Przypadku testowego C}
+\label{TestCaseC_Singleton}
+\end{table}
 Pomimo zupełnie innego przypadku testowego, dla testu Singleton, wciąż najlepiej radzą sobie Autofac i Windsor. Ich czasy nawet dla 1000 operacji są wciąż mniejsze niż 1 milisekunda. Dodatkowo tutaj również podium zamyka NiquIoCPartial. Kolejne miejsca zajmują LightInject i SimpleInjector. Trochę gorzej od nich radzą sobie DryIoc, Grace i NiquIoCFull. Ostatnie trzy miejsca należą do Ninject, Unity i StructureMap. Zatem ranking wygląda tutaj identycznie jak dla poprzednich dwóch testów dla tego samego przypadku.
 
 \subsubsection{Wyniki dla Transient}
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
 \begin{center}
 \begin{small}
 	\begin{tabular}{ | l | r r r | r r r | r r r | r r r | }
@@ -771,12 +1076,17 @@ Windsor & 7 & 8 & 7 & 61 & 82 & 62 & 594 & 769 & 608 & 5898 & 7708 & 6037 \\ \hl
   	\end{tabular}
 \end{small}
 \end{center}
+\caption{Wyniki testów dla operacji Transient dla Przypadku testowego C}
+\label{TestCaseC_Transient}
+\end{table}
 Gdy mamy 1 operację najniższe czasy uzyskały Autofac i NiquIoCPartial. Tuż za nimi znalazł się Windsor. Kolejne rozwiązania mają już dużo większe czasy. Na czwartym miejscu znalazł się Unity, dalej StructureMap i NiquIoCFull. Następne miejsca należą kolejno do LightInject, DryIoc, Ninject i SimpleInjector. Najgorzej poradził sobie tutaj Grace.\\
 Przy 10 operacjach pierwsze dwa miejsca uległy zamianie. Tym razem najniższe czasy uzyskał NiquIoCPartial. Podium zamyka NiquIoCFull, który awansował o 3 miejsca. Niewiele za nim uplasował się LightInject. Kolejne pozycje w rankingu należą do DryIoc, StructureMap oraz SimpleInjector, które uzyskały zbliżone do siebie czasy. Znaczący wzrost czasów zanotowały natomiast Unity i Windsor, które znalazły się na miejsach 8 i 10. Z niewielkim wzrostem czasu w stosunku do 1 operacji, między nimi znalazł się Grace. Ranking zamyka Ninject.\\
 Dla 100 operacji na prowadzenie wysunęły się NiquIoCFull oraz LightInject. Trochę słabiej poradziły sobie DryIoc i SimpleInjector, jednak ich czasy są również zadowalające. Następne miejsca z zauważalną różnicą czasów w stosunku do czołówki zajęły Grace oraz NiquIoCPartial. Miejsce 7 w rankingu zajął StructureMap z czasem ponad dwukrotnie większym niż poprzednik. Kolejne miejsca należą do: Autofac, Unity, Windsor i Ninject.\\
 Test dla 1000 operacji nie spowodował żadnych zmian w rankingu, jednakże czasy dla NiquIoCPartial przestały być akceptowalne - wzrosły one ponad dziewięciokrotnie, a dla wyższych miejsc wzrost był maksymalnie trzykrotny. Pozostałe rozwiązania miały wzrost zbliżony do wzorstu NiquIoCPartial.
 
 \subsubsection{Wyniki dla TransientSingleton}
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
 \begin{center}
 \begin{small}
 	\begin{tabular}{ | l | r r r | r r r | r r r | r r r | }
@@ -797,12 +1107,17 @@ Windsor & 3 & 3 & 3 & 34 & 41 & 35 & 338 & 400 & 343 & 3368 & 4115 & 3429 \\ \hl
   	\end{tabular}
 \end{small}
 \end{center}
+\caption{Wyniki testów dla operacji TransientSingleton dla Przypadku testowego C}
+\label{TestCaseC_TransientSingleton}
+\end{table}
 Dla 1 operacji tylko 3 rozwiążania uzyskały wynik jednocyfrowy. Są to kolejno: Autofac, NiquIoCPartial i Windsor. Pozsotałe rozwiązania czasy mają dużo słabsze. Najniższy uzyskał NiquIoCPartial, a dalej za nim Unity i SimpleInjector. Kolejne miejsca należą do StrucutreMap, Grace i Ninject. Na końcu rankingu znalazły się LightInject oraz DryIoc.\\
 Przy 10 operacjach sytuacja lekko uległą zmianie. Pierwsze dwa miejsca zajmują NiquIoCPartial i NiquIoCFull. Kawałek za nimi są Autofac i SimpleInjector, które dzieli niewielka różnica. Trochę gorszy czas od nich uzyskał Grace. Reszta rozwiązań dość znacząco odstaje od czołówki. Ostatnie 6 miejsc to: StructureMap, Windsor, Unity, LightInject, DryIoc oraz na końcu Ninject.\\
 Gdy mamy 100 operacji na prowadzenie wysunął się NiquIoCFull, a poza pierwszą trójkę wypadł NiquIoCPartial. Miejsce drugie i trzecie należą do SimpleInjector oraz Grace. LightInject i DryIoc zanotowały niewielki wzrost czasów i przy dużym wzroście dla pozostałych rozwiązań, znalazły się na miejscach 5 i 6. Do grona najsłabszych dołączył natomiast Autofac. Zajął on miejsce pomiędzy StrucuteMap, a Unity. Ostatnia pozycja nie uległa zmianie i należy do Ninejct, przed którym znalazł się Windsor.\\
 Również i dla tego testu przy 1000 operacjach nie było dużych zmian w rankingu. Wszystkie rozwiązania zachowały swoje miejsca za wyjątkiem NiquIoCPartial, który spadł na miejsce 6.
 
 \subsubsection{Wyniki dla PerThread}
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
 \begin{center}
 \begin{small}
 	\begin{tabular}{ | l | r r r | r r r | r r r | r r r | }
@@ -823,14 +1138,44 @@ Windsor & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
   	\end{tabular}
 \end{small}
 \end{center}
+\caption{Wyniki testów dla operacji PerThread dla Przypadku testowego C}
+\label{TestCaseC_PerThread}
+\end{table}
 Podobnie jak dla przypadków testowych A i B, tutaj również SimpleInjector zaliczył lekki wzrost czasów w stosunku do testu Singleton. DryIoc oraz LightInject zaliczyły bardzo duże wzrosty i to one zamykają ranking. Przed nimi znalazł się StructureMap, a miejsce wyżej wcześniej wspomniany SimpleInjector. Podobne czasy do niego zanotował Unity, który uplasował się na miejscu 7. Idąc w rankingu ku górze, to przy 1, 10 i 100 operacjach lepiej radził Ninject, a przy 1000 operacjach Grace. Te dwa rozwiązania znalazły się na dwóch kolejnych miejscach. Tuż za podium jest NiquIoCFull, a pierwsze trzy miejsca bez zmian dla tego testu, czyli: Autofac, Windsor, NiquIoCPartial.
+
+\subsubsection{Wyniki dla FactoryMethod}
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | r r r | r r r | r r r | }
+    		\hline
+Ilość & & 1 & & & 10 & & & 100 & & & 1000 & \\ \hline
+ & min & max & avg & min & max & avg & min & max & avg & min & max & avg \\ \hline
+Autofac & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 \\ \hline
+DryIoc & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+Grace & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+LightInject & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+Ninject & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 1 & 5 & 7 & 5 \\ \hline
+NiquIoCPartial & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+NiquIoCFull & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+SimpleInjector & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 \\ \hline
+StructureMap & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 1 \\ \hline
+Unity & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 2 & 1 \\ \hline
+Windsor & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 1 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla operacji FactoryMethod dla Przypadku testowego C}
+\label{TestCaseC_FactoryMethod}
+\end{table}
+W tym przypadku 6 rozwiązań zanotowało wszystkie średnie czasy na poziomie 0 ms. Są to: DryIoc, Grace, LightInject, NiquIoCPartial, NiquIoCFull i Autofac, który czasem dla 1000 operacji osiągał 1 ms. Dalej znalazł się SimpleInjector, który czasami dla 1000 powtórzeń miał czasy 0 ms, ale jego średni czas to 1 ms. Następne miejsca przypadły StructureMapp i Windsor. Przedostatni w rankingu jest Unity, który czasami dla 1000 operacji uzyskiwał czasy nawet około 2 ms. Ostatnie miejsce tym razem również zajmuje Ninject i sytuacja wygląda niemal identycznie jak w pozostałych dwóch przypadkach testowych dla tego testu - już przy 100 powtórzeniach osiągnął on czasy na poziomie 1 ms, a gdy mamy 1000 operacji, to czasy średnie wynoszą około 5 ms.
 
 
 \subsection{Przypadek testowy D}
 \subsubsection{Opis}
-Podobnie jak przypadek testowy B jest analigoczny z przypadkiem A, tak ten przypadek, jest zbliżony do przypadku C. Jednakże pokrewieństwo jest inne. Mamy tutaj tyle sama poziomów, co dla C, ale na każdym poziomie (poza pierwszym) obiektów jest dwa razy więcej. Zatem w tym teście mamy zdefiniowanych 51 typów. Tutaj konstruktor bezparametrowy ma 10 typów, a pozostałe 41 ma konstuktor z dziesięcioma parametrami. Typ główny to "TestD" i przymuje on w konstruktorze 10 obiektów, kolejno następujących typów: "TestD40", "TestD41", "TestD42", "TestD43", "TestD44", "TestD45", "TestD46", "TestD47", "TestD48", "TestD49". Jest więc to sytuacja niemal identyczna jak dla poprzedniego przypadku. Dla pozostałych typów jest podobnie i każdy z nich w konstruktorze przyjmuje 10 obiektów o typach z pierwszym numerem o 1 mniejszym (obiekty typów od "TestD40" do "TestD49", przyjmują w konstruktorze obiekty typów od "TestD30" do "TestD39" itd.). Ostatnie 10 typów, czyli typy od "TestD00" do "TestD09", mają konstruktor bezparametrowy. Graf zależności dla tego przypadku testowego został przedstawiony na Rys. \ref{fig:testD}.
-
-\begin{figure}[h]
+Podobnie jak przypadek testowy B jest analigoczny z przypadkiem A, tak ten przypadek, jest zbliżony do przypadku C. Jednakże pokrewieństwo jest inne. Mamy tutaj tyle sama poziomów, co dla C, ale na każdym poziomie (poza pierwszym) obiektów jest dwa razy więcej. Zatem w tym teście mamy zdefiniowanych 51 typów. Tutaj konstruktor bezparametrowy ma 10 typów, a pozostałe 41 ma konstuktor z dziesięcioma parametrami. Typ główny to "TestD" i przymuje on w konstruktorze 10 obiektów, kolejno następujących typów: "TestD40", "TestD41", "TestD42", "TestD43", "TestD44", "TestD45", "TestD46", "TestD47", "TestD48", "TestD49". Jest więc to sytuacja niemal identyczna jak dla poprzedniego przypadku. Dla pozostałych typów jest podobnie i każdy z nich w konstruktorze przyjmuje 10 obiektów o typach z pierwszym numerem o 1 mniejszym (obiekty typów od "TestD40" do "TestD49", przyjmują w konstruktorze obiekty typów od "TestD30" do "TestD39" itd.). Ostatnie 10 typów, czyli typy od "TestD00" do "TestD09", mają konstruktor bezparametrowy. Graf zależności dla tego przypadku testowego został przedstawiony na Rys. \ref{fig:testD}.\\
+\begin{figure}[H]
 	\begin{center}
   		\includegraphics[width=\linewidth]{TestD.png}
   		\caption{Graf zależności dla testu D.}
@@ -847,9 +1192,37 @@ Podobnie jak przypadek testowy B jest analigoczny z przypadkiem A, tak ten przyp
 	\item  typy od TestD40 do TestD49 - 11 111 obiektów,
 	\item TestD - 111 111 obiektów.
 \end{itemize}
-Zatem tworząc obiekt typu TestD, tworzymy: 1 obiekt typu TestD, 10 obiektów typów od TestD40 do TestD49, 100 obiektów typów od TestD30 do TestD39, 1 000 obiektów typów od TestD20 do TestD29, 10 000 obiektów typów od TestD10 do TestD19, 100 000 obiektów typów od TestD00 do TestD09 - co daje w sumie 111 111 obiektów..
+Zatem tworząc obiekt typu TestD, tworzymy: 1 obiekt typu TestD, 10 obiektów typów od TestD40 do TestD49, 100 obiektów typów od TestD30 do TestD39, 1 000 obiektów typów od TestD20 do TestD29, 10 000 obiektów typów od TestD10 do TestD19, 100 000 obiektów typów od TestD00 do TestD09 - co daje w sumie 111 111 obiektów.
+
+\subsubsection{Wyniki dla Register}
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r | r | r | r | }
+    		\hline
+Test & Singleton & Transient & TransientSingleton & PerThread \\ \hline
+Autofac & 0 & 0 & 0 & 0 \\ \hline
+DryIoc & 0 & 0 & 0 & 0 \\ \hline
+Grace & 0 & 0 & 0 & 0 \\ \hline
+LightInject & 0 & 0 & 0 & 0 \\ \hline
+Ninject & 0 & 0 & 0 & 0 \\ \hline
+NiquIoCPartial & 0 & 0 & 0 & 0 \\ \hline
+NiquIoCFull & 0 & 0 & 0 & 0 \\ \hline
+SimpleInjector & 0 & 0 & 0 & 0 \\ \hline
+StructureMap & 4 & 2 & 1 & 4 \\ \hline
+Unity & 0 & 0 & 0 & 0 \\ \hline
+Windsor & 1 & 1 & 1 & 2 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla operacji Register dla Przypadku testowego D}
+\label{TestCaseD_Register}
+\end{table}
+Dla tego przypadku testowego również wszystkie rozwiązania za wyjątkiem StructureMap i Windsor mają czasy zbliżone do 0 ms. StructureMap radzi sobie zdecydowanie najgorzej. Zarówno dla testu Singleton jak i PerThread osiągnął czas 4 ms. Dla Transient zanotował 2 ms, a dla TransientSingleton 1 ms. Windsor natomiast dla trzech pierwszych testów (Singleton, Transient oraz TransientSingleton) ma czas zbliżony do 1 ms, a dla ostatniego testu (PerThread) osiąga 2 ms.
 
 \subsubsection{Wyniki dla Singleton}
+\begin{table}[H]
 \begin{center}
 \begin{small}
 	\begin{tabular}{ | l | r r r | r r r | }
@@ -870,9 +1243,14 @@ Windsor & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
   	\end{tabular}
 \end{small}
 \end{center}
+\caption{Wyniki testów dla operacji Singleton dla Przypadku testowego D}
+\label{TestCaseD_Singleton}
+\end{table}
 W porówaniu do poprzednich przypadków testowych, różnice czasów dla poszczególnych rozwiążań, są tutaj dużo bardziej zauważalne. Cowięcej wyniki dla 1 jak i 10 operacji są praktycznie takie same. Ponownie najlepiej dla tego testu radzą sobie Autofac i Windsor. Kolejne miejsca zajmują NiquIoCPartial, DryIoc oraz SimpleInjector. Różnice czasów pomiędzy tymi trzema rozwiązaniami są niewielkie (około 1 milisekunda). Na miejscu 6 znalazł się LightInject, a zaraz za nim Grace. Trochę słabiej od nich poradził sobie NiquIoCFull. Grupę rozwiązań ze średnimi czasami zamyka Ninject. Ostatnie dwa wyniki, z bardzo dużo różnica w stosunku do pozostałych rozwiązań, uzyskały StructureMap i Unity.
 
 \subsubsection{Wyniki dla Transient}
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
 \begin{center}
 \begin{small}
 	\begin{tabular}{ | l | r r r | r r r | }
@@ -893,11 +1271,16 @@ Windsor & 177 & 261 & 182 & 1797 & 2421 & 1827 \\ \hline
   	\end{tabular}
 \end{small}
 \end{center}
+\caption{Wyniki testów dla operacji Transient dla Przypadku testowego D}
+\label{TestCaseD_Transient}
+\end{table}
 W przeciwieństwie do poprzedniego testu, tutaj różnica w czasach dla 1 i 10 operacji jest bardzo duża. Dla niektórych rozwiązań wzrost jest 10-krotny, a dla niektórych o kilka procent.\\
 Gdy mamy 1 operację zauważalnie najlepiej radzi sobie NiquIoCPartial. Osiągnął on czasy ponad 3 razy mniejszy, niż StructureMap, który zajął drugie miejsce. Na kolejnych pozycjach z podobnymi czasami znalazły się: Autofac, Unity, SimpleInjector oraz Windsor. Dość duży czas zanotował NiquIoCFull i osiągnął miejsce 7. Dalej w rankingu jest LightInject. Ostatnie trzy miejsca zajęły: DryIoc, Ninject oraz Grace.\\
 Przy 10 operacjach ranking bardzo się zmienia. Na prowadzenie wysunął się SimpleInjector, a na drugie miejsce spadł NiquIoCPartial. Podium zamyka StructureMap. Niedużo słabszy czas od niego uzyskał NiquIoCFull, jednak zanotował on wzrost czasu o około 10\%, a StructureMap ten wzrost miał ponad 5-krotny. Na kolejnych dwóch miejscach, również z niedużym wzrostem, znalazły się LightInject oraz DryIoc. Miejsce 8 zajął Autofac. Mały wzrost miał także Grace, ale bardzo duży czas dla 1 operacji spowodował, że wyprzedził jedynie Windsor i Ninject, które zajęły dwie ostatnie pozycje.
 
 \subsubsection{Wyniki dla TransientSingleton}
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
 \begin{center}
 \begin{small}
 	\begin{tabular}{ | l | r r r | r r r | }
@@ -918,11 +1301,16 @@ Windsor & 85 & 102 & 87 & 852 & 965 & 864 \\ \hline
   	\end{tabular}
 \end{small}
 \end{center}
+\caption{Wyniki testów dla operacji TransientSingleton dla Przypadku testowego D}
+\label{TestCaseD_TransientSingleton}
+\end{table}
 Wyniki dla tego testu bardzo przypominają poprzednie rezultaty.\\
 Dla 1 operacji z bardzo dużą przewagą na prowadzeniu jest NiquIoCParial. Na podium znalazły się również StructureMap i Autofac. Kolejne dwa miejsca z podobnymi czasami zajmują SimpleInjector oraz Windsor. Dalej jest Unity, a kawałe za nim NiquIocFull. Kolejne rozwiążania mają już bardzo dużo różnice czasów w stosunku do reszty. Miejsce 8 zajął Grace, a ranking zamykają: Ninject, DryIoc i LightInject.\\
 Gdy mamy 10 operacji ranking ulega sporym zmianom. Trochę lepiej niż NiquIoCPartial radzi sobie SimpleInjector i to on znalazł się na prowadzeniu. Podium zamyka NiquIoCFull. Niedużo gorszy wynik od niego uzyskał StrucutreMap. Z lekkim wzrostem czasu na miejsce 5 awansował Grace. Pozostałe rozwiązania to już spore większe rezultaty. Najpierw jest Unity, a za nim z podobnymi wynikami znalazły się: Windsor, Autofac i DryIoc. Ostatnie dwa miejsca przypadły LightInject i Ninject.
 
 \subsubsection{Wyniki dla PerThread}
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
 \begin{center}
 \begin{small}
 	\begin{tabular}{ | l | r r r | r r r | }
@@ -943,19 +1331,61 @@ Windsor & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
   	\end{tabular}
 \end{small}
 \end{center}
+\caption{Wyniki testów dla operacji PerThread dla Przypadku testowego D}
+\label{TestCaseD_PerThread}
+\end{table}
 Dla tego testu największym rozczarowaniem okazał się LightInject. Osiągnął on nieporównywalnie większe czasy niż cała reszta. Bardzo duże wyniki zanotował również DryIoc.\\
 Najlepiej poradziły sobie Autofac i Windsor. NiquIoCPartial znalazł się na 3 miejscu, a dalej, z czasem dwukrotnie większym, NiquIoCFull. Trochę gorszy wynik od niego uzyskał Ninject. Kolejne miejsce zajął Grace. Ostatnia trójka (nie licząc wcześniej wspomnianych DryIoc oraz LightInject), to: SimpleInjector, StructureMap i Unity.
+
+\subsubsection{Wyniki dla FactoryMethod}
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | r r r | r r r | r r r | }
+    		\hline
+Ilość & & 1 & & & 10 & \\ \hline
+ & min & max & avg & min & max & avg \\ \hline
+Autofac & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+DryIoc & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+Grace & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+LightInject & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+Ninject & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+NiquIoCPartial & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+NiquIoCFull & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+SimpleInjector & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+StructureMap & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+Unity & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+Windsor & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla operacji FactoryMethod dla Przypadku testowego D}
+\label{TestCaseD_FactoryMethod}
+\end{table}
+Tym razem wszystkie rozwiązania mają czasy na poziomie 0 ms.
 
 
 
 \clearpage
 \section{Podsumowanie}
-<parę słów na koniec>
+Zaproponowane przeze mnie rozwiązania bardzo dobrze realizują postawione we wstępie pracy cele. Dla wszystkich przypadków testowych, dla każdego z rodzaju rejestracji jedno z moich rozwiązań radziło sobie najlepiej albo niewiele odbiegało od najlepszego rozwiązania (zawsze któreś z moich rozwiązało było w pierwszej trójce, a czasmi nawet oba). Możliwość mieszania użyć zaprezentowanych przeze mnie rozwiążań (w jednym projekcie można korzystać z obu rozwiązań niezależnie) sprawia, że NiquIoC jest najwydajniejszą implementacją wzorca wstrzykiwania zależności dla złożonych grafów zależności.\\
+Dodatkowo wyniki moich testów pokazują, że rozwiązanie Ninject jest najmniej wydajne i nie zaleca się go używać przy bardzo rozbudowanych grafach.Jeśli chodzi natomiast o rozwiązania, które radzą sobie dobrze, to nie ma drugiego takiego (poza moim), które zawsze dawałoby zadowalające rezulataty. SimpleInjector dość dobrze radzi sobie dla testów Singleton, Transient i TransientSingleton, ale osiąga słabe rezultaty dla PerThread i FactoryMethod. LightInject z kolei jest rozwiązaniem, które wraz ze wzrostem liczby operacji ma najmniejszy wzrostu czasu. Jednakże w wielu przypadkach dość duże czasy dla małej liczby operacji powodują, że wyniki dla wielu operacji są bardzo duże. Takim pośrednim rozwiązaniem jest natomiast Grace. To rozwiązanie ma zarówno nieduże wzrosty czasów jak i nieduże wyniki dla małej ilości operacji, jednak mimo wszystko są one dużo słabsze niż dla NiquIoC.
+
+\subsection{Kontynuacja projektu}
+Zaprezentowane przeze mnie rozwiązania są bardzo wydaje, ale mają swoje ograniczenia. Jednym z nich jest między innymi konieczność rejestracji wszystkich typów. Tę funkcjonalność możnaby rozszerzyć, aby nie trzeba było rejestrować klas. Algorytm sam rejestrowałby klasy gdyby okazywały się potrzebne - większość z rozwiązań dostarcza taką funkcjonalność. Kolejnym rozszerzeniem mogłoby być automatyczna rejestracja wszystkich typów z danego assembly. Osobom wykorzystującym moje rozwiązanie zaoszczędziłoby to sporo czasu na rejestrowanie wszystkich typów. Dodatkowo dodając kolejny typ do danego assembly, nie trzeba byłoby się przejmować zarejestrowaniem go. Jeszcze jednym dodatkiem wydaje się danie możliwości rejestracji wielu implementacji danego interfejsu. To jest również często spotykana funkcjonalność. Na koniec warto również wspomnieć o metodzie BuildUp dla NiquIoCFull - w mojej pracy tego zabrakło, a to również mogłoby być jednym z kolejnych rozszerzeń. 
+
+\newpage
+\listoffigures
+\listoftables
 
 \newpage
 \begin{thebibliography}{authordate1}
+\bibitem{csharp} Ian Griffiths, Matthew Adams, Jesse Liberty, C\#. Programowanie. Wydanie VI, 2012
 \bibitem{dependency_injection} Mark Seemann, Dependency Injection in .NET, 2012
 \bibitem{emit} Serge Lidin, Expert .NET 2.0 IL Assembler, 2006
+\bibitem{clean_code} Robert C. Martin, Czysty kod. Podręcznik dobrego programisty, 2014
+\bibitem{SOLID} https://en.wikipedia.org/wiki/SOLID\_(object-oriented\_design)
 \end{thebibliography}
 
 \end{document}

@@ -24,7 +24,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsWindsor
             var obj1 = c.Resolve<ITestA>();
             var obj2 = c.Resolve<ITestA>();
 
-            
+
             CheckHelper.Check(obj1, true, true);
             CheckHelper.Check(obj2, true, true);
             CheckHelper.Check(obj1, obj2, true, true);
@@ -42,7 +42,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsWindsor
             var obj1 = c.Resolve<ITestA>();
             var obj2 = c.Resolve<ITestA>();
 
-            
+
             CheckHelper.Check(obj1, false, false);
             CheckHelper.Check(obj2, false, false);
             CheckHelper.Check(obj1, obj2, false, false);
@@ -118,7 +118,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsWindsor
         public void RegisterFactoryMethod_Success()
         {
             ITestCase testCase = new FactoryMethodTestCaseA(new WindsorRegistration(), new WindsorResolving());
-            
+
             var c = new WindsorContainer();
             c = (WindsorContainer)testCase.Register(c, RegistrationKind.FactoryMethod);
 

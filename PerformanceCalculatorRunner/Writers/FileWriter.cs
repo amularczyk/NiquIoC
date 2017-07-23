@@ -14,8 +14,9 @@ namespace PerformanceCalculatorRunner.Writers
             _resultFile = $"{resultFile}.{extension}";
         }
 
-        public abstract void Write(Dictionary<string, IEnumerable<FinalTestResult>> results, IEnumerable<PerformanceTestCase> testCases);
-        
+        public abstract void Write(Dictionary<string, IEnumerable<FinalTestResult>> results,
+            IEnumerable<PerformanceTestCase> testCases);
+
         protected void WriteToFile(IEnumerable<string> results)
         {
             using (var file = new StreamWriter(_resultFile))

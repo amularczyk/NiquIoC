@@ -16,7 +16,8 @@ namespace PerformanceCalculator.Tests.Containers.TestsNiquIoCPartial
         [TestMethod]
         public void RegisterSingleton_Success()
         {
-            ITestCase testCase = new SingletonTestCaseA(new NiquIoCPartialRegistration(), new NiquIoCPartialResolving());
+            ITestCase testCase = new SingletonTestCaseA(new NiquIoCPartialRegistration(),
+                new NiquIoCPartialResolving());
 
 
             var c = new Container();
@@ -24,7 +25,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsNiquIoCPartial
 
             var obj1 = c.Resolve<ITestA>(ResolveKind.PartialEmitFunction);
             var obj2 = c.Resolve<ITestA>(ResolveKind.PartialEmitFunction);
-            
+
 
             CheckHelper.Check(obj1, true, true);
             CheckHelper.Check(obj2, true, true);
@@ -34,7 +35,8 @@ namespace PerformanceCalculator.Tests.Containers.TestsNiquIoCPartial
         [TestMethod]
         public void RegisterTransient_Success()
         {
-            ITestCase testCase = new TransientTestCaseA(new NiquIoCPartialRegistration(), new NiquIoCPartialResolving());
+            ITestCase testCase = new TransientTestCaseA(new NiquIoCPartialRegistration(),
+                new NiquIoCPartialResolving());
 
 
             var c = new Container();
@@ -43,7 +45,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsNiquIoCPartial
             var obj1 = c.Resolve<ITestA>(ResolveKind.PartialEmitFunction);
             var obj2 = c.Resolve<ITestA>(ResolveKind.PartialEmitFunction);
 
-            
+
             CheckHelper.Check(obj1, false, false);
             CheckHelper.Check(obj2, false, false);
             CheckHelper.Check(obj1, obj2, false, false);
@@ -52,7 +54,8 @@ namespace PerformanceCalculator.Tests.Containers.TestsNiquIoCPartial
         [TestMethod]
         public void RegisterTransientSingleton_Success()
         {
-            ITestCase testCase = new TransientSingletonTestCaseA(new NiquIoCPartialRegistration(), new NiquIoCPartialResolving());
+            ITestCase testCase =
+                new TransientSingletonTestCaseA(new NiquIoCPartialRegistration(), new NiquIoCPartialResolving());
 
             var c = new Container();
             c = (Container)testCase.Register(c, RegistrationKind.TransientSingleton);
@@ -69,7 +72,8 @@ namespace PerformanceCalculator.Tests.Containers.TestsNiquIoCPartial
         [TestMethod]
         public void RegisterPerThread_SameThread_Success()
         {
-            ITestCase testCase = new PerThreadTestCaseA(new NiquIoCPartialRegistration(), new NiquIoCPartialResolving());
+            ITestCase testCase = new PerThreadTestCaseA(new NiquIoCPartialRegistration(),
+                new NiquIoCPartialResolving());
 
             var c = new Container();
             c = (Container)testCase.Register(c, RegistrationKind.PerThread);
@@ -85,7 +89,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsNiquIoCPartial
             thread.Start();
             thread.Join();
 
-            
+
             CheckHelper.Check(obj1, true, true);
             CheckHelper.Check(obj2, true, true);
             CheckHelper.Check(obj1, obj2, true, true);
@@ -94,7 +98,8 @@ namespace PerformanceCalculator.Tests.Containers.TestsNiquIoCPartial
         [TestMethod]
         public void RegisterPerThread_DifferentThreads_Success()
         {
-            ITestCase testCase = new PerThreadTestCaseA(new NiquIoCPartialRegistration(), new NiquIoCPartialResolving());
+            ITestCase testCase = new PerThreadTestCaseA(new NiquIoCPartialRegistration(),
+                new NiquIoCPartialResolving());
 
             var c = new Container();
             c = (Container)testCase.Register(c, RegistrationKind.PerThread);
@@ -109,7 +114,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsNiquIoCPartial
             thread2.Start();
             thread2.Join();
 
-            
+
             CheckHelper.Check(obj1, true, true);
             CheckHelper.Check(obj2, true, true);
             CheckHelper.Check(obj1, obj2, false, false);
@@ -118,7 +123,8 @@ namespace PerformanceCalculator.Tests.Containers.TestsNiquIoCPartial
         [TestMethod]
         public void RegisterFactoryMethod_Success()
         {
-            ITestCase testCase = new FactoryMethodTestCaseA(new NiquIoCPartialRegistration(), new NiquIoCPartialResolving());
+            ITestCase testCase = new FactoryMethodTestCaseA(new NiquIoCPartialRegistration(),
+                new NiquIoCPartialResolving());
 
             var c = new Container();
             c = (Container)testCase.Register(c, RegistrationKind.FactoryMethod);

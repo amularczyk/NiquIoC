@@ -25,7 +25,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsNiquIoCFull
             var obj1 = c.Resolve<ITestA>(ResolveKind.FullEmitFunction);
             var obj2 = c.Resolve<ITestA>(ResolveKind.FullEmitFunction);
 
-            
+
             CheckHelper.Check(obj1, true, true);
             CheckHelper.Check(obj2, true, true);
             CheckHelper.Check(obj1, obj2, true, true);
@@ -43,7 +43,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsNiquIoCFull
             var obj1 = c.Resolve<ITestA>(ResolveKind.FullEmitFunction);
             var obj2 = c.Resolve<ITestA>(ResolveKind.FullEmitFunction);
 
-            
+
             CheckHelper.Check(obj1, false, false);
             CheckHelper.Check(obj2, false, false);
             CheckHelper.Check(obj1, obj2, false, false);
@@ -52,7 +52,8 @@ namespace PerformanceCalculator.Tests.Containers.TestsNiquIoCFull
         [TestMethod]
         public void RegisterTransientSingleton_Success()
         {
-            ITestCase testCase = new TransientSingletonTestCaseA(new NiquIoCFullRegistration(), new NiquIoCFullResolving());
+            ITestCase testCase =
+                new TransientSingletonTestCaseA(new NiquIoCFullRegistration(), new NiquIoCFullResolving());
 
             var c = new Container();
             c = (Container)testCase.Register(c, RegistrationKind.TransientSingleton);

@@ -20,7 +20,8 @@ namespace NiquIoC.Test.FullEmitFunction.Singleton
         }
 
         [TestMethod]
-        [ExpectedException(typeof(TypeNotRegisteredException), "Type NiquIoC.Test.Model.EmptyClass has not been registered.")]
+        [ExpectedException(typeof(TypeNotRegisteredException),
+            "Type NiquIoC.Test.Model.EmptyClass has not been registered.")]
         public void InternalInterfaceNotRegistered_Fail()
         {
             var c = new Container();
@@ -69,12 +70,15 @@ namespace NiquIoC.Test.FullEmitFunction.Singleton
         }
 
         [TestMethod]
-        [ExpectedException(typeof(CycleForTypeException), "Appeared cycle when resolving constructor for object of type NiquIoC.Test.Model.FirstClassWithCycleInConstructorInRegisteredType")]
+        [ExpectedException(typeof(CycleForTypeException),
+            "Appeared cycle when resolving constructor for object of type NiquIoC.Test.Model.FirstClassWithCycleInConstructorInRegisteredType")]
         public void RegisteredInterfaceAsClassWithCycleInConstructor_Fail()
         {
             var c = new Container();
-            c.RegisterType<ISecondClassWithCycleInConstructor, SecondClassWithCycleInConstructorInRegisteredType>().AsSingleton();
-            c.RegisterType<IFirstClassWithCycleInConstructor, FirstClassWithCycleInConstructorInRegisteredType>().AsSingleton();
+            c.RegisterType<ISecondClassWithCycleInConstructor, SecondClassWithCycleInConstructorInRegisteredType>()
+                .AsSingleton();
+            c.RegisterType<IFirstClassWithCycleInConstructor, FirstClassWithCycleInConstructorInRegisteredType>()
+                .AsSingleton();
 
             var sampleClass = c.Resolve<IFirstClassWithCycleInConstructor>(ResolveKind.FullEmitFunction);
 

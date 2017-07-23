@@ -8,7 +8,8 @@ namespace NiquIoC.Test.PartialEmitFunction.MixObjectsLifeTime.SingletonAndTransi
     public class BuildUpForClassWithDependencyPropertyAndDependencyMethodTests
     {
         [TestMethod]
-        public void BuildUpClassWithDependencyPropertyAndDependencyMethodWithDifferentTypes_SampleClassAsSingleton_Success()
+        public void
+            BuildUpClassWithDependencyPropertyAndDependencyMethodWithDifferentTypes_SampleClassAsSingleton_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
@@ -26,7 +27,8 @@ namespace NiquIoC.Test.PartialEmitFunction.MixObjectsLifeTime.SingletonAndTransi
         }
 
         [TestMethod]
-        public void DifferentObjects_BuildUpClassWithDependencyPropertyAndDependencyMethodWithDifferentTypes_SampleClassAsSingleton_Success()
+        public void
+            DifferentObjects_BuildUpClassWithDependencyPropertyAndDependencyMethodWithDifferentTypes_SampleClassAsSingleton_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();
@@ -56,7 +58,8 @@ namespace NiquIoC.Test.PartialEmitFunction.MixObjectsLifeTime.SingletonAndTransi
         }
 
         [TestMethod]
-        public void BuildUpClassWithDependencyPropertyAndDependencyMethodWithDifferentTypes_EmptyClassAsSingleton_Success()
+        public void
+            BuildUpClassWithDependencyPropertyAndDependencyMethodWithDifferentTypes_EmptyClassAsSingleton_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsSingleton();
@@ -74,7 +77,8 @@ namespace NiquIoC.Test.PartialEmitFunction.MixObjectsLifeTime.SingletonAndTransi
         }
 
         [TestMethod]
-        public void DifferentObjects_BuildUpClassWithDependencyPropertyAndDependencyMethodWithDifferentTypes_EmptyClassAsSingleton_Success()
+        public void
+            DifferentObjects_BuildUpClassWithDependencyPropertyAndDependencyMethodWithDifferentTypes_EmptyClassAsSingleton_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsSingleton();

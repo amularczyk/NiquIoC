@@ -14,7 +14,8 @@ namespace NiquIoC.Test.FullEmitFunction.PerThread.ResolveWithBuildUp
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerThread();
-            c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithInterfaceDependencyProperty>().AsPerThread();
+            c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithInterfaceDependencyProperty>()
+                .AsPerThread();
 
             var sampleClass = c.Resolve<ISampleClassWithInterfaceProperty>(ResolveKind.FullEmitFunction);
 
@@ -27,7 +28,8 @@ namespace NiquIoC.Test.FullEmitFunction.PerThread.ResolveWithBuildUp
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerThread();
-            c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithoutInterfaceDependencyProperty>().AsPerThread();
+            c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithoutInterfaceDependencyProperty>()
+                .AsPerThread();
             ISampleClassWithInterfaceProperty sampleClass = null;
             Exception exception = null;
 

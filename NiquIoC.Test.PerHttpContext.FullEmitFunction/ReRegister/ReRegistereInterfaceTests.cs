@@ -39,7 +39,7 @@ namespace NiquIoC.Test.PerHttpContext.FullEmitFunction.ReRegister
         {
             var c = new Container();
             var emptyClass = new EmptyClass();
-            c.RegisterType<IEmptyClass>(() => emptyClass).AsPerHttpContext();
+            c.RegisterType<IEmptyClass>(container => emptyClass).AsPerHttpContext();
 
 
             var httpContextTestsHelper = HttpContextTestsHelper.Initialize();
@@ -47,7 +47,7 @@ namespace NiquIoC.Test.PerHttpContext.FullEmitFunction.ReRegister
             var emptyClass1 = objs1.Item1;
             var emptyClass2 = objs1.Item2;
 
-            c.RegisterType<IEmptyClass>(() => new EmptyClass()).AsPerHttpContext();
+            c.RegisterType<IEmptyClass>(container => new EmptyClass()).AsPerHttpContext();
             var objs2 = httpContextTestsHelper.ResolveObjects<IEmptyClass>(c, ResolveKind.FullEmitFunction);
             var emptyClass3 = objs2.Item1;
             var emptyClass4 = objs2.Item2;
@@ -72,7 +72,7 @@ namespace NiquIoC.Test.PerHttpContext.FullEmitFunction.ReRegister
             var emptyClass1 = objs1.Item1;
             var emptyClass2 = objs1.Item2;
 
-            c.RegisterType<IEmptyClass>(() => new EmptyClass()).AsPerHttpContext();
+            c.RegisterType<IEmptyClass>(container => new EmptyClass()).AsPerHttpContext();
             var objs2 = httpContextTestsHelper.ResolveObjects<IEmptyClass>(c, ResolveKind.FullEmitFunction);
             var emptyClass3 = objs2.Item1;
             var emptyClass4 = objs2.Item2;
@@ -88,7 +88,7 @@ namespace NiquIoC.Test.PerHttpContext.FullEmitFunction.ReRegister
         public void InterfaceReRegisteredFromObjectFactoryToInstance_Success()
         {
             var c = new Container();
-            c.RegisterType<IEmptyClass>(() => new EmptyClass()).AsPerHttpContext();
+            c.RegisterType<IEmptyClass>(container => new EmptyClass()).AsPerHttpContext();
 
 
             var httpContextTestsHelper = HttpContextTestsHelper.Initialize();
@@ -121,7 +121,7 @@ namespace NiquIoC.Test.PerHttpContext.FullEmitFunction.ReRegister
             var emptyClass1 = objs1.Item1;
             var emptyClass2 = objs1.Item2;
 
-            c.RegisterType<IEmptyClass>(() => new EmptyClass()).AsPerHttpContext();
+            c.RegisterType<IEmptyClass>(container => new EmptyClass()).AsPerHttpContext();
             var objs2 = httpContextTestsHelper.ResolveObjects<IEmptyClass>(c, ResolveKind.FullEmitFunction);
             var emptyClass3 = objs2.Item1;
             var emptyClass4 = objs2.Item2;

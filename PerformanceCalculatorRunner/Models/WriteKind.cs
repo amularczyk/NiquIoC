@@ -9,6 +9,6 @@
         VerticalRegister,
         VerticalResolve,
         LatexTableRegister,
-        LatexTableResolve,
+        LatexTableResolve
     }
 }

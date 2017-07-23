@@ -12,10 +12,12 @@ namespace NiquIoC.Test.PerHttpContext.FullEmitFunction.ResolveWithBuildUp
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerHttpContext();
-            c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithInterfaceDependencyProperty>().AsPerHttpContext();
+            c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithInterfaceDependencyProperty>()
+                .AsPerHttpContext();
 
 
-            var sampleClass = HttpContextTestsHelper.Initialize().ResolveObject<ISampleClassWithInterfaceProperty>(c, ResolveKind.FullEmitFunction);
+            var sampleClass = HttpContextTestsHelper.Initialize()
+                .ResolveObject<ISampleClassWithInterfaceProperty>(c, ResolveKind.FullEmitFunction);
 
 
             Assert.IsNotNull(sampleClass);
@@ -27,10 +29,12 @@ namespace NiquIoC.Test.PerHttpContext.FullEmitFunction.ResolveWithBuildUp
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsPerHttpContext();
-            c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithoutInterfaceDependencyProperty>().AsPerHttpContext();
+            c.RegisterType<ISampleClassWithInterfaceProperty, SampleClassWithoutInterfaceDependencyProperty>()
+                .AsPerHttpContext();
 
 
-            var sampleClass = HttpContextTestsHelper.Initialize().ResolveObject<ISampleClassWithInterfaceProperty>(c, ResolveKind.FullEmitFunction);
+            var sampleClass = HttpContextTestsHelper.Initialize()
+                .ResolveObject<ISampleClassWithInterfaceProperty>(c, ResolveKind.FullEmitFunction);
 
 
             Assert.IsNotNull(sampleClass);

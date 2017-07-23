@@ -7,7 +7,9 @@ namespace PerformanceCalculatorRunner
 {
     public class Program
     {
-        private static readonly string _processPath = @"..\..\..\PerformanceCalculator\bin\Release\PerformanceCalculator.exe";
+        private static readonly string _processPath =
+            @"..\..\..\PerformanceCalculator\bin\Release\PerformanceCalculator.exe";
+
         private static readonly string _resultFile = $"PerformanceCalculator_{DateTime.Now:yyyy_MM_dd_HH_mm}";
 
         private static void Main(string[] args)
@@ -23,7 +25,9 @@ namespace PerformanceCalculatorRunner
             var testCases = PerformanceTestCasesCreaterHelper.CreatePerformanceTestCases();
 
             var performanceTestsRunner = new PerformanceTestsRunner(_processPath);
-            var results = PerformanceTestCasesRunnerHelper.RunPerformanceTests(performanceTestsRunner, repetitionsNumber, testCases);
+            var results =
+                PerformanceTestCasesRunnerHelper.RunPerformanceTests(performanceTestsRunner, repetitionsNumber,
+                    testCases);
 
             var writer = WriterFactory.GetTextFormatter(WriteKind.LatexTableResolve, _resultFile);
             writer.Write(results, testCases);

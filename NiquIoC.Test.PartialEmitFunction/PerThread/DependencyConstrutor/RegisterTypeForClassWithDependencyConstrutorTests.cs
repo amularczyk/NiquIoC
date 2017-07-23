@@ -19,10 +19,13 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.DependencyConstrutor
             SampleClassWithDependencyConstrutor sampleClass = null;
 
 
-            var thread = new Thread(() => { sampleClass = c.Resolve<SampleClassWithDependencyConstrutor>(ResolveKind.PartialEmitFunction); });
+            var thread = new Thread(container =>
+            {
+                sampleClass = c.Resolve<SampleClassWithDependencyConstrutor>(ResolveKind.PartialEmitFunction);
+            });
             thread.Start();
             thread.Join();
-            
+
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNotNull(sampleClass.EmptyClass);
@@ -57,7 +60,7 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.DependencyConstrutor
             {
                 throw exception;
             }
-            
+
 
             Assert.IsNull(sampleClass);
         }
@@ -72,10 +75,14 @@ namespace NiquIoC.Test.PartialEmitFunction.PerThread.DependencyConstrutor
             SampleClassWithNestedClassWithDependencyConstrutor sampleClass = null;
 
 
-            var thread = new Thread(() => { sampleClass = c.Resolve<SampleClassWithNestedClassWithDependencyConstrutor>(ResolveKind.PartialEmitFunction); });
+            var thread = new Thread(container =>
+            {
+                sampleClass =
+                    c.Resolve<SampleClassWithNestedClassWithDependencyConstrutor>(ResolveKind.PartialEmitFunction);
+            });
             thread.Start();
             thread.Join();
-            
+
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNotNull(sampleClass.SampleClassWithDependencyConstrutor);

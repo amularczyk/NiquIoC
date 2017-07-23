@@ -52,7 +52,8 @@ namespace PerformanceCalculator.Tests.Containers.TestsNiquIoCFull
         [TestMethod]
         public void RegisterTransientSingleton_Success()
         {
-            ITestCase testCase = new TransientSingletonTestCaseD(new NiquIoCFullRegistration(), new NiquIoCFullResolving());
+            ITestCase testCase =
+                new TransientSingletonTestCaseD(new NiquIoCFullRegistration(), new NiquIoCFullResolving());
 
             var c = new Container();
             c = (Container)testCase.Register(c, RegistrationKind.TransientSingleton);

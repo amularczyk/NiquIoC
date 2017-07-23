@@ -19,10 +19,13 @@ namespace NiquIoC.Test.FullEmitFunction.PerThread.DependencyConstrutor
             ISampleClass sampleClass = null;
 
 
-            var thread = new Thread(() => { sampleClass = c.Resolve<ISampleClass>(ResolveKind.FullEmitFunction); });
+            var thread = new Thread(container =>
+            {
+                sampleClass = c.Resolve<ISampleClass>(ResolveKind.FullEmitFunction);
+            });
             thread.Start();
             thread.Join();
-            
+
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNotNull(sampleClass.EmptyClass);
@@ -57,24 +60,30 @@ namespace NiquIoC.Test.FullEmitFunction.PerThread.DependencyConstrutor
             {
                 throw exception;
             }
-            
+
 
             Assert.IsNull(sampleClass);
         }
+
         [TestMethod]
-        public void RegisteredInterfaceAsClassWithNestedClassAsParameterWithConstructorWithAttributeDependencyConstrutor_Success()
+        public void
+            RegisteredInterfaceAsClassWithNestedClassAsParameterWithConstructorWithAttributeDependencyConstrutor_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsPerThread();
             c.RegisterType<SampleClassWithDependencyConstrutor>().AsPerThread();
-            c.RegisterType<ISampleClassWithNestedClass, SampleClassWithNestedClassWithDependencyConstrutor>().AsPerThread();
+            c.RegisterType<ISampleClassWithNestedClass, SampleClassWithNestedClassWithDependencyConstrutor>()
+                .AsPerThread();
             ISampleClassWithNestedClass sampleClass = null;
 
 
-            var thread = new Thread(() => { sampleClass = c.Resolve<ISampleClassWithNestedClass>(ResolveKind.FullEmitFunction); });
+            var thread = new Thread(container =>
+            {
+                sampleClass = c.Resolve<ISampleClassWithNestedClass>(ResolveKind.FullEmitFunction);
+            });
             thread.Start();
             thread.Join();
-            
+
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNotNull(sampleClass.SampleClassWithDependencyConstrutor);

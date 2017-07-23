@@ -26,7 +26,8 @@ namespace PerformanceCalculatorRunner.Helpers
 
             if (process.ExitCode != 0)
             {
-                throw new InvalidOperationException($"Process ended with Exit Code {process.ExitCode}. StandardError = {standardError}");
+                throw new InvalidOperationException(
+                    $"Process ended with Exit Code {process.ExitCode}. StandardError = {standardError}");
             }
 
             return standardOutput;

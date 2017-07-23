@@ -15,7 +15,9 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
             c.RegisterType<SampleClassWithClassDependencyPropertyAndDependencyMethodWithSameType>();
 
 
-            var sampleClass = HttpContextTestsHelper.Initialize().ResolveObject<SampleClassWithClassDependencyPropertyAndDependencyMethodWithSameType>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass = HttpContextTestsHelper.Initialize()
+                .ResolveObject<SampleClassWithClassDependencyPropertyAndDependencyMethodWithSameType>(c,
+                    ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass.EmptyClassFromDependencyProperty);
@@ -24,14 +26,17 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
         }
 
         [TestMethod]
-        public void SameHttpContext_DifferentObjects_RegisterClassWithDependencyPropertyAndDependencyMethodWithSameType_Success()
+        public void
+            SameHttpContext_DifferentObjects_RegisterClassWithDependencyPropertyAndDependencyMethodWithSameType_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsPerHttpContext();
             c.RegisterType<SampleClassWithClassDependencyPropertyAndDependencyMethodWithSameType>();
 
 
-            var objs = HttpContextTestsHelper.Initialize().ResolveObjects<SampleClassWithClassDependencyPropertyAndDependencyMethodWithSameType>(c, ResolveKind.PartialEmitFunction);
+            var objs = HttpContextTestsHelper.Initialize()
+                .ResolveObjects<SampleClassWithClassDependencyPropertyAndDependencyMethodWithSameType>(c,
+                    ResolveKind.PartialEmitFunction);
             var sampleClass1 = objs.Item1;
             var sampleClass2 = objs.Item2;
 
@@ -43,20 +48,26 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
             Assert.IsNotNull(sampleClass2.EmptyClassFromDependencyMethod);
             Assert.AreEqual(sampleClass2.EmptyClassFromDependencyProperty, sampleClass2.EmptyClassFromDependencyMethod);
             Assert.AreNotEqual(sampleClass1, sampleClass2);
-            Assert.AreEqual(sampleClass1.EmptyClassFromDependencyProperty, sampleClass2.EmptyClassFromDependencyProperty);
+            Assert.AreEqual(sampleClass1.EmptyClassFromDependencyProperty,
+                sampleClass2.EmptyClassFromDependencyProperty);
             Assert.AreEqual(sampleClass1.EmptyClassFromDependencyMethod, sampleClass2.EmptyClassFromDependencyMethod);
         }
 
         [TestMethod]
-        public void DifferentHttpContexts_DifferentObjects_RegisterClassWithDependencyPropertyAndDependencyMethodWithSameType_Success()
+        public void
+            DifferentHttpContexts_DifferentObjects_RegisterClassWithDependencyPropertyAndDependencyMethodWithSameType_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsPerHttpContext();
             c.RegisterType<SampleClassWithClassDependencyPropertyAndDependencyMethodWithSameType>();
 
 
-            var sampleClass1 = HttpContextTestsHelper.Initialize().ResolveObject<SampleClassWithClassDependencyPropertyAndDependencyMethodWithSameType>(c, ResolveKind.PartialEmitFunction);
-            var sampleClass2 = HttpContextTestsHelper.Initialize().ResolveObject<SampleClassWithClassDependencyPropertyAndDependencyMethodWithSameType>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass1 = HttpContextTestsHelper.Initialize()
+                .ResolveObject<SampleClassWithClassDependencyPropertyAndDependencyMethodWithSameType>(c,
+                    ResolveKind.PartialEmitFunction);
+            var sampleClass2 = HttpContextTestsHelper.Initialize()
+                .ResolveObject<SampleClassWithClassDependencyPropertyAndDependencyMethodWithSameType>(c,
+                    ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass1.EmptyClassFromDependencyProperty);
@@ -66,8 +77,10 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
             Assert.IsNotNull(sampleClass2.EmptyClassFromDependencyMethod);
             Assert.AreEqual(sampleClass2.EmptyClassFromDependencyProperty, sampleClass2.EmptyClassFromDependencyMethod);
             Assert.AreNotEqual(sampleClass1, sampleClass2);
-            Assert.AreNotEqual(sampleClass1.EmptyClassFromDependencyProperty, sampleClass2.EmptyClassFromDependencyProperty);
-            Assert.AreNotEqual(sampleClass1.EmptyClassFromDependencyMethod, sampleClass2.EmptyClassFromDependencyMethod);
+            Assert.AreNotEqual(sampleClass1.EmptyClassFromDependencyProperty,
+                sampleClass2.EmptyClassFromDependencyProperty);
+            Assert.AreNotEqual(sampleClass1.EmptyClassFromDependencyMethod,
+                sampleClass2.EmptyClassFromDependencyMethod);
         }
 
         [TestMethod]
@@ -79,7 +92,9 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
             c.RegisterType<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>();
 
 
-            var sampleClass = HttpContextTestsHelper.Initialize().ResolveObject<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass = HttpContextTestsHelper.Initialize()
+                .ResolveObject<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>(c,
+                    ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass.SampleClass);
@@ -89,7 +104,8 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
         }
 
         [TestMethod]
-        public void SameHttpContext_DifferentObjects_RegisterClassWithDependencyPropertyAndDependencyMethodWithDifferentTypes_Success()
+        public void
+            SameHttpContext_DifferentObjects_RegisterClassWithDependencyPropertyAndDependencyMethodWithDifferentTypes_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsPerHttpContext();
@@ -97,7 +113,9 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
             c.RegisterType<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>();
 
 
-            var objs = HttpContextTestsHelper.Initialize().ResolveObjects<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>(c, ResolveKind.PartialEmitFunction);
+            var objs = HttpContextTestsHelper.Initialize()
+                .ResolveObjects<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>(c,
+                    ResolveKind.PartialEmitFunction);
             var sampleClass1 = objs.Item1;
             var sampleClass2 = objs.Item2;
 
@@ -116,7 +134,8 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
         }
 
         [TestMethod]
-        public void DifferentHttpContexts_DifferentObjects_RegisterClassWithDependencyPropertyAndDependencyMethodWithDifferentTypes_Success()
+        public void
+            DifferentHttpContexts_DifferentObjects_RegisterClassWithDependencyPropertyAndDependencyMethodWithDifferentTypes_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsPerHttpContext();
@@ -124,8 +143,12 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
             c.RegisterType<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>();
 
 
-            var sampleClass1 = HttpContextTestsHelper.Initialize().ResolveObject<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>(c, ResolveKind.PartialEmitFunction);
-            var sampleClass2 = HttpContextTestsHelper.Initialize().ResolveObject<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass1 = HttpContextTestsHelper.Initialize()
+                .ResolveObject<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>(c,
+                    ResolveKind.PartialEmitFunction);
+            var sampleClass2 = HttpContextTestsHelper.Initialize()
+                .ResolveObject<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>(c,
+                    ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass1.SampleClass);

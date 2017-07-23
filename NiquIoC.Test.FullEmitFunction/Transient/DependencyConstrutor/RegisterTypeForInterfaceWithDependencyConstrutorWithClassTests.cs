@@ -33,8 +33,10 @@ namespace NiquIoC.Test.FullEmitFunction.Transient.DependencyConstrutor
 
             Assert.IsNull(sampleClass);
         }
+
         [TestMethod]
-        public void RegisteredInterfaceAsClassWithNestedClassAsParameterWithConstructorWithAttributeDependencyConstrutor_Success()
+        public void
+            RegisteredInterfaceAsClassWithNestedClassAsParameterWithConstructorWithAttributeDependencyConstrutor_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>();

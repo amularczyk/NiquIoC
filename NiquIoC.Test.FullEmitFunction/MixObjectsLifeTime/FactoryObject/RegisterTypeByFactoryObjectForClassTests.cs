@@ -11,7 +11,7 @@ namespace NiquIoC.Test.FullEmitFunction.MixObjectsLifeTime.FactoryObject
         public void NestedFactoryObjectRegisteredAsSingletonReturnNewObject_Success()
         {
             var c = new Container();
-            c.RegisterType<EmptyClass>(() => new EmptyClass()).AsSingleton();
+            c.RegisterType(container => new EmptyClass()).AsSingleton();
             c.RegisterType<SampleClass>();
 
             var sampleClass1 = c.Resolve<SampleClass>(ResolveKind.FullEmitFunction);
@@ -26,7 +26,7 @@ namespace NiquIoC.Test.FullEmitFunction.MixObjectsLifeTime.FactoryObject
         {
             var c = new Container();
             var emptyClass = new EmptyClass();
-            c.RegisterType<EmptyClass>(() => emptyClass).AsSingleton();
+            c.RegisterType(container => emptyClass).AsSingleton();
             c.RegisterType<SampleClass>();
 
             var sampleClass1 = c.Resolve<SampleClass>(ResolveKind.FullEmitFunction);
@@ -35,11 +35,12 @@ namespace NiquIoC.Test.FullEmitFunction.MixObjectsLifeTime.FactoryObject
             Assert.AreNotEqual(sampleClass1, sampleClass2);
             Assert.AreEqual(sampleClass1.EmptyClass, sampleClass2.EmptyClass);
         }
+
         [TestMethod]
         public void NestedFactoryObjectRegisteredAsTransientReturnNewObject_Success()
         {
             var c = new Container();
-            c.RegisterType<EmptyClass>(() => new EmptyClass());
+            c.RegisterType(container => new EmptyClass());
             c.RegisterType<SampleClass>().AsSingleton();
 
             var sampleClass1 = c.Resolve<SampleClass>(ResolveKind.FullEmitFunction);
@@ -54,7 +55,7 @@ namespace NiquIoC.Test.FullEmitFunction.MixObjectsLifeTime.FactoryObject
         {
             var c = new Container();
             var emptyClass = new EmptyClass();
-            c.RegisterType<EmptyClass>(() => emptyClass);
+            c.RegisterType(container => emptyClass);
             c.RegisterType<SampleClass>().AsSingleton();
 
             var sampleClass1 = c.Resolve<SampleClass>(ResolveKind.FullEmitFunction);

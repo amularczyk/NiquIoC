@@ -41,7 +41,7 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.BuildUp
 
             c.BuildUp(sampleClass1, ResolveKind.PartialEmitFunction);
             c.BuildUp(sampleClass2, ResolveKind.PartialEmitFunction);
-            
+
             Assert.IsNotNull(sampleClass1.EmptyClass);
             Assert.IsNotNull(sampleClass2.EmptyClass);
             Assert.AreNotEqual(sampleClass1, sampleClass2);
@@ -62,14 +62,16 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.BuildUp
         }
 
         [TestMethod]
-        [ExpectedException(typeof(CycleForTypeException), "Appeared cycle when resolving constructor for object of type NiquIoC.Test.Model.SampleClassWithCycleInConstructorWithClassDependencyMethod")]
+        [ExpectedException(typeof(CycleForTypeException),
+            "Appeared cycle when resolving constructor for object of type NiquIoC.Test.Model.SampleClassWithCycleInConstructorWithClassDependencyMethod")]
         public void ResolveClassWithCycleInConstructorWithClassDependencyMethod_Failed()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsSingleton();
             c.RegisterType<SampleClassWithCycleInConstructorWithClassDependencyMethod>().AsSingleton();
 
-            var sampleClass = c.Resolve<SampleClassWithCycleInConstructorWithClassDependencyMethod>(ResolveKind.PartialEmitFunction);
+            var sampleClass =
+                c.Resolve<SampleClassWithCycleInConstructorWithClassDependencyMethod>(ResolveKind.PartialEmitFunction);
 
             Assert.IsNull(sampleClass);
         }
@@ -123,7 +125,7 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.BuildUp
 
             c.BuildUp(sampleClass1, ResolveKind.PartialEmitFunction);
             c.BuildUp(sampleClass2, ResolveKind.PartialEmitFunction);
-            
+
             Assert.IsNotNull(sampleClass1.EmptyClass);
             Assert.IsNotNull(sampleClass1.SampleClass);
             Assert.IsNotNull(sampleClass2.EmptyClass);
@@ -199,8 +201,10 @@ namespace NiquIoC.Test.PartialEmitFunction.Singleton.BuildUp
             Assert.IsNotNull(sampleClass2.SampleClassWithClassDependencyMethod);
             Assert.IsNotNull(sampleClass2.SampleClassWithClassDependencyMethod.EmptyClass);
             Assert.AreNotEqual(sampleClass1, sampleClass2);
-            Assert.AreEqual(sampleClass1.SampleClassWithClassDependencyMethod, sampleClass2.SampleClassWithClassDependencyMethod);
-            Assert.AreEqual(sampleClass1.SampleClassWithClassDependencyMethod.EmptyClass, sampleClass2.SampleClassWithClassDependencyMethod.EmptyClass);
+            Assert.AreEqual(sampleClass1.SampleClassWithClassDependencyMethod,
+                sampleClass2.SampleClassWithClassDependencyMethod);
+            Assert.AreEqual(sampleClass1.SampleClassWithClassDependencyMethod.EmptyClass,
+                sampleClass2.SampleClassWithClassDependencyMethod.EmptyClass);
         }
     }
 }

@@ -13,7 +13,12 @@ namespace PerformanceCalculator.Containers
     {
         public TestResult RunTest(int count, string testCaseName, RegistrationKind registrationKind)
         {
-            var testResult = new TestResult { TestCaseName = testCaseName, RegistrationKind = registrationKind, TestCasesCount = count };
+            var testResult = new TestResult
+            {
+                TestCaseName = testCaseName,
+                RegistrationKind = registrationKind,
+                TestCasesCount = count
+            };
             var sw = new Stopwatch();
 
             var testCase = GetTestCase(testCaseName, registrationKind);
@@ -131,7 +136,8 @@ namespace PerformanceCalculator.Containers
 
         protected abstract object GetContainer(RegistrationKind registrationKind);
 
-        protected virtual object RunRegister(Stopwatch sw, ITestCase testCase, object container, RegistrationKind registrationKind)
+        protected virtual object RunRegister(Stopwatch sw, ITestCase testCase, object container,
+            RegistrationKind registrationKind)
         {
             sw.Start();
             var newContainer = testCase.Register(container, registrationKind);
@@ -140,7 +146,8 @@ namespace PerformanceCalculator.Containers
             return newContainer;
         }
 
-        protected virtual long RunResolve(Stopwatch sw, ITestCase testCase, object container, int testCasesCount, RegistrationKind registrationKind)
+        protected virtual long RunResolve(Stopwatch sw, ITestCase testCase, object container, int testCasesCount,
+            RegistrationKind registrationKind)
         {
             try
             {

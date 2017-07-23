@@ -7,6 +7,6 @@
         Transient = 2,
         TransientSingleton = 3,
         PerThread = 4,
-        FactoryMethod = 5,
+        FactoryMethod = 5
     }
 }

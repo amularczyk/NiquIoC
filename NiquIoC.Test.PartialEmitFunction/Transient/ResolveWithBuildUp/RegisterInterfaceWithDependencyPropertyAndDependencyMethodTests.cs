@@ -12,15 +12,20 @@ namespace NiquIoC.Test.PartialEmitFunction.Transient.ResolveWithBuildUp
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();
-            c.RegisterType<ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithSameType, SampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithSameType>();
+            c
+                .RegisterType<ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithSameType,
+                    SampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithSameType>();
 
-            var sampleClass = c.Resolve<ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithSameType>(ResolveKind.PartialEmitFunction);
+            var sampleClass =
+                c.Resolve<ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithSameType>(ResolveKind
+                    .PartialEmitFunction);
 
             c.BuildUp(sampleClass, ResolveKind.PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass.EmptyClassFromDependencyProperty);
             Assert.IsNotNull(sampleClass.EmptyClassFromDependencyMethod);
-            Assert.AreNotEqual(sampleClass.EmptyClassFromDependencyProperty, sampleClass.EmptyClassFromDependencyMethod);
+            Assert.AreNotEqual(sampleClass.EmptyClassFromDependencyProperty,
+                sampleClass.EmptyClassFromDependencyMethod);
         }
 
         [TestMethod]
@@ -28,20 +33,30 @@ namespace NiquIoC.Test.PartialEmitFunction.Transient.ResolveWithBuildUp
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();
-            c.RegisterType<ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithSameType, SampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithSameType>();
+            c
+                .RegisterType<ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithSameType,
+                    SampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithSameType>();
 
-            var sampleClass1 = c.Resolve<ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithSameType>(ResolveKind.PartialEmitFunction);
-            var sampleClass2 = c.Resolve<ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithSameType>(ResolveKind.PartialEmitFunction);
+            var sampleClass1 =
+                c.Resolve<ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithSameType>(ResolveKind
+                    .PartialEmitFunction);
+            var sampleClass2 =
+                c.Resolve<ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithSameType>(ResolveKind
+                    .PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass1.EmptyClassFromDependencyProperty);
             Assert.IsNotNull(sampleClass1.EmptyClassFromDependencyMethod);
-            Assert.AreNotEqual(sampleClass1.EmptyClassFromDependencyProperty, sampleClass1.EmptyClassFromDependencyMethod);
+            Assert.AreNotEqual(sampleClass1.EmptyClassFromDependencyProperty,
+                sampleClass1.EmptyClassFromDependencyMethod);
             Assert.IsNotNull(sampleClass2.EmptyClassFromDependencyProperty);
             Assert.IsNotNull(sampleClass2.EmptyClassFromDependencyMethod);
-            Assert.AreNotEqual(sampleClass2.EmptyClassFromDependencyProperty, sampleClass2.EmptyClassFromDependencyMethod);
+            Assert.AreNotEqual(sampleClass2.EmptyClassFromDependencyProperty,
+                sampleClass2.EmptyClassFromDependencyMethod);
             Assert.AreNotEqual(sampleClass1, sampleClass2);
-            Assert.AreNotEqual(sampleClass1.EmptyClassFromDependencyProperty, sampleClass2.EmptyClassFromDependencyProperty);
-            Assert.AreNotEqual(sampleClass1.EmptyClassFromDependencyMethod, sampleClass2.EmptyClassFromDependencyMethod);
+            Assert.AreNotEqual(sampleClass1.EmptyClassFromDependencyProperty,
+                sampleClass2.EmptyClassFromDependencyProperty);
+            Assert.AreNotEqual(sampleClass1.EmptyClassFromDependencyMethod,
+                sampleClass2.EmptyClassFromDependencyMethod);
         }
 
         [TestMethod]
@@ -50,9 +65,13 @@ namespace NiquIoC.Test.PartialEmitFunction.Transient.ResolveWithBuildUp
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();
             c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>();
-            c.RegisterType<ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes, SampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes>();
+            c
+                .RegisterType<ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes,
+                    SampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes>();
 
-            var sampleClass = c.Resolve<ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes>(ResolveKind.PartialEmitFunction);
+            var sampleClass =
+                c.Resolve<ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes>(ResolveKind
+                    .PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass.SampleClass);
             Assert.IsNotNull(sampleClass.EmptyClass);
@@ -61,15 +80,22 @@ namespace NiquIoC.Test.PartialEmitFunction.Transient.ResolveWithBuildUp
         }
 
         [TestMethod]
-        public void DifferentObjects_RegisterInterfaceWithDependencyPropertyAndDependencyMethodWithDifferentTypes_Success()
+        public void
+            DifferentObjects_RegisterInterfaceWithDependencyPropertyAndDependencyMethodWithDifferentTypes_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();
             c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameter>();
-            c.RegisterType<ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes, SampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes>();
+            c
+                .RegisterType<ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes,
+                    SampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes>();
 
-            var sampleClass1 = c.Resolve<ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes>(ResolveKind.PartialEmitFunction);
-            var sampleClass2 = c.Resolve<ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes>(ResolveKind.PartialEmitFunction);
+            var sampleClass1 =
+                c.Resolve<ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes>(ResolveKind
+                    .PartialEmitFunction);
+            var sampleClass2 =
+                c.Resolve<ISampleClassWithInterfaceDependencyPropertyAndDependencyMethodWithDifferentTypes>(ResolveKind
+                    .PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass1.SampleClass);
             Assert.IsNotNull(sampleClass1.EmptyClass);

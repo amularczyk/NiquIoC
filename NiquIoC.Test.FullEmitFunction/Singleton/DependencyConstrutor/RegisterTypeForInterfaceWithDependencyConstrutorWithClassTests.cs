@@ -33,13 +33,16 @@ namespace NiquIoC.Test.FullEmitFunction.Singleton.DependencyConstrutor
 
             Assert.IsNull(sampleClass);
         }
+
         [TestMethod]
-        public void RegisteredInterfaceAsClassWithNestedClassAsParameterWithConstructorWithAttributeDependencyConstrutor_Success()
+        public void
+            RegisteredInterfaceAsClassWithNestedClassAsParameterWithConstructorWithAttributeDependencyConstrutor_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsSingleton();
             c.RegisterType<SampleClassWithDependencyConstrutor>().AsSingleton();
-            c.RegisterType<ISampleClassWithNestedClass, SampleClassWithNestedClassWithDependencyConstrutor>().AsSingleton();
+            c.RegisterType<ISampleClassWithNestedClass, SampleClassWithNestedClassWithDependencyConstrutor>()
+                .AsSingleton();
 
             var sampleClass = c.Resolve<ISampleClassWithNestedClass>(ResolveKind.FullEmitFunction);
 

@@ -24,7 +24,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsNinject
             var obj1 = c.Get<ITestA>();
             var obj2 = c.Get<ITestA>();
 
-            
+
             CheckHelper.Check(obj1, true, true);
             CheckHelper.Check(obj2, true, true);
             CheckHelper.Check(obj1, obj2, true, true);
@@ -42,7 +42,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsNinject
             var obj1 = c.Get<ITestA>();
             var obj2 = c.Get<ITestA>();
 
-            
+
             CheckHelper.Check(obj1, false, false);
             CheckHelper.Check(obj2, false, false);
             CheckHelper.Check(obj1, obj2, false, false);

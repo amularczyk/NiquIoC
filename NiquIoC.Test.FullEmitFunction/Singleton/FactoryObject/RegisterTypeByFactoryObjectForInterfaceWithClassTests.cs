@@ -12,7 +12,7 @@ namespace NiquIoC.Test.FullEmitFunction.Singleton.FactoryObject
         {
             var c = new Container();
             var emptyClass = new EmptyClass();
-            c.RegisterType<ISampleClass>(() => new SampleClass(emptyClass)).AsSingleton();
+            c.RegisterType<ISampleClass>(container => new SampleClass(emptyClass)).AsSingleton();
 
             var sampleClass1 = c.Resolve<ISampleClass>(ResolveKind.FullEmitFunction);
             var sampleClass2 = c.Resolve<ISampleClass>(ResolveKind.FullEmitFunction);
@@ -28,7 +28,7 @@ namespace NiquIoC.Test.FullEmitFunction.Singleton.FactoryObject
             var c = new Container();
             var emptyClass = new EmptyClass();
             ISampleClass sampleClass = new SampleClass(emptyClass);
-            c.RegisterType<ISampleClass>(() => sampleClass).AsSingleton();
+            c.RegisterType(container => sampleClass).AsSingleton();
 
             var sampleClass1 = c.Resolve<ISampleClass>(ResolveKind.FullEmitFunction);
             var sampleClass2 = c.Resolve<ISampleClass>(ResolveKind.FullEmitFunction);
@@ -42,7 +42,7 @@ namespace NiquIoC.Test.FullEmitFunction.Singleton.FactoryObject
         public void NestedFactoryObjectReturnNewObject_Success()
         {
             var c = new Container();
-            c.RegisterType<EmptyClass>(() => new EmptyClass()).AsSingleton();
+            c.RegisterType(container => new EmptyClass()).AsSingleton();
             c.RegisterType<ISampleClass, SampleClass>().AsSingleton();
 
             var sampleClass1 = c.Resolve<ISampleClass>(ResolveKind.FullEmitFunction);
@@ -57,7 +57,7 @@ namespace NiquIoC.Test.FullEmitFunction.Singleton.FactoryObject
         {
             var c = new Container();
             var emptyClass = new EmptyClass();
-            c.RegisterType<EmptyClass>(() => emptyClass).AsSingleton();
+            c.RegisterType(container => emptyClass).AsSingleton();
             c.RegisterType<ISampleClass, SampleClass>().AsSingleton();
 
             var sampleClass1 = c.Resolve<ISampleClass>(ResolveKind.FullEmitFunction);

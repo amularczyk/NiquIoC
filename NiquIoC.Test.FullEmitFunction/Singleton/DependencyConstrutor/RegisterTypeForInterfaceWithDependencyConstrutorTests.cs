@@ -9,11 +9,15 @@ namespace NiquIoC.Test.FullEmitFunction.Singleton.DependencyConstrutor
     public class RegisterTypeForInterfaceWithDependencyConstrutorTests
     {
         [TestMethod]
-        public void RegisteredInterfaceAsClassWithInterfaceAsParameterAndWithConstructorWithAttributeDependencyConstrutor_Success()
+        public void
+            RegisteredInterfaceAsClassWithInterfaceAsParameterAndWithConstructorWithAttributeDependencyConstrutor_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
-            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameterWithDependencyConstrutor>().AsSingleton();
+            c
+                .RegisterType<ISampleClassWithInterfaceAsParameter,
+                    SampleClassWithInterfaceAsParameterWithDependencyConstrutor>()
+                .AsSingleton();
 
             var sampleClass = c.Resolve<ISampleClassWithInterfaceAsParameter>(ResolveKind.FullEmitFunction);
 
@@ -23,11 +27,15 @@ namespace NiquIoC.Test.FullEmitFunction.Singleton.DependencyConstrutor
 
         [TestMethod]
         [ExpectedException(typeof(NoProperConstructorException))]
-        public void RegisteredInterfaceAsClassWithInterfaceAsParameterAndWithTwoConstructorsWithAttributeDependencyConstrutor_Fail()
+        public void
+            RegisteredInterfaceAsClassWithInterfaceAsParameterAndWithTwoConstructorsWithAttributeDependencyConstrutor_Fail()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
-            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameterWithTwoDependencyConstrutor>().AsSingleton();
+            c
+                .RegisterType<ISampleClassWithInterfaceAsParameter,
+                    SampleClassWithInterfaceAsParameterWithTwoDependencyConstrutor>()
+                .AsSingleton();
 
             var sampleClass = c.Resolve<ISampleClassWithInterfaceAsParameter>(ResolveKind.FullEmitFunction);
 
@@ -35,12 +43,19 @@ namespace NiquIoC.Test.FullEmitFunction.Singleton.DependencyConstrutor
         }
 
         [TestMethod]
-        public void RegisteredInterfaceAsClassWithNestedInterfaceAsParameterWithInterfaceAsParameterAndWithConstructorWithAttributeDependencyConstrutor_Success()
+        public void
+            RegisteredInterfaceAsClassWithNestedInterfaceAsParameterWithInterfaceAsParameterAndWithConstructorWithAttributeDependencyConstrutor_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>().AsSingleton();
-            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameterWithDependencyConstrutor>().AsSingleton();
-            c.RegisterType<ISampleClassISampleClassWithInterfaceAsParameter, SampleClassWithNestedInterfaceAsParameterWithDependencyConstrutor>().AsSingleton();
+            c
+                .RegisterType<ISampleClassWithInterfaceAsParameter,
+                    SampleClassWithInterfaceAsParameterWithDependencyConstrutor>()
+                .AsSingleton();
+            c
+                .RegisterType<ISampleClassISampleClassWithInterfaceAsParameter,
+                    SampleClassWithNestedInterfaceAsParameterWithDependencyConstrutor>()
+                .AsSingleton();
 
             var sampleClass = c.Resolve<ISampleClassISampleClassWithInterfaceAsParameter>(ResolveKind.FullEmitFunction);
 

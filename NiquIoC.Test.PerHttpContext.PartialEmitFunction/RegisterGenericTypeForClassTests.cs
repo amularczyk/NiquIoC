@@ -13,9 +13,10 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction
             var c = new Container();
             c.RegisterType<EmptyClass>().AsPerHttpContext();
             c.RegisterType<GenericClass<EmptyClass>>().AsPerHttpContext();
-            
 
-            var genericClass = HttpContextTestsHelper.Initialize().ResolveObject<GenericClass<EmptyClass>>(c, ResolveKind.PartialEmitFunction);
+
+            var genericClass = HttpContextTestsHelper.Initialize()
+                .ResolveObject<GenericClass<EmptyClass>>(c, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(genericClass);
@@ -30,8 +31,9 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction
             c.RegisterType<SampleClass>().AsPerHttpContext();
             c.RegisterType<GenericClass<SampleClass>>().AsPerHttpContext();
 
-            
-            var genericClass = HttpContextTestsHelper.Initialize().ResolveObject<GenericClass<SampleClass>>(c, ResolveKind.PartialEmitFunction);
+
+            var genericClass = HttpContextTestsHelper.Initialize()
+                .ResolveObject<GenericClass<SampleClass>>(c, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(genericClass);
@@ -46,9 +48,11 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction
             c.RegisterType<EmptyClass>().AsPerHttpContext();
             c.RegisterType<SampleClass>().AsPerHttpContext();
             c.RegisterType<GenericClassWithManyParameters<EmptyClass, SampleClass>>().AsPerHttpContext();
-            
-            
-            var genericClass = HttpContextTestsHelper.Initialize().ResolveObject<GenericClassWithManyParameters<EmptyClass, SampleClass>>(c, ResolveKind.PartialEmitFunction);
+
+
+            var genericClass = HttpContextTestsHelper.Initialize()
+                .ResolveObject<GenericClassWithManyParameters<EmptyClass, SampleClass>>(c,
+                    ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(genericClass);
@@ -67,7 +71,7 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction
             c.RegisterType<GenericClass<EmptyClass>>().AsPerHttpContext();
             c.RegisterType<GenericClass<SampleClass>>().AsPerHttpContext();
 
-            
+
             var objs1 =
                 HttpContextTestsHelper.Initialize()
                     .ResolveObjects<GenericClass<EmptyClass>, GenericClass<SampleClass>>(c,
@@ -91,9 +95,11 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction
             c.RegisterType<GenericClass<EmptyClass>>().AsPerHttpContext();
             c.RegisterType<GenericClass<SampleClass>>().AsPerHttpContext();
 
-            
-            var genericClass1 = HttpContextTestsHelper.Initialize().ResolveObject<GenericClass<EmptyClass>>(c, ResolveKind.PartialEmitFunction);
-            var genericClass2 = HttpContextTestsHelper.Initialize().ResolveObject<GenericClass<SampleClass>>(c, ResolveKind.PartialEmitFunction);
+
+            var genericClass1 = HttpContextTestsHelper.Initialize()
+                .ResolveObject<GenericClass<EmptyClass>>(c, ResolveKind.PartialEmitFunction);
+            var genericClass2 = HttpContextTestsHelper.Initialize()
+                .ResolveObject<GenericClass<SampleClass>>(c, ResolveKind.PartialEmitFunction);
 
 
             Assert.AreNotEqual(genericClass1, genericClass2);

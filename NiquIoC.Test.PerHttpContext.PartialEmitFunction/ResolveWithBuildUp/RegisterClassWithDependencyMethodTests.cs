@@ -15,7 +15,8 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
             c.RegisterType<SampleClassWithClassDependencyMethod>();
 
 
-            var sampleClass = HttpContextTestsHelper.Initialize().ResolveObject<SampleClassWithClassDependencyMethod>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass = HttpContextTestsHelper.Initialize()
+                .ResolveObject<SampleClassWithClassDependencyMethod>(c, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass);
@@ -30,7 +31,8 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
             c.RegisterType<SampleClassWithClassDependencyMethod>();
 
 
-            var objs = HttpContextTestsHelper.Initialize().ResolveObjects<SampleClassWithClassDependencyMethod>(c, ResolveKind.PartialEmitFunction);
+            var objs = HttpContextTestsHelper.Initialize()
+                .ResolveObjects<SampleClassWithClassDependencyMethod>(c, ResolveKind.PartialEmitFunction);
             var sampleClass1 = objs.Item1;
             var sampleClass2 = objs.Item2;
 
@@ -49,8 +51,10 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
             c.RegisterType<SampleClassWithClassDependencyMethod>();
 
 
-            var sampleClass1 = HttpContextTestsHelper.Initialize().ResolveObject<SampleClassWithClassDependencyMethod>(c, ResolveKind.PartialEmitFunction);
-            var sampleClass2 = HttpContextTestsHelper.Initialize().ResolveObject<SampleClassWithClassDependencyMethod>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass1 = HttpContextTestsHelper.Initialize()
+                .ResolveObject<SampleClassWithClassDependencyMethod>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass2 = HttpContextTestsHelper.Initialize()
+                .ResolveObject<SampleClassWithClassDependencyMethod>(c, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass1.EmptyClass);
@@ -67,7 +71,8 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
             c.RegisterType<SampleClassWithoutClassDependencyMethod>();
 
 
-            var sampleClass = HttpContextTestsHelper.Initialize().ResolveObject<SampleClassWithoutClassDependencyMethod>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass = HttpContextTestsHelper.Initialize()
+                .ResolveObject<SampleClassWithoutClassDependencyMethod>(c, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass);
@@ -82,7 +87,8 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
             c.RegisterType<SampleClassWithClassDependencyMethodWithReturnType>();
 
 
-            var sampleClass = HttpContextTestsHelper.Initialize().ResolveObject<SampleClassWithClassDependencyMethodWithReturnType>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass = HttpContextTestsHelper.Initialize()
+                .ResolveObject<SampleClassWithClassDependencyMethodWithReturnType>(c, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass);
@@ -98,7 +104,8 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
             c.RegisterType<SampleClassWithManyClassDependencyMethods>();
 
 
-            var sampleClass = HttpContextTestsHelper.Initialize().ResolveObject<SampleClassWithManyClassDependencyMethods>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass = HttpContextTestsHelper.Initialize()
+                .ResolveObject<SampleClassWithManyClassDependencyMethods>(c, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass.EmptyClass);
@@ -114,7 +121,8 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
             c.RegisterType<SampleClassWithManyClassDependencyMethods>();
 
 
-            var objs = HttpContextTestsHelper.Initialize().ResolveObjects<SampleClassWithManyClassDependencyMethods>(c, ResolveKind.PartialEmitFunction);
+            var objs = HttpContextTestsHelper.Initialize()
+                .ResolveObjects<SampleClassWithManyClassDependencyMethods>(c, ResolveKind.PartialEmitFunction);
             var sampleClass1 = objs.Item1;
             var sampleClass2 = objs.Item2;
 
@@ -137,8 +145,10 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
             c.RegisterType<SampleClassWithManyClassDependencyMethods>();
 
 
-            var sampleClass1 = HttpContextTestsHelper.Initialize().ResolveObject<SampleClassWithManyClassDependencyMethods>(c, ResolveKind.PartialEmitFunction);
-            var sampleClass2 = HttpContextTestsHelper.Initialize().ResolveObject<SampleClassWithManyClassDependencyMethods>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass1 = HttpContextTestsHelper.Initialize()
+                .ResolveObject<SampleClassWithManyClassDependencyMethods>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass2 = HttpContextTestsHelper.Initialize()
+                .ResolveObject<SampleClassWithManyClassDependencyMethods>(c, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass1.EmptyClass);
@@ -159,7 +169,9 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
             c.RegisterType<SampleClassWithManyClassParametersInDependencyMethod>();
 
 
-            var sampleClass = HttpContextTestsHelper.Initialize().ResolveObject<SampleClassWithManyClassParametersInDependencyMethod>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass = HttpContextTestsHelper.Initialize()
+                .ResolveObject<SampleClassWithManyClassParametersInDependencyMethod>(c,
+                    ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass.EmptyClass);
@@ -175,7 +187,9 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
             c.RegisterType<SampleClassWithManyClassParametersInDependencyMethod>();
 
 
-            var objs = HttpContextTestsHelper.Initialize().ResolveObjects<SampleClassWithManyClassParametersInDependencyMethod>(c, ResolveKind.PartialEmitFunction);
+            var objs = HttpContextTestsHelper.Initialize()
+                .ResolveObjects<SampleClassWithManyClassParametersInDependencyMethod>(c,
+                    ResolveKind.PartialEmitFunction);
             var sampleClass1 = objs.Item1;
             var sampleClass2 = objs.Item2;
 
@@ -190,7 +204,8 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
         }
 
         [TestMethod]
-        public void DifferentHttpContexts_DifferentObjects_RegisterClassWithManyClassParametersInDependencyMethod_Success()
+        public void
+            DifferentHttpContexts_DifferentObjects_RegisterClassWithManyClassParametersInDependencyMethod_Success()
         {
             var c = new Container();
             c.RegisterType<EmptyClass>().AsPerHttpContext();
@@ -198,8 +213,12 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
             c.RegisterType<SampleClassWithManyClassParametersInDependencyMethod>();
 
 
-            var sampleClass1 = HttpContextTestsHelper.Initialize().ResolveObject<SampleClassWithManyClassParametersInDependencyMethod>(c, ResolveKind.PartialEmitFunction);
-            var sampleClass2 = HttpContextTestsHelper.Initialize().ResolveObject<SampleClassWithManyClassParametersInDependencyMethod>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass1 = HttpContextTestsHelper.Initialize()
+                .ResolveObject<SampleClassWithManyClassParametersInDependencyMethod>(c,
+                    ResolveKind.PartialEmitFunction);
+            var sampleClass2 = HttpContextTestsHelper.Initialize()
+                .ResolveObject<SampleClassWithManyClassParametersInDependencyMethod>(c,
+                    ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass1.EmptyClass);
@@ -220,7 +239,8 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
             c.RegisterType<SampleClassWithNestedClassDependencyMethod>();
 
 
-            var sampleClass = HttpContextTestsHelper.Initialize().ResolveObject<SampleClassWithNestedClassDependencyMethod>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass = HttpContextTestsHelper.Initialize()
+                .ResolveObject<SampleClassWithNestedClassDependencyMethod>(c, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass.SampleClassWithClassDependencyMethod);
@@ -236,7 +256,8 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
             c.RegisterType<SampleClassWithNestedClassDependencyMethod>();
 
 
-            var objs = HttpContextTestsHelper.Initialize().ResolveObjects<SampleClassWithNestedClassDependencyMethod>(c, ResolveKind.PartialEmitFunction);
+            var objs = HttpContextTestsHelper.Initialize()
+                .ResolveObjects<SampleClassWithNestedClassDependencyMethod>(c, ResolveKind.PartialEmitFunction);
             var sampleClass1 = objs.Item1;
             var sampleClass2 = objs.Item2;
 
@@ -246,8 +267,10 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
             Assert.IsNotNull(sampleClass2.SampleClassWithClassDependencyMethod);
             Assert.IsNotNull(sampleClass2.SampleClassWithClassDependencyMethod.EmptyClass);
             Assert.AreNotEqual(sampleClass1, sampleClass2);
-            Assert.AreEqual(sampleClass1.SampleClassWithClassDependencyMethod, sampleClass2.SampleClassWithClassDependencyMethod);
-            Assert.AreEqual(sampleClass1.SampleClassWithClassDependencyMethod.EmptyClass, sampleClass2.SampleClassWithClassDependencyMethod.EmptyClass);
+            Assert.AreEqual(sampleClass1.SampleClassWithClassDependencyMethod,
+                sampleClass2.SampleClassWithClassDependencyMethod);
+            Assert.AreEqual(sampleClass1.SampleClassWithClassDependencyMethod.EmptyClass,
+                sampleClass2.SampleClassWithClassDependencyMethod.EmptyClass);
         }
 
         [TestMethod]
@@ -259,8 +282,10 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
             c.RegisterType<SampleClassWithNestedClassDependencyMethod>();
 
 
-            var sampleClass1 = HttpContextTestsHelper.Initialize().ResolveObject<SampleClassWithNestedClassDependencyMethod>(c, ResolveKind.PartialEmitFunction);
-            var sampleClass2 = HttpContextTestsHelper.Initialize().ResolveObject<SampleClassWithNestedClassDependencyMethod>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass1 = HttpContextTestsHelper.Initialize()
+                .ResolveObject<SampleClassWithNestedClassDependencyMethod>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass2 = HttpContextTestsHelper.Initialize()
+                .ResolveObject<SampleClassWithNestedClassDependencyMethod>(c, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass1.SampleClassWithClassDependencyMethod);
@@ -268,8 +293,10 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction.ResolveWithBuildUp
             Assert.IsNotNull(sampleClass2.SampleClassWithClassDependencyMethod);
             Assert.IsNotNull(sampleClass2.SampleClassWithClassDependencyMethod.EmptyClass);
             Assert.AreNotEqual(sampleClass1, sampleClass2);
-            Assert.AreNotEqual(sampleClass1.SampleClassWithClassDependencyMethod, sampleClass2.SampleClassWithClassDependencyMethod);
-            Assert.AreNotEqual(sampleClass1.SampleClassWithClassDependencyMethod.EmptyClass, sampleClass2.SampleClassWithClassDependencyMethod.EmptyClass);
+            Assert.AreNotEqual(sampleClass1.SampleClassWithClassDependencyMethod,
+                sampleClass2.SampleClassWithClassDependencyMethod);
+            Assert.AreNotEqual(sampleClass1.SampleClassWithClassDependencyMethod.EmptyClass,
+                sampleClass2.SampleClassWithClassDependencyMethod.EmptyClass);
         }
     }
 }

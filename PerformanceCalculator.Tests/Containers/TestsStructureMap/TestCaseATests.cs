@@ -24,7 +24,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsStructureMap
             var obj1 = c.GetInstance<ITestA>();
             var obj2 = c.GetInstance<ITestA>();
 
-            
+
             CheckHelper.Check(obj1, true, true);
             CheckHelper.Check(obj2, true, true);
             CheckHelper.Check(obj1, obj2, true, true);
@@ -42,7 +42,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsStructureMap
             var obj1 = c.GetInstance<ITestA>();
             var obj2 = c.GetInstance<ITestA>();
 
-            
+
             CheckHelper.Check(obj1, false, false);
             CheckHelper.Check(obj2, false, false);
             CheckHelper.Check(obj1, obj2, false, false);
@@ -51,7 +51,8 @@ namespace PerformanceCalculator.Tests.Containers.TestsStructureMap
         [TestMethod]
         public void RegisterTransientSingleton_Success()
         {
-            ITestCase testCase = new TransientSingletonTestCaseA(new StructureMapRegistration(), new StructureMapResolving());
+            ITestCase testCase =
+                new TransientSingletonTestCaseA(new StructureMapRegistration(), new StructureMapResolving());
 
             var c = new Container();
             c = (Container)testCase.Register(c, RegistrationKind.TransientSingleton);
@@ -117,7 +118,8 @@ namespace PerformanceCalculator.Tests.Containers.TestsStructureMap
         [TestMethod]
         public void RegisterFactoryMethod_Success()
         {
-            ITestCase testCase = new FactoryMethodTestCaseA(new StructureMapRegistration(), new StructureMapResolving());
+            ITestCase testCase = new FactoryMethodTestCaseA(new StructureMapRegistration(),
+                new StructureMapResolving());
 
             var c = new Container();
             c = (Container)testCase.Register(c, RegistrationKind.FactoryMethod);

@@ -14,11 +14,14 @@ namespace NiquIoC.Test.PartialEmitFunction.Transient.ResolveWithBuildUp
             c.RegisterType<EmptyClass>();
             c.RegisterType<SampleClassWithClassDependencyPropertyAndDependencyMethodWithSameType>();
 
-            var sampleClass = c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithSameType>(ResolveKind.PartialEmitFunction);
+            var sampleClass =
+                c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithSameType>(ResolveKind
+                    .PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass.EmptyClassFromDependencyProperty);
             Assert.IsNotNull(sampleClass.EmptyClassFromDependencyMethod);
-            Assert.AreNotEqual(sampleClass.EmptyClassFromDependencyProperty, sampleClass.EmptyClassFromDependencyMethod);
+            Assert.AreNotEqual(sampleClass.EmptyClassFromDependencyProperty,
+                sampleClass.EmptyClassFromDependencyMethod);
         }
 
         [TestMethod]
@@ -28,18 +31,26 @@ namespace NiquIoC.Test.PartialEmitFunction.Transient.ResolveWithBuildUp
             c.RegisterType<EmptyClass>();
             c.RegisterType<SampleClassWithClassDependencyPropertyAndDependencyMethodWithSameType>();
 
-            var sampleClass1 = c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithSameType>(ResolveKind.PartialEmitFunction);
-            var sampleClass2 = c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithSameType>(ResolveKind.PartialEmitFunction);
+            var sampleClass1 =
+                c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithSameType>(ResolveKind
+                    .PartialEmitFunction);
+            var sampleClass2 =
+                c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithSameType>(ResolveKind
+                    .PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass1.EmptyClassFromDependencyProperty);
             Assert.IsNotNull(sampleClass1.EmptyClassFromDependencyMethod);
-            Assert.AreNotEqual(sampleClass1.EmptyClassFromDependencyProperty, sampleClass1.EmptyClassFromDependencyMethod);
+            Assert.AreNotEqual(sampleClass1.EmptyClassFromDependencyProperty,
+                sampleClass1.EmptyClassFromDependencyMethod);
             Assert.IsNotNull(sampleClass2.EmptyClassFromDependencyProperty);
             Assert.IsNotNull(sampleClass2.EmptyClassFromDependencyMethod);
-            Assert.AreNotEqual(sampleClass2.EmptyClassFromDependencyProperty, sampleClass2.EmptyClassFromDependencyMethod);
+            Assert.AreNotEqual(sampleClass2.EmptyClassFromDependencyProperty,
+                sampleClass2.EmptyClassFromDependencyMethod);
             Assert.AreNotEqual(sampleClass1, sampleClass2);
-            Assert.AreNotEqual(sampleClass1.EmptyClassFromDependencyProperty, sampleClass2.EmptyClassFromDependencyProperty);
-            Assert.AreNotEqual(sampleClass1.EmptyClassFromDependencyMethod, sampleClass2.EmptyClassFromDependencyMethod);
+            Assert.AreNotEqual(sampleClass1.EmptyClassFromDependencyProperty,
+                sampleClass2.EmptyClassFromDependencyProperty);
+            Assert.AreNotEqual(sampleClass1.EmptyClassFromDependencyMethod,
+                sampleClass2.EmptyClassFromDependencyMethod);
         }
 
         [TestMethod]
@@ -50,7 +61,9 @@ namespace NiquIoC.Test.PartialEmitFunction.Transient.ResolveWithBuildUp
             c.RegisterType<SampleClass>();
             c.RegisterType<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>();
 
-            var sampleClass = c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>(ResolveKind.PartialEmitFunction);
+            var sampleClass =
+                c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>(ResolveKind
+                    .PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass.SampleClass);
             Assert.IsNotNull(sampleClass.EmptyClass);
@@ -66,8 +79,12 @@ namespace NiquIoC.Test.PartialEmitFunction.Transient.ResolveWithBuildUp
             c.RegisterType<SampleClass>();
             c.RegisterType<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>();
 
-            var sampleClass1 = c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>(ResolveKind.PartialEmitFunction);
-            var sampleClass2 = c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>(ResolveKind.PartialEmitFunction);
+            var sampleClass1 =
+                c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>(ResolveKind
+                    .PartialEmitFunction);
+            var sampleClass2 =
+                c.Resolve<SampleClassWithClassDependencyPropertyAndDependencyMethodWithDifferentTypes>(ResolveKind
+                    .PartialEmitFunction);
 
             Assert.IsNotNull(sampleClass1.SampleClass);
             Assert.IsNotNull(sampleClass1.EmptyClass);

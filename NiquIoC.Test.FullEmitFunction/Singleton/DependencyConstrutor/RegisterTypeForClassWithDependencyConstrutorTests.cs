@@ -42,7 +42,8 @@ namespace NiquIoC.Test.FullEmitFunction.Singleton.DependencyConstrutor
             c.RegisterType<SampleClassWithDependencyConstrutor>().AsSingleton();
             c.RegisterType<SampleClassWithNestedClassWithDependencyConstrutor>().AsSingleton();
 
-            var sampleClass = c.Resolve<SampleClassWithNestedClassWithDependencyConstrutor>(ResolveKind.FullEmitFunction);
+            var sampleClass =
+                c.Resolve<SampleClassWithNestedClassWithDependencyConstrutor>(ResolveKind.FullEmitFunction);
 
             Assert.IsNotNull(sampleClass);
             Assert.IsNotNull(sampleClass.SampleClassWithDependencyConstrutor);

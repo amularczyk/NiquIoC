@@ -73,7 +73,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsAutofac
             ITestA obj1 = null;
             ITestA obj2 = null;
 
-            
+
             var thread = new Thread(() =>
             {
                 using (var threadLifetime = c.BeginLifetimeScope())
@@ -101,7 +101,7 @@ namespace PerformanceCalculator.Tests.Containers.TestsAutofac
             ITestA obj1 = null;
             ITestA obj2 = null;
 
-            
+
             var thread1 = new Thread(() =>
             {
                 using (var threadLifetime = c.BeginLifetimeScope())

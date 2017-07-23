@@ -87,7 +87,7 @@
     <Compile Include="PerThread\ResolveWithBuildUp\RegisterInterfaceWithDependencyMethodTests.cs" />
     <Compile Include="PerThread\ResolveWithBuildUp\RegisterInterfaceWithDependencyPropertyAndDependencyMethodTests.cs" />
     <Compile Include="PerThread\ResolveWithBuildUp\RegisterInterfaceWithDependencyPropertyTestsy.cs" />
-    <Compile Include="RegisterClassInstanceTests.cs" />
+    <Compile Include="RegisterInstanceTests.cs" />
     <Compile Include="RegisterInterfaceInstanceTests.cs" />
     <Compile Include="Singleton\BuildUp\BuildUpForClassWithDependencyMethodTests.cs" />
     <Compile Include="Singleton\BuildUp\BuildUpForClassWithDependencyPropertyAndDependencyMethodTests.cs" />

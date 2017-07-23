@@ -12,7 +12,7 @@ namespace NiquIoC.Test.FullEmitFunction.Singleton.FactoryObject
         {
             var c = new Container();
             var emptyClass = new EmptyClass();
-            c.RegisterType<SampleClass>(() => new SampleClass(emptyClass)).AsSingleton();
+            c.RegisterType(container => new SampleClass(emptyClass)).AsSingleton();
 
             var sampleClass1 = c.Resolve<SampleClass>(ResolveKind.FullEmitFunction);
             var sampleClass2 = c.Resolve<SampleClass>(ResolveKind.FullEmitFunction);
@@ -28,7 +28,7 @@ namespace NiquIoC.Test.FullEmitFunction.Singleton.FactoryObject
             var c = new Container();
             var emptyClass = new EmptyClass();
             var sampleClass = new SampleClass(emptyClass);
-            c.RegisterType<SampleClass>(() => sampleClass).AsSingleton();
+            c.RegisterType(container => sampleClass).AsSingleton();
 
             var sampleClass1 = c.Resolve<SampleClass>(ResolveKind.FullEmitFunction);
             var sampleClass2 = c.Resolve<SampleClass>(ResolveKind.FullEmitFunction);
@@ -42,7 +42,7 @@ namespace NiquIoC.Test.FullEmitFunction.Singleton.FactoryObject
         public void NestedFactoryObjectReturnNewObject_Success()
         {
             var c = new Container();
-            c.RegisterType<EmptyClass>(() => new EmptyClass()).AsSingleton();
+            c.RegisterType(container => new EmptyClass()).AsSingleton();
             c.RegisterType<SampleClass>().AsSingleton();
 
             var sampleClass1 = c.Resolve<SampleClass>(ResolveKind.FullEmitFunction);
@@ -57,7 +57,7 @@ namespace NiquIoC.Test.FullEmitFunction.Singleton.FactoryObject
         {
             var c = new Container();
             var emptyClass = new EmptyClass();
-            c.RegisterType<EmptyClass>(() => emptyClass).AsSingleton();
+            c.RegisterType(container => emptyClass).AsSingleton();
             c.RegisterType<SampleClass>().AsSingleton();
 
             var sampleClass1 = c.Resolve<SampleClass>(ResolveKind.FullEmitFunction);

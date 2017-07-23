@@ -23,7 +23,7 @@ namespace NiquIoC.Test.Model
     public class SampleClassWithoutClassDependencyMethod : ISampleClassWithClassMethod
     {
         public EmptyClass EmptyClass { get; private set; }
-        
+
         public void FillEmptyClass(EmptyClass emptyClass)
         {
             EmptyClass = emptyClass;
@@ -53,9 +53,9 @@ namespace NiquIoC.Test.Model
     {
         EmptyClass EmptyClass { get; set; }
 
-        void FillEmptyClass(EmptyClass emptyClass);
-
         SampleClass SampleClass { get; set; }
+
+        void FillEmptyClass(EmptyClass emptyClass);
 
         void FillSampleClass(SampleClass emptyClass);
     }
@@ -63,7 +63,7 @@ namespace NiquIoC.Test.Model
     public class SampleClassWithManyClassDependencyMethods : ISampleClassWithManyClassDependencyMethods
     {
         public EmptyClass EmptyClass { get; set; }
-        
+
         public SampleClass SampleClass { get; set; }
 
         [DependencyMethod]
@@ -78,7 +78,7 @@ namespace NiquIoC.Test.Model
             SampleClass = sampleClass;
         }
     }
-    
+
     public interface ISampleClassWithManyClassParametersInDependencyMethod
     {
         EmptyClass EmptyClass { get; set; }
@@ -88,7 +88,8 @@ namespace NiquIoC.Test.Model
         void FillClasses(EmptyClass emptyClass, SampleClass sampleClass);
     }
 
-    public class SampleClassWithManyClassParametersInDependencyMethod : ISampleClassWithManyClassParametersInDependencyMethod
+    public class
+        SampleClassWithManyClassParametersInDependencyMethod : ISampleClassWithManyClassParametersInDependencyMethod
     {
         public EmptyClass EmptyClass { get; set; }
 
@@ -114,17 +115,18 @@ namespace NiquIoC.Test.Model
         public SampleClassWithClassDependencyMethod SampleClassWithClassDependencyMethod { get; set; }
 
         [DependencyMethod]
-        public void FillSampleClassWithClassDependencyMethod(SampleClassWithClassDependencyMethod sampleClassWithClassDependencyMethod)
+        public void FillSampleClassWithClassDependencyMethod(
+            SampleClassWithClassDependencyMethod sampleClassWithClassDependencyMethod)
         {
             SampleClassWithClassDependencyMethod = sampleClassWithClassDependencyMethod;
         }
     }
-    
+
     public class SampleClassWithCycleInConstructorWithClassDependencyMethod : ISampleClassWithClassMethod
     {
-        public SampleClassWithCycleInConstructorWithClassDependencyMethod(SampleClassWithCycleInConstructorWithClassDependencyMethod sampleClass)
+        public SampleClassWithCycleInConstructorWithClassDependencyMethod(
+            SampleClassWithCycleInConstructorWithClassDependencyMethod sampleClass)
         {
-
         }
 
         public EmptyClass EmptyClass { get; private set; }

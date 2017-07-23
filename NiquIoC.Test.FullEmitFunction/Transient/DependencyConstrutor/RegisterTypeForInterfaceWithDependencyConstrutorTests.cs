@@ -9,11 +9,14 @@ namespace NiquIoC.Test.FullEmitFunction.Transient.DependencyConstrutor
     public class RegisterTypeForInterfaceWithDependencyConstrutorTests
     {
         [TestMethod]
-        public void RegisteredInterfaceAsClassWithInterfaceAsParameterAndWithConstructorWithAttributeDependencyConstrutor_Success()
+        public void
+            RegisteredInterfaceAsClassWithInterfaceAsParameterAndWithConstructorWithAttributeDependencyConstrutor_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();
-            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameterWithDependencyConstrutor>();
+            c
+                .RegisterType<ISampleClassWithInterfaceAsParameter,
+                    SampleClassWithInterfaceAsParameterWithDependencyConstrutor>();
 
             var sampleClass = c.Resolve<ISampleClassWithInterfaceAsParameter>(ResolveKind.FullEmitFunction);
 
@@ -23,11 +26,14 @@ namespace NiquIoC.Test.FullEmitFunction.Transient.DependencyConstrutor
 
         [TestMethod]
         [ExpectedException(typeof(NoProperConstructorException))]
-        public void RegisteredInterfaceAsClassWithInterfaceAsParameterAndWithTwoConstructorsWithAttributeDependencyConstrutor_Fail()
+        public void
+            RegisteredInterfaceAsClassWithInterfaceAsParameterAndWithTwoConstructorsWithAttributeDependencyConstrutor_Fail()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();
-            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameterWithTwoDependencyConstrutor>();
+            c
+                .RegisterType<ISampleClassWithInterfaceAsParameter,
+                    SampleClassWithInterfaceAsParameterWithTwoDependencyConstrutor>();
 
             var sampleClass = c.Resolve<ISampleClassWithInterfaceAsParameter>(ResolveKind.FullEmitFunction);
 
@@ -35,12 +41,17 @@ namespace NiquIoC.Test.FullEmitFunction.Transient.DependencyConstrutor
         }
 
         [TestMethod]
-        public void RegisteredInterfaceAsClassWithNestedInterfaceAsParameterWithInterfaceAsParameterAndWithConstructorWithAttributeDependencyConstrutor_Success()
+        public void
+            RegisteredInterfaceAsClassWithNestedInterfaceAsParameterWithInterfaceAsParameterAndWithConstructorWithAttributeDependencyConstrutor_Success()
         {
             var c = new Container();
             c.RegisterType<IEmptyClass, EmptyClass>();
-            c.RegisterType<ISampleClassWithInterfaceAsParameter, SampleClassWithInterfaceAsParameterWithDependencyConstrutor>();
-            c.RegisterType<ISampleClassISampleClassWithInterfaceAsParameter, SampleClassWithNestedInterfaceAsParameterWithDependencyConstrutor>();
+            c
+                .RegisterType<ISampleClassWithInterfaceAsParameter,
+                    SampleClassWithInterfaceAsParameterWithDependencyConstrutor>();
+            c
+                .RegisterType<ISampleClassISampleClassWithInterfaceAsParameter,
+                    SampleClassWithNestedInterfaceAsParameterWithDependencyConstrutor>();
 
             var sampleClass = c.Resolve<ISampleClassISampleClassWithInterfaceAsParameter>(ResolveKind.FullEmitFunction);
 

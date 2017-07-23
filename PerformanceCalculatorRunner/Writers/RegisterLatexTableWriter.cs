@@ -10,7 +10,8 @@ namespace PerformanceCalculatorRunner.Writers
 
         protected override string GetValuesAsText(FinalTestResult currentValue)
         {
-            return $" & {currentValue.MinRegisterTime} & {currentValue.MaxRegisterTime} & {currentValue.AvgRegisterTime}";
+            return
+                $" & {currentValue.MinRegisterTime} & {currentValue.MaxRegisterTime} & {currentValue.AvgRegisterTime}";
         }
     }
 }

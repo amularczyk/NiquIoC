@@ -15,21 +15,24 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction
             c.RegisterType<EmptyClass>().AsPerHttpContext();
 
 
-            var emptyClass = HttpContextTestsHelper.Initialize().ResolveObject<EmptyClass>(c, ResolveKind.PartialEmitFunction);
+            var emptyClass = HttpContextTestsHelper.Initialize()
+                .ResolveObject<EmptyClass>(c, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(emptyClass);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(TypeNotRegisteredException), "Type NiquIoC.Test.Model.EmptyClass has not been registered.")]
+        [ExpectedException(typeof(TypeNotRegisteredException),
+            "Type NiquIoC.Test.Model.EmptyClass has not been registered.")]
         public void InternalClassNotRegistered_Fail()
         {
             var c = new Container();
             c.RegisterType<SampleClass>().AsPerHttpContext();
 
 
-            var sampleClass = HttpContextTestsHelper.Initialize().ResolveObject<SampleClass>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass = HttpContextTestsHelper.Initialize()
+                .ResolveObject<SampleClass>(c, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNull(sampleClass);
@@ -43,7 +46,8 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction
             c.RegisterType<SampleClassWithStringType>().AsPerHttpContext();
 
 
-            var sampleClass = HttpContextTestsHelper.Initialize().ResolveObject<SampleClassWithStringType>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass = HttpContextTestsHelper.Initialize()
+                .ResolveObject<SampleClassWithStringType>(c, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNull(sampleClass);
@@ -57,7 +61,8 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction
             c.RegisterType<SampleClassWithIntType>().AsPerHttpContext();
 
 
-            var sampleClass = HttpContextTestsHelper.Initialize().ResolveObject<SampleClassWithIntType>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass = HttpContextTestsHelper.Initialize()
+                .ResolveObject<SampleClassWithIntType>(c, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNull(sampleClass);
@@ -71,7 +76,8 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction
             c.RegisterType<SampleClass>().AsPerHttpContext();
 
 
-            var sampleClass = HttpContextTestsHelper.Initialize().ResolveObject<SampleClass>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass = HttpContextTestsHelper.Initialize()
+                .ResolveObject<SampleClass>(c, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass);
@@ -79,7 +85,8 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction
         }
 
         [TestMethod]
-        [ExpectedException(typeof(CycleForTypeException), "Appeared cycle when resolving constructor for object of type NiquIoC.Test.Model.FirstClassWithCycleInConstructor")]
+        [ExpectedException(typeof(CycleForTypeException),
+            "Appeared cycle when resolving constructor for object of type NiquIoC.Test.Model.FirstClassWithCycleInConstructor")]
         public void RegisterClassWithCycleInConstructor_Fail()
         {
             var c = new Container();
@@ -87,7 +94,8 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction
             c.RegisterType<FirstClassWithCycleInConstructor>().AsPerHttpContext();
 
 
-            var sampleClass = HttpContextTestsHelper.Initialize().ResolveObject<FirstClassWithCycleInConstructor>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass = HttpContextTestsHelper.Initialize()
+                .ResolveObject<FirstClassWithCycleInConstructor>(c, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNull(sampleClass);
@@ -101,7 +109,8 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction
             c.RegisterType<SampleClass>().AsPerHttpContext();
 
 
-            var objs = HttpContextTestsHelper.Initialize().ResolveObjects<SampleClass>(c, ResolveKind.PartialEmitFunction);
+            var objs = HttpContextTestsHelper.Initialize()
+                .ResolveObjects<SampleClass>(c, ResolveKind.PartialEmitFunction);
             var sampleClass1 = objs.Item1;
             var sampleClass2 = objs.Item2;
 
@@ -122,8 +131,10 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction
             c.RegisterType<SampleClass>().AsPerHttpContext();
 
 
-            var sampleClass1 = HttpContextTestsHelper.Initialize().ResolveObject<SampleClass>(c, ResolveKind.PartialEmitFunction);
-            var sampleClass2 = HttpContextTestsHelper.Initialize().ResolveObject<SampleClass>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass1 = HttpContextTestsHelper.Initialize()
+                .ResolveObject<SampleClass>(c, ResolveKind.PartialEmitFunction);
+            var sampleClass2 = HttpContextTestsHelper.Initialize()
+                .ResolveObject<SampleClass>(c, ResolveKind.PartialEmitFunction);
 
 
             Assert.IsNotNull(sampleClass1);
@@ -142,10 +153,12 @@ namespace NiquIoC.Test.PerHttpContext.PartialEmitFunction
             c.RegisterType<SampleClass>().AsPerHttpContext();
 
 
-            var objs1 = HttpContextTestsHelper.Initialize().ResolveObjects<SampleClass>(c, ResolveKind.PartialEmitFunction);
+            var objs1 = HttpContextTestsHelper.Initialize()
+                .ResolveObjects<SampleClass>(c, ResolveKind.PartialEmitFunction);
             var sampleClass11 = objs1.Item1;
             var sampleClass12 = objs1.Item2;
-            var objs2 = HttpContextTestsHelper.Initialize().ResolveObjects<SampleClass>(c, ResolveKind.PartialEmitFunction);
+            var objs2 = HttpContextTestsHelper.Initialize()
+                .ResolveObjects<SampleClass>(c, ResolveKind.PartialEmitFunction);
             var sampleClass21 = objs2.Item1;
             var sampleClass22 = objs2.Item2;
 
