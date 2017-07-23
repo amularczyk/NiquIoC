@@ -30,7 +30,7 @@ namespace PerformanceCalculator.Containers.TestsGrace
         {
             var c = (DependencyInjectionContainer)container;
 
-            c.Configure(x => { x.ExportFactory<TFrom>(() => obj(null)); });
+            c.Configure(x => { x.ExportFactory<TFrom>(() => obj(c)); });
         }
     }
 }

@@ -127,8 +127,8 @@ namespace PerformanceCalculator.Tests.Containers.TestsNiquIoCPartial
             var obj2 = c.Resolve<ITestD>(ResolveKind.PartialEmitFunction);
 
 
-            CheckHelper.Check(obj1, true, true);
-            CheckHelper.Check(obj2, true, true);
+            CheckHelper.Check(obj1, false, false);
+            CheckHelper.Check(obj2, false, false);
             CheckHelper.Check(obj1, obj2, false, false);
         }
     }

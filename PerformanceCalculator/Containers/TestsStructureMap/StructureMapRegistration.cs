@@ -31,7 +31,7 @@ namespace PerformanceCalculator.Containers.TestsStructureMap
         {
             var c = (Container)container;
 
-            c.Configure(x => { x.For<TFrom>().Use(() => obj(null)); });
+            c.Configure(x => { x.For<TFrom>(Lifecycles.Unique).Use(context => obj(context)); });
         }
     }
 }

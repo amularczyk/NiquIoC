@@ -1,18 +1,23 @@
-﻿using Castle.Windsor;
-using PerformanceCalculator.Interfaces;
+﻿using Castle.MicroKernel;
+using Castle.Windsor;
 
 namespace PerformanceCalculator.Containers.TestsWindsor
 {
-    public class WindsorResolving : IResolving
+    public class WindsorResolving : Resolving
     {
-        public void Resolve<T>(object container, int testCasesNumber)
-            where T : class
+        public override T Resolve<T>(object container)
         {
-            var c = (WindsorContainer)container;
-
-            for (var i = 0; i < testCasesNumber; i++)
+            if (container is DefaultKernel)
             {
-                c.Resolve<T>();
+                var c = (DefaultKernel)container;
+
+                return c.Resolve<T>();
+            }
+            else
+            {
+                var c = (WindsorContainer)container;
+
+                return c.Resolve<T>();
             }
         }
     }

@@ -127,8 +127,8 @@ namespace PerformanceCalculator.Tests.Containers.TestsNiquIoCFull
             var obj2 = c.Resolve<ITestA>(ResolveKind.FullEmitFunction);
 
 
-            CheckHelper.Check(obj1, true, true);
-            CheckHelper.Check(obj2, true, true);
+            CheckHelper.Check(obj1, false, false);
+            CheckHelper.Check(obj2, false, false);
             CheckHelper.Check(obj1, obj2, false, false);
         }
     }

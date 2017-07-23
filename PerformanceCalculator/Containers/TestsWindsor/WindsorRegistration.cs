@@ -31,7 +31,7 @@ namespace PerformanceCalculator.Containers.TestsWindsor
         {
             var c = (WindsorContainer)container;
 
-            c.Register(Component.For<TFrom>().UsingFactoryMethod(() => obj(null)).LifeStyle.Transient);
+            c.Register(Component.For<TFrom>().UsingFactoryMethod(kernel => obj(kernel)).LifeStyle.Transient);
         }
     }
 }

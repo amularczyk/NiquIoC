@@ -1,19 +1,14 @@
 ﻿using DryIoc;
-using PerformanceCalculator.Interfaces;
 
 namespace PerformanceCalculator.Containers.TestsDryIoc
 {
-    public class DryIocResolving : IResolving
+    public class DryIocResolving : Resolving
     {
-        public void Resolve<T>(object container, int testCasesNumber)
-            where T : class
+        public override T Resolve<T>(object container)
         {
             var c = (Container)container;
 
-            for (var i = 0; i < testCasesNumber; i++)
-            {
-                c.Resolve<T>();
-            }
+            return c.Resolve<T>();
         }
     }
 }

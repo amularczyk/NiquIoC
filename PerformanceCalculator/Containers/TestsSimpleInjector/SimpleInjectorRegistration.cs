@@ -46,7 +46,8 @@ namespace PerformanceCalculator.Containers.TestsSimpleInjector
         {
             var c = (Container)container;
 
-            c.Register<TFrom>(() => obj(null));
+            // This container does not support proper registration as FactoryMethod!!
+            c.Register<TFrom>(() => obj(container));
         }
     }
 }

@@ -1,18 +1,22 @@
-﻿using PerformanceCalculator.Interfaces;
-using StructureMap;
+﻿using StructureMap;
 
 namespace PerformanceCalculator.Containers.TestsStructureMap
 {
-    public class StructureMapResolving : IResolving
+    public class StructureMapResolving : Resolving
     {
-        public void Resolve<T>(object container, int testCasesNumber)
-            where T : class
+        public override T Resolve<T>(object container)
         {
-            var c = (Container)container;
-
-            for (var i = 0; i < testCasesNumber; i++)
+            if (container is IContext)
             {
-                c.GetInstance<T>();
+                var c = (IContext)container;
+
+                return c.GetInstance<T>();
+            }
+            else
+            {
+                var c = (Container)container;
+
+                return c.GetInstance<T>();
             }
         }
     }

@@ -1,20 +1,15 @@
-﻿using NiquIoC;
-using NiquIoC.Enums;
-using PerformanceCalculator.Interfaces;
+﻿using NiquIoC.Enums;
+using NiquIoC.Interfaces;
 
 namespace PerformanceCalculator.Containers.TestsNiquIoCFull
 {
-    public class NiquIoCFullResolving : IResolving
+    public class NiquIoCFullResolving : Resolving
     {
-        public void Resolve<T>(object container, int testCasesNumber)
-            where T : class
+        public override T Resolve<T>(object container)
         {
-            var c = (Container)container;
+            var c = (IContainerResolve)container;
 
-            for (var i = 0; i < testCasesNumber; i++)
-            {
-                c.Resolve<T>(ResolveKind.FullEmitFunction);
-            }
+            return c.Resolve<T>(ResolveKind.FullEmitFunction);
         }
     }
 }

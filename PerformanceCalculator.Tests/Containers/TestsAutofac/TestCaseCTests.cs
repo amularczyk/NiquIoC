@@ -139,8 +139,8 @@ namespace PerformanceCalculator.Tests.Containers.TestsAutofac
             var obj2 = c.Resolve<ITestC>();
 
 
-            CheckHelper.Check(obj1, true, true);
-            CheckHelper.Check(obj2, true, true);
+            CheckHelper.Check(obj1, false, false);
+            CheckHelper.Check(obj2, false, false);
             CheckHelper.Check(obj1, obj2, false, false);
         }
     }
