@@ -2,7 +2,7 @@
 {
     public interface IResolving
     {
-        void Resolve<T>(object container, int TestCasesNumber)
+        void Resolve<T>(object container, int testCasesNumber)
             where T : class;
     }
 }
