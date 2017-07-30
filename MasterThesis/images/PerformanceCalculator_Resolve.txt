@@ -61,17 +61,17 @@ Windsor & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
 A - FactoryMethod
 Ilość & & 1 & & & 10 & & & 100 & & & 1000 & \\ \hline
  & min & max & avg & min & max & avg & min & max & avg & min & max & avg \\ \hline
-Autofac & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
-DryIoc & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
-Grace & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
-LightInject & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
-Ninject & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 1 & 5 & 7 & 5 \\ \hline
-NiquIoCPartial & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
-NiquIoCFull & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
-SimpleInjector & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
-StructureMap & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 1 \\ \hline
-Unity & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 1 \\ \hline
-Windsor & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 1 \\ \hline
+Autofac & 0 & 0 & 0 & 5 & 8 & 6 & 49 & 57 & 50 & 482 & 490 & 484 \\ \hline
+DryIoc & 0 & 0 & 0 & 0 & 0 & 0 & 6 & 6 & 6 & 63 & 65 & 64 \\ \hline
+Grace & 2 & 2 & 2 & 3 & 5 & 3 & 12 & 13 & 12 & 103 & 107 & 104 \\ \hline
+LightInject & 0 & 0 & 0 & 1 & 1 & 1 & 6 & 8 & 7 & 60 & 65 & 62 \\ \hline
+Ninject & 8 & 10 & 9 & 53 & 60 & 55 & 521 & 597 & 531 & 5298 & 5469 & 5339 \\ \hline
+NiquIoCPartial & 0 & 0 & 0 & 1 & 1 & 1 & 12 & 12 & 12 & 118 & 121 & 120 \\ \hline
+NiquIoCFull & 0 & 0 & 0 & 1 & 1 & 1 & 11 & 12 & 12 & 113 & 115 & 114 \\ \hline
+SimpleInjector & 1 & 1 & 1 & 2 & 2 & 2 & 11 & 12 & 12 & 99 & 103 & 100 \\ \hline
+StructureMap & 7 & 7 & 7 & 11 & 11 & 11 & 52 & 53 & 52 & 431 & 447 & 435 \\ \hline
+Unity & 1 & 1 & 1 & 14 & 15 & 14 & 141 & 168 & 143 & 1407 & 1532 & 1423 \\ \hline
+Windsor & 1 & 1 & 1 & 10 & 11 & 10 & 95 & 97 & 95 & 926 & 1012 & 938 \\ \hline
 
 B - Singleton
 Ilość & & 1 & & & 10 & & & 100 & & & 1000 & \\ \hline
@@ -136,17 +136,17 @@ Windsor & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
 B - FactoryMethod
 Ilość & & 1 & & & 10 & & & 100 & & & 1000 & \\ \hline
  & min & max & avg & min & max & avg & min & max & avg & min & max & avg \\ \hline
-Autofac & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 1 \\ \hline
-DryIoc & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
-Grace & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 \\ \hline
-LightInject & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
-Ninject & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 6 & 6 & 6 \\ \hline
-NiquIoCPartial & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
-NiquIoCFull & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
-SimpleInjector & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 1 \\ \hline
-StructureMap & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 2 & 1 \\ \hline
-Unity & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 2 & 2 & 2 \\ \hline
-Windsor & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 2 & 1 \\ \hline
+Autofac & 1 & 1 & 1 & 16 & 17 & 16 & 154 & 156 & 155 & 1545 & 1573 & 1550 \\ \hline
+DryIoc & 0 & 0 & 0 & 1 & 2 & 1 & 19 & 19 & 19 & 185 & 188 & 186 \\ \hline
+Grace & 7 & 9 & 7 & 10 & 10 & 10 & 38 & 39 & 39 & 312 & 319 & 315 \\ \hline
+LightInject & 2 & 4 & 2 & 4 & 4 & 4 & 21 & 22 & 21 & 180 & 186 & 182 \\ \hline
+Ninject & 23 & 25 & 24 & 166 & 182 & 170 & 1601 & 1670 & 1622 & 16788 & 17602 & 16963 \\ \hline
+NiquIoCPartial & 0 & 0 & 0 & 4 & 4 & 4 & 37 & 39 & 38 & 364 & 373 & 368 \\ \hline
+NiquIoCFull & 0 & 0 & 0 & 3 & 4 & 3 & 35 & 37 & 35 & 344 & 373 & 353 \\ \hline
+SimpleInjector & 4 & 4 & 4 & 7 & 7 & 7 & 35 & 37 & 36 & 305 & 311 & 308 \\ \hline
+StructureMap & 25 & 25 & 25 & 37 & 37 & 37 & 159 & 162 & 160 & 1347 & 1385 & 1359 \\ \hline
+Unity & 4 & 6 & 4 & 44 & 45 & 44 & 436 & 443 & 439 & 4355 & 4492 & 4373 \\ \hline
+Windsor & 4 & 5 & 4 & 33 & 36 & 33 & 298 & 321 & 301 & 2939 & 3226 & 2971 \\ \hline
 
 C - Singleton
 Ilość & & 1 & & & 10 & & & 100 & & & 1000 & \\ \hline
@@ -211,17 +211,17 @@ Windsor & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
 C - FactoryMethod
 Ilość & & 1 & & & 10 & & & 100 & & & 1000 & \\ \hline
  & min & max & avg & min & max & avg & min & max & avg & min & max & avg \\ \hline
-Autofac & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 \\ \hline
-DryIoc & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
-Grace & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
-LightInject & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
-Ninject & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 1 & 5 & 7 & 5 \\ \hline
-NiquIoCPartial & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
-NiquIoCFull & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
-SimpleInjector & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 \\ \hline
-StructureMap & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 1 \\ \hline
-Unity & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 2 & 1 \\ \hline
-Windsor & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 1 \\ \hline
+Autofac & 2 & 2 & 2 & 19 & 21 & 19 & 186 & 197 & 189 & 1867 & 1979 & 1880 \\ \hline
+DryIoc & 0 & 0 & 0 & 2 & 2 & 2 & 24 & 25 & 24 & 232 & 236 & 234 \\ \hline
+Grace & 6 & 6 & 6 & 9 & 9 & 9 & 42 & 44 & 42 & 357 & 369 & 361 \\ \hline
+LightInject & 2 & 2 & 2 & 4 & 5 & 4 & 24 & 27 & 25 & 215 & 223 & 218 \\ \hline
+Ninject & 26 & 28 & 27 & 209 & 220 & 213 & 2110 & 2474 & 2152 & 22141 & 23030 & 22398 \\ \hline
+NiquIoCPartial & 0 & 0 & 0 & 5 & 5 & 5 & 45 & 47 & 46 & 446 & 479 & 451 \\ \hline
+NiquIoCFull & 0 & 0 & 0 & 4 & 4 & 4 & 42 & 45 & 43 & 419 & 440 & 424 \\ \hline
+SimpleInjector & 3 & 4 & 3 & 7 & 7 & 7 & 43 & 45 & 44 & 380 & 389 & 385 \\ \hline
+StructureMap & 18 & 20 & 18 & 34 & 35 & 34 & 177 & 198 & 180 & 1594 & 1748 & 1623 \\ \hline
+Unity & 6 & 7 & 6 & 56 & 58 & 56 & 555 & 645 & 564 & 5561 & 5645 & 5577 \\ \hline
+Windsor & 4 & 5 & 4 & 38 & 41 & 39 & 366 & 378 & 369 & 3650 & 4077 & 3721 \\ \hline
 
 D - Singleton
 Ilość & & 1 & & & 10 & \\ \hline
@@ -286,15 +286,15 @@ Windsor & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
 D - FactoryMethod
 Ilość & & 1 & & & 10 & \\ \hline
  & min & max & avg & min & max & avg \\ \hline
-Autofac & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
-DryIoc & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
-Grace & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
-LightInject & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
-Ninject & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
-NiquIoCPartial & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
-NiquIoCFull & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
-SimpleInjector & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
-StructureMap & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
-Unity & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
-Windsor & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+Autofac & 67 & 80 & 68 & 671 & 799 & 685 \\ \hline
+DryIoc & 9 & 10 & 10 & 78 & 81 & 79 \\ \hline
+Grace & 24 & 25 & 24 & 127 & 149 & 130 \\ \hline
+LightInject & 12 & 13 & 12 & 79 & 83 & 80 \\ \hline
+Ninject & 654 & 748 & 674 & 6206 & 6515 & 6299 \\ \hline
+NiquIoCPartial & 15 & 17 & 15 & 164 & 170 & 166 \\ \hline
+NiquIoCFull & 20 & 21 & 20 & 185 & 191 & 188 \\ \hline
+SimpleInjector & 20 & 20 & 20 & 128 & 131 & 129 \\ \hline
+StructureMap & 90 & 93 & 91 & 592 & 610 & 597 \\ \hline
+Unity & 173 & 181 & 174 & 1744 & 1839 & 1769 \\ \hline
+Windsor & 127 & 136 & 129 & 1227 & 1284 & 1238 \\ \hline
 
