@@ -1,19 +1,14 @@
 ﻿using Microsoft.Practices.Unity;
-using PerformanceCalculator.Interfaces;
 
 namespace PerformanceCalculator.Containers.TestsUnity
 {
-    public class UnityResolving : IResolving
+    public class UnityResolving : Resolving
     {
-        public void Resolve<T>(object container, int testCasesNumber)
-            where T : class
+        public override T Resolve<T>(object container)
         {
             var c = (UnityContainer)container;
 
-            for (var i = 0; i < testCasesNumber; i++)
-            {
-                c.Resolve<T>();
-            }
+            return c.Resolve<T>();
         }
     }
 }

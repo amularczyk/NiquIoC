@@ -1,31 +1,30 @@
 ﻿using Autofac;
-using PerformanceCalculator.Interfaces;
+using Autofac.Core.Resolving;
 
 namespace PerformanceCalculator.Containers.TestsAutofac
 {
-    public class AutofacResolving : IResolving
+    public class AutofacResolving : Resolving
     {
-        public void Resolve<T>(object container, int testCasesNumber)
-            where T : class
+        public override T Resolve<T>(object container)
         {
             if (container is ILifetimeScope)
             {
                 var c = (ILifetimeScope)container;
 
-                for (var i = 0; i < testCasesNumber; i++)
-                {
-                    c.Resolve<T>();
-                }
+                return c.Resolve<T>();
+            }
+            else if (container is IInstanceLookup)
+            {
+                var c = (IInstanceLookup)container;
+
+                return c.ActivationScope.Resolve<T>();
             }
             else
             {
                 // ReSharper disable once PossibleInvalidCastException
                 var c = (IContainer)container;
 
-                for (var i = 0; i < testCasesNumber; i++)
-                {
-                    c.Resolve<T>();
-                }
+                return c.Resolve<T>();
             }
         }
     }

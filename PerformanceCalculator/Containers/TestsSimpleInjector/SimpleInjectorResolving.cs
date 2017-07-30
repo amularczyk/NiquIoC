@@ -1,19 +1,14 @@
-﻿using PerformanceCalculator.Interfaces;
-using SimpleInjector;
+﻿using SimpleInjector;
 
 namespace PerformanceCalculator.Containers.TestsSimpleInjector
 {
-    public class SimpleInjectorResolving : IResolving
+    public class SimpleInjectorResolving : Resolving
     {
-        public void Resolve<T>(object container, int testCasesNumber)
-            where T : class
+        public override T Resolve<T>(object container)
         {
             var c = (Container)container;
 
-            for (var i = 0; i < testCasesNumber; i++)
-            {
-                c.GetInstance<T>();
-            }
+            return c.GetInstance<T>();
         }
     }
 }

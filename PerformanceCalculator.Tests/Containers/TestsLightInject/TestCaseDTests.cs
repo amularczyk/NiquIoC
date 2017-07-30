@@ -148,8 +148,8 @@ namespace PerformanceCalculator.Tests.Containers.TestsLightInject
             var obj2 = c.GetInstance<ITestD>();
 
 
-            CheckHelper.Check(obj1, true, true);
-            CheckHelper.Check(obj2, true, true);
+            CheckHelper.Check(obj1, false, false);
+            CheckHelper.Check(obj2, false, false);
             CheckHelper.Check(obj1, obj2, false, false);
         }
     }

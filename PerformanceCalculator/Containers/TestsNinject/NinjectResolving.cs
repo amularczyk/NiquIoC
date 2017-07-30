@@ -1,18 +1,22 @@
 ﻿using Ninject;
-using PerformanceCalculator.Interfaces;
 
 namespace PerformanceCalculator.Containers.TestsNinject
 {
-    public class NinjectResolving : IResolving
+    public class NinjectResolving : Resolving
     {
-        public void Resolve<T>(object container, int testCasesNumber)
-            where T : class
+        public override T Resolve<T>(object container)
         {
-            var c = (StandardKernel)container;
-
-            for (var i = 0; i < testCasesNumber; i++)
+            if (container is StandardKernel)
             {
-                c.Get<T>();
+                var c = (StandardKernel)container;
+
+                return c.Get<T>();
+            }
+            else
+            {
+                var c = (Ninject.Activation.Context)container;
+
+                return c.Kernel.Get<T>();
             }
         }
     }

@@ -90,6 +90,7 @@
     <Compile Include="ConsoleWriteTestResults.cs" />
     <Compile Include="Containers\Registration.cs" />
     <Compile Include="Containers\PerformanceTest.cs" />
+    <Compile Include="Containers\Resolving.cs" />
     <Compile Include="Containers\TestsDryIoc\DryIocRegistration.cs" />
     <Compile Include="Containers\TestsGrace\GraceRegistration.cs" />
     <Compile Include="Containers\TestsLightInject\LightInjectRegistration.cs" />
