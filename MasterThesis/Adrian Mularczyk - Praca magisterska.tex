@@ -99,7 +99,7 @@ Wstrzykiwanie zależności jest wzorcem projektowym, który pozwala na tworzenie
 Celem niniejszej pracy magisterskiej jest stworzenie takiej implementacji tego wzorca, która będzie wydajna dla złożonych grafów zależności, ale również będzie dostarczać niezbędnej funkcjonalności. Do tego celu zostaną wykorzystane mechanizmy z przestrzeni nazw Reflection.Emit. W tej pracy zostaną przedstawione dwa rozwiązania tego problemu.
 
 \subsection{Układ pracy}
-Poza wstępem i podsumowaniem praca składa się jeszcze z czterech rozdziałów. Pierwszy z nich opisuje idee stojące za wstrzykiwaniem zależności. W kolejnym znajduje się opis teoretyczny czym jest wstrzykiwanie zależności. Następny rozdział został poświęcony mojej implementacji tego wzorca. Ostatni z rozdziałów skupia się na testach wydajnościowych, w których porównuję moje rozwiązanie z kilkoma najbardziej popularnym i kilkoma najwydajniejszymi rozwiązaniami.
+Poza wstępem i podsumowaniem praca składa się jeszcze z czterech rozdziałów. Pierwszy z nich opisuje idee stojące za wstrzykiwaniem zależności. W kolejnym znajduje się opis teoretyczny czym jest wstrzykiwanie zależności. Następny rozdział został poświęcony mojej implementacji tego wzorca. Ostatni z rozdziałów skupia się na testach wydajnościowych, w których są porównywane rozwiązanie przedstawione w tej pracy, z kilkoma najbardziej popularnym i kilkoma najwydajniejszymi rozwiązaniami.
 
 
 
@@ -135,11 +135,11 @@ Rysunek \ref{fig:Solid_with} przedstawia przykład po zastosowaniu zasady D.\\
 \end{figure}
 Łatwo zauważyć, że teraz klasę Bar nie interesuje implementacja klasy Foo. Spodziewa się jedynie, że dostanie implementację interfejsu IFoo, który dostarcza metody DoSomeWork. Dzięki takiemu podejściu w łatwy sposób można podmienić implementację interfejsu IFoo w klasie Bar. Zatem tworząc ciało metody DoSomething w klasie Bar nie przejmujemy się implementacją metody DoSomeWork, tylko rozważamy jej "kontrakt", zobowiązanie do realizacji założonej funkcjonalności.\\
 \\
-Kolejną zaletą takiego podejścia jest to, że teraz łatwy sposób można przetestować metodę DoSomething - można stworzyć przykładową implementację interfejsu IFoo lub użyć tzw. obiektu zastępczego (ang. mock).
+Kolejną zaletą takiego podejścia jest to, że teraz w łatwy sposób można przetestować metodę DoSomething - można stworzyć przykładową implementację interfejsu IFoo lub użyć tzw. obiektu zastępczego (ang. mock).
 
 
 \subsection{Kontenery wstrzykiwania zależności}
-Aby można było z powodzeniem zastosować zasadę D można wesprzeć się tzw. kontenerem wstrzykiwania zależności (ang. Dependency Injection Container), obiektem który przechowuje mapę w której abstrakcje (interfejsy, klasy abstrakcyjne) mają przyporządkowane implementacje (klasy implementujące interfejsy lub dziedziczące z klas abstrakcyjnych).\\
+Aby można było z powodzeniem zastosować zasadę D należy wesprzeć się tzw. kontenerem wstrzykiwania zależności (ang. Dependency Injection Container), obiektem który przechowuje mapę w której abstrakcje (interfejsy, klasy abstrakcyjne) mają przyporządkowane implementacje (klasy implementujące interfejsy lub dziedziczące z klas abstrakcyjnych).\\
 \\
 Kontenery dostarczają nam kilku funkcjonalności. Jedną z nich jest oczywiście możliwość zdefiniowania tego jakiej konkretnej klasy instancję należy zwrócić w miejsce konkretnego interfejs. Drugą, również ważną funkcjonalnością jest tworzenie, na podstawie przechowywanego mapowania, instancji obiektów konkretnej klasy lub implementujących określony interfejs. Niektóre kontenery dostarczają również mechanizmy pozwalające rozszerzyć tworzenie nowych instancji o elementy programowania aspektowego.
 
@@ -215,7 +215,7 @@ Kod źródłowy programu jest dostępnym w repozytorium pod adresem:\\
 Znajduje się tam również kod programu, który posłużył do wykonania testów wydajnościowych, a także ta praca napisana w języku LateX i wszystkie obrazki.
 
 \subsection{Środowisko pracy}
-Prac oraz wszystkie testy powstały na komputerze z parametrami:
+Praca oraz wszystkie testy powstały na komputerze z parametrami:
 \begin{itemize}
 	\item Intel Core i7-4720HQ (2.60GHz)
 	\item 12 GB pamięci RAM
@@ -234,10 +234,10 @@ Narzędzia użyte do stworzenia pracy i testów:
 
 
 \subsection{Wstęp}
-Na początku chciałbym pokrótce opisać dwie rzeczy, które są istotne dla mojego rozwiązania. Pierwszą z nich jest Microsoft Common Language, a drugą przestrzeń nazw Reflection.Emit.
+Na początku chciałbym pokrótce opisać dwie rzeczy, które są istotne dla rozwiązania przedstawionego w tej pracy. Pierwszą z nich jest Common Intermediate Language, a drugą przestrzeń nazw Reflection.Emit.
 
 \subsubsection{Common Intermediate Language}
-Common Intermediate Language - CIL (w skrócie IL) to język pośredni do którego kod C\# jest kompilowany. Język ten pozwala na komunikację między aplikacjami napisanymi na platformie .Net, a systemem operacyjnym.
+Common Intermediate Language - CIL (w skrócie IL) to język pośredni do którego kod C\# jest kompilowany. Język ten pozwala na komunikację między aplikacjami napisanymi na platformie .NET, a systemem operacyjnym.
 
 \subsubsection{Reflection.Emit}
 Przestrzeń nazw Reflection.Emit pozwala w kodzie programu, w sposób dynamiczny, na utworzenie listy operacji w języku IL, a następnie zapamiętaniu ciągu tych operacji jako delegat. Za każdym razem, gdy ten delegat zostanie wywołany, to wykona się ciąg wcześniej zdefiniowanych operacji IL.
@@ -283,7 +283,7 @@ Poniżej znajduje się dokładniejszy opis metod z każdego z powyższych interf
 \subsubsection{Register}
 W pierwszej i drugiej metodzie interfejsu IContainerRegister można zarejestrować zwykłe klasy. W trzeciej i czwartej interfejsy oraz klasy, które implementują dany interfejs lub klasy i klasy po nich dziedziczące. W piątej i szóstej metodzie rejestrujemy klasę jako fabrykę obiektów - funkcję, która ma nam zwrócić pożądany obiekt. W siódmej (ostatniej) natomiast możemy zarejestrować konkretną instancję danego typu.\\
 \\
-W moim rozwiązaniu każdy typ może być zarejestrowany tylko raz - ponowna rejestracja tego samego typu nadpisuje istniejącą rejestrację.\\
+W rozwiązaniu przedstawionym w tej pracy każdy typ może być zarejestrowany tylko raz - ponowna rejestracja tego samego typu nadpisuje istniejącą rejestrację.\\
 \\
 Każda z tych siedmiu metod rejestracji zwraca interfejs IContainerMember (Rys. \ref{fig:IContainerMember}), który umożliwia nam zarejestrowanie danego typu z określonym menadżerem czasu życia (czyli implementacją interfejsu IObjectLifetimeManager - Rys. \ref{fig:IObjectLifetimeManager}). Celem takiego podejścia jest umożliwienie określenia polityki czasu życia dla nowo tworzonych instancji, ponieważ dla różnych przypadków biznesowych możemy potrzebować, aby obiekt danego typu miał konkretny czas życia.\\ \\
 \begin{figure}[H]
@@ -314,7 +314,7 @@ W zależności od implementacji tego interfejsu, to obiekt zwracany z metody Get
 \end{figure}
 
 \subsubsection{Resolve}
-Metody interfejsu IContainerResolve, są to głównymi operacjami. Register można nazwać sercem kontenera, a Resolve mózgiem. Każda z metod tego interfejsu odpowiada za stworzenie i zwrócenie obiektu odpowiedniego typu.\\
+Metody interfejsu IContainerResolve, są głównymi operacjami. Register można nazwać sercem kontenera, a Resolve mózgiem. Każda z metod tego interfejsu odpowiada za stworzenie i zwrócenie obiektu odpowiedniego typu.\\
 \\
 W niniejszej pracy zaproponowano dwa rozwiązania - PartialEmitFunction i FullEmitFunction (różnice między nimi zostaną opisane w dalszej części pracy), dlatego metody rejestracji jako opcjonalny parametr przyjmuje wartość enumeracji określającej wybraną politykę - ResolveKind (dzięki temu w przyszłości może być ona w łatwy sposób rozszerzona o kolejne rozwiązania). W interfejsie znajdują się również metody, które nie przyjmują tego parametru - zostały one dodane na wypadek, gdy ktoś będzie zawsze korzystał tylko z jednego z rozwiązań (może ustawić je jako domyślne np. w konstruktorze).
 
@@ -324,10 +324,10 @@ Interfejs IContainerBuildUp to zwyczajowy, użyteczny dodatek do kontenera - gdy
 	\item DependencyMethod (dla metod)
 	\item DependencyProperty (dla właściwości)
 \end{itemize}
-Podczas operacji BuildUp wywoływane są wszystkie metody i uzupełniane są wszystkie właściwości, które mają te atrybuty. Ta operacja jest również wykonywany podczas operacji Resolve.\\
+Podczas operacji BuildUp wywoływane są wszystkie metody i uzupełniane są wszystkie właściwości, które mają te atrybuty. Ta operacja jest również wykonywana podczas operacji Resolve.\\
 \\
 Warto tutaj odnotować, że ze względu na szczegóły implementacyjne tylko jedno z niniejszych rozwiązań wspiera operację BuildUp - jest to rozwiązanie PartialEmitFunction. W rozwiązaniu FullEmitFunction ta funkcjonalność nie została zaimplementowana. Jest to spowodowane skomplikowaniem tego rozwiązania i małą potrzebą biznesową używania tej operacji. Jednakże w przyszłości istnieje możliwość jej dodania.\\
-\\
+
 W aplikacji istnieje również atrybut DependencyConstrutor. Można go użyć przy definicji konstruktora danej klasy. Obiekt każdej klasy jest tworzony przy użyciu konstruktora. Klasa może mieć kilka konstruktorów. W niniejszym rozwiązaniu utworzono logikę wyboru odpowiedniego konstruktora, przy pomocy którego ma zostać stworzony obiekt. Wygląda ona następująco:
 \begin{itemize}
 	\item Jeśli jest jeden konstruktor, to go wybierz.
@@ -354,9 +354,16 @@ W niniejszej implementacji utworzono dwie strategie, które realizują te zało�
 W obu rozwiązaniach do zapamiętania kroków potrzebnych do stworzenia obiektu danego typu wykorzystano operacje z przestrzeni nazw Reflection.Emit.
 
 \subsubsection{Krok pierwszy}
-Na początku algorytm znajduje odpowiedni konstruktor, przy pomocy którego ma zostać stworzony nowy obiekt. Jeśli robi to po raz pierwszy dla danego typu, to informacje o tym konstruktorze zapisuje w pamięci podręcznej. Do tego celu została użyta struktura danych Dictionary, gdzie kluczem jest typ obiektu, a wartością obiekt klasy ContainerMember (Rys. \ref{fig:ContainerMember}), w którym przechowujemy wszystkie zapamiętane informacje dla danego typu. Następnym krokiem, jest rekurencyjne wywołanie tej operacji dla wszystkich typów, których obiekty są niezbędne do stworzenia obiektu docelowego typu.\\
+Na początku algorytm znajduje odpowiedni konstruktor, przy pomocy którego ma zostać stworzony nowy obiekt. Jeśli robi to po raz pierwszy dla danego typu, to informacje o tym konstruktorze zapisuje w pamięci podręcznej. Do tego celu została użyta struktura danych słownik, gdzie kluczem jest typ obiektu, a wartością obiekt klasy ContainerMember (Rys. \ref{fig:ContainerMember}), w którym przechowujemy wszystkie zapamiętane informacje dla danego typu. Następnym krokiem, jest rekurencyjne wywołanie tej operacji dla wszystkich typów, których obiekty są niezbędne do stworzenia obiektu docelowego typu.\\
 \\
-W tej operacji jest kilka wyjątków - są nimi typy zarejestrowane jako Instance albo FactoryObject. Dla pierwszego przypadku nie musimy uzyskiwać informacji o tym jak stworzyć obiekt takiego typu, ponieważ mamy już taki obiekt stworzony i go po prostu wykorzystamy. Dla drugiego przypadku obiekt tworzony jest przy użyciu wcześniej zdefiniowanej przez użytkownika funkcji, której wywołanie spowoduje stworzenie obiektu oczekiwanego typu.\\
+W tej operacji jest kilka wyjątków - są nimi typy zarejestrowane jako Instance albo FactoryObject. Dla pierwszego przypadku nie musimy uzyskiwać informacji o tym jak stworzyć obiekt takiego typu, ponieważ mamy już taki obiekt stworzony i go po prostu wykorzystamy. Dla drugiego przypadku obiekt tworzony jest przy użyciu wcześniej zdefiniowanej przez użytkownika funkcji, której wywołanie spowoduje stworzenie obiektu oczekiwanego typu.
+\begin{figure}[H]
+	\begin{center}
+  		\includegraphics{ContainerMember.png}
+  		\caption{Klasa ContainerMember}
+  		\label{fig:ContainerMember}
+	\end{center}
+\end{figure}
 
 Klasa ContainerMember przechowuje:
 \begin{itemize}
@@ -371,18 +378,10 @@ Klasa ContainerMember przechowuje:
 	\item Informacje o menadżerze cyklu życia.
 \end{itemize}
 
-\begin{figure}[H]
-	\begin{center}
-  		\includegraphics{ContainerMember.png}
-  		\caption{Klasa ContainerMember}
-  		\label{fig:ContainerMember}
-	\end{center}
-\end{figure}
-
 \subsubsection{Rozwiązanie 1 - PartialEmitFunction}
 Cały algorytm jest zawarty w metodzie Resolve (Rys. \ref{fig:PartialEmitFunction_Resolve}). Sama ta metoda jest dość krótka, ale wywołuje ona kolejne metody (które już są dłuższe).\\
 \\
-Docelowy obiekt jest tworzony przy pomocy funkcji. Na początku sprawdzamy, czy już wcześniej utworzyliśmy taką funkcję (jeśli tak, będzie on zapisany w klasie ContainerMember we właściwości ObjectLifetimeManager). Wywołanie funkcji kończy działanie algorytmu. Jeśli funkcja nie została jeszcze wcześniej utworzona, to ją tworzymy.\\
+Docelowy obiekt jest tworzony przy pomocy funkcji. Na początku następuje sprawdzenie, czy już wcześniej została utworzona taką funkcję (jeśli tak, będzie on zapisany w klasie ContainerMember we właściwości ObjectLifetimeManager). Wywołanie funkcji kończy działanie algorytmu. Jeśli funkcja nie została wcześniej utworzona, to ją tworzymy.\\
 \\
 Funkcja ta nie przyjmuje żadnych parametrów, a jej typem wynikowym jest obiekt. Ciało tej funkcji jest bardzo proste - po prostu ma ona wykonać metodę i zwrócić jej rezultat, którym jest nasz docelowy obiekt.\\ \\
 \begin{figure}[H]
@@ -393,7 +392,7 @@ Funkcja ta nie przyjmuje żadnych parametrów, a jej typem wynikowym jest obiekt
 	\end{center}
 \end{figure}
 
-Metoda GetObject (Rys. \ref{fig:PartialEmitFunction_GetObject}) jest trochę bardziej rozbudowana. Na początku pobieramy informacje o parametrach konstruktora danego typu. Następnie dla każdego z tych parametrów tworzymy obiekt (o docelowym typie) przy pomocy funkcji Resolve (opisanej wyżej). Korzystamy tutaj z rekurencji. Gdy już mamy stworzone obiekty dla każdego z parametrów konstruktora, to listę tych parametrów przekazujemy do metody CreateInstanceFunction, która zwróci nam instancję obiektu oczekiwanego typu. Na koniec wywołujemy callback afterObjectCreate i zwracamy nasz obiekt.\\ \\
+Metoda GetObject (Rys. \ref{fig:PartialEmitFunction_GetObject}) jest trochę bardziej rozbudowana. Na początku są pobierane informacje o parametrach konstruktora danego typu. Następnie dla każdego z tych parametrów jest tworzony obiekt przy pomocy funkcji Resolve (opisanej wyżej). Została tutaj wykorzystana rekurencja. Gdy obiekty dla wszystkich parametrów konstruktora zostały utworzone, to ich lista jest przekazywana do metody CreateInstanceFunction, która zwraca instancję obiektu oczekiwanego typu. Na koniec jest wywoływana funkcja afterObjectCreate i docelowy obiekt zostaje zwrócony.\\ \\
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics{PartialEmitFunction_GetObject.png}
@@ -402,7 +401,11 @@ Metoda GetObject (Rys. \ref{fig:PartialEmitFunction_GetObject}) jest trochę bar
 	\end{center}
 \end{figure}
 
-Na początku metody CreateInstanceFunction (Rys. \ref{fig:PartialEmitFunction_CreateInstanceFunction}) sprawdzamy, czy mamy utworzoną funkcję, która umie zwrócić obiekt docelowego typu. Jeśli tak, to przy pomocy tej funkcji tworzymy obiekt  i go zwracamy. Ta funkcja jako argument przyjmuje listę obiektów w kolejności zgodnej z listą parametrów konstruktora. Jeśli nie, to przy pomocy metody CreateObjectFunction tworzymy taką funkcję, a następnie zapisujemy ją w pamięci podręcznej (również w strukturze Dictionary, której kluczem jest typ, a wartością jest funkcja).\\ \\
+Na początku metody CreateInstanceFunction (Rys. \ref{fig:PartialEmitFunction_CreateInstanceFunction}) występuje sprawdzenie, czy funkcję, która umie zwrócić obiekt docelowego typu, została utworzona.\\
+\\
+Jeśli tak, to przy pomocy tej funkcji jest tworzony obiekt, a następnie jest on zwracany. Ta funkcja jako argument przyjmuje listę obiektów w kolejności zgodnej z listą parametrów konstruktora.\\
+\\
+Jeśli nie, to przy pomocy metody CreateObjectFunction taka funkcja jest tworzona. W kolejnym kroku jest ona zapisywana w pamięci podręcznej (również w strukturze słownik, której kluczem jest typ, a wartością jest funkcja). Dalej dzieje się to samo, co w sytuacji, gdy ta funkcja jest już utworzona.\\ \\
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics{PartialEmitFunction_CreateInstanceFunction.png}
@@ -411,21 +414,21 @@ Na początku metody CreateInstanceFunction (Rys. \ref{fig:PartialEmitFunction_Cr
 	\end{center}
 \end{figure}
 
-CreateObjectFunction (Rys. \ref{fig:PartialEmitFunction_CreateObjectFunction}) jest najbardziej zaawansowaną metodą w tym algorytmie. To w niej korzystamy z metod z przestrzeni nazw Reflection.Emit.\\
+CreateObjectFunction (Rys. \ref{fig:PartialEmitFunction_CreateObjectFunction}) jest najbardziej zaawansowaną metodą w tym algorytmie. To w niej wykorzystano metody z przestrzeni nazw Reflection.Emit.\\
 \\
-Na początku pobieramy informacje o konstruktorze. Następnie tworzymy DynamicMethod i z niej pobieramy ILGenerator. W nim będziemy przechowywać listę kroków niezbędnych do utworzenia docelowego obiektu.\\
+Na początku są pobierane informacje o konstruktorze. Następnie zostaje utworzony obiekt DynamicMethod i z niego jest pobierany ILGenerator. W nim będzie przechowywana listę kroków niezbędnych do utworzenia docelowego obiektu.\\
 \\
-Dla każdego z parametrów konstruktora wykonujemy następujące operacje:
+Dla każdego z parametrów konstruktora są wykonane następujące operacje:
 \begin{enumerate}
 	\item Dodaj do listy kroków operację, która umieści na szczycie stosu pierwszy parametr (będzie nim lista obiektów zgodna z parametrami konstruktora).
 	\item Dodaj do listy kroków operację, która umieści na szczycie stosu indeks parametru (który to jest parametr z kolei).
 	\item Dodaj do listy kroków operację, która zdejmie ze szczytu stosu listę i indeks, a umieści na jego szczycie element znajdujący się pod danym indeksem na liście.
-	\item Pobieramy typ parametru.
+	\item Pobierz typ parametru.
 	\item Dodaj do listy kroków operację, która zrzutuje obiekt ze szczytu stosu na odpowiedni typ.
 \end{enumerate}
-Po wykonaniu kroków z listy na stosie będziemy mieli wszystkie obiekty, które są wymagane przez konstruktor do utworzenia danego typu. Teraz więc do listy kroków dodajemy operację, która stworzy obiekty przy pomocy danego konstruktora i umieści go na szczycie stosu. Na koniec dodajemy krok, który zwróci nam obiekt ze szczytu stosu.\\
-\\
-Wszystkie kroki niezbędne do stworzenia nowego elementu są zapisane w zmiennej typu DynamicMethod. Jako ostatnią operację w metodzie CreateObjectFunction, ze zmiennej typu DynamicMethod, tworzymy i zwracamy delegata, który jako parametr będzie przyjmował tablicę obiektów (nasza lista obiektów zgodna z parametrami konstruktora), a zwracał obiekt (nasz docelowy obiekt).\\ \\
+Po wykonaniu kroków z listy na stosie będą znajdowały się wszystkie obiekty, które są wymagane przez konstruktor do utworzenia danego typu. Teraz więc do listy kroków należy dodać jeszcze dwie operacje. Pierwsze z nich ma za zadanie stworzyć obiekt przy pomocy danego konstruktora i umieść go na szczycie stosu. Druga ma na celu zwróci obiekt ze szczytu stosu.\\
+\\ \\
+Wszystkie kroki niezbędne do stworzenia nowego elementu są zapisane w zmiennej typu DynamicMethod. Ostatnią operację w metodzie CreateObjectFunction jest ze zmiennej typu DynamicMethod, utworzenie i zwrócenie delegata, który jako parametr będzie przyjmował tablicę obiektów (lista obiektów zgodna z parametrami konstruktora), a zwracał obiekt (docelowy obiekt).\\ \\
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics{PartialEmitFunction_CreateObjectFunction.png}
@@ -435,7 +438,7 @@ Wszystkie kroki niezbędne do stworzenia nowego elementu są zapisane w zmiennej
 \end{figure}
 
 \subsubsection{Rozwiązanie 2 - FullEmitFunction}
-Tutaj podobnie jak dla PartialEmitFunction cały algorytm zawarty jest w metodzie Resolve (Rys. \ref{fig:FullEmitFunction_Resolve}). Wygląda ona identycznie jak w rozwiązaniu 1 - docelowy obiekt jest tworzony przy pomocy funkcji, która woła w sobie metodę GetObject. Jeśli funkcji nie ma w zapisanej w pamięci, to ją tworzymy i zapisuje. Na końcu ją wywołujemy.\\ \\
+Tutaj podobnie jak dla PartialEmitFunction cały algorytm zawarty jest w metodzie Resolve (Rys. \ref{fig:FullEmitFunction_Resolve}). Wygląda ona identycznie jak w rozwiązaniu 1 - docelowy obiekt jest tworzony przy pomocy funkcji, która woła w sobie metodę GetObject. Jeśli funkcji nie ma zapamiętanej w pamięci, to zostaje ona stworzona i zapisana. Na końcu jest ona wywoływana.\\ \\
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics{FullEmitFunction_Resolve.png}
@@ -444,7 +447,7 @@ Tutaj podobnie jak dla PartialEmitFunction cały algorytm zawarty jest w metodzi
 	\end{center}
 \end{figure}
 
-Metoda GetObject (Rys. \ref{fig:FullEmitFunction_GetObject}) wygląda trochę inaczej. Nie pobieramy tutaj żadnych dodatkowych informacji, tylko od razu wywołujemy metodę CreateInstanceFunction, która zwróci nam instancję obiektu oczekiwanego typu. Na koniec również wywołujemy callback afterObjectCreate i zwracamy nasz obiekt.\\ \\
+Metoda GetObject (Rys. \ref{fig:FullEmitFunction_GetObject}) wygląda trochę inaczej. Nie ma pobierania tutaj żadnych dodatkowych informacji, tylko od razu jest wywoływana metoda CreateInstanceFunction, która zwraca instancję obiektu oczekiwanego typu. Na koniec również jest wywoływana funkcja afterObjectCreate i zostaje zwrócony docelowy obiekt.\\ \\
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics{FullEmitFunction_GetObject.png}
@@ -453,9 +456,9 @@ Metoda GetObject (Rys. \ref{fig:FullEmitFunction_GetObject}) wygląda trochę in
 	\end{center}
 \end{figure}
 
-CreateInstanceFunction (Rys. \ref{fig:FullEmitFunction_CreateInstanceFunction}) ma jeden dodatkowy krok względem rozwiązania 1. Na początku również sprawdzamy czy mamy utworzoną funkcję, która umie zwrócić obiekt docelowego typu. Jeśli nie, to przy pomocy metody CreateObjectFunction tworzymy taką funkcję, a następnie zapisujemy ją w pamięci podręcznej (również w strukturze Dictionary, której kluczem jest typ, a wartością jest typ pomocniczy FullEmitFunctionResult, który ma tylko jedną właściwość - Result typu funkcja). Następnym krokiem jest z walidowanie zapisanych danych dla typów przy pomocy metody ValidateTypesCache. Na końcu funkcji tworzymy obiekt  i go zwracamy. Tutaj funkcja jako argument przyjmuje dwa słowniki. Pierwszy zawiera informacje o typie (kluczem jest typ, a wartością obiekt ContainerMember), a drugi informacje o indeksie typu (kluczem jest liczba oznaczając hasz danego typu, a wartością typ).\\
-\\
-Najpierw opiszę metodę ValidateTypesCache, ponieważ nie wywołuje ona w sobie żadnej innej metody.\\ \\
+CreateInstanceFunction (Rys. \ref{fig:FullEmitFunction_CreateInstanceFunction}) ma jeden dodatkowy krok względem rozwiązania 1. Na początku również następuje sprawdzenie czy została wcześniej utworzona funkcja, która umie zwrócić obiekt docelowego typu. Jeśli nie, to przy pomocy metody CreateObjectFunction taka funkcję zostaje stworzona, a następnie jest zapisywana w pamięci podręcznej (również w strukturze słownik, której kluczem jest typ, a wartością jest typ pomocniczy FullEmitFunctionResult, który ma tylko jedną właściwość - Result typu funkcja). Następnym krokiem jest walidacja zapisanych danych dla typów przy pomocy metody ValidateTypesCache. Na końcu funkcji obiekt jest tworzony, a następnie zwracany. Tutaj funkcja jako argument przyjmuje dwa słowniki. Pierwszy zawiera informacje o typie (kluczem jest typ, a wartością obiekt ContainerMember), a drugi informacje o indeksie typu (kluczem jest liczba oznaczając hasz danego typu, a wartością typ).\\
+
+Najpierw zostanie opisana metoda ValidateTypesCache, ponieważ nie wywołuje ona w sobie żadnej innej metody.\\ \\
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics{FullEmitFunction_CreateInstanceFunction.png}
@@ -464,7 +467,7 @@ Najpierw opiszę metodę ValidateTypesCache, ponieważ nie wywołuje ona w sobie
 	\end{center}
 \end{figure}
 
-W pierwszym kroku metody ValidateTypesCache sprawdzamy (Rys. \ref{fig:FullEmitFunction_ValidateTypesCache}), czy od ostatniego zapisywania danych o typach w pamięci podręcznej jakiś typ został zarejestrowany w kontenerze (lub czy jest to pierwsze zapisanie tych danych). Jeśli tak, to z zarejestrowanych typów należy utworzyć słownik, w którym kluczem jest hasz typu, a wartością typ. Potem aktualizujemy liczbę aktualnie zarejestrowanych typów.\\ \\
+W pierwszym kroku metoda ValidateTypesCache sprawdza (Rys. \ref{fig:FullEmitFunction_ValidateTypesCache}), czy od ostatniego zapisywania danych o typach w pamięci podręcznej jakiś typ został zarejestrowany w kontenerze (lub czy jest to pierwsze zapisanie tych danych). Jeśli tak, to z zarejestrowanych typów zostaje utworzony słownik, w którym kluczem jest hasz typu, a wartością typ. Potem następuje aktualizacja liczby aktualnie zarejestrowanych typów.\\ \\
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics{FullEmitFunction_ValidateTypesCache.png}
@@ -473,15 +476,15 @@ W pierwszym kroku metody ValidateTypesCache sprawdzamy (Rys. \ref{fig:FullEmitFu
 	\end{center}
 \end{figure}
 
-Metoda CreateObjectFunction (Rys. \ref{fig:FullEmitFunction_CreateObjectFunction}) jest dużo bardziej rozbudowana niż w rozwiązaniu 1. W niej również korzystamy z metod z przestrzeni nazw Reflection.Emit.\\
+Metoda CreateObjectFunction (Rys. \ref{fig:FullEmitFunction_CreateObjectFunction}) jest dużo bardziej rozbudowana niż w rozwiązaniu 1. W niej również są wykorzystane metody z przestrzeni nazw Reflection.Emit.\\
 \\
-Na początku tworzymy DynamicMethod i z niej pobieramy ILGenerator, w którym będziemy przechowywać listę kroków niezbędnych do utworzenia docelowego obiektu.\\
+Na początku jest tworzony obiekt typu DynamicMethod i z niego jest pobierany ILGenerator. W nim będzie przechowana lista kroków niezbędnych do utworzenia docelowego obiektu.\\
 \\
-Dla każdego z parametrów konstruktora wywołujemy metodę CreateObjectFunctionPrivate, która uzupełni listę kroków o tworzenie pośrednich obiektów. To w tym miejscu jest główna różnica między oboma rozwiązaniami - w pierwszym rozwiązaniu w liście kroków nie przejmowaliśmy się utworzeniem pośrednich obiektów, ponieważ przychodziły one jako parametr. W tym rozwiązaniu lista kroków będzie również zawierać kroki do utworzenia wszystkich obiektów pośrednich (obiektów wymaganych przez konstruktor).\\
+Dla każdego z parametrów konstruktora jest wywoływana metoda CreateObjectFunctionPrivate, która uzupełnia listę kroków o tworzenie pośrednich obiektów. To w tym miejscu jest główna różnica między oboma rozwiązaniami - w pierwszym rozwiązaniu w liście kroków nie przejmowaliśmy się utworzeniem pośrednich obiektów, ponieważ przychodziły one jako parametr. W tym rozwiązaniu lista kroków będzie również zawierać niezbędne kroki do utworzenia wszystkich obiektów pośrednich (obiektów wymaganych przez konstruktor).\\
 \\
-Dalsze operacje są takie same jak w rozwiązaniu 1 - do listy kroków dodajemy operację, która stworzy obiekty przy pomocy danego konstruktora i umieści go na szczycie stosu, a następnie dodajemy operację, który zwróci nam obiekt ze szczytu stosu.\\
+Dalsze operacje są takie same jak w rozwiązaniu 1 - do listy kroków jest dodana operację, która stworzy obiekty przy pomocy danego konstruktora i umieści go na szczycie stosu, a następnie jest dodana operację, który zwróci nam obiekt ze szczytu stosu.\\
 \\
-Na końcu ze zmiennej typu DynamicMethod tworzymy delegata i go zwracamy. Delegat będzie przyjmował dwa parametry - oba typu Dictionary. Jeden z informacjami o typie, a drugi z informacjami o indeksie typu.\\ \\
+Na końcu ze zmiennej typu DynamicMethod zostaje stworzymy delegata i jest on zwracany. Delegat będzie przyjmował dwa parametry - oba typu Dictionary (słownik). Jeden z informacjami o typie, a drugi z informacjami o indeksie typu.\\ \\
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics{FullEmitFunction_CreateObjectFunction.png}
@@ -490,7 +493,7 @@ Na końcu ze zmiennej typu DynamicMethod tworzymy delegata i go zwracamy. Delega
 	\end{center}
 \end{figure}
 
-W metodzie CreateObjectFunctionPrivate (Rys. \ref{fig:FullEmitFunction_CreateObjectFunctionPrivate}) mamy trzy przypadki. W pierwszych dwóch przypadkach pomijamy obiekty, które zostały zarejestrowane jako Instance albo FactoryObject (określa to parametr ShouldCreateCache z obiektu typu ContainerMember).\\
+W metodzie CreateObjectFunctionPrivate (Rys. \ref{fig:FullEmitFunction_CreateObjectFunctionPrivate}) są trzy przypadki. W pierwszych dwóch przypadkach pomijane są obiekty, które zostały zarejestrowane jako Instance albo FactoryObject (określa to parametr ShouldCreateCache z obiektu typu ContainerMember).\\
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics{FullEmitFunction_CreateObjectFunctionPrivate.png}
@@ -499,7 +502,7 @@ W metodzie CreateObjectFunctionPrivate (Rys. \ref{fig:FullEmitFunction_CreateObj
 	\end{center}
 \end{figure}
 
-Pierwszy przypadek, to gdy typ został zarejestrowany jako Transient -  Rys. \ref{fig:FullEmitFunction_IsTransient}. Wtedy dla każdego z parametrów konstruktora wywołujemy rekurencyjnie tę metodę (CreateObjectFunctionPrivate), a na koniec do listy kroków dodajemy operację, która stworzy obiekty przy pomocy danego konstruktora i umieści go na szczycie stosu.\\ \\
+W pierwszym przypadku typ został zarejestrowany jako Transient -  Rys. \ref{fig:FullEmitFunction_IsTransient}. Dla każdego z parametrów konstruktora jest wywoływana rekurencyjnie ta metoda (CreateObjectFunctionPrivate), a na koniec do listy kroków jest dodawana operację, która stworzy obiekty przy pomocy danego konstruktora i umieści go na szczycie stosu.\\ \\
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics{FullEmitFunction_IsTransient.png}
@@ -508,7 +511,7 @@ Pierwszy przypadek, to gdy typ został zarejestrowany jako Transient -  Rys. \re
 	\end{center}
 \end{figure}
 
-W drugim przypadku typ musi być singletonem (został on zarejestrowany jako Singleton, PerThread lub PerHttpContext) -  Rys. \ref{fig:FullEmitFunction_IsSingleton}. Na początku sprawdzamy czy już wcześniej natrafiliśmy na ten typ. Jeśli tak, to z pamięci podręcznej pobieramy zmienną lokalną dla danego typu, a następnie do listy kroków dodajemy operację, która doda na szczyt stosu obiekt z tej zmiennej. Jeśli nie, to najpierw tworzymy nową zmienną lokalną dla danego typu i zapisuje ją w pamięci podręcznej (wykorzystujemy do tego słownik, gdzie kluczem jest typ, a wartością obiekt typu LocalBuilder). Następnie wywołujemy metodę AddObjectCreatedByObjectLifetimeManager. Na końcu dodajemy dwie operacje. Pierwsza z nich zdejmie obiekt ze szczytu stosu i zapisze go w zmiennej lokalnej, a druga umieści na szczycie stosu obiekt z tej zmiennej lokalnej. Jest to po to, ponieważ na szczycie stosu chcemy mieć dany obiekt, ale również chcemy zapamiętać sobie dany obiekt, aby nie trzeba było go tworzyć, jeśli będzie potrzebny po raz drugi (obiekt jest singletonem, więc za każdym razem będziemy chcieli mieć ten sam obiekt - w kontekście tworzenia danego typu, czyli jednej operacji Resolve).\\ \\
+W drugim przypadku typ musi być singletonem (został on zarejestrowany jako Singleton, PerThread lub PerHttpContext) -  Rys. \ref{fig:FullEmitFunction_IsSingleton}. Na początku następuje sprawdzenie czy już wcześniej algorytm natrafił na ten typ. Jeśli tak, to z pamięci podręcznej jest pobierana zmienna lokalna dla danego typu, a następnie do listy kroków jest dodawana operacja, która doda na szczyt stosu obiekt z tej zmiennej. Jeśli nie, to najpierw zostaje stworzona nową zmienna lokalna dla danego typu, a potem jest ona zapisywana w pamięci podręcznej (wykorzystany jest do tego słownik, gdzie kluczem jest typ, a wartością obiekt typu LocalBuilder). Następnie jest wywoływana metoda AddObjectCreatedByObjectLifetimeManager. Na końcu są dodawane dwie operacje. Pierwsza z nich zdejmie obiekt ze szczytu stosu i zapisze go w zmiennej lokalnej, a druga umieści na szczycie stosu obiekt z tej zmiennej lokalnej. Ma to na celu zapamiętanie danego obiektu i pozostawienie go na szczycie stosu. Dzięki takiemu zabiegowi, gdy drugi raz dany obiekt  będzie potrzebny (obiekt jest singletonem, więc za każdym razem będziemy chcieli mieć ten sam obiekt - w kontekście tworzenia danego typu, czyli jednej operacji Resolve), to z zapisanej zmiennej zostanie on dodany na szczyt stosu.\\ \\
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics{FullEmitFunction_IsSingleton.png}
@@ -530,7 +533,7 @@ Metoda AddObjectCreatedByObjectLifetimeManager (Rys. \ref{fig:FullEmitFunction_A
 	\item Dodaj do listy kroków operację, która zdejmie obiekt ze szczytu stosu (będzie to obiekt typu IObjectLifeTimeManager), wywoła na nim metodę, która zwróci instancję obiektu i na szczycie stosu umieści rezultat tej metody.
 	\item Dodaj do listy kroków operację, która zrzutuje obiekt ze szczytu stosu na odpowiedni typ.
 \end{enumerate}
-Po wykonaniu tych 10 operacji na szczycie stosu znajdzie się obiekt danego typu utworzony przy pomocy menadżera czasu życia.\\ \\
+Po wykonaniu tych 10 operacji na szczycie stosu znajdzie się obiekt danego typu, który został utworzony przy pomocy odpowiedniego menadżera czasu życia.\\ \\
 \begin{figure}[h]
 	\begin{center}
   		\includegraphics{FullEmitFunction_AddObjectCreatedByObjectLifetimeManager.png}
@@ -539,7 +542,7 @@ Po wykonaniu tych 10 operacji na szczycie stosu znajdzie się obiekt danego typu
 	\end{center}
 \end{figure}
 
-Trzeci przypadek zachodzi, gdy typ został zarejestrowany jako Instance, FactoryObject lub przy pomocy własnego menadżera czasu życia (implementacji interfejsu IObjectLifetimeManager). W tej sytuacji wywołujemy po prostu metodę AddObjectCreatedByObjectLifetimeManager.
+Trzeci przypadek zachodzi, gdy typ został zarejestrowany jako Instance, FactoryObject lub przy pomocy własnego menadżera czasu życia (własnej implementacji interfejsu IObjectLifetimeManager). W tej sytuacji zostaje wywołana tylko metoda AddObjectCreatedByObjectLifetimeManager.
 
 
 
