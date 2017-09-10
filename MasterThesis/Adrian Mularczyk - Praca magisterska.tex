@@ -1906,7 +1906,7 @@ LightInject & 525 & 556 & 529 \\ \hline
 \caption{Wyniki testów dla 1 powtórzenia dla operacji PerThread dla Przypadku testowego C}
 \label{TestCaseC_PerThread1}
 \end{table}
-<<ToDo>>
+Dla tego przypadku testowego wyniki są podobne jak w poprzednich przypadkach testowych - najlepiej poradziły sobie Autofac i Windsor, następnie dwa rozwiązania zaprezentowane w tej pracy, a dalej pozostałe rozwiązania. Najsłabsze czasy uzyskały DryIoc oraz LightInject, które nie radzą sobie z rejestracją PerThread.
 \\ \\
 \begin{table}[H]
 \captionsetup{belowskip=0pt,aboveskip=0pt}
@@ -1933,7 +1933,7 @@ LightInject & 525 & 550 & 529 \\ \hline
 \caption{Wyniki testów dla 1000 powtórzeń dla operacji PerThread dla Przypadku testowego C}
 \label{TestCaseC_PerThread1000}
 \end{table}
-<<ToDo>>
+Test dla 1000 powtórzeń pokazał, że dla żadnego rozwiązania wraz ze wzrostem liczby powtórzeń, dla tego testu nie wzrasta czas.
 
 \subsubsection{Wyniki Resolve dla FactoryMethod}
 \begin{table}[H]
@@ -1961,7 +1961,7 @@ Ninject & 26 & 28 & 27 \\ \hline
 \caption{Wyniki testów dla 1 powtórzenia dla operacji FactoryMethod dla Przypadku testowego C}
 \label{TestCaseC_FactoryMethod1}
 \end{table}
-<<ToDo>>
+Gdy mamy 1 powtórzenie najlepiej radzą sobie NiquIoCPartial, NiquIoCFull oraz najszybsze rozwiązania. Najpopularniejsze rozwiązania zanotowały czasy trochę (Autofac, Windsor, Unity) lub dużo (StructureMap, Ninject) słabsze.
 \\ \\
 \begin{table}[H]
 \captionsetup{belowskip=0pt,aboveskip=0pt}
@@ -1988,7 +1988,7 @@ Ninject & 209 & 220 & 213 \\ \hline
 \caption{Wyniki testów dla 10 powtórzeń dla operacji FactoryMethod dla Przypadku testowego C}
 \label{TestCaseC_FactoryMethod10}
 \end{table}
-<<ToDo>>
+Wraz ze wzrostem liczby powtórzeń, czasy dla wszystkich rozwiązań wzrosły - dla rozwiązań najszybszych był to wzrost około 2-krotny, a dla pozostałych około 10-krotny.
 \\ \\
 \begin{table}[H]
 \captionsetup{belowskip=0pt,aboveskip=0pt}
@@ -2015,7 +2015,7 @@ Ninject & 2110 & 2474 & 2152 \\ \hline
 \caption{Wyniki testów dla 100 powtórzeń dla operacji FactoryMethod dla Przypadku testowego C}
 \label{TestCaseC_FactoryMethod100}
 \end{table}
-<<ToDo>>
+Gdy mamy 100 powtórzeń wyraźnie wyższe czasy osiągnęły najpopularniejsze rozwiązania. Najniższe czasy zanotowały DryIoC oraz LightInject, a pozostałe rozwiązania (Grace, NiquIoCFull, SimpleInjector i NiquIoCPartial) uzyskały podobne wyniki.
 \\ \\
 \begin{table}[H]
 \captionsetup{belowskip=0pt,aboveskip=0pt}
@@ -2042,7 +2042,7 @@ Ninject & 22141 & 23030 & 22398 \\ \hline
 \caption{Wyniki testów dla 1000 powtórzeń dla operacji FactoryMethod dla Przypadku testowego C}
 \label{TestCaseC_FactoryMethod1000}
 \end{table}
-<<ToDo>>
+Przy 1000 powtórzeniach wszystkie rozwiązania zanotowały liniowy, około 10-krotny wzrost. Jednakże najmniejszy przyrost czasu zanotował LightInject i to on osiągnął najlepszy czas.
 
 
 \subsection{Przypadek testowy D}
@@ -2093,7 +2093,7 @@ Unity & 52 & 53 & 52 \\ \hline
 \caption{Wyniki testów dla 1 powtórzenia dla operacji Singleton dla Przypadku testowego D}
 \label{TestCaseD_Singleton1}
 \end{table}
-<<ToDo>>
+Dla tego testu tabela z wynikami bardzo przypomina tabelę dla przypadku testowego C, jednakże czasy są około 2-3 razy większe. Po raz kolejny dla rejestracji Singleton najlepiej radzą sobie Autofac i Windsor, a najsłabiej StructureMap i Unity.
 \\ \\
 \begin{table}[H]
 \captionsetup{belowskip=0pt,aboveskip=0pt}
@@ -2120,7 +2120,7 @@ Unity & 52 & 54 & 52 \\ \hline
 \caption{Wyniki testów dla 10 powtórzeń dla operacji Singleton dla Przypadku testowego D}
 \label{TestCaseD_Singleton10}
 \end{table}
-<<ToDo>>
+Jak można się było spodziewać, tym razem również wzrost liczby powtórzeń nie miał wpływu na wzrost wyników.
 
 \subsubsection{Wyniki Resolve dla Transient}
 \begin{table}[H]
@@ -2148,7 +2148,7 @@ Grace & 1413 & 1472 & 1426 \\ \hline
 \caption{Wyniki testów dla 1 powtórzenia dla operacji Transient dla Przypadku testowego D}
 \label{TestCaseD_Transient1}
 \end{table}
-<<ToDo>>
+Test dla tego przypadku testowego pokazał dużo większe różnice czasów niż dla poprzednich przypadków testowych. Dla 1 powtórzenia wyraźniej najlepszy czas zanotował NiquIoCPartial, który osiągnął czas o rząd wielkości niższy niż kolejne rozwiązanie. Średnie czasy zanotowały StructureMap, Autofac, Unity oraz Windsor. Pozostałe rozwiązania razem z NiquIoCFull osiągnęły  bardzo duże wyniki.
 \\ \\
 \begin{table}[H]
 \captionsetup{belowskip=0pt,aboveskip=0pt}
@@ -2175,7 +2175,7 @@ Ninject & 10072 & 11599 & 10307 \\ \hline
 \caption{Wyniki testów dla 10 powtórzeń dla operacji Transient dla Przypadku testowego D}
 \label{TestCaseD_Transient10}
 \end{table}
-<<ToDo>>
+Wzrost liczby powtórzeń do 10 pokazał, że zarówno NiquIoCFull jak i prawie wszystkie najszybsze rozwiązania zanotowały niewielki wzrost. Wyjątkiem jest tutaj DryIoC, który osiągnął 10-krotny przyrost czasu. Jednakże bardzo duże wyniki już dla 1 powtórzenia spowodowały, że z najszybszy rozwiązań jedynie SimpleInjector ma nieduży czas. NiquIoCPartial pomimo 9-krotnego wzrostu czasu osiągnął drugi z najlepszych wyników. Wszystkie najpopularniejsze rozwiązania zanotowały wzrost około 10-krotny.
 
 \subsubsection{Wyniki Resolve dla TransientSingleton}
 \begin{table}[H]
@@ -2203,7 +2203,7 @@ LightInject & 1285 & 1358 & 1310 \\ \hline
 \caption{Wyniki testów dla 1 powtórzenia dla operacji TransientSingleton dla Przypadku testowego D}
 \label{TestCaseD_TransientSingleton}
 \end{table}
-<<ToDo>>
+Dla tego testu ponownie dla 1 powtórzenia najmniejszy czas osiągnął NiquIoCPartial. Z pozostałych rozwiązań, to jedynie Grace, Ninject, DryIoC i LightInject zanotowały bardzo duże wyniki.
 \\ \\
 \begin{table}[H]
 \captionsetup{belowskip=0pt,aboveskip=0pt}
@@ -2230,7 +2230,7 @@ Ninject & 4732 & 5620 & 4818 \\ \hline
 \caption{Wyniki testów dla 10 powtórzeń dla operacji TransientSingleton dla Przypadku testowego D}
 \label{TestCaseD_TransientSingleton10}
 \end{table}
-<<ToDo>>
+Gdy liczba operacji wzrosła do 10, to jak można się było spodziewać - NiquIoCPartial zanotował około 5-krotny wzrost, a najpopularniejsze rozwiązania zanotowały około 10-krotny wzrost. NiquIoCFull oraz najszybsze rozwiązania osiągnęły czasy zbliżone do czasów dla 1 powtórzenia. Najmniejszy czas uzyskał SimpleInjector, a trochę większe rezultaty zanotowały NiquIoCPartial, NiquIoCFull i StructureMap. Pozostałe rozwiązania osiągnęły zauważalnie większe czasy - od kilku do nawet kilkunastu razy.
 
 \subsubsection{Wyniki Resolve dla PerThread}
 \begin{table}[H]
@@ -2258,7 +2258,7 @@ LightInject & 762748 & 795038 & 773697 \\ \hline
 \caption{Wyniki testów dla 1 powtórzenia dla operacji PerThread dla Przypadku testowego D}
 \label{TestCaseD_PerThread1}
 \end{table}
-<<ToDo>>
+Wyniki dla tego testu są podobne jak w pozostałych przypadkach testowych. Jedynym wyjątkiem jest LightInject, który najwyraźniej nie poradził sobie z tak dużo liczbą obiektów dla tego typu rejestracji i zanotował czas o 5 rzędów wielkości większy, niż rozwiązania z najmniejszymi czasami - Autofac, Windsor i NiquIoCPartial.
 \\ \\
 \begin{table}[H]
 \captionsetup{belowskip=0pt,aboveskip=0pt}
@@ -2285,7 +2285,7 @@ LightInject & 763101 & 781163 & 774677 \\ \hline
 \caption{Wyniki testów dla 10 powtórzeń dla operacji PerThread dla Przypadku testowego D}
 \label{TestCaseB_PerThread10}
 \end{table}
-<<ToDo>>
+Przy 10 powtórzeniach nic się nie zmieniło i wyniki są zbliżone do wyników dla 1 powtórzenia.
 
 \subsubsection{Wyniki Resolve dla FactoryMethod}
 \begin{table}[H]
@@ -2313,7 +2313,7 @@ Ninject & 654 & 748 & 674 \\ \hline
 \caption{Wyniki testów dla 1 powtórzenia dla operacji FactoryMethod dla Przypadku testowego D}
 \label{TestCaseB_FactoryMethod1}
 \end{table}
-<<ToDo>>
+NiquIoCPartial, NiquIoCFull oraz wszystkie najszybsze rozwiązania zanotowały zbliżone wyniki. Rozwiązania najpopularniejsze osiągnęły czasy od kilku, do kilkunastu razy większe. Najlepszy czas uzyskał DryIoC.
 \\ \\
 \begin{table}[H]
 \captionsetup{belowskip=0pt,aboveskip=0pt}
@@ -2340,7 +2340,7 @@ Ninject & 6206 & 6515 & 6299 \\ \hline
 \caption{Wyniki testów dla 10 powtórzeń dla operacji FactoryMethod dla Przypadku testowego D}
 \label{TestCaseB_FactoryMethod10}
 \end{table}
-<<ToDo>>
+Wzrost liczby powtórzeń do 10 spowodował wzrost czasów dla wszystkich rozwiązań. Najmniejszy wzrost czasów zanotowały najszybsze rozwiązania, jednak wciąż był on co najmniej 6-krotny. NiquIoCPartial i NiquIoCFull podobnie jak wszystkie najpopularniejsze rozwiązania zanotowały wzrost około 10-krotny. Jednakże nieduże czasy przy 1 powtórzeniu dla rozwiązań zaprezentowanych w tej pracy spowodowały, że mimo wszystko osiągnęły one znacząco lepsze wyniki niż wszystkie najpopularniejsze rozwiązania. Najlepsze czasy uzyskały wszystkie najszybsze rozwiązania, a najmniejsze z tych czasów osiągnęły DryIoC i LightInject.
 
 
 
