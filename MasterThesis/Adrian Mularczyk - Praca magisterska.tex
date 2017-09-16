@@ -591,62 +591,146 @@ Mamy klasę A, która w konstruktorze przyjmuje obiekty klas B i C. Klasa B w ko
 	\end{center}
 \end{figure}
 
-Dla pierwszego rozwiązania (PartialEmitFunction), aby stworzyć obiekt klasy A, lista operacji IL prezentuje się następująco:
-\begin{enumerate}
-	\item OpCodes.Ldarg\_0 [B, C] - na stosie zostanie umieszona referencja do argumentu aktualnej funkcji, czyli do tablicy zawierającej B i C.
-	\item OpCodes.Ldc\_I4\_0 - na stos zostanie dodana liczba 0.
-	\item OpCodes.Ldelem\_Ref - ze stosu zostanie ściągnięta liczba oraz tablica, a na jego szczycie zostanie umieszczony obiekt pod indeksem 0 z tablicy - w tym przypadku obiekt B.
-	\item OpCodes.Castclass typeof(B) - obiekt ze szczytu stosu jest rzutowany na typ B (wcześniej był typu object).
-	\item OpCodes.Ldarg\_0 [B, C] - na stosie zostanie umieszona referencja do argumentu aktualnej funkcji, czyli do tablicy zawierającej B i C.
-	\item OpCodes.Ldc\_I4\_1 - na stos zostanie dodana liczba 1.
-	\item OpCodes.Ldelem\_Ref - ze stosu zostanie ściągnięta liczba oraz tablica, a na jego szczycie zostanie umieszczony obiekt pod indeksem 1 z tablicy - w tym przypadku obiekt C.
-	\item OpCodes.Castclass typeof(C) - obiekt ze szczytu stosu jest rzutowany na typ C.
-	\item OpCodes.Newobj .ctor A - ze stosu zostają zdjęcie wszystkie obiekty wymagane przez konstruktor klasy A (w tym przypadku obiekty B i C - muszą być one w odpowiedniej kolejności na stosie), a na jego szczycie jest umieszczany nowo utworzony obiekt A.
-	\item OpCodes.Ret - obiekt ze szczytu stosu (obiekt A) zostaje zwrócony.
-\end{enumerate}
+Dla pierwszego rozwiązania (PartialEmitFunction), aby stworzyć obiekt klasy A, lista operacji IL prezentuje się następująco: \\
+\\
+// na stosie zostanie umieszona referencja do argumentu aktualnej funkcji, czyli do tablicy zawierającej B i C.\\
+\texttt{ldarg\_0 [B, C]}\\
+\\
+// na stos zostanie dodana liczba 0.\\
+\texttt{ldc\_i4\_0}\\
+\\
+// ze stosu zostanie ściągnięta liczba oraz tablica, a na jego szczycie zostanie umieszczony obiekt pod indeksem 0 z tablicy - w tym przypadku obiekt B.\\
+\texttt{ldelem\_ref}\\
+\\
+// obiekt ze szczytu stosu jest rzutowany na typ B (wcześniej był typu object).\\
+\texttt{castclass typeof(B)}\\
+\\
+// na stosie zostanie umieszona referencja do argumentu aktualnej funkcji, czyli do tablicy zawierającej B i C.\\
+\texttt{ldarg\_0 [B, C]}\\
+\\
+//  na stos zostanie dodana liczba 1.\\
+\texttt{ldc\_i4\_1}\\
+\\
+// ze stosu zostanie ściągnięta liczba oraz tablica, a na jego szczycie zostanie umieszczony obiekt pod indeksem 1 z tablicy - w tym przypadku obiekt C.\\
+\texttt{ldelem\_ref}\\
+\\
+// obiekt ze szczytu stosu jest rzutowany na typ C.\\
+\texttt{castclass typeof(C)}\\
+\\
+// ze stosu zostają zdjęcie wszystkie obiekty wymagane przez konstruktor klasy A (w tym przypadku obiekty B i C - muszą być one w odpowiedniej kolejności na stosie), a na jego szczycie jest umieszczany nowo utworzony obiekt A.\\
+\texttt{newobj .ctor A}\\
+\\
+// obiekt ze szczytu stosu (obiekt A) zostaje zwrócony.\\
+\texttt{ret} \\
+\\
+\\
 Jak łatwo zauważyć, lista tych operacji zakłada, że mamy wcześniej stworzone obiekty wymagane w konstruktorze klasy A (w tym przypadku obiekty B i C). Te obiekty są tworzone na takiej samej zasadzie jak obiekt klasy A. Zatem w tym przypadku będziemy mieli 3 listy z operacjami IL - jedna dla obiektu C, jedna dla obiektu B i jedna dla obiektu A.\\
 \\
 Niezależnie od tego jak klasy A, B i C zostały zarejestrowane, zawsze uzyskamy dokładnie te same 3 listy operacji.\\
-
+\\
+\\
 Dla drugiego rozwiązania (FullEmitFunction) jest to trochę bardziej rozbudowane.\\
 \\
-Jeśli wszystkie klasy zostały zarejestrowane jako Transient, to mamy krótką listę operacji:
-\begin{enumerate}
-	\item OpCodes.Newobj .ctor C - na stosie zostanie umieszczony nowo utworzony obiekt C.
-	\item OpCodes.Newobj .ctor B - ze stosu zostanie zdjęty obiekt C i w jego miejsce pojawi się nowo utworzony obiekt B.
-	\item OpCodes.Newobj .ctor C - na szczycie stosu zostanie umieszczony nowo utworzony obiekt C.
-	\item OpCodes.Newobj .ctor A - ze szczytu stosu zostają zdjęcie obiekty B i C, a w ich miejsce pojawi się nowo utworzony obiekt A.
-	\item OpCodes.Ret - obiekt ze szczytu stosu (obiekt A) zostaje zwrócony.
-\end{enumerate}
-Jeśli wszystkie klasy zostały zarejestrowane jako Singleton, PerThread lub PerHttpContext, to listę operacji wygląda następująco:
-\begin{enumerate}
-	\item OpCodes.Ldarg\_1 \{ \{1, typeof(A)\}, \{2, typeof(B)\}, \{3, typeof(C)\} \} - na stosie zostanie umieszona referencja do argumentu aktualnej funkcji, czyli do słownika zawierającego hash danego obiektu ContainerMember i typ obiektu.
-	\item OpCodes.Ldc\_I4 2 - na stos zostanie dodana liczba równa hashowi obiektu ContainerMember dla klasy B (w tym wypadku 2).
-	\item OpCodes.Call "get\_Item" - ze stosu zostają pobrane dwa elementy (słownik oraz liczba), a następnie zostaje wywołana metoda "GetItem" na słowniku, której parametrem jest liczba. Wynik tej operacji (typ B) zostanie umieszczony na szczycie stosu.
-	\item OpCodes.Stdloc variable\_Type - obiekt ze szczytu stosu zostaje zapisany w zmiennej variable\_Type
-	\item OpCodes.Ldarg\_0  \{ \{typeof(A), ContainerMember\}, \{typeof(B), ContainerMember\}, \{typeof(C), ContainerMember\}\} - na stosie zostanie umieszona referencja do argumentu aktualnej funkcji, czyli do słownika zawierającego typ obiektu i ContainerMember dla danego obiektu.
-	\item OpCodes.Ldloc variable\_Type -  obiekt ze zmiennej variable\_Type zostaje umieszczony na szczycie stosu
-	\item OpCodes.Call "get\_Item"  - ze stosu zostają pobrane dwa elementy (słownik oraz typ), a następnie zostaje wywołana metoda "GetItem" na słowniku, której parametrem jest typ. Wynik tej operacji (obiekt ContainerMember dla typu B) zostanie umieszczony na szczycie stosu.
-	\item OpCodes.Call "get\_ObjectLifetimeManager" - ze stosu zostaje pobrany element i jest na nim wywołana metoda GetObjectLifetimeManager. Wynik tej operacji (odpowiedni obiekt ObjectLifetimeManager) zostanie umieszczony na szczycie stosu.
-	\item OpCodes.Call "GetInstance" - ze stosu zostaje pobrany element i jest na nim wywołana metoda GetInstance. Wynik tej operacji (obiekt typu B) zostanie umieszczony na szczycie stosu.
-	\item OpCodes.Castclass - obiekt ze szczytu stosu jest rzutowany na typ B.
-	\item OpCodes.Stloc variable\_B - obiekt ze szczytu stosu zostaje zapisany w zmiennej variable\_B
-	\item OpCodes.Ldloc variable\_B - obiekt ze zmiennej variable\_B zostaje umieszczony na szczycie stosu
-	\item OpCodes.Ldarg\_1 \{ \{1, typeof(A)\}, \{2, typeof(B)\}, \{3, typeof(C)\} \}
-	\item OpCodes.Ldc\_I4 3 - na stos zostanie dodana liczba równa hashowi obiektu ContainerMember dla klasy C (w tym wypadku 3).
-	\item OpCodes.Call "get\_Item" - ze stosu zostają pobrane dwa elementy (słownik oraz liczba), a następnie zostaje wywołana metoda "GetItem" na słowniku, której parametrem jest liczba. Wynik tej operacji (typ C) zostanie umieszczony na szczycie stosu.
-	\item OpCodes.Stdloc variable\_Type - obiekt ze szczytu stosu zostaje zapisany w zmiennej variable\_Type
-	\item OpCodes.Ldarg\_o  \{ \{typeof(A), ContainerMember\}, \{typeof(B), ContainerMember\}, \{typeof(C), ContainerMember\}\}
-	\item OpCodes.Ldloc variable\_Type -  obiekt ze zmiennej variable\_Type zostaje umieszczony na szczycie stosu
-	\item OpCodes.Call "get\_Item" - ze stosu zostają pobrane dwa elementy (słownik oraz typ), a następnie zostaje wywołana metoda "GetItem" na słowniku, której parametrem jest typ. Wynik tej operacji (obiekt ContainerMember dla typu C) zostanie umieszczony na szczycie stosu.
-	\item OpCodes.Call "get\_ObjectLifetimeManager" - ze stosu zostaje pobrany element i jest na nim wywołana metoda GetObjectLifetimeManager. Wynik tej operacji (odpowiedni obiekt ObjectLifetimeManager) zostanie umieszczony na szczycie stosu.
-	\item OpCodes.Call "GetInstance" - ze stosu zostaje pobrany element i jest na nim wywołana metoda GetInstance. Wynik tej operacji (obiekt typu C) zostanie umieszczony na szczycie stosu.
-	\item OpCodes.Castclass - obiekt ze szczytu stosu jest rzutowany na typ C.
-	\item OpCodes.Stloc variable\_C - obiekt ze szczytu stosu zostaje zapisany w zmiennej variable\_C
-	\item OpCodes.Ldloc variable\_C - obiekt ze zmiennej variable\_C zostaje umieszczony na szczycie stosu
-	\item OpCodes.Newobj .ctor A - ze szczytu stosu zostają zdjęcie obiekty B i C, a w ich miejsce pojawi się nowo utworzony obiekt A
-	\item OpCodes.Ret - obiekt ze szczytu stosu (obiekt A) zostaje zwrócony
-\end{enumerate}
+Jeśli wszystkie klasy zostały zarejestrowane jako Transient, to mamy krótką listę operacji:\\
+\\ 
+// na stosie zostanie umieszczony nowo utworzony obiekt C.\\
+\texttt{newobj .ctor C}\\
+\\
+\newpage
+// ze stosu zostanie zdjęty obiekt C i w jego miejsce pojawi się nowo utworzony obiekt B.\\
+\texttt{newobj .ctor B}\\
+\\ 
+// na szczycie stosu zostanie umieszczony nowo utworzony obiekt C.\\
+\texttt{newobj .ctor C}\\
+\\
+// ze szczytu stosu zostają zdjęcie obiekty B i C, a w ich miejsce pojawi się nowo utworzony obiekt A.\\
+\texttt{newobj .ctor A}\\
+\\
+// obiekt ze szczytu stosu (obiekt A) zostaje zwrócony.\\
+\texttt{ret}\\
+\\
+\\
+Jeśli wszystkie klasy zostały zarejestrowane jako Singleton, PerThread lub PerHttpContext, to listę operacji wygląda następująco:\\
+\\
+// na stosie zostanie umieszona referencja do argumentu aktualnej funkcji, czyli do słownika zawierającego hash danego obiektu ContainerMember i typ obiektu.\\
+\texttt{ldarg\_1 \{ \{1, typeof(A)\}, \{2, typeof(B)\}, \{3, typeof(C)\} \}}\\
+\\
+// na stos zostanie dodana liczba równa hashowi obiektu ContainerMember dla klasy B (w tym wypadku 2).\\
+\texttt{ldc\_i4 2}\\
+\\
+//  ze stosu zostają pobrane dwa elementy (słownik oraz liczba), a następnie zostaje wywołana metoda "GetItem" na słowniku, której parametrem jest liczba. Wynik tej operacji (typ B) zostanie umieszczony na szczycie stosu.\\
+\texttt{call "get\_Item"}\\
+\\
+// obiekt ze szczytu stosu zostaje zapisany w zmiennej variable\_Type\\
+\texttt{stdloc variable\_Type}\\
+\\
+// na stosie zostanie umieszona referencja do argumentu aktualnej funkcji, czyli do słownika zawierającego typ obiektu i ContainerMember dla danego obiektu.\\
+\texttt{ldarg\_0  \{ \{typeof(A), ContainerMember\}, \{typeof(B), ContainerMember\}, \{typeof(C), ContainerMember\}\}}\\
+\\
+// obiekt ze zmiennej variable\_Type zostaje umieszczony na szczycie stosu\\
+\texttt{ldloc variable\_Type}\\
+\\
+\newpage
+// ze stosu zostają pobrane dwa elementy (słownik oraz typ), a następnie zostaje wywołana metoda "GetItem" na słowniku, której parametrem jest typ. Wynik tej operacji (obiekt ContainerMember dla typu B) zostanie umieszczony na szczycie stosu.\\
+\texttt{call "get\_Item" }\\
+\\
+// ze stosu zostaje pobrany element i jest na nim wywołana metoda GetObjectLifetimeManager. Wynik tej operacji (odpowiedni obiekt ObjectLifetimeManager) zostanie umieszczony na szczycie stosu.\\
+\texttt{call "get\_ObjectLifetimeManager"}\\
+\\
+// ze stosu zostaje pobrany element i jest na nim wywołana metoda GetInstance. Wynik tej operacji (obiekt typu B) zostanie umieszczony na szczycie stosu.\\
+\texttt{call "GetInstance"}\\
+\\
+// obiekt ze szczytu stosu jest rzutowany na typ B.\\
+\texttt{castclass}\\
+\\
+// obiekt ze szczytu stosu zostaje zapisany w zmiennej variable\_B\\
+\texttt{stloc variable\_B}\\
+\\
+// obiekt ze zmiennej variable\_B zostaje umieszczony na szczycie stosu\\
+\texttt{ldloc variable\_B}\\
+\\
+\texttt{ldarg\_1 \{ \{1, typeof(A)\}, \{2, typeof(B)\}, \{3, typeof(C)\} \}}\\
+\\
+// na stos zostanie dodana liczba równa hashowi obiektu ContainerMember dla klasy C (w tym wypadku 3).\\
+\texttt{ldc\_i4 3}\\
+\\
+// ze stosu zostają pobrane dwa elementy (słownik oraz liczba), a następnie zostaje wywołana metoda "GetItem" na słowniku, której parametrem jest liczba. Wynik tej operacji (typ C) zostanie umieszczony na szczycie stosu.\\
+\texttt{call "get\_Item"}\\
+\\
+// obiekt ze szczytu stosu zostaje zapisany w zmiennej variable\_Type\\
+\texttt{stdloc variable\_Type}\\
+\\
+\texttt{ldarg\_o  \{ \{typeof(A), ContainerMember\}, \{typeof(B), ContainerMember\}, \{typeof(C), ContainerMember\}\}}\\
+\\
+// obiekt ze zmiennej variable\_Type zostaje umieszczony na szczycie stosu\\
+\texttt{ldloc variable\_Type}\\
+\\
+\newpage
+// ze stosu zostają pobrane dwa elementy (słownik oraz typ), a następnie zostaje wywołana metoda "GetItem" na słowniku, której parametrem jest typ. Wynik tej operacji (obiekt ContainerMember dla typu C) zostanie umieszczony na szczycie stosu.\\
+\texttt{call "get\_Item"}\\
+\\
+// ze stosu zostaje pobrany element i jest na nim wywołana metoda GetObjectLifetimeManager. Wynik tej operacji (odpowiedni obiekt ObjectLifetimeManager) zostanie umieszczony na szczycie stosu.\\
+\texttt{call "get\_ObjectLifetimeManager"}\\
+\\
+// ze stosu zostaje pobrany element i jest na nim wywołana metoda GetInstance. Wynik tej operacji (obiekt typu C) zostanie umieszczony na szczycie stosu.\\
+\texttt{call "GetInstance"}\\
+\\
+// obiekt ze szczytu stosu jest rzutowany na typ C.\\
+\texttt{castclass}\\
+\\
+// obiekt ze szczytu stosu zostaje zapisany w zmiennej variable\_C\\
+\texttt{stloc variable\_C}\\
+\\
+// obiekt ze zmiennej variable\_C zostaje umieszczony na szczycie stosu\\
+\texttt{ldloc variable\_C}\\
+\\
+// ze szczytu stosu zostają zdjęcie obiekty B i C, a w ich miejsce pojawi się nowo utworzony obiekt A\\
+\texttt{newobj .ctor A}\\
+\\
+// obiekt ze szczytu stosu (obiekt A) zostaje zwrócony\\
+\texttt{ret}\\
+\\
+\\
 Jeśli typ został zarejestrowany jako Instance, FactoryObject albo z własną implementacją interfejsu IObjectLifetimeManager, to lista kroków wygląda podobnie jak dla Singleton, z tą różnicą, że nie ma kroków z zapisywaniem obiektu do zmiennej lokalnej (w tym przypadku brak kroków 11, 12, 23 i 24).
 
 
