@@ -120,7 +120,7 @@ Wstrzykiwanie zależności jest to zbiór zasad projektowania oprogramowania, kt
 \vspace{16pt}
 \textbf{Creating an efficient dependency injection pattern for complex dependency graphs}
 \end{center}
-Injection Dependency is a set of software design principles that allow for loose binding. This makes the code more extensible and easier to maintain. The purpose of this work was to create such an implementation that would work efficient for complex dependency graphs. The application was written in a .NET environment using the Reflecion.Emit namespace and is fully tested. The paper proposes two equivalent, independent approach, both compared for performance. The comparison also includes the 5 most popular and 4 fastest solutions. The final results show that from solutions available nowadays on the market, the best solutions are these presented in this paper.
+Injection Dependency is a set of software design principles that allow for loose binding. This makes the code more extensible and easier to maintain. The purpose of this work was to create such an implementation that would work efficiently for complex dependency graphs. The application was written in a .NET environment using the Reflecion.Emit namespace and is fully tested. The paper proposes two equivalent, independent approaches which are compared for performance. The comparison also includes the 5 most popular and 4 fastest solutions. The final results show that from solutions available nowadays on the market, the best solutions are these presented in this paper.
 
 
 \clearpage
@@ -135,14 +135,14 @@ Wstrzykiwanie zależności jest wzorcem projektowym, który pozwala na tworzenie
 Celem niniejszej pracy magisterskiej jest stworzenie takiej implementacji tego wzorca, która będzie wydajna dla złożonych grafów zależności, ale również będzie dostarczać niezbędnej funkcjonalności. Do tego celu zostaną wykorzystane mechanizmy z przestrzeni nazw Reflection.Emit. W tej pracy zostaną przedstawione dwa rozwiązania tego problemu.
 
 \subsection{Układ pracy}
-Poza wstępem i podsumowaniem praca składa się jeszcze z czterech rozdziałów. Pierwszy z nich opisuje idee stojące za wstrzykiwaniem zależności. W kolejnym znajduje się opis teoretyczny czym jest wstrzykiwanie zależności. Następny rozdział został poświęcony mojej implementacji tego wzorca. Ostatni z rozdziałów skupia się na testach wydajnościowych, w których są porównywane rozwiązanie przedstawione w tej pracy, z kilkoma najbardziej popularnym i kilkoma najwydajniejszymi rozwiązaniami.
+Poza wstępem i podsumowaniem praca składa się jeszcze z czterech rozdziałów. Pierwszy z nich opisuje idee stojące za wstrzykiwaniem zależności. W kolejnym znajduje się opis teoretyczny tego czym jest wstrzykiwanie zależności. Następny rozdział został poświęcony mojej implementacji tego wzorca. Ostatni z rozdziałów skupia się na testach wydajnościowych, w których są porównywane rozwiązanie przedstawione w tej pracy, z kilkoma najbardziej popularnym i kilkoma najwydajniejszymi rozwiązaniami.
 
 
 
 \clearpage
 \section{Odwrócenie zależności}
 \subsection{SOLID}
-Na przestrzeni lat powstało bardzo dużo projektów. Część z nich była łatwiejsza w utrzymaniu, część trudniejsza. Analizując te projekty ludzie doszli do wniosku, że są pewne zasady, które powodują, że projekty rozwija się łatwiej. Te zasady zostały połączone w zbiory zasad. Najbardziej popularnych i powszechnie stosowanym zbiorem zasad jest SOLID \cite{SOLID}:
+Na przestrzeni lat powstało bardzo dużo projektów. Część z nich była łatwiejsza w utrzymaniu, część trudniejsza. Analiza tych projektów pozwoliła zauważyć, że są pewne zasady, które powodują, że projekty rozwija się łatwiej. Te zasady zostały połączone w zbiory zasad. Najbardziej popularnych i powszechnie stosowanym zbiorem zasad jest SOLID \cite{SOLID}:
 \begin{itemize}
 	\item S (Single responsibility principle) - Klasa powinna mieć tylko jedną odpowiedzialność (nigdy nie powinien istnieć więcej niż jeden powód do modyfikacji klasy).
 	\item O (Open/closed principle) - Klasy powinny być otwarte na rozszerzenia i zamknięte na modyfikacje.
@@ -150,7 +150,7 @@ Na przestrzeni lat powstało bardzo dużo projektów. Część z nich była łat
 	\item I (Interface segregation principle) - Wiele dedykowanych interfejsów jest lepsze niż jeden ogólny.
 	\item D (Dependency inversion principle) - Wysokopoziomowe moduły nie powinny zależeć od modułów niskopoziomowych - zależności między nimi powinny wynikać z abstrakcji.
 \end{itemize}
-Ta praca w dużej mierze skupia się na rozwiązaniu dla zasady D - Dependency inversion principle. 
+Niniejsza praca w dużej mierze skupia się na rozwiązaniu dla zasady D - Dependency inversion principle. 
 
 \subsubsection{Przykład dla zasady D}
 Rysynek \ref{fig:Solid_without} przedstawia przykład przed zastosowaniem zasady D.\\
@@ -169,15 +169,15 @@ Rysunek \ref{fig:Solid_with} przedstawia przykład po zastosowaniu zasady D.\\
   		\label{fig:Solid_with}
 	\end{center}
 \end{figure}
-Łatwo zauważyć, że teraz klasę Bar nie interesuje implementacja klasy Foo. Spodziewa się jedynie, że dostanie implementację interfejsu IFoo, który dostarcza metody DoSomeWork. Dzięki takiemu podejściu w łatwy sposób można podmienić implementację interfejsu IFoo w klasie Bar. Zatem tworząc ciało metody DoSomething w klasie Bar nie przejmujemy się implementacją metody DoSomeWork, tylko rozważamy jej "kontrakt", zobowiązanie do realizacji założonej funkcjonalności.\\
+Łatwo zauważyć, że teraz klasy Bar nie interesuje implementacja klasy Foo. Spodziewa się jedynie, że dostanie implementację interfejsu IFoo, który dostarcza metody DoSomeWork. Dzięki takiemu podejściu w łatwy sposób można podmienić implementację interfejsu IFoo w klasie Bar. Zatem tworząc ciało metody DoSomething w klasie Bar nie przejmujemy się implementacją metody DoSomeWork, tylko rozważamy jej "kontrakt", zobowiązanie do realizacji założonej funkcjonalności.\\
 \\
 Kolejną zaletą takiego podejścia jest to, że teraz w łatwy sposób można przetestować metodę DoSomething - można stworzyć przykładową implementację interfejsu IFoo lub użyć tzw. obiektu zastępczego (ang. mock).
 
 
 \subsection{Kontenery wstrzykiwania zależności}
-Aby można było z powodzeniem zastosować zasadę D należy wesprzeć się tzw. kontenerem wstrzykiwania zależności (ang. Dependency Injection Container), obiektem który przechowuje mapę w której abstrakcje (interfejsy, klasy abstrakcyjne) mają przyporządkowane implementacje (klasy implementujące interfejsy lub dziedziczące z klas abstrakcyjnych).\\
+Aby łatwiej zastosować zasadę D można wesprzeć się tzw. kontenerem wstrzykiwania zależności (ang. Dependency Injection Container) - obiektem, który przechowuje mapę, w której abstrakcje (interfejsy, klasy abstrakcyjne) mają przyporządkowane implementacje (klasy implementujące interfejsy lub dziedziczące z klas abstrakcyjnych).\\
 \\
-Kontenery dostarczają nam kilku funkcjonalności. Jedną z nich jest oczywiście możliwość zdefiniowania tego jakiej konkretnej klasy instancję należy zwrócić w miejsce konkretnego interfejs. Drugą, również ważną funkcjonalnością jest tworzenie, na podstawie przechowywanego mapowania, instancji obiektów konkretnej klasy lub implementujących określony interfejs. Niektóre kontenery dostarczają również mechanizmy pozwalające rozszerzyć tworzenie nowych instancji o elementy programowania aspektowego.
+Kontenery dostarczają nam kilku funkcjonalności. Jedną z nich jest oczywiście możliwość zdefiniowania tego jakiej konkretnej klasy instancję należy zwrócić w miejsce konkretnego interfejsu. Drugą, również ważną funkcjonalnością jest tworzenie, na podstawie przechowywanego mapowania, instancji obiektów konkretnej klasy lub implementujących określony interfejs. Niektóre kontenery dostarczają również mechanizmy pozwalające rozszerzyć tworzenie nowych instancji o elementy programowania aspektowego.
 
 
 
@@ -350,7 +350,7 @@ W zależności od implementacji tego interfejsu, to obiekt zwracany z metody Get
 \end{figure}
 
 \subsubsection{Resolve}
-Metody interfejsu IContainerResolve, są głównymi operacjami. Register można nazwać sercem kontenera, a Resolve mózgiem. Każda z metod tego interfejsu odpowiada za stworzenie i zwrócenie obiektu odpowiedniego typu.\\
+Metody interfejsu IContainerResolve są głównymi operacjami. Register można nazwać sercem kontenera, a Resolve mózgiem. Każda z metod tego interfejsu odpowiada za stworzenie i zwrócenie obiektu odpowiedniego typu.\\
 \\
 W niniejszej pracy zaproponowano dwa rozwiązania - PartialEmitFunction i FullEmitFunction (różnice między nimi zostaną opisane w dalszej części pracy), dlatego metody rejestracji jako opcjonalny parametr przyjmuje wartość enumeracji określającej wybraną politykę - ResolveKind (dzięki temu w przyszłości może być ona w łatwy sposób rozszerzona o kolejne rozwiązania). W interfejsie znajdują się również metody, które nie przyjmują tego parametru - zostały one dodane na wypadek, gdy ktoś będzie zawsze korzystał tylko z jednego z rozwiązań (może ustawić je jako domyślne np. w konstruktorze).
 
@@ -364,15 +364,15 @@ Podczas operacji BuildUp wywoływane są wszystkie metody i uzupełniane są wsz
 \\
 Warto tutaj odnotować, że ze względu na szczegóły implementacyjne tylko jedno z niniejszych rozwiązań wspiera operację BuildUp - jest to rozwiązanie PartialEmitFunction. W rozwiązaniu FullEmitFunction ta funkcjonalność nie została zaimplementowana. Jest to spowodowane skomplikowaniem tego rozwiązania i małą potrzebą biznesową używania tej operacji. Jednakże w przyszłości istnieje możliwość jej dodania.\\
 
-W aplikacji istnieje również atrybut DependencyConstrutor. Można go użyć przy definicji konstruktora danej klasy. Obiekt każdej klasy jest tworzony przy użyciu konstruktora. Klasa może mieć kilka konstruktorów. W niniejszym rozwiązaniu utworzono logikę wyboru odpowiedniego konstruktora, przy pomocy którego ma zostać stworzony obiekt. Wygląda ona następująco:
+W aplikacji istnieje również atrybut \textbf{DependencyConstructor}. Można go użyć przy definicji konstruktora danej klasy. Obiekt każdej klasy jest tworzony przy użyciu konstruktora. Klasa może mieć kilka konstruktorów. W niniejszym rozwiązaniu utworzono logikę wyboru odpowiedniego konstruktora, przy pomocy którego ma zostać stworzony obiekt. Wygląda ona następująco:
 \begin{itemize}
 	\item Jeśli jest jeden konstruktor, to go wybierz.
 	\item Jeśli jest kilka konstruktorów, to odpowiedni wybierz w poniższej kolejności:
 	\begin{enumerate}
-		\item Konstruktor z atrybutem DependencyConstrutor
+		\item Konstruktor z atrybutem DependencyConstructor
 		\item Konstruktor z największą liczbą parametrów
 	\end{enumerate}
-	\item Jeśli jest kilka konstruktorów z atrybutem DependencyConstrutor albo nie ma żadnego konstruktora z tym atrybutem i jest kilka z największą liczbą parametrów, to rzuć wyjątek.
+	\item Jeśli jest kilka konstruktorów z atrybutem DependencyConstructor albo nie ma żadnego konstruktora z tym atrybutem i jest kilka z największą liczbą parametrów, to rzuć wyjątek.
 \end{itemize}
 
 
@@ -417,7 +417,7 @@ Klasa ContainerMember przechowuje:
 \subsubsection{Rozwiązanie 1 - PartialEmitFunction}
 Cały algorytm jest zawarty w metodzie Resolve (Rys. \ref{fig:PartialEmitFunction_Resolve}). Sama ta metoda jest dość krótka, ale wywołuje ona kolejne metody (które już są dłuższe).\\
 \\
-Docelowy obiekt jest tworzony przy pomocy funkcji. Na początku następuje sprawdzenie, czy już wcześniej została utworzona taką funkcję (jeśli tak, będzie on zapisany w klasie ContainerMember we właściwości ObjectLifetimeManager). Wywołanie funkcji kończy działanie algorytmu. Jeśli funkcja nie została wcześniej utworzona, to ją tworzymy.\\
+Docelowy obiekt jest tworzony przy pomocy funkcji. Na początku następuje sprawdzenie, czy już wcześniej została utworzona taka funkcja (jeśli tak, będzie ona zapisana w klasie ContainerMember we właściwości ObjectLifetimeManager). Wywołanie funkcji kończy działanie algorytmu. Jeśli funkcja nie została wcześniej utworzona, to jest tworzona.\\
 \\
 Funkcja ta nie przyjmuje żadnych parametrów, a jej typem wynikowym jest obiekt. Ciało tej funkcji jest bardzo proste - po prostu ma ona wykonać metodę i zwrócić jej rezultat, którym jest nasz docelowy obiekt.\\ \\
 \begin{figure}[H]
@@ -437,7 +437,7 @@ Metoda GetObject (Rys. \ref{fig:PartialEmitFunction_GetObject}) jest trochę bar
 	\end{center}
 \end{figure}
 
-Na początku metody CreateInstanceFunction (Rys. \ref{fig:PartialEmitFunction_CreateInstanceFunction}) występuje sprawdzenie, czy funkcję, która umie zwrócić obiekt docelowego typu, została utworzona.\\
+Na początku metody CreateInstanceFunction (Rys. \ref{fig:PartialEmitFunction_CreateInstanceFunction}) występuje sprawdzenie, czy funkcja potrafiąca zwrócić obiekt docelowego typu, została utworzona.\\
 \\
 Jeśli tak, to przy pomocy tej funkcji jest tworzony obiekt, a następnie jest on zwracany. Ta funkcja jako argument przyjmuje listę obiektów w kolejności zgodnej z listą parametrów konstruktora.\\
 \\
@@ -462,9 +462,9 @@ Dla każdego z parametrów konstruktora są wykonane następujące operacje:
 	\item Pobierz typ parametru.
 	\item Dodaj do listy kroków operację, która zrzutuje obiekt ze szczytu stosu na odpowiedni typ.
 \end{enumerate}
-Po wykonaniu kroków z listy na stosie będą znajdowały się wszystkie obiekty, które są wymagane przez konstruktor do utworzenia danego typu. Teraz więc do listy kroków należy dodać jeszcze dwie operacje. Pierwsze z nich ma za zadanie stworzyć obiekt przy pomocy danego konstruktora i umieść go na szczycie stosu. Druga ma na celu zwróci obiekt ze szczytu stosu.\\
+Po wykonaniu kroków z listy na stosie będą znajdowały się wszystkie obiekty, które są wymagane przez konstruktor do utworzenia danego typu. Teraz więc do listy kroków należy dodać jeszcze dwie operacje. Pierwsza z nich ma za zadanie stworzyć obiekt przy pomocy danego konstruktora i umieścić go na szczycie stosu. Druga ma na celu zwrócić obiekt ze szczytu stosu.\\
 \\ \\
-Wszystkie kroki niezbędne do stworzenia nowego elementu są zapisane w zmiennej typu DynamicMethod. Ostatnią operację w metodzie CreateObjectFunction jest ze zmiennej typu DynamicMethod, utworzenie i zwrócenie delegata, który jako parametr będzie przyjmował tablicę obiektów (lista obiektów zgodna z parametrami konstruktora), a zwracał obiekt (docelowy obiekt).\\ \\
+Wszystkie kroki niezbędne do stworzenia nowego elementu są zapisane w zmiennej typu DynamicMethod. Na końcu z tej zmiennej należy utworzyć, a następnie zwrócić delegata, który jako parametr będzie przyjmował tablicę obiektów (lista obiektów zgodna z parametrami konstruktora) i zwracał obiekt (docelowy obiekt).\\ \\
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics{PartialEmitFunction_CreateObjectFunction.png}
@@ -492,7 +492,7 @@ Metoda GetObject (Rys. \ref{fig:FullEmitFunction_GetObject}) wygląda trochę in
 	\end{center}
 \end{figure}
 
-CreateInstanceFunction (Rys. \ref{fig:FullEmitFunction_CreateInstanceFunction}) ma jeden dodatkowy krok względem rozwiązania 1. Na początku również następuje sprawdzenie czy została wcześniej utworzona funkcja, która umie zwrócić obiekt docelowego typu. Jeśli nie, to przy pomocy metody CreateObjectFunction taka funkcję zostaje stworzona, a następnie jest zapisywana w pamięci podręcznej (również w strukturze słownik, której kluczem jest typ, a wartością jest typ pomocniczy FullEmitFunctionResult, który ma tylko jedną właściwość - Result typu funkcja). Następnym krokiem jest walidacja zapisanych danych dla typów przy pomocy metody ValidateTypesCache. Na końcu funkcji obiekt jest tworzony, a następnie zwracany. Tutaj funkcja jako argument przyjmuje dwa słowniki. Pierwszy zawiera informacje o typie (kluczem jest typ, a wartością obiekt ContainerMember), a drugi informacje o indeksie typu (kluczem jest liczba oznaczając hasz danego typu, a wartością typ).\\
+CreateInstanceFunction (Rys. \ref{fig:FullEmitFunction_CreateInstanceFunction}) ma jeden dodatkowy krok względem rozwiązania 1. Na początku również następuje sprawdzenie czy została wcześniej utworzona funkcja, która umie zwrócić obiekt docelowego typu. Jeśli nie, to przy pomocy metody CreateObjectFunction taka funkcja zostaje stworzona, a następnie jest zapisywana w pamięci podręcznej (również w strukturze słownika, którego kluczem jest typ, a wartością jest typ pomocniczy FullEmitFunctionResult, który ma tylko jedną właściwość - Result typu funkcja). Następnym krokiem jest walidacja zapisanych danych dla typów przy pomocy metody ValidateTypesCache. Na końcu funkcji obiekt jest tworzony, a następnie zwracany. Tutaj funkcja jako argument przyjmuje dwa słowniki. Pierwszy zawiera informacje o typie (kluczem jest typ, a wartością obiekt ContainerMember), a drugi informacje o indeksie typu (kluczem jest liczba oznaczając hasz danego typu, a wartością typ).\\
 
 Najpierw zostanie opisana metoda ValidateTypesCache, ponieważ nie wywołuje ona w sobie żadnej innej metody.\\ \\
 \begin{figure}[H]
@@ -520,7 +520,7 @@ Dla każdego z parametrów konstruktora jest wywoływana metoda CreateObjectFunc
 \\
 Dalsze operacje są takie same jak w rozwiązaniu 1 - do listy kroków jest dodana operację, która stworzy obiekty przy pomocy danego konstruktora i umieści go na szczycie stosu, a następnie jest dodana operację, który zwróci nam obiekt ze szczytu stosu.\\
 \\
-Na końcu ze zmiennej typu DynamicMethod zostaje stworzymy delegata i jest on zwracany. Delegat będzie przyjmował dwa parametry - oba typu Dictionary (słownik). Jeden z informacjami o typie, a drugi z informacjami o indeksie typu.\\ \\
+Na końcu ze zmiennej typu DynamicMethod tworzony jest delegata, a następnie jest on zwracany. Delegat będzie przyjmował dwa parametry - oba typu Dictionary (słownik). Jeden z informacjami o typie, a drugi z informacjami o indeksie typu.\\ \\
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics{FullEmitFunction_CreateObjectFunction.png}
@@ -538,7 +538,7 @@ W metodzie CreateObjectFunctionPrivate (Rys. \ref{fig:FullEmitFunction_CreateObj
 	\end{center}
 \end{figure}
 
-W pierwszym przypadku typ został zarejestrowany jako Transient -  Rys. \ref{fig:FullEmitFunction_IsTransient}. Dla każdego z parametrów konstruktora jest wywoływana rekurencyjnie ta metoda (CreateObjectFunctionPrivate), a na koniec do listy kroków jest dodawana operację, która stworzy obiekty przy pomocy danego konstruktora i umieści go na szczycie stosu.\\ \\
+W pierwszym przypadku typ został zarejestrowany jako Transient -  Rys. \ref{fig:FullEmitFunction_IsTransient}. Dla każdego z parametrów konstruktora jest wywoływana rekurencyjnie ta metoda (CreateObjectFunctionPrivate), a na koniec do listy kroków jest dodawana operacja, która stworzy obiekty przy pomocy danego konstruktora i umieści go na szczycie stosu.\\ \\
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics{FullEmitFunction_IsTransient.png}
@@ -593,18 +593,18 @@ Mamy klasę A, która w konstruktorze przyjmuje obiekty klas B i C. Klasa B w ko
 
 Dla pierwszego rozwiązania (PartialEmitFunction), aby stworzyć obiekt klasy A, lista operacji IL prezentuje się następująco:
 \begin{enumerate}
-	\item OpCodes.Ldarg\_0 [B, C] - na stosie zostanie umieszona tablica z obiektami typów B i C.
+	\item OpCodes.Ldarg\_0 [B, C] - na stosie zostanie umieszona referencja do argumentu aktualnej funkcji, czyli do tablicy zawierającej B i C.
 	\item OpCodes.Ldc\_I4\_0 - na stos zostanie dodana liczba 0.
 	\item OpCodes.Ldelem\_Ref - ze stosu zostanie ściągnięta liczba oraz tablica, a na jego szczycie zostanie umieszczony obiekt pod indeksem 0 z tablicy - w tym przypadku obiekt B.
 	\item OpCodes.Castclass typeof(B) - obiekt ze szczytu stosu jest rzutowany na typ B (wcześniej był typu object).
-	\item OpCodes.Ldarg\_0 [B, C] - na stosie zostanie umieszona tablica z obiektami typów B i C.
+	\item OpCodes.Ldarg\_0 [B, C] - na stosie zostanie umieszona referencja do argumentu aktualnej funkcji, czyli do tablicy zawierającej B i C.
 	\item OpCodes.Ldc\_I4\_1 - na stos zostanie dodana liczba 1.
 	\item OpCodes.Ldelem\_Ref - ze stosu zostanie ściągnięta liczba oraz tablica, a na jego szczycie zostanie umieszczony obiekt pod indeksem 1 z tablicy - w tym przypadku obiekt C.
 	\item OpCodes.Castclass typeof(C) - obiekt ze szczytu stosu jest rzutowany na typ C.
 	\item OpCodes.Newobj .ctor A - ze stosu zostają zdjęcie wszystkie obiekty wymagane przez konstruktor klasy A (w tym przypadku obiekty B i C - muszą być one w odpowiedniej kolejności na stosie), a na jego szczycie jest umieszczany nowo utworzony obiekt A.
 	\item OpCodes.Ret - obiekt ze szczytu stosu (obiekt A) zostaje zwrócony.
 \end{enumerate}
-Jak łatwo zauważyć, lista tych operacji zakłada, że mamy wcześniej stworzone obiekty wymagane w konstruktorze klasy A (w tym przypadku obiekty B i C). Te obiekty są na takiej samej zasadzie jak obiekt klasy A. Zatem w tym przypadku będziemy mieli 3 listy z operacjami IL - jedna dla obiektu C, jedna dla obiektu B i jedna dla obiektu A.\\
+Jak łatwo zauważyć, lista tych operacji zakłada, że mamy wcześniej stworzone obiekty wymagane w konstruktorze klasy A (w tym przypadku obiekty B i C). Te obiekty są tworzone na takiej samej zasadzie jak obiekt klasy A. Zatem w tym przypadku będziemy mieli 3 listy z operacjami IL - jedna dla obiektu C, jedna dla obiektu B i jedna dla obiektu A.\\
 \\
 Niezależnie od tego jak klasy A, B i C zostały zarejestrowane, zawsze uzyskamy dokładnie te same 3 listy operacji.\\
 
@@ -620,11 +620,11 @@ Jeśli wszystkie klasy zostały zarejestrowane jako Transient, to mamy krótką 
 \end{enumerate}
 Jeśli wszystkie klasy zostały zarejestrowane jako Singleton, PerThread lub PerHttpContext, to listę operacji wygląda następująco:
 \begin{enumerate}
-	\item OpCodes.Ldarg\_1 \{ \{1, typeof(A)\}, \{2, typeof(B)\}, \{3, typeof(C)\} \} - na stosie zostanie umieszony słownik zawierający hash danego obiektu ContainerMember i typ obiektu.
+	\item OpCodes.Ldarg\_1 \{ \{1, typeof(A)\}, \{2, typeof(B)\}, \{3, typeof(C)\} \} - na stosie zostanie umieszona referencja do argumentu aktualnej funkcji, czyli do słownika zawierającego hash danego obiektu ContainerMember i typ obiektu.
 	\item OpCodes.Ldc\_I4 2 - na stos zostanie dodana liczba równa hashowi obiektu ContainerMember dla klasy B (w tym wypadku 2).
 	\item OpCodes.Call "get\_Item" - ze stosu zostają pobrane dwa elementy (słownik oraz liczba), a następnie zostaje wywołana metoda "GetItem" na słowniku, której parametrem jest liczba. Wynik tej operacji (typ B) zostanie umieszczony na szczycie stosu.
 	\item OpCodes.Stdloc variable\_Type - obiekt ze szczytu stosu zostaje zapisany w zmiennej variable\_Type
-	\item OpCodes.Ldarg\_o  \{ \{typeof(A), ContainerMember\}, \{typeof(B), ContainerMember\}, \{typeof(C), ContainerMember\}\} - na stosie zostanie umieszony słownik zawierający typ obiektu i ContainerMember dla danego obiektu.
+	\item OpCodes.Ldarg\_0  \{ \{typeof(A), ContainerMember\}, \{typeof(B), ContainerMember\}, \{typeof(C), ContainerMember\}\} - na stosie zostanie umieszona referencja do argumentu aktualnej funkcji, czyli do słownika zawierającego typ obiektu i ContainerMember dla danego obiektu.
 	\item OpCodes.Ldloc variable\_Type -  obiekt ze zmiennej variable\_Type zostaje umieszczony na szczycie stosu
 	\item OpCodes.Call "get\_Item"  - ze stosu zostają pobrane dwa elementy (słownik oraz typ), a następnie zostaje wywołana metoda "GetItem" na słowniku, której parametrem jest typ. Wynik tej operacji (obiekt ContainerMember dla typu B) zostanie umieszczony na szczycie stosu.
 	\item OpCodes.Call "get\_ObjectLifetimeManager" - ze stosu zostaje pobrany element i jest na nim wywołana metoda GetObjectLifetimeManager. Wynik tej operacji (odpowiedni obiekt ObjectLifetimeManager) zostanie umieszczony na szczycie stosu.
@@ -653,7 +653,7 @@ Jeśli typ został zarejestrowany jako Instance, FactoryObject albo z własną i
 
 \clearpage
 \section{Testy wydajnościowe}
-Do przeprowadzania testów wydajnościowych przygotowano osobną aplikację, w której zotały utworzone 4 przypadki testowe:
+Do przeprowadzania testów wydajnościowych przygotowano osobną aplikację, w której zostały utworzone 4 przypadki testowe:
 \begin{itemize}
 	\item Przypadek testowy A,
 	\item Przypadek testowy B,
@@ -688,7 +688,7 @@ Każdy typ jest zarejestrowany jako "FactoryMethod", czyli jako funkcja, która 
 
 \subsection{Przypadek testowy A}
 \subsubsection{Opis}
-W tym teście mamy zdefiniowanych 11 typów. Każdy z nich przyjmuje w konstruktorze o jeden parametr mniej niż typ poprzedni (czyli przyjmują one kolejno od 10 do 0 parametrów w konstruktorze). Typem głównym, a zarazem typem o największej liczbie parametrów, jest typ "TestA". Przyjmuje on w konstruktorze 10 parametrów następujących typów: "TestA0", "TestA1", "TestA2", "TestA3", "TestA4", "TestA5", "TestA6", "TestA7", "TestA8", "TestA9". Każdy z tych 10 typów w konstruktorze przyjmuje tyle parametrów, jaki ma numerek w nazwie (czyli obiekt typu "TestA0" ma konstruktor bezparametrowy, obiekt typy "TestA1" ma konstruktor z jednym parametrem; i tak dalej aż do typu "TestA9", który ma konstruktor z dziewięcioma parametrami). Wszystkie typy jako parametry w konstruktorze przyjmuje obiekty typów z niższymi numerkami (czyli obiekt typu "TestA1" w konstruktorze przyjmuje obiekt typu "TestA0", obiekt typu "TestA2" przyjmuje w konstruktorze obiekty typóW "TestA0" i "TestA1"; i tak dalej aż do typu "TestA9", który w konstruktorze przyjmuje obiekty z typami od "TestA0" do "TestA8"). Graf zależności poszczególnych typów został przedstawiony na Rys. \ref{fig:testA}.\\
+W tym teście mamy zdefiniowanych 11 typów. Każdy z nich przyjmuje w konstruktorze o jeden parametr mniej niż typ poprzedni (czyli przyjmują one kolejno od 10 do 0 parametrów w konstruktorze). Typem głównym, a zarazem typem o największej liczbie parametrów, jest typ "TestA". Przyjmuje on w konstruktorze 10 parametrów następujących typów: "TestA0", "TestA1", "TestA2", "TestA3", "TestA4", "TestA5", "TestA6", "TestA7", "TestA8", "TestA9". Każdy z tych 10 typów w konstruktorze przyjmuje tyle parametrów, ile wynosi liczba w jego nazwie (czyli obiekt typu "TestA0" ma konstruktor bezparametrowy, obiekt typy "TestA1" ma konstruktor z jednym parametrem; i tak dalej aż do typu "TestA9", który ma konstruktor z dziewięcioma parametrami). Wszystkie typy jako parametry w konstruktorze przyjmują obiekty typów z niższymi liczbami w nazwie (czyli obiekt typu "TestA1" w konstruktorze przyjmuje obiekt typu "TestA0", obiekt typu "TestA2" przyjmuje w konstruktorze obiekty typów "TestA0" i "TestA1"; i tak dalej aż do typu "TestA9", który w konstruktorze przyjmuje obiekty z typami od "TestA0" do "TestA8"). Graf zależności poszczególnych typów został przedstawiony na Rys. \ref{fig:testA}.\\
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics[height=11.5cm]{TestA.png}
@@ -1623,7 +1623,7 @@ Gdy liczba powtórzeń wzrosła do 1000, to wszystkie rozwiązania zanotowały o
 
 \subsection{Przypadek testowy C}
 \subsubsection{Opis}
-Ten przypadek testowy znacząco różni się od dwóch poprzednich. Mamy tutaj zdefiniowanych 26 typów. 5 z tych typów ma konstruktor bezparametrowy, a pozostałe 21 ma konstruktor z pięcioma parametrami. Typem głównym jest typ "TestC". Obiekt tego typy w konstruktorze przyjmuje 5 obiektów, kolejno następujących typów: "TestC40", "TestC41", "TestC42", "TestC43" i "TestC44". Każdy z tych pięciu typów ma taki sam konstruktor - przyjmuje w nim 5 obiektów o typach, które w nazwie mają pierwszy numer o 1 mniejszy, czyli są to obiekty typów od "TestC30" do "TestC34". Dla tych i kolejnych typów zasad z konstruktorami wygląda tak samo. Na końcu dochodzimy do typów od "TestC00" do "TestC04", które mają konstruktor bezparametrowy. Rys. \ref{fig:testC} przedstawia graf zależności typów dla tego przypadku testowego.\\
+Ten przypadek testowy znacząco różni się od dwóch poprzednich. Mamy tutaj zdefiniowanych 26 typów. 5 z tych typów ma konstruktor bezparametrowy, a pozostałe 21 ma konstruktor z pięcioma parametrami. Typem głównym jest typ "TestC". Obiekt tego typy w konstruktorze przyjmuje 5 obiektów, kolejno następujących typów: "TestC40", "TestC41", "TestC42", "TestC43" i "TestC44". Każdy z tych pięciu typów ma taki sam konstruktor - przyjmuje w nim 5 obiektów o typach, które w nazwie mają pierwszą cyfrę o 1 mniejszą, czyli są to obiekty typów od "TestC30" do "TestC34". Dla tych i kolejnych typów zasada z konstruktorami wygląda tak samo. Na końcu dochodzimy do typów od "TestC00" do "TestC04", które mają konstruktor bezparametrowy. Rys. \ref{fig:testC} przedstawia graf zależności typów dla tego przypadku testowego.\\
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics[height=11.5cm]{TestC.png}
@@ -2083,7 +2083,7 @@ Przy 1000 powtórzeniach wszystkie rozwiązania zanotowały liniowy, około 10-k
 
 \subsection{Przypadek testowy D}
 \subsubsection{Opis}
-Podobnie jak przypadek testowy B jest analogiczny z przypadkiem A, tak ten przypadek, jest zbliżony do przypadku C. Jednakże pokrewieństwo jest inne. Mamy tutaj tyle sama poziomów, co dla C, ale na każdym poziomie (poza pierwszym) obiektów jest dwa razy więcej. Zatem w tym teście mamy zdefiniowanych 51 typów. Tutaj konstruktor bezparametrowy ma 10 typów, a pozostałe 41 ma konstruktor z dziesięcioma parametrami. Typ główny to "TestD" i przyjmuje on w konstruktorze 10 obiektów, kolejno następujących typów: "TestD40", "TestD41", "TestD42", "TestD43", "TestD44", "TestD45", "TestD46", "TestD47", "TestD48", "TestD49". Jest więc to sytuacja niemal identyczna jak dla poprzedniego przypadku. Dla pozostałych typów jest podobnie i każdy z nich w konstruktorze przyjmuje 10 obiektów o typach z pierwszym numerem o 1 mniejszym (obiekty typów od "TestD40" do "TestD49", przyjmują w konstruktorze obiekty typów od "TestD30" do "TestD39" itd.). Ostatnie 10 typów, czyli typy od "TestD00" do "TestD09", mają konstruktor bezparametrowy. Graf zależności dla tego przypadku testowego został przedstawiony na Rys. \ref{fig:testD}.\\
+Podobnie jak przypadek testowy B jest analogiczny z przypadkiem A, tak ten przypadek, jest zbliżony do przypadku C. Mamy tutaj tyle samo poziomów, co dla C, ale na każdym poziomie (poza pierwszym) obiektów jest dwa razy więcej. Zatem w tym teście mamy zdefiniowanych 51 typów. Tutaj konstruktor bezparametrowy ma 10 typów, a pozostałe 41 ma konstruktor z dziesięcioma parametrami. Typ główny to "TestD" i przyjmuje on w konstruktorze 10 obiektów, kolejno następujących typów: "TestD40", "TestD41", "TestD42", "TestD43", "TestD44", "TestD45", "TestD46", "TestD47", "TestD48", "TestD49". Jest więc to sytuacja niemal identyczna jak dla poprzedniego przypadku. Dla pozostałych typów jest podobnie i każdy z nich w konstruktorze przyjmuje 10 obiektów o typach z pierwszą cyfrą o 1 mniejszą (obiekty typów od "TestD40" do "TestD49", przyjmują w konstruktorze obiekty typów od "TestD30" do "TestD39" itd.). Ostatnie 10 typów, czyli typy od "TestD00" do "TestD09", mają konstruktor bezparametrowy. Graf zależności dla tego przypadku testowego został przedstawiony na Rys. \ref{fig:testD}.\\
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics[width=\linewidth]{TestD.png}
