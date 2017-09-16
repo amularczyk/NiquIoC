@@ -169,9 +169,9 @@ Rysunek \ref{fig:Solid_with} przedstawia przykład po zastosowaniu zasady D.\\
   		\label{fig:Solid_with}
 	\end{center}
 \end{figure}
-Łatwo zauważyć, że teraz klasy Bar nie interesuje implementacja klasy Foo. Spodziewa się jedynie, że dostanie implementację interfejsu IFoo, który dostarcza metody DoSomeWork. Dzięki takiemu podejściu w łatwy sposób można podmienić implementację interfejsu IFoo w klasie Bar. Zatem tworząc ciało metody DoSomething w klasie Bar nie przejmujemy się implementacją metody DoSomeWork, tylko rozważamy jej "kontrakt", zobowiązanie do realizacji założonej funkcjonalności.\\
+Łatwo zauważyć, że teraz klasy \textbf{Bar} nie interesuje implementacja klasy \textbf{Foo}. Spodziewa się jedynie, że dostanie implementację interfejsu \textbf{IFoo}, który dostarcza metody \textbf{DoSomeWork}. Dzięki takiemu podejściu w łatwy sposób można podmienić implementację interfejsu \textbf{IFoo} w klasie \textbf{Bar}. Zatem tworząc ciało metody \textbf{DoSomething} w klasie \textbf{Bar} nie przejmujemy się implementacją metody \textbf{DoSomeWork}, tylko rozważamy jej "kontrakt", zobowiązanie do realizacji założonej funkcjonalności.\\
 \\
-Kolejną zaletą takiego podejścia jest to, że teraz w łatwy sposób można przetestować metodę DoSomething - można stworzyć przykładową implementację interfejsu IFoo lub użyć tzw. obiektu zastępczego (ang. mock).
+Kolejną zaletą takiego podejścia jest to, że teraz w łatwy sposób można przetestować metodę \textbf{DoSomething} - można stworzyć przykładową implementację interfejsu \textbf{IFoo} lub użyć tzw. obiektu zastępczego (ang. mock).
 
 
 \subsection{Kontenery wstrzykiwania zależności}
@@ -193,7 +193,7 @@ Wstrzykiwanie zależności może odbywać się na 3 sposoby:
 \end{itemize}
 
 \subsubsection{Wstrzykiwanie przez konstruktor}
-Jest to główny i najbardziej popularny sposób wstrzykiwania zależności. Niektóre klasy mają więcej niż jeden konstruktor i atrybut "DependencyConstructor" przydaje się wtedy do oznaczenia, który z nich ma zostać wybrany przy tworzeniu nowego obiektu. Przykład klasy z atrybutem DependencyConstructor przedstawia Rys. \ref{fig:DependencyConstructor}.\\ \\
+Jest to główny i najbardziej popularny sposób wstrzykiwania zależności. Niektóre klasy mają więcej niż jeden konstruktor i atrybut \textbf{DependencyConstructor} przydaje się wtedy do oznaczenia, który z nich ma zostać wybrany przy tworzeniu nowego obiektu. Przykład klasy z atrybutem \textbf{DependencyConstructor} przedstawia Rys. \ref{fig:DependencyConstructor}.\\ \\
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics{DependencyConstructor.png}
@@ -270,19 +270,20 @@ Narzędzia użyte do stworzenia pracy i testów:
 
 
 \subsection{Wstęp}
-Na początku chciałbym pokrótce opisać dwie rzeczy, które są istotne dla rozwiązania przedstawionego w tej pracy. Pierwszą z nich jest Common Intermediate Language, a drugą przestrzeń nazw Reflection.Emit.
+Na początku chciałbym pokrótce opisać dwie rzeczy, które są istotne dla rozwiązania przedstawionego w tej pracy. Pierwszą z nich jest \textbf{Common Intermediate Language}, a drugą przestrzeń nazw \textbf{Reflection.Emit}.
 
 \subsubsection{Common Intermediate Language}
-Common Intermediate Language - CIL (w skrócie IL) to język pośredni do którego kod C\# jest kompilowany. Język ten pozwala na komunikację między aplikacjami napisanymi na platformie .NET, a systemem operacyjnym.
+\textbf{Common Intermediate Language} - CIL (w skrócie IL) to język pośredni do którego kod C\# jest kompilowany. Język ten pozwala na komunikację między aplikacjami napisanymi na platformie .NET, a systemem operacyjnym.
 
 \subsubsection{Reflection.Emit}
-Przestrzeń nazw Reflection.Emit pozwala w kodzie programu, w sposób dynamiczny, na utworzenie listy operacji w języku IL, a następnie zapamiętaniu ciągu tych operacji jako delegat. Za każdym razem, gdy ten delegat zostanie wywołany, to wykona się ciąg wcześniej zdefiniowanych operacji IL.
+Przestrzeń nazw \textbf{Reflection.Emit} pozwala w kodzie programu, w sposób dynamiczny, na utworzenie listy operacji w języku IL, a następnie zapamiętaniu ciągu tych operacji jako delegat. Za każdym razem, gdy ten delegat zostanie wywołany, to wykona się ciąg wcześniej zdefiniowanych operacji IL.
 
 
 \subsection{Opis}
-Aplikacja składa się z 1 głównego projektu i 8 projektów na potrzeby testów. Rozwiązanie jest stosunkowo złożone i aby mieć pewność, że działa w pełni dobrze, zostało stworzone  ponad 1250 testów jednostkowych, a pokrycie kodu testami wynosi ponad 97\%.\\
-
-W wykonanej implementacji został stworzony interfejs IConatiner, który składa się z interfejsów zawierających niezbędne operacje, jakie powinny się znaleźć w każdym kontenerze (Rys. \ref{fig:IContainer}).\\ \\
+Aplikacja składa się z 1 głównego projektu i 8 projektów na potrzeby testów. Rozwiązanie jest stosunkowo złożone i aby mieć pewność, że działa w pełni dobrze, zostało stworzone ponad 1250 testów jednostkowych, a pokrycie kodu testami wynosi ponad 97\%.\\
+\\
+\\
+W wykonanej implementacji został stworzony interfejs \textbf{IConatiner}, który składa się z interfejsów zawierających niezbędne operacje, jakie powinny się znaleźć w każdym kontenerze (Rys. \ref{fig:IContainer}).\\ \\
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics{IContainer.png}
@@ -290,7 +291,7 @@ W wykonanej implementacji został stworzony interfejs IConatiner, który składa
   		\label{fig:IContainer}
 	\end{center}
 \end{figure}
-Pierwszy z tych interfejsów to IContainerRegister (Rys. \ref{fig:IContainerRegister}). Zawiera on metody służące do zarejestrowania typów w kontenerze.\\ \\
+Pierwszy z tych interfejsów to \textbf{IContainerRegister} (Rys. \ref{fig:IContainerRegister}). Zawiera on metody służące do zarejestrowania typów w kontenerze.\\ \\
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics{IContainerRegister.png}
@@ -298,7 +299,7 @@ Pierwszy z tych interfejsów to IContainerRegister (Rys. \ref{fig:IContainerRegi
   		\label{fig:IContainerRegister}
 	\end{center}
 \end{figure}
-Drugi z nich to IContainerResolve (Rys. \ref{fig:IContainerResolve}). Składa się on z metod odpowiedzialnych za  tworzenie i zwracanie obiektów wcześniej zarejestrowanych typów.\\ \\
+Drugi z nich to \textbf{IContainerResolve} (Rys. \ref{fig:IContainerResolve}). Składa się on z metod odpowiedzialnych za tworzenie i zwracanie obiektów wcześniej zarejestrowanych typów.\\ \\
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics{IContainerResolve.png}
@@ -306,7 +307,7 @@ Drugi z nich to IContainerResolve (Rys. \ref{fig:IContainerResolve}). Składa si
   		\label{fig:IContainerResolve}
 	\end{center}
 \end{figure}
-Ostatni z tych interfejsów to IContainerBuildUp (Rys. \ref{fig:IContainerBuildUp}). Jego metody służą do uzupełnienia istniejącej instancji obiektu z wykorzystaniem wstrzykiwania zależności przez metodę i właściwość - są to operacje opcjonalne i nie każde przemysłowe rozwiązanie je zawiera.\\ \\
+Ostatni z tych interfejsów to \textbf{IContainerBuildUp} (Rys. \ref{fig:IContainerBuildUp}). Jego metody służą do uzupełnienia istniejącej instancji obiektu z wykorzystaniem wstrzykiwania zależności przez metodę i właściwość - są to operacje opcjonalne i nie każde przemysłowe rozwiązanie je zawiera.\\ \\
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics{IContainerBuildUp.png}
@@ -317,11 +318,11 @@ Ostatni z tych interfejsów to IContainerBuildUp (Rys. \ref{fig:IContainerBuildU
 Poniżej znajduje się dokładniejszy opis metod z każdego z powyższych interfejsów.
 
 \subsubsection{Register}
-W pierwszej i drugiej metodzie interfejsu IContainerRegister można zarejestrować zwykłe klasy. W trzeciej i czwartej interfejsy oraz klasy, które implementują dany interfejs lub klasy i klasy po nich dziedziczące. W piątej i szóstej metodzie rejestrujemy klasę jako fabrykę obiektów - funkcję, która ma nam zwrócić pożądany obiekt. W siódmej (ostatniej) natomiast możemy zarejestrować konkretną instancję danego typu.\\
+W pierwszej i drugiej metodzie interfejsu \textbf{IContainerRegister} można zarejestrować zwykłe klasy. W trzeciej i czwartej interfejsy oraz klasy, które implementują dany interfejs lub klasy i klasy po nich dziedziczące. W piątej i szóstej metodzie rejestrujemy klasę jako fabrykę obiektów - funkcję, która ma nam zwrócić pożądany obiekt. W siódmej (ostatniej) natomiast możemy zarejestrować konkretną instancję danego typu.\\
 \\
 W rozwiązaniu przedstawionym w tej pracy każdy typ może być zarejestrowany tylko raz - ponowna rejestracja tego samego typu nadpisuje istniejącą rejestrację.\\
 \\
-Każda z tych siedmiu metod rejestracji zwraca interfejs IContainerMember (Rys. \ref{fig:IContainerMember}), który umożliwia nam zarejestrowanie danego typu z określonym menadżerem czasu życia (czyli implementacją interfejsu IObjectLifetimeManager - Rys. \ref{fig:IObjectLifetimeManager}). Celem takiego podejścia jest umożliwienie określenia polityki czasu życia dla nowo tworzonych instancji, ponieważ dla różnych przypadków biznesowych możemy potrzebować, aby obiekt danego typu miał konkretny czas życia.\\ \\
+Każda z tych siedmiu metod rejestracji zwraca interfejs \textbf{IContainerMember} (Rys. \ref{fig:IContainerMember}), który umożliwia nam zarejestrowanie danego typu z określonym menadżerem czasu życia (czyli implementacją interfejsu \textbf{IObjectLifetimeManager} - Rys. \ref{fig:IObjectLifetimeManager}). Celem takiego podejścia jest umożliwienie określenia polityki czasu życia dla nowo tworzonych instancji, ponieważ dla różnych przypadków biznesowych możemy potrzebować, aby obiekt danego typu miał konkretny czas życia.\\ \\
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics{IContainerMember.png}
@@ -329,18 +330,18 @@ Każda z tych siedmiu metod rejestracji zwraca interfejs IContainerMember (Rys. 
   		\label{fig:IContainerMember}
 	\end{center}
 \end{figure}
-Pierwsze cztery metody interfejsu IContainerMember, to wbudowane implementacje interfejsu IObjectLifetimeManager. Piąta metoda dostarcza możliwość podania przez użytkownika jego własnej implementacji tego interfejsu. Domyślną polityką czasu życia nowo tworzonych instancji jest polityka Transient, czyli zwracanie nowej instancji obiektu za każdym razem, kiedy kontener rozwiązuje zależność.\\
+Pierwsze cztery metody interfejsu \textbf{IContainerMember}, to wbudowane implementacje interfejsu \textbf{IObjectLifetimeManager}. Piąta metoda dostarcza możliwość podania przez użytkownika jego własnej implementacji tego interfejsu. Domyślną polityką czasu życia nowo tworzonych instancji jest polityka \textbf{Transient}, czyli zwracanie nowej instancji obiektu za każdym razem, kiedy kontener rozwiązuje zależność.\\
 \\
 Wyjaśnienie nazw polityk czasu życia:
 \begin{itemize}
-	\item Singleton - za każdym razem zwracany jest ten sam obiekt
-	\item Transient - za każdym razem zwracany jest nowy obiekt
-	\item PerThread - wewnątrz danego wątku zwracany jest ten sam obiekt, ale dla innego wątku zwracany jest nowy (inny) obiekt
-	\item PerHttpContext - wewnątrz danego żądania Http zwracany jest ten sam obiekt, ale dla innego żądania zwracany jest nowy (inny) obiekt
+	\item \textbf{Singleton} - za każdym razem zwracany jest ten sam obiekt
+	\item \textbf{Transient} - za każdym razem zwracany jest nowy obiekt
+	\item \textbf{PerThread} - wewnątrz danego wątku zwracany jest ten sam obiekt, ale dla innego wątku zwracany jest nowy (inny) obiekt
+	\item \textbf{PerHttpContext} - wewnątrz danego żądania Http zwracany jest ten sam obiekt, ale dla innego żądania zwracany jest nowy (inny) obiekt
 \end{itemize}
 
-W interfejsie IObjectLifetimeManager właściwość ObjectFactory służy do ustawienia funkcji, która zwraca obiekt. Metoda GetInstance służy do pobrania obiektu.\\
-W zależności od implementacji tego interfejsu, to obiekt zwracany z metody GetInstance może być zawsze taki sam, zawsze różny albo taki sam tylko dla określonych sytuacji (np. taki sam dla tego samego wątku albo tego samego żądania http).\\ \\
+W interfejsie \textbf{IObjectLifetimeManager} właściwość \textbf{ObjectFactory} służy do ustawienia funkcji, która zwraca obiekt. Metoda \textbf{GetInstance} służy do pobrania obiektu.\\
+W zależności od implementacji tego interfejsu, to obiekt zwracany z metody \textbf{GetInstance} może być zawsze taki sam, zawsze różny albo taki sam tylko dla określonych sytuacji (np. taki sam dla tego samego wątku albo tego samego żądania http).\\ \\
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics{IObjectLifetimeManager.png}
@@ -350,29 +351,30 @@ W zależności od implementacji tego interfejsu, to obiekt zwracany z metody Get
 \end{figure}
 
 \subsubsection{Resolve}
-Metody interfejsu IContainerResolve są głównymi operacjami. Register można nazwać sercem kontenera, a Resolve mózgiem. Każda z metod tego interfejsu odpowiada za stworzenie i zwrócenie obiektu odpowiedniego typu.\\
+Metody interfejsu \textbf{IContainerResolve} są głównymi operacjami. \textbf{Register} można nazwać sercem kontenera, a \textbf{Resolve} mózgiem. Każda z metod tego interfejsu odpowiada za stworzenie i zwrócenie obiektu odpowiedniego typu.\\
 \\
-W niniejszej pracy zaproponowano dwa rozwiązania - PartialEmitFunction i FullEmitFunction (różnice między nimi zostaną opisane w dalszej części pracy), dlatego metody rejestracji jako opcjonalny parametr przyjmuje wartość enumeracji określającej wybraną politykę - ResolveKind (dzięki temu w przyszłości może być ona w łatwy sposób rozszerzona o kolejne rozwiązania). W interfejsie znajdują się również metody, które nie przyjmują tego parametru - zostały one dodane na wypadek, gdy ktoś będzie zawsze korzystał tylko z jednego z rozwiązań (może ustawić je jako domyślne np. w konstruktorze).
+W niniejszej pracy zaproponowano dwa rozwiązania - \textbf{PartialEmitFunction} i \textbf{FullEmitFunction} (różnice między nimi zostaną opisane w dalszej części pracy), dlatego metody rejestracji jako opcjonalny parametr przyjmuje wartość enumeracji określającej wybraną politykę - \textbf{ResolveKind} (dzięki temu w przyszłości może być ona w łatwy sposób rozszerzona o kolejne rozwiązania). W interfejsie znajdują się również metody, które nie przyjmują tego parametru - zostały one dodane na wypadek, gdy ktoś będzie zawsze korzystał tylko z jednego z rozwiązań (może ustawić je jako domyślne np. w konstruktorze).
 
 \subsubsection{BuildUp}
-Interfejs IContainerBuildUp to zwyczajowy, użyteczny dodatek do kontenera - gdy mamy stworzony obiekt, ale nie jest on w pełni uzupełniony, to można go rozbudować (używając metody z odpowiednią wartością enumeracji ResolveKind lub tej z wartością domyślną). Z metodami tego interfejsu są powiązane bezpośrednio dwa pojęcia - wstrzykiwanie przez metodę i wstrzykiwanie przez właściwość. Do tego celu w niniejszym rozwiązaniu utworzono dwa atrybuty:
+Interfejs \textbf{IContainerBuildUp} to zwyczajowy, użyteczny dodatek do kontenera - gdy mamy stworzony obiekt, ale nie jest on w pełni uzupełniony, to można go rozbudować (używając metody z odpowiednią wartością enumeracji \textbf{ResolveKind} lub tej z wartością domyślną). Z metodami tego interfejsu są powiązane bezpośrednio dwa pojęcia - wstrzykiwanie przez metodę i wstrzykiwanie przez właściwość. Do tego celu w niniejszym rozwiązaniu utworzono dwa atrybuty:
 \begin{itemize}
-	\item DependencyMethod (dla metod)
-	\item DependencyProperty (dla właściwości)
+	\item \textbf{DependencyMethod} (dla metod)
+	\item \textbf{DependencyProperty} (dla właściwości)
 \end{itemize}
-Podczas operacji BuildUp wywoływane są wszystkie metody i uzupełniane są wszystkie właściwości, które mają te atrybuty. Ta operacja jest również wykonywana podczas operacji Resolve.\\
+Podczas operacji \textbf{BuildUp} wywoływane są wszystkie metody i uzupełniane są wszystkie właściwości, które mają te atrybuty. Ta operacja jest również wykonywana podczas operacji \textbf{Resolve}.\\
 \\
-Warto tutaj odnotować, że ze względu na szczegóły implementacyjne tylko jedno z niniejszych rozwiązań wspiera operację BuildUp - jest to rozwiązanie PartialEmitFunction. W rozwiązaniu FullEmitFunction ta funkcjonalność nie została zaimplementowana. Jest to spowodowane skomplikowaniem tego rozwiązania i małą potrzebą biznesową używania tej operacji. Jednakże w przyszłości istnieje możliwość jej dodania.\\
-
+Warto tutaj odnotować, że ze względu na szczegóły implementacyjne tylko jedno z niniejszych rozwiązań wspiera operację \textbf{BuildUp} - jest to rozwiązanie \textbf{PartialEmitFunction}. W rozwiązaniu \textbf{FullEmitFunction} ta funkcjonalność nie została zaimplementowana. Jest to spowodowane skomplikowaniem tego rozwiązania i małą potrzebą biznesową używania tej operacji. Jednakże w przyszłości istnieje możliwość jej dodania.\\
+\\
+\\
 W aplikacji istnieje również atrybut \textbf{DependencyConstructor}. Można go użyć przy definicji konstruktora danej klasy. Obiekt każdej klasy jest tworzony przy użyciu konstruktora. Klasa może mieć kilka konstruktorów. W niniejszym rozwiązaniu utworzono logikę wyboru odpowiedniego konstruktora, przy pomocy którego ma zostać stworzony obiekt. Wygląda ona następująco:
 \begin{itemize}
 	\item Jeśli jest jeden konstruktor, to go wybierz.
 	\item Jeśli jest kilka konstruktorów, to odpowiedni wybierz w poniższej kolejności:
 	\begin{enumerate}
-		\item Konstruktor z atrybutem DependencyConstructor
+		\item Konstruktor z atrybutem \textbf{DependencyConstructor}
 		\item Konstruktor z największą liczbą parametrów
 	\end{enumerate}
-	\item Jeśli jest kilka konstruktorów z atrybutem DependencyConstructor albo nie ma żadnego konstruktora z tym atrybutem i jest kilka z największą liczbą parametrów, to rzuć wyjątek.
+	\item Jeśli jest kilka konstruktorów z atrybutem \textbf{DependencyConstructor} albo nie ma żadnego konstruktora z tym atrybutem i jest kilka z największą liczbą parametrów, to rzuć wyjątek.
 \end{itemize}
 
 
@@ -385,14 +387,14 @@ Utworzenie instancji nowego obiektu zajmuje czas. Gdy graf zależności dla jaki
 \end{itemize}
 W przypadku rozbudowanych grafów zależności, czasami zdarza się, że niektóre typy się powtarzają. Zatem pewne informacje można uzyskać raz, a następnie je zapamiętać. Aby implementacja wzorca wstrzykiwania zależności działała wydajnie dla złożonych grafów zależności, należy jak najwięcej informacji przechowywać w pamięci podręcznej i należy to robić mądrze.\\
 \\
-W niniejszej implementacji utworzono dwie strategie, które realizują te założenia. Pierwszy krok jest taki sam dla obu rozwiązań (uzyskanie informacji jakich typów obiekty są potrzebne do stworzenia danego obiektu), natomiast kolejne kroki już się różnią. W pierwszym rozwiązaniu, które nazwano PartialEmitFunction całym proces tworzenia nowego obiektu został rozbity na mniejsze części (docelowy obiekt jest tworzony po kawałku). Każda taka osobna część jest zapisywana w pamięci podręcznej. W drugim rozwiązaniu w pamięci podręcznej jest zapisana tylko jedna operacja. Zawiera ona listę wszystkich kroków, które są niezbędne do stworzenia docelowego obiektu. Więc finalnie docelowy obiekt jest tworzony przy pomocy jednej operacji (kroki drugi i trzeci są połączone). To rozwiązanie nazwano FullEmitFunction.\\
+W niniejszej implementacji utworzono dwie strategie, które realizują te założenia. Pierwszy krok jest taki sam dla obu rozwiązań (uzyskanie informacji jakich typów obiekty są potrzebne do stworzenia danego obiektu), natomiast kolejne kroki już się różnią. W pierwszym rozwiązaniu, które nazwano \textbf{PartialEmitFunction} całym proces tworzenia nowego obiektu został rozbity na mniejsze części (docelowy obiekt jest tworzony po kawałku). Każda taka osobna część jest zapisywana w pamięci podręcznej. W drugim rozwiązaniu w pamięci podręcznej jest zapisana tylko jedna operacja. Zawiera ona listę wszystkich kroków, które są niezbędne do stworzenia docelowego obiektu. Więc finalnie docelowy obiekt jest tworzony przy pomocy jednej operacji (kroki drugi i trzeci są połączone). To rozwiązanie nazwano \textbf{FullEmitFunction}.\\
 \\
-W obu rozwiązaniach do zapamiętania kroków potrzebnych do stworzenia obiektu danego typu wykorzystano operacje z przestrzeni nazw Reflection.Emit.
+W obu rozwiązaniach do zapamiętania kroków potrzebnych do stworzenia obiektu danego typu wykorzystano operacje z przestrzeni nazw \textbf{Reflection.Emit}.
 
 \subsubsection{Krok pierwszy}
-Na początku algorytm znajduje odpowiedni konstruktor, przy pomocy którego ma zostać stworzony nowy obiekt. Jeśli robi to po raz pierwszy dla danego typu, to informacje o tym konstruktorze zapisuje w pamięci podręcznej. Do tego celu została użyta struktura danych słownik, gdzie kluczem jest typ obiektu, a wartością obiekt klasy ContainerMember (Rys. \ref{fig:ContainerMember}), w którym przechowujemy wszystkie zapamiętane informacje dla danego typu. Następnym krokiem, jest rekurencyjne wywołanie tej operacji dla wszystkich typów, których obiekty są niezbędne do stworzenia obiektu docelowego typu.\\
+Na początku algorytm znajduje odpowiedni konstruktor, przy pomocy którego ma zostać stworzony nowy obiekt. Jeśli robi to po raz pierwszy dla danego typu, to informacje o tym konstruktorze zapisuje w pamięci podręcznej. Do tego celu została użyta struktura danych słownik, gdzie kluczem jest typ obiektu, a wartością obiekt klasy \textbf{ContainerMember} (Rys. \ref{fig:ContainerMember}), w którym przechowujemy wszystkie zapamiętane informacje dla danego typu. Następnym krokiem, jest rekurencyjne wywołanie tej operacji dla wszystkich typów, których obiekty są niezbędne do stworzenia obiektu docelowego typu.\\
 \\
-W tej operacji jest kilka wyjątków - są nimi typy zarejestrowane jako Instance albo FactoryObject. Dla pierwszego przypadku nie musimy uzyskiwać informacji o tym jak stworzyć obiekt takiego typu, ponieważ mamy już taki obiekt stworzony i go po prostu wykorzystamy. Dla drugiego przypadku obiekt tworzony jest przy użyciu wcześniej zdefiniowanej przez użytkownika funkcji, której wywołanie spowoduje stworzenie obiektu oczekiwanego typu.
+W tej operacji jest kilka wyjątków - są nimi typy zarejestrowane jako \textbf{Instance} albo \textbf{FactoryObject}. Dla pierwszego przypadku nie musimy uzyskiwać informacji o tym jak stworzyć obiekt takiego typu, ponieważ mamy już taki obiekt stworzony i go po prostu wykorzystamy. Dla drugiego przypadku obiekt tworzony jest przy użyciu wcześniej zdefiniowanej przez użytkownika funkcji, której wywołanie spowoduje stworzenie obiektu oczekiwanego typu.\\ \\
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics{ContainerMember.png}
@@ -401,23 +403,23 @@ W tej operacji jest kilka wyjątków - są nimi typy zarejestrowane jako Instanc
 	\end{center}
 \end{figure}
 
-Klasa ContainerMember przechowuje:
+Klasa \textbf{ContainerMember} przechowuje:
 \begin{itemize}
 	\item Informacje o konstruktorze, przy pomocy którego należy utworzyć obiekt danego typu.
 	\item Informacje o parametrach tego konstruktora.
-	\item Informacje o właściwościach danego typu (na potrzeby operacji BuildUp).
-	\item Informacje o metodach danego typu (na potrzeby operacji BuildUp).
+	\item Informacje o właściwościach danego typu (na potrzeby operacji \textbf{BuildUp}).
+	\item Informacje o metodach danego typu (na potrzeby operacji \textbf{BuildUp}).
 	\item Czy występuje cykl w konstruktorze.
-	\item Czy należy zapamiętać informacje dla danego typu (domyślnie tak, dla typów zarejestrowanych jako Instance albo ObjectFactory - nie).
+	\item Czy należy zapamiętać informacje dla danego typu (domyślnie tak, dla typów zarejestrowanych jako \textbf{Instance} albo \textbf{ObjectFactory} - nie).
 	\item Zarejestrowany typ (ta sama wartość, co klucz ze słownika).
 	\item Zwracany typ.
 	\item Informacje o menadżerze cyklu życia.
 \end{itemize}
 
 \subsubsection{Rozwiązanie 1 - PartialEmitFunction}
-Cały algorytm jest zawarty w metodzie Resolve (Rys. \ref{fig:PartialEmitFunction_Resolve}). Sama ta metoda jest dość krótka, ale wywołuje ona kolejne metody (które już są dłuższe).\\
+Cały algorytm jest zawarty w metodzie \textbf{Resolve} (Rys. \ref{fig:PartialEmitFunction_Resolve}). Sama ta metoda jest dość krótka, ale wywołuje ona kolejne metody (które już są dłuższe).\\
 \\
-Docelowy obiekt jest tworzony przy pomocy funkcji. Na początku następuje sprawdzenie, czy już wcześniej została utworzona taka funkcja (jeśli tak, będzie ona zapisana w klasie ContainerMember we właściwości ObjectLifetimeManager). Wywołanie funkcji kończy działanie algorytmu. Jeśli funkcja nie została wcześniej utworzona, to jest tworzona.\\
+Docelowy obiekt jest tworzony przy pomocy funkcji. Na początku następuje sprawdzenie, czy już wcześniej została utworzona taka funkcja (jeśli tak, będzie ona zapisana w klasie \textbf{ContainerMember} we właściwości \textbf{ObjectLifetimeManager}). Wywołanie funkcji kończy działanie algorytmu. Jeśli funkcja nie została wcześniej utworzona, to jest tworzona.\\
 \\
 Funkcja ta nie przyjmuje żadnych parametrów, a jej typem wynikowym jest obiekt. Ciało tej funkcji jest bardzo proste - po prostu ma ona wykonać metodę i zwrócić jej rezultat, którym jest nasz docelowy obiekt.\\ \\
 \begin{figure}[H]
@@ -428,7 +430,7 @@ Funkcja ta nie przyjmuje żadnych parametrów, a jej typem wynikowym jest obiekt
 	\end{center}
 \end{figure}
 
-Metoda GetObject (Rys. \ref{fig:PartialEmitFunction_GetObject}) jest trochę bardziej rozbudowana. Na początku są pobierane informacje o parametrach konstruktora danego typu. Następnie dla każdego z tych parametrów jest tworzony obiekt przy pomocy funkcji Resolve (opisanej wyżej). Została tutaj wykorzystana rekurencja. Gdy obiekty dla wszystkich parametrów konstruktora zostały utworzone, to ich lista jest przekazywana do metody CreateInstanceFunction, która zwraca instancję obiektu oczekiwanego typu. Na koniec jest wywoływana funkcja afterObjectCreate i docelowy obiekt zostaje zwrócony.\\ \\
+Metoda \textbf{GetObject} (Rys. \ref{fig:PartialEmitFunction_GetObject}) jest trochę bardziej rozbudowana. Na początku są pobierane informacje o parametrach konstruktora danego typu. Następnie dla każdego z tych parametrów jest tworzony obiekt przy pomocy funkcji \textbf{Resolve} (opisanej wyżej). Została tutaj wykorzystana rekurencja. Gdy obiekty dla wszystkich parametrów konstruktora zostały utworzone, to ich lista jest przekazywana do metody \textbf{CreateInstanceFunction}, która zwraca instancję obiektu oczekiwanego typu. Na koniec jest wywoływana funkcja \textbf{afterObjectCreate} i docelowy obiekt zostaje zwrócony.\\ \\
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics{PartialEmitFunction_GetObject.png}
@@ -437,11 +439,11 @@ Metoda GetObject (Rys. \ref{fig:PartialEmitFunction_GetObject}) jest trochę bar
 	\end{center}
 \end{figure}
 
-Na początku metody CreateInstanceFunction (Rys. \ref{fig:PartialEmitFunction_CreateInstanceFunction}) występuje sprawdzenie, czy funkcja potrafiąca zwrócić obiekt docelowego typu, została utworzona.\\
+Na początku metody \textbf{CreateInstanceFunction} (Rys. \ref{fig:PartialEmitFunction_CreateInstanceFunction}) występuje sprawdzenie, czy funkcja potrafiąca zwrócić obiekt docelowego typu, została utworzona.\\
 \\
 Jeśli tak, to przy pomocy tej funkcji jest tworzony obiekt, a następnie jest on zwracany. Ta funkcja jako argument przyjmuje listę obiektów w kolejności zgodnej z listą parametrów konstruktora.\\
 \\
-Jeśli nie, to przy pomocy metody CreateObjectFunction taka funkcja jest tworzona. W kolejnym kroku jest ona zapisywana w pamięci podręcznej (również w strukturze słownik, której kluczem jest typ, a wartością jest funkcja). Dalej dzieje się to samo, co w sytuacji, gdy ta funkcja jest już utworzona.\\ \\
+Jeśli nie, to przy pomocy metody \textbf{CreateObjectFunction} taka funkcja jest tworzona. W kolejnym kroku jest ona zapisywana w pamięci podręcznej (również w strukturze słownik, której kluczem jest typ, a wartością jest funkcja). Dalej dzieje się to samo, co w sytuacji, gdy ta funkcja jest już utworzona.\\ \\
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics{PartialEmitFunction_CreateInstanceFunction.png}
@@ -450,9 +452,9 @@ Jeśli nie, to przy pomocy metody CreateObjectFunction taka funkcja jest tworzon
 	\end{center}
 \end{figure}
 
-CreateObjectFunction (Rys. \ref{fig:PartialEmitFunction_CreateObjectFunction}) jest najbardziej zaawansowaną metodą w tym algorytmie. To w niej wykorzystano metody z przestrzeni nazw Reflection.Emit.\\
+\textbf{CreateObjectFunction} (Rys. \ref{fig:PartialEmitFunction_CreateObjectFunction}) jest najbardziej zaawansowaną metodą w tym algorytmie. To w niej wykorzystano metody z przestrzeni nazw \textbf{Reflection.Emit}.\\
 \\
-Na początku są pobierane informacje o konstruktorze. Następnie zostaje utworzony obiekt DynamicMethod i z niego jest pobierany ILGenerator. W nim będzie przechowywana listę kroków niezbędnych do utworzenia docelowego obiektu.\\
+Na początku są pobierane informacje o konstruktorze. Następnie zostaje utworzony obiekt \textbf{DynamicMethod} i z niego jest pobierany \textbf{ILGenerator}. W nim będzie przechowywana listę kroków niezbędnych do utworzenia docelowego obiektu.\\
 \\
 Dla każdego z parametrów konstruktora są wykonane następujące operacje:
 \begin{enumerate}
@@ -463,8 +465,9 @@ Dla każdego z parametrów konstruktora są wykonane następujące operacje:
 	\item Dodaj do listy kroków operację, która zrzutuje obiekt ze szczytu stosu na odpowiedni typ.
 \end{enumerate}
 Po wykonaniu kroków z listy na stosie będą znajdowały się wszystkie obiekty, które są wymagane przez konstruktor do utworzenia danego typu. Teraz więc do listy kroków należy dodać jeszcze dwie operacje. Pierwsza z nich ma za zadanie stworzyć obiekt przy pomocy danego konstruktora i umieścić go na szczycie stosu. Druga ma na celu zwrócić obiekt ze szczytu stosu.\\
-\\ \\
-Wszystkie kroki niezbędne do stworzenia nowego elementu są zapisane w zmiennej typu DynamicMethod. Na końcu z tej zmiennej należy utworzyć, a następnie zwrócić delegata, który jako parametr będzie przyjmował tablicę obiektów (lista obiektów zgodna z parametrami konstruktora) i zwracał obiekt (docelowy obiekt).\\ \\
+\\
+\\
+Wszystkie kroki niezbędne do stworzenia nowego elementu są zapisane w zmiennej typu \textbf{DynamicMethod}. Na końcu z tej zmiennej należy utworzyć, a następnie zwrócić delegata, który jako parametr będzie przyjmował tablicę obiektów (lista obiektów zgodna z parametrami konstruktora) i zwracał obiekt (docelowy obiekt).\\ \\
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics{PartialEmitFunction_CreateObjectFunction.png}
@@ -474,7 +477,7 @@ Wszystkie kroki niezbędne do stworzenia nowego elementu są zapisane w zmiennej
 \end{figure}
 
 \subsubsection{Rozwiązanie 2 - FullEmitFunction}
-Tutaj podobnie jak dla PartialEmitFunction cały algorytm zawarty jest w metodzie Resolve (Rys. \ref{fig:FullEmitFunction_Resolve}). Wygląda ona identycznie jak w rozwiązaniu 1 - docelowy obiekt jest tworzony przy pomocy funkcji, która woła w sobie metodę GetObject. Jeśli funkcji nie ma zapamiętanej w pamięci, to zostaje ona stworzona i zapisana. Na końcu jest ona wywoływana.\\ \\
+	Tutaj podobnie jak dla \textbf{PartialEmitFunction} cały algorytm zawarty jest w metodzie \textbf{Resolve} (Rys. \ref{fig:FullEmitFunction_Resolve}). Wygląda ona identycznie jak w rozwiązaniu 1 - docelowy obiekt jest tworzony przy pomocy funkcji, która woła w sobie metodę \textbf{GetObject}. Jeśli funkcji nie ma zapamiętanej w pamięci, to zostaje ona stworzona i zapisana. Na końcu jest ona wywoływana.\\ \\
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics{FullEmitFunction_Resolve.png}
@@ -483,7 +486,7 @@ Tutaj podobnie jak dla PartialEmitFunction cały algorytm zawarty jest w metodzi
 	\end{center}
 \end{figure}
 
-Metoda GetObject (Rys. \ref{fig:FullEmitFunction_GetObject}) wygląda trochę inaczej. Nie ma pobierania tutaj żadnych dodatkowych informacji, tylko od razu jest wywoływana metoda CreateInstanceFunction, która zwraca instancję obiektu oczekiwanego typu. Na koniec również jest wywoływana funkcja afterObjectCreate i zostaje zwrócony docelowy obiekt.\\ \\
+Metoda \textbf{GetObject} (Rys. \ref{fig:FullEmitFunction_GetObject}) wygląda trochę inaczej. Nie ma pobierania tutaj żadnych dodatkowych informacji, tylko od razu jest wywoływana metoda \textbf{CreateInstanceFunction}, która zwraca instancję obiektu oczekiwanego typu. Na koniec również jest wywoływana funkcja \textbf{afterObjectCreate} i zostaje zwrócony docelowy obiekt.\\ \\
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics{FullEmitFunction_GetObject.png}
@@ -492,9 +495,10 @@ Metoda GetObject (Rys. \ref{fig:FullEmitFunction_GetObject}) wygląda trochę in
 	\end{center}
 \end{figure}
 
-CreateInstanceFunction (Rys. \ref{fig:FullEmitFunction_CreateInstanceFunction}) ma jeden dodatkowy krok względem rozwiązania 1. Na początku również następuje sprawdzenie czy została wcześniej utworzona funkcja, która umie zwrócić obiekt docelowego typu. Jeśli nie, to przy pomocy metody CreateObjectFunction taka funkcja zostaje stworzona, a następnie jest zapisywana w pamięci podręcznej (również w strukturze słownika, którego kluczem jest typ, a wartością jest typ pomocniczy FullEmitFunctionResult, który ma tylko jedną właściwość - Result typu funkcja). Następnym krokiem jest walidacja zapisanych danych dla typów przy pomocy metody ValidateTypesCache. Na końcu funkcji obiekt jest tworzony, a następnie zwracany. Tutaj funkcja jako argument przyjmuje dwa słowniki. Pierwszy zawiera informacje o typie (kluczem jest typ, a wartością obiekt ContainerMember), a drugi informacje o indeksie typu (kluczem jest liczba oznaczając hasz danego typu, a wartością typ).\\
-
-Najpierw zostanie opisana metoda ValidateTypesCache, ponieważ nie wywołuje ona w sobie żadnej innej metody.\\ \\
+\textbf{CreateInstanceFunction} (Rys. \ref{fig:FullEmitFunction_CreateInstanceFunction}) ma jeden dodatkowy krok względem rozwiązania 1. Na początku również następuje sprawdzenie czy została wcześniej utworzona funkcja, która umie zwrócić obiekt docelowego typu. Jeśli nie, to przy pomocy metody \textbf{CreateObjectFunction} taka funkcja zostaje stworzona, a następnie jest zapisywana w pamięci podręcznej (również w strukturze słownika, którego kluczem jest typ, a wartością jest typ pomocniczy \textbf{FullEmitFunctionResult}, który ma tylko jedną właściwość - \textbf{Result} typu funkcja). Następnym krokiem jest walidacja zapisanych danych dla typów przy pomocy metody \textbf{ValidateTypesCache}. Na końcu funkcji obiekt jest tworzony, a następnie zwracany. Tutaj funkcja jako argument przyjmuje dwa słowniki. Pierwszy zawiera informacje o typie (kluczem jest typ, a wartością obiekt \textbf{ContainerMember}), a drugi informacje o indeksie typu (kluczem jest liczba oznaczając hasz danego typu, a wartością typ).\\
+\\
+\\
+Najpierw zostanie opisana metoda \textbf{ValidateTypesCache}, ponieważ nie wywołuje ona w sobie żadnej innej metody.\\ \\
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics{FullEmitFunction_CreateInstanceFunction.png}
@@ -503,7 +507,7 @@ Najpierw zostanie opisana metoda ValidateTypesCache, ponieważ nie wywołuje ona
 	\end{center}
 \end{figure}
 
-W pierwszym kroku metoda ValidateTypesCache sprawdza (Rys. \ref{fig:FullEmitFunction_ValidateTypesCache}), czy od ostatniego zapisywania danych o typach w pamięci podręcznej jakiś typ został zarejestrowany w kontenerze (lub czy jest to pierwsze zapisanie tych danych). Jeśli tak, to z zarejestrowanych typów zostaje utworzony słownik, w którym kluczem jest hasz typu, a wartością typ. Potem następuje aktualizacja liczby aktualnie zarejestrowanych typów.\\ \\
+W pierwszym kroku metoda \textbf{ValidateTypesCache} sprawdza (Rys. \ref{fig:FullEmitFunction_ValidateTypesCache}), czy od ostatniego zapisywania danych o typach w pamięci podręcznej jakiś typ został zarejestrowany w kontenerze (lub czy jest to pierwsze zapisanie tych danych). Jeśli tak, to z zarejestrowanych typów zostaje utworzony słownik, w którym kluczem jest hasz typu, a wartością typ. Potem następuje aktualizacja liczby aktualnie zarejestrowanych typów.\\ \\
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics{FullEmitFunction_ValidateTypesCache.png}
@@ -512,15 +516,15 @@ W pierwszym kroku metoda ValidateTypesCache sprawdza (Rys. \ref{fig:FullEmitFunc
 	\end{center}
 \end{figure}
 
-Metoda CreateObjectFunction (Rys. \ref{fig:FullEmitFunction_CreateObjectFunction}) jest dużo bardziej rozbudowana niż w rozwiązaniu 1. W niej również są wykorzystane metody z przestrzeni nazw Reflection.Emit.\\
+Metoda \textbf{CreateObjectFunction} (Rys. \ref{fig:FullEmitFunction_CreateObjectFunction}) jest dużo bardziej rozbudowana niż w rozwiązaniu 1. W niej również są wykorzystane metody z przestrzeni nazw \textbf{Reflection.Emit}.\\
 \\
-Na początku jest tworzony obiekt typu DynamicMethod i z niego jest pobierany ILGenerator. W nim będzie przechowana lista kroków niezbędnych do utworzenia docelowego obiektu.\\
+Na początku jest tworzony obiekt typu \textbf{DynamicMethod} i z niego jest pobierany \textbf{ILGenerator}. W nim będzie przechowana lista kroków niezbędnych do utworzenia docelowego obiektu.\\
 \\
-Dla każdego z parametrów konstruktora jest wywoływana metoda CreateObjectFunctionPrivate, która uzupełnia listę kroków o tworzenie pośrednich obiektów. To w tym miejscu jest główna różnica między oboma rozwiązaniami - w pierwszym rozwiązaniu w liście kroków nie przejmowaliśmy się utworzeniem pośrednich obiektów, ponieważ przychodziły one jako parametr. W tym rozwiązaniu lista kroków będzie również zawierać niezbędne kroki do utworzenia wszystkich obiektów pośrednich (obiektów wymaganych przez konstruktor).\\
+Dla każdego z parametrów konstruktora jest wywoływana metoda \textbf{CreateObjectFunctionPrivate}, która uzupełnia listę kroków o tworzenie pośrednich obiektów. To w tym miejscu jest główna różnica między oboma rozwiązaniami - w pierwszym rozwiązaniu w liście kroków nie przejmowaliśmy się utworzeniem pośrednich obiektów, ponieważ przychodziły one jako parametr. W tym rozwiązaniu lista kroków będzie również zawierać niezbędne kroki do utworzenia wszystkich obiektów pośrednich (obiektów wymaganych przez konstruktor).\\
 \\
 Dalsze operacje są takie same jak w rozwiązaniu 1 - do listy kroków jest dodana operację, która stworzy obiekty przy pomocy danego konstruktora i umieści go na szczycie stosu, a następnie jest dodana operację, który zwróci nam obiekt ze szczytu stosu.\\
 \\
-Na końcu ze zmiennej typu DynamicMethod tworzony jest delegata, a następnie jest on zwracany. Delegat będzie przyjmował dwa parametry - oba typu Dictionary (słownik). Jeden z informacjami o typie, a drugi z informacjami o indeksie typu.\\ \\
+Na końcu ze zmiennej typu \textbf{DynamicMethod} tworzony jest delegata, a następnie jest on zwracany. Delegat będzie przyjmował dwa parametry - oba typu \textbf{Dictionary} (słownik). Jeden z informacjami o typie, a drugi z informacjami o indeksie typu.\\ \\
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics{FullEmitFunction_CreateObjectFunction.png}
@@ -529,7 +533,7 @@ Na końcu ze zmiennej typu DynamicMethod tworzony jest delegata, a następnie je
 	\end{center}
 \end{figure}
 
-W metodzie CreateObjectFunctionPrivate (Rys. \ref{fig:FullEmitFunction_CreateObjectFunctionPrivate}) są trzy przypadki. W pierwszych dwóch przypadkach pomijane są obiekty, które zostały zarejestrowane jako Instance albo FactoryObject (określa to parametr ShouldCreateCache z obiektu typu ContainerMember).\\
+W metodzie \textbf{CreateObjectFunctionPrivate} (Rys. \ref{fig:FullEmitFunction_CreateObjectFunctionPrivate}) są trzy przypadki. W pierwszych dwóch przypadkach pomijane są obiekty, które zostały zarejestrowane jako \textbf{Instance} albo \textbf{FactoryObject} (określa to parametr \textbf{ShouldCreateCache} z obiektu typu \textbf{ContainerMember}).\\
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics{FullEmitFunction_CreateObjectFunctionPrivate.png}
@@ -538,7 +542,7 @@ W metodzie CreateObjectFunctionPrivate (Rys. \ref{fig:FullEmitFunction_CreateObj
 	\end{center}
 \end{figure}
 
-W pierwszym przypadku typ został zarejestrowany jako Transient -  Rys. \ref{fig:FullEmitFunction_IsTransient}. Dla każdego z parametrów konstruktora jest wywoływana rekurencyjnie ta metoda (CreateObjectFunctionPrivate), a na koniec do listy kroków jest dodawana operacja, która stworzy obiekty przy pomocy danego konstruktora i umieści go na szczycie stosu.\\ \\
+W pierwszym przypadku typ został zarejestrowany jako \textbf{Transient} - Rys. \ref{fig:FullEmitFunction_IsTransient}. Dla każdego z parametrów konstruktora jest wywoływana rekurencyjnie metoda \textbf{CreateObjectFunctionPrivate}, a na koniec do listy kroków jest dodawana operacja, która stworzy obiekty przy pomocy danego konstruktora i umieści go na szczycie stosu.\\ \\
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics{FullEmitFunction_IsTransient.png}
@@ -547,7 +551,7 @@ W pierwszym przypadku typ został zarejestrowany jako Transient -  Rys. \ref{fig
 	\end{center}
 \end{figure}
 
-W drugim przypadku typ musi być singletonem (został on zarejestrowany jako Singleton, PerThread lub PerHttpContext) -  Rys. \ref{fig:FullEmitFunction_IsSingleton}. Na początku następuje sprawdzenie czy już wcześniej algorytm natrafił na ten typ. Jeśli tak, to z pamięci podręcznej jest pobierana zmienna lokalna dla danego typu, a następnie do listy kroków jest dodawana operacja, która doda na szczyt stosu obiekt z tej zmiennej. Jeśli nie, to najpierw zostaje stworzona nową zmienna lokalna dla danego typu, a potem jest ona zapisywana w pamięci podręcznej (wykorzystany jest do tego słownik, gdzie kluczem jest typ, a wartością obiekt typu LocalBuilder). Następnie jest wywoływana metoda AddObjectCreatedByObjectLifetimeManager. Na końcu są dodawane dwie operacje. Pierwsza z nich zdejmie obiekt ze szczytu stosu i zapisze go w zmiennej lokalnej, a druga umieści na szczycie stosu obiekt z tej zmiennej lokalnej. Ma to na celu zapamiętanie danego obiektu i pozostawienie go na szczycie stosu. Dzięki takiemu zabiegowi, gdy drugi raz dany obiekt  będzie potrzebny (obiekt jest singletonem, więc za każdym razem będziemy chcieli mieć ten sam obiekt - w kontekście tworzenia danego typu, czyli jednej operacji Resolve), to z zapisanej zmiennej zostanie on dodany na szczyt stosu.\\ \\
+W drugim przypadku typ musi być singletonem (został on zarejestrowany jako \textbf{Singleton}, \textbf{PerThread} lub \textbf{PerHttpContext}) - Rys. \ref{fig:FullEmitFunction_IsSingleton}. Na początku następuje sprawdzenie czy już wcześniej algorytm natrafił na ten typ. Jeśli tak, to z pamięci podręcznej jest pobierana zmienna lokalna dla danego typu, a następnie do listy kroków jest dodawana operacja, która doda na szczyt stosu obiekt z tej zmiennej. Jeśli nie, to najpierw zostaje stworzona nową zmienna lokalna dla danego typu, a potem jest ona zapisywana w pamięci podręcznej (wykorzystany jest do tego słownik, gdzie kluczem jest typ, a wartością obiekt typu \textbf{LocalBuilder}). Następnie jest wywoływana metoda \textbf{AddObjectCreatedByObjectLifetimeManager}. Na końcu są dodawane dwie operacje. Pierwsza z nich zdejmie obiekt ze szczytu stosu i zapisze go w zmiennej lokalnej, a druga umieści na szczycie stosu obiekt z tej zmiennej lokalnej. Ma to na celu zapamiętanie danego obiektu i pozostawienie go na szczycie stosu. Dzięki takiemu zabiegowi, gdy drugi raz dany obiekt będzie potrzebny (obiekt jest singletonem, więc za każdym razem będziemy chcieli mieć ten sam obiekt - w kontekście tworzenia danego typu, czyli jednej operacji \textbf{Resolve}), to z zapisanej zmiennej zostanie on dodany na szczyt stosu.\\ \\
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics{FullEmitFunction_IsSingleton.png}
@@ -556,7 +560,7 @@ W drugim przypadku typ musi być singletonem (został on zarejestrowany jako Sin
 	\end{center}
 \end{figure}
 
-Metoda AddObjectCreatedByObjectLifetimeManager (Rys. \ref{fig:FullEmitFunction_AddObjectCreatedByObjectLifetimeManager}), za wyjątkiem pierwszej operacji jaką jest stworzenie zmiennej lokalnej typu Type, zawiera jedynie operacje, które dodają kolejne pozycje do listy kroków:
+Metoda \textbf{AddObjectCreatedByObjectLifetimeManager} (Rys. \ref{fig:FullEmitFunction_AddObjectCreatedByObjectLifetimeManager}), za wyjątkiem pierwszej operacji jaką jest stworzenie zmiennej lokalnej typu \textbf{Type}, zawiera jedynie operacje, które dodają kolejne pozycje do listy kroków:
 \begin{enumerate}
 	\item Dodaj do listy kroków operację, która umieści na szczycie stosu drugi parametr (będzie nim słownik z indeksami typów).
 	\item Dodaj do listy kroków operację, która umieści na szczycie stosu hasz danego typu.
@@ -565,8 +569,8 @@ Metoda AddObjectCreatedByObjectLifetimeManager (Rys. \ref{fig:FullEmitFunction_A
 	\item Dodaj do listy kroków operację, która umieści na szczycie stosu pierwszy parametr (będzie nim słownik z informacjami o typach).
 	\item Dodaj do listy kroków operację, która umieści na szczycie stosu obiekt ze zmiennej lokalnej.
 	\item Dodaj do listy kroków operację, która zdejmie ze szczytu stosu słownik i typ, a umieści na jego szczycie element znajdujący się pod danym kluczem w słowniku.
-	\item Dodaj do listy kroków operację, która zdejmie obiekt ze szczytu stosu (będzie to obiekt typu ContainerMember), wywoła na nim metodę, która zwróci menadżer czasu życia obiektu i na szczycie stosu umieści rezultat tej metody.
-	\item Dodaj do listy kroków operację, która zdejmie obiekt ze szczytu stosu (będzie to obiekt typu IObjectLifeTimeManager), wywoła na nim metodę, która zwróci instancję obiektu i na szczycie stosu umieści rezultat tej metody.
+	\item Dodaj do listy kroków operację, która zdejmie obiekt ze szczytu stosu (będzie to obiekt typu \textbf{ContainerMember}), wywoła na nim metodę, która zwróci menadżer czasu życia obiektu i na szczycie stosu umieści rezultat tej metody.
+	\item Dodaj do listy kroków operację, która zdejmie obiekt ze szczytu stosu (będzie to obiekt typu \textbf{IObjectLifeTimeManager}), wywoła na nim metodę, która zwróci instancję obiektu i na szczycie stosu umieści rezultat tej metody.
 	\item Dodaj do listy kroków operację, która zrzutuje obiekt ze szczytu stosu na odpowiedni typ.
 \end{enumerate}
 Po wykonaniu tych 10 operacji na szczycie stosu znajdzie się obiekt danego typu, który został utworzony przy pomocy odpowiedniego menadżera czasu życia.\\ \\
@@ -578,11 +582,11 @@ Po wykonaniu tych 10 operacji na szczycie stosu znajdzie się obiekt danego typu
 	\end{center}
 \end{figure}
 
-Trzeci przypadek zachodzi, gdy typ został zarejestrowany jako Instance, FactoryObject lub przy pomocy własnego menadżera czasu życia (własnej implementacji interfejsu IObjectLifetimeManager). W tej sytuacji zostaje wywołana tylko metoda AddObjectCreatedByObjectLifetimeManager.
+Trzeci przypadek zachodzi, gdy typ został zarejestrowany jako \textbf{Instance}, \textbf{FactoryObject} lub przy pomocy własnego menadżera czasu życia (własnej implementacji interfejsu \textbf{IObjectLifetimeManager}). W tej sytuacji zostaje wywołana tylko metoda \textbf{AddObjectCreatedByObjectLifetimeManager}.
 
 
 \subsubsection{Przykład}
-Mamy klasę A, która w konstruktorze przyjmuje obiekty klas B i C. Klasa B w konstruktorze przyjmuje obiekt klasy C, a klasa C ma konstruktor bezparametrowy. Tę sytuację przestawia Rys.  \ref{fig:Example_Classes}.\\ \\
+Mamy klasę \textbf{A}, która w konstruktorze przyjmuje obiekty klas \textbf{B} i \textbf{C}. Klasa \textbf{B} w konstruktorze przyjmuje obiekt klasy \textbf{C}, a klasa \textbf{C} ma konstruktor bezparametrowy. Tę sytuację przestawia Rys. \ref{fig:Example_Classes}.\\ \\
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics{Example_Classes.png}
@@ -591,7 +595,7 @@ Mamy klasę A, która w konstruktorze przyjmuje obiekty klas B i C. Klasa B w ko
 	\end{center}
 \end{figure}
 
-Dla pierwszego rozwiązania (PartialEmitFunction), aby stworzyć obiekt klasy A, lista operacji IL prezentuje się następująco: \\
+Dla rozwiązania \textbf{PartialEmitFunction}, aby stworzyć obiekt klasy \textbf{A}, lista operacji IL prezentuje się następująco: \\
 \\
 // na stosie zostanie umieszona referencja do argumentu aktualnej funkcji, czyli do tablicy zawierającej B i C.\\
 \texttt{ldarg\_0 [B, C]}\\
@@ -608,7 +612,7 @@ Dla pierwszego rozwiązania (PartialEmitFunction), aby stworzyć obiekt klasy A,
 // na stosie zostanie umieszona referencja do argumentu aktualnej funkcji, czyli do tablicy zawierającej B i C.\\
 \texttt{ldarg\_0 [B, C]}\\
 \\
-//  na stos zostanie dodana liczba 1.\\
+// na stos zostanie dodana liczba 1.\\
 \texttt{ldc\_i4\_1}\\
 \\
 // ze stosu zostanie ściągnięta liczba oraz tablica, a na jego szczycie zostanie umieszczony obiekt pod indeksem 1 z tablicy - w tym przypadku obiekt C.\\
@@ -624,14 +628,14 @@ Dla pierwszego rozwiązania (PartialEmitFunction), aby stworzyć obiekt klasy A,
 \texttt{ret} \\
 \\
 \\
-Jak łatwo zauważyć, lista tych operacji zakłada, że mamy wcześniej stworzone obiekty wymagane w konstruktorze klasy A (w tym przypadku obiekty B i C). Te obiekty są tworzone na takiej samej zasadzie jak obiekt klasy A. Zatem w tym przypadku będziemy mieli 3 listy z operacjami IL - jedna dla obiektu C, jedna dla obiektu B i jedna dla obiektu A.\\
+Jak łatwo zauważyć, lista tych operacji zakłada, że mamy wcześniej stworzone obiekty wymagane w konstruktorze klasy \textbf{A} (w tym przypadku obiekty \textbf{B} i \textbf{C}). Te obiekty są tworzone na takiej samej zasadzie jak obiekt klasy \textbf{A}. Zatem w tym przypadku będziemy mieli 3 listy z operacjami IL - jedna dla obiektu \textbf{C}, jedna dla obiektu \textbf{B} i jedna dla obiektu \textbf{A}.\\
 \\
-Niezależnie od tego jak klasy A, B i C zostały zarejestrowane, zawsze uzyskamy dokładnie te same 3 listy operacji.\\
+Niezależnie od tego jak klasy \textbf{A}, \textbf{B} i \textbf{C} zostały zarejestrowane, zawsze uzyskamy dokładnie te same 3 listy operacji.\\
 \\
 \\
-Dla drugiego rozwiązania (FullEmitFunction) jest to trochę bardziej rozbudowane.\\
+Dla rozwiązania \textbf{FullEmitFunction} jest to trochę bardziej rozbudowane.\\
 \\
-Jeśli wszystkie klasy zostały zarejestrowane jako Transient, to mamy krótką listę operacji:\\
+Jeśli wszystkie klasy zostały zarejestrowane jako \textbf{Transient}, to mamy krótką listę operacji:\\
 \\ 
 // na stosie zostanie umieszczony nowo utworzony obiekt C.\\
 \texttt{newobj .ctor C}\\
@@ -650,7 +654,7 @@ Jeśli wszystkie klasy zostały zarejestrowane jako Transient, to mamy krótką 
 \texttt{ret}\\
 \\
 \\
-Jeśli wszystkie klasy zostały zarejestrowane jako Singleton, PerThread lub PerHttpContext, to listę operacji wygląda następująco:\\
+Jeśli wszystkie klasy zostały zarejestrowane jako \textbf{Singleton}, \textbf{PerThread} lub \textbf{PerHttpContext}, to listę operacji wygląda następująco:\\
 \\
 // na stosie zostanie umieszona referencja do argumentu aktualnej funkcji, czyli do słownika zawierającego hash danego obiektu ContainerMember i typ obiektu.\\
 \texttt{ldarg\_1 \{ \{1, typeof(A)\}, \{2, typeof(B)\}, \{3, typeof(C)\} \}}\\
@@ -658,14 +662,14 @@ Jeśli wszystkie klasy zostały zarejestrowane jako Singleton, PerThread lub Per
 // na stos zostanie dodana liczba równa hashowi obiektu ContainerMember dla klasy B (w tym wypadku 2).\\
 \texttt{ldc\_i4 2}\\
 \\
-//  ze stosu zostają pobrane dwa elementy (słownik oraz liczba), a następnie zostaje wywołana metoda "GetItem" na słowniku, której parametrem jest liczba. Wynik tej operacji (typ B) zostanie umieszczony na szczycie stosu.\\
+// ze stosu zostają pobrane dwa elementy (słownik oraz liczba), a następnie zostaje wywołana metoda "GetItem" na słowniku, której parametrem jest liczba. Wynik tej operacji (typ B) zostanie umieszczony na szczycie stosu.\\
 \texttt{call "get\_Item"}\\
 \\
 // obiekt ze szczytu stosu zostaje zapisany w zmiennej variable\_Type\\
 \texttt{stdloc variable\_Type}\\
 \\
 // na stosie zostanie umieszona referencja do argumentu aktualnej funkcji, czyli do słownika zawierającego typ obiektu i ContainerMember dla danego obiektu.\\
-\texttt{ldarg\_0  \{ \{typeof(A), ContainerMember\}, \{typeof(B), ContainerMember\}, \{typeof(C), ContainerMember\}\}}\\
+\texttt{ldarg\_0 \{ \{typeof(A), ContainerMember\}, \{typeof(B), ContainerMember\}, \{typeof(C), ContainerMember\}\}}\\
 \\
 // obiekt ze zmiennej variable\_Type zostaje umieszczony na szczycie stosu\\
 \texttt{ldloc variable\_Type}\\
@@ -700,7 +704,7 @@ Jeśli wszystkie klasy zostały zarejestrowane jako Singleton, PerThread lub Per
 // obiekt ze szczytu stosu zostaje zapisany w zmiennej variable\_Type\\
 \texttt{stdloc variable\_Type}\\
 \\
-\texttt{ldarg\_o  \{ \{typeof(A), ContainerMember\}, \{typeof(B), ContainerMember\}, \{typeof(C), ContainerMember\}\}}\\
+\texttt{ldarg\_0 \{ \{typeof(A), ContainerMember\}, \{typeof(B), ContainerMember\}, \{typeof(C), ContainerMember\}\}}\\
 \\
 // obiekt ze zmiennej variable\_Type zostaje umieszczony na szczycie stosu\\
 \texttt{ldloc variable\_Type}\\
@@ -731,7 +735,7 @@ Jeśli wszystkie klasy zostały zarejestrowane jako Singleton, PerThread lub Per
 \texttt{ret}\\
 \\
 \\
-Jeśli typ został zarejestrowany jako Instance, FactoryObject albo z własną implementacją interfejsu IObjectLifetimeManager, to lista kroków wygląda podobnie jak dla Singleton, z tą różnicą, że nie ma kroków z zapisywaniem obiektu do zmiennej lokalnej (w tym przypadku brak kroków 11, 12, 23 i 24).
+Jeśli typ został zarejestrowany jako \textbf{Instance}, \textbf{FactoryObject} albo z własną implementacją interfejsu \textbf{IObjectLifetimeManager}, to lista kroków wygląda podobnie jak dla \textbf{Singleton}, z tą różnicą, że nie ma kroków z zapisywaniem obiektu do zmiennej lokalnej (w tym przypadku brak kroków 11, 12, 23 i 24).
 
 
 
@@ -744,7 +748,7 @@ Do przeprowadzania testów wydajnościowych przygotowano osobną aplikację, w k
 	\item Przypadek testowy C,
 	\item Przypadek testowy D.
 \end{itemize}
-Dla każdego z przypadków sprawdzany jest czas wykonania operacji "Resolve" dla różnych rodzajów rejestracji. Testy zostały wykonane dla następujących wariantów rejestracji:
+Dla każdego z przypadków sprawdzany jest czas wykonania operacji \textbf{Resolve} dla różnych rodzajów rejestracji. Testy zostały wykonane dla następujących wariantów rejestracji:
 \begin{itemize}
 	\item Register as Singleton,
 	\item Register as Transient,
@@ -752,27 +756,27 @@ Dla każdego z przypadków sprawdzany jest czas wykonania operacji "Resolve" dla
 	\item Register as PerThread (dla niektórych przemysłowych rozwiązań - PerScope),
 	\item Register as FactoryMethod.
 \end{itemize}
-Każdy z testów dla każdego rozwiązania był uruchamiany w osobnym procesie. Wynika dla operacji "Register" zostały pominięte, ponieważ są one prawie zawsze mniejsze niż 1 ms. Przy operacji "Resolve" każdy test był uruchamiany 100 razy, a w wynikach zostały przedstawione następujące czasy w milisekundach: minimalny, maksymalny i średni. Dla pierwszych trzech przypadków testy były wykonywane dla: 1, 10, 100 i 1000 powtórzeń, a dla ostatniego przypadku dla: 1 i 10 powtórzeń.
+Każdy z testów dla każdego rozwiązania był uruchamiany w osobnym procesie. Wynika dla operacji \textbf{Register} zostały pominięte, ponieważ są one prawie zawsze mniejsze niż 1 ms. Przy operacji \textbf{Resolve} każdy test był uruchamiany 100 razy, a w wynikach zostały przedstawione następujące czasy w milisekundach: minimalny, maksymalny i średni. Dla pierwszych trzech przypadków testy były wykonywane dla: 1, 10, 100 i 1000 powtórzeń, a dla ostatniego przypadku dla: 1 i 10 powtórzeń.
 
 \subsubsection{Register as Singleton}
-Każdy typ jest zarejestrowany jako "Singleton", czyli obiekt jest tworzony raz, a następnie cały czas zwracany.
+Każdy typ jest zarejestrowany jako \textbf{Singleton}, czyli obiekt jest tworzony raz, a następnie cały czas zwracany.
 
 \subsubsection{Register as Transient}
-Każdy typ jest zarejestrowany jako "Transient", czyli za każdym razem jest tworzony nowy obiekt.
+Każdy typ jest zarejestrowany jako \textbf{Transient}, czyli za każdym razem jest tworzony nowy obiekt.
 
 \subsubsection{Register as TransientSingleton}
-Każdy typ jest zarejestrowany jako "Transient" za wyjątkiem typów, które maja konstruktor bezparametrowy - są one zarejestrowane jako "Singleton".
+Każdy typ jest zarejestrowany jako \textbf{Transient} za wyjątkiem typów, które maja konstruktor bezparametrowy - są one zarejestrowane jako \textbf{Singleton}.
 
 \subsubsection{Register as PerThread}
-Każdy typ jest zarejestrowany jako "PerThread", czyli obiekt jest tworzony raz dla każdego wątku, a następnie w obrębie tego wątku cały czas zwracany.
+Każdy typ jest zarejestrowany jako \textbf{PerThread}, czyli obiekt jest tworzony raz dla każdego wątku, a następnie w obrębie tego wątku cały czas zwracany.
 
 \subsubsection{Register as FactoryMethod}
-Każdy typ jest zarejestrowany jako "FactoryMethod", czyli jako funkcja, która zwraca nam obiekt danego typu. Ciało tej funkcji wygląda tak, że oczekiwany typ jest tworzony z użyciem konstruktora (za pomocą "new"), a wszystkie parametry wymagane przez ten konstruktor są tworzone przy pomocy operacji Resolve.
+Każdy typ jest zarejestrowany jako \textbf{FactoryMethod}, czyli jako funkcja, która zwraca nam obiekt danego typu. Ciało tej funkcji wygląda tak, że oczekiwany typ jest tworzony z użyciem konstruktora (za pomocą \textbf{new}), a wszystkie parametry wymagane przez ten konstruktor są tworzone przy pomocy operacji \textbf{Resolve}.
 
 
 \subsection{Przypadek testowy A}
 \subsubsection{Opis}
-W tym teście mamy zdefiniowanych 11 typów. Każdy z nich przyjmuje w konstruktorze o jeden parametr mniej niż typ poprzedni (czyli przyjmują one kolejno od 10 do 0 parametrów w konstruktorze). Typem głównym, a zarazem typem o największej liczbie parametrów, jest typ "TestA". Przyjmuje on w konstruktorze 10 parametrów następujących typów: "TestA0", "TestA1", "TestA2", "TestA3", "TestA4", "TestA5", "TestA6", "TestA7", "TestA8", "TestA9". Każdy z tych 10 typów w konstruktorze przyjmuje tyle parametrów, ile wynosi liczba w jego nazwie (czyli obiekt typu "TestA0" ma konstruktor bezparametrowy, obiekt typy "TestA1" ma konstruktor z jednym parametrem; i tak dalej aż do typu "TestA9", który ma konstruktor z dziewięcioma parametrami). Wszystkie typy jako parametry w konstruktorze przyjmują obiekty typów z niższymi liczbami w nazwie (czyli obiekt typu "TestA1" w konstruktorze przyjmuje obiekt typu "TestA0", obiekt typu "TestA2" przyjmuje w konstruktorze obiekty typów "TestA0" i "TestA1"; i tak dalej aż do typu "TestA9", który w konstruktorze przyjmuje obiekty z typami od "TestA0" do "TestA8"). Graf zależności poszczególnych typów został przedstawiony na Rys. \ref{fig:testA}.\\
+W tym teście mamy zdefiniowanych 11 typów. Każdy z nich przyjmuje w konstruktorze o jeden parametr mniej niż typ poprzedni (czyli przyjmują one kolejno od 10 do 0 parametrów w konstruktorze). Typem głównym, a zarazem typem o największej liczbie parametrów, jest typ \textbf{TestA}. Przyjmuje on w konstruktorze 10 parametrów następujących typów: \textbf{TestA0}, \textbf{TestA1}, \textbf{TestA2}, \textbf{TestA3}, \textbf{TestA4}, \textbf{TestA5}, \textbf{TestA6}, \textbf{TestA7}, \textbf{TestA8}, \textbf{TestA9}. Każdy z tych 10 typów w konstruktorze przyjmuje tyle parametrów, ile wynosi liczba w jego nazwie (czyli obiekt typu \textbf{TestA0} ma konstruktor bezparametrowy, obiekt typy \textbf{TestA1} ma konstruktor z jednym parametrem; i tak dalej aż do typu \textbf{TestA9}, który ma konstruktor z dziewięcioma parametrami). Wszystkie typy jako parametry w konstruktorze przyjmują obiekty typów z niższymi liczbami w nazwie (czyli obiekt typu \textbf{TestA1} w konstruktorze przyjmuje obiekt typu \textbf{TestA0}, obiekt typu \textbf{TestA2} przyjmuje w konstruktorze obiekty typów \textbf{TestA0} i \textbf{TestA1}; i tak dalej aż do typu \textbf{TestA9}, który w konstruktorze przyjmuje obiekty z typami od \textbf{TestA0} do \textbf{TestA8}). Graf zależności poszczególnych typów został przedstawiony na Rys. \ref{fig:testA}.\\
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics[height=11.5cm]{TestA.png}
@@ -783,19 +787,19 @@ W tym teście mamy zdefiniowanych 11 typów. Każdy z nich przyjmuje w konstrukt
 
 Łatwo z niego wywnioskować, że tworząc obiekty poszczególnych typów liczba tworzonych obiektów rośnie wykładniczo:
 \begin{itemize}
-	\item TestA0 - 1 obiekt,
-	\item TestA1 - 2 obiekty (obiekt typu TestA1 i obiekt typu TestA0),
-	\item TestA2 - 4 obiekty (obiekt typu TestA2, obiekt typu TestA1 - 2 obiekty, obiekt typu TestA0 - 1 obiekt),
-	\item TestA3 - 8 obiektów (obiekt typu TestA3, obiekt typu TestA2 - 4 obiekty, obiekt typu TestA1 - 2 obiekty, obiekt typu TestA0 - 1 obiekt),
-	\item TestA4 - 16 obiektów,
-	\item TestA5 - 32 obiektów,
-	\item TestA6 - 64 obiektów,
-	\item TestA7 - 128 obiektów,
-	\item TestA8 - 256 obiektów,
-	\item TestA9 - 512 obiektów,
-	\item TestA - 1 024 obiektów.
+	\item \textbf{TestA0} - 1 obiekt,
+	\item \textbf{TestA1} - 2 obiekty (obiekt typu \textbf{TestA1} i obiekt typu \textbf{TestA0}),
+	\item \textbf{TestA2} - 4 obiekty (obiekt typu \textbf{TestA2}, obiekt typu \textbf{TestA1} - 2 obiekty, obiekt typu \textbf{TestA0} - 1 obiekt),
+	\item \textbf{TestA3} - 8 obiektów (obiekt typu \textbf{TestA3}, obiekt typu \textbf{TestA2} - 4 obiekty, obiekt typu \textbf{TestA1} - 2 obiekty, obiekt typu \textbf{TestA0} - 1 obiekt),
+	\item \textbf{TestA4} - 16 obiektów,
+	\item \textbf{TestA5} - 32 obiektów,
+	\item \textbf{TestA6} - 64 obiektów,
+	\item \textbf{TestA7} - 128 obiektów,
+	\item \textbf{TestA8} - 256 obiektów,
+	\item \textbf{TestA9} - 512 obiektów,
+	\item \textbf{TestA} - 1 024 obiektów.
 \end{itemize}
-Zatem tworząc nasz główny obiekt typu TestA, tworzymy: 1 obiekt typu TestA, 1 obiekt typu TestA9, 2 obiekty typu TestA8, 4 obiekty typu TestA7, 8 obiektów typu TestA6, 16 obiektów typu TestA5, 32 obiektów typu TestA4, 64 obiektów typu TestA3, 128 obiektów typu TestA2, 256 obiektów typu TestA1 i 512 obiektów typu TestA0 - co w sumie daje 1024 obiekty.
+Zatem tworząc nasz główny obiekt typu \textbf{TestA}, tworzymy: 1 obiekt typu \textbf{TestA}, 1 obiekt typu \textbf{TestA9}, 2 obiekty typu \textbf{TestA8}, 4 obiekty typu \textbf{TestA7}, 8 obiektów typu \textbf{TestA6}, 16 obiektów typu \textbf{TestA5}, 32 obiektów typu \textbf{TestA4}, 64 obiektów typu \textbf{TestA3}, 128 obiektów typu \textbf{TestA2}, 256 obiektów typu \textbf{TestA1} i 512 obiektów typu \textbf{TestA0} - co w sumie daje 1024 obiekty.
 
 \subsubsection{Wyniki Resolve dla Singleton}
 \begin{table}[H]
@@ -823,9 +827,9 @@ StructureMap & 9 & 10 & 9 \\ \hline
 \caption{Wyniki testów dla 1 powtórzenia dla operacji Singleton dla Przypadku testowego A}
 \label{TestCaseA_Singleton1}
 \end{table}
-Czasy dla wszystkich rozwiązań są nieduże. Jest to spowodowane tym, że gdy wszystkie klasy są zarejestrowane jako Singleton, to jest tworzonych niewiele nowych obiektów.\\
+Czasy dla wszystkich rozwiązań są nieduże. Jest to spowodowane tym, że gdy wszystkie klasy są zarejestrowane jako \textbf{Singleton}, to jest tworzonych niewiele nowych obiektów.\\
 \\
-Należy jednak wspomnieć, że najsłabiej tutaj  poradziły sobie Unity i StructureMap, których czasy są zauważalnie większe niż pozostałych rozwiązań.
+Należy jednak wspomnieć, że najsłabiej tutaj poradziły sobie \textbf{Unity} i \textbf{StructureMap}, których czasy są zauważalnie większe niż pozostałych rozwiązań.
 \\ \\
 \begin{table}[H]
 \captionsetup{belowskip=0pt,aboveskip=0pt}
@@ -852,7 +856,7 @@ StructureMap & 10 & 11 & 10 \\ \hline
 \caption{Wyniki testów dla 1000 powtórzeń dla operacji Singleton dla Przypadku testowego A}
 \label{TestCaseA_Singleton1000}
 \end{table}
-Gdy klasa jest zarejestrowana jako Singleton, to wraz ze wzrostem liczby tworzonych obiektów, nie powinien wzrastać czas ich tworzenia. We wszystkich rozwiązaniach, za wyjątkiem Ninject, czasy dla 1000 operacji, są zbliżone do czasów dla 1 operacji. Ninject natomiast ma czasy około dwa razy większe.
+Gdy klasa jest zarejestrowana jako \textbf{Singleton}, to wraz ze wzrostem liczby tworzonych obiektów, nie powinien wzrastać czas ich tworzenia. We wszystkich rozwiązaniach, za wyjątkiem \textbf{Ninject}, czasy dla 1000 operacji, są zbliżone do czasów dla 1 operacji. \textbf{Ninject} natomiast ma czasy około dwa razy większe.
 
 \subsubsection{Wyniki Resolve dla Transient}
 \begin{table}[H]
@@ -880,7 +884,7 @@ Grace & 15 & 16 & 15 \\ \hline
 \caption{Wyniki testów dla 1 powtórzenia dla operacji Transient dla Przypadku testowego A}
 \label{TestCaseA_Transient1}
 \end{table}
-W tym wypadku najlepiej poradziły sobie Autofac, NiquIoCPartial i Windsor, które uzyskały zbliżone rezultaty. Pozostałe rozwiązania uzyskały dużo słabsze, o kilka razy większe czasy.
+W tym wypadku najlepiej poradziły sobie \textbf{Autofac}, \textbf{NiquIoCPartial} i \textbf{Windsor}, które uzyskały zbliżone rezultaty. Pozostałe rozwiązania uzyskały dużo słabsze, o kilka razy większe czasy.
 \\ \\
 \begin{table}[H]
 \captionsetup{belowskip=0pt,aboveskip=0pt}
@@ -907,7 +911,7 @@ Ninject & 88 & 95 & 90 \\ \hline
 \caption{Wyniki testów dla 10 powtórzeń dla operacji Transient dla Przypadku testowego A}
 \label{TestCaseA_Transient10}
 \end{table} 
-Najmniejszy czas uzyskał NiquIoCPartial, ale jest on niestety kilkukrotnie większy niż dla 1 powtórzenia. Co więcej wszystkie najpopularniejsze rozwiązania zanotowały spory wzrost czasów. Z drugiej strony wszystkie najszybsze rozwiązania oraz NiquIoCFull zanotowały podobne czasy co dla 1 powtórzenia.
+Najmniejszy czas uzyskał \textbf{NiquIoCPartial}, ale jest on niestety kilkukrotnie większy niż dla 1 powtórzenia. Co więcej wszystkie najpopularniejsze rozwiązania zanotowały spory wzrost czasów. Z drugiej strony wszystkie najszybsze rozwiązania oraz \textbf{NiquIoCFull} zanotowały podobne czasy co dla 1 powtórzenia.
 \\ \\
 \begin{table}[H]
 \captionsetup{belowskip=0pt,aboveskip=0pt}
@@ -934,7 +938,7 @@ Ninject & 864 & 1035 & 882 \\ \hline
 \caption{Wyniki testów dla 100 powtórzeń dla operacji Transient dla Przypadku testowego A}
 \label{TestCaseA_Transient100}
 \end{table}
-Wraz ze wzrostem liczby powtórzeń coraz słabiej radzi sobie NiquIoCPartial oraz najpopularniejsze rozwiązania. Wszystkie one notują spory wzrost czasów. Dla NiquIoCFull i najszybszych rozwiązań ten wzrost jest nieznaczny.
+Wraz ze wzrostem liczby powtórzeń coraz słabiej radzi sobie \textbf{NiquIoCPartial} oraz najpopularniejsze rozwiązania. Wszystkie one notują spory wzrost czasów. Dla \textbf{NiquIoCFull} i najszybszych rozwiązań ten wzrost jest nieznaczny.
 \\ \\
 \begin{table}[H]
 \captionsetup{belowskip=0pt,aboveskip=0pt}
@@ -961,7 +965,7 @@ Ninject & 8745 & 9610 & 8934 \\ \hline
 \caption{Wyniki testów dla 1000 powtórzeń dla operacji Transient dla Przypadku testowego A}
 \label{TestCaseA_Transient1000}
 \end{table}
-Test dla 1000 powtórzeń potwierdził, że czasy dla NiquIoCPartial oraz najpopularniejszych rozwiązań rosną liniowo wraz ze wzrostem liczby powtórzeń. Czasy dla NiquIoCFull oraz najszybszych rozwiązań również wzrosły, ale zaledwie dwukrotnie w stosunku do dziesięciokrotnego wzrostu liczby powtórzeń.
+Test dla 1000 powtórzeń potwierdził, że czasy dla \textbf{NiquIoCPartial} oraz najpopularniejszych rozwiązań rosną liniowo wraz ze wzrostem liczby powtórzeń. Czasy dla \textbf{NiquIoCFull} oraz najszybszych rozwiązań również wzrosły, ale zaledwie dwukrotnie w stosunku do dziesięciokrotnego wzrostu liczby powtórzeń.
 
 \subsubsection{Wyniki Resolve dla TransientSingleton}
 \begin{table}[H]
@@ -989,7 +993,7 @@ DryIoc & 18 & 19 & 18 \\ \hline
 \caption{Wyniki testów dla 1 powtórzenia dla operacji TransientSingleton dla Przypadku testowego A}
 \label{TestCaseA_TransientSingleton1}
 \end{table}
-Dla 1 powtórzenia najmniejsze czasy uzyskały NiquIoCPartial oraz najpopularniejsze rozwiązania.
+Dla 1 powtórzenia najmniejsze czasy uzyskały \textbf{NiquIoCPartial} oraz najpopularniejsze rozwiązania.
 \\ \\
 \begin{table}[H]
 \captionsetup{belowskip=0pt,aboveskip=0pt}
@@ -1016,7 +1020,7 @@ Ninject & 65 & 82 & 67 \\ \hline
 \caption{Wyniki testów dla 10 powtórzeń dla operacji TransientSingleton dla Przypadku testowego A}
 \label{TestCaseA_TransientSingleton10}
 \end{table}
-Gdy mamy 10 powtórzeń czasy wszystkich rozwiązań wydają się być do siebie zbliżone. Wyjątkiem są tylko dwa rozwiązania: NiquIoCPartial razy sobie trochę lepiej niż pozostałe, a Ninject trochę słabiej.
+Gdy mamy 10 powtórzeń czasy wszystkich rozwiązań wydają się być do siebie zbliżone. Wyjątkiem są tylko dwa rozwiązania: \textbf{NiquIoCPartial} radzi sobie trochę lepiej niż pozostałe, a \textbf{Ninject} trochę słabiej.
 \\ \\
 \begin{table}[H]
 \captionsetup{belowskip=0pt,aboveskip=0pt}
@@ -1043,7 +1047,7 @@ Ninject & 626 & 743 & 641 \\ \hline
 \caption{Wyniki testów dla 100 powtórzeń dla operacji TransientSingleton dla Przypadku testowego A}
 \label{TestCaseA_TransientSingleton100}
 \end{table}
-W teście również gdy liczba powtórzeń wzrosła do 100, to najlepsze czasy zaczęły uzyskiwać NiquIoCFull i najszybsze rozwiązania. NiquIoCPartial oraz najpopularniejsze rozwiązania zanotował kilkukrotny wzrost czasów.
+W teście również gdy liczba powtórzeń wzrosła do 100, to najlepsze czasy zaczęły uzyskiwać \textbf{NiquIoCFull} i najszybsze rozwiązania. \textbf{NiquIoCPartial} oraz najpopularniejsze rozwiązania zanotował kilkukrotny wzrost czasów.
 \\ \\
 \begin{table}[H]
 \captionsetup{belowskip=0pt,aboveskip=0pt}
@@ -1070,7 +1074,7 @@ Ninject & 6297 & 7218 & 6463 \\ \hline
 \caption{Wyniki testów dla 1000 powtórzeń dla operacji TransientSingleton dla Przypadku testowego A}
 \label{TestCaseA_TransientSingleton1000}
 \end{table}
-Przy 1000 powtórzeń NiquIoCFull oraz wszystkie najszybsze rozwiązania uzyskały czasy o rząd wielkości mniejsze niż NiquIoCParial i najpopularniejsze rozwiązania.
+Przy 1000 powtórzeń \textbf{NiquIoCFull} oraz wszystkie najszybsze rozwiązania uzyskały czasy o rząd wielkości mniejsze niż \textbf{NiquIoCParial} i najpopularniejsze rozwiązania.
 
 \subsubsection{Wyniki Resolve dla PerThread}
 \begin{table}[H]
@@ -1098,7 +1102,7 @@ DryIoc & 71 & 73 & 71 \\ \hline
 \caption{Wyniki testów dla 1 powtórzenia dla operacji PerThread dla Przypadku testowego A}
 \label{TestCaseA_PerThread1}
 \end{table}
-Z racji tego, że wszystkie obiekty są tworzone w jednym wątku czasy powinny być zbliżone do wyników operacji resolve dla Singleton. Za wyjątkiem dwóch rozwiązań - LightInject i DryIoc, wszystkie pozostałe uzyskały zbliżone czasy. Te dwa rozwiązania najwyraźniej nie radzą sobie dla tego typu rejestracji.
+Z racji tego, że wszystkie obiekty są tworzone w jednym wątku czasy powinny być zbliżone do wyników operacji resolve dla \textbf{Singleton}. Za wyjątkiem dwóch rozwiązań - \textbf{LightInject} i \textbf{DryIoc}, wszystkie pozostałe uzyskały zbliżone czasy. Te dwa rozwiązania najwyraźniej nie radzą sobie dla tego typu rejestracji.
 \\ \\
 \begin{table}[H]
 \captionsetup{belowskip=0pt,aboveskip=0pt}
@@ -1125,7 +1129,7 @@ DryIoc & 72 & 74 & 72 \\ \hline
 \caption{Wyniki testów dla 1000 powtórzeń dla operacji PerThread dla Przypadku testowego A}
 \label{TestCaseA_PerThread1000}
 \end{table}
-Podobnie jak w przypadku resolve dla Singleton, tutaj również wzrost liczby powtórzeń nie miał wpływu na wzrost czasu.
+Podobnie jak w przypadku resolve dla \textbf{Singleton}, tutaj również wzrost liczby powtórzeń nie miał wpływu na wzrost czasu.
 
 \subsubsection{Wyniki Resolve dla FactoryMethod}
 \begin{table}[H]
@@ -1153,7 +1157,7 @@ Ninject & 8 & 10 & 9 \\ \hline
 \caption{Wyniki testów dla 1 powtórzenia dla operacji FactoryMethod dla Przypadku testowego A}
 \label{TestCaseA_FactoryMethod1}
 \end{table}
-Dla tego testu dla 1 powtórzenia wszystkie rozwiązania za wyjątkiem StructureMap i Ninject uzyskały zbliżone rezultaty. Te dwa rozwiązania poradziły sobie słabiej niż reszta.
+Dla tego testu dla 1 powtórzenia wszystkie rozwiązania za wyjątkiem \textbf{StructureMap} i \textbf{Ninject} uzyskały zbliżone rezultaty. Te dwa rozwiązania poradziły sobie słabiej niż reszta.
 \begin{table}[H]
 \captionsetup{belowskip=0pt,aboveskip=0pt}
 \begin{center}
@@ -1233,7 +1237,7 @@ Ninject & 5298 & 5469 & 5339 \\ \hline
 \caption{Wyniki testów dla 1000 powtórzeń dla operacji FactoryMethod dla Przypadku testowego A}
 \label{TestCaseA_FactoryMethod1000}
 \end{table}
-Dla 1000 powtórzeń liniowy wzrost utrzymał się dla wszystkich rozwiązań. Rozwiązania zaprezentowane w tej pracy dla tego testu poradziły sobie trochę słabiej niż wszystkie najszybsze rozwiązania (czasy prawie dwukrotnie słabsze niż najlepszy wśród najszybszych rozwiązań LightInject), ale dużo lepiej niż wszystkie najpopularniejsze rozwiązania (czasy prawie czterokrotnie mniejsze niż najlepszy wśród najpopularniejszy rozwiązań StructureMap)
+Dla 1000 powtórzeń liniowy wzrost utrzymał się dla wszystkich rozwiązań. Rozwiązania zaprezentowane w tej pracy dla tego testu poradziły sobie trochę słabiej niż wszystkie najszybsze rozwiązania (czasy prawie dwukrotnie słabsze niż najlepszy wśród najszybszych rozwiązań \textbf{LightInject}), ale dużo lepiej niż wszystkie najpopularniejsze rozwiązania (czasy prawie czterokrotnie mniejsze niż najlepszy wśród najpopularniejszy rozwiązań \textbf{StructureMap})
 
 
 \subsection{Przypadek testowy B}
@@ -1722,7 +1726,7 @@ Ten przypadek testowy znacząco różni się od dwóch poprzednich. Mamy tutaj z
 	\item typy od TestC10 do TestC14 - 6 obiektów (obiekt danego typu plus 5 obiektów typów od TestC00 do TestC04),
 	\item typy od TestC20 do TestC24 - 31 obiektów (obiekt danego typu plus 5 obiektów typów od TestC10 do TestC14),
 	\item typy od TestC30 do TestC34 - 156 obiektów,
-	\item  typy od TestC40 do TestC44 - 781 obiektów,
+	\item typy od TestC40 do TestC44 - 781 obiektów,
 	\item TestC - 3 906 obiektów.
 \end{itemize}
 Zatem tworząc obiekt typu TestC, tworzymy: 1 obiekt typu TestC, 5 obiektów typów od TestC40 do TestC44, 25 obiektów typów od TestC30 do TestC34, 125 obiektów typów od TestC20 do TestC24, 625 obiektów typów od TestC10 do TestC14 oraz 3 125 obiektów typów od TestC00 do TestC04 - co daje w sumie 3 906 obiektów.
@@ -2182,7 +2186,7 @@ Podobnie jak przypadek testowy B jest analogiczny z przypadkiem A, tak ten przyp
 	\item typy od TestD10 do TestD19 - 11 obiektów (obiekt danego typu plus 10 obiektów typów od TestD00 do TestD09),
 	\item typy od TestD20 do TestD29 - 111 obiektów (obiekt danego typu plus 10 obiektów typów od TestD10 do TestD19),
 	\item typy od TestD30 do TestD39 - 1 111 obiektów,
-	\item  typy od TestD40 do TestD49 - 11 111 obiektów,
+	\item typy od TestD40 do TestD49 - 11 111 obiektów,
 	\item TestD - 111 111 obiektów.
 \end{itemize}
 Zatem tworząc obiekt typu TestD, tworzymy: 1 obiekt typu TestD, 10 obiektów typów od TestD40 do TestD49, 100 obiektów typów od TestD30 do TestD39, 1 000 obiektów typów od TestD20 do TestD29, 10 000 obiektów typów od TestD10 do TestD19, 100 000 obiektów typów od TestD00 do TestD09 - co daje w sumie 111 111 obiektów.
@@ -2268,7 +2272,7 @@ Grace & 1413 & 1472 & 1426 \\ \hline
 \caption{Wyniki testów dla 1 powtórzenia dla operacji Transient dla Przypadku testowego D}
 \label{TestCaseD_Transient1}
 \end{table}
-Test dla tego przypadku testowego pokazał dużo większe różnice czasów niż dla poprzednich przypadków testowych. Dla 1 powtórzenia wyraźniej najlepszy czas zanotował NiquIoCPartial, który osiągnął czas o rząd wielkości niższy niż kolejne rozwiązanie. Średnie czasy zanotowały StructureMap, Autofac, Unity oraz Windsor. Pozostałe rozwiązania razem z NiquIoCFull osiągnęły  bardzo duże wyniki.
+Test dla tego przypadku testowego pokazał dużo większe różnice czasów niż dla poprzednich przypadków testowych. Dla 1 powtórzenia wyraźniej najlepszy czas zanotował NiquIoCPartial, który osiągnął czas o rząd wielkości niższy niż kolejne rozwiązanie. Średnie czasy zanotowały StructureMap, Autofac, Unity oraz Windsor. Pozostałe rozwiązania razem z NiquIoCFull osiągnęły bardzo duże wyniki.
 \\ \\
 \begin{table}[H]
 \captionsetup{belowskip=0pt,aboveskip=0pt}
