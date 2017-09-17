@@ -130,9 +130,9 @@ Injection Dependency is a set of software design principles that allow for loose
 \clearpage
 \section{Wstęp}
 \subsection{Cel pracy}
-Wstrzykiwanie zależności jest wzorcem projektowym, który pozwala na tworzenie kodu o luźniejszych powiązaniach, łatwiejszego w testowaniu i modyfikacji. Najbardziej popularnymi implementacjami tego wzorca na platformie .NET są Unity i Ninject. Niestety większość rozwiązań skupia się na zapewnieniu jak największej liczby funkcjonalności, co ma negatywne skutki dla wydajności. O ile przy małej liczbie zależności te czasy nie są zbyt duże, to wraz ze wzrostem zależności wydajność zauważalnie spada.\\
+Wstrzykiwanie zależności jest wzorcem projektowym, który pozwala na tworzenie kodu o luźniejszych powiązaniach, łatwiejszego w testowaniu i modyfikacji. Najbardziej popularnymi implementacjami tego wzorca na platformie .NET są \textbf{Unity} i \textbf{Ninject}. Niestety większość rozwiązań skupia się na zapewnieniu jak największej liczby funkcjonalności, co ma negatywne skutki dla wydajności. O ile przy małej liczbie zależności te czasy nie są zbyt duże, to wraz ze wzrostem zależności wydajność zauważalnie spada.\\
 \\
-Celem niniejszej pracy magisterskiej jest stworzenie takiej implementacji tego wzorca, która będzie wydajna dla złożonych grafów zależności, ale również będzie dostarczać niezbędnej funkcjonalności. Do tego celu zostaną wykorzystane mechanizmy z przestrzeni nazw Reflection.Emit. W tej pracy zostaną przedstawione dwa rozwiązania tego problemu.
+Celem niniejszej pracy magisterskiej jest stworzenie takiej implementacji tego wzorca, która będzie wydajna dla złożonych grafów zależności, ale również będzie dostarczać niezbędnej funkcjonalności. Do tego celu zostaną wykorzystane mechanizmy z przestrzeni nazw \textbf{Reflection.Emit}. W tej pracy zostaną przedstawione dwa rozwiązania tego problemu.
 
 \subsection{Układ pracy}
 Poza wstępem i podsumowaniem praca składa się jeszcze z czterech rozdziałów. Pierwszy z nich opisuje idee stojące za wstrzykiwaniem zależności. W kolejnym znajduje się opis teoretyczny tego czym jest wstrzykiwanie zależności. Następny rozdział został poświęcony mojej implementacji tego wzorca. Ostatni z rozdziałów skupia się na testach wydajnościowych, w których są porównywane rozwiązanie przedstawione w tej pracy, z kilkoma najbardziej popularnym i kilkoma najwydajniejszymi rozwiązaniami.
@@ -228,18 +228,18 @@ Na rynku jest wiele implementacji wstrzykiwania zależności. Przedstawię tutaj
 \\
 Najbardziej popularne:
 \begin{itemize}
-	\item Unity (4.0.1) - ponad 5.2 mln pobrań
-	\item NInject (3.2.2) - ponad 4.0 mln pobrań
-	\item Autofac (4.3.0) - ponad 3.7 mln pobrań
-	\item StructureMap (4.4.3) - ponad 1.6 mln pobrań
-	\item Windsor (3.4.0) - ponad 1.4 mln pobrań
+	\item \textbf{Unity} (4.0.1) - ponad 5.2 mln pobrań
+	\item \textbf{NInject} (3.2.2) - ponad 4.0 mln pobrań
+	\item \textbf{Autofac} (4.3.0) - ponad 3.7 mln pobrań
+	\item \textbf{StructureMap} (4.4.3) - ponad 1.6 mln pobrań
+	\item \textbf{Windsor} (3.4.0) - ponad 1.4 mln pobrań
 \end{itemize}
 Najszybsze:
 \begin{itemize}
-	\item Grace (5.1.0)
-	\item DryIoc (2.10.1)
-	\item LightInject (5.0.1)
-	\item SimpleInjector (3.3.2)
+	\item \textbf{Grace} (5.1.0)
+	\item \textbf{DryIoc} (2.10.1)
+	\item \textbf{LightInject} (5.0.1)
+	\item \textbf{SimpleInjector} (3.3.2)
 \end{itemize}
 
 
@@ -1242,7 +1242,7 @@ Dla 1000 powtórzeń liniowy wzrost utrzymał się dla wszystkich rozwiązań. R
 
 \subsection{Przypadek testowy B}
 \subsubsection{Opis}
-Ten test jest bardzo podobny do przypadku testowego A, tylko dochodzi nam 1 dodatkowy poziom, który wygląda trochę inaczej. W głównym obiekcie "TestB" konstruktor przyjmuje 3 parametry następujących typów: "TestBa10", "TestBb10", "TestBc10". Każdy z tych 3 typów odpowiada typowi "TestA", więc przyjmuje on w konstruktorze 10 parametrów. Dla "TestBa10" są to parametry typów od "TestBa0" do "TestBa9", dla "TestBb10" są to parametry typów od "TestBb0" do "TestBb9", a dla "TestBc10" są to parametry typów od "TestBc0" do "TestBc9". Zależności tych typów wyglądają tak samo, jak dla typów z przypadku testowego A - Rys. \ref{fig:testB} przedstawia te zależności.\\
+Ten test jest bardzo podobny do przypadku testowego A, tylko dochodzi nam 1 dodatkowy poziom, który wygląda trochę inaczej. W głównym obiekcie \textbf{TestB} konstruktor przyjmuje 3 parametry następujących typów: \textbf{TestBa10}, \textbf{TestBb10}, \textbf{TestBc10}. Każdy z tych 3 typów odpowiada typowi \textbf{TestA}, więc przyjmuje on w konstruktorze 10 parametrów. Dla \textbf{TestBa10} są to parametry typów od \textbf{TestBa0} do \textbf{TestBa9}, dla \textbf{TestBb10} są to parametry typów od \textbf{TestBb0} do \textbf{TestBb9}, a dla \textbf{TestBc10} są to parametry typów od \textbf{TestBc0} do \textbf{TestBc9}. Zależności tych typów wyglądają tak samo, jak dla typów z przypadku testowego A - Rys. \ref{fig:testB} przedstawia te zależności.\\
 \begin{figure}[h]
 	\begin{center}
   		\includegraphics[width=\linewidth]{TestB.png}
@@ -1253,21 +1253,21 @@ Ten test jest bardzo podobny do przypadku testowego A, tylko dochodzi nam 1 doda
 
 Łatwo wywnioskować, że tworząc obiekty poszczególnych typów liczba tworzonych obiektów rośnie dwukrotnie (tak jak dla testu A):
 \begin{itemize}
-	\item TestBa0 - 1 obiekt,
-	\item TestBa1 - 2 obiekty (obiekt typu TestBa1 i obiekt typu TestBa0),
-	\item TestBa2 - 4 obiekty (obiekt typu TestBa2, obiekt typu TestBa1 - 2 obiekty, obiekt typu TestBa0 - 1 obiekt),
-	\item TestBa3 - 8 obiektów (obiekt typu TestBa3, obiekt typu TestBa2 - 4 obiekty, obiekt typu TestBa1 - 2 obiekty, obiekt typu TestBa0 - 1 obiekt),
-	\item TestBa4 - 16 obiektów,
-	\item TestBa5 - 32 obiektów,
-	\item TestBa6 - 64 obiektów,
-	\item TestBa7 - 128 obiektów,
-	\item TestBa8 - 256 obiektów,
-	\item TestBa9 - 512 obiektów,
-	\item TestBa10 - 1 024 obiektów,
-	\item \ldots (dla typów od TestBb0 do TestBb10 i od TestBc0 do TestBc10 sytuacja wygląda dokładnie tak samo jak dla typów od TestBa0 do TestBa10),
-	\item TestB - 3 073 obiektów.
+	\item \textbf{TestBa0} - 1 obiekt,
+	\item \textbf{TestBa1} - 2 obiekty (obiekt typu \textbf{TestBa1} i obiekt typu \textbf{TestBa0}),
+	\item \textbf{TestBa2} - 4 obiekty (obiekt typu \textbf{TestBa2}, obiekt typu \textbf{TestBa1} - 2 obiekty, obiekt typu \textbf{TestBa0} - 1 obiekt),
+	\item \textbf{TestBa3} - 8 obiektów (obiekt typu \textbf{TestBa3}, obiekt typu \textbf{TestBa2} - 4 obiekty, obiekt typu \textbf{TestBa1} - 2 obiekty, obiekt typu \textbf{TestBa0} - 1 obiekt),
+	\item \textbf{TestBa4} - 16 obiektów,
+	\item \textbf{TestBa5} - 32 obiektów,
+	\item \textbf{TestBa6} - 64 obiektów,
+	\item \textbf{TestBa7} - 128 obiektów,
+	\item \textbf{TestBa8} - 256 obiektów,
+	\item \textbf{TestBa9} - 512 obiektów,
+	\item \textbf{TestBa10} - 1 024 obiektów,
+	\item \ldots (dla typów od \textbf{TestBb0} do \textbf{TestBb10} i od \textbf{TestBc0} do \textbf{TestBc10} sytuacja wygląda dokładnie tak samo jak dla typów od \textbf{TestBa0} do \textbf{TestBa10}),
+	\item \textbf{TestB} - 3 073 obiektów.
 \end{itemize}
-Zatem tworząc obiekt typu TestB, tworzymy: 1 obiekt typu TestB, 1 obiekt typu TestBa10, TestBb10 i TestBc10, 1 obiekt typu TestBa9, TestBb9 i TestBc9, 2 obiekty typu TestBa8, TestBb8 i TestBc8, 4 obiekty typu TestBa7, TestBb7 i TestBc7, 8 obiektów typu TestBa6, TestBb6 i TestBc6, 16 obiektów typu TestBa5, TestBb5 i TestBc5, 32 obiektów typu TestBa4, TestBb4 i TestBc4, 64 obiektów typu TestBa3, TestBb3 i TestBc3, 128 obiektów typu TestBa2, TestBb2 i TestBc2, 256 obiektów typu TestBa1, TestBb1 i TestBc1, 512 obiektów typu TestBa0, TestBb0 i TestBc0 - co daje w sumie 3 073 obiektów.
+Zatem tworząc obiekt typu \textbf{TestB}, tworzymy: 1 obiekt typu \textbf{TestB}, 1 obiekt typu \textbf{TestBa10}, \textbf{TestBb10} i \textbf{TestBc10}, 1 obiekt typu \textbf{TestBa9}, \textbf{TestBb9} i \textbf{TestBc9}, 2 obiekty typu \textbf{TestBa8}, \textbf{TestBb8} i \textbf{TestBc8}, 4 obiekty typu \textbf{TestBa7}, \textbf{TestBb7} i \textbf{TestBc7}, 8 obiektów typu \textbf{TestBa6}, \textbf{TestBb6} i \textbf{TestBc6}, 16 obiektów typu \textbf{TestBa5}, \textbf{TestBb5} i \textbf{TestBc5}, 32 obiektów typu \textbf{TestBa4}, \textbf{TestBb4} i \textbf{TestBc4}, 64 obiektów typu \textbf{TestBa3}, \textbf{TestBb3} i \textbf{TestBc3}, 128 obiektów typu \textbf{TestBa2}, \textbf{TestBb2} i \textbf{TestBc2}, 256 obiektów typu \textbf{TestBa1}, \textbf{TestBb1} i \textbf{TestBc1}, 512 obiektów typu \textbf{TestBa0}, \textbf{TestBb0} i \textbf{TestBc0} - co daje w sumie 3 073 obiektów.
 
 \subsubsection{Wyniki Resolve dla Singleton}
 \begin{table}[H]
@@ -1295,7 +1295,7 @@ StructureMap & 32 & 33 & 33 \\ \hline
 \caption{Wyniki testów dla 1 powtórzenia dla operacji Singleton dla Przypadku testowego B}
 \label{TestCaseB_Singleton1}
 \end{table}
-Czasy dla wszystkich rozwiązań wzrosły trzykrotnie w stosunku do przypadku testowego A. Autofac i Windsor poradziły sobie najlepiej, jednakże dopiero dla tego przypadku testowego ich czasy są dużo mniejsze niż pozostałych rozwiązań. Z drugiej strony wyniki dla Unity oraz StructureMap dużo bardziej odstają od reszty.
+Czasy dla wszystkich rozwiązań wzrosły trzykrotnie w stosunku do przypadku testowego A. \textbf{Autofac} i \textbf{Windsor} poradziły sobie najlepiej, jednakże dopiero dla tego przypadku testowego ich czasy są dużo mniejsze niż pozostałych rozwiązań. Z drugiej strony wyniki dla \textbf{Unity} oraz \textbf{StructureMap} dużo bardziej odstają od reszty.
 \\ \\
 \begin{table}[H]
 \captionsetup{belowskip=0pt,aboveskip=0pt}
@@ -1350,7 +1350,7 @@ Grace & 50 & 59 & 51 \\ \hline
 \caption{Wyniki testów dla 1 powtórzenia dla operacji Transient dla Przypadku testowego B}
 \label{TestCaseB_Transient1}
 \end{table}
-W tym teście dla 1 powtórzenia Autofac, NiquIoCPartial oraz Windsor zanotowały czasy o rząd wielkości mniejsze niż pozostałe rozwiązania. Dodatkowo najpopularniejsze rozwiązania osiągnęły niższe czasy niż najszybsze rozwiązania.
+W tym teście dla 1 powtórzenia \textbf{Autofac}, \textbf{NiquIoCPartial} oraz \textbf{Windsor} zanotowały czasy o rząd wielkości mniejsze niż pozostałe rozwiązania. Dodatkowo najpopularniejsze rozwiązania osiągnęły niższe czasy niż najszybsze rozwiązania.
 \\ \\
 \begin{table}[H]
 \captionsetup{belowskip=0pt,aboveskip=0pt}
@@ -1377,7 +1377,7 @@ Ninject & 276 & 337 & 284 \\ \hline
 \caption{Wyniki testów dla 10 powtórzeń dla operacji Transient dla Przypadku testowego B}
 \label{TestCaseB_Transient10}
 \end{table}
-Wraz ze wzrostem liczby powtórzeń wszystkie najpopularniejsze rozwiązania zanotowały wzrost około 10-krotny. NiquIoCPartial zanotował wzrost 2-krotny. NiquIoCFull oraz najszybsze rozwiązania nie zanotowały wzrostu czasów.
+Wraz ze wzrostem liczby powtórzeń wszystkie najpopularniejsze rozwiązania zanotowały wzrost około 10-krotny. \textbf{NiquIoCPartial} zanotował wzrost 2-krotny. \textbf{NiquIoCFull} oraz najszybsze rozwiązania nie zanotowały wzrostu czasów.
 \\ \\
 \begin{table}[H]
 \captionsetup{belowskip=0pt,aboveskip=0pt}
@@ -1404,7 +1404,7 @@ Ninject & 2733 & 3595 & 2790 \\ \hline
 \caption{Wyniki testów dla 100 powtórzeń dla operacji Transient dla Przypadku testowego B}
 \label{TestCaseB_Transient100}
 \end{table}
-Gdy liczba powtórzeń wzrosła do 100, to NiquIoCPartial zanotował 5-krotny wzrost. Najpopularniejsze rozwiązania mają stały, około 10-krotny wzrosty. NiquIoCFull oraz wszystkie najszybsze rozwiązania zanotowały nieduży wzrost, jednakże wszystkie poradziły sobie o rząd wielkości lepiej niż najpopularniejsze rozwiązania.
+Gdy liczba powtórzeń wzrosła do 100, to \textbf{NiquIoCPartial} zanotował 5-krotny wzrost. Najpopularniejsze rozwiązania mają stały, około 10-krotny wzrosty. \textbf{NiquIoCFull} oraz wszystkie najszybsze rozwiązania zanotowały nieduży wzrost, jednakże wszystkie poradziły sobie o rząd wielkości lepiej niż najpopularniejsze rozwiązania.
 \\ \\
 \begin{table}[H]
 \captionsetup{belowskip=0pt,aboveskip=0pt}
@@ -1431,7 +1431,7 @@ Ninject & 28220 & 29976 & 28720 \\ \hline
 \caption{Wyniki testów dla 1000 powtórzeń dla operacji Transient dla Przypadku testowego B}
 \label{TestCaseB_Transient1000}
 \end{table}
-NiquIoCFull oraz wszystkie najszybsze rozwiązania zanotowały około 2-krotny wzrost czasów, NiquIoCPartial około 5-krotny, a wszystkie najpopularniejsze rozwiązania utrzymały około 10-krotny wzrost czasów.
+\textbf{NiquIoCFull} oraz wszystkie najszybsze rozwiązania zanotowały około 2-krotny wzrost czasów, \textbf{NiquIoCPartial} około 5-krotny, a wszystkie najpopularniejsze rozwiązania utrzymały około 10-krotny wzrost czasów.
 
 \subsubsection{Wyniki Resolve dla TransientSingleton}
 \begin{table}[H]
@@ -1459,7 +1459,7 @@ DryIoc & 56 & 57 & 56 \\ \hline
 \caption{Wyniki testów dla 1 powtórzenia dla operacji TransientSingleton dla Przypadku testowego B}
 \label{TestCaseB_TransientSingleton1}
 \end{table}
-Wyniki dla tego testu są zbliżone do wyników dla Transient. Dla 1 powtórzenia lepiej sobie radzą najpopularniejsze rozwiązania niż te najszybsze. Oba rozwiązania zaprezentowane w tej pracy posiadają czasy zbliżone do najpopularniejszy rozwiązań.
+Wyniki dla tego testu są zbliżone do wyników dla \textbf{Transient}. Dla 1 powtórzenia lepiej sobie radzą najpopularniejsze rozwiązania niż te najszybsze. Oba rozwiązania zaprezentowane w tej pracy posiadają czasy zbliżone do najpopularniejszy rozwiązań.
 \\ \\
 \begin{table}[H]
 \captionsetup{belowskip=0pt,aboveskip=0pt}
@@ -1486,7 +1486,7 @@ Ninject & 214 & 239 & 219 \\ \hline
 \caption{Wyniki testów dla 10 powtórzeń dla operacji TransientSingleton dla Przypadku testowego B}
 \label{TestCaseB_TransientSingleton10}
 \end{table}
-Dla 10 powtórzeń zarówno NiquIoCPartial jak i NiquIoCFull osiągnęły najmniejsze czasy. Są one jednak zbliżone do pozostały rozwiązań. Wyjątkiem jest jedynie Ninject, który osiągnął czasy o rząd wielkości większe niż reszta.
+Dla 10 powtórzeń zarówno \textbf{NiquIoCPartial} jak i \textbf{NiquIoCFull} osiągnęły najmniejsze czasy. Są one jednak zbliżone do pozostały rozwiązań. Wyjątkiem jest jedynie \textbf{Ninject}, który osiągnął czasy o rząd wielkości większe niż reszta.
 \\ \\
 \begin{table}[H]
 \captionsetup{belowskip=0pt,aboveskip=0pt}
@@ -1513,7 +1513,7 @@ Ninject & 2013 & 2426 & 2063 \\ \hline
 \caption{Wyniki testów dla 100 powtórzeń dla operacji TransientSingleton dla Przypadku testowego B}
 \label{TestCaseB_TransientSingleton100}
 \end{table}
-Gdy liczba powtórzeń wzrosła do 100, NiquIocFull oraz najszybsze rozwiązania zanotowały niewielki wzrost czasów. Z drugiej strony NiquIocPartial oraz wszystkie najpopularniejsze rozwiązania zanotowały kilkukrotny wzrost.
+Gdy liczba powtórzeń wzrosła do 100, \textbf{NiquIocFull} oraz najszybsze rozwiązania zanotowały niewielki wzrost czasów. Z drugiej strony \textbf{NiquIocPartial} oraz wszystkie najpopularniejsze rozwiązania zanotowały kilkukrotny wzrost.
 \\ \\
 \begin{table}[H]
 \captionsetup{belowskip=0pt,aboveskip=0pt}
@@ -1540,7 +1540,7 @@ Ninject & 20440 & 22891 & 20858 \\ \hline
 \caption{Wyniki testów dla 1000 powtórzeń dla operacji TransientSingleton dla Przypadku testowego B}
 \label{TestCaseB_TransientSingleton1000}
 \end{table}
-Podobnie jak dla testu dla Transient, NiquIocPartial i najpopularniejsze rozwiązania utrzymały liniowy, około 10-krotny wzrosty. Dla pozostałych rozwiązań ten wzrost był około 2-krotny.
+Podobnie jak dla testu dla \textbf{Transient}, \textbf{NiquIocPartial} i najpopularniejsze rozwiązania utrzymały liniowy, około 10-krotny wzrosty. Dla pozostałych rozwiązań ten wzrost był około 2-krotny.
 
 \subsubsection{Wyniki Resolve dla PerThread}
 \begin{table}[H]
@@ -1568,9 +1568,9 @@ LightInject & 409 & 419 & 412 \\ \hline
 \caption{Wyniki testów dla 1 powtórzenia dla operacji PerThread dla Przypadku testowego B}
 \label{TestCaseB_PerThread1}
 \end{table}
-Dla tego testu sytuacja wygląda identycznie jak dla przypadku testowego A - DryIoc oraz LightInject nie poradziły sobie z rejestracją PerThread i zanotowały czas o rząd wielkości większe niż pozostałe rozwiązania.\\
+Dla tego testu sytuacja wygląda identycznie jak dla przypadku testowego A - \textbf{DryIoc} oraz \textbf{LightInject} nie poradziły sobie z rejestracją \textbf{PerThread} i zanotowały czas o rząd wielkości większe niż pozostałe rozwiązania.\\
 \\
-Wyraźnie najlepiej poradziły sobie Autofac i Windsor, a dalej NiquIoCPartial oraz NiquIoCFull. Czasy niedużo większe osiągnęły również Ninject, a także Grace.
+Wyraźnie najlepiej poradziły sobie \textbf{Autofac} i \textbf{Windsor}, a dalej \textbf{NiquIoCPartial} oraz \textbf{NiquIoCFull}. Czasy niedużo większe osiągnęły również \textbf{Ninject}, a także \textbf{Grace}.
 \\ \\
 \begin{table}[H]
 \captionsetup{belowskip=0pt,aboveskip=0pt}
@@ -1625,7 +1625,7 @@ StructureMap & 25 & 25 & 25 \\ \hline
 \caption{Wyniki testów dla 1 powtórzenia dla operacji FactoryMethod dla Przypadku testowego B}
 \label{TestCaseB_FactoryMethod1}
 \end{table}
-Dla 1 powtórzenia wszystkie rozwiązania za wyjątkiem Ninject i StructureMap mają zbliżone, nieduże czasy. Te dwa rozwiązania zanotowały czasy o rząd wielkości większe niż pozostałe.
+Dla 1 powtórzenia wszystkie rozwiązania za wyjątkiem \textbf{Ninject} i \textbf{StructureMap} mają zbliżone, nieduże czasy. Te dwa rozwiązania zanotowały czasy o rząd wielkości większe niż pozostałe.
 \\
 \begin{table}[H]
 \captionsetup{belowskip=0pt,aboveskip=0pt}
@@ -1652,7 +1652,7 @@ Ninject & 166 & 182 & 170 \\ \hline
 \caption{Wyniki testów dla 10 powtórzeń dla operacji FactoryMethod dla Przypadku testowego B}
 \label{TestCaseB_FactoryMethod10}
 \end{table}
-Najszybsze rozwiązania zanotowały około 2-krotny wzrost czasów, a z kolei dla NiquIoCPartial oraz najpopularniejszych rozwiązań ten wzrost było około 10-krotny. NiquIoCFull osiągnął kilkukrotny wzrost czasów, ale poradził sobie słabiej tylko od DryIoc.
+Najszybsze rozwiązania zanotowały około 2-krotny wzrost czasów, a z kolei dla \textbf{NiquIoCPartial} oraz najpopularniejszych rozwiązań ten wzrost było około 10-krotny. \textbf{NiquIoCFull} osiągnął kilkukrotny wzrost czasów, ale poradził sobie słabiej tylko od \textbf{DryIoc}.
 \\ \\
 \begin{table}[H]
 \captionsetup{belowskip=0pt,aboveskip=0pt}
@@ -1679,7 +1679,7 @@ Ninject & 1601 & 1670 & 1622 \\ \hline
 \caption{Wyniki testów dla 100 powtórzeń dla operacji FactoryMethod dla Przypadku testowego B}
 \label{TestCaseB_FactoryMethod100}
 \end{table}
-Wraz ze wzrostem powtórzeń do 100, większość rozwiązań zanotowała około 10-krotny wzrost czasów. Wyjątkami są LightInject, SimpleInjector, Grace i StructureMap, które zanotował około 5-krotny wzrost czasów.
+Wraz ze wzrostem powtórzeń do 100, większość rozwiązań zanotowała około 10-krotny wzrost czasów. Wyjątkami są \textbf{LightInject}, \textbf{SimpleInjector}, \textbf{Grace} i \textbf{StructureMap}, które zanotował około 5-krotny wzrost czasów.
 \\ \\
 \begin{table}[H]
 \captionsetup{belowskip=0pt,aboveskip=0pt}
@@ -1706,12 +1706,12 @@ Ninject & 16788 & 17602 & 16963 \\ \hline
 \caption{Wyniki testów dla 1000 powtórzeń dla operacji FactoryMethod dla Przypadku testowego B}
 \label{TestCaseB_FactoryMethod1000}
 \end{table}
-Gdy liczba powtórzeń wzrosła do 1000, to wszystkie rozwiązania zanotowały około 9-krotny lub 10-krotny wzrost. Najmniejsze czasy zanotowały LightInject oraz DryIoC.
+Gdy liczba powtórzeń wzrosła do 1000, to wszystkie rozwiązania zanotowały około 9-krotny lub 10-krotny wzrost. Najmniejsze czasy zanotowały \textbf{LightInject} oraz \textbf{DryIoC}.
 
 
 \subsection{Przypadek testowy C}
 \subsubsection{Opis}
-Ten przypadek testowy znacząco różni się od dwóch poprzednich. Mamy tutaj zdefiniowanych 26 typów. 5 z tych typów ma konstruktor bezparametrowy, a pozostałe 21 ma konstruktor z pięcioma parametrami. Typem głównym jest typ "TestC". Obiekt tego typy w konstruktorze przyjmuje 5 obiektów, kolejno następujących typów: "TestC40", "TestC41", "TestC42", "TestC43" i "TestC44". Każdy z tych pięciu typów ma taki sam konstruktor - przyjmuje w nim 5 obiektów o typach, które w nazwie mają pierwszą cyfrę o 1 mniejszą, czyli są to obiekty typów od "TestC30" do "TestC34". Dla tych i kolejnych typów zasada z konstruktorami wygląda tak samo. Na końcu dochodzimy do typów od "TestC00" do "TestC04", które mają konstruktor bezparametrowy. Rys. \ref{fig:testC} przedstawia graf zależności typów dla tego przypadku testowego.\\
+Ten przypadek testowy znacząco różni się od dwóch poprzednich. Mamy tutaj zdefiniowanych 26 typów. 5 z tych typów ma konstruktor bezparametrowy, a pozostałe 21 ma konstruktor z pięcioma parametrami. Typem głównym jest typ \textbf{TestC}. Obiekt tego typy w konstruktorze przyjmuje 5 obiektów, kolejno następujących typów: \textbf{TestC40}, \textbf{TestC41}, \textbf{TestC42}, \textbf{TestC43} i \textbf{TestC44}. Każdy z tych pięciu typów ma taki sam konstruktor - przyjmuje w nim 5 obiektów o typach, które w nazwie mają pierwszą cyfrę o 1 mniejszą, czyli są to obiekty typów od \textbf{TestC30} do \textbf{TestC34}. Dla tych i kolejnych typów zasada z konstruktorami wygląda tak samo. Na końcu dochodzimy do typów od \textbf{TestC00} do \textbf{TestC04}, które mają konstruktor bezparametrowy. Rys. \ref{fig:testC} przedstawia graf zależności typów dla tego przypadku testowego.\\
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics[height=11.5cm]{TestC.png}
@@ -1722,14 +1722,14 @@ Ten przypadek testowy znacząco różni się od dwóch poprzednich. Mamy tutaj z
 
 Łatwo wywnioskować, że tworząc obiekty poszczególnych typów liczba tworzonych obiektów rośnie ponad pięciokrotnie:
 \begin{itemize}
-	\item typy od TestC00 do TestC04 - 1 obiekt,
-	\item typy od TestC10 do TestC14 - 6 obiektów (obiekt danego typu plus 5 obiektów typów od TestC00 do TestC04),
-	\item typy od TestC20 do TestC24 - 31 obiektów (obiekt danego typu plus 5 obiektów typów od TestC10 do TestC14),
-	\item typy od TestC30 do TestC34 - 156 obiektów,
-	\item typy od TestC40 do TestC44 - 781 obiektów,
-	\item TestC - 3 906 obiektów.
+	\item typy od \textbf{TestC00} do \textbf{TestC04} - 1 obiekt,
+	\item typy od \textbf{TestC10} do \textbf{TestC14} - 6 obiektów (obiekt danego typu plus 5 obiektów typów od \textbf{TestC00} do \textbf{TestC04}),
+	\item typy od \textbf{TestC20} do \textbf{TestC24} - 31 obiektów (obiekt danego typu plus 5 obiektów typów od \textbf{TestC10} do \textbf{TestC14}),
+	\item typy od \textbf{TestC30} do \textbf{TestC34} - 156 obiektów,
+	\item typy od \textbf{TestC40} do \textbf{TestC44} - 781 obiektów,
+	\item \textbf{TestC} - 3 906 obiektów.
 \end{itemize}
-Zatem tworząc obiekt typu TestC, tworzymy: 1 obiekt typu TestC, 5 obiektów typów od TestC40 do TestC44, 25 obiektów typów od TestC30 do TestC34, 125 obiektów typów od TestC20 do TestC24, 625 obiektów typów od TestC10 do TestC14 oraz 3 125 obiektów typów od TestC00 do TestC04 - co daje w sumie 3 906 obiektów.
+Zatem tworząc obiekt typu \textbf{TestC}, tworzymy: 1 obiekt typu \textbf{TestC}, 5 obiektów typów od \textbf{TestC40} do \textbf{TestC44}, 25 obiektów typów od \textbf{TestC30} do \textbf{TestC34}, 125 obiektów typów od \textbf{TestC20} do \textbf{TestC24}, 625 obiektów typów od \textbf{TestC10} do \textbf{TestC14} oraz 3 125 obiektów typów od \textbf{TestC00} do \textbf{TestC04} - co daje w sumie 3 906 obiektów.
 
 \subsubsection{Wyniki Resolve dla Singleton}
 \begin{table}[H]
@@ -1757,7 +1757,7 @@ StructureMap & 22 & 23 & 22 \\ \hline
 \caption{Wyniki testów dla 1 powtórzenia dla operacji Singleton dla Przypadku testowego C}
 \label{TestCaseC_Singleton1}
 \end{table}
-Najlepiej poradził sobie Autofac i Windsor, a najsłabiej Unity oraz StructureMap. Pozostałe rozwiązania zanotowały zbliżone czasy.
+Najlepiej poradził sobie \textbf{Autofac} i \textbf{Windsor}, a najsłabiej \textbf{Unity} oraz \textbf{StructureMap}. Pozostałe rozwiązania zanotowały zbliżone czasy.
 \\ \\
 \begin{table}[H]
 \captionsetup{belowskip=0pt,aboveskip=0pt}
@@ -1812,7 +1812,7 @@ Grace & 61 & 63 & 61 \\ \hline
 \caption{Wyniki testów dla 1 powtórzenia dla operacji Transient dla Przypadku testowego C}
 \label{TestCaseC_Transient1}
 \end{table}
-Dla 1 powtórzenia najlepiej radzą sobie najpopularniejsze rozwiązania oraz NiquIoCPartial. Dalej jest NiquIoCFull, a za nim wszystkie najszybsze rozwiązania. Najniższe czasy osiągnęły Autofac i NiquIoCPartial.
+Dla 1 powtórzenia najlepiej radzą sobie najpopularniejsze rozwiązania oraz \textbf{NiquIoCPartial}. Dalej jest \textbf{NiquIoCFull}, a za nim wszystkie najszybsze rozwiązania. Najniższe czasy osiągnęły \textbf{Autofac} i \textbf{NiquIoCPartial}.
 \\ \\
 \begin{table}[H]
 \captionsetup{belowskip=0pt,aboveskip=0pt}
@@ -1839,7 +1839,7 @@ Ninject & 345 & 375 & 353 \\ \hline
 \caption{Wyniki testów dla 10 powtórzeń dla operacji Transient dla Przypadku testowego C}
 \label{TestCaseC_Transient10}
 \end{table}
-Tym razem również wszystkie najpopularniejsze rozwiązania zanotowały około 10-krotny wzrost, NiquIoCPartial około 2-krotny wzrost, a NiquIoCFull oraz wszystkie najszybsze rozwiązania osiągnęły podobne czasy co dla 1 powtórzenia.
+Tym razem również wszystkie najpopularniejsze rozwiązania zanotowały około 10-krotny wzrost, \textbf{NiquIoCPartial} około 2-krotny wzrost, a \textbf{NiquIoCFull} oraz wszystkie najszybsze rozwiązania osiągnęły podobne czasy co dla 1 powtórzenia.
 \\ \\
 \begin{table}[H]
 \captionsetup{belowskip=0pt,aboveskip=0pt}
@@ -1866,7 +1866,7 @@ Ninject & 3430 & 4043 & 3511 \\ \hline
 \caption{Wyniki testów dla 100 powtórzeń dla operacji Transient dla Przypadku testowego C}
 \label{TestCaseC_Transient100}
 \end{table}
-Pomimo że ten przypadek testowy znacząco różni się od poprzednich dwóch, to stosunek wzrostów czasów, wraz ze wzrostem powtórzeń dla tego testu wydaje się być taki sam. NiquIoCFull oraz najszybsze rozwiązania notują niewielki wzrost i ich czasy są na tym samym poziomie co dla 10 powtórzeń, a pozostałe rozwiązania mają wyniki około 9-10 razy większe.
+Pomimo że ten przypadek testowy znacząco różni się od poprzednich dwóch, to stosunek wzrostów czasów, wraz ze wzrostem powtórzeń dla tego testu wydaje się być taki sam. \textbf{NiquIoCFull} oraz najszybsze rozwiązania notują niewielki wzrost i ich czasy są na tym samym poziomie co dla 10 powtórzeń, a pozostałe rozwiązania mają wyniki około 9-10 razy większe.
 \\ \\
 \begin{table}[H]
 \captionsetup{belowskip=0pt,aboveskip=0pt}
@@ -1893,7 +1893,7 @@ Ninject & 36072 & 42914 & 37642 \\ \hline
 \caption{Wyniki testów dla 1000 powtórzeń dla operacji Transient dla Przypadku testowego C}
 \label{TestCaseC_Transient1000}
 \end{table}
-Tendencja wzrostów się utrzymała i NiquIoCFull radzi sobie lepiej niż wszystkie najszybsze rozwiązania, a NiquIoCPartial niż wszystkie najpopularniejsze rozwiązania.
+Tendencja wzrostów się utrzymała i \textbf{NiquIoCFull} radzi sobie lepiej niż wszystkie najszybsze rozwiązania, a \textbf{NiquIoCPartial} niż wszystkie najpopularniejsze rozwiązania.
 
 \subsubsection{Wyniki Resolve dla TransientSingleton}
 \begin{table}[H]
@@ -1921,7 +1921,7 @@ DryIoc & 58 & 70 & 58 \\ \hline
 \caption{Wyniki testów dla 1 powtórzenia dla operacji TransientSingleton dla Przypadku testowego C}
 \label{TestCaseC_TransientSingleton1}
 \end{table}
-Dla 1 powtórzenia najlepiej radzą sobie Autofac, NiquIoCPartial i Windsor. Pozostałe rozwiązania zanotowały czasy od kilku, do kilkunastu razy większe. Najsłabiej poradziły sobie LightInject oraz DryIoc.
+Dla 1 powtórzenia najlepiej radzą sobie \textbf{Autofac}, \textbf{NiquIoCPartial} i \textbf{Windsor}. Pozostałe rozwiązania zanotowały czasy od kilku, do kilkunastu razy większe. Najsłabiej poradziły sobie \textbf{LightInject} oraz \textbf{DryIoc}.
 \\ \\
 \begin{table}[H]
 \captionsetup{belowskip=0pt,aboveskip=0pt}
@@ -1948,7 +1948,7 @@ Ninject & 199 & 231 & 203 \\ \hline
 \caption{Wyniki testów dla 10 powtórzeń dla operacji TransientSingleton dla Przypadku testowego C}
 \label{TestCaseC_TransientSingleton10}
 \end{table}
-Gdy mamy 10 powtórzeń zarówno NiquIoCFull jak i wszystkie najszybsze rozwiązania nie zanotowały wzrostu czasów. NiquIoCPartial, Unity oraz StructureMap zanotowały wzrost około 2-krotny, a Autofac, Windsor oraz Ninject około 10-krotny. Mimo że dla LightInject i DryIoC czasy nie wzrosły, to i tak dla tylu powtórzeń osiągnęły one jedne z najwyższych wyników.
+Gdy mamy 10 powtórzeń zarówno \textbf{NiquIoCFull} jak i wszystkie najszybsze rozwiązania nie zanotowały wzrostu czasów. \textbf{NiquIoCPartial}, \textbf{Unity} oraz \textbf{StructureMap} zanotowały wzrost około 2-krotny, a \textbf{Autofac}, \textbf{Windsor} oraz \textbf{Ninject} około 10-krotny. Mimo że dla \textbf{LightInject} i \textbf{DryIoC} czasy nie wzrosły, to i tak dla tylu powtórzeń osiągnęły one jedne z najwyższych wyników.
 \\ \\
 \begin{table}[H]
 \captionsetup{belowskip=0pt,aboveskip=0pt}
@@ -1975,7 +1975,7 @@ Ninject & 1903 & 2364 & 1951 \\ \hline
 \caption{Wyniki testów dla 100 powtórzeń dla operacji TransientSingleton dla Przypadku testowego C}
 \label{TestCaseC_TransientSingleton100}
 \end{table}
-Przy 100 powtórzeniach wzrost czasów wygląda identycznie jak dla testu Transient - NiquIoCFull oraz najszybsze rozwiązania mają niewielki, a pozostałe rozwiązania kilkukrotny. LightInject i DryIoC tym razem zanotowały czasy lepsze niż wszystkie najpopularniejsze rozwiążania, ale wciąż słabsze niż NiquIoCPartial.
+Przy 100 powtórzeniach wzrost czasów wygląda identycznie jak dla testu \textbf{Transient} - \textbf{NiquIoCFull} oraz najszybsze rozwiązania mają niewielki, a pozostałe rozwiązania kilkukrotny. \textbf{LightInject} i \textbf{DryIoC} tym razem zanotowały czasy lepsze niż wszystkie najpopularniejsze rozwiążania, ale wciąż słabsze niż \textbf{NiquIoCPartial}.
 \\ \\
 \begin{table}[H]
 \captionsetup{belowskip=0pt,aboveskip=0pt}
@@ -2002,7 +2002,7 @@ Ninject & 19137 & 22595 & 19626 \\ \hline
 \caption{Wyniki testów dla 1000 powtórzeń dla operacji TransientSingleton dla Przypadku testowego C}
 \label{TestCaseC_TransientSingleton1000}
 \end{table}
-Dla 1000 powtórzeń najmniejszy czas zanotował NiquIoCFull, a dalej wszystkie najszybsze rozwiązania. NiquIoCPartial dla tego przypadku testowego również znalazł się za wszystkimi najszybszymi rozwiązaniami oraz przed wszystkimi najpopularniejszymi rozwiązaniami.
+Dla 1000 powtórzeń najmniejszy czas zanotował \textbf{NiquIoCFull}, a dalej wszystkie najszybsze rozwiązania. \textbf{NiquIoCPartial} dla tego przypadku testowego również znalazł się za wszystkimi najszybszymi rozwiązaniami oraz przed wszystkimi najpopularniejszymi rozwiązaniami.
 
 \subsubsection{Wyniki Resolve dla PerThread}
 \begin{table}[H]
@@ -2030,7 +2030,7 @@ LightInject & 525 & 556 & 529 \\ \hline
 \caption{Wyniki testów dla 1 powtórzenia dla operacji PerThread dla Przypadku testowego C}
 \label{TestCaseC_PerThread1}
 \end{table}
-Dla tego przypadku testowego wyniki są podobne jak w poprzednich przypadkach testowych - najlepiej poradziły sobie Autofac i Windsor, następnie dwa rozwiązania zaprezentowane w tej pracy, a dalej pozostałe rozwiązania. Najsłabsze czasy uzyskały DryIoc oraz LightInject, które nie radzą sobie z rejestracją PerThread.
+Dla tego przypadku testowego wyniki są podobne jak w poprzednich przypadkach testowych - najlepiej poradziły sobie \textbf{Autofac} i \textbf{Windsor}, następnie dwa rozwiązania zaprezentowane w tej pracy, a dalej pozostałe rozwiązania. Najsłabsze czasy uzyskały \textbf{DryIoc} oraz \textbf{LightInject}, które nie radzą sobie z rejestracją \textbf{PerThread}.
 \\ \\
 \begin{table}[H]
 \captionsetup{belowskip=0pt,aboveskip=0pt}
@@ -2085,7 +2085,7 @@ Ninject & 26 & 28 & 27 \\ \hline
 \caption{Wyniki testów dla 1 powtórzenia dla operacji FactoryMethod dla Przypadku testowego C}
 \label{TestCaseC_FactoryMethod1}
 \end{table}
-Gdy mamy 1 powtórzenie najlepiej radzą sobie NiquIoCPartial, NiquIoCFull oraz najszybsze rozwiązania. Najpopularniejsze rozwiązania zanotowały czasy trochę (Autofac, Windsor, Unity) lub dużo (StructureMap, Ninject) słabsze.
+Gdy mamy 1 powtórzenie najlepiej radzą sobie \textbf{NiquIoCPartial}, \textbf{NiquIoCFull} oraz najszybsze rozwiązania. Najpopularniejsze rozwiązania zanotowały czasy trochę (\textbf{Autofac}, \textbf{Windsor}, \textbf{Unity}) lub dużo (\textbf{StructureMap}, \textbf{Ninject}) słabsze.
 \\ \\
 \begin{table}[H]
 \captionsetup{belowskip=0pt,aboveskip=0pt}
@@ -2139,7 +2139,7 @@ Ninject & 2110 & 2474 & 2152 \\ \hline
 \caption{Wyniki testów dla 100 powtórzeń dla operacji FactoryMethod dla Przypadku testowego C}
 \label{TestCaseC_FactoryMethod100}
 \end{table}
-Gdy mamy 100 powtórzeń wyraźnie wyższe czasy osiągnęły najpopularniejsze rozwiązania. Najniższe czasy zanotowały DryIoC oraz LightInject, a pozostałe rozwiązania (Grace, NiquIoCFull, SimpleInjector i NiquIoCPartial) uzyskały podobne wyniki.
+Gdy mamy 100 powtórzeń wyraźnie wyższe czasy osiągnęły najpopularniejsze rozwiązania. Najniższe czasy zanotowały \textbf{DryIoC} oraz \textbf{LightInject}, a pozostałe rozwiązania (\textbf{Grace}, \textbf{NiquIoCFull}, \textbf{SimpleInjector} i \textbf{NiquIoCPartial}) uzyskały podobne wyniki.
 \\ \\
 \begin{table}[H]
 \captionsetup{belowskip=0pt,aboveskip=0pt}
@@ -2166,12 +2166,12 @@ Ninject & 22141 & 23030 & 22398 \\ \hline
 \caption{Wyniki testów dla 1000 powtórzeń dla operacji FactoryMethod dla Przypadku testowego C}
 \label{TestCaseC_FactoryMethod1000}
 \end{table}
-Przy 1000 powtórzeniach wszystkie rozwiązania zanotowały liniowy, około 10-krotny wzrost. Jednakże najmniejszy przyrost czasu zanotował LightInject i to on osiągnął najlepszy czas.
+Przy 1000 powtórzeniach wszystkie rozwiązania zanotowały liniowy, około 10-krotny wzrost. Jednakże najmniejszy przyrost czasu zanotował \textbf{LightInject} i to on osiągnął najlepszy czas.
 
 
 \subsection{Przypadek testowy D}
 \subsubsection{Opis}
-Podobnie jak przypadek testowy B jest analogiczny z przypadkiem A, tak ten przypadek, jest zbliżony do przypadku C. Mamy tutaj tyle samo poziomów, co dla C, ale na każdym poziomie (poza pierwszym) obiektów jest dwa razy więcej. Zatem w tym teście mamy zdefiniowanych 51 typów. Tutaj konstruktor bezparametrowy ma 10 typów, a pozostałe 41 ma konstruktor z dziesięcioma parametrami. Typ główny to "TestD" i przyjmuje on w konstruktorze 10 obiektów, kolejno następujących typów: "TestD40", "TestD41", "TestD42", "TestD43", "TestD44", "TestD45", "TestD46", "TestD47", "TestD48", "TestD49". Jest więc to sytuacja niemal identyczna jak dla poprzedniego przypadku. Dla pozostałych typów jest podobnie i każdy z nich w konstruktorze przyjmuje 10 obiektów o typach z pierwszą cyfrą o 1 mniejszą (obiekty typów od "TestD40" do "TestD49", przyjmują w konstruktorze obiekty typów od "TestD30" do "TestD39" itd.). Ostatnie 10 typów, czyli typy od "TestD00" do "TestD09", mają konstruktor bezparametrowy. Graf zależności dla tego przypadku testowego został przedstawiony na Rys. \ref{fig:testD}.\\
+Podobnie jak przypadek testowy B jest analogiczny z przypadkiem A, tak ten przypadek, jest zbliżony do przypadku C. Mamy tutaj tyle samo poziomów, co dla C, ale na każdym poziomie (poza pierwszym) obiektów jest dwa razy więcej. Zatem w tym teście mamy zdefiniowanych 51 typów. Tutaj konstruktor bezparametrowy ma 10 typów, a pozostałe 41 ma konstruktor z dziesięcioma parametrami. Typ główny to \textbf{TestD} i przyjmuje on w konstruktorze 10 obiektów, kolejno następujących typów: \textbf{TestD40}, \textbf{TestD41}, \textbf{TestD42}, \textbf{TestD43}, \textbf{TestD44}, \textbf{TestD45}, \textbf{TestD46}, \textbf{TestD47}, \textbf{TestD48}, \textbf{TestD49}. Jest więc to sytuacja niemal identyczna jak dla poprzedniego przypadku. Dla pozostałych typów jest podobnie i każdy z nich w konstruktorze przyjmuje 10 obiektów o typach z pierwszą cyfrą o 1 mniejszą (obiekty typów od \textbf{TestD40} do \textbf{TestD49}, przyjmują w konstruktorze obiekty typów od \textbf{TestD30} do \textbf{TestD39} itd.). Ostatnie 10 typów, czyli typy od \textbf{TestD00} do \textbf{TestD09}, mają konstruktor bezparametrowy. Graf zależności dla tego przypadku testowego został przedstawiony na Rys. \ref{fig:testD}.\\
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics[width=\linewidth]{TestD.png}
@@ -2182,14 +2182,14 @@ Podobnie jak przypadek testowy B jest analogiczny z przypadkiem A, tak ten przyp
 
 Łatwo wywnioskować, że tworząc obiekty poszczególnych typów liczba tworzonych obiektów rośnie ponad dziesięciokrotnie:
 \begin{itemize}
-	\item typy od TestD00 do TestD09 - 1 obiekt,
-	\item typy od TestD10 do TestD19 - 11 obiektów (obiekt danego typu plus 10 obiektów typów od TestD00 do TestD09),
-	\item typy od TestD20 do TestD29 - 111 obiektów (obiekt danego typu plus 10 obiektów typów od TestD10 do TestD19),
-	\item typy od TestD30 do TestD39 - 1 111 obiektów,
-	\item typy od TestD40 do TestD49 - 11 111 obiektów,
-	\item TestD - 111 111 obiektów.
+	\item typy od \textbf{TestD00} do \textbf{TestD09} - 1 obiekt,
+	\item typy od \textbf{TestD10} do \textbf{TestD19} - 11 obiektów (obiekt danego typu plus 10 obiektów typów od \textbf{TestD00} do \textbf{TestD09}),
+	\item typy od \textbf{TestD20} do \textbf{TestD29} - 111 obiektów (obiekt danego typu plus 10 obiektów typów od \textbf{TestD10} do \textbf{TestD19}),
+	\item typy od \textbf{TestD30} do \textbf{TestD39} - 1 111 obiektów,
+	\item typy od \textbf{TestD40} do \textbf{TestD49} - 11 111 obiektów,
+	\item \textbf{TestD} - 111 111 obiektów.
 \end{itemize}
-Zatem tworząc obiekt typu TestD, tworzymy: 1 obiekt typu TestD, 10 obiektów typów od TestD40 do TestD49, 100 obiektów typów od TestD30 do TestD39, 1 000 obiektów typów od TestD20 do TestD29, 10 000 obiektów typów od TestD10 do TestD19, 100 000 obiektów typów od TestD00 do TestD09 - co daje w sumie 111 111 obiektów.
+Zatem tworząc obiekt typu \textbf{TestD}, tworzymy: 1 obiekt typu \textbf{TestD}, 10 obiektów typów od \textbf{TestD40} do \textbf{TestD49}, 100 obiektów typów od \textbf{TestD30} do \textbf{TestD39}, 1 000 obiektów typów od \textbf{TestD20} do \textbf{TestD29}, 10 000 obiektów typów od \textbf{TestD10} do \textbf{TestD19}, 100 000 obiektów typów od \textbf{TestD00} do \textbf{TestD09} - co daje w sumie 111 111 obiektów.
 
 \subsubsection{Wyniki Resolve dla Singleton}
 \begin{table}[H]
@@ -2217,7 +2217,7 @@ Unity & 52 & 53 & 52 \\ \hline
 \caption{Wyniki testów dla 1 powtórzenia dla operacji Singleton dla Przypadku testowego D}
 \label{TestCaseD_Singleton1}
 \end{table}
-Dla tego testu tabela z wynikami bardzo przypomina tabelę dla przypadku testowego C, jednakże czasy są około 2-3 razy większe. Po raz kolejny dla rejestracji Singleton najlepiej radzą sobie Autofac i Windsor, a najsłabiej StructureMap i Unity.
+Dla tego testu tabela z wynikami bardzo przypomina tabelę dla przypadku testowego C, jednakże czasy są około 2-3 razy większe. Po raz kolejny dla rejestracji \textbf{Singleton} najlepiej radzą sobie \textbf{Autofac} i \textbf{Windsor}, a najsłabiej \textbf{StructureMap} i \textbf{Unity}.
 \\ \\
 \begin{table}[H]
 \captionsetup{belowskip=0pt,aboveskip=0pt}
@@ -2272,7 +2272,7 @@ Grace & 1413 & 1472 & 1426 \\ \hline
 \caption{Wyniki testów dla 1 powtórzenia dla operacji Transient dla Przypadku testowego D}
 \label{TestCaseD_Transient1}
 \end{table}
-Test dla tego przypadku testowego pokazał dużo większe różnice czasów niż dla poprzednich przypadków testowych. Dla 1 powtórzenia wyraźniej najlepszy czas zanotował NiquIoCPartial, który osiągnął czas o rząd wielkości niższy niż kolejne rozwiązanie. Średnie czasy zanotowały StructureMap, Autofac, Unity oraz Windsor. Pozostałe rozwiązania razem z NiquIoCFull osiągnęły bardzo duże wyniki.
+Test dla tego przypadku testowego pokazał dużo większe różnice czasów niż dla poprzednich przypadków testowych. Dla 1 powtórzenia wyraźniej najlepszy czas zanotował \textbf{NiquIoCPartial}, który osiągnął czas o rząd wielkości niższy niż kolejne rozwiązanie. Średnie czasy zanotowały \textbf{StructureMap}, \textbf{Autofac}, \textbf{Unity} oraz \textbf{Windsor}. Pozostałe rozwiązania razem z \textbf{NiquIoCFull} osiągnęły bardzo duże wyniki.
 \\ \\
 \begin{table}[H]
 \captionsetup{belowskip=0pt,aboveskip=0pt}
@@ -2299,7 +2299,7 @@ Ninject & 10072 & 11599 & 10307 \\ \hline
 \caption{Wyniki testów dla 10 powtórzeń dla operacji Transient dla Przypadku testowego D}
 \label{TestCaseD_Transient10}
 \end{table}
-Wzrost liczby powtórzeń do 10 pokazał, że zarówno NiquIoCFull jak i prawie wszystkie najszybsze rozwiązania zanotowały niewielki wzrost. Wyjątkiem jest tutaj DryIoC, który osiągnął 10-krotny przyrost czasu. Jednakże bardzo duże wyniki już dla 1 powtórzenia spowodowały, że z najszybszy rozwiązań jedynie SimpleInjector ma nieduży czas. NiquIoCPartial pomimo 9-krotnego wzrostu czasu osiągnął drugi z najlepszych wyników. Wszystkie najpopularniejsze rozwiązania zanotowały wzrost około 10-krotny.
+Wzrost liczby powtórzeń do 10 pokazał, że zarówno \textbf{NiquIoCFull} jak i prawie wszystkie najszybsze rozwiązania zanotowały niewielki wzrost. Wyjątkiem jest tutaj \textbf{DryIoC}, który osiągnął 10-krotny przyrost czasu. Jednakże bardzo duże wyniki już dla 1 powtórzenia spowodowały, że z najszybszy rozwiązań jedynie \textbf{SimpleInjector} ma nieduży czas. \textbf{NiquIoCPartial} pomimo 9-krotnego wzrostu czasu osiągnął drugi z najlepszych wyników. Wszystkie najpopularniejsze rozwiązania zanotowały wzrost około 10-krotny.
 
 \subsubsection{Wyniki Resolve dla TransientSingleton}
 \begin{table}[H]
@@ -2327,7 +2327,7 @@ LightInject & 1285 & 1358 & 1310 \\ \hline
 \caption{Wyniki testów dla 1 powtórzenia dla operacji TransientSingleton dla Przypadku testowego D}
 \label{TestCaseD_TransientSingleton}
 \end{table}
-Dla tego testu ponownie dla 1 powtórzenia najmniejszy czas osiągnął NiquIoCPartial. Z pozostałych rozwiązań, to jedynie Grace, Ninject, DryIoC i LightInject zanotowały bardzo duże wyniki.
+Dla tego testu ponownie dla 1 powtórzenia najmniejszy czas osiągnął \textbf{NiquIoCPartial}. Z pozostałych rozwiązań, to jedynie \textbf{Grace}, \textbf{Ninject}, \textbf{DryIoC} i \textbf{LightInject} zanotowały bardzo duże wyniki.
 \\ \\
 \begin{table}[H]
 \captionsetup{belowskip=0pt,aboveskip=0pt}
@@ -2354,7 +2354,7 @@ Ninject & 4732 & 5620 & 4818 \\ \hline
 \caption{Wyniki testów dla 10 powtórzeń dla operacji TransientSingleton dla Przypadku testowego D}
 \label{TestCaseD_TransientSingleton10}
 \end{table}
-Gdy liczba operacji wzrosła do 10, to jak można się było spodziewać - NiquIoCPartial zanotował około 5-krotny wzrost, a najpopularniejsze rozwiązania zanotowały około 10-krotny wzrost. NiquIoCFull oraz najszybsze rozwiązania osiągnęły czasy zbliżone do czasów dla 1 powtórzenia. Najmniejszy czas uzyskał SimpleInjector, a trochę większe rezultaty zanotowały NiquIoCPartial, NiquIoCFull i StructureMap. Pozostałe rozwiązania osiągnęły zauważalnie większe czasy - od kilku do nawet kilkunastu razy.
+Gdy liczba operacji wzrosła do 10, to jak można się było spodziewać - \textbf{NiquIoCPartial} zanotował około 5-krotny wzrost, a najpopularniejsze rozwiązania zanotowały około 10-krotny wzrost. \textbf{NiquIoCFull} oraz najszybsze rozwiązania osiągnęły czasy zbliżone do czasów dla 1 powtórzenia. Najmniejszy czas uzyskał \textbf{SimpleInjector}, a trochę większe rezultaty zanotowały \textbf{NiquIoCPartial}, \textbf{NiquIoCFull} i \textbf{StructureMap}. Pozostałe rozwiązania osiągnęły zauważalnie większe czasy - od kilku do nawet kilkunastu razy.
 
 \subsubsection{Wyniki Resolve dla PerThread}
 \begin{table}[H]
@@ -2382,7 +2382,7 @@ LightInject & 762748 & 795038 & 773697 \\ \hline
 \caption{Wyniki testów dla 1 powtórzenia dla operacji PerThread dla Przypadku testowego D}
 \label{TestCaseD_PerThread1}
 \end{table}
-Wyniki dla tego testu są podobne jak w pozostałych przypadkach testowych. Jedynym wyjątkiem jest LightInject, który najwyraźniej nie poradził sobie z tak dużo liczbą obiektów dla tego typu rejestracji i zanotował czas o 5 rzędów wielkości większy, niż rozwiązania z najmniejszymi czasami - Autofac, Windsor i NiquIoCPartial.
+Wyniki dla tego testu są podobne jak w pozostałych przypadkach testowych. Jedynym wyjątkiem jest \textbf{LightInject}, który najwyraźniej nie poradził sobie z tak dużo liczbą obiektów dla tego typu rejestracji i zanotował czas o 5 rzędów wielkości większy, niż rozwiązania z najmniejszymi czasami - \textbf{Autofac}, \textbf{Windsor} i \textbf{NiquIoCPartial}.
 \\ \\
 \begin{table}[H]
 \captionsetup{belowskip=0pt,aboveskip=0pt}
@@ -2437,7 +2437,7 @@ Ninject & 654 & 748 & 674 \\ \hline
 \caption{Wyniki testów dla 1 powtórzenia dla operacji FactoryMethod dla Przypadku testowego D}
 \label{TestCaseB_FactoryMethod1}
 \end{table}
-NiquIoCPartial, NiquIoCFull oraz wszystkie najszybsze rozwiązania zanotowały zbliżone wyniki. Rozwiązania najpopularniejsze osiągnęły czasy od kilku, do kilkunastu razy większe. Najlepszy czas uzyskał DryIoC.
+\textbf{NiquIoCPartial}, \textbf{NiquIoCFull} oraz wszystkie najszybsze rozwiązania zanotowały zbliżone wyniki. Rozwiązania najpopularniejsze osiągnęły czasy od kilku, do kilkunastu razy większe. Najlepszy czas uzyskał \textbf{DryIoC}.
 \\ \\
 \begin{table}[H]
 \captionsetup{belowskip=0pt,aboveskip=0pt}
@@ -2464,18 +2464,18 @@ Ninject & 6206 & 6515 & 6299 \\ \hline
 \caption{Wyniki testów dla 10 powtórzeń dla operacji FactoryMethod dla Przypadku testowego D}
 \label{TestCaseB_FactoryMethod10}
 \end{table}
-Wzrost liczby powtórzeń do 10 spowodował wzrost czasów dla wszystkich rozwiązań. Najmniejszy wzrost czasów zanotowały najszybsze rozwiązania, jednak wciąż był on co najmniej 6-krotny. NiquIoCPartial i NiquIoCFull podobnie jak wszystkie najpopularniejsze rozwiązania zanotowały wzrost około 10-krotny. Jednakże nieduże czasy przy 1 powtórzeniu dla rozwiązań zaprezentowanych w tej pracy spowodowały, że mimo wszystko osiągnęły one znacząco lepsze wyniki niż wszystkie najpopularniejsze rozwiązania. Najlepsze czasy uzyskały wszystkie najszybsze rozwiązania, a najmniejsze z tych czasów osiągnęły DryIoC i LightInject.
+Wzrost liczby powtórzeń do 10 spowodował wzrost czasów dla wszystkich rozwiązań. Najmniejszy wzrost czasów zanotowały najszybsze rozwiązania, jednak wciąż był on co najmniej 6-krotny. \textbf{NiquIoCPartial} i \textbf{NiquIoCFull} podobnie jak wszystkie najpopularniejsze rozwiązania zanotowały wzrost około 10-krotny. Jednakże nieduże czasy przy 1 powtórzeniu dla rozwiązań zaprezentowanych w tej pracy spowodowały, że mimo wszystko osiągnęły one znacząco lepsze wyniki niż wszystkie najpopularniejsze rozwiązania. Najlepsze czasy uzyskały wszystkie najszybsze rozwiązania, a najmniejsze z tych czasów osiągnęły \textbf{DryIoC} i \textbf{LightInject}.
 
 
 
 \clearpage
 \section{Podsumowanie}
-Zaproponowane przeze mnie rozwiązania bardzo dobrze realizują postawione we wstępie pracy cele. Dla wszystkich przypadków testowych, dla każdego z rodzaju rejestracji jedno z moich rozwiązań radziło sobie najlepiej albo niewiele odbiegało od najlepszego rozwiązania (zawsze któreś z moich rozwiązało było w pierwszej trójce, a czasami nawet oba). Możliwość mieszania użyć zaprezentowanych przeze mnie rozwiązań (w jednym projekcie można korzystać z obu rozwiązań niezależnie) sprawia, że NiquIoC jest najwydajniejszą implementacją wzorca wstrzykiwania zależności dla złożonych grafów zależności.\\ 
+Zaproponowane przeze mnie rozwiązania bardzo dobrze realizują postawione we wstępie pracy cele. Dla wszystkich przypadków testowych, dla każdego z rodzaju rejestracji jedno z moich rozwiązań radziło sobie najlepiej albo niewiele odbiegało od najlepszego rozwiązania (zawsze któreś z moich rozwiązało było w pierwszej trójce, a czasami nawet oba). Możliwość mieszania użyć zaprezentowanych przeze mnie rozwiązań (w jednym projekcie można korzystać z obu rozwiązań niezależnie) sprawia, że \textbf{NiquIoC} jest najwydajniejszą implementacją wzorca wstrzykiwania zależności dla złożonych grafów zależności.\\ 
 \\
-Dodatkowo wyniki moich testów pokazują, że rozwiązanie Ninject jest najmniej wydajne i nie zaleca się go używać przy bardzo rozbudowanych grafach. Jeśli chodzi natomiast o rozwiązania, które radzą sobie dobrze, to nie ma drugiego takiego (poza moim), które zawsze dawałoby zadowalające rezultaty. SimpleInjector dość dobrze radzi sobie dla testów Singleton, Transient i TransientSingleton, ale osiąga słabe rezultaty dla PerThread i FactoryMethod. LightInject z kolei jest rozwiązaniem, które wraz ze wzrostem liczby operacji ma najmniejszy wzrostu czasu. Jednakże w wielu przypadkach dość duże czasy dla małej liczby operacji powodują, że wyniki dla wielu operacji są bardzo duże. Takim pośrednim rozwiązaniem jest natomiast Grace. To rozwiązanie ma zarówno nieduże wzrosty czasów jak i nieduże wyniki dla małej ilości operacji, jednak mimo wszystko są one dużo słabsze niż dla NiquIoC.
+Dodatkowo wyniki moich testów pokazują, że rozwiązanie \textbf{Ninject} jest najmniej wydajne i nie zaleca się go używać przy bardzo rozbudowanych grafach. Jeśli chodzi natomiast o rozwiązania, które radzą sobie dobrze, to nie ma drugiego takiego (poza moim), które zawsze dawałoby zadowalające rezultaty. \textbf{SimpleInjector} dość dobrze radzi sobie dla testów \textbf{Singleton}, \textbf{Transient} i \textbf{TransientSingleton}, ale osiąga słabe rezultaty dla \textbf{PerThread} i \textbf{FactoryMethod}. \textbf{LightInject} z kolei jest rozwiązaniem, które wraz ze wzrostem liczby operacji ma najmniejszy wzrostu czasu. Jednakże w wielu przypadkach dość duże czasy dla małej liczby operacji powodują, że wyniki dla wielu operacji są bardzo duże. Takim pośrednim rozwiązaniem jest natomiast \textbf{Grace}. To rozwiązanie ma zarówno nieduże wzrosty czasów jak i nieduże wyniki dla małej ilości operacji, jednak mimo wszystko są one dużo słabsze niż dla \textbf{NiquIoC}.
 
 \subsection{Kontynuacja projektu}
-Zaprezentowane przeze mnie rozwiązania są bardzo wydaje, ale mają swoje ograniczenia. Jednym z nich jest między innymi konieczność rejestracji wszystkich typów. Tę funkcjonalność można by rozszerzyć, aby nie trzeba było rejestrować klas. Algorytm sam rejestrowałby klasy, gdyby okazywały się potrzebne - większość z rozwiązań dostarcza taką funkcjonalność. Kolejnym rozszerzeniem mogłoby być automatyczna rejestracja wszystkich typów z danego assembly. Osobom wykorzystującym moje rozwiązanie zaoszczędziłoby to sporo czasu na rejestrowanie wszystkich typów. Dodatkowo dodając kolejny typ do danego assembly, nie trzeba byłoby się przejmować zarejestrowaniem go. Jeszcze jednym dodatkiem wydaje się danie możliwości rejestracji wielu implementacji danego interfejsu. To jest również często spotykana funkcjonalność. Na koniec warto również wspomnieć o metodzie BuildUp dla NiquIoCFull - w mojej pracy tego zabrakło, a to również mogłoby być jednym z kolejnych rozszerzeń.
+Zaprezentowane przeze mnie rozwiązania są bardzo wydaje, ale mają swoje ograniczenia. Jednym z nich jest między innymi konieczność rejestracji wszystkich typów. Tę funkcjonalność można by rozszerzyć, aby nie trzeba było rejestrować klas. Algorytm sam rejestrowałby klasy, gdyby okazywały się potrzebne - większość z rozwiązań dostarcza taką funkcjonalność. Kolejnym rozszerzeniem mogłoby być automatyczna rejestracja wszystkich typów z danego assembly. Osobom wykorzystującym moje rozwiązanie zaoszczędziłoby to sporo czasu na rejestrowanie wszystkich typów. Dodatkowo dodając kolejny typ do danego assembly, nie trzeba byłoby się przejmować zarejestrowaniem go. Jeszcze jednym dodatkiem wydaje się danie możliwości rejestracji wielu implementacji danego interfejsu. To jest również często spotykana funkcjonalność. Na koniec warto również wspomnieć o metodzie \textbf{BuildUp} dla \textbf{NiquIoCFull} - w mojej pracy tego zabrakło, a to również mogłoby być jednym z kolejnych rozszerzeń.
 
 \newpage
 \listoffigures
