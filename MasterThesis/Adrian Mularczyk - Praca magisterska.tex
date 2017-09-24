@@ -48,7 +48,7 @@
 \author{\LARGE{Adrian Mularczyk}}
 \vspace{30pt}
 
-\huge{\textbf{Stworzenie wydajnego wzorca wstrzykiwania zależności dla złożonych grafów zależności}}
+\huge{\textbf{Implementacja wydajnego wzorca wstrzykiwania zależności dla złożonych grafów zależności}}
 \vspace{50pt}
 \end{center}
 
@@ -110,7 +110,7 @@ Data................... & & & & & & & & & Podpis autora pracy ..................
 \begin{center}
 \textbf{Streszczenie}\\
 \vspace{16pt}
-\textbf{Stworzenie wydajnego wzorca wstrzykiwania zależności dla złożonych grafów zależności}
+\textbf{Implementacja wydajnego wzorca wstrzykiwania zależności dla złożonych grafów zależności}
 \end{center}
 Wstrzykiwanie zależności jest to zbiór zasad projektowania oprogramowania, które umożliwiają luźne powiązania. Dzięki temu kod jest rozszerzalny i łatwiejszy w utrzymaniu. Celem tej pracy było stworzenie takiej realizacji, która będzie sprawdzała się dla złożonych grafów zależności. Aplikacja została napisana w środowisku .NET z wykorzystaniem przestrzeni nazw Reflecion.Emit oraz jest w pełni przetestowana. W pracy zaproponowano dwa równorzędne, niezależne podejścia, oba porównano pod kątem wydajnościowym. Porównanie obejmuje również 5 najbardziej popularnych i 4 najszybsze rozwiązania. Końcowe wyniki wykazały, że z obecnie dostępnych rozwiązań na rynku, zaprezentowane w niniejszej pracy radzi sobie najlepiej.
 
@@ -118,7 +118,7 @@ Wstrzykiwanie zależności jest to zbiór zasad projektowania oprogramowania, kt
 \begin{center}
 \textbf{Abstract}\\
 \vspace{16pt}
-\textbf{Creating an efficient dependency injection pattern for complex dependency graphs}
+\textbf{Implementing an efficient dependency injection pattern for complex dependency graphs}
 \end{center}
 Injection Dependency is a set of software design principles that allow for loose binding. This makes the code more extensible and easier to maintain. The purpose of this work was to create such an implementation that would work efficiently for complex dependency graphs. The application was written in a .NET environment using the Reflecion.Emit namespace and is fully tested. The paper proposes two equivalent, independent approaches which are compared for performance. The comparison also includes the 5 most popular and 4 fastest solutions. The final results show that from solutions available nowadays on the market, the best solutions are these presented in this paper.
 
@@ -595,10 +595,14 @@ Mamy klasę \textbf{A}, która w konstruktorze przyjmuje obiekty klas \textbf{B}
 	\end{center}
 \end{figure}
 
-Dla rozwiązania \textbf{PartialEmitFunction}, aby stworzyć obiekt klasy \textbf{A}, lista operacji IL prezentuje się następująco: \\
+Dla rozwiązania \textbf{PartialEmitFunction} algorytm zakłada, że zostały wcześniej stworzone obiekty wymagane w konstruktorze klasy \textbf{A} (w tym przypadku obiekty \textbf{B} i \textbf{C}). Delegat, w którym będzie zapisana lista niezbędnych operacji do stworzenia obiektu klasy \textbf{A} ma jeden parametr. Jest nim tablica obiektów. Dla tego przypadku wygląda ona następująco:\\
 \\
-// na stosie zostanie umieszona referencja do argumentu aktualnej funkcji, czyli do tablicy zawierającej B i C.\\
-\texttt{ldarg\_0 [B, C]}\\
+\texttt{[B, C]}\\
+\\
+Natomiast lista operacji IL prezentuje się w sposób następujący: \\
+\\
+// na stosie zostanie umieszona referencja do pierwszego argumentu aktualnej funkcji, czyli do tablicy zawierającej B i C.\\
+\texttt{ldarg\_0}\\
 \\
 // na stos zostanie dodana liczba 0.\\
 \texttt{ldc\_i4\_0}\\
@@ -609,8 +613,8 @@ Dla rozwiązania \textbf{PartialEmitFunction}, aby stworzyć obiekt klasy \textb
 // obiekt ze szczytu stosu jest rzutowany na typ B (wcześniej był typu object).\\
 \texttt{castclass typeof(B)}\\
 \\
-// na stosie zostanie umieszona referencja do argumentu aktualnej funkcji, czyli do tablicy zawierającej B i C.\\
-\texttt{ldarg\_0 [B, C]}\\
+// na stosie zostanie umieszona referencja do pierwszego argumentu aktualnej funkcji, czyli do tablicy zawierającej B i C.\\
+\texttt{ldarg\_0}\\
 \\
 // na stos zostanie dodana liczba 1.\\
 \texttt{ldc\_i4\_1}\\
@@ -628,19 +632,21 @@ Dla rozwiązania \textbf{PartialEmitFunction}, aby stworzyć obiekt klasy \textb
 \texttt{ret} \\
 \\
 \\
-Jak łatwo zauważyć, lista tych operacji zakłada, że mamy wcześniej stworzone obiekty wymagane w konstruktorze klasy \textbf{A} (w tym przypadku obiekty \textbf{B} i \textbf{C}). Te obiekty są tworzone na takiej samej zasadzie jak obiekt klasy \textbf{A}. Zatem w tym przypadku będziemy mieli 3 listy z operacjami IL - jedna dla obiektu \textbf{C}, jedna dla obiektu \textbf{B} i jedna dla obiektu \textbf{A}.\\
+Obiekty \textbf{B} i \textbf{C} są tworzone na takiej samej zasadzie jak obiekt klasy \textbf{A}. Zatem w tym przypadku będziemy mieli 3 listy z operacjami IL - jedna dla obiektu \textbf{C}, jedna dla obiektu \textbf{B} i jedna dla obiektu \textbf{A}.\\
 \\
 Niezależnie od tego jak klasy \textbf{A}, \textbf{B} i \textbf{C} zostały zarejestrowane, zawsze uzyskamy dokładnie te same 3 listy operacji.\\
+\newpage
+Dla rozwiązania \textbf{FullEmitFunction} jest to trochę bardziej rozbudowane. Delegat z listą operacji IL ma dwa parametry. Pierwszym z nich jest  słownik zawierający typ obiektu i ContainerMember dla danego obiektu, a drugim słownik zawierający hash danego obiektu ContainerMember i typ obiektu. Dla opisywanego przypadku argumenty tej funkcji wyglądają następująco:\\
 \\
+\texttt{\{ \{typeof(A), ContainerMember\}, \{typeof(B), ContainerMember\},\\
+\phantom{x} \{typeof(C), ContainerMember\} \}\\
+\{ \{1, typeof(A)\}, \{2, typeof(B)\}, \{3, typeof(C)\} \}}\\
 \\
-Dla rozwiązania \textbf{FullEmitFunction} jest to trochę bardziej rozbudowane.\\
-\\
-Jeśli wszystkie klasy zostały zarejestrowane jako \textbf{Transient}, to lista operacji jest krótka:\\
+Natomiast lista operacji IL zależy od tego jak klasy zostały zarejestrowane. Jeśli wszystkie klasy zostały zarejestrowane jako \textbf{Transient}, to lista operacji jest krótka:\\
 \\ 
 // na stosie zostanie umieszczony nowo utworzony obiekt C.\\
 \texttt{newobj .ctor C}\\
 \\
-\newpage
 // ze stosu zostanie zdjęty obiekt C i w jego miejsce pojawi się nowo utworzony obiekt B.\\
 \texttt{newobj .ctor B}\\
 \\ 
@@ -654,10 +660,10 @@ Jeśli wszystkie klasy zostały zarejestrowane jako \textbf{Transient}, to lista
 \texttt{ret}\\
 \\
 \\
-Jeśli wszystkie klasy zostały zarejestrowane jako \textbf{Singleton}, \textbf{PerThread} lub \textbf{PerHttpContext}, to lista operacji wygląda następująco:\\
+Jeśli wszystkie klasy zostały zarejestrowane jako \textbf{Singleton}, \textbf{PerThread} lub \textbf{PerHttpContext}, to lista operacji prezentuje się w sposób następujący:\\
 \\
-// na stosie zostanie umieszona referencja do argumentu aktualnej funkcji, czyli do słownika zawierającego hash danego obiektu ContainerMember i typ obiektu.\\
-\texttt{ldarg\_1 \{ \{1, typeof(A)\}, \{2, typeof(B)\}, \{3, typeof(C)\} \}}\\
+// na stosie zostanie umieszona referencja do drugiego argumentu aktualnej funkcji, czyli do słownika zawierającego hash danego obiektu ContainerMember i typ obiektu.\\
+\texttt{ldarg\_1}\\
 \\
 // na stos zostanie dodana liczba równa hashowi obiektu ContainerMember dla klasy B (w tym wypadku 2).\\
 \texttt{ldc\_i4 2}\\
@@ -666,16 +672,14 @@ Jeśli wszystkie klasy zostały zarejestrowane jako \textbf{Singleton}, \textbf{
 \texttt{call "get\_Item"}\\
 \\
 // obiekt ze szczytu stosu zostaje zapisany w zmiennej variable\_Type\\
-\texttt{stdloc variable\_Type}\\
+\texttt{stloc variable\_Type}\\
 \\
-// na stosie zostanie umieszona referencja do argumentu aktualnej funkcji, czyli do słownika zawierającego typ obiektu i ContainerMember dla danego obiektu.\\
-\texttt{ldarg\_0 \{ \{typeof(A), ContainerMember\}, \{typeof(B), ContainerMember\},\\
-\{typeof(C), ContainerMember\} \}}\\
+// na stosie zostanie umieszona referencja do drugiego argumentu aktualnej funkcji, czyli do słownika zawierającego typ obiektu i ContainerMember dla danego obiektu.\\
+\texttt{ldarg\_0}\\
 \\
 // obiekt ze zmiennej variable\_Type zostaje umieszczony na szczycie stosu\\
 \texttt{ldloc variable\_Type}\\
 \\
-\newpage
 // ze stosu zostają pobrane dwa elementy (słownik oraz typ), a następnie zostaje wywołana metoda GetItem na słowniku, której parametrem jest typ. Wynik tej operacji (obiekt ContainerMember dla typu B) zostanie umieszczony na szczycie stosu.\\
 \texttt{call "get\_Item" }\\
 \\
@@ -694,7 +698,7 @@ Jeśli wszystkie klasy zostały zarejestrowane jako \textbf{Singleton}, \textbf{
 // obiekt ze zmiennej variable\_B zostaje umieszczony na szczycie stosu\\
 \texttt{ldloc variable\_B}\\
 \\
-\texttt{ldarg\_1 \{ \{1, typeof(A)\}, \{2, typeof(B)\}, \{3, typeof(C)\} \}}\\
+\texttt{ldarg\_1}\\
 \\
 // na stos zostanie dodana liczba równa hashowi obiektu ContainerMember dla klasy C (w tym wypadku 3).\\
 \texttt{ldc\_i4 3}\\
@@ -705,12 +709,11 @@ Jeśli wszystkie klasy zostały zarejestrowane jako \textbf{Singleton}, \textbf{
 // obiekt ze szczytu stosu zostaje zapisany w zmiennej variable\_Type\\
 \texttt{stdloc variable\_Type}\\
 \\
-\texttt{ldarg\_0 \{ \{typeof(A), ContainerMember\}, \{typeof(B), ContainerMember\}, \{typeof(C), ContainerMember\}\}}\\
+\texttt{ldarg\_0}\\
 \\
 // obiekt ze zmiennej variable\_Type zostaje umieszczony na szczycie stosu\\
 \texttt{ldloc variable\_Type}\\
 \\
-\newpage
 // ze stosu zostają pobrane dwa elementy (słownik oraz typ), a następnie zostaje wywołana metoda GetItem na słowniku, której parametrem jest typ. Wynik tej operacji (obiekt ContainerMember dla typu C) zostanie umieszczony na szczycie stosu.\\
 \texttt{call "get\_Item"}\\
 \\
