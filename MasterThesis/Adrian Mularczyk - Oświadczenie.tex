@@ -80,6 +80,34 @@ Wrocław, 2016
 \pagestyle{plain}
 \textcolor{white}{  }
 \begin{center}
+\vspace{50pt}
+\textbf{\emph{Oświadczenie opiekuna pracy}}\\
+\end{center}
+Oświadczam, że niniejsza praca została przygotowana pod moim kierownictwem i stwierdzam, że spełnia ona warunki do przedstawienia jej w postępowaniu o nadanie tytułu naukowego.\\
+
+\vspace{54pt}
+
+\begin{tabular}{lccccccccr}
+Data................... & & & & & & & & & Podpis opiekuna pracy ..................................... \\
+\end{tabular}
+
+
+\vspace{150pt}
+
+\begin{center}
+\textbf{\emph{Oświadczenie autora pracy}}\\
+\end{center}
+Oświadczam, że niniejsza praca dyplomowa została napisana przeze mnie samodzielnie i nie zawiera treści uzyskanych w sposób niezgodny z obowiązującymi przepisami ani też nie była wcześniej przedmiotem procedur związanych z uzyskaniem tytułu zawodowego w wyższej uczelni.\\
+
+\vspace{54pt}
+
+\begin{tabular}{lccccccccr}
+Data................... & & & & & & & & & Podpis autora pracy ..................................... \\
+\end{tabular}
+
+
+\clearpage
+\begin{center}
 \textbf{Streszczenie}\\
 \vspace{16pt}
 \textbf{Implementacja wydajnego wzorca wstrzykiwania zależności dla złożonych grafów zależności}
@@ -245,84 +273,11 @@ Narzędzia użyte do stworzenia pracy i testów:
 Na początku chciałbym pokrótce opisać dwie rzeczy, które są istotne dla rozwiązania przedstawionego w niniejszej pracy. Pierwszą z nich jest \textbf{Common Intermediate Language}, a drugą przestrzeń nazw \textbf{Reflection.Emit}.
 
 \subsubsection{Common Intermediate Language}
-\textbf{Common Intermediate Language} - CIL (w skrócie IL) to język pośredni do którego jest kompilowany kod C\#. Język ten pozwala na komunikację między aplikacjami napisanymi na platformie .NET, a systemem operacyjnym.\\
-\\
-CIL jest językiem w całości opartym na stosie. Dodatkowo jest w nim możliwość zdefiniowania zmiennych lokalnych, a także wczytania argumentów. Dostępnymi operacjami są: pobranie wartości ze stosu, umieszczenie wartości na stosie, operacje arytmetyczne oraz wywołanie funkcji.\\
-\\
-Rys. \ref{fig:Example_Abs} przedstawią funkcję \textbf{Abs} napisaną w języku C\#, która zwraca wartość bezwzględną z danej liczby.\\ \\
-\begin{figure}[H]
-	\begin{center}
-  		\includegraphics{Example_Abs.png}
-  		\caption{Przykładowa metoda Abs}
-  		\label{fig:Example_Abs}
-	\end{center}
-\end{figure}
-Taka funkcja w języki CIL wyglądałaby następująco:\\ \\
-\texttt{.method public hidebysig instance int32  Abs(int32 x) cil managed \\
-\{ \\
-// określenie rozmiaru stosu \\
-  .maxstack  2 \\
-// zdefiniowanie zmiennych lokalnych \\
-  .locals init ([0] bool V\_0, [1] int32 V\_1) \\
-// nie rób nic - początek funkcji \\
-  IL\_0000:  nop \\
-// wczytaj pierwszy argument funkcji i umieść go na szczycie stosu \\
-  IL\_0001:  ldarg.1 \\
-// umieść 0 na szczycie stosu \\
-  IL\_0002:  ldc.i4.0 \\
-// umieść 1 na szczycie stosu, jeśli pierwsza wartość ze stosu\\
- jest większa od drugiej, umieść 0 w p.p. \\
-  IL\_0003:  clt \\
-// umieść 0 na szczycie stosu \\
-  IL\_0005:  ldc.i4.0 \\
-// umieść 1 na szczycie stosu, jeśli pierwsze dwie wartości ze stosu\\
- są równe, umieść 0 w p.p. \\
-  IL\_0006:  ceq \\
-// umieść wartość ze szczytu stosu w pierwszej zmiennej lokalnej \\
-  IL\_0008:  stloc.0 \\
-// umieść wartość z pierwszej zmiennej lokalnej na szczycie stosu \\
-  IL\_0009:  ldloc.0 \\
-// jeśli wartość na szycie stosu jest 0, idź do operacji IL\_0010 \\
-  IL\_000a:  brfalse.s  IL\_0010 \\
-// wczytaj pierwszy argument funkcji i umieść go na szczycie stosu \\
-  IL\_000c:  ldarg.1 \\
-// umieść wartość ze szczytu stosu w drugiej zmiennej lokalnej \\
-  IL\_000d:  stloc.1 \\
-// idź do operacji IL\_0015 \\
-  IL\_000e:  br.s       IL\_0015 \\
-// wczytaj pierwszy argument funkcji i umieść go na szczycie stosu \\
-  IL\_0010:  ldarg.1 \\
-// zmień znak na przeciwny wartości na szczycie stosu \\
-  IL\_0011:  neg \\
-// umieść wartość ze szczytu stosu w drugiej zmiennej lokalnej \\
-  IL\_0012:  stloc.1 \\
-// idź do operacji IL\_0015 \\
-  IL\_0013:  br.s       IL\_0015 \\
-// umieść wartość z drugiej zmiennej lokalnej na szczycie stosu \\
-  IL\_0015:  ldloc.1 \\
-// zwróć wartość ze szczytu stosu \\
-  IL\_0016:  ret \\
-\} }
+\textbf{Common Intermediate Language} - CIL (w skrócie IL) to język pośredni do którego jest kompilowany kod C\#. Język ten pozwala na komunikację między aplikacjami napisanymi na platformie .NET, a systemem operacyjnym.
 
 \subsubsection{Reflection.Emit}
-Przestrzeń nazw \textbf{Reflection.Emit} pozwala w kodzie programu, w sposób dynamiczny, na utworzenie listy operacji w języku IL, a następnie zapamiętanie ciągu tych operacji jako delegat. Za każdym razem, gdy delegat zostanie wywołany, wykona się ciąg wcześniej zdefiniowanych operacji IL.\\
-\\
-Rys. \ref{fig:Example_Emit} przedstawia funkcję, która stworzy delegata dla funkcji z rys. \ref{fig:Example_Abs}.\\ \\
-\begin{figure}[H]
-	\begin{center}
-  		\includegraphics{Example_Emit.png}
-  		\caption{Przykład stworzenia delegata dla metody Abs}
-  		\label{fig:Example_Emit}
-	\end{center}
-\end{figure}
-Przykład użycia tego delegata został przedstawiony na rys. \ref{fig:Example_Delegate}.\\ \\
-\begin{figure}[H]
-	\begin{center}
-  		\includegraphics{Example_Delegate.png}
-  		\caption{Przykład użycia delegata dla metody Abs}
-  		\label{fig:Example_Delegate}
-	\end{center}
-\end{figure}
+Przestrzeń nazw \textbf{Reflection.Emit} pozwala w kodzie programu, w sposób dynamiczny, na utworzenie listy operacji w języku IL, a następnie zapamiętanie ciągu tych operacji jako delegat. Za każdym razem, gdy delegat zostanie wywołany, wykona się ciąg wcześniej zdefiniowanych operacji IL.
+
 
 \subsection{Opis}
 Aplikacja składa się z 1 głównego projektu i 8 projektów na potrzeby testów. Rozwiązanie jest stosunkowo złożone. Aby mieć pewność, że działa w pełni dobrze, zostało stworzone ponad 1250 testów jednostkowych. Pokrycie kodu testami wynosi ponad 97\%.\\
@@ -805,9 +760,7 @@ Dla każdego z przypadków sprawdzany jest czas wykonania operacji \textbf{Resol
 	\item Register as PerThread (dla niektórych przemysłowych rozwiązań - PerScope),
 	\item Register as FactoryMethod.
 \end{itemize}
-Każdy z testów dla każdego rozwiązania był uruchamiany w osobnym procesie. Wyniki dla operacji \textbf{Register} zostały pominięte, ponieważ są one prawie zawsze mniejsze niż 1 ms. Przy operacji \textbf{Resolve} każdy test był uruchamiany 100 razy, a w wynikach zostały przedstawione następujące czasy w milisekundach: minimalny, maksymalny i średni. Dla pierwszych trzech przypadków testy były wykonywane dla: 1, 10, 100 i 1000 powtórzeń, a dla ostatniego przypadku dla: 1 i 10 powtórzeń.\\
-\\
-Rozwiązania zaprezentowane w tej pracy to \textbf{NiquIoCPartial} i \textbf{NiquIoCFull}. Wyniki w tabelach dla obu tych rozwiązań zostały pogrubione.
+Każdy z testów dla każdego rozwiązania był uruchamiany w osobnym procesie. Wyniki dla operacji \textbf{Register} zostały pominięte, ponieważ są one prawie zawsze mniejsze niż 1 ms. Przy operacji \textbf{Resolve} każdy test był uruchamiany 100 razy, a w wynikach zostały przedstawione następujące czasy w milisekundach: minimalny, maksymalny i średni. Dla pierwszych trzech przypadków testy były wykonywane dla: 1, 10, 100 i 1000 powtórzeń, a dla ostatniego przypadku dla: 1 i 10 powtórzeń.
 
 \subsubsection{Register as Singleton}
 Każdy typ jest zarejestrowany jako \textbf{Singleton}, czyli obiekt jest tworzony raz, a następnie cały czas zwracany.
@@ -863,11 +816,11 @@ Liczba & & 1 & \\ \hline
  & min & max & avg \\ \hline
 Autofac & 0 & 0 & 0 \\ \hline
 Windsor & 0 & 0 & 0 \\ \hline
-\textbf{NiquIoCPartial} & \textbf{1} & \textbf{1} & \textbf{1} \\ \hline
+NiquIoCPartial & 1 & 1 & 1 \\ \hline
 DryIoc & 2 & 2 & 2 \\ \hline
 Grace & 2 & 2 & 2 \\ \hline
 LightInject & 2 & 2 & 2 \\ \hline
-\textbf{NiquIoCFull} & \textbf{2} & \textbf{2} & \textbf{2} \\ \hline
+NiquIoCFull & 2 & 2 & 2 \\ \hline
 SimpleInjector & 2 & 2 & 2 \\ \hline
 Ninject & 3 & 3 & 3 \\ \hline
 Unity & 7 & 8 & 7 \\ \hline
@@ -892,10 +845,10 @@ Liczba & & 1000 & \\ \hline
  & min & max & avg \\ \hline
 Autofac & 0 & 0 & 0 \\ \hline
 Windsor & 0 & 0 & 0 \\ \hline
-\textbf{NiquIoCPartial} & \textbf{1} & \textbf{1} & \textbf{1} \\ \hline
+NiquIoCPartial & 1 & 1 & 1 \\ \hline
 DryIoc & 2 & 2 & 2 \\ \hline
 LightInject & 2 & 2 & 2 \\ \hline
-\textbf{NiquIoCFull} & \textbf{2} & \textbf{2} & \textbf{2} \\ \hline
+NiquIoCFull & 2 & 2 & 2 \\ \hline
 SimpleInjector & 2 & 2 & 2 \\ \hline
 Grace & 2 & 3 & 2 \\ \hline
 Ninject & 6 & 7 & 6 \\ \hline
@@ -919,9 +872,9 @@ Gdy klasa jest zarejestrowana jako \textbf{Singleton}, to wraz ze wzrostem liczb
 Liczba & & 1 & \\ \hline
  & min & max & avg \\ \hline
 Autofac & 0 & 0 & 0 \\ \hline
-\textbf{NiquIoCPartial} & \textbf{1} & \textbf{1} & \textbf{1} \\ \hline
+NiquIoCPartial & 1 & 1 & 1 \\ \hline
 Windsor & 1 & 2 & 1 \\ \hline
-\textbf{NiquIoCFull} & \textbf{8} & \textbf{9} & \textbf{8} \\ \hline
+NiquIoCFull & 8 & 9 & 8 \\ \hline
 Unity & 8 & 9 & 8 \\ \hline
 LightInject & 10 & 10 & 10 \\ \hline
 StructureMap & 10 & 10 & 10 \\ \hline
@@ -945,9 +898,9 @@ W tym wypadku najlepsze wyniki osiągnęły \textbf{Autofac}, \textbf{NiquIoCPar
     		\hline
 Liczba & & 10 & \\ \hline
  & min & max & avg \\ \hline
-\textbf{NiquIoCPartial} & \textbf{3} & \textbf{3} & \textbf{3} \\ \hline
+NiquIoCPartial & 3 & 3 & 3 \\ \hline
 Autofac & 6 & 7 & 6 \\ \hline
-\textbf{NiquIoCFull} & \textbf{8} & \textbf{9} & \textbf{8} \\ \hline
+NiquIoCFull & 8 & 9 & 8 \\ \hline
 LightInject & 10 & 10 & 10 \\ \hline
 SimpleInjector & 13 & 14 & 14 \\ \hline
 StructureMap & 13 & 14 & 14 \\ \hline
@@ -972,12 +925,12 @@ Najmniejszy czas uzyskał \textbf{NiquIoCPartial}, ale jest on niestety kilkukro
     		\hline
 Liczba & & 100 & \\ \hline
  & min & max & avg \\ \hline
-\textbf{NiquIoCFull} & \textbf{9} & \textbf{10} & \textbf{9} \\ \hline
+NiquIoCFull & 9 & 10 & 9 \\ \hline
 LightInject & 11 & 12 & 11 \\ \hline
 SimpleInjector & 15 & 15 & 15 \\ \hline
 DryIoc & 16 & 16 & 16 \\ \hline
 Grace & 18 & 19 & 18 \\ \hline
-\textbf{NiquIoCPartial} & \textbf{19} & \textbf{22} & \textbf{19} \\ \hline
+NiquIoCPartial & 19 & 22 & 19 \\ \hline
 StructureMap & 53 & 55 & 54 \\ \hline
 Autofac & 58 & 63 & 59 \\ \hline
 Unity & 88 & 91 & 88 \\ \hline
@@ -999,12 +952,12 @@ Wraz ze wzrostem liczby powtórzeń coraz słabsze wyniki osiągają \textbf{Niq
     		\hline
 Liczba & & 1000 & \\ \hline
  & min & max & avg \\ \hline
-\textbf{NiquIoCFull} & \textbf{18} & \textbf{19} & \textbf{18} \\ \hline
+NiquIoCFull & 18 & 19 & 18 \\ \hline
 LightInject & 19 & 20 & 19 \\ \hline
 SimpleInjector & 28 & 30 & 29 \\ \hline
 DryIoc & 29 & 30 & 29 \\ \hline
 Grace & 37 & 38 & 37 \\ \hline
-\textbf{NiquIoCPartial} & \textbf{171} & \textbf{198} & \textbf{173} \\ \hline
+NiquIoCPartial & 171 & 198 & 173 \\ \hline
 StructureMap & 414 & 457 & 417 \\ \hline
 Autofac & 584 & 609 & 587 \\ \hline
 Unity & 803 & 961 & 813 \\ \hline
@@ -1028,9 +981,9 @@ Test dla 1000 powtórzeń potwierdził, że czasy dla \textbf{NiquIoCPartial} or
 Liczba & & 1 & \\ \hline
  & min & max & avg \\ \hline
 Autofac & 0 & 0 & 0 \\ \hline
-\textbf{NiquIoCPartial} & \textbf{1} & \textbf{1} & \textbf{1} \\ \hline
+NiquIoCPartial & 1 & 1 & 1 \\ \hline
 Windsor & 1 & 2 & 1 \\ \hline
-\textbf{NiquIoCFull} & \textbf{5} & \textbf{6} & \textbf{5} \\ \hline
+NiquIoCFull & 5 & 6 & 5 \\ \hline
 Unity & 8 & 9 & 8 \\ \hline
 SimpleInjector & 9 & 9 & 9 \\ \hline
 Grace & 9 & 10 & 10 \\ \hline
@@ -1054,8 +1007,8 @@ Dla 1 powtórzenia najmniejsze czasy uzyskały \textbf{NiquIoCPartial} oraz najp
     		\hline
 Liczba & & 10 & \\ \hline
  & min & max & avg \\ \hline
-\textbf{NiquIoCPartial} & \textbf{2} & \textbf{3} & \textbf{2} \\ \hline
-\textbf{NiquIoCFull} & \textbf{5} & \textbf{6} & \textbf{5} \\ \hline
+NiquIoCPartial & 2 & 3 & 2 \\ \hline
+NiquIoCFull & 5 & 6 & 5 \\ \hline
 Autofac & 6 & 7 & 6 \\ \hline
 SimpleInjector & 9 & 10 & 9 \\ \hline
 Grace & 10 & 10 & 10 \\ \hline
@@ -1081,10 +1034,10 @@ Gdy jest 10 powtórzeń czasy wszystkich rozwiązań wydają się być do siebie
     		\hline
 Liczba & & 100 & \\ \hline
  & min & max & avg \\ \hline
-\textbf{NiquIoCFull} & \textbf{6} & \textbf{6} & \textbf{6} \\ \hline
+NiquIoCFull & 6 & 6 & 6 \\ \hline
 SimpleInjector & 10 & 11 & 10 \\ \hline
 Grace & 10 & 11 & 11 \\ \hline
-\textbf{NiquIoCPartial} & \textbf{14} & \textbf{15} & \textbf{14} \\ \hline
+NiquIoCPartial & 14 & 15 & 14 \\ \hline
 LightInject & 14 & 15 & 15 \\ \hline
 DryIoc & 20 & 21 & 20 \\ \hline
 StructureMap & 35 & 40 & 36 \\ \hline
@@ -1108,12 +1061,12 @@ W tym teście również gdy liczba powtórzeń wzrosła do 100, to najlepsze cza
     		\hline
 Liczba & & 1000 & \\ \hline
  & min & max & avg \\ \hline
-\textbf{NiquIoCFull} & \textbf{10} & \textbf{12} & \textbf{11} \\ \hline
+NiquIoCFull & 10 & 12 & 11 \\ \hline
 SimpleInjector & 17 & 19 & 17 \\ \hline
 Grace & 18 & 19 & 18 \\ \hline
 LightInject & 20 & 21 & 20 \\ \hline
 DryIoc & 31 & 32 & 32 \\ \hline
-\textbf{NiquIoCPartial} & \textbf{120} & \textbf{123} & \textbf{121} \\ \hline
+NiquIoCPartial & 120 & 123 & 121 \\ \hline
 StructureMap & 252 & 306 & 256 \\ \hline
 Autofac & 531 & 561 & 535 \\ \hline
 Unity & 659 & 753 & 663 \\ \hline
@@ -1138,8 +1091,8 @@ Liczba & & 1 & \\ \hline
  & min & max & avg \\ \hline
 Autofac & 0 & 0 & 0 \\ \hline
 Windsor & 0 & 0 & 0 \\ \hline
-\textbf{NiquIoCPartial} & \textbf{1} & \textbf{1} & \textbf{1} \\ \hline
-\textbf{NiquIoCFull} & \textbf{2} & \textbf{2} & \textbf{2} \\ \hline
+NiquIoCPartial & 1 & 1 & 1 \\ \hline
+NiquIoCFull & 2 & 2 & 2 \\ \hline
 Ninject & 3 & 3 & 3 \\ \hline
 Grace & 4 & 4 & 4 \\ \hline
 Unity & 7 & 8 & 7 \\ \hline
@@ -1165,8 +1118,8 @@ Liczba & & 1000 & \\ \hline
  & min & max & avg \\ \hline
 Autofac & 0 & 0 & 0 \\ \hline
 Windsor & 0 & 0 & 0 \\ \hline
-\textbf{NiquIoCPartial} & \textbf{1} & \textbf{1} & \textbf{1} \\ \hline
-\textbf{NiquIoCFull} & \textbf{2} & \textbf{2} & \textbf{2} \\ \hline
+NiquIoCPartial & 1 & 1 & 1 \\ \hline
+NiquIoCFull & 2 & 2 & 2 \\ \hline
 Grace & 4 & 4 & 4 \\ \hline
 Ninject & 6 & 7 & 6 \\ \hline
 SimpleInjector & 8 & 8 & 8 \\ \hline
@@ -1194,8 +1147,8 @@ Liczba & & 1 & \\ \hline
 Autofac & 0 & 0 & 0 \\ \hline
 DryIoc & 0 & 0 & 0 \\ \hline
 LightInject & 0 & 0 & 0 \\ \hline
-\textbf{NiquIoCPartial} & \textbf{0} & \textbf{0} & \textbf{0} \\ \hline
-\textbf{NiquIoCFull} & \textbf{0} & \textbf{0} & \textbf{0} \\ \hline
+NiquIoCPartial & 0 & 0 & 0 \\ \hline
+NiquIoCFull & 0 & 0 & 0 \\ \hline
 SimpleInjector & 1 & 1 & 1 \\ \hline
 Unity & 1 & 1 & 1 \\ \hline
 Windsor & 1 & 1 & 1 \\ \hline
@@ -1219,8 +1172,8 @@ Liczba & & 10 & \\ \hline
  & min & max & avg \\ \hline
 DryIoc & 0 & 0 & 0 \\ \hline
 LightInject & 1 & 1 & 1 \\ \hline
-\textbf{NiquIoCPartial} & \textbf{1} & \textbf{1} & \textbf{1} \\ \hline
-\textbf{NiquIoCFull} & \textbf{1} & \textbf{1} & \textbf{1} \\ \hline
+NiquIoCPartial & 1 & 1 & 1 \\ \hline
+NiquIoCFull & 1 & 1 & 1 \\ \hline
 SimpleInjector & 2 & 2 & 2 \\ \hline
 Grace & 3 & 5 & 3 \\ \hline
 Autofac & 5 & 8 & 6 \\ \hline
@@ -1246,9 +1199,9 @@ Liczba & & 100 & \\ \hline
  & min & max & avg \\ \hline
 DryIoc & 6 & 6 & 6 \\ \hline
 LightInject & 6 & 8 & 7 \\ \hline
-\textbf{NiquIoCFull} & \textbf{11} & \textbf{12} & \textbf{12} \\ \hline
+NiquIoCFull & 11 & 12 & 12 \\ \hline
 SimpleInjector & 11 & 12 & 12 \\ \hline
-\textbf{NiquIoCPartial} & \textbf{12} & \textbf{12} & \textbf{12} \\ \hline
+NiquIoCPartial & 12 & 12 & 12 \\ \hline
 Grace & 12 & 13 & 12 \\ \hline
 Autofac & 49 & 57 & 50 \\ \hline
 StructureMap & 52 & 53 & 52 \\ \hline
@@ -1275,8 +1228,8 @@ LightInject & 60 & 65 & 62 \\ \hline
 DryIoc & 63 & 65 & 64 \\ \hline
 SimpleInjector & 99 & 103 & 100 \\ \hline
 Grace & 103 & 107 & 104 \\ \hline
-\textbf{NiquIoCFull} & \textbf{113} & \textbf{115} & \textbf{114} \\ \hline
-\textbf{NiquIoCPartial} & \textbf{118} & \textbf{121} & \textbf{120} \\ \hline
+NiquIoCFull & 113 & 115 & 114 \\ \hline
+NiquIoCPartial & 118 & 121 & 120 \\ \hline
 StructureMap & 431 & 447 & 435 \\ \hline
 Autofac & 482 & 490 & 484 \\ \hline
 Windsor & 926 & 1012 & 938 \\ \hline
@@ -1331,12 +1284,12 @@ Liczba & & 1 & \\ \hline
  & min & max & avg \\ \hline
 Autofac & 0 & 0 & 0 \\ \hline
 Windsor & 0 & 0 & 0 \\ \hline
-\textbf{NiquIoCPartial} & \textbf{4} & \textbf{4} & \textbf{4} \\ \hline
+NiquIoCPartial & 4 & 4 & 4 \\ \hline
 SimpleInjector & 6 & 6 & 6 \\ \hline
 LightInject & 6 & 7 & 6 \\ \hline
 DryIoc & 8 & 8 & 8 \\ \hline
 Grace & 8 & 8 & 8 \\ \hline
-\textbf{NiquIoCFull} & \textbf{8} & \textbf{9} & \textbf{8} \\ \hline
+NiquIoCFull & 8 & 9 & 8 \\ \hline
 Ninject & 9 & 10 & 9 \\ \hline
 Unity & 23 & 24 & 23 \\ \hline
 StructureMap & 32 & 33 & 33 \\ \hline
@@ -1358,11 +1311,11 @@ Liczba & & 1000 & \\ \hline
  & min & max & avg \\ \hline
 Autofac & 0 & 0 & 0 \\ \hline
 Windsor & 0 & 0 & 0 \\ \hline
-\textbf{NiquIoCPartial} & \textbf{4} & \textbf{4} & \textbf{4} \\ \hline
+NiquIoCPartial & 4 & 4 & 4 \\ \hline
 SimpleInjector & 6 & 6 & 6 \\ \hline
 LightInject & 6 & 7 & 6 \\ \hline
 Grace & 8 & 8 & 8 \\ \hline
-\textbf{NiquIoCFull} & \textbf{8} & \textbf{8} & \textbf{8} \\ \hline
+NiquIoCFull & 8 & 8 & 8 \\ \hline
 DryIoc & 8 & 9 & 8 \\ \hline
 Ninject & 12 & 13 & 12 \\ \hline
 Unity & 24 & 25 & 24 \\ \hline
@@ -1385,9 +1338,9 @@ Podobnie jak dla przypadku testowego A, tutaj również wraz ze wzrostem liczby 
 Liczba & & 1 & \\ \hline
  & min & max & avg \\ \hline
 Autofac & 2 & 2 & 2 \\ \hline
-\textbf{NiquIoCPartial} & \textbf{5} & \textbf{5} & \textbf{5} \\ \hline
+NiquIoCPartial & 5 & 5 & 5 \\ \hline
 Windsor & 6 & 7 & 6 \\ \hline
-\textbf{NiquIoCFull} & \textbf{26} & \textbf{27} & \textbf{26} \\ \hline
+NiquIoCFull & 26 & 27 & 26 \\ \hline
 Unity & 28 & 29 & 28 \\ \hline
 LightInject & 31 & 33 & 32 \\ \hline
 StructureMap & 33 & 34 & 33 \\ \hline
@@ -1411,9 +1364,9 @@ W tym teście dla 1 powtórzenia \textbf{Autofac}, \textbf{NiquIoCPartial} oraz 
     		\hline
 Liczba & & 10 & \\ \hline
  & min & max & avg \\ \hline
-\textbf{NiquIoCPartial} & \textbf{10} & \textbf{10} & \textbf{10} \\ \hline
+NiquIoCPartial & 10 & 10 & 10 \\ \hline
 Autofac & 21 & 25 & 21 \\ \hline
-\textbf{NiquIoCFull} & \textbf{26} & \textbf{27} & \textbf{26} \\ \hline
+NiquIoCFull & 26 & 27 & 26 \\ \hline
 LightInject & 32 & 33 & 32 \\ \hline
 SimpleInjector & 40 & 42 & 41 \\ \hline
 DryIoc & 44 & 45 & 44 \\ \hline
@@ -1438,12 +1391,12 @@ Wraz ze wzrostem liczby powtórzeń wszystkie najpopularniejsze rozwiązania zan
     		\hline
 Liczba & & 100 & \\ \hline
  & min & max & avg \\ \hline
-\textbf{NiquIoCFull} & \textbf{32} & \textbf{33} & \textbf{32} \\ \hline
+NiquIoCFull & 32 & 33 & 32 \\ \hline
 LightInject & 37 & 38 & 37 \\ \hline
 SimpleInjector & 47 & 48 & 47 \\ \hline
 DryIoc & 51 & 52 & 51 \\ \hline
 Grace & 57 & 59 & 58 \\ \hline
-\textbf{NiquIoCPartial} & \textbf{59} & \textbf{79} & \textbf{61} \\ \hline
+NiquIoCPartial & 59 & 79 & 61 \\ \hline
 StructureMap & 167 & 175 & 168 \\ \hline
 Autofac & 189 & 201 & 191 \\ \hline
 Unity & 260 & 271 & 262 \\ \hline
@@ -1465,12 +1418,12 @@ Gdy liczba powtórzeń wzrosła do 100, \textbf{NiquIoCPartial} zanotował 5-kro
     		\hline
 Liczba & & 1000 & \\ \hline
  & min & max & avg \\ \hline
-\textbf{NiquIoCFull} & \textbf{66} & \textbf{68} & \textbf{66} \\ \hline
+NiquIoCFull & 66 & 68 & 66 \\ \hline
 LightInject & 70 & 73 & 71 \\ \hline
 SimpleInjector & 95 & 97 & 96 \\ \hline
 DryIoc & 97 & 100 & 98 \\ \hline
 Grace & 122 & 128 & 124 \\ \hline
-\textbf{NiquIoCPartial} & \textbf{543} & \textbf{633} & \textbf{550} \\ \hline
+NiquIoCPartial & 543 & 633 & 550 \\ \hline
 StructureMap & 1333 & 1565 & 1346 \\ \hline
 Autofac & 1890 & 2044 & 1903 \\ \hline
 Unity & 2355 & 2419 & 2366 \\ \hline
@@ -1495,8 +1448,8 @@ Liczba & & 1 & \\ \hline
  & min & max & avg \\ \hline
 Autofac & 1 & 2 & 1 \\ \hline
 Windsor & 3 & 5 & 3 \\ \hline
-\textbf{NiquIoCPartial} & \textbf{4} & \textbf{5} & \textbf{5} \\ \hline
-\textbf{NiquIoCFull} & \textbf{16} & \textbf{16} & \textbf{16} \\ \hline
+NiquIoCPartial & 4 & 5 & 5 \\ \hline
+NiquIoCFull & 16 & 16 & 16 \\ \hline
 Unity & 27 & 28 & 27 \\ \hline
 SimpleInjector & 28 & 28 & 28 \\ \hline
 Ninject & 29 & 34 & 30 \\ \hline
@@ -1520,8 +1473,8 @@ Wyniki dla tego testu są zbliżone do wyników dla \textbf{Transient}. Dla 1 po
     		\hline
 Liczba & & 10 & \\ \hline
  & min & max & avg \\ \hline
-\textbf{NiquIoCPartial} & \textbf{8} & \textbf{9} & \textbf{8} \\ \hline
-\textbf{NiquIoCFull} & \textbf{16} & \textbf{17} & \textbf{16} \\ \hline
+NiquIoCPartial & 8 & 9 & 8 \\ \hline
+NiquIoCFull & 16 & 17 & 16 \\ \hline
 Autofac & 18 & 20 & 18 \\ \hline
 SimpleInjector & 28 & 29 & 28 \\ \hline
 Grace & 31 & 32 & 31 \\ \hline
@@ -1547,10 +1500,10 @@ Dla 10 powtórzeń zarówno \textbf{NiquIoCPartial} jak i \textbf{NiquIoCFull} o
     		\hline
 Liczba & & 100 & \\ \hline
  & min & max & avg \\ \hline
-\textbf{NiquIoCFull} & \textbf{18} & \textbf{19} & \textbf{18} \\ \hline
+NiquIoCFull & 18 & 19 & 18 \\ \hline
 SimpleInjector & 32 & 34 & 32 \\ \hline
 Grace & 35 & 37 & 35 \\ \hline
-\textbf{NiquIoCPartial} & \textbf{41} & \textbf{57} & \textbf{42} \\ \hline
+NiquIoCPartial & 41 & 57 & 42 \\ \hline
 LightInject & 51 & 53 & 51 \\ \hline
 DryIoc & 64 & 65 & 64 \\ \hline
 StructureMap & 112 & 123 & 113 \\ \hline
@@ -1574,12 +1527,12 @@ Gdy liczba powtórzeń wzrosła do 100, \textbf{NiquIocFull} oraz najszybsze roz
     		\hline
 Liczba & & 1000 & \\ \hline
  & min & max & avg \\ \hline
-\textbf{NiquIoCFull} & \textbf{37} & \textbf{39} & \textbf{38} \\ \hline
+NiquIoCFull & 37 & 39 & 38 \\ \hline
 SimpleInjector & 61 & 62 & 61 \\ \hline
 Grace & 69 & 72 & 69 \\ \hline
 LightInject & 80 & 82 & 80 \\ \hline
 DryIoc & 108 & 110 & 109 \\ \hline
-\textbf{NiquIoCPartial} & \textbf{365} & \textbf{406} & \textbf{368} \\ \hline
+NiquIoCPartial & 365 & 406 & 368 \\ \hline
 StructureMap & 797 & 915 & 805 \\ \hline
 Autofac & 1698 & 1832 & 1709 \\ \hline
 Unity & 2016 & 2305 & 2032 \\ \hline
@@ -1604,8 +1557,8 @@ Liczba & & 1 & \\ \hline
  & min & max & avg \\ \hline
 Autofac & 0 & 0 & 0 \\ \hline
 Windsor & 0 & 0 & 0 \\ \hline
-\textbf{NiquIoCPartial} & \textbf{4} & \textbf{5} & \textbf{4} \\ \hline
-\textbf{NiquIoCFull} & \textbf{8} & \textbf{8} & \textbf{8} \\ \hline
+NiquIoCPartial & 4 & 5 & 4 \\ \hline
+NiquIoCFull & 8 & 8 & 8 \\ \hline
 Ninject & 9 & 10 & 9 \\ \hline
 Grace & 13 & 13 & 13 \\ \hline
 SimpleInjector & 23 & 23 & 23 \\ \hline
@@ -1633,8 +1586,8 @@ Liczba & & 1000 & \\ \hline
  & min & max & avg \\ \hline
 Autofac & 0 & 0 & 0 \\ \hline
 Windsor & 0 & 0 & 0 \\ \hline
-\textbf{NiquIoCPartial} & \textbf{4} & \textbf{5} & \textbf{4} \\ \hline
-\textbf{NiquIoCFull} & \textbf{8} & \textbf{8} & \textbf{8} \\ \hline
+NiquIoCPartial & 4 & 5 & 4 \\ \hline
+NiquIoCFull & 8 & 8 & 8 \\ \hline
 Ninject & 12 & 13 & 13 \\ \hline
 Grace & 13 & 14 & 13 \\ \hline
 SimpleInjector & 23 & 24 & 23 \\ \hline
@@ -1660,8 +1613,8 @@ Gdy liczba powtórzeń wzrosła do 1000 żadne z rozwiązań nie zanotowało wzr
 Liczba & & 1 & \\ \hline
  & min & max & avg \\ \hline
 DryIoc & 0 & 0 & 0 \\ \hline
-\textbf{NiquIoCPartial} & \textbf{0} & \textbf{0} & \textbf{0} \\ \hline
-\textbf{NiquIoCFull} & \textbf{0} & \textbf{0} & \textbf{0} \\ \hline
+NiquIoCPartial & 0 & 0 & 0 \\ \hline
+NiquIoCFull & 0 & 0 & 0 \\ \hline
 Autofac & 1 & 1 & 1 \\ \hline
 LightInject & 2 & 4 & 2 \\ \hline
 SimpleInjector & 4 & 4 & 4 \\ \hline
@@ -1687,9 +1640,9 @@ Dla 1 powtórzenia wszystkie rozwiązania za wyjątkiem \textbf{Ninject} i \text
 Liczba & & 10 & \\ \hline
  & min & max & avg \\ \hline
 DryIoc & 1 & 2 & 1 \\ \hline
-\textbf{NiquIoCFull} & \textbf{3} & \textbf{4} & \textbf{3} \\ \hline
+NiquIoCFull & 3 & 4 & 3 \\ \hline
 LightInject & 4 & 4 & 4 \\ \hline
-\textbf{NiquIoCPartial} & \textbf{4} & \textbf{4} & \textbf{4} \\ \hline
+NiquIoCPartial & 4 & 4 & 4 \\ \hline
 SimpleInjector & 7 & 7 & 7 \\ \hline
 Grace & 10 & 10 & 10 \\ \hline
 Autofac & 16 & 17 & 16 \\ \hline
@@ -1715,9 +1668,9 @@ Liczba & & 100 & \\ \hline
  & min & max & avg \\ \hline
 DryIoc & 19 & 19 & 19 \\ \hline
 LightInject & 21 & 22 & 21 \\ \hline
-\textbf{NiquIoCFull} & \textbf{35} & \textbf{37} & \textbf{35} \\ \hline
+NiquIoCFull & 35 & 37 & 35 \\ \hline
 SimpleInjector & 35 & 37 & 36 \\ \hline
-\textbf{NiquIoCPartial} & \textbf{37} & \textbf{39} & \textbf{38} \\ \hline
+NiquIoCPartial & 37 & 39 & 38 \\ \hline
 Grace & 38 & 39 & 39 \\ \hline
 Autofac & 154 & 156 & 155 \\ \hline
 StructureMap & 159 & 162 & 160 \\ \hline
@@ -1744,8 +1697,8 @@ LightInject & 180 & 186 & 182 \\ \hline
 DryIoc & 185 & 188 & 186 \\ \hline
 SimpleInjector & 305 & 311 & 308 \\ \hline
 Grace & 312 & 319 & 315 \\ \hline
-\textbf{NiquIoCFull} & \textbf{344} & \textbf{373} & \textbf{353} \\ \hline
-\textbf{NiquIoCPartial} & \textbf{364} & \textbf{373} & \textbf{368} \\ \hline
+NiquIoCFull & 344 & 373 & 353 \\ \hline
+NiquIoCPartial & 364 & 373 & 368 \\ \hline
 StructureMap & 1347 & 1385 & 1359 \\ \hline
 Autofac & 1545 & 1573 & 1550 \\ \hline
 Windsor & 2939 & 3226 & 2971 \\ \hline
@@ -1793,12 +1746,12 @@ Liczba & & 1 & \\ \hline
  & min & max & avg \\ \hline
 Autofac & 0 & 0 & 0 \\ \hline
 Windsor & 0 & 0 & 0 \\ \hline
-\textbf{NiquIoCPartial} & \textbf{3} & \textbf{3} & \textbf{3} \\ \hline
+NiquIoCPartial & 3 & 3 & 3 \\ \hline
 LightInject & 4 & 4 & 4 \\ \hline
 SimpleInjector & 4 & 4 & 4 \\ \hline
 DryIoc & 5 & 5 & 5 \\ \hline
 Grace & 5 & 5 & 5 \\ \hline
-\textbf{NiquIoCFull} & \textbf{5} & \textbf{5} & \textbf{5} \\ \hline
+NiquIoCFull & 5 & 5 & 5 \\ \hline
 Ninject & 6 & 6 & 6 \\ \hline
 Unity & 15 & 16 & 15 \\ \hline
 StructureMap & 22 & 23 & 22 \\ \hline
@@ -1820,12 +1773,12 @@ Liczba & & 1000 & \\ \hline
  & min & max & avg \\ \hline
 Autofac & 0 & 0 & 0 \\ \hline
 Windsor & 0 & 0 & 0 \\ \hline
-\textbf{NiquIoCPartial} & \textbf{3} & \textbf{3} & \textbf{3} \\ \hline
+NiquIoCPartial & 3 & 3 & 3 \\ \hline
 LightInject & 4 & 4 & 4 \\ \hline
 SimpleInjector & 4 & 4 & 4 \\ \hline
 DryIoc & 5 & 5 & 5 \\ \hline
 Grace & 5 & 5 & 5 \\ \hline
-\textbf{NiquIoCFull} & \textbf{5} & \textbf{5} & \textbf{5} \\ \hline
+NiquIoCFull & 5 & 5 & 5 \\ \hline
 Ninject & 9 & 10 & 9 \\ \hline
 Unity & 16 & 17 & 16 \\ \hline
 StructureMap & 23 & 24 & 23 \\ \hline
@@ -1847,11 +1800,11 @@ Dla tego przypadku testowego sytuacja dla tego testu wygląda identycznie jak dl
 Liczba & & 1 & \\ \hline
  & min & max & avg \\ \hline
 Autofac & 2 & 2 & 2 \\ \hline
-\textbf{NiquIoCPartial} & \textbf{3} & \textbf{4} & \textbf{4} \\ \hline
+NiquIoCPartial & 3 & 4 & 4 \\ \hline
 Windsor & 7 & 8 & 7 \\ \hline
 Unity & 18 & 19 & 19 \\ \hline
 StructureMap & 26 & 27 & 26 \\ \hline
-\textbf{NiquIoCFull} & \textbf{31} & \textbf{33} & \textbf{31} \\ \hline
+NiquIoCFull & 31 & 33 & 31 \\ \hline
 LightInject & 36 & 37 & 36 \\ \hline
 DryIoc & 39 & 41 & 39 \\ \hline
 Ninject & 38 & 42 & 39 \\ \hline
@@ -1873,9 +1826,9 @@ Dla 1 powtórzenia najlepsze wyniki osiągają najpopularniejsze rozwiązania or
     		\hline
 Liczba & & 10 & \\ \hline
  & min & max & avg \\ \hline
-\textbf{NiquIoCPartial} & \textbf{10} & \textbf{11} & \textbf{10 }\\ \hline
+NiquIoCPartial & 10 & 11 & 10 \\ \hline
 Autofac & 23 & 25 & 24 \\ \hline
-\textbf{NiquIoCFull} & \textbf{31} & \textbf{33} & \textbf{32} \\ \hline
+NiquIoCFull & 31 & 33 & 32 \\ \hline
 LightInject & 36 & 39 & 37 \\ \hline
 DryIoc & 40 & 41 & 40 \\ \hline
 StructureMap & 40 & 42 & 40 \\ \hline
@@ -1900,12 +1853,12 @@ Tym razem również wszystkie najpopularniejsze rozwiązania zanotowały około 
     		\hline
 Liczba & & 100 & \\ \hline
  & min & max & avg \\ \hline
-\textbf{NiquIoCFull} & \textbf{38} & \textbf{41} & \textbf{38} \\ \hline
+NiquIoCFull & 38 & 41 & 38 \\ \hline
 LightInject & 43 & 49 & 44 \\ \hline
 DryIoc & 47 & 48 & 47 \\ \hline
 SimpleInjector & 49 & 51 & 49 \\ \hline
 Grace & 73 & 74 & 73 \\ \hline
-\textbf{NiquIoCPartial} & \textbf{72} & \textbf{80} & \textbf{74} \\ \hline
+NiquIoCPartial & 72 & 80 & 74 \\ \hline
 StructureMap & 178 & 207 & 181 \\ \hline
 Autofac & 229 & 250 & 231 \\ \hline
 Unity & 315 & 369 & 318 \\ \hline
@@ -1927,12 +1880,12 @@ Pomimo że ten przypadek testowy znacząco różni się od poprzednich dwóch, t
     		\hline
 Liczba & & 1000 & \\ \hline
  & min & max & avg \\ \hline
-\textbf{NiquIoCFull} & \textbf{81} & \textbf{83} & \textbf{82} \\ \hline
+NiquIoCFull & 81 & 83 & 82 \\ \hline
 LightInject & 86 & 88 & 86 \\ \hline
 DryIoc & 98 & 100 & 99 \\ \hline
 SimpleInjector & 115 & 117 & 116 \\ \hline
 Grace & 153 & 163 & 155 \\ \hline
-\textbf{NiquIoCPartial} & \textbf{683} & \textbf{781} & \textbf{690} \\ \hline
+NiquIoCPartial & 683 & 781 & 690 \\ \hline
 StructureMap & 1520 & 1810 & 1540 \\ \hline
 Autofac & 2274 & 2419 & 2288 \\ \hline
 Unity & 2995 & 3359 & 3015 \\ \hline
@@ -1956,9 +1909,9 @@ Tendencja wzrostów się utrzymała i \textbf{NiquIoCFull} osiągnął lepsze wy
 Liczba & & 1 & \\ \hline
  & min & max & avg \\ \hline
 Autofac & 1 & 2 & 2 \\ \hline
-\textbf{NiquIoCPartial} & \textbf{3} & \textbf{3} & \textbf{3} \\ \hline
+NiquIoCPartial & 3 & 3 & 3 \\ \hline
 Windsor & 3 & 3 & 3 \\ \hline
-\textbf{NiquIoCFull} & \textbf{12} & \textbf{13} & \textbf{12} \\ \hline
+NiquIoCFull & 12 & 13 & 12 \\ \hline
 Unity & 18 & 18 & 18 \\ \hline
 SimpleInjector & 21 & 22 & 21 \\ \hline
 StructureMap & 23 & 23 & 23 \\ \hline
@@ -1982,8 +1935,8 @@ Dla 1 powtórzenia najlepiej radzą sobie \textbf{Autofac}, \textbf{NiquIoCParti
     		\hline
 Liczba & & 10 & \\ \hline
  & min & max & avg \\ \hline
-\textbf{NiquIoCPartial} & \textbf{6} & \textbf{7} & \textbf{6} \\ \hline
-\textbf{NiquIoCFull} & \textbf{12} & \textbf{13} & \textbf{12} \\ \hline
+NiquIoCPartial & 6 & 7 & 6 \\ \hline
+NiquIoCFull & 12 & 13 & 12 \\ \hline
 Autofac & 19 & 20 & 20 \\ \hline
 SimpleInjector & 21 & 22 & 21 \\ \hline
 Grace & 23 & 24 & 23 \\ \hline
@@ -2009,10 +1962,10 @@ Gdy jest 10 powtórzeń zarówno \textbf{NiquIoCFull} jak i wszystkie najszybsze
     		\hline
 Liczba & & 100 & \\ \hline
  & min & max & avg \\ \hline
-\textbf{NiquIoCFull} & \textbf{13} & \textbf{14} & \textbf{14} \\ \hline
+NiquIoCFull & 13 & 14 & 14 \\ \hline
 SimpleInjector & 23 & 24 & 24 \\ \hline
 Grace & 25 & 26 & 25 \\ \hline
-\textbf{NiquIoCPartial} & \textbf{38} & \textbf{46} & \textbf{39} \\ \hline
+NiquIoCPartial & 38 & 46 & 39 \\ \hline
 LightInject & 55 & 57 & 56 \\ \hline
 DryIoc & 65 & 68 & 65 \\ \hline
 StructureMap & 80 & 84 & 80 \\ \hline
@@ -2036,12 +1989,12 @@ Przy 100 powtórzeniach wzrost czasów wygląda identycznie jak dla testu \textb
     		\hline
 Liczba & & 1000 & \\ \hline
  & min & max & avg \\ \hline
-\textbf{NiquIoCFull} & \textbf{25} & \textbf{26} & \textbf{25} \\ \hline
+NiquIoCFull & 25 & 26 & 25 \\ \hline
 Grace & 44 & 45 & 44 \\ \hline
 SimpleInjector & 44 & 45 & 44 \\ \hline
 LightInject & 82 & 85 & 83 \\ \hline
 DryIoc & 105 & 107 & 106 \\ \hline
-\textbf{NiquIoCPartial} & \textbf{347} & \textbf{359} & \textbf{349} \\ \hline
+NiquIoCPartial & 347 & 359 & 349 \\ \hline
 StructureMap & 549 & 593 & 553 \\ \hline
 Autofac & 1810 & 1898 & 1831 \\ \hline
 Unity & 2258 & 2428 & 2272 \\ \hline
@@ -2066,8 +2019,8 @@ Liczba & & 1 & \\ \hline
  & min & max & avg \\ \hline
 Autofac & 0 & 0 & 0 \\ \hline
 Windsor & 0 & 0 & 0 \\ \hline
-\textbf{NiquIoCPartial} & \textbf{3} & \textbf{3} & \textbf{3} \\ \hline
-\textbf{NiquIoCFull} & \textbf{5} & \textbf{5} & \textbf{5} \\ \hline
+NiquIoCPartial & 3 & 3 & 3 \\ \hline
+NiquIoCFull & 5 & 5 & 5 \\ \hline
 Ninject & 6 & 7 & 6 \\ \hline
 Grace & 8 & 9 & 8 \\ \hline
 Unity & 15 & 16 & 15 \\ \hline
@@ -2093,8 +2046,8 @@ Liczba & & 1000 & \\ \hline
  & min & max & avg \\ \hline
 Autofac & 0 & 0 & 0 \\ \hline
 Windsor & 0 & 0 & 0 \\ \hline
-\textbf{NiquIoCPartial} & \textbf{3} & \textbf{3} & \textbf{3} \\ \hline
-\textbf{NiquIoCFull} & \textbf{5} & \textbf{5} & \textbf{5} \\ \hline
+NiquIoCPartial & 3 & 3 & 3 \\ \hline
+NiquIoCFull & 5 & 5 & 5 \\ \hline
 Grace & 8 & 9 & 8 \\ \hline
 Ninject & 9 & 10 & 9 \\ \hline
 Unity & 16 & 17 & 16 \\ \hline
@@ -2120,8 +2073,8 @@ Test dla 1000 powtórzeń pokazał, że dla żadnego rozwiązania (dla tego test
 Liczba & & 1 & \\ \hline
  & min & max & avg \\ \hline
 DryIoc & 0 & 0 & 0 \\ \hline
-\textbf{NiquIoCPartial} & \textbf{0} & \textbf{0} & \textbf{0} \\ \hline
-\textbf{NiquIoCFull} & \textbf{0} & \textbf{0} & \textbf{0} \\ \hline
+NiquIoCPartial & 0 & 0 & 0 \\ \hline
+NiquIoCFull & 0 & 0 & 0 \\ \hline
 Autofac & 2 & 2 & 2 \\ \hline
 LightInject & 2 & 2 & 2 \\ \hline
 SimpleInjector & 3 & 4 & 3 \\ \hline
@@ -2147,9 +2100,9 @@ Gdy jest 1 powtórzenie najlepiej radzą sobie \textbf{NiquIoCPartial}, \textbf{
 Liczba & & 10 & \\ \hline
  & min & max & avg \\ \hline
 DryIoc & 2 & 2 & 2 \\ \hline
-\textbf{NiquIoCFull} & \textbf{4} & \textbf{4} & \textbf{4} \\ \hline
+NiquIoCFull & 4 & 4 & 4 \\ \hline
 LightInject & 4 & 5 & 4 \\ \hline
-\textbf{NiquIoCPartial} & \textbf{5} & \textbf{5} & \textbf{5} \\ \hline
+NiquIoCPartial & 5 & 5 & 5 \\ \hline
 SimpleInjector & 7 & 7 & 7 \\ \hline
 Grace & 9 & 9 & 9 \\ \hline
 Autofac & 19 & 21 & 19 \\ \hline
@@ -2176,9 +2129,9 @@ Liczba & & 100 & \\ \hline
 DryIoc & 24 & 25 & 24 \\ \hline
 LightInject & 24 & 27 & 25 \\ \hline
 Grace & 42 & 44 & 42 \\ \hline
-\textbf{NiquIoCFull} & \textbf{42} & \textbf{45} & \textbf{43} \\ \hline
+NiquIoCFull & 42 & 45 & 43 \\ \hline
 SimpleInjector & 43 & 45 & 44 \\ \hline
-\textbf{NiquIoCPartial} & \textbf{45} & \textbf{47} & \textbf{46} \\ \hline
+NiquIoCPartial & 45 & 47 & 46 \\ \hline
 StructureMap & 177 & 198 & 180 \\ \hline
 Autofac & 186 & 197 & 189 \\ \hline
 Windsor & 366 & 378 & 369 \\ \hline
@@ -2204,8 +2157,8 @@ LightInject & 215 & 223 & 218 \\ \hline
 DryIoc & 232 & 236 & 234 \\ \hline
 Grace & 357 & 369 & 361 \\ \hline
 SimpleInjector & 380 & 389 & 385 \\ \hline
-\textbf{NiquIoCFull} & \textbf{419} & \textbf{440} & \textbf{424} \\ \hline
-\textbf{NiquIoCPartial} & \textbf{446} & \textbf{479} & \textbf{451} \\ \hline
+NiquIoCFull & 419 & 440 & 424 \\ \hline
+NiquIoCPartial & 446 & 479 & 451 \\ \hline
 StructureMap & 1594 & 1748 & 1623 \\ \hline
 Autofac & 1867 & 1979 & 1880 \\ \hline
 Windsor & 3650 & 4077 & 3721 \\ \hline
@@ -2253,12 +2206,12 @@ Liczba & & 1 & \\ \hline
  & min & max & avg \\ \hline
 Autofac & 0 & 0 & 0 \\ \hline
 Windsor & 0 & 0 & 0 \\ \hline
-\textbf{NiquIoCPartial} & \textbf{8} & \textbf{9} & \textbf{9} \\ \hline
+NiquIoCPartial & 8 & 9 & 9 \\ \hline
 DryIoc & 10 & 10 & 10 \\ \hline
 SimpleInjector & 11 & 12 & 11 \\ \hline
 LightInject & 14 & 14 & 14 \\ \hline
 Grace & 16 & 17 & 16 \\ \hline
-\textbf{NiquIoCFull} & \textbf{18} & \textbf{19} & \textbf{18} \\ \hline
+NiquIoCFull & 18 & 19 & 18 \\ \hline
 Ninject & 21 & 22 & 21 \\ \hline
 StructureMap & 49 & 50 & 49 \\ \hline
 Unity & 52 & 53 & 52 \\ \hline
@@ -2280,12 +2233,12 @@ Liczba & & 10 & \\ \hline
  & min & max & avg \\ \hline
 Autofac & 0 & 0 & 0 \\ \hline
 Windsor & 0 & 0 & 0 \\ \hline
-\textbf{NiquIoCPartial} & \textbf{8} & \textbf{9} & \textbf{8} \\ \hline
+NiquIoCPartial & 8 & 9 & 8 \\ \hline
 DryIoc & 10 & 10 & 10 \\ \hline
 SimpleInjector & 11 & 12 & 11 \\ \hline
 LightInject & 14 & 15 & 14 \\ \hline
 Grace & 16 & 17 & 16 \\ \hline
-\textbf{NiquIoCFull} & \textbf{18} & \textbf{19} & \textbf{18} \\ \hline
+NiquIoCFull & 18 & 19 & 18 \\ \hline
 Ninject & 21 & 22 & 21 \\ \hline
 StructureMap & 49 & 50 & 49 \\ \hline
 Unity & 52 & 54 & 52 \\ \hline
@@ -2306,13 +2259,13 @@ Jak można się było spodziewać, tym razem również wzrost liczby powtórzeń
     		\hline
 Liczba & & 1 & \\ \hline
  & min & max & avg \\ \hline
-\textbf{NiquIoCPartial} & \textbf{36} & \textbf{38} & \textbf{37} \\ \hline
+NiquIoCPartial & 36 & 38 & 37 \\ \hline
 StructureMap & 102 & 110 & 103 \\ \hline
 Autofac & 136 & 160 & 147 \\ \hline
 Unity & 150 & 200 & 152 \\ \hline
 SimpleInjector & 177 & 179 & 178 \\ \hline
 Windsor & 177 & 261 & 182 \\ \hline
-\textbf{NiquIoCFull} & \textbf{566} & \textbf{576} & \textbf{569} \\ \hline
+NiquIoCFull & 566 & 576 & 569 \\ \hline
 LightInject & 797 & 831 & 812 \\ \hline
 DryIoc & 979 & 996 & 982 \\ \hline
 Ninject & 1016 & 1179 & 1039 \\ \hline
@@ -2334,9 +2287,9 @@ Test dla tego przypadku testowego pokazał dużo większe różnice czasów niż
 Liczba & & 10 & \\ \hline
  & min & max & avg \\ \hline
 SimpleInjector & 205 & 212 & 206 \\ \hline
-\textbf{NiquIoCPartial} & \textbf{285} & \textbf{291} & \textbf{287} \\ \hline
+NiquIoCPartial & 285 & 291 & 287 \\ \hline
 StructureMap & 586 & 603 & 591 \\ \hline
-\textbf{NiquIoCFull} & \textbf{619} & \textbf{661} & \textbf{631} \\ \hline
+NiquIoCFull & 619 & 661 & 631 \\ \hline
 LightInject & 841 & 878 & 853 \\ \hline
 DryIoc & 1013 & 1025 & 1015 \\ \hline
 Unity & 1073 & 1183 & 1080 \\ \hline
@@ -2361,13 +2314,13 @@ Wzrost liczby powtórzeń do 10 pokazał, że zarówno \textbf{NiquIoCFull} jak 
     		\hline
 Liczba & & 1 & \\ \hline
  & min & max & avg \\ \hline
-\textbf{NiquIoCPartial} & \textbf{17} & \textbf{18} & \textbf{17} \\ \hline
+NiquIoCPartial & 17 & 18 & 17 \\ \hline
 StructureMap & 60 & 69 & 61 \\ \hline
 Autofac & 77 & 84 & 78 \\ \hline
 SimpleInjector & 85 & 87 & 86 \\ \hline
 Windsor & 85 & 102 & 87 \\ \hline
 Unity & 115 & 140 & 116 \\ \hline
-\textbf{NiquIoCFull} & \textbf{144} & \textbf{151} & \textbf{145} \\ \hline
+NiquIoCFull & 144 & 151 & 145 \\ \hline
 Grace & 374 & 386 & 376 \\ \hline
 Ninject & 503 & 572 & 511 \\ \hline
 DryIoc & 905 & 922 & 910 \\ \hline
@@ -2389,8 +2342,8 @@ Dla tego testu ponownie dla 1 powtórzenia najmniejszy czas osiągnął \textbf{
 Liczba & & 10 & \\ \hline
  & min & max & avg \\ \hline
 SimpleInjector & 91 & 93 & 91 \\ \hline
-\textbf{NiquIoCPartial} & \textbf{100} & \textbf{104} & \textbf{101} \\ \hline
-\textbf{NiquIoCFull} & \textbf{151} & \textbf{159} & \textbf{152} \\ \hline
+NiquIoCPartial & 100 & 104 & 101 \\ \hline
+NiquIoCFull & 151 & 159 & 152 \\ \hline
 StructureMap & 165 & 173 & 167 \\ \hline
 Grace & 381 & 396 & 383 \\ \hline
 Unity & 683 & 771 & 689 \\ \hline
@@ -2418,8 +2371,8 @@ Liczba & & 1 & \\ \hline
  & min & max & avg \\ \hline
 Autofac & 0 & 0 & 0 \\ \hline
 Windsor & 0 & 0 & 0 \\ \hline
-\textbf{NiquIoCPartial} & \textbf{8} & \textbf{9} & \textbf{9} \\ \hline
-\textbf{NiquIoCFull} & \textbf{18} & \textbf{18} & \textbf{18} \\ \hline
+NiquIoCPartial & 8 & 9 & 9 \\ \hline
+NiquIoCFull & 18 & 18 & 18 \\ \hline
 Ninject & 21 & 22 & 21 \\ \hline
 Grace & 28 & 28 & 28 \\ \hline
 SimpleInjector & 46 & 48 & 46 \\ \hline
@@ -2445,8 +2398,8 @@ Liczba & & 10 & \\ \hline
  & min & max & avg \\ \hline
 Autofac & 0 & 0 & 0 \\ \hline
 Windsor & 0 & 0 & 0 \\ \hline
-\textbf{NiquIoCPartial} & \textbf{8} & \textbf{10} & \textbf{9} \\ \hline
-\textbf{NiquIoCFull} & \textbf{18} & \textbf{18} & \textbf{18} \\ \hline
+NiquIoCPartial & 8 & 10 & 9 \\ \hline
+NiquIoCFull & 18 & 18 & 18 \\ \hline
 Ninject & 21 & 22 & 21 \\ \hline
 Grace & 28 & 28 & 28 \\ \hline
 SimpleInjector & 46 & 48 & 46 \\ \hline
@@ -2473,9 +2426,9 @@ Liczba & & 1 & \\ \hline
  & min & max & avg \\ \hline
 DryIoc & 9 & 10 & 10 \\ \hline
 LightInject & 12 & 13 & 12 \\ \hline
-\textbf{NiquIoCPartial} & \textbf{15} & \textbf{17} & \textbf{15} \\ \hline
+NiquIoCPartial & 15 & 17 & 15 \\ \hline
 SimpleInjector & 20 & 20 & 20 \\ \hline
-\textbf{NiquIoCFull} & \textbf{20} & \textbf{21} & \textbf{20} \\ \hline
+NiquIoCFull & 20 & 21 & 20 \\ \hline
 Grace & 24 & 25 & 24 \\ \hline
 Autofac & 67 & 80 & 68 \\ \hline
 StructureMap & 90 & 93 & 91 \\ \hline
@@ -2502,8 +2455,8 @@ DryIoc & 78 & 81 & 79 \\ \hline
 LightInject & 79 & 83 & 80 \\ \hline
 SimpleInjector & 128 & 131 & 129 \\ \hline
 Grace & 127 & 149 & 130 \\ \hline
-\textbf{NiquIoCPartial} & \textbf{164} & \textbf{170} & \textbf{166} \\ \hline
-\textbf{NiquIoCFull} & \textbf{185} & \textbf{191} & \textbf{188} \\ \hline
+NiquIoCPartial & 164 & 170 & 166 \\ \hline
+NiquIoCFull & 185 & 191 & 188 \\ \hline
 StructureMap & 592 & 610 & 597 \\ \hline
 Autofac & 671 & 799 & 685 \\ \hline
 Windsor & 1227 & 1284 & 1238 \\ \hline
@@ -2534,10 +2487,10 @@ Zaprezentowane rozwiązania są bardzo wydaje, ale mają swoje ograniczenia. Jed
 
 \newpage
 \begin{thebibliography}{authordate1}
-\bibitem{csharp} Ian Griffiths, Matthew Adams, Jesse Liberty, C\#. Programowanie, Wydanie VI, Helion, 2012
-\bibitem{dependency_injection} Mark Seemann, Dependency Injection in .NET, Manning, 2012
-\bibitem{emit} Serge Lidin, Expert .NET 2.0 IL Assembler, Apress, 2006
-\bibitem{clean_code} Robert C. Martin, Czysty kod. Podręcznik dobrego programisty, Helion, 2014
+\bibitem{csharp} Ian Griffiths, Matthew Adams, Jesse Liberty, C\#. Programowanie. Wydanie VI, 2012
+\bibitem{dependency_injection} Mark Seemann, Dependency Injection in .NET, 2012
+\bibitem{emit} Serge Lidin, Expert .NET 2.0 IL Assembler, 2006
+\bibitem{clean_code} Robert C. Martin, Czysty kod. Podręcznik dobrego programisty, 2014
 \bibitem{SOLID} https://en.wikipedia.org/wiki/SOLID\_(object-oriented\_design)
 \end{thebibliography}
 
