@@ -125,7 +125,7 @@ Na przestrzeni lat powstało bardzo dużo projektów. Część z nich była łat
 Niniejsza praca w dużej mierze skupia się na rozwiązaniu dla zasady DIP - Dependency inversion principle. 
 
 \subsubsection{Przykład dla zasady DIP}
-Rysunek \ref{fig:Solid_without} przedstawia przykład przed zastosowaniem zasady DIP.\\
+Rys. \ref{fig:Solid_without} przedstawia przykładową klasę bez zastosowania zasady DIP.\\
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics{Solid_without.png}
@@ -133,7 +133,7 @@ Rysunek \ref{fig:Solid_without} przedstawia przykład przed zastosowaniem zasady
   		\label{fig:Solid_without}
 	\end{center}
 \end{figure}
-Rysunek \ref{fig:Solid_with} przedstawia przykład po zastosowaniu zasady DIP.\\
+Rys. \ref{fig:Solid_with} przedstawia tę samą klasę po zastosowaniu zasady DIP.\\
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics{Solid_with.png}
@@ -152,7 +152,7 @@ Aby łatwiej zastosować zasadę DIP można wesprzeć się tzw. kontenerem wstrz
 Kontenery dostarczają nam kilku funkcjonalności. Jedną z nich jest oczywiście możliwość zdefiniowania tego jakiej instancję jakiej klasy należy zwrócić w miejsce konkretnego interfejsu. Drugą, również ważną funkcjonalnością, jest tworzenie (na podstawie przechowywanego mapowania) instancji obiektów konkretnej klasy lub implementujących określony interfejs. Niektóre kontenery dostarczają również mechanizmy pozwalające rozszerzyć tworzenie nowych instancji o elementy programowania aspektowego.
 
 \subsubsection{Przykład}
-Załóżmy, że mamy klasy \textbf{A} i \textbf{B}, zdefiniowane jak na Rys. \ref{fig:Example_Container}. \\ \\
+Załóżmy, że mamy dwie klasy: \textbf{A} i \textbf{B}, zdefiniowane jak na Rys. \ref{fig:Example_Container}. \\ \\
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics{Example_Container.png}
@@ -160,24 +160,25 @@ Załóżmy, że mamy klasy \textbf{A} i \textbf{B}, zdefiniowane jak na Rys. \re
   		\label{fig:Example_Container}
 	\end{center}
 \end{figure}
-Rejestracja tych klas w kontenerze wyglądała następująco: \\
+Rejestracja tych klas w kontenerze wygląda następująco: \\
 \\
 \texttt{container.Register<A>();\\
 container.Register<B>();}\\
 \\
-Obiekty tych klas przy pomocy kontenera tworzone są w następujący sposób: \\
+Obiekty tych klas (przy pomocy kontenera) można uzyskać w następujący sposób: \\
 \\
 \texttt{container.Resolve<B>();\\
 container.Resolve<A>();}\\
 \\
-Stworzenie obiektu klasy \textbf{B} przy pomocy operacji \textbf{Resolve} jest proste, ponieważ ta klasa nie ma żadnych zależności. Dla obiektu klasy \textbf{A} ta operacja nie jest już tak prosta, ponieważ wymaga przejrzenia struktury kodu i odkrycia, że do wygenerowania obiektu klasy \textbf{A} wymagany jest obiekty klasy \textbf{B}.\\
-\\Operacja \textbf{Resolve} może się jeszcze bardziej skomplikować, gdy dodamy politykę czasu życia. Jeśli klasę \textbf{B} zarejestrujemy jako singleton:\\
+Stworzenie obiektu klasy \textbf{B} przy pomocy operacji \textbf{Resolve} jest proste, ponieważ ta klasa nie ma żadnych zależności. Dla obiektu klasy \textbf{A} ta operacja jest już bardziej skomplikowana, ponieważ wymaga przejrzenia struktury kodu i odkrycia, że do wygenerowania obiektu klasy \textbf{A} wymagany jest obiekty klasy \textbf{B}.\\
+\\
+Operacja \textbf{Resolve} może się jeszcze bardziej skomplikować, gdy zostanie dodana polityka czasu życia. Jeśli klasa \textbf{B} zostanie zarejestrowana jako singleton:\\
 \\
 \texttt{container.Register<B>(new SharedLifetimePolicy());}\\
 \\
 To każdy nowo tworzony obiekty klasy \textbf{A} powinien otrzymać w konstruktorze dokładnie ten sam obiekt klasy \textbf{B}.\\
 \\
-Operacja \textbf{Register} zaczyna się robić praktyczna gdy dla klasy \textbf{B} dodamy abstrakcję: \\
+Operacja \textbf{Register} zaczyna się robić praktyczna, gdy dla klasy \textbf{B} dodamy abstrakcję: \\
 \\
 \texttt{container.Register<IB, B>(new SharedLifetimePolicy());}\\
 \\
@@ -235,7 +236,9 @@ Dla tego sposobu podobnie jak dla wstrzykiwania przez metodę, to wstrzykiwanie 
 
 
 \subsection{Implementacje przemysłowe}
-Na rynku jest wiele implementacji wstrzykiwania zależności. Poniżej przedstawiono kilka najbardziej popularnych (według ilości pobrań z NuGet) oraz kilka najszybszych (według rankingu na stronie: http://www.palmmedia.de/Blog/2011/8/30/ioc-container-benchmark-performance-comparison). Dane pochodzą z dnia 21-02-2017. W nawiasie znajduje się wersja implementacji, która została użyta w testach (najnowsza na dany dzień).\\
+Na rynku jest wiele implementacji wstrzykiwania zależności. Poniżej przedstawiono kilka najbardziej popularnych (według ilości pobrań z NuGet) oraz kilka najszybszych (według rankingu na blogu Daniela Palme \cite{IoCBenchmark}).\\
+\\
+Dane pochodzą z dnia 21-02-2017. W nawiasie znajduje się wersja implementacji, która została użyta w testach (najnowsza na dany dzień).\\
 \\
 Najbardziej popularne:
 \begin{itemize}
@@ -259,6 +262,7 @@ Najszybsze:
 \section{Implementacja}
 Kod źródłowy programu jest dostępnym w repozytorium pod adresem:\\
 \url{https://github.com/amularczyk/NiquIoC}\\
+\\
 Znajduje się tam również kod programu, który posłużył do wykonania testów wydajnościowych, a także niniejsza praca napisana w języku LateX. Dodatkowo załączone są wszystkie obrazki zawarte w niniejszej pracy.
 
 \subsection{Środowisko pracy}
@@ -346,7 +350,7 @@ Taka funkcja w języki CIL wyglądałaby następująco:\\ \\
 \subsubsection{Reflection.Emit}
 Przestrzeń nazw \textbf{Reflection.Emit} pozwala w kodzie programu, w sposób dynamiczny, na utworzenie listy operacji w języku IL, a następnie zapamiętanie ciągu tych operacji jako delegat. Za każdym razem, gdy delegat zostanie wywołany, wykona się ciąg wcześniej zdefiniowanych operacji IL.\\
 \\
-Rys. \ref{fig:Example_Emit} przedstawia funkcję, która stworzy delegata dla funkcji z rys. \ref{fig:Example_Abs}.\\ \\
+Rys. \ref{fig:Example_Emit} przedstawia funkcję, która stworzy delegata dla funkcji z Rys. \ref{fig:Example_Abs}.\\ \\
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics{Example_Emit.png}
@@ -354,7 +358,7 @@ Rys. \ref{fig:Example_Emit} przedstawia funkcję, która stworzy delegata dla fu
   		\label{fig:Example_Emit}
 	\end{center}
 \end{figure}
-Przykład użycia tego delegata został przedstawiony na rys. \ref{fig:Example_Delegate}.\\ \\
+Przykład użycia tego delegata został przedstawiony na Rys. \ref{fig:Example_Delegate}.\\ \\
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics{Example_Delegate.png}
@@ -406,7 +410,7 @@ W pierwszej i drugiej metodzie interfejsu \textbf{IContainerRegister} można zar
 \\
 W rozwiązaniu przedstawionym w tej pracy każdy typ może być zarejestrowany tylko raz - ponowna rejestracja tego samego typu nadpisuje istniejącą rejestrację.\\
 \\
-Każda z tych siedmiu metod rejestracji zwraca interfejs \textbf{IContainerMember} (Rys. \ref{fig:IContainerMember}), który umożliwia zarejestrowanie danego typu z określonym menadżerem czasu życia (czyli implementacją interfejsu \textbf{IObjectLifetimeManager} - Rys. \ref{fig:IObjectLifetimeManager}). Celem takiego podejścia jest umożliwienie określenia polityki czasu życia dla nowo tworzonych instancji, ponieważ dla różnych przypadków biznesowych może istnieć potrzeba, aby obiekt danego typu miał konkretny czas życia.\\ \\
+Każda z tych siedmiu metod rejestracji zwraca interfejs \textbf{IContainerMember} (Rys. \ref{fig:IContainerMember}), który umożliwia zarejestrowanie danego typu z określonym menadżerem czasu życia (czyli implementacją interfejsu \textbf{IObjectLifetimeManager} - Rys. \ref{fig:IObjectLifetimeManager}). Celem takiego podejścia jest umożliwienie określenia polityki czasu życia dla nowo tworzonych instancji, ponieważ dla różnych przypadków biznesowych może istnieć potrzeba, aby obiekt danego typu miał konkretny czas życia.\\
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics{IContainerMember.png}
@@ -478,7 +482,7 @@ W obu rozwiązaniach do zapamiętania kroków potrzebnych do stworzenia obiektu 
 \subsubsection{Krok pierwszy}
 Na początku algorytm znajduje odpowiedni konstruktor, przy pomocy którego ma zostać stworzony nowy obiekt. Jeśli robi to po raz pierwszy dla danego typu, to informacje o tym konstruktorze zapisuje w pamięci podręcznej. Do tego celu zostaje użyta struktura danych słownik, gdzie kluczem jest typ obiektu, a wartością obiekt klasy \textbf{ContainerMember} (Rys. \ref{fig:ContainerMember}), w którym przechowujemy wszystkie zapamiętane informacje dla danego typu. Następnym krokiem jest rekurencyjne wywołanie opisywanej operacji dla wszystkich typów, których obiekty są niezbędne do stworzenia obiektu docelowego typu.\\
 \\
-W wyżej opisanej operacji jest kilka wyjątków - są nimi typy zarejestrowane jako \textbf{Instance} albo \textbf{FactoryObject}. Dla pierwszego przypadku nie istnieje potrzeba uzyskiwania informacji o tym jak stworzyć obiekt takiego typu. Taki obiekt jest już stworzony i zostaje on po prostu wykorzystany. Dla drugiego przypadku obiekt tworzony jest przy użyciu wcześniej zdefiniowanej przez użytkownika funkcji, której wywołanie spowoduje stworzenie obiektu oczekiwanego typu.
+W wyżej opisanej operacji jest kilka wyjątków - są nimi typy zarejestrowane jako \textbf{Instance} albo \textbf{FactoryObject}. Dla pierwszego przypadku nie istnieje potrzeba uzyskiwania informacji o tym jak stworzyć obiekt takiego typu. Taki obiekt jest już stworzony i zostaje on po prostu wykorzystany. Dla drugiego przypadku obiekt tworzony jest przy użyciu wcześniej zdefiniowanej przez użytkownika funkcji, której wywołanie spowoduje stworzenie obiektu oczekiwanego typu. \\ \\
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics{ContainerMember.png}
@@ -825,6 +829,18 @@ Jeśli wszystkie klasy zostały zarejestrowane jako \textbf{Singleton}, \textbf{
 \\
 Jeśli typ został zarejestrowany jako \textbf{Instance}, \textbf{FactoryObject} albo z własną implementacją interfejsu \textbf{IObjectLifetimeManager}, to lista kroków wygląda podobnie jak dla \textbf{Singleton}, z tą różnicą, że nie ma kroków z zapisywaniem obiektu do zmiennej lokalnej (w tym przypadku brak kroków 11, 12, 23 i 24).
 
+\subsection{Porównanie z istniejącymi implementacjami}
+Rozwiązanie przedstawione w tej pracy zostało zainspirowane artykułem przedstawiającym rozwiązanie \textbf{Hiro} \cite{Hiro}.\\
+\\
+Ideą \textbf{Hiro} było najpierw zbudowanie mapy wszystkich zależności, a następnie zapamiętaniu tej mapy i wykorzystaniu za każdym razem, gdy obiekt danego typu będzie tworzony. W tym rozwiązaniu nie użyto refleksji, a mapa zależności jest zapisana w dodatkowym assembly tworzonym dynamicznie.\\
+\\
+Niestety to rozwiązanie nie wyszło z fazy proof-of-concept, a aktualna wersja dostępna w repozytorium autora nie działała i od kilku lat nie jest aktualizowana, stąd brak porównania z nim.\\
+\\
+\\
+Rozwiązaniem najbardziej podobnym do rozwiązania przedstawionego w tej pracy wydaje się rozwiązanie \textbf{DryIoc}. To rozwiązanie również wykorzystuje \textbf{Reflecion.Emit}, jednakże działa ono trochę inaczej. W tym rozwiązaniu najpierw tworzone jest drzewo (\textbf{Expression}) zależności dla każdego typu, a dopiero później na jego podstawie tworzony jest delegat z wykorzystaniem \textbf{Reflecion.Emit}. W związku z tym stworzenie pierwszego obiektu zajmuje dużo więcej czasu niż w przypadku \textbf{NiquIoCFull}, ale potem stworzenie każdego kolejnego obiektu zajmuje tego czasu trochę mniej. Niestety ten narzut dla pierwszego wywołania sprawia, że nawet przy tworzeniu wiele razy tego samego obiektu \textbf{DryIoc} osiąga większe czasy niż \textbf{NiquIoCFull}. Dodatkowo dla rejestracji typu \textbf{PerThread}, to rozwiązanie nie tworzy delegata z wykorzystaniem \textbf{Reflection.Emit}. Jest to powodem dużych wyników dla testów z wykorzystaniem tego typu rejestracji.\\
+\\
+\\
+Jeśli chodzi o najwolniejsze rozwiązania, to one prawdopodobnie nie optymalizują kompozycji grafu zależności, tylko przechodzą go za każdym razem. Takie przechodzenie nie wydaje się konieczne, ponieważ tak długo jak kod nie jest rekompilowany, to struktura zależności nie ulega zmianie.
 
 
 \clearpage
@@ -2577,7 +2593,11 @@ Zaprezentowane rozwiązania są bardzo wydaje, ale mają swoje ograniczenia. Jed
 \bibitem{dependency_injection} Mark Seemann, Dependency Injection in .NET, Manning, 2012
 \bibitem{emit} Serge Lidin, Expert .NET 2.0 IL Assembler, Apress, 2006
 \bibitem{clean_code} Robert C. Martin, Czysty kod. Podręcznik dobrego programisty, Helion, 2014
-\bibitem{SOLID} https://en.wikipedia.org/wiki/SOLID\_(object-oriented\_design)
+\bibitem{SOLID} \url{https://en.wikipedia.org/wiki/SOLID_(object-oriented_design)}
+\bibitem{IoCBenchmark} Daniel Palme, IoC Container Benchmark - Performance comparison\\
+\url{http://www.palmmedia.de/Blog/2011/8/30/ioc-container-benchmark-performance-comparison}
+\bibitem{Hiro} Philip Laureano, Introducing Hiro, the World's Fastest IOC Container, Part I: Design Diary\\
+\url{https://www.codeproject.com/Articles/35345/Introducing-Hiro-the-Worlds-Fastest-IOC-Container-.aspx}
 \end{thebibliography}
 
 \end{document}
