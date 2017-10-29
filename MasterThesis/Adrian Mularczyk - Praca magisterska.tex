@@ -160,6 +160,7 @@ Załóżmy, że mamy dwie klasy: \textbf{A} i \textbf{B}, zdefiniowane jak na Ry
   		\label{fig:Example_Container}
 	\end{center}
 \end{figure}
+\clearpage
 Rejestracja tych klas w kontenerze wygląda następująco: \\
 \\
 \texttt{container.Register<A>();\\
@@ -190,7 +191,11 @@ Należy poprawić również kod klas \textbf{A} i \textbf{B} (Rys. \ref{fig:Exam
   		\label{fig:Example_Container2}
 	\end{center}
 \end{figure}
-Możliwość rejestracji implementacji jako abstrakcję jest z punktu widzenia reguły DIP najważniejsze.
+Możliwość rejestracji implementacji dla wskazanej abstrakcji jest kluczem do spełnienia postulatów reguły DIP przez kontener. Kontener otrzymuje wtedy pełną wiedzę i odpowiedzialność za koordynowanie rozwiązywania zależności. Rekonfiguracja zależności wymaga tylko i wyłącznie zmiany konfiguracji, którą zna tylko kontener.\\
+\\
+Dzięki takiemu podejściu programowanie rozległej aplikacji staje się "projektowaniem jej architektury" - określaniem miękkich zależności między klasami (przez abstrakcje) i komponowaniem ostatecznego kształtu aplikacji (wskazywaniem jak implementowane są abstrakcje) w miejscu konfiguracji kontenera.\\
+\\
+Warto dodać, że wiele kontenerów wspiera konfigurację deklaratywną (w postaci plików np. XML) co powoduje, że aplikację można przekonfigurować bez potrzeby jej kompilacji, wyłącznie przez zmianę konfiguracji (mapowania abstrakcji na implementacje) w plikach konfiguracyjnych. 
 
 
 \clearpage
@@ -301,51 +306,25 @@ Rys. \ref{fig:Example_Abs} przedstawią funkcję \textbf{Abs} napisaną w język
 	\end{center}
 \end{figure}
 Taka funkcja w języki CIL wyglądałaby następująco:\\ \\
-\texttt{.method public hidebysig instance int32  Abs(int32 x) cil managed \\
-\{ \\
-// określenie rozmiaru stosu \\
-  .maxstack  2 \\
-// zdefiniowanie zmiennych lokalnych \\
-  .locals init ([0] bool V\_0, [1] int32 V\_1) \\
-// nie rób nic - początek funkcji \\
-  IL\_0000:  nop \\
+\texttt{.method public hidebysig instance int32  Abs(int32 x) cil managed }\\
+\texttt{\{ }\\
 // wczytaj pierwszy argument funkcji i umieść go na szczycie stosu \\
-  IL\_0001:  ldarg.1 \\
+\texttt{  IL\_0000:  ldarg.1 }\\
 // umieść 0 na szczycie stosu \\
-  IL\_0002:  ldc.i4.0 \\
-// umieść 1 na szczycie stosu, jeśli pierwsza wartość ze stosu\\
- jest większa od drugiej, umieść 0 w p.p. \\
-  IL\_0003:  clt \\
-// umieść 0 na szczycie stosu \\
-  IL\_0005:  ldc.i4.0 \\
-// umieść 1 na szczycie stosu, jeśli pierwsze dwie wartości ze stosu\\
- są równe, umieść 0 w p.p. \\
-  IL\_0006:  ceq \\
-// umieść wartość ze szczytu stosu w pierwszej zmiennej lokalnej \\
-  IL\_0008:  stloc.0 \\
-// umieść wartość z pierwszej zmiennej lokalnej na szczycie stosu \\
-  IL\_0009:  ldloc.0 \\
-// jeśli wartość na szycie stosu jest 0, idź do operacji IL\_0010 \\
-  IL\_000a:  brfalse.s  IL\_0010 \\
+\texttt{  IL\_0001:  ldc.i4.0 }\\
+// jeśli pierwsza wartość na szycie stosu jest większa od drugiej, idź do operacji IL\_006 \\
+\texttt{  IL\_0002:  blt.s      IL\_0006 }\\
 // wczytaj pierwszy argument funkcji i umieść go na szczycie stosu \\
-  IL\_000c:  ldarg.1 \\
-// umieść wartość ze szczytu stosu w drugiej zmiennej lokalnej \\
-  IL\_000d:  stloc.1 \\
-// idź do operacji IL\_0015 \\
-  IL\_000e:  br.s       IL\_0015 \\
-// wczytaj pierwszy argument funkcji i umieść go na szczycie stosu \\
-  IL\_0010:  ldarg.1 \\
-// zmień znak na przeciwny wartości na szczycie stosu \\
-  IL\_0011:  neg \\
-// umieść wartość ze szczytu stosu w drugiej zmiennej lokalnej \\
-  IL\_0012:  stloc.1 \\
-// idź do operacji IL\_0015 \\
-  IL\_0013:  br.s       IL\_0015 \\
-// umieść wartość z drugiej zmiennej lokalnej na szczycie stosu \\
-  IL\_0015:  ldloc.1 \\
+\texttt{  IL\_0004:  ldarg.1 }\\
 // zwróć wartość ze szczytu stosu \\
-  IL\_0016:  ret \\
-\} }
+\texttt{  IL\_0005:  ret }\\
+// wczytaj pierwszy argument funkcji i umieść go na szczycie stosu \\
+\texttt{  IL\_0006:  ldarg.1 }\\
+// zmień znak na przeciwny wartości na szczycie stosu \\
+\texttt{ IL\_007:  neg }\\
+// zwróć wartość ze szczytu stosu \\
+\texttt{  IL\_008:  ret }\\
+\texttt{\} }
 
 \subsubsection{Reflection.Emit}
 Przestrzeń nazw \textbf{Reflection.Emit} pozwala w kodzie programu, w sposób dynamiczny, na utworzenie listy operacji w języku IL, a następnie zapamiętanie ciągu tych operacji jako delegat. Za każdym razem, gdy delegat zostanie wywołany, wykona się ciąg wcześniej zdefiniowanych operacji IL.\\
