@@ -34,15 +34,6 @@ Kierunek: Informatyka
 
 \date{}
 
-% Delete this, if you do not want the table of contents to pop up at
-% the beginning of each subsection:
-%\AtBeginSubsection[]
-%{
-  %\begin{frame}<beamer>{Outline}
-    %\tableofcontents[currentsection,currentsubsection]
-  %\end{frame}
-%}
-
 \begin{document}
 
 \begin{frame}
@@ -54,8 +45,13 @@ Kierunek: Informatyka
 \end{frame}
 
 
-
 \section{Przedstawienie problemu}
+
+\begin{frame}{}
+\begin{center}
+\huge{Przedstawienie problemu}
+\end{center}
+\end{frame}
 
 \subsection*{SOLID}
 
@@ -80,10 +76,7 @@ Wysokopoziomowe moduły nie powinny zależeć od modułów niskopoziomowych. Zal
 
 \begin{frame}{Kontenery wstrzykiwania zależności}
 %Aby łatwiej zastosować zasadę DIP można wesprzeć się tzw. kontenerem wstrzykiwania zależności (ang. Dependency Injection Container). 
-Obiekt, który przechowuje mapę, w której abstrakcje (interfejsy, klasy abstrakcyjne) mają przyporządkowane implementacje (klasy implementujące interfejsy lub dziedziczące z klas abstrakcyjnych).
-\end{frame}
-
-\begin{frame}{Kontenery wstrzykiwania zależności}
+%Obiekt, który przechowuje mapę, w której abstrakcje (interfejsy, klasy abstrakcyjne) mają przyporządkowane implementacje (klasy implementujące interfejsy lub dziedziczące z klas abstrakcyjnych).
 %Kontenery dostarczają nam kilku funkcjonalności. Jedną z nich jest możliwość zdefiniowania tego jakiej instancję jakiej klasy należy zwrócić w miejsce konkretnego interfejsu. Drugą jest tworzenie (na podstawie przechowywanego mapowania) instancji obiektów konkretnej klasy lub implementujących określony interfejs.
 \begin{itemize}
 	\item Rejestracja
@@ -98,7 +91,7 @@ Obiekt, który przechowuje mapę, w której abstrakcje (interfejsy, klasy abstra
   \item
   	W grafach zależności często powtarzają się typy
   \item
-  	Utworzenie instancji nowego obiektu zajmuje czas.
+  	Utworzenie instancji nowego obiektu zajmuje czas
   \item
   	Nowe obiekty są często tworzone
   \end{itemize}
@@ -113,15 +106,21 @@ Stworzenie wydajenego kontenera wstrzykiwania zależności, który będzie wydaj
 
 \section{Wstrzykiwanie zależności}
 
-\subsection*{Rodzaje wstrzykiwań zależności}
-
-\begin{frame}{Rodzaje wstrzykiwań zależności}
+\begin{frame}{}
 %Wstrzykiwanie zależności jest niczym więcej niż techniką, która umożliwia luźne powiązania, a luźne powiązania sprawiają, że kod jest rozszerzalny i łatwy w utrzymaniu.
+\begin{center}
+\huge{Wstrzykiwanie zależności}
+\end{center}
+\end{frame}
+
+\subsection*{Rodzaje wstrzykiwania zależności}
+
+\begin{frame}{Rodzaje wstrzykiwania zależności}
 %Wstrzykiwanie zależności może odbywać się na 3 sposoby:
 \begin{itemize}
-	\item Wstrzykiwanie przez konstruktor.
-	\item Wstrzykiwanie przez metodę.
-	\item Wstrzykiwanie przez właściwość.
+	\item Wstrzykiwanie przez konstruktor
+	\item Wstrzykiwanie przez metodę
+	\item Wstrzykiwanie przez właściwość
 \end{itemize}
 \end{frame}
 
@@ -146,8 +145,16 @@ Stworzenie wydajenego kontenera wstrzykiwania zależności, który będzie wydaj
 
 
 \section{Implementacja}
-%Na początku chciałbym pokrótce opisać dwie rzeczy, które są istotne dla rozwiązania przedstawionego w niniejszej pracy. Pierwszą z nich jest \textbf{Common Intermediate Language}, a drugą przestrzeń nazw \textbf{Reflection.Emit}.
+
+%Na początku chciałbym pokrótce opisać dwie rzeczy, które są istotne dla rozwiązania przedstawionego w niniejszej pracy
+\begin{frame}{}
+\begin{center}
+\huge{Implementacja}
+\end{center}
+\end{frame}
+
 \begin{frame}{Implementacja}
+% Pierwszą z nich jest \textbf{Common Intermediate Language}, a drugą przestrzeń nazw \textbf{Reflection.Emit}.
 \begin{itemize}
 	\item CIL
 	\item Reflection.Emit
@@ -175,7 +182,11 @@ Stworzenie wydajenego kontenera wstrzykiwania zależności, który będzie wydaj
 \begin{frame}{Partial Emit Function}
 %Ten algorytm działa rekurencyjnie. Dla danego typu najpierw tworzone są obiekty, które są wymagane przez konsruktor, a następnie nowy obiekt jest tworzony z wykorzystaniem wcześniej utworzonych typów. Metoda ta została nazwana Partial, ponieważ obiekt jest tworzony częściowo, kawałek po kawałku.
 %Każda z takich części wykorzystuje Reflecion.Emit do stworzenia delegata, który jako argument przyjmuje listę obiektów wymaganych przez konstruktor, a następnie przy użyciu danego konstruktora i listy obiektów tworzny nowy obiekt.
-<jakiś rysunek że z kawałku tworzy się co nowego>
+\begin{figure}[H]
+	\begin{center}
+  		\includegraphics[height=6cm]{PresentationPartial.png}
+	\end{center}
+\end{figure}
 \end{frame}
 
 
@@ -183,7 +194,11 @@ Stworzenie wydajenego kontenera wstrzykiwania zależności, który będzie wydaj
 
 \begin{frame}{Full Emit Function}
 %Ten algorytm tworzy jedną dużą listę operacji CIL, która zawiera tworzenie wszystkich pośrednich obiektów oraz tworzenie głównego obiektu.
-<jakiś rysunek że jest jeden duży kawałek>
+\begin{figure}[H]
+	\begin{center}
+  		\includegraphics[height=6cm]{PresentationFull.png}
+	\end{center}
+\end{figure}
 %Jak pokazują wyniki czasem bardziej opłąca się używać pierwszej motody, a czasem drugiej.
 \end{frame}
 
@@ -191,7 +206,14 @@ Stworzenie wydajenego kontenera wstrzykiwania zależności, który będzie wydaj
 
 
 \section{Wyniki}
+\begin{frame}{}
 %W testach chciałem się przekonać, czy faktycznie zaprezentowane przeze mnie rozwiązanie jest wydajne.
+%Utworzyłem cztery przypadki testowe i dla każdego z nich przeprowadziłem 5 testów - po jednym dla każdego typu rejestracji. Dla każdego z tych testów zliczałem osobno czasy dla 1, 10, 100 i 1000 iteracji.
+%Tutaj zaprezentuję wyniki dla jednego testu - Transient, który jest najbardziej popularnym typem rejestracji, dla dwóch przypadków testowych.Wyniki dla pozostałych dwóch są bardzo zbliżone.
+\begin{center}
+\huge{Wyniki}
+\end{center}
+\end{frame}
 
 \subsection*{Przypadek testowy A}
 
@@ -375,8 +397,11 @@ Liczba iteracji: 100 i 1000
 
 \section{Podsumowanie}
 
-\begin{frame}{Podsumowanie}
+\begin{frame}{}
 %Zaproponowane rozwiązania bardzo dobrze realizują postawione we wstępie pracy cele. Dla wszystkich przypadków testowych, dla każdego z rodzaju rejestracji, jedno z przedstawionych rozwiązań osiągało najlepsze wyniki albo odbiegały one niewiele od najlepszych wyników. Zawsze któreś z przedstawionych rozwiązań było w pierwszej trójce rozwiązań z najlepszymi czasami, a czasami nawet oba. Możliwość mieszania użyć zaprezentowanych rozwiązań (w jednym projekcie można korzystać z obu rozwiązań niezależnie) sprawia, że \textbf{NiquIoC} jest najbardziej wydajną implementacją wzorca wstrzykiwania zależności dla złożonych grafów zależności.
+\begin{center}
+\huge{Podsumowanie}
+\end{center}
 \end{frame}
 
 \end{document}
