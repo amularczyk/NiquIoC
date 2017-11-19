@@ -32,15 +32,26 @@ Wydział Matematyki i Informatyki\\
 Kierunek: Informatyka
 }
 
+
 \date{}
 
 \begin{document}
 
 \begin{frame}
+%Nazywa się Adrian Mularczyk i przedstawię Państwu moją pracę magisterską o tytule Implementacja wydajnego wzorca wstrzykiwania zależności dla złożonych grafów zależnoci.
+%Praca została napisana pod kierunek Pana doktora Wiktora Zychli.
   \titlepage
+ 
+\begin{small}
+\begin{flushright}
+Praca wykonana pod kierunkiem dr. Wiktora Zychli
+\end{flushright}
+\end{small}
+ 
 \end{frame}
 
 \begin{frame}{Agenda}
+%Tutaj krótka agenda i czym dzisiaj będę mówił. Najpierw opiszę jaki jest problem. Potem w kilku zdaniach opowiem czym jest wstrzykiwanie zależności, a następnie przejdziemy do mojego rozwiążaniach. Na koniec zaprezentuję niektóre z wyników.
   \tableofcontents
 \end{frame}
 
@@ -48,6 +59,7 @@ Kierunek: Informatyka
 \section{Przedstawienie problemu}
 
 \begin{frame}{}
+%Na przestrzeni lat powstało bardzo dużo projektów. Część z nich była łatwiejsza w utrzymaniu, część trudniejsza. Analiza tych projektów pozwoliła zauważyć, że są pewne zasady, które powodują, że projekty rozwija się łatwiej. Te zasady zostały połączone w zbiory zasad.
 \begin{center}
 \huge{Przedstawienie problemu}
 \end{center}
@@ -56,7 +68,8 @@ Kierunek: Informatyka
 \subsection*{SOLID}
 
 \begin{frame}{SOLID}
-%Na przestrzeni lat powstało bardzo dużo projektów. Część z nich była łatwiejsza w utrzymaniu, część trudniejsza. Analiza tych projektów pozwoliła zauważyć, że są pewne zasady, które powodują, że projekty rozwija się łatwiej. Te zasady zostały połączone w zbiory zasad. Najbardziej popularnych i powszechnie stosowanym zbiorem zasad jest SOLID
+%Najbardziej popularnych i powszechnie stosowanym zbiorem zasad jest SOLID. Składa się on z pięciu zasady: Single responsibility principle, open/close principle, liskov substituion principle, interface segregation principle oraz dependency inversion principle.
+%Niniejsza praca w dużej mierze skupia się na rozwiązaniu ostatniej z tych zasad.
 \begin{itemize}
 	\item S - SRP (Single responsibility principle)
 	\item O - OCP (Open/closed principle)
@@ -64,50 +77,58 @@ Kierunek: Informatyka
 	\item I - ISP (Interface segregation principle)
 	\item D - DIP (Dependency inversion principle)
 \end{itemize}
-%Niniejsza praca w dużej mierze skupia się na rozwiązaniu dla zasady DIP - Dependency inversion principle. 
 \end{frame}
 
 \begin{frame}{Dependency Inversion Principal}
-Wysokopoziomowe moduły nie powinny zależeć od modułów niskopoziomowych. Zależności między nimi powinny wynikać z abstrakcji.
+%Dependency Inversion Principal mówi o tym, że wysokopoziomowe moduły nie powinny zależeć od modułów niskopoziomowych. Zależności między nimi powinny wynikać z abstrakcji.
+\begin{center}
+Dependency Inversion Principal
+\end{center}
 \end{frame}
 
 
 \subsection*{Kontenery wstrzykiwania zależności}
 
 \begin{frame}{Kontenery wstrzykiwania zależności}
-%Aby łatwiej zastosować zasadę DIP można wesprzeć się tzw. kontenerem wstrzykiwania zależności (ang. Dependency Injection Container). 
-%Obiekt, który przechowuje mapę, w której abstrakcje (interfejsy, klasy abstrakcyjne) mają przyporządkowane implementacje (klasy implementujące interfejsy lub dziedziczące z klas abstrakcyjnych).
-%Kontenery dostarczają nam kilku funkcjonalności. Jedną z nich jest możliwość zdefiniowania tego jakiej instancję jakiej klasy należy zwrócić w miejsce konkretnego interfejsu. Drugą jest tworzenie (na podstawie przechowywanego mapowania) instancji obiektów konkretnej klasy lub implementujących określony interfejs.
+%Aby łatwiej zastosować przedstawioną zasadę można wesprzeć się tzw. kontenerem wstrzykiwania zależności.
+%Taki kontener jest obiektem, który przechowuje mapę, w której abstrakcje (interfejsy, klasy abstrakcyjne) mają przyporządkowane implementacje, czyli klasy implementujące interfejsy lub dziedziczące z klas abstrakcyjnych.
+%Kontenery dostarczają nam kilku funkcjonalności.
+%Jedną z nich jest możliwość zdefiniowania tego jakiej instancję jakiej klasy należy zwrócić w miejsce konkretnego interfejsu - czyli rejestracja.
+%Drugą jest tworzenie instancji obiektów konkretnej klasy lub implementujących określony interfejs.
 \begin{itemize}
 	\item Rejestracja
 	\item Tworzenie obiektów
 \end{itemize}
 \end{frame}
 
-\subsection*{Problem}
+\subsection*{Obserwacje}
 
-\begin{frame}{Problem}
+\begin{frame}{Obserwacje}
+%Gdy posiadamy już taki kontener, to możemy zauważyć następujące rzeczy:
+%W grafach zależności często powtarzają się niektóre typy,
+%utworzenie instancji nowego obiektu zajmuje czas,
+%a także nowe obiekty są często tworzone.
   \begin{itemize}
-  \item
-  	W grafach zależności często powtarzają się typy
-  \item
-  	Utworzenie instancji nowego obiektu zajmuje czas
-  \item
-  	Nowe obiekty są często tworzone
+  \item W grafach zależności często powtarzają się typy
+  \item Utworzenie instancji nowego obiektu zajmuje czas
+  \item Nowe obiekty są często tworzone
   \end{itemize}
 \end{frame}
 
 \subsection*{Cel Pracy}
 
 \begin{frame}{Cel Pracy}
-Stworzenie wydajenego kontenera wstrzykiwania zależności, który będzie wydajny dla zlożonych grafów zależności, a także który będzie efektywnie tworzył kolejne instancje tej samej klasy.
+%I tu przechodzimy do celu mojej pracy, jakim jest stworzenie wydajenego kontenera wstrzykiwania zależności, który będzie wydajny dla zlożonych grafów zależności, a także który będzie efektywnie tworzył kolejne instancje tej samej klasy.
+\begin{center}
+Wydajeny kontener wstrzykiwania zależności
+\end{center}
 \end{frame}
 
 
 \section{Wstrzykiwanie zależności}
 
 \begin{frame}{}
-%Wstrzykiwanie zależności jest niczym więcej niż techniką, która umożliwia luźne powiązania, a luźne powiązania sprawiają, że kod jest rozszerzalny i łatwy w utrzymaniu.
+%Wspomniałem o wstrzykiwaniu zależności, ale czym ono jest? Jest to techniką, która umożliwia luźne powiązania, a luźne powiązania sprawiają, że kod jest rozszerzalny i łatwy w utrzymaniu.
 \begin{center}
 \huge{Wstrzykiwanie zależności}
 \end{center}
@@ -117,6 +138,7 @@ Stworzenie wydajenego kontenera wstrzykiwania zależności, który będzie wydaj
 
 \begin{frame}{Rodzaje wstrzykiwania zależności}
 %Wstrzykiwanie zależności może odbywać się na 3 sposoby:
+%wstrzykiwanie przez konstruktor, przez metodę oraz przez właściwość
 \begin{itemize}
 	\item Wstrzykiwanie przez konstruktor
 	\item Wstrzykiwanie przez metodę
@@ -128,7 +150,7 @@ Stworzenie wydajenego kontenera wstrzykiwania zależności, który będzie wydaj
 \subsection*{Implementacje przemysłowe}
 
 \begin{frame}{Implementacje przemysłowe}
-%Na rynku jest wiele implementacji wstrzykiwania zależności. Poniżej przedstawiono kilka najbardziej popularnych (według ilości pobrań z NuGet) oraz kilka najszybszych (według rankingu na blogu Daniela Palme)
+%Na rynku jest wiele implementacji wstrzykiwania zależności. Poniżej przedstawiono kilka najbardziej popularnych (według ilości pobrań z NuGet) oraz kilka najszybszych (według rankingu na blogu Daniela Palme).
 \begin{itemize}
 	\item Unity
 	\item NInject
@@ -146,7 +168,7 @@ Stworzenie wydajenego kontenera wstrzykiwania zależności, który będzie wydaj
 
 \section{Implementacja}
 
-%Na początku chciałbym pokrótce opisać dwie rzeczy, które są istotne dla rozwiązania przedstawionego w niniejszej pracy
+%Wiemy jaki jest problem, to teraz pora opis mojego rozwiązanie. Na początku chciałbym pokrótce opisać dwie rzeczy, które są istotne dla mojego rozwiązania.
 \begin{frame}{}
 \begin{center}
 \huge{Implementacja}
@@ -154,34 +176,36 @@ Stworzenie wydajenego kontenera wstrzykiwania zależności, który będzie wydaj
 \end{frame}
 
 \begin{frame}{Implementacja}
-% Pierwszą z nich jest \textbf{Common Intermediate Language}, a drugą przestrzeń nazw \textbf{Reflection.Emit}.
+% Pierwszą z nich jest Common Intermediate Language, w skrócie CIL, a drugą jest przestrzeń nazw Reflection.Emit.
+%CIL jest to język pośredni do którego jest kompilowany kod C\#. Język ten pozwala na komunikację między aplikacjami napisanymi na platformie .NET, a systemem operacyjnym. CIL jest językiem w całości opartym na stosie.
+%Dodatkowo jest w nim możliwość zdefiniowania zmiennych lokalnych, a także wczytania argumentów. Dostępnymi operacjami są: pobranie wartości ze stosu, umieszczenie wartości na stosie, operacje arytmetyczne oraz wywołanie funkcji.
+%Przestrzeń nazw Reflection.Emit pozwala w kodzie programu, w sposób dynamiczny, na utworzenie listy operacji w języku CIL, a następnie zapamiętanie ciągu tych operacji jako funkcji. Za każdym razem, gdy funkcja zostanie wywołana, wykona się ciąg wcześniej zdefiniowanych operacji CIL.
 \begin{itemize}
 	\item CIL
 	\item Reflection.Emit
 \end{itemize}
-%CIL to skrót od Common Intermediate Language. Jest to język pośredni do którego jest kompilowany kod C\#. Język ten pozwala na komunikację między aplikacjami napisanymi na platformie .NET, a systemem operacyjnym. CIL jest językiem w całości opartym na stosie.
-%Dodatkowo jest w nim możliwość zdefiniowania zmiennych lokalnych, a także wczytania argumentów. Dostępnymi operacjami są: pobranie wartości ze stosu, umieszczenie wartości na stosie, operacje arytmetyczne oraz wywołanie funkcji.
-%Przestrzeń nazw \textbf{Reflection.Emit} pozwala w kodzie programu, w sposób dynamiczny, na utworzenie listy operacji w języku CIL, a następnie zapamiętanie ciągu tych operacji jako delegat. Za każdym razem, gdy delegat zostanie wywołany, wykona się ciąg wcześniej zdefiniowanych operacji CIL.
 \end{frame}
 
 \subsection*{Dwa rozwiązania}
 
 \begin{frame}{Dwa rozwiązania}
-%Pomysł był taki, aby wykorzystać Reflection.Emit do utworzenia listę operacji w języku CIL, która dla danego typu, zwróci nam obiekt tego typu.
-%Ten pomysł został zrealizowany na dwa sposóby:
+%Jeśli chodzi o moje rozwiązanie, to pomysł był taki, aby wykorzystać Reflection.Emit do utworzenia listę operacji w języku CIL, która dla danego typu, zwróci nam obiekt tego typu.
+%Ten pomysł został zrealizowany na dwa sposóby.
+%Jedno rozwiązanie nazwałem Partial Emit Function, a drugie Full Emit Function.
+%W obu rozwiązaniach metoda do rejestracji wygląda tak samo. Różnią się one jedynie tym jak nowy obiekt jest tworzony.
 \begin{itemize}
 	\item Partial Emit Function
 	\item Full Emit Function
 \end{itemize}
-%W obu rozwiązaniach metoda do rejestracji wygląda tak samo. Różnią się one jedynie tym jak nowy obiekt jest tworzony.
 \end{frame}
 
 
 \subsection*{Partial Emit Function}
 
 \begin{frame}{Partial Emit Function}
-%Ten algorytm działa rekurencyjnie. Dla danego typu najpierw tworzone są obiekty, które są wymagane przez konsruktor, a następnie nowy obiekt jest tworzony z wykorzystaniem wcześniej utworzonych typów. Metoda ta została nazwana Partial, ponieważ obiekt jest tworzony częściowo, kawałek po kawałku.
-%Każda z takich części wykorzystuje Reflecion.Emit do stworzenia delegata, który jako argument przyjmuje listę obiektów wymaganych przez konstruktor, a następnie przy użyciu danego konstruktora i listy obiektów tworzny nowy obiekt.
+%Dla tego rozwiązania algorytm działa rekurencyjnie. Dla danego typu najpierw tworzone są obiekty, które są wymagane przez konsruktor tego typu, a następnie nowy obiekt danego typu jest tworzony z wykorzystaniem wcześniej utworzonej listy typów.
+%Metoda ta została nazwana Partial, ponieważ obiekt jest tworzony częściowo, kawałek po kawałku, zaczynając od najbardziej skrajnego lewego liścia. Używam tutaj przeszukania w głąb.
+%Tworzenie każdego z potrzebnych typów wykorzystuje Reflecion.Emit. Tworzę funkcję, który jako argument przyjmuje listę obiektów wymaganych przez konstruktor danego typu, a następnie przy użyciu tego konstruktora i listy obiektów tworzony jest nowy obiekt. I tak aż do samego korzenia. Czyli jest graf jest złożony, to zostanie wykonany wiele funkcji, które zawierają nieduży ciąg operacji CIL.
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics[height=6cm]{PresentationPartial.png}
@@ -193,13 +217,12 @@ Stworzenie wydajenego kontenera wstrzykiwania zależności, który będzie wydaj
 \subsection*{Full Emit Function}
 
 \begin{frame}{Full Emit Function}
-%Ten algorytm tworzy jedną dużą listę operacji CIL, która zawiera tworzenie wszystkich pośrednich obiektów oraz tworzenie głównego obiektu.
+%W tym rozwiązaniu jest tworzona tylko jedna dużą listę operacji CIL. Ta lista zawiera tworzenie wszystkich pośrednich obiektów oraz tworzenie głównego obiektu.
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics[height=6cm]{PresentationFull.png}
 	\end{center}
 \end{figure}
-%Jak pokazują wyniki czasem bardziej opłąca się używać pierwszej motody, a czasem drugiej.
 \end{frame}
 
 
@@ -207,9 +230,10 @@ Stworzenie wydajenego kontenera wstrzykiwania zależności, który będzie wydaj
 
 \section{Wyniki}
 \begin{frame}{}
-%W testach chciałem się przekonać, czy faktycznie zaprezentowane przeze mnie rozwiązanie jest wydajne.
-%Utworzyłem cztery przypadki testowe i dla każdego z nich przeprowadziłem 5 testów - po jednym dla każdego typu rejestracji. Dla każdego z tych testów zliczałem osobno czasy dla 1, 10, 100 i 1000 iteracji.
-%Tutaj zaprezentuję wyniki dla jednego testu - Transient, który jest najbardziej popularnym typem rejestracji, dla dwóch przypadków testowych.Wyniki dla pozostałych dwóch są bardzo zbliżone.
+%Dlaczego dwa rozwiązania? Ponieważ jak pokazują wyniki czasem bardziej opłąca się używać pierwszego rozwiązania, a czasem drugiego.
+%Dodatkowo chciałem się przekonać, czy faktycznie zaprezentowane przeze mnie rozwiązania są wydajne. Porównałem je z przedstawioną wcześniej listą implementacji przemysłowych.
+%Jeśli chodzi o testy, to utworzyłem cztery przypadki testowe i dla każdego z nich przeprowadziłem 5 testów - po jednym dla każdego typu rejestracji. Dla każdego z tych testów porównałem osobno czasy dla 1, 10, 100 i 1000 iteracji.
+%Tutaj zaprezentuję wyniki tylko dla jednego testu - Transient, który jest najbardziej popularnym typem rejestracji. Przedstawię wyniki tylko dla dwóch przypadków testowych, ponieważ wyniki dla pozostałych dwóch są bardzo zbliżone.
 \begin{center}
 \huge{Wyniki}
 \end{center}
@@ -398,7 +422,7 @@ Liczba iteracji: 100 i 1000
 \section{Podsumowanie}
 
 \begin{frame}{}
-%Zaproponowane rozwiązania bardzo dobrze realizują postawione we wstępie pracy cele. Dla wszystkich przypadków testowych, dla każdego z rodzaju rejestracji, jedno z przedstawionych rozwiązań osiągało najlepsze wyniki albo odbiegały one niewiele od najlepszych wyników. Zawsze któreś z przedstawionych rozwiązań było w pierwszej trójce rozwiązań z najlepszymi czasami, a czasami nawet oba. Możliwość mieszania użyć zaprezentowanych rozwiązań (w jednym projekcie można korzystać z obu rozwiązań niezależnie) sprawia, że \textbf{NiquIoC} jest najbardziej wydajną implementacją wzorca wstrzykiwania zależności dla złożonych grafów zależności.
+%Zaproponowane rozwiązania bardzo dobrze realizują postawione we wstępie pracy cele. Dla wszystkich przypadków testowych, dla każdego z rodzaju rejestracji, albo jedno z przedstawionych rozwiązań osiągało najlepsze wyniki albo odbiegały one niewiele od najlepszych wyników. Zawsze któreś z przedstawionych rozwiązań było w pierwszej trójce rozwiązań z najlepszymi czasami, a czasami nawet oba. Możliwość mieszania użyć zaprezentowanych rozwiązań (w jednym projekcie można korzystać z obu rozwiązań niezależnie) sprawia, że moje rozwiązanie jest najbardziej wydajną implementacją wzorca wstrzykiwania zależności dla złożonych grafów zależności.
 \begin{center}
 \huge{Podsumowanie}
 \end{center}
