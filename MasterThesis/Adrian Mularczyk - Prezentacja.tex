@@ -3,12 +3,8 @@
 \mode<presentation>
 {
   \usetheme{Warsaw}
-  % or ...
-
   \setbeamercovered{transparent}
-  % or whatever (possibly just delete it)
 }
-
 
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
@@ -24,14 +20,12 @@
 \author[Adrian Mularczyk]
 {Adrian Mularczyk}
 
-
 \institute[Uniwersytet Wrocławski]
 {
 Uniwersytet Wrocławski\\
 Wydział Matematyki i Informatyki\\
 Kierunek: Informatyka
 }
-
 
 \date{}
 
@@ -242,6 +236,9 @@ Wydajeny kontener wstrzykiwania zależności
 \subsection*{Przypadek testowy A}
 
 \begin{frame}{Przypadek testowy A - graf zależności}
+%W tym teście mamy zdefiniowanych 11 typów. Każdy z nich przyjmuje w konstruktorze o jeden parametr mniej niż typ poprzedni (czyli przyjmują one kolejno od 10 do 0 parametrów w konstruktorze).
+%Typ główny, którego instancję będziemy tworzyć przyjmuje wszystkie 10 parametrów. Każdy kolejny typ przyjmuje te same typy co typ poprzedni za wyjątkiem samego siebie. Ostatni typ ma konstruktor bezparametrowy.
+%W jednej iteracji jest tworzonych łącznie 1 024 obiektów.
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics[height=6cm]{TestA.png}
@@ -250,6 +247,8 @@ Wydajeny kontener wstrzykiwania zależności
 \end{frame}
 
 \begin{frame}{Przypadek testowy A - Transient}
+%Dla 1 iteracji najniższy czas osiągnął Autofac, ale rozwiązanie Partial osiągnęło czas o niewiele większy. Podobny czas osiągnął również Windsor, a pozostałe rozwiązania mają te czasy już znacząco większe.
+%Dla 10 iteracji już rozwiązanie Partial ma najlepszy czas. Jeśli chodzi o rozwiązanie Full, to nie zanotowało ono zauważalnego wzrostu czasu w stosunku do 1 iteracji.
 Liczba iteracji: 1 i 10
 \begin{table}
 \begin{small}
@@ -290,6 +289,8 @@ Liczba iteracji: 1 i 10
 
 
 \begin{frame}{Przypadek testowy A - Transient}
+%Dla 100 iteracji można zaobserwować, że rozwiązanie Full nadal ma niewielki wzrost czasu w stosunku do znaczącego wzrostu liczby iteracji. Ten wzrost jest natomiast zauważalny dla rozwiązania Partial i wszystkie z rozwiązań, które są uważąne za najszybsze zanotowały lepszy czas do niego. Jednakże rozwiązanie Partial wciąż zanotowało czasy znacząco lepsze niż wszystkie najpopularniejsze rozwiązania.
+%Dla 1000 iteracji niewiele się zmieniło jeśli chodzi o pozycje, ale można zaobserwować, że pierwsze 5 rozwiązań na wzrost około 2-krotny, a pozostałe 6 rozwiązań około 10-krotny.
 Liczba iteracji: 100 i 1000
 \begin{table}
 \begin{small}
@@ -332,6 +333,9 @@ Liczba iteracji: 100 i 1000
 \subsection*{Przypadek testowy C}
 
 \begin{frame}{Przypadek testowy C - graf zależności}
+%Dla tego przypadku testowego graf zależności wygląda zupełnie inaczej. Jest tutaj zdefiniowanych 26 typów. 5 z tych typów ma konstruktor bezparametrowy, a pozostałe 21 ma konstruktor z pięcioma parametrami.
+%Za wyjątkiem pierwszych 6 typaów, każdy typ występuje w 5 konstruktorach.
+%Tutaj w 1 iteracji jest tworzonych prawie 4 tysiące obiektów (3 906 obiektów).
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics[height=6cm]{TestC.png}
@@ -340,6 +344,8 @@ Liczba iteracji: 100 i 1000
 \end{frame}
 
 \begin{frame}{Przypadek testowy C - Transient}
+%Dla 1 iteracji te same rozwiązania mają najlepsze czasy, czyli Autofac, Partial oraz Windsor.
+%Dla 10 iteracji układ tabeli jest bardzo zbliżony do poprzedniego przypadku. Ponownie najlepiej radzi sobie rozwiązanie Partial, a rozwiązanie Full zaczyna mieć lepsze czasy od pozostałych rozwiązań.
 Liczba iteracji: 1 i 10
 \begin{table}
 \begin{small}
@@ -380,6 +386,8 @@ Liczba iteracji: 1 i 10
 
 
 \begin{frame}{Przypadek testowy C - Transient}
+%Dla 100 i 1000 iteracji tym razem układ również jest zbliżony do poprzedniego przypadku testowego, czyli najlepszy czas ma rozwiązanie Full, następnie szybkie rozwiążania, a dalej rozwiązanie Partial.
+%Tutaj również dla pierwszych 5 rozwiązań wzrost jest 2-krotny, a pozostały 6 około 10-krotny.
 Liczba iteracji: 100 i 1000
 \begin{table}
 \begin{small}
@@ -422,7 +430,8 @@ Liczba iteracji: 100 i 1000
 \section{Podsumowanie}
 
 \begin{frame}{}
-%Zaproponowane rozwiązania bardzo dobrze realizują postawione we wstępie pracy cele. Dla wszystkich przypadków testowych, dla każdego z rodzaju rejestracji, albo jedno z przedstawionych rozwiązań osiągało najlepsze wyniki albo odbiegały one niewiele od najlepszych wyników. Zawsze któreś z przedstawionych rozwiązań było w pierwszej trójce rozwiązań z najlepszymi czasami, a czasami nawet oba. Możliwość mieszania użyć zaprezentowanych rozwiązań (w jednym projekcie można korzystać z obu rozwiązań niezależnie) sprawia, że moje rozwiązanie jest najbardziej wydajną implementacją wzorca wstrzykiwania zależności dla złożonych grafów zależności.
+%Jak można było zobaczyć na zarezentowanych wynikach, moje rozwiązania bardzo dobrze realizują postawione we wstępie pracy cele. Dla wszystkich przypadków testowych, dla każdego z rodzaju rejestracji, albo jedno z moich rozwiązań osiągęło najlepszy wyniki albo jego wyniki niewiele odbiegał od najlepszego wyniku. Zawsze któreś z moich rozwiązań było w pierwszej trójce rozwiązań z najlepszymi czasami, a czasami nawet oba. Cowięcej moje rozwiązania można mieszać, czyli w jednym projekcie można korzystać z obu rozwiązań niezależnie. Dzięki temu patrząc całościowo, to moje rozwiązanie jest najbardziej wydajną implementacją wzorca wstrzykiwania zależności dla złożonych grafów zależności.
+%Dziękuję.
 \begin{center}
 \huge{Podsumowanie}
 \end{center}
