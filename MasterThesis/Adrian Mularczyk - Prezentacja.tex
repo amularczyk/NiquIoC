@@ -152,7 +152,7 @@ Wydajny kontener wstrzykiwania zależności
 %wstrzykiwanie przez konstruktor, przez metodę oraz przez właściwość
 \begin{table}
      \begin{small}
-	\begin{tabular}{ p{7cm} p{3cm} }
+	\begin{tabular}{ c p{3cm} }
 	
 	\begin{minipage}{.6\textwidth}
 \begin{itemize}
@@ -162,7 +162,7 @@ Wydajny kontener wstrzykiwania zależności
 \end{itemize}
    	 \end{minipage}
    	 &   	 
-	\begin{minipage}{.3\textwidth}	
+	\begin{minipage}{.4\textwidth}	
   		\includegraphics[height=5cm]{PresentationDependency.png}
    	 \end{minipage}
 
@@ -275,13 +275,70 @@ IL\_008:  ret }}
 
 \section{Wyniki}
 \begin{frame}{}
-%Dlaczego dwa rozwiązania? Ponieważ jak pokazują wyniki czasem bardziej opłaca się używać pierwszego rozwiązania, a czasem drugiego.
-%Dodatkowo chciałem się przekonać, czy faktycznie zaprezentowane przeze mnie rozwiązania są wydajne. Porównałem je z przedstawioną wcześniej listą implementacji przemysłowych.
-%Jeśli chodzi o testy, to utworzyłem cztery przypadki testowe i dla każdego z nich przeprowadziłem 5 testów - po jednym dla każdego typu rejestracji. Dla każdego z tych testów porównałem osobno czasy dla 1, 10, 100 i 1000 iteracji.
-%Tutaj zaprezentuję wyniki tylko dla jednego testu - Transient, który jest najbardziej popularnym typem rejestracji. Przedstawię wyniki tylko dla dwóch przypadków testowych, ponieważ wyniki dla pozostałych dwóch są bardzo zbliżone.
 \begin{center}
 \huge{Wyniki}
 \end{center}
+\end{frame}
+
+\subsection*{Przypadki testowe}
+
+\begin{frame}{Przypadki testowe}
+%Dlaczego dwa rozwiązania? Ponieważ jak pokazują wyniki czasem bardziej opłaca się używać pierwszego rozwiązania, a czasem drugiego.
+%Dodatkowo chciałem się przekonać, czy faktycznie zaprezentowane przeze mnie rozwiązania są wydajne. Porównałem je z przedstawioną wcześniej listą implementacji przemysłowych.
+%Jeśli chodzi o testy, to utworzyłem cztery przypadki testowe. Jak można zobaczyć na rysunkach przypadek drugi jest podobny do pierwszego, a przypadek czwarty jest podobny do trzeciego.
+\begin{table}
+     \begin{small}
+	\begin{tabular}{ p{4cm} p{6cm} }
+	
+	\begin{minipage}{.5\textwidth}
+\begin{figure}[H]
+	\begin{center}
+  		\includegraphics[height=2.5cm]{TestA.png}
+	\end{center}
+\end{figure}
+   	 \end{minipage}
+   	 &	
+	\begin{minipage}{.5\textwidth}
+\begin{figure}[H]
+	\begin{center}
+  		\includegraphics[height=2.5cm]{TestB.png}
+	\end{center}
+\end{figure}
+   	 \end{minipage}
+   	 \\ \\
+	\begin{minipage}{.5\textwidth}
+\begin{figure}[H]
+	\begin{center}
+  		\includegraphics[height=2.5cm]{TestC.png}
+	\end{center}
+\end{figure}
+   	 \end{minipage}
+   	 &	
+	\begin{minipage}{.5\textwidth}
+\begin{figure}[H]
+	\begin{center}
+  		\includegraphics[height=2.5cm]{TestD.png}
+	\end{center}
+\end{figure}
+   	 \end{minipage}
+
+	\end{tabular}
+     \end{small}
+\end{table}
+\end{frame}
+
+\subsection*{Rodzaje rejestracji}
+
+\begin{frame}{Rodzaje rejestracji}
+ %Dla każdego z nich przeprowadziłem 5 testów - po jednym dla każdego typu rejestracji. Dla każdego z tych testów porównałem osobno czasy dla 1, 10, 100 i 1000 iteracji.
+%Tutaj zaprezentuję wyniki tylko dla jednego testu - Transient, który jest najbardziej popularnym typem rejestracji. Przedstawię wyniki tylko dla dwóch przypadków testowych, ponieważ wyniki dla pozostałych dwóch są bardzo zbliżone.
+\begin{itemize}
+	\item Register as Singleton,
+	\item Register as Transient,
+	\item Register as TransientSingleton,
+	\item Register as PerThread (PerScope),
+	\item Register as FactoryMethod.
+\end{itemize}
 \end{frame}
 
 \subsection*{Przypadek testowy A}
@@ -290,11 +347,25 @@ IL\_008:  ret }}
 %W tym teście mamy zdefiniowanych 11 typów. Każdy z nich przyjmuje w konstruktorze o jeden parametr mniej niż typ poprzedni (czyli przyjmują one kolejno od 10 do 0 parametrów w konstruktorze).
 %Typ główny, którego instancję będziemy tworzyć przyjmuje wszystkie 10 parametrów. Każdy kolejny typ przyjmuje te same typy co typ poprzedni za wyjątkiem samego siebie. Ostatni typ ma konstruktor bezparametrowy.
 %W jednej iteracji jest tworzonych łącznie 1 024 obiektów.
-\begin{figure}[H]
+\begin{table}
+     \begin{small}
+	\begin{tabular}{ p{7cm} p{2cm} }
+	
+	\begin{minipage}{.7\textwidth}
+\begin{figure}
 	\begin{center}
   		\includegraphics[height=6cm]{TestA.png}
 	\end{center}
 \end{figure}
+   	 \end{minipage}
+&
+	\begin{minipage}{.3\textwidth}
+\tiny{Liczba obiektów w 1 iteracji: 1 024}
+   	 \end{minipage}
+
+	\end{tabular}
+     \end{small}
+\end{table}
 \end{frame}
 
 \begin{frame}{Przypadek testowy A - Transient}
@@ -385,11 +456,25 @@ Liczba iteracji: 100 i 1000
 %Dla tego przypadku testowego graf zależności wygląda zupełnie inaczej. Jest tutaj zdefiniowanych 26 typów. 5 z tych typów ma konstruktor bezparametrowy, a pozostałe 21 ma konstruktor z pięcioma parametrami.
 %Za wyjątkiem pierwszych 6 typów, każdy typ występuje w 5 konstruktorach.
 %Tutaj w 1 iteracji jest tworzonych prawie 4 tysiące obiektów (3 906 obiektów).
-\begin{figure}[H]
+\begin{table}
+     \begin{small}
+	\begin{tabular}{ p{7cm} p{2cm} }
+	
+	\begin{minipage}{.7\textwidth}
+\begin{figure}
 	\begin{center}
   		\includegraphics[height=6cm]{TestC.png}
 	\end{center}
 \end{figure}
+   	 \end{minipage}
+&
+	\begin{minipage}{.3\textwidth}
+\tiny{Liczba obiektów w 1 iteracji: 3 906}
+   	 \end{minipage}
+
+	\end{tabular}
+     \end{small}
+\end{table}
 \end{frame}
 
 \begin{frame}{Przypadek testowy C - Transient}
@@ -478,11 +563,35 @@ Liczba iteracji: 100 i 1000
 \section{Podsumowanie}
 
 \begin{frame}{}
-%Jak można było zobaczyć na zaprezentowanych wynikach, moje rozwiązania bardzo dobrze realizują postawione we wstępie pracy cele. Dla wszystkich przypadków testowych, dla każdego z rodzaju rejestracji albo jedno z moich rozwiązań osiągnęło najlepszy wynik albo jego wyniki niewiele odbiegał od najlepszego wyniku. Zawsze któreś z moich rozwiązań było w pierwszej trójce rozwiązań z najlepszymi czasami, a czasami nawet oba. Co więcej moje rozwiązania można mieszać, czyli w jednym projekcie można korzystać z obu rozwiązań niezależnie. Dzięki temu patrząc całościowo, to moje rozwiązanie jest najbardziej wydajną implementacją wzorca wstrzykiwania zależności dla złożonych grafów zależności. 
-%Dziękuję.
 \begin{center}
 \huge{Podsumowanie}
 \end{center}
+\end{frame}
+
+\begin{frame}{}
+%Jak można było zobaczyć na zaprezentowanych wynikach, moje rozwiązania bardzo dobrze realizują postawione we wstępie pracy cele. Dla zaprezentowanych przypadków testowych, dla zaprezentowanego rodzaju rejestracji albo jedno z moich rozwiązań osiągnęło najlepszy wynik albo jego wyniki niewiele odbiegał od najlepszego wyniku. Zawsze któreś z moich rozwiązań było w pierwszej trójce rozwiązań z najlepszymi czasami, a czasami nawet oba. 
+%Podobnie to wygląda dla pozostałych testów i pozostałych przypadków testowych.
+%Co więcej moje rozwiązania można mieszać, czyli w jednym projekcie można korzystać z obu rozwiązań niezależnie. Dzięki temu patrząc całościowo, to moje rozwiązanie jest najbardziej wydajną implementacją wzorca wstrzykiwania zależności dla złożonych grafów zależności. 
+%Dziękuję.
+\begin{table}
+     \begin{small}
+	\begin{tabular}{ p{5cm} p{5cm} }
+	
+	\begin{minipage}{.5\textwidth}
+	\begin{center}
+  		\includegraphics[height=2.5cm]{PresentationWinner.jpg}
+	\end{center}
+   	 \end{minipage}
+   	 &	
+	\begin{minipage}{.5\textwidth}	
+	\begin{center}
+  		\includegraphics[height=2.5cm]{PresentationConnect.jpg}
+	\end{center}
+   	 \end{minipage}
+
+	\end{tabular}
+     \end{small}
+\end{table}
 \end{frame}
 
 \end{document}
