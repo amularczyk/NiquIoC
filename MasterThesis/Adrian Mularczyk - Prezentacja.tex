@@ -16,7 +16,6 @@
 \title[]
 {Implementacja wydajnego wzorca wstrzykiwania zależności dla złożonych grafów zależności}
 
-%\author[Adrian Mularczyk]{Adrian Mularczyk}
 \author[Adrian Mularczyk]{Adrian Mularczyk \\[10pt]{\footnotesize Praca wykonana pod kierunkiem dr. Wiktora Zychli}}
 
 \institute[Uniwersytet Wrocławski]
@@ -31,13 +30,10 @@ Kierunek: Informatyka
 \begin{document}
 
 \begin{frame}
-%Nazywa się Adrian Mularczyk i przedstawię Państwu moją pracę magisterską o tytule Implementacja wydajnego wzorca wstrzykiwania zależności dla złożonych grafów zależności.
-%Praca została napisana pod kierunek Pana doktora Wiktora Zychli.
   \titlepage 
 \end{frame}
 
 \begin{frame}{Agenda}
-%Tutaj krótka agenda i czym dzisiaj będę mówił. Najpierw opiszę jaki jest problem. Potem w kilku zdaniach opowiem czym jest wstrzykiwanie zależności, a następnie przejdziemy do mojego rozwiązaniach. Na koniec zaprezentuję niektóre z wyników.
   \tableofcontents
 \end{frame}
 
@@ -52,22 +48,30 @@ Kierunek: Informatyka
 \subsection*{SOLID}
 
 \begin{frame}{SOLID}
-%Na przestrzeni lat powstało bardzo dużo projektów. Część z nich była łatwiejsza w utrzymaniu, część trudniejsza. Analiza tych projektów pozwoliła zauważyć, że są pewne zasady, które powodują, że projekty rozwija się łatwiej. Te zasady zostały połączone w zbiory zasad.
-%Najbardziej popularnych i powszechnie stosowanym zbiorem zasad jest SOLID. Składa się on z pięciu zasady: Single responsibility principle, open/close principle, liskov substituion principle, interface segregation principle oraz dependency inversion principle.
-%Niniejsza praca w dużej mierze skupia się na rozwiązaniu ostatniej z tych zasad.
-\begin{itemize}
-	\item S - SRP (Single responsibility principle)
-	\item O - OCP (Open/closed principle)
-	\item L - LSP (Liskov substitution principle)
-	\item I - ISP (Interface segregation principle)
-	\item D - DIP (Dependency inversion principle)
-\end{itemize}
+\begin{table}
+	\begin{tabular}{ c c c l }
+	S &-& SRP& (Single responsibility principle)\\
+	O &-& OCP& (Open/closed principle)\\
+	L &-& LSP& (Liskov substitution principle)\\
+	I &-& ISP& (Interface segregation principle)\\
+	D &-& DIP& (Dependency inversion principle)
+	\end{tabular}
+\end{table}
+\end{frame}
+
+\begin{frame}{SOLID}
+\begin{table}
+	\begin{tabular}{ c c c l }
+\color{gray} S &\color{gray}-& \color{gray}SRP& \color{gray}(Single responsibility principle)\\
+\color{gray} O &\color{gray}-& \color{gray}OCP& \color{gray}(Open/closed principle)\\
+\color{gray}	L &\color{gray}-& \color{gray}LSP& \color{gray}(Liskov substitution principle)\\
+\color{gray}	I &\color{gray}-& \color{gray}ISP& \color{gray}(Interface segregation principle)\\
+	D &-& DIP& (Dependency inversion principle)
+	\end{tabular}
+\end{table}
 \end{frame}
 
 \begin{frame}{Dependency Inversion Principal}
-%Dependency Inversion Principal mówi o tym, że wysokopoziomowe moduły nie powinny zależeć od modułów niskopoziomowych. Zależności między nimi powinny wynikać z abstrakcji.
-%Przykład po lewej pokazuje zależności między klasami Bar i Foo przed zastosowaniem tej zasady, a przykład po prawej pokazuje zależności po zastosowaniu tej zasady.
-%Dzięki takiemu zabiegowi można implementować ciało metody DoSomething nie przejmując się implementacją metody DoSomeWork.
 \begin{figure}
 	\begin{center}
   		\includegraphics[height=6cm]{PresentationDIP.png}
@@ -78,12 +82,6 @@ Kierunek: Informatyka
 \subsection*{Kontenery wstrzykiwania zależności}
 
 \begin{frame}{Kontenery wstrzykiwania zależności}
-%Aby łatwiej zastosować przedstawioną zasadę można wesprzeć się tzw. kontenerem wstrzykiwania zależności.
-%Taki kontener jest obiektem, który przechowuje mapę, w której abstrakcje (interfejsy, klasy abstrakcyjne) mają przyporządkowane implementacje, czyli klasy implementujące interfejsy lub dziedziczące z klas abstrakcyjnych.
-%Kontenery dostarczają nam kilku funkcjonalności.
-%Jedną z nich jest możliwość zdefiniowania tego jakiej instancję jakiej klasy należy zwrócić w miejsce konkretnego interfejsu - czyli rejestracja.
-%Drugą jest tworzenie instancji obiektów konkretnej klasy lub implementujących określony interfejs.
-%Dla przykładowych klas A i B ich rejestracja w kontenerze oraz otrzymywaniech instancji ich typów z konternera wyglądałby następująco.
 \begin{table}
      \begin{small}
 	\begin{tabular}{ p{6cm} p{6cm} }
@@ -94,13 +92,10 @@ Kierunek: Informatyka
 			\item Tworzenie obiektów
 		\end{itemize}
    	 \end{minipage}
-	\\ \\
 	&
 	\begin{minipage}{.3\textwidth}
   		\includegraphics[height=2cm]{Example_Container.png}
-    	\end{minipage} 
-\\
-	\begin{minipage}{.7\textwidth}
+\\ \\
 		{\tiny \texttt{container.Register<A>();\\
 			container.Register<B>();}}\\ \\
 		{\tiny \texttt{container.Resolve<B>();\\
@@ -115,10 +110,6 @@ Kierunek: Informatyka
 \subsection*{Obserwacje}
 
 \begin{frame}{Obserwacje}
-%Gdy posiadamy już taki kontener, to możemy zauważyć następujące rzeczy:
-%W grafach zależności często powtarzają się niektóre typy,
-%utworzenie instancji nowego obiektu zajmuje czas,
-%a także nowe obiekty są często tworzone.
   \begin{itemize}
   \item W grafach zależności często powtarzają się typy
   \item Utworzenie instancji nowego obiektu zajmuje czas
@@ -129,7 +120,6 @@ Kierunek: Informatyka
 \subsection*{Cel Pracy}
 
 \begin{frame}{Cel Pracy}
-%I tu przechodzimy do celu mojej pracy, jakim jest stworzenie wydajnego kontenera wstrzykiwania zależności, który będzie wydajny dla złożonych grafów zależności, a także który będzie efektywnie tworzył kolejne instancje tej samej klasy. 
 \begin{center}
 Wydajny kontener wstrzykiwania zależności
 \end{center}
@@ -147,9 +137,6 @@ Wydajny kontener wstrzykiwania zależności
 \subsection*{Wstrzykiwanie zależności}
 
 \begin{frame}{Wstrzykiwanie zależności}
-%W kilku miejsach wspomniałem o wstrzykiwaniu zależności, ale czym ono jest? Jest to techniką, która umożliwia luźne powiązania, a luźne powiązania sprawiają, że kod jest rozszerzalny i łatwy w utrzymaniu.
-%Wstrzykiwanie zależności może odbywać się na 3 sposoby:
-%wstrzykiwanie przez konstruktor, przez metodę oraz przez właściwość
 \begin{table}
      \begin{small}
 	\begin{tabular}{ c p{3cm} }
@@ -174,18 +161,30 @@ Wydajny kontener wstrzykiwania zależności
 \subsection*{Implementacje przemysłowe}
 
 \begin{frame}{Implementacje przemysłowe}
-%Na rynku jest wiele implementacji wstrzykiwania zależności. Poniżej przedstawiono kilka najbardziej popularnych (według ilości pobrań z NuGet) oraz kilka najszybszych (według rankingu na blogu Daniela Palme).
+\begin{table}
+	\begin{tabular}{ p{5cm} p{5cm} }
+	
+	\begin{minipage}{.5\textwidth}
 \begin{itemize}
 	\item Unity
 	\item NInject
 	\item Autofac
 	\item StructureMap
 	\item Windsor
+\end{itemize}
+   	 \end{minipage}
+   	 &
+	\begin{minipage}{.5\textwidth}
+\begin{itemize}
 	\item Grace
 	\item DryIoc
 	\item LightInject
 	\item SimpleInjector
 \end{itemize}
+   	 \end{minipage}
+
+	\end{tabular}
+\end{table}
 \end{frame}
 
 
@@ -198,12 +197,6 @@ Wydajny kontener wstrzykiwania zależności
 \end{frame}
 
 \begin{frame}{Implementacja}
-%Wiemy jaki jest problem, to teraz pora na opis mojego rozwiązanie. Na początku chciałbym pokrótce opisać dwie rzeczy, które są istotne dla mojego rozwiązania.
-% Pierwszą z nich jest Common Intermediate Language, w skrócie CIL, a drugą jest przestrzeń nazw Reflection.Emit.
-%CIL jest to język pośredni do którego jest kompilowany kod C\#. Język ten pozwala na komunikację między aplikacjami napisanymi na platformie .NET, a systemem operacyjnym. CIL jest językiem w całości opartym na stosie.
-%Dodatkowo jest w nim możliwość zdefiniowania zmiennych lokalnych, a także wczytania argumentów. Dostępnymi operacjami są: pobranie wartości ze stosu, umieszczenie wartości na stosie, operacje arytmetyczne oraz wywołanie funkcji.
-%Przestrzeń nazw Reflection.Emit pozwala w kodzie programu, w sposób dynamiczny, na utworzenie listy operacji w języku CIL, a następnie zapamiętanie ciągu tych operacji jako funkcji. Za każdym razem, gdy funkcja zostanie wywołana, wykona się ciąg wcześniej zdefiniowanych operacji CIL.
-%Na dole jest pokazana prosta funkcja wyliczająca wartość bezwzględną z dane liczby. U góry jest kod tej funkcji w języku IL, a na poniżej kod z wykorzystaniem operacji z przestrzeni nazw Reflection.Emit
 \begin{table}
      \begin{small}
 	\begin{tabular}{ p{6cm} p{3cm} }
@@ -213,7 +206,8 @@ Wydajny kontener wstrzykiwania zależności
 	\item CIL
 	\item Reflection.Emit
 \end{itemize}
-\color{white}a \\ \\
+\color{white}. \\ \\
+. .
   		\includegraphics[height=1.5cm]{Example_Abs.png}
    	 \end{minipage}
    	 &   	 
@@ -238,10 +232,6 @@ IL\_008:  ret }}
 \subsection*{Dwa rozwiązania}
 
 \begin{frame}{Dwa rozwiązania}
-%Jeśli chodzi o moje rozwiązanie, to pomysł był taki, aby wykorzystać Reflection.Emit do utworzenia listę operacji w języku CIL, która dla danego typu, zwróci nam obiekt tego typu.
-%Ten pomysł został zrealizowany na dwa sposoby.
-%Jedno rozwiązanie nazwałem Partial Emit Function, a drugie Full Emit Function.
-%W obu rozwiązaniach metoda do rejestracji wygląda tak samo. Różnią się one jedynie tym jak nowy obiekt jest tworzony.
 \begin{itemize}
 	\item Partial Emit Function
 	\item Full Emit Function
@@ -251,9 +241,6 @@ IL\_008:  ret }}
 \subsection*{Partial Emit Function}
 
 \begin{frame}{Partial Emit Function}
-%Dla tego rozwiązania algorytm działa rekurencyjnie. Dla danego typu najpierw tworzone są obiekty, które są wymagane przez konstruktor tego typu, a następnie nowy obiekt danego typu jest tworzony z wykorzystaniem wcześniej utworzonej listy typów.
-%Metoda ta została nazwana Partial, ponieważ obiekt jest tworzony częściowo, kawałek po kawałku, zaczynając od najbardziej skrajnego lewego liścia. Używam tutaj przeszukania w głąb.
-%Tworzenie każdego z potrzebnych typów wykorzystuje Reflecion.Emit. Tworzę funkcję, który jako argument przyjmuje listę obiektów wymaganych przez konstruktor danego typu, a następnie przy użyciu tego konstruktora i listy obiektów tworzony jest nowy obiekt. I tak aż do samego korzenia. Czyli jest graf jest złożony, to zostanie wykonany wiele funkcji, które zawierają nieduży ciąg operacji CIL.
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics[height=6cm]{PresentationPartial.png}
@@ -264,7 +251,6 @@ IL\_008:  ret }}
 \subsection*{Full Emit Function}
 
 \begin{frame}{Full Emit Function}
-%W tym rozwiązaniu jest tworzona tylko jedna dużą listę operacji CIL. Ta lista zawiera tworzenie wszystkich pośrednich obiektów oraz tworzenie głównego obiektu.
 \begin{figure}[H]
 	\begin{center}
   		\includegraphics[height=6cm]{PresentationFull.png}
@@ -283,9 +269,6 @@ IL\_008:  ret }}
 \subsection*{Przypadki testowe}
 
 \begin{frame}{Przypadki testowe}
-%Dlaczego dwa rozwiązania? Ponieważ jak pokazują wyniki czasem bardziej opłaca się używać pierwszego rozwiązania, a czasem drugiego.
-%Dodatkowo chciałem się przekonać, czy faktycznie zaprezentowane przeze mnie rozwiązania są wydajne. Porównałem je z przedstawioną wcześniej listą implementacji przemysłowych.
-%Jeśli chodzi o testy, to utworzyłem cztery przypadki testowe. Jak można zobaczyć na rysunkach przypadek drugi jest podobny do pierwszego, a przypadek czwarty jest podobny do trzeciego.
 \begin{table}
      \begin{small}
 	\begin{tabular}{ p{4cm} p{6cm} }
@@ -293,6 +276,7 @@ IL\_008:  ret }}
 	\begin{minipage}{.5\textwidth}
 \begin{figure}[H]
 	\begin{center}
+	  	A
   		\includegraphics[height=2.5cm]{TestA.png}
 	\end{center}
 \end{figure}
@@ -301,6 +285,7 @@ IL\_008:  ret }}
 	\begin{minipage}{.5\textwidth}
 \begin{figure}[H]
 	\begin{center}
+		B
   		\includegraphics[height=2.5cm]{TestB.png}
 	\end{center}
 \end{figure}
@@ -309,6 +294,7 @@ IL\_008:  ret }}
 	\begin{minipage}{.5\textwidth}
 \begin{figure}[H]
 	\begin{center}
+		C
   		\includegraphics[height=2.5cm]{TestC.png}
 	\end{center}
 \end{figure}
@@ -317,6 +303,7 @@ IL\_008:  ret }}
 	\begin{minipage}{.5\textwidth}
 \begin{figure}[H]
 	\begin{center}
+		D
   		\includegraphics[height=2.5cm]{TestD.png}
 	\end{center}
 \end{figure}
@@ -327,11 +314,9 @@ IL\_008:  ret }}
 \end{table}
 \end{frame}
 
-\subsection*{Rodzaje rejestracji}
+\subsection*{Typy rejestracji}
 
-\begin{frame}{Rodzaje rejestracji}
- %Dla każdego z nich przeprowadziłem 5 testów - po jednym dla każdego typu rejestracji. Dla każdego z tych testów porównałem osobno czasy dla 1, 10, 100 i 1000 iteracji.
-%Tutaj zaprezentuję wyniki tylko dla jednego testu - Transient, który jest najbardziej popularnym typem rejestracji. Przedstawię wyniki tylko dla dwóch przypadków testowych, ponieważ wyniki dla pozostałych dwóch są bardzo zbliżone.
+\begin{frame}{Typy rejestracji}
 \begin{itemize}
 	\item Register as Singleton,
 	\item Register as Transient,
@@ -341,12 +326,22 @@ IL\_008:  ret }}
 \end{itemize}
 \end{frame}
 
+\begin{frame}{Typy rejestracji}
+\begin{itemize}
+	\color{gray}
+	\item Register as Singleton,
+	\color{black}
+	\item Register as Transient,
+	\color{gray}
+	\item Register as TransientSingleton,
+	\item Register as PerThread (PerScope),
+	\item Register as FactoryMethod.
+\end{itemize}
+\end{frame}
+
 \subsection*{Przypadek testowy A}
 
 \begin{frame}{Przypadek testowy A - graf zależności}
-%W tym teście mamy zdefiniowanych 11 typów. Każdy z nich przyjmuje w konstruktorze o jeden parametr mniej niż typ poprzedni (czyli przyjmują one kolejno od 10 do 0 parametrów w konstruktorze).
-%Typ główny, którego instancję będziemy tworzyć przyjmuje wszystkie 10 parametrów. Każdy kolejny typ przyjmuje te same typy co typ poprzedni za wyjątkiem samego siebie. Ostatni typ ma konstruktor bezparametrowy.
-%W jednej iteracji jest tworzonych łącznie 1 024 obiektów.
 \begin{table}
      \begin{small}
 	\begin{tabular}{ p{7cm} p{2cm} }
@@ -369,8 +364,6 @@ IL\_008:  ret }}
 \end{frame}
 
 \begin{frame}{Przypadek testowy A - Transient}
-%Dla 1 iteracji najniższy czas osiągnął Autofac, ale rozwiązanie Partial osiągnęło czas o niewiele większy. Podobny czas osiągnął również Windsor, a pozostałe rozwiązania mają te czasy już znacząco większe.
-%Dla 10 iteracji już rozwiązanie Partial ma najlepszy czas. Jeśli chodzi o rozwiązanie Full, to nie zanotowało ono zauważalnego wzrostu czasu w stosunku do 1 iteracji.
 Liczba iteracji: 1 i 10
 \begin{table}
 \begin{small}
@@ -410,10 +403,9 @@ Liczba iteracji: 1 i 10
 \end{frame}
 
 \begin{frame}{Przypadek testowy A - Transient}
-%Dla 100 iteracji można zaobserwować, że rozwiązanie Full nadal ma niewielki wzrost czasu w stosunku do znaczącego wzrostu liczby iteracji. Ten wzrost jest natomiast zauważalny dla rozwiązania Partial i wszystkie z rozwiązań, które są uważane za najszybsze zanotowały lepszy czas do niego. Jednakże rozwiązanie Partial wciąż zanotowało czasy znacząco lepsze niż wszystkie najpopularniejsze rozwiązania.
-%Dla 1000 iteracji niewiele się zmieniło, jeśli chodzi o pozycje, ale można zaobserwować, że pierwsze 5 rozwiązań na wzrost około 2-krotny, a pozostałe 6 rozwiązań około 10-krotny.
 Liczba iteracji: 100 i 1000
 \begin{table}
+\begin{center}
 \begin{small}
 	\begin{tabular}{ l  r }
 		\begin{tabular}{ | l | r | }
@@ -447,15 +439,13 @@ Liczba iteracji: 100 i 1000
   		\end{tabular}
   	\end{tabular}
 \end{small}
+\end{center}
 \end{table}
 \end{frame}
 
 \subsection*{Przypadek testowy C}
 
 \begin{frame}{Przypadek testowy C - graf zależności}
-%Dla tego przypadku testowego graf zależności wygląda zupełnie inaczej. Jest tutaj zdefiniowanych 26 typów. 5 z tych typów ma konstruktor bezparametrowy, a pozostałe 21 ma konstruktor z pięcioma parametrami.
-%Za wyjątkiem pierwszych 6 typów, każdy typ występuje w 5 konstruktorach.
-%Tutaj w 1 iteracji jest tworzonych prawie 4 tysiące obiektów (3 906 obiektów).
 \begin{table}
      \begin{small}
 	\begin{tabular}{ p{7cm} p{2cm} }
@@ -478,8 +468,6 @@ Liczba iteracji: 100 i 1000
 \end{frame}
 
 \begin{frame}{Przypadek testowy C - Transient}
-%Dla 1 iteracji te same rozwiązania mają najlepsze czasy, czyli Autofac, Partial oraz Windsor.
-%Dla 10 iteracji układ tabeli jest bardzo zbliżony do poprzedniego przypadku. Ponownie najlepiej radzi sobie rozwiązanie Partial, a rozwiązanie Full zaczyna mieć lepsze czasy od pozostałych rozwiązań.
 Liczba iteracji: 1 i 10
 \begin{table}
 \begin{small}
@@ -519,8 +507,6 @@ Liczba iteracji: 1 i 10
 \end{frame}
 
 \begin{frame}{Przypadek testowy C - Transient}
-%Dla 100 i 1000 iteracji tym razem układ również jest zbliżony do poprzedniego przypadku testowego, czyli najlepszy czas ma rozwiązanie Full, następnie szybkie rozwiązania, a dalej rozwiązanie Partial.
-%Tutaj również dla pierwszych 5 rozwiązań wzrost jest 2-krotny, a pozostały 6 około 10-krotny.
 Liczba iteracji: 100 i 1000
 \begin{table}
 \begin{small}
@@ -569,10 +555,6 @@ Liczba iteracji: 100 i 1000
 \end{frame}
 
 \begin{frame}{}
-%Jak można było zobaczyć na zaprezentowanych wynikach, moje rozwiązania bardzo dobrze realizują postawione we wstępie pracy cele. Dla zaprezentowanych przypadków testowych, dla zaprezentowanego rodzaju rejestracji albo jedno z moich rozwiązań osiągnęło najlepszy wynik albo jego wyniki niewiele odbiegał od najlepszego wyniku. Zawsze któreś z moich rozwiązań było w pierwszej trójce rozwiązań z najlepszymi czasami, a czasami nawet oba. 
-%Podobnie to wygląda dla pozostałych testów i pozostałych przypadków testowych.
-%Co więcej moje rozwiązania można mieszać, czyli w jednym projekcie można korzystać z obu rozwiązań niezależnie. Dzięki temu patrząc całościowo, to moje rozwiązanie jest najbardziej wydajną implementacją wzorca wstrzykiwania zależności dla złożonych grafów zależności. 
-%Dziękuję.
 \begin{table}
      \begin{small}
 	\begin{tabular}{ p{5cm} p{5cm} }
