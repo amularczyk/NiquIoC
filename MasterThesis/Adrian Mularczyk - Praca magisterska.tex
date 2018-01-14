@@ -1,0 +1,2582 @@
+\documentclass[12pt]{article}
+\usepackage[left=3.5cm,right=2cm,top=2.5cm,bottom=2.5cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{tgpagella}
+\usepackage{enumerate}
+\usepackage{url}
+\usepackage{multirow}
+\usepackage{longtable}
+\usepackage{polski}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{ltablex,booktabs}
+\usepackage{amssymb}
+\usepackage{rotating}
+\usepackage{subfigure}
+\usepackage{float}
+\usepackage{tabu}
+\usepackage{caption}
+\usepackage{footnote}
+\usepackage{xspace}
+\usepackage{mathpazo}
+\usepackage[table]{xcolor}
+\usepackage[justification=centering]{caption}
+\graphicspath{ {images/} }
+
+\pagestyle{empty}
+
+\title{\LARGE{Uniwersytet Wrocławski}\\
+\Large{Wydział Matematyki i Informatyki}\\
+\large{Kierunek: Informatyka}}
+
+\date{}
+
+\begin{document}
+\pagestyle{empty}
+
+\begin{titlepage}
+\maketitle
+\thispagestyle{empty}
+
+
+\begin{center}
+\author{\LARGE{Adrian Mularczyk}}
+\vspace{30pt}
+
+\huge{\textbf{Implementacja wydajnego wzorca wstrzykiwania zależności dla złożonych grafów zależności}}
+\vspace{50pt}
+\end{center}
+
+\begin{flushright}
+\large{Praca wykonana pod kierunkiem}
+\large{dr. Wiktora Zychli}
+\end{flushright}
+
+\vfill
+\begin{center}
+\begin{large}
+Wrocław, 2016
+\end{large}
+\end{center}
+\end{titlepage}
+
+
+\setlength{\parindent}{0pt}	%usunięcie wcięć
+\setlength{\parskip}{1.5ex} 
+\renewcommand*{\figurename}{Rys.}
+\renewcommand*{\tablename}{Tab.} 
+\renewcommand{\captionsize}{\small}
+
+\setlength{\intextsep}{0pt}
+
+
+\newpage
+\setcounter{page}{2}
+\pagestyle{plain}
+\textcolor{white}{  }
+\begin{center}
+\textbf{Streszczenie}\\
+\vspace{16pt}
+\textbf{Implementacja wydajnego wzorca wstrzykiwania zależności dla złożonych grafów zależności}
+\end{center}
+Wstrzykiwanie zależności jest to zbiór zasad projektowania oprogramowania, które umożliwiają luźne powiązania. Dzięki temu kod jest rozszerzalny i łatwiejszy w utrzymaniu. Celem tej pracy było stworzenie takiej realizacji, która będzie sprawdzała się dla złożonych grafów zależności. Aplikacja została napisana w środowisku .NET z wykorzystaniem przestrzeni nazw Reflecion.Emit oraz jest w pełni przetestowana. W pracy zaproponowano dwa równorzędne, niezależne podejścia, oba porównano pod kątem wydajnościowym. Porównanie obejmuje również 5 najbardziej popularnych i 4 najszybsze rozwiązania. Końcowe wyniki wykazały, że z obecnie dostępnych rozwiązań na rynku, zaprezentowane w niniejszej pracy radzi sobie najlepiej.
+
+\clearpage
+\begin{center}
+\textbf{Abstract}\\
+\vspace{16pt}
+\textbf{Implementing an efficient dependency injection pattern for complex dependency graphs}
+\end{center}
+Injection Dependency is a set of software design principles that allow for loose binding. This makes the code more extensible and easier to maintain. The purpose of this work was to create such an implementation that would work efficiently for complex dependency graphs. The application was written in a .NET environment using the Reflecion.Emit namespace and is fully tested. The paper proposes two equivalent, independent approaches which are compared for performance. The comparison also includes the 5 most popular and 4 fastest solutions. The final results show that from solutions available nowadays on the market, the best solutions are these presented in this paper.
+
+
+\clearpage
+\tableofcontents
+
+
+\clearpage
+\section{Wstęp}
+\subsection{Cel pracy}
+Wstrzykiwanie zależności jest wzorcem projektowym, który pozwala na tworzenie kodu o luźniejszych powiązaniach, łatwiejszego w testowaniu i modyfikacji. Najbardziej popularnymi implementacjami tego wzorca na platformie .NET są \textbf{Unity} i \textbf{Ninject}. Niestety większość rozwiązań skupia się na zapewnieniu jak największej liczby funkcjonalności, co ma negatywne skutki dla wydajności. O ile przy małej liczbie zależności te czasy nie są zbyt duże, to wraz ze wzrostem zależności wydajność zauważalnie spada.\\
+\\
+Celem niniejszej pracy magisterskiej jest stworzenie takiej implementacji tego wzorca, która będzie wydajna dla złożonych grafów zależności, ale również będzie dostarczać niezbędnej funkcjonalności. Do tego celu zostaną wykorzystane mechanizmy z przestrzeni nazw \textbf{Reflection.Emit}. W tej pracy zostaną przedstawione dwa rozwiązania tego problemu.
+
+\subsection{Układ pracy}
+Poza wstępem i podsumowaniem praca składa się jeszcze z czterech rozdziałów. Pierwszy z nich opisuje idee stojące za wstrzykiwaniem zależności. W kolejnym znajduje się opis teoretyczny tego, czym jest wstrzykiwanie zależności. Następny rozdział został poświęcony mojej implementacji tego wzorca. Ostatni z rozdziałów skupia się na testach wydajnościowych, w których są porównywane rozwiązania przedstawione w tej pracy, z kilkoma najbardziej popularnym i kilkoma najwydajniejszymi rozwiązaniami.
+
+
+
+\clearpage
+\section{Odwrócenie zależności}
+\subsection{SOLID}
+Na przestrzeni lat powstało bardzo dużo projektów. Część z nich była łatwiejsza w utrzymaniu, część trudniejsza. Analiza tych projektów pozwoliła zauważyć, że są pewne zasady, które powodują, że projekty rozwija się łatwiej. Te zasady zostały połączone w zbiory zasad. Najbardziej popularnych i powszechnie stosowanym zbiorem zasad jest SOLID \cite{SOLID}:
+\begin{itemize}
+	\item SRP (Single responsibility principle) - klasa powinna mieć tylko jedną odpowiedzialność (nigdy nie powinien istnieć więcej niż jeden powód do modyfikacji klasy).
+	\item OCP (Open/closed principle) - klasy powinny być otwarte na rozszerzenia i zamknięte na modyfikacje.
+	\item LSP (Liskov substitution principle) - funkcje które używają klas bazowych, muszą być w stanie używać również obiektów klas dziedziczących po klasach bazowych, bez dokładnej znajomości tych obiektów.
+	\item ISP (Interface segregation principle) - wiele dedykowanych interfejsów jest lepsze niż jeden ogólny.
+	\item DIP (Dependency inversion principle) - wysokopoziomowe moduły nie powinny zależeć od modułów niskopoziomowych. Zależności między nimi powinny wynikać z abstrakcji.
+\end{itemize}
+Niniejsza praca w dużej mierze skupia się na rozwiązaniu dla zasady DIP - Dependency inversion principle. 
+
+\subsubsection{Przykład dla zasady DIP}
+Rys. \ref{fig:Solid_without} przedstawia przykładową klasę bez zastosowania zasady DIP.\\
+\begin{figure}[H]
+	\begin{center}
+  		\includegraphics{Solid_without.png}
+  		\caption{Przykładowa klasa bez zasady DIP}
+  		\label{fig:Solid_without}
+	\end{center}
+\end{figure}
+Rys. \ref{fig:Solid_with} przedstawia tę samą klasę po zastosowaniu zasady DIP.\\
+\begin{figure}[H]
+	\begin{center}
+  		\includegraphics{Solid_with.png}
+  		\caption{Przykładowa klasa z zasadą DIP}
+  		\label{fig:Solid_with}
+	\end{center}
+\end{figure}
+Łatwo zauważyć, że teraz klasy \textbf{Bar} nie interesuje implementacja klasy \textbf{Foo}. Spodziewa się jedynie, że otrzyma implementację interfejsu \textbf{IFoo}, który dostarcza metody \textbf{DoSomeWork}. Dzięki takiemu podejściu w łatwy sposób można podmienić implementację interfejsu \textbf{IFoo} w klasie \textbf{Bar}. Zatem tworząc ciało metody \textbf{DoSomething} w klasie \textbf{Bar} nie trzeba się przejmować implementacją metody \textbf{DoSomeWork}, tylko należy rozważyć jej "kontrakt", zobowiązanie do realizacji założonej funkcjonalności.\\
+\\
+Kolejną zaletą takiego podejścia jest to, że teraz w łatwy sposób można przetestować metodę \textbf{DoSomething} - można stworzyć przykładową implementację interfejsu \textbf{IFoo} lub użyć tzw. obiektu zastępczego (ang. mock).
+
+
+\subsection{Kontenery wstrzykiwania zależności}
+Aby łatwiej zastosować zasadę DIP można wesprzeć się tzw. kontenerem wstrzykiwania zależności (ang. Dependency Injection Container). Jest to obiekt, który przechowuje mapę, w której abstrakcje (interfejsy, klasy abstrakcyjne) mają przyporządkowane implementacje (klasy implementujące interfejsy lub dziedziczące z klas abstrakcyjnych).\\
+\\
+Kontenery dostarczają nam kilku funkcjonalności. Jedną z nich jest oczywiście możliwość zdefiniowania tego jakiej instancję jakiej klasy należy zwrócić w miejsce konkretnego interfejsu. Drugą, również ważną funkcjonalnością, jest tworzenie (na podstawie przechowywanego mapowania) instancji obiektów konkretnej klasy lub implementujących określony interfejs. Niektóre kontenery dostarczają również mechanizmy pozwalające rozszerzyć tworzenie nowych instancji o elementy programowania aspektowego.
+
+\subsubsection{Przykład}
+Załóżmy, że mamy dwie klasy: \textbf{A} i \textbf{B}, zdefiniowane jak na Rys. \ref{fig:Example_Container}. \\ \\
+\begin{figure}[H]
+	\begin{center}
+  		\includegraphics{Example_Container.png}
+  		\caption{Definicja przykładowych klas A i B}
+  		\label{fig:Example_Container}
+	\end{center}
+\end{figure}
+\clearpage
+Rejestracja tych klas w kontenerze wygląda następująco: \\
+\\
+\texttt{container.Register<A>();\\
+container.Register<B>();}\\
+\\
+Obiekty tych klas (przy pomocy kontenera) można uzyskać w następujący sposób: \\
+\\
+\texttt{container.Resolve<B>();\\
+container.Resolve<A>();}\\
+\\
+Stworzenie obiektu klasy \textbf{B} przy pomocy operacji \textbf{Resolve} jest proste, ponieważ ta klasa nie ma żadnych zależności. Dla obiektu klasy \textbf{A} ta operacja jest już bardziej skomplikowana, ponieważ wymaga przejrzenia struktury kodu i odkrycia, że do wygenerowania obiektu klasy \textbf{A} wymagany jest obiekty klasy \textbf{B}.\\
+\\
+Operacja \textbf{Resolve} może się jeszcze bardziej skomplikować, gdy zostanie dodana polityka czasu życia. Jeśli klasa \textbf{B} zostanie zarejestrowana jako singleton:\\
+\\
+\texttt{container.Register<B>(new SharedLifetimePolicy());}\\
+\\
+To każdy nowo tworzony obiekty klasy \textbf{A} powinien otrzymać w konstruktorze dokładnie ten sam obiekt klasy \textbf{B}.\\
+\\
+Operacja \textbf{Register} zaczyna się robić praktyczna, gdy dla klasy \textbf{B} dodamy abstrakcję: \\
+\\
+\texttt{container.Register<IB, B>(new SharedLifetimePolicy());}\\
+\\
+Należy poprawić również kod klas \textbf{A} i \textbf{B} (Rys. \ref{fig:Example_Container2}). \\ \\
+\begin{figure}[H]
+	\begin{center}
+  		\includegraphics{Example_Container2.png}
+  		\caption{Nowa definicja przykładowych klas A i B}
+  		\label{fig:Example_Container2}
+	\end{center}
+\end{figure}
+Możliwość rejestracji implementacji dla wskazanej abstrakcji jest kluczem do spełnienia postulatów reguły DIP przez kontener. Kontener otrzymuje wtedy pełną wiedzę i odpowiedzialność za koordynowanie rozwiązywania zależności. Rekonfiguracja zależności wymaga tylko i wyłącznie zmiany konfiguracji, którą zna tylko kontener.\\
+\\
+Dzięki takiemu podejściu programowanie rozległej aplikacji staje się "projektowaniem jej architektury" - określaniem miękkich zależności między klasami (przez abstrakcje) i komponowaniem ostatecznego kształtu aplikacji (wskazywaniem jak implementowane są abstrakcje) w miejscu konfiguracji kontenera.\\
+\\
+Warto dodać, że wiele kontenerów wspiera konfigurację deklaratywną (w postaci plików np. XML) co powoduje, że aplikację można przekonfigurować bez potrzeby jej kompilacji, wyłącznie przez zmianę konfiguracji (mapowania abstrakcji na implementacje) w plikach konfiguracyjnych. 
+
+
+\clearpage
+\section{Wstrzykiwanie zależności}
+\subsection{Wstęp}
+Wstrzykiwanie zależności jest niczym więcej niż techniką, która umożliwia luźne powiązania, a luźne powiązania sprawiają, że kod jest rozszerzalny i łatwy w utrzymaniu.\cite{dependency_injection}\\
+Wstrzykiwanie zależności może odbywać się na 3 sposoby:
+\begin{itemize}
+	\item Wstrzykiwanie przez konstruktor.
+	\item Wstrzykiwanie przez metodę.
+	\item Wstrzykiwanie przez właściwość.
+\end{itemize}
+
+\subsubsection{Wstrzykiwanie przez konstruktor}
+Jest to główny i najbardziej popularny sposób wstrzykiwania zależności. Niektóre klasy mają więcej niż jeden konstruktor. Atrybut \textbf{DependencyConstructor} przydaje się wtedy do oznaczenia, który z nich ma zostać wybrany przy tworzeniu nowego obiektu. Przykład klasy z atrybutem \textbf{DependencyConstructor} przedstawia Rys. \ref{fig:DependencyConstructor}.\\ \\
+\begin{figure}[H]
+	\begin{center}
+  		\includegraphics{DependencyConstructor.png}
+  		\caption{Przykładowa klasa z atrybutem DependencyConstructor}
+  		\label{fig:DependencyConstructor}
+	\end{center}
+\end{figure}
+
+\subsubsection{Wstrzykiwanie przez metodę}
+Ten sposób wstrzykiwanie z reguły odbywa się albo poprzez oznaczenie metody (przez którą chcemy wstrzyknąć zależności) odpowiednim atrybutem, albo przez wskazanie odpowiedniej metody podczas rejestracji. Przykład klasy z oznaczeniem metody odpowiednim atrybutem przedstawia Rys. \ref{fig:DependencyMethod}.
+\begin{figure}[H]
+	\begin{center}
+  		\includegraphics{DependencyMethod.png}
+  		\caption{Przykładowa klasa z atrybutem DependencyMethod}
+  		\label{fig:DependencyMethod}
+	\end{center}
+\end{figure}
+
+\subsubsection{Wstrzykiwanie przez właściwość}
+Dla tego sposobu podobnie jak dla wstrzykiwania przez metodę, to wstrzykiwanie z reguły odbywa się albo poprzez oznaczenie właściwości, przez którą chcemy wstrzyknąć zależności odpowiednim atrybutem, albo przy rejestracji danej klasy definiujemy przez jakie właściwości chcemy wstrzyknąć zależności. Przykład klasy z oznaczeniem właściwości odpowiednim atrybutem przedstawia Rys. \ref{fig:DependencyProperty}.\\ \\
+\begin{figure}[H]
+	\begin{center}
+  		\includegraphics{DependencyProperty.png}
+  		\caption{Przykładowa klasa z atrybutem DependencyProperty}
+  		\label{fig:DependencyProperty}
+	\end{center}
+\end{figure}
+
+
+\subsection{Implementacje przemysłowe}
+Na rynku jest wiele implementacji wstrzykiwania zależności. Poniżej przedstawiono kilka najbardziej popularnych (według ilości pobrań z NuGet) oraz kilka najszybszych (według rankingu na blogu Daniela Palme \cite{IoCBenchmark}).\\
+\\
+Dane pochodzą z dnia 21-02-2017. W nawiasie znajduje się wersja implementacji, która została użyta w testach (najnowsza na dany dzień).\\
+\\
+Najbardziej popularne:
+\begin{itemize}
+	\item \textbf{Unity} (4.0.1) - ponad 5,2 mln pobrań,
+	\item \textbf{NInject} (3.2.2) - ponad 4,0 mln pobrań,
+	\item \textbf{Autofac} (4.3.0) - ponad 3,7 mln pobrań,
+	\item \textbf{StructureMap} (4.4.3) - ponad 1,6 mln pobrań,
+	\item \textbf{Windsor} (3.4.0) - ponad 1,4 mln pobrań.
+\end{itemize}
+Najszybsze:
+\begin{itemize}
+	\item \textbf{Grace} (5.1.0),
+	\item \textbf{DryIoc} (2.10.1),
+	\item \textbf{LightInject} (5.0.1),
+	\item \textbf{SimpleInjector} (3.3.2).
+\end{itemize}
+
+
+
+\clearpage
+\section{Implementacja}
+Kod źródłowy programu jest dostępnym w repozytorium pod adresem:\\
+\url{https://github.com/amularczyk/NiquIoC}\\
+\\
+Znajduje się tam również kod programu, który posłużył do wykonania testów wydajnościowych, a także niniejsza praca napisana w języku LateX. Dodatkowo załączone są wszystkie obrazki zawarte w niniejszej pracy.
+
+\subsection{Środowisko pracy}
+Praca oraz wszystkie testy powstały na komputerze z parametrami:
+\begin{itemize}
+	\item Intel Core i7-4720HQ (2.60GHz)
+	\item 12 GB pamięci RAM
+	\item Dysk SSD
+\end{itemize}
+Narzędzia użyte do stworzenia pracy i testów:
+\begin{itemize}
+	\item System operacyjny Windows 10 Pro
+	\item .Net Framework w wersji 4.6.1
+	\item Visual Studio 2017 Community
+	\item MSTest
+	\item ReSharper
+	\item dotCover
+	\item Dia
+\end{itemize}
+
+
+\subsection{Wstęp}
+Na początku chciałbym pokrótce opisać dwie rzeczy, które są istotne dla rozwiązania przedstawionego w niniejszej pracy. Pierwszą z nich jest \textbf{Common Intermediate Language}, a drugą przestrzeń nazw \textbf{Reflection.Emit}.
+
+\subsubsection{Common Intermediate Language}
+\textbf{Common Intermediate Language} - CIL (w skrócie IL) to język pośredni do którego jest kompilowany kod C\#. Język ten pozwala na komunikację między aplikacjami napisanymi na platformie .NET, a systemem operacyjnym.\\
+\\
+CIL jest językiem w całości opartym na stosie. Dodatkowo jest w nim możliwość zdefiniowania zmiennych lokalnych, a także wczytania argumentów. Dostępnymi operacjami są: pobranie wartości ze stosu, umieszczenie wartości na stosie, operacje arytmetyczne oraz wywołanie funkcji.\\
+\\
+Rys. \ref{fig:Example_Abs} przedstawią funkcję \textbf{Abs} napisaną w języku C\#, która zwraca wartość bezwzględną z danej liczby.\\ \\
+\begin{figure}[H]
+	\begin{center}
+  		\includegraphics{Example_Abs.png}
+  		\caption{Przykładowa metoda Abs}
+  		\label{fig:Example_Abs}
+	\end{center}
+\end{figure}
+Taka funkcja w języki CIL wyglądałaby następująco:\\ \\
+\texttt{.method public hidebysig instance int32  Abs(int32 x) cil managed }\\
+\texttt{\{ }\\
+// wczytaj pierwszy argument funkcji i umieść go na szczycie stosu \\
+\texttt{  IL\_0000:  ldarg.1 }\\
+// umieść 0 na szczycie stosu \\
+\texttt{  IL\_0001:  ldc.i4.0 }\\
+// jeśli pierwsza wartość na szycie stosu jest większa od drugiej, idź do operacji IL\_006 \\
+\texttt{  IL\_0002:  blt.s      IL\_0006 }\\
+// wczytaj pierwszy argument funkcji i umieść go na szczycie stosu \\
+\texttt{  IL\_0004:  ldarg.1 }\\
+// zwróć wartość ze szczytu stosu \\
+\texttt{  IL\_0005:  ret }\\
+// wczytaj pierwszy argument funkcji i umieść go na szczycie stosu \\
+\texttt{  IL\_0006:  ldarg.1 }\\
+// zmień znak na przeciwny wartości na szczycie stosu \\
+\texttt{ IL\_007:  neg }\\
+// zwróć wartość ze szczytu stosu \\
+\texttt{  IL\_008:  ret }\\
+\texttt{\} }
+
+\subsubsection{Reflection.Emit}
+Przestrzeń nazw \textbf{Reflection.Emit} pozwala w kodzie programu, w sposób dynamiczny, na utworzenie listy operacji w języku IL, a następnie zapamiętanie ciągu tych operacji jako delegat. Za każdym razem, gdy delegat zostanie wywołany, wykona się ciąg wcześniej zdefiniowanych operacji IL.\\
+\\
+Rys. \ref{fig:Example_Emit} przedstawia funkcję, która stworzy delegata dla funkcji z Rys. \ref{fig:Example_Abs}.\\ \\
+\begin{figure}[H]
+	\begin{center}
+  		\includegraphics{Example_Emit.png}
+  		\caption{Przykład stworzenia delegata dla metody Abs}
+  		\label{fig:Example_Emit}
+	\end{center}
+\end{figure}
+Przykład użycia tego delegata został przedstawiony na Rys. \ref{fig:Example_Delegate}.\\ \\
+\begin{figure}[H]
+	\begin{center}
+  		\includegraphics{Example_Delegate.png}
+  		\caption{Przykład użycia delegata dla metody Abs}
+  		\label{fig:Example_Delegate}
+	\end{center}
+\end{figure}
+
+\subsection{Opis}
+Aplikacja składa się z 1 głównego projektu i 8 projektów na potrzeby testów. Rozwiązanie jest stosunkowo złożone. Aby mieć pewność, że działa w pełni dobrze, zostało stworzone ponad 1250 testów jednostkowych. Pokrycie kodu testami wynosi ponad 97\%.\\
+\\
+\\
+W wykonanej implementacji został stworzony interfejs \textbf{IContainer}, który składa się z interfejsów zawierających niezbędne operacje, jakie powinny się znaleźć w każdym kontenerze (Rys. \ref{fig:IContainer}).\\ \\
+\begin{figure}[H]
+	\begin{center}
+  		\includegraphics{IContainer.png}
+  		\caption{Interfejs IContainer}
+  		\label{fig:IContainer}
+	\end{center}
+\end{figure}
+Pierwszy z tych interfejsów to \textbf{IContainerRegister} (Rys. \ref{fig:IContainerRegister}). Zawiera on metody służące do zarejestrowania typów w kontenerze.\\ \\
+\begin{figure}[H]
+	\begin{center}
+  		\includegraphics{IContainerRegister.png}
+  		\caption{Interfejs IContainerRegister}
+  		\label{fig:IContainerRegister}
+	\end{center}
+\end{figure}
+Drugi z nich to \textbf{IContainerResolve} (Rys. \ref{fig:IContainerResolve}). Składa się on z metod odpowiedzialnych za tworzenie i zwracanie obiektów wcześniej zarejestrowanych typów.\\ \\
+\begin{figure}[H]
+	\begin{center}
+  		\includegraphics{IContainerResolve.png}
+  		\caption{Interfejs IContainerResolve}
+  		\label{fig:IContainerResolve}
+	\end{center}
+\end{figure}
+Ostatni z tych interfejsów to \textbf{IContainerBuildUp} (Rys. \ref{fig:IContainerBuildUp}). Jego metody służą do uzupełnienia istniejącej instancji obiektu z wykorzystaniem wstrzykiwania zależności przez metodę i właściwość. Są to operacje opcjonalne i nie każde przemysłowe rozwiązanie je zawiera.\\ \\
+\begin{figure}[H]
+	\begin{center}
+  		\includegraphics{IContainerBuildUp.png}
+  		\caption{Interfejs IContainerBuildUp}
+  		\label{fig:IContainerBuildUp}
+	\end{center}
+\end{figure}
+Poniżej znajduje się szczegółowy opis metod z każdego z powyższych interfejsów.
+
+\subsubsection{Register}
+W pierwszej i drugiej metodzie interfejsu \textbf{IContainerRegister} można zarejestrować zwykłe klasy. W trzeciej i czwartej interfejsy oraz klasy, które implementują dany interfejs lub klasy i klasy po nich dziedziczące. W piątej i szóstej metodzie można zarejestrować klasę jako fabrykę obiektów - funkcję, która ma zwrócić pożądany obiekt. W siódmej (ostatniej) natomiast można zarejestrować konkretną instancję danego typu.\\
+\\
+W rozwiązaniu przedstawionym w tej pracy każdy typ może być zarejestrowany tylko raz - ponowna rejestracja tego samego typu nadpisuje istniejącą rejestrację.\\
+\\
+Każda z tych siedmiu metod rejestracji zwraca interfejs \textbf{IContainerMember} (Rys. \ref{fig:IContainerMember}), który umożliwia zarejestrowanie danego typu z określonym menadżerem czasu życia (czyli implementacją interfejsu \textbf{IObjectLifetimeManager} - Rys. \ref{fig:IObjectLifetimeManager}). Celem takiego podejścia jest umożliwienie określenia polityki czasu życia dla nowo tworzonych instancji, ponieważ dla różnych przypadków biznesowych może istnieć potrzeba, aby obiekt danego typu miał konkretny czas życia.\\
+\begin{figure}[H]
+	\begin{center}
+  		\includegraphics{IContainerMember.png}
+  		\caption{Interfejs IContainerMember}
+  		\label{fig:IContainerMember}
+	\end{center}
+\end{figure}
+Pierwsze cztery metody interfejsu \textbf{IContainerMember}, to wbudowane implementacje interfejsu \textbf{IObjectLifetimeManager}. Piąta metoda dostarcza możliwość podania przez użytkownika jego własnej implementacji tego interfejsu. Domyślną polityką czasu życia nowo tworzonych instancji jest polityka \textbf{Transient}, czyli zwracanie nowej instancji obiektu za każdym razem, kiedy kontener rozwiązuje zależność.\\
+\\
+Wyjaśnienie nazw polityk czasu życia:
+\begin{itemize}
+	\item \textbf{Singleton} - za każdym razem zwracany jest ten sam obiekt.
+	\item \textbf{Transient} - za każdym razem zwracany jest nowy obiekt.
+	\item \textbf{PerThread} - wewnątrz danego wątku zwracany jest ten sam obiekt, ale dla innego wątku zwracany jest nowy (inny) obiekt.
+	\item \textbf{PerHttpContext} - wewnątrz danego żądania Http zwracany jest ten sam obiekt, ale dla innego żądania zwracany jest nowy (inny) obiekt.
+\end{itemize}
+
+W interfejsie \textbf{IObjectLifetimeManager} właściwość \textbf{ObjectFactory} służy do ustawienia funkcji, która zwraca obiekt. Metoda \textbf{GetInstance} służy do pobrania obiektu.\\
+W zależności od implementacji tego interfejsu, obiekt zwracany z metody \textbf{GetInstance} może być zawsze taki sam, zawsze różny albo taki sam tylko dla określonych sytuacji (np. taki sam dla tego samego wątku albo tego samego żądania http).\\ \\
+\begin{figure}[H]
+	\begin{center}
+  		\includegraphics{IObjectLifetimeManager.png}
+  		\caption{Interfejs IObjectLifetimeManager}
+  		\label{fig:IObjectLifetimeManager}
+	\end{center}
+\end{figure}
+
+\subsubsection{Resolve}
+Metody interfejsu \textbf{IContainerResolve} są głównymi operacjami. \textbf{Register} można nazwać sercem kontenera, a \textbf{Resolve} mózgiem. Każda z metod tego interfejsu odpowiada za stworzenie i zwrócenie obiektu odpowiedniego typu.\\
+\\
+W niniejszej pracy zaproponowano dwa rozwiązania - \textbf{PartialEmitFunction} i \textbf{FullEmitFunction} (różnice między nimi zostaną opisane w dalszej części pracy). W związku z tym metody rejestracji jako opcjonalny parametr przyjmują wartość enumeracji określającej wybraną politykę - \textbf{ResolveKind} (dzięki temu w przyszłości może być ona w łatwy sposób rozszerzona o kolejne rozwiązania). W interfejsie znajdują się również metody, które nie przyjmują tego parametru. Zostały one dodane na wypadek, gdy ktoś będzie zawsze korzystał tylko z jednego z rozwiązań (może ustawić je jako domyślne np. w konstruktorze).
+
+\subsubsection{BuildUp}
+Interfejs \textbf{IContainerBuildUp} to zwyczajowy, użyteczny dodatek do kontenera. Gdy mamy utworzony obiekt, ale nie jest on w pełni uzupełniony, to można go rozbudować (używając metody z odpowiednią wartością enumeracji \textbf{ResolveKind} lub tej z wartością domyślną). Z metodami tego interfejsu są powiązane bezpośrednio dwa pojęcia - wstrzykiwanie przez metodę i wstrzykiwanie przez właściwość. Do tego celu w niniejszym rozwiązaniu utworzono dwa atrybuty:
+\begin{itemize}
+	\item \textbf{DependencyMethod} (dla metod)
+	\item \textbf{DependencyProperty} (dla właściwości)
+\end{itemize}
+Podczas operacji \textbf{BuildUp} wywoływane są wszystkie metody i uzupełniane są wszystkie właściwości, które mają powyżej wymienione atrybuty. Opisywana operacja jest również wykonywana podczas operacji \textbf{Resolve}.\\
+\\
+Warto odnotować, że ze względu na szczegóły implementacyjne, tylko jedno z niniejszych rozwiązań wspiera operację \textbf{BuildUp}. Jest to rozwiązanie \textbf{PartialEmitFunction}. W rozwiązaniu \textbf{FullEmitFunction} ta funkcjonalność nie została zaimplementowana. Jest to spowodowane skomplikowaniem tego rozwiązania i małą potrzebą biznesową używania tej operacji. Jednakże w przyszłości istnieje możliwość jej dodania.\\
+\\
+\\
+W aplikacji istnieje również atrybut \textbf{DependencyConstructor}. Można go użyć podczas definicji konstruktora danej klasy. Obiekt każdej klasy jest tworzony przy użyciu konstruktora. Klasa może mieć kilka konstruktorów. W niniejszym rozwiązaniu utworzono logikę wyboru odpowiedniego konstruktora, przy pomocy którego ma zostać stworzony obiekt. Wygląda ona następująco:
+\begin{itemize}
+	\item Jeśli jest jeden konstruktor, to go wybierz.
+	\item Jeśli jest kilka konstruktorów, to wybierz odpowiedni w poniższej kolejności:
+	\begin{enumerate}
+		\item Konstruktor z atrybutem \textbf{DependencyConstructor}
+		\item Konstruktor z największą liczbą parametrów
+	\end{enumerate}
+	\item Jeśli jest kilka konstruktorów z atrybutem \textbf{DependencyConstructor} albo nie ma żadnego konstruktora z tym atrybutem i jest kilka z największą liczbą parametrów, to rzuć wyjątek.
+\end{itemize}
+
+
+\subsection{Rozwiązanie}
+Utworzenie instancji nowego obiektu zajmuje czas. Gdy graf zależności dla jakiegoś typu jest bardzo rozbudowany, to stworzenie obiektu takiego typu zajmuje dużo czasu. Proces ten można podzielić na trzy etapy:
+\begin{itemize}
+	\item Uzyskanie informacji o tym, jakich typów obiekty są potrzebne do stworzenia danego obiektu.
+	\item Stworzenie tych pomocniczych obiektów.
+	\item Stworzenie docelowego obiektu.
+\end{itemize}
+W przypadku rozbudowanych grafów zależności zdarza się, że niektóre typy się powtarzają. Zatem pewne informacje można uzyskać raz, a następnie je zapamiętać. Aby implementacja wzorca wstrzykiwania zależności działała wydajnie dla złożonych grafów zależności, należy jak najwięcej informacji przechowywać w pamięci podręcznej.\\
+\\
+W niniejszej implementacji utworzono dwie strategie, które realizują wyżej opisane założenia. Pierwszy krok jest taki sam dla obu rozwiązań. Jest to uzyskanie informacji jakich typów obiekty są potrzebne do stworzenia danego obiektu. Natomiast kolejne kroki już się różnią. W pierwszym rozwiązaniu (które nazwano \textbf{PartialEmitFunction}) całym proces tworzenia nowego obiektu został rozbity na mniejsze części (docelowy obiekt jest tworzony po kawałku). Każda taka osobna część jest zapisywana w pamięci podręcznej. W drugim rozwiązaniu w pamięci podręcznej jest zapisana tylko jedna operacja. Zawiera ona listę wszystkich kroków, które są niezbędne do stworzenia docelowego obiektu. Finalnie docelowy obiekt jest tworzony przy pomocy jednej operacji (kroki drugi i trzeci są połączone). To rozwiązanie nazwano \textbf{FullEmitFunction}.\\
+\\
+W obu rozwiązaniach do zapamiętania kroków potrzebnych do stworzenia obiektu danego typu wykorzystano operacje z przestrzeni nazw \textbf{Reflection.Emit}.
+
+\subsubsection{Krok pierwszy}
+Na początku algorytm znajduje odpowiedni konstruktor, przy pomocy którego ma zostać stworzony nowy obiekt. Jeśli robi to po raz pierwszy dla danego typu, to informacje o tym konstruktorze zapisuje w pamięci podręcznej. Do tego celu zostaje użyta struktura danych słownik, gdzie kluczem jest typ obiektu, a wartością obiekt klasy \textbf{ContainerMember} (Rys. \ref{fig:ContainerMember}), w którym przechowujemy wszystkie zapamiętane informacje dla danego typu. Następnym krokiem jest rekurencyjne wywołanie opisywanej operacji dla wszystkich typów, których obiekty są niezbędne do stworzenia obiektu docelowego typu.\\
+\\
+W wyżej opisanej operacji jest kilka wyjątków - są nimi typy zarejestrowane jako \textbf{Instance} albo \textbf{FactoryObject}. Dla pierwszego przypadku nie istnieje potrzeba uzyskiwania informacji o tym jak stworzyć obiekt takiego typu. Taki obiekt jest już stworzony i zostaje on po prostu wykorzystany. Dla drugiego przypadku obiekt tworzony jest przy użyciu wcześniej zdefiniowanej przez użytkownika funkcji, której wywołanie spowoduje stworzenie obiektu oczekiwanego typu. \\ \\
+\begin{figure}[H]
+	\begin{center}
+  		\includegraphics{ContainerMember.png}
+  		\caption{Klasa ContainerMember}
+  		\label{fig:ContainerMember}
+	\end{center}
+\end{figure}
+
+Klasa \textbf{ContainerMember} przechowuje:
+\begin{itemize}
+	\item Informacje o konstruktorze, przy pomocy którego należy utworzyć obiekt danego typu.
+	\item Informacje o parametrach tego konstruktora.
+	\item Informacje o właściwościach danego typu (na potrzeby operacji \textbf{BuildUp}).
+	\item Informacje o metodach danego typu (na potrzeby operacji \textbf{BuildUp}).
+	\item Czy występuje cykl w konstruktorze.
+	\item Czy należy zapamiętać informacje dla danego typu (domyślnie tak, dla typów zarejestrowanych jako \textbf{Instance} albo \textbf{ObjectFactory} - nie).
+	\item Zarejestrowany typ (ta sama wartość, co klucz ze słownika).
+	\item Zwracany typ.
+	\item Informacje o menedżerze cyklu życia.
+\end{itemize}
+
+\subsubsection{Rozwiązanie 1 - PartialEmitFunction}
+Cały algorytm jest zawarty w metodzie \textbf{Resolve} (Rys. \ref{fig:PartialEmitFunction_Resolve}). Sama ta metoda jest dość krótka, ale wywołuje ona kolejne (dłuższe) metody.\\
+\\
+Docelowy obiekt jest tworzony przy pomocy funkcji. Na początku następuje sprawdzenie, czy już wcześniej została utworzona taka funkcja. Jeśli tak, będzie ona zapisana w klasie \textbf{ContainerMember} we właściwości \textbf{ObjectLifetimeManager}. Wywołanie funkcji kończy działanie algorytmu. Jeśli funkcja nie została wcześniej utworzona, to następuje jej utworzenie.\\
+\\
+Wyżej wspomniana funkcja nie przyjmuje żadnych parametrów, a jej typem wynikowym jest obiekt. Ciało tej funkcji jest bardzo proste - ma ona wykonać metodę i zwrócić jej rezultat, którym jest docelowy obiekt.\\ \\
+\begin{figure}[H]
+	\begin{center}
+  		\includegraphics{PartialEmitFunction_Resolve.png}
+  		\caption{Metoda Resolve klasy PartialEmitFunction}
+  		\label{fig:PartialEmitFunction_Resolve}
+	\end{center}
+\end{figure}
+
+Metoda \textbf{GetObject} (Rys. \ref{fig:PartialEmitFunction_GetObject}) jest trochę bardziej rozbudowana. Na początku są pobierane informacje dotyczące parametrów konstruktora danego typu. Następnie dla każdego z tych parametrów jest tworzony obiekt przy pomocy funkcji \textbf{Resolve} (opisanej wyżej). W tym przypadku wykorzystano rekurencje. Gdy obiekty dla wszystkich parametrów konstruktora zostały utworzone, ich lista jest przekazywana do metody \textbf{CreateInstanceFunction}, która zwraca instancję obiektu oczekiwanego typu. Na koniec jest wywoływana funkcja \textbf{afterObjectCreate} i docelowy obiekt zostaje zwrócony.\\ \\
+\begin{figure}[H]
+	\begin{center}
+  		\includegraphics{PartialEmitFunction_GetObject.png}
+  		\caption{Metoda GetObject klasy PartialEmitFunction}
+  		\label{fig:PartialEmitFunction_GetObject}
+	\end{center}
+\end{figure}
+
+Na początku metody \textbf{CreateInstanceFunction} (Rys. \ref{fig:PartialEmitFunction_CreateInstanceFunction}) występuje sprawdzenie, czy funkcja potrafiąca zwrócić obiekt docelowego typu została utworzona.\\
+\\
+Jeśli wynik jest pozytywny, to przy pomocy funkcji jest tworzony i zwracany obiekt. Funkcja jako argument przyjmuje listę obiektów w kolejności zgodnej z listą parametrów konstruktora.\\
+\\
+Jeśli wynik jest negatywny, to przy pomocy metody \textbf{CreateObjectFunction} wymagana funkcja jest tworzona. W kolejnym kroku jest ona zapisywana w pamięci podręcznej (również w strukturze słownik, której kluczem jest typ, a wartością jest funkcja). Dalej dzieje się to samo, co w sytuacji, gdy funkcja jest już utworzona.\\ \\
+\begin{figure}[H]
+	\begin{center}
+  		\includegraphics{PartialEmitFunction_CreateInstanceFunction.png}
+  		\caption{Metoda CreateInstanceFunction klasy PartialEmitFunction}
+  		\label{fig:PartialEmitFunction_CreateInstanceFunction}
+	\end{center}
+\end{figure}
+
+\textbf{CreateObjectFunction} (Rys. \ref{fig:PartialEmitFunction_CreateObjectFunction}) jest najbardziej zaawansowaną metodą w tym algorytmie. To w niej wykorzystano metody z przestrzeni nazw \textbf{Reflection.Emit}.\\
+\\
+Na początku są pobierane informacje o konstruktorze. Następnie zostaje utworzony obiekt \textbf{DynamicMethod} i z niego jest pobierany \textbf{ILGenerator}. W nim będzie przechowywana listę kroków niezbędnych do utworzenia docelowego obiektu.\\
+\\
+Dla każdego z parametrów konstruktora są wykonane następujące operacje:
+\begin{enumerate}
+	\item Dodaj do listy kroków operację, która umieści na szczycie stosu pierwszy parametr (będzie nim lista obiektów zgodna z parametrami konstruktora).
+	\item Dodaj do listy kroków operację, która umieści na szczycie stosu indeks parametru (który to jest parametr z kolei).
+	\item Dodaj do listy kroków operację, która zdejmie ze szczytu stosu listę i indeks, a umieści na jego szczycie element znajdujący się pod danym indeksem na liście.
+	\item Pobierz typ parametru.
+	\item Dodaj do listy kroków operację, która zrzutuje obiekt ze szczytu stosu na odpowiedni typ.
+\end{enumerate}
+Po wykonaniu kroków z listy na stosie będą znajdowały się wszystkie obiekty, które są wymagane przez konstruktor do utworzenia danego typu. Do listy kroków należy dodać jeszcze dwie operacje. Pierwsza z nich ma za zadanie stworzyć obiekt przy pomocy danego konstruktora i umieścić go na szczycie stosu. Druga ma na celu zwrócić obiekt ze szczytu stosu.\\
+\\
+\\
+Wszystkie kroki niezbędne do stworzenia nowego elementu są zapisane w zmiennej typu \textbf{DynamicMethod}. Na końcu z tej zmiennej należy utworzyć, a następnie zwrócić delegata, który jako parametr będzie przyjmował tablicę obiektów (lista obiektów zgodna z parametrami konstruktora) i zwracał obiekt (docelowy obiekt).\\ \\
+\begin{figure}[H]
+	\begin{center}
+  		\includegraphics{PartialEmitFunction_CreateObjectFunction.png}
+  		\caption{Metoda CreateObjectFunction klasy PartialEmitFunction}
+  		\label{fig:PartialEmitFunction_CreateObjectFunction}
+	\end{center}
+\end{figure}
+
+\subsubsection{Rozwiązanie 2 - FullEmitFunction}
+Podobnie jak dla \textbf{PartialEmitFunction} cały algorytm zawarty jest w metodzie \textbf{Resolve} (Rys. \ref{fig:FullEmitFunction_Resolve}). Wygląda ona identycznie jak w rozwiązaniu 1 - docelowy obiekt jest tworzony przy pomocy funkcji, która woła w sobie metodę \textbf{GetObject}. Jeśli funkcja nie jest zapamiętana w pamięci, to zostaje ona stworzona i zapisana. Na końcu jest ona wywoływana.\\ \\
+\begin{figure}[H]
+	\begin{center}
+  		\includegraphics{FullEmitFunction_Resolve.png}
+  		\caption{Metoda Resolve klasy FullEmitFunction}
+  		\label{fig:FullEmitFunction_Resolve}
+	\end{center}
+\end{figure}
+
+Metoda \textbf{GetObject} (Rys. \ref{fig:FullEmitFunction_GetObject}) wygląda trochę inaczej. Nie pobiera ona żadnych dodatkowych informacji, tylko od razu wywołuje metodę \textbf{CreateInstanceFunction}, która zwraca instancję obiektu oczekiwanego typu. Na koniec również jest wywoływana funkcja \textbf{afterObjectCreate} i zostaje zwrócony docelowy obiekt.\\ \\
+\begin{figure}[H]
+	\begin{center}
+  		\includegraphics{FullEmitFunction_GetObject.png}
+  		\caption{Metoda GetObject klasy FullEmitFunction}
+  		\label{fig:FullEmitFunction_GetObject}
+	\end{center}
+\end{figure}
+
+\textbf{CreateInstanceFunction} (Rys. \ref{fig:FullEmitFunction_CreateInstanceFunction}) ma jeden dodatkowy krok względem rozwiązania 1. Na początku również następuje sprawdzenie czy została wcześniej utworzona funkcja, która umie zwrócić obiekt docelowego typu. Jeśli nie, to przy pomocy metody \textbf{CreateObjectFunction} taka funkcja zostaje stworzona, a następnie jest zapisywana w pamięci podręcznej (również w strukturze słownika, którego kluczem jest typ, a wartością jest typ pomocniczy \textbf{FullEmitFunctionResult}, który ma tylko jedną właściwość - \textbf{Result} typu funkcja). Następnym krokiem jest walidacja zapisanych danych dla typów przy pomocy metody \textbf{ValidateTypesCache}. Na końcu funkcji obiekt jest tworzony, a następnie zwracany. Funkcja jako argument przyjmuje dwa słowniki. Pierwszy zawiera informacje o typie (kluczem jest typ, a wartością obiekt \textbf{ContainerMember}), a drugi informacje o indeksie typu (kluczem jest liczba oznaczając hash danego typu, a wartością typ).\\
+\\
+\\
+Najpierw zostanie opisana metoda \textbf{ValidateTypesCache}, ponieważ nie wywołuje ona w sobie żadnej innej metody.\\ \\
+\begin{figure}[H]
+	\begin{center}
+  		\includegraphics{FullEmitFunction_CreateInstanceFunction.png}
+  		\caption{Metoda CreateInstanceFunction klasy FullEmitFunction}
+  		\label{fig:FullEmitFunction_CreateInstanceFunction}
+	\end{center}
+\end{figure}
+
+W pierwszym kroku metoda \textbf{ValidateTypesCache} sprawdza (Rys. \ref{fig:FullEmitFunction_ValidateTypesCache}), czy od ostatniego zapisywania danych o typach w pamięci podręcznej jakiś typ został zarejestrowany w kontenerze (lub czy jest to pierwsze zapisanie tych danych). Jeśli tak, to z zarejestrowanych typów zostaje utworzony słownik, w którym kluczem jest hash typu, a wartością typ. Potem następuje aktualizacja liczby aktualnie zarejestrowanych typów.\\ \\
+\begin{figure}[H]
+	\begin{center}
+  		\includegraphics{FullEmitFunction_ValidateTypesCache.png}
+  		\caption{Metoda ValidateTypesCache klasy FullEmitFunction}
+  		\label{fig:FullEmitFunction_ValidateTypesCache}
+	\end{center}
+\end{figure}
+
+Metoda \textbf{CreateObjectFunction} (Rys. \ref{fig:FullEmitFunction_CreateObjectFunction}) jest dużo bardziej rozbudowana niż w rozwiązaniu 1. W niej również są wykorzystane metody z przestrzeni nazw \textbf{Reflection.Emit}.\\
+\\
+Na początku jest tworzony obiekt typu \textbf{DynamicMethod} i z niego jest pobierany \textbf{ILGenerator}. W nim będzie przechowana lista kroków niezbędnych do utworzenia docelowego obiektu.\\
+\\
+Dla każdego z parametrów konstruktora jest wywoływana metoda \textbf{CreateObjectFunctionPrivate}, która uzupełnia listę kroków o tworzenie pośrednich obiektów. To w tym miejscu jest główna różnica między oboma rozwiązaniami - w pierwszym rozwiązaniu w liście kroków nie istniała potrzeba utworzenia pośrednich obiektów, ponieważ były one przekazywane jako parametr. W tym rozwiązaniu lista kroków zawiera również niezbędne kroki do utworzenia wszystkich obiektów pośrednich (obiektów wymaganych przez konstruktor).\\
+\\
+Dalsze operacje są takie same jak w rozwiązaniu 1. Do listy kroków jest dodana operację, która stworzy obiekty przy pomocy danego konstruktora i umieści go na szczycie stosu. Następnie jest dodana operację, który zwróci nam obiekt ze szczytu stosu.\\
+\\
+Na końcu ze zmiennej typu \textbf{DynamicMethod} tworzony jest delegata, a następnie jest on zwracany. Delegat będzie przyjmował dwa parametry - oba typu \textbf{Dictionary} (słownik). Jeden przechowujący informacje na temat typu, a drugi z informacjami o indeksie typu.\\ \\
+\begin{figure}[H]
+	\begin{center}
+  		\includegraphics{FullEmitFunction_CreateObjectFunction.png}
+  		\caption{Metoda CreateObjectFunction klasy FullEmitFunction}
+  		\label{fig:FullEmitFunction_CreateObjectFunction}
+	\end{center}
+\end{figure}
+
+W metodzie \textbf{CreateObjectFunctionPrivate} (Rys. \ref{fig:FullEmitFunction_CreateObjectFunctionPrivate}) są trzy przypadki. W pierwszych dwóch przypadkach pomijane są obiekty, które zostały zarejestrowane jako \textbf{Instance} albo \textbf{FactoryObject} (określa to parametr \textbf{ShouldCreateCache} z obiektu typu \textbf{ContainerMember}).\\ \\
+\begin{figure}[H]
+	\begin{center}
+  		\includegraphics{FullEmitFunction_CreateObjectFunctionPrivate.png}
+  		\caption{Metoda CreateObjectFunctionPrivate klasy FullEmitFunction}
+  		\label{fig:FullEmitFunction_CreateObjectFunctionPrivate}
+	\end{center}
+\end{figure}
+
+W pierwszym przypadku typ został zarejestrowany jako \textbf{Transient} - Rys. \ref{fig:FullEmitFunction_IsTransient}. Dla każdego z parametrów konstruktora jest wywoływana rekurencyjnie metoda \textbf{CreateObjectFunctionPrivate}, a na koniec do listy kroków jest dodawana operacja, która stworzy obiekty przy pomocy danego konstruktora i umieści go na szczycie stosu.\\ \\
+\begin{figure}[H]
+	\begin{center}
+  		\includegraphics{FullEmitFunction_IsTransient.png}
+  		\caption{Metoda IsTransient klasy FullEmitFunction}
+  		\label{fig:FullEmitFunction_IsTransient}
+	\end{center}
+\end{figure}
+
+W drugim przypadku typ musi być singletonem (został on zarejestrowany jako \textbf{Singleton}, \textbf{PerThread} lub \textbf{PerHttpContext}) - Rys. \ref{fig:FullEmitFunction_IsSingleton}. Na początku następuje sprawdzenie czy już wcześniej algorytm natrafił na ten typ. Jeśli tak, to z pamięci podręcznej jest pobierana zmienna lokalna dla danego typu, a następnie do listy kroków jest dodawana operacja, która doda na szczyt stosu obiekt z tej zmiennej. Jeśli nie, to najpierw zostaje stworzona nowa zmienna lokalna dla danego typu, a potem jest ona zapisywana w pamięci podręcznej (wykorzystany jest do tego słownik, gdzie kluczem jest typ, a wartością obiekt typu \textbf{LocalBuilder}). Następnie jest wywoływana metoda \textbf{AddObjectCreatedByObjectLifetimeManager}. Na końcu są dodawane dwie operacje. Pierwsza z nich zdejmie obiekt ze szczytu stosu i zapisze go w zmiennej lokalnej, a druga umieści na szczycie stosu obiekt z tej zmiennej lokalnej. Ma to na celu zapamiętanie danego obiektu i pozostawienie go na szczycie stosu. Dzięki takiemu zabiegowi, gdy drugi raz dany obiekt będzie potrzebny (obiekt jest singletonem, więc za każdym razem będziemy chcieli mieć ten sam obiekt - w kontekście tworzenia danego typu, czyli jednej operacji \textbf{Resolve}), to z zapisanej zmiennej zostanie on dodany na szczyt stosu.\\ \\
+\begin{figure}[H]
+	\begin{center}
+  		\includegraphics{FullEmitFunction_IsSingleton.png}
+  		\caption{Metoda IsSingleton klasy FullEmitFunction}
+  		\label{fig:FullEmitFunction_IsSingleton}
+	\end{center}
+\end{figure}
+
+Metoda \textbf{AddObjectCreatedByObjectLifetimeManager} (Rys. \ref{fig:FullEmitFunction_AddObjectCreatedByObjectLifetimeManager}), za wyjątkiem pierwszej operacji jaką jest stworzenie zmiennej lokalnej typu \textbf{Type}, zawiera jedynie operacje, które dodają kolejne pozycje do listy kroków:
+\begin{enumerate}
+	\item Dodaj do listy kroków operację, która umieści na szczycie stosu drugi parametr (będzie nim słownik z indeksami typów).
+	\item Dodaj do listy kroków operację, która umieści na szczycie stosu hash danego typu.
+	\item Dodaj do listy kroków operację, która pobierze ze szczytu stosu słownik i indeks, a umieści na jego szczycie element znajdujący się pod danym kluczem w słowniku.
+	\item Dodaj do listy kroków operację, która zdejmie obiekt ze szczytu stosu i zapisze go w zmiennej lokalnej.
+	\item Dodaj do listy kroków operację, która umieści na szczycie stosu pierwszy parametr (będzie nim słownik przechowujący informacje o typach).
+	\item Dodaj do listy kroków operację, która umieści na szczycie stosu obiekt ze zmiennej lokalnej.
+	\item Dodaj do listy kroków operację, która zdejmie ze szczytu stosu słownik i typ, a umieści na jego szczycie element znajdujący się pod danym kluczem w słowniku.
+	\item Dodaj do listy kroków operację, która zdejmie obiekt ze szczytu stosu (będzie to obiekt typu \textbf{ContainerMember}), wywoła na nim metodę, która zwróci menadżer czasu życia obiektu i na szczycie stosu umieści rezultat tej metody.
+	\item Dodaj do listy kroków operację, która zdejmie obiekt ze szczytu stosu (będzie to obiekt typu \textbf{IObjectLifeTimeManager}), wywoła na nim metodę, która zwróci instancję obiektu i na szczycie stosu umieści rezultat tej metody.
+	\item Dodaj do listy kroków operację, która zrzutuje obiekt ze szczytu stosu na odpowiedni typ.
+\end{enumerate}
+Po wykonaniu tych 10 operacji na szczycie stosu znajdzie się obiekt danego typu, który został utworzony przy pomocy odpowiedniego menedżera czasu życia.\\ \\
+\begin{figure}[h]
+	\begin{center}
+  		\includegraphics{FullEmitFunction_AddObjectCreatedByObjectLifetimeManager.png}
+  		\caption{Metoda AddObjectCreatedByObjectLifetimeManager klasy FullEmitFunction}
+  		\label{fig:FullEmitFunction_AddObjectCreatedByObjectLifetimeManager}
+	\end{center}
+\end{figure}
+
+Trzeci przypadek zachodzi, gdy typ został zarejestrowany jako \textbf{Instance}, \textbf{FactoryObject} lub przy pomocy własnego menedżera czasu życia (własnej implementacji interfejsu \textbf{IObjectLifetimeManager}). W tej sytuacji zostaje wywołana tylko metoda \textbf{AddObjectCreatedByObjectLifetimeManager}.
+
+
+\subsubsection{Przykład}
+Mamy klasę \textbf{A}, która w konstruktorze przyjmuje obiekty klas \textbf{B} i \textbf{C}. Klasa \textbf{B} w konstruktorze przyjmuje obiekt klasy \textbf{C}, a klasa \textbf{C} ma konstruktor bezparametrowy. Tę sytuację przestawia Rys. \ref{fig:Example_Classes}.\\ \\
+\begin{figure}[H]
+	\begin{center}
+  		\includegraphics{Example_Classes.png}
+  		\caption{Przykładowe klasy A, B i C}
+  		\label{fig:Example_Classes}
+	\end{center}
+\end{figure}
+
+Dla rozwiązania \textbf{PartialEmitFunction} algorytm zakłada, że zostały wcześniej stworzone obiekty wymagane w konstruktorze klasy \textbf{A} (w tym przypadku obiekty \textbf{B} i \textbf{C}). Delegat, w którym będzie zapisana lista niezbędnych operacji do stworzenia obiektu klasy \textbf{A} ma jeden parametr. Jest nim tablica obiektów. Dla tego przypadku wygląda ona następująco:\\
+\\
+\texttt{[B, C]}\\
+\\
+Natomiast lista operacji IL prezentuje się w sposób następujący: \\
+\\
+// na stosie zostanie umieszona referencja do pierwszego argumentu aktualnej funkcji, czyli do tablicy zawierającej B i C.\\
+\texttt{ldarg\_0}\\
+\\
+// na stos zostanie dodana liczba 0.\\
+\texttt{ldc\_i4\_0}\\
+\\
+// ze stosu zostanie ściągnięta liczba oraz tablica, a na jego szczycie zostanie umieszczony obiekt pod indeksem 0 z tablicy - w tym przypadku obiekt B.\\
+\texttt{ldelem\_ref}\\
+\\
+// obiekt ze szczytu stosu jest rzutowany na typ B (wcześniej był typu object).\\
+\texttt{castclass typeof(B)}\\
+\\
+// na stosie zostanie umieszona referencja do pierwszego argumentu aktualnej funkcji, czyli do tablicy zawierającej B i C.\\
+\texttt{ldarg\_0}\\
+\\
+// na stos zostanie dodana liczba 1.\\
+\texttt{ldc\_i4\_1}\\
+\\
+// ze stosu zostanie ściągnięta liczba oraz tablica, a na jego szczycie zostanie umieszczony obiekt pod indeksem 1 z tablicy - w tym przypadku obiekt C.\\
+\texttt{ldelem\_ref}\\
+\\
+// obiekt ze szczytu stosu jest rzutowany na typ C.\\
+\texttt{castclass typeof(C)}\\
+\\
+// ze stosu zostają zdjęte wszystkie obiekty wymagane przez konstruktor klasy A (w tym przypadku obiekty B i C - muszą być one w odpowiedniej kolejności na stosie), a na jego szczycie jest umieszczany nowo utworzony obiekt A.\\
+\texttt{newobj .ctor A}\\
+\\
+// obiekt ze szczytu stosu (obiekt A) zostaje zwrócony.\\
+\texttt{ret} \\
+\\
+\\
+Obiekty \textbf{B} i \textbf{C} są tworzone na takiej samej zasadzie jak obiekt klasy \textbf{A}. Zatem w tym przypadku będziemy mieli 3 listy z operacjami IL - jedna dla obiektu \textbf{C}, jedna dla obiektu \textbf{B} i jedna dla obiektu \textbf{A}.\\
+\\
+Niezależnie od tego jak klasy \textbf{A}, \textbf{B} i \textbf{C} zostały zarejestrowane, zawsze uzyskamy dokładnie te same 3 listy operacji.\\
+\newpage
+Dla rozwiązania \textbf{FullEmitFunction} jest to trochę bardziej rozbudowane. Delegat z listą operacji IL ma dwa parametry. Pierwszym z nich jest  słownik zawierający typ obiektu i ContainerMember dla danego obiektu, a drugim słownik zawierający hash danego obiektu ContainerMember i typ obiektu. Dla opisywanego przypadku argumenty tej funkcji wyglądają następująco:\\
+\\
+\texttt{\{ \{typeof(A), ContainerMember\}, \{typeof(B), ContainerMember\},\\
+\phantom{x} \{typeof(C), ContainerMember\} \}\\
+\{ \{1, typeof(A)\}, \{2, typeof(B)\}, \{3, typeof(C)\} \}}\\
+\\
+Natomiast lista operacji IL zależy od tego jak klasy zostały zarejestrowane. Jeśli wszystkie klasy zostały zarejestrowane jako \textbf{Transient}, to lista operacji jest krótka:\\
+\\ 
+// na stosie zostanie umieszczony nowo utworzony obiekt C.\\
+\texttt{newobj .ctor C}\\
+\\
+// ze stosu zostanie zdjęty obiekt C i w jego miejsce pojawi się nowo utworzony obiekt B.\\
+\texttt{newobj .ctor B}\\
+\\ 
+// na szczycie stosu zostanie umieszczony nowo utworzony obiekt C.\\
+\texttt{newobj .ctor C}\\
+\\
+// ze szczytu stosu zostają zdjęte obiekty B i C, a w ich miejsce pojawi się nowo utworzony obiekt A.\\
+\texttt{newobj .ctor A}\\
+\\
+// obiekt ze szczytu stosu (obiekt A) zostaje zwrócony.\\
+\texttt{ret}\\
+\\
+\\
+Jeśli wszystkie klasy zostały zarejestrowane jako \textbf{Singleton}, \textbf{PerThread} lub \textbf{PerHttpContext}, to lista operacji prezentuje się w sposób następujący:\\
+\\
+// na stosie zostanie umieszona referencja do drugiego argumentu aktualnej funkcji, czyli do słownika zawierającego hash danego obiektu ContainerMember i typ obiektu.\\
+\texttt{ldarg\_1}\\
+\\
+// na stos zostanie dodana liczba równa hashowi obiektu ContainerMember dla klasy B (w tym wypadku 2).\\
+\texttt{ldc\_i4 2}\\
+\\
+// ze stosu zostają pobrane dwa elementy (słownik oraz liczba), a następnie zostaje wywołana metoda GetItem na słowniku, której parametrem jest liczba. Wynik tej operacji (typ B) zostanie umieszczony na szczycie stosu.\\
+\texttt{call "get\_Item"}\\
+\\
+// obiekt ze szczytu stosu zostaje zapisany w zmiennej variable\_Type\\
+\texttt{stloc variable\_Type}\\
+\\
+// na stosie zostanie umieszona referencja do drugiego argumentu aktualnej funkcji, czyli do słownika zawierającego typ obiektu i ContainerMember dla danego obiektu.\\
+\texttt{ldarg\_0}\\
+\\
+// obiekt ze zmiennej variable\_Type zostaje umieszczony na szczycie stosu\\
+\texttt{ldloc variable\_Type}\\
+\\
+// ze stosu zostają pobrane dwa elementy (słownik oraz typ), a następnie zostaje wywołana metoda GetItem na słowniku, której parametrem jest typ. Wynik tej operacji (obiekt ContainerMember dla typu B) zostanie umieszczony na szczycie stosu.\\
+\texttt{call "get\_Item" }\\
+\\
+// ze stosu zostaje pobrany element i jest na nim wywołana metoda GetObjectLifetimeManager. Wynik tej operacji (odpowiedni obiekt ObjectLifetimeManager) zostanie umieszczony na szczycie stosu.\\
+\texttt{call "get\_ObjectLifetimeManager"}\\
+\\
+// ze stosu zostaje pobrany element i jest na nim wywołana metoda GetInstance. Wynik tej operacji (obiekt typu B) zostanie umieszczony na szczycie stosu.\\
+\texttt{call "GetInstance"}\\
+\\
+// obiekt ze szczytu stosu jest rzutowany na typ B.\\
+\texttt{castclass}\\
+\\
+// obiekt ze szczytu stosu zostaje zapisany w zmiennej variable\_B\\
+\texttt{stloc variable\_B}\\
+\\
+// obiekt ze zmiennej variable\_B zostaje umieszczony na szczycie stosu\\
+\texttt{ldloc variable\_B}\\
+\\
+\texttt{ldarg\_1}\\
+\\
+// na stos zostanie dodana liczba równa hashowi obiektu ContainerMember dla klasy C (w tym wypadku 3).\\
+\texttt{ldc\_i4 3}\\
+\\
+// ze stosu zostają pobrane dwa elementy (słownik oraz liczba), a następnie zostaje wywołana metoda GetItem na słowniku, której parametrem jest liczba. Wynik tej operacji (typ C) zostanie umieszczony na szczycie stosu.\\
+\texttt{call "get\_Item"}\\
+\\
+// obiekt ze szczytu stosu zostaje zapisany w zmiennej variable\_Type\\
+\texttt{stdloc variable\_Type}\\
+\\
+\texttt{ldarg\_0}\\
+\\
+// obiekt ze zmiennej variable\_Type zostaje umieszczony na szczycie stosu\\
+\texttt{ldloc variable\_Type}\\
+\\
+// ze stosu zostają pobrane dwa elementy (słownik oraz typ), a następnie zostaje wywołana metoda GetItem na słowniku, której parametrem jest typ. Wynik tej operacji (obiekt ContainerMember dla typu C) zostanie umieszczony na szczycie stosu.\\
+\texttt{call "get\_Item"}\\
+\\
+// ze stosu zostaje pobrany element i jest na nim wywołana metoda GetObjectLifetimeManager. Wynik tej operacji (odpowiedni obiekt ObjectLifetimeManager) zostanie umieszczony na szczycie stosu.\\
+\texttt{call "get\_ObjectLifetimeManager"}\\
+\\
+// ze stosu zostaje pobrany element i jest na nim wywołana metoda GetInstance. Wynik tej operacji (obiekt typu C) zostanie umieszczony na szczycie stosu.\\
+\texttt{call "GetInstance"}\\
+\\
+// obiekt ze szczytu stosu jest rzutowany na typ C.\\
+\texttt{castclass}\\
+\\
+// obiekt ze szczytu stosu zostaje zapisany w zmiennej variable\_C\\
+\texttt{stloc variable\_C}\\
+\\
+// obiekt ze zmiennej variable\_C zostaje umieszczony na szczycie stosu\\
+\texttt{ldloc variable\_C}\\
+\\
+// ze szczytu stosu zostają zdjęte obiekty B i C, a w ich miejsce pojawi się nowo utworzony obiekt A\\
+\texttt{newobj .ctor A}\\
+\\
+// obiekt ze szczytu stosu (obiekt A) zostaje zwrócony\\
+\texttt{ret}\\
+\\
+\\
+Jeśli typ został zarejestrowany jako \textbf{Instance}, \textbf{FactoryObject} albo z własną implementacją interfejsu \textbf{IObjectLifetimeManager}, to lista kroków wygląda podobnie jak dla \textbf{Singleton}, z tą różnicą, że nie ma kroków z zapisywaniem obiektu do zmiennej lokalnej (w tym przypadku brak kroków 11, 12, 23 i 24).
+
+\subsection{Porównanie z istniejącymi implementacjami}
+Rozwiązanie przedstawione w tej pracy zostało zainspirowane artykułem przedstawiającym rozwiązanie \textbf{Hiro} \cite{Hiro}.\\
+\\
+Ideą \textbf{Hiro} było najpierw zbudowanie mapy wszystkich zależności, a następnie zapamiętaniu tej mapy i wykorzystaniu za każdym razem, gdy obiekt danego typu będzie tworzony. W tym rozwiązaniu nie użyto refleksji, a mapa zależności jest zapisana w dodatkowym assembly tworzonym dynamicznie.\\
+\\
+Niestety to rozwiązanie nie wyszło z fazy proof-of-concept, a aktualna wersja dostępna w repozytorium autora nie działała i od kilku lat nie jest aktualizowana, stąd brak porównania z nim.\\
+\\
+\\
+Rozwiązaniem najbardziej podobnym do rozwiązania przedstawionego w tej pracy wydaje się rozwiązanie \textbf{DryIoc}. To rozwiązanie również wykorzystuje \textbf{Reflecion.Emit}, jednakże działa ono trochę inaczej. W tym rozwiązaniu najpierw tworzone jest drzewo (\textbf{Expression}) zależności dla każdego typu, a dopiero później na jego podstawie tworzony jest delegat z wykorzystaniem \textbf{Reflecion.Emit}. W związku z tym stworzenie pierwszego obiektu zajmuje dużo więcej czasu niż w przypadku \textbf{NiquIoCFull}, ale potem stworzenie każdego kolejnego obiektu zajmuje tego czasu trochę mniej. Niestety ten narzut dla pierwszego wywołania sprawia, że nawet przy tworzeniu wiele razy tego samego obiektu \textbf{DryIoc} osiąga większe czasy niż \textbf{NiquIoCFull}. Dodatkowo dla rejestracji typu \textbf{PerThread}, to rozwiązanie nie tworzy delegata z wykorzystaniem \textbf{Reflection.Emit}. Jest to powodem dużych wyników dla testów z wykorzystaniem tego typu rejestracji.\\
+\\
+\\
+Jeśli chodzi o najwolniejsze rozwiązania, to one prawdopodobnie nie optymalizują kompozycji grafu zależności, tylko przechodzą go za każdym razem. Takie przechodzenie nie wydaje się konieczne, ponieważ tak długo jak kod nie jest rekompilowany, to struktura zależności nie ulega zmianie.
+
+
+\clearpage
+\section{Testy wydajnościowe}
+Do przeprowadzania testów wydajnościowych przygotowano osobną aplikację, w której zostały utworzone 4 przypadki testowe:
+\begin{itemize}
+	\item Przypadek testowy A,
+	\item Przypadek testowy B,
+	\item Przypadek testowy C,
+	\item Przypadek testowy D.
+\end{itemize}
+Dla każdego z przypadków sprawdzany jest czas wykonania operacji \textbf{Resolve} dla różnych rodzajów rejestracji. Testy zostały wykonane dla następujących wariantów rejestracji:
+\begin{itemize}
+	\item Register as Singleton,
+	\item Register as Transient,
+	\item Register as TransientSingleton,
+	\item Register as PerThread (dla niektórych przemysłowych rozwiązań - PerScope),
+	\item Register as FactoryMethod.
+\end{itemize}
+Każdy z testów dla każdego rozwiązania był uruchamiany w osobnym procesie. Wyniki dla operacji \textbf{Register} zostały pominięte, ponieważ są one prawie zawsze mniejsze niż 1 ms. Przy operacji \textbf{Resolve} każdy test był uruchamiany 100 razy, a w wynikach zostały przedstawione następujące czasy w milisekundach: minimalny, maksymalny i średni. Dla pierwszych trzech przypadków testy były wykonywane dla: 1, 10, 100 i 1000 powtórzeń, a dla ostatniego przypadku dla: 1 i 10 powtórzeń.\\
+\\
+Rozwiązania zaprezentowane w tej pracy to \textbf{NiquIoCPartial} i \textbf{NiquIoCFull}. Wyniki w tabelach dla obu tych rozwiązań zostały pogrubione.
+
+\subsubsection{Register as Singleton}
+Każdy typ jest zarejestrowany jako \textbf{Singleton}, czyli obiekt jest tworzony raz, a następnie cały czas zwracany.
+
+\subsubsection{Register as Transient}
+Każdy typ jest zarejestrowany jako \textbf{Transient}, czyli za każdym razem jest tworzony nowy obiekt.
+
+\subsubsection{Register as TransientSingleton}
+Każdy typ jest zarejestrowany jako \textbf{Transient} za wyjątkiem typów, które mają konstruktor bezparametrowy - są one zarejestrowane jako \textbf{Singleton}.
+
+\subsubsection{Register as PerThread}
+Każdy typ jest zarejestrowany jako \textbf{PerThread}, czyli obiekt jest tworzony raz dla każdego wątku, a następnie w obrębie tego wątku cały czas zwracany.
+
+\subsubsection{Register as FactoryMethod}
+Każdy typ jest zarejestrowany jako \textbf{FactoryMethod}, czyli jako funkcja, która zwraca obiekt danego typu. Ciało tej funkcji wygląda tak, że oczekiwany typ jest tworzony z użyciem konstruktora (za pomocą \textbf{new}), a wszystkie parametry wymagane przez ten konstruktor są tworzone przy pomocy operacji \textbf{Resolve}.
+
+
+\subsection{Przypadek testowy A}
+\subsubsection{Opis}
+W tym teście mamy zdefiniowanych 11 typów. Każdy z nich przyjmuje w konstruktorze o jeden parametr mniej niż typ poprzedni (czyli przyjmują one kolejno od 10 do 0 parametrów w konstruktorze). Typem głównym, a zarazem typem o największej liczbie parametrów, jest typ \textbf{TestA}. Przyjmuje on w konstruktorze 10 parametrów następujących typów: \textbf{TestA0}, \textbf{TestA1}, \textbf{TestA2}, \textbf{TestA3}, \textbf{TestA4}, \textbf{TestA5}, \textbf{TestA6}, \textbf{TestA7}, \textbf{TestA8}, \textbf{TestA9}. Każdy z tych 10 typów w konstruktorze przyjmuje tyle parametrów, ile wynosi liczba w jego nazwie (czyli obiekt typu \textbf{TestA0} ma konstruktor bezparametrowy, obiekt typy \textbf{TestA1} ma konstruktor z jednym parametrem; i tak dalej aż do typu \textbf{TestA9}, który ma konstruktor z dziewięcioma parametrami). Wszystkie typy jako parametry w konstruktorze przyjmują obiekty typów z niższymi liczbami w nazwie (czyli obiekt typu \textbf{TestA1} w konstruktorze przyjmuje obiekt typu \textbf{TestA0}, obiekt typu \textbf{TestA2} przyjmuje w konstruktorze obiekty typów \textbf{TestA0} i \textbf{TestA1}; i tak dalej aż do typu \textbf{TestA9}, który w konstruktorze przyjmuje obiekty z typami od \textbf{TestA0} do \textbf{TestA8}). Graf zależności poszczególnych typów został przedstawiony na Rys. \ref{fig:testA}.\\
+\begin{figure}[H]
+	\begin{center}
+  		\includegraphics[height=11.5cm]{TestA.png}
+  		\caption{Graf zależności dla testu A.}
+  		\label{fig:testA}
+	\end{center}
+\end{figure}
+
+Łatwo z niego wywnioskować, że tworząc obiekty poszczególnych typów liczba tworzonych obiektów rośnie wykładniczo:
+\begin{itemize}
+	\item \textbf{TestA0} - 1 obiekt,
+	\item \textbf{TestA1} - 2 obiekty (obiekt typu \textbf{TestA1} i obiekt typu \textbf{TestA0}),
+	\item \textbf{TestA2} - 4 obiekty (obiekt typu \textbf{TestA2}, obiekt typu \textbf{TestA1} - 2 obiekty, obiekt typu \textbf{TestA0} - 1 obiekt),
+	\item \textbf{TestA3} - 8 obiektów (obiekt typu \textbf{TestA3}, obiekt typu \textbf{TestA2} - 4 obiekty, obiekt typu \textbf{TestA1} - 2 obiekty, obiekt typu \textbf{TestA0} - 1 obiekt),
+	\item \textbf{TestA4} - 16 obiektów,
+	\item \textbf{TestA5} - 32 obiektów,
+	\item \textbf{TestA6} - 64 obiektów,
+	\item \textbf{TestA7} - 128 obiektów,
+	\item \textbf{TestA8} - 256 obiektów,
+	\item \textbf{TestA9} - 512 obiektów,
+	\item \textbf{TestA} - 1 024 obiektów.
+\end{itemize}
+Zatem tworząc główny obiekt typu \textbf{TestA}, zostaje utworzony: 1 obiekt typu \textbf{TestA}, 1 obiekt typu \textbf{TestA9}, 2 obiekty typu \textbf{TestA8}, 4 obiekty typu \textbf{TestA7}, 8 obiektów typu \textbf{TestA6}, 16 obiektów typu \textbf{TestA5}, 32 obiektów typu \textbf{TestA4}, 64 obiektów typu \textbf{TestA3}, 128 obiektów typu \textbf{TestA2}, 256 obiektów typu \textbf{TestA1} i 512 obiektów typu \textbf{TestA0} - co w sumie daje 1024 obiekty.
+
+\subsubsection{Wyniki Resolve dla Singleton}
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 1 & \\ \hline
+ & min & max & avg \\ \hline
+Autofac & 0 & 0 & 0 \\ \hline
+Windsor & 0 & 0 & 0 \\ \hline
+\textbf{NiquIoCPartial} & \textbf{1} & \textbf{1} & \textbf{1} \\ \hline
+DryIoc & 2 & 2 & 2 \\ \hline
+Grace & 2 & 2 & 2 \\ \hline
+LightInject & 2 & 2 & 2 \\ \hline
+\textbf{NiquIoCFull} & \textbf{2} & \textbf{2} & \textbf{2} \\ \hline
+SimpleInjector & 2 & 2 & 2 \\ \hline
+Ninject & 3 & 3 & 3 \\ \hline
+Unity & 7 & 8 & 7 \\ \hline
+StructureMap & 9 & 10 & 9 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 1 powtórzenia dla operacji Singleton dla Przypadku testowego A}
+\label{TestCaseA_Singleton1}
+\end{table}
+Czasy dla wszystkich rozwiązań są nieduże. Jest to spowodowane tym, że gdy wszystkie klasy są zarejestrowane jako \textbf{Singleton}, to jest tworzonych niewiele nowych obiektów.\\
+\\
+Należy jednak wspomnieć, że najsłabsze wyniki osiągnęły \textbf{Unity} i \textbf{StructureMap}, których czasy są zauważalnie większe niż pozostałych rozwiązań.
+\\ \\
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 1000 & \\ \hline
+ & min & max & avg \\ \hline
+Autofac & 0 & 0 & 0 \\ \hline
+Windsor & 0 & 0 & 0 \\ \hline
+\textbf{NiquIoCPartial} & \textbf{1} & \textbf{1} & \textbf{1} \\ \hline
+DryIoc & 2 & 2 & 2 \\ \hline
+LightInject & 2 & 2 & 2 \\ \hline
+\textbf{NiquIoCFull} & \textbf{2} & \textbf{2} & \textbf{2} \\ \hline
+SimpleInjector & 2 & 2 & 2 \\ \hline
+Grace & 2 & 3 & 2 \\ \hline
+Ninject & 6 & 7 & 6 \\ \hline
+Unity & 8 & 8 & 8 \\ \hline
+StructureMap & 10 & 11 & 10 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 1000 powtórzeń dla operacji Singleton dla Przypadku testowego A}
+\label{TestCaseA_Singleton1000}
+\end{table}
+Gdy klasa jest zarejestrowana jako \textbf{Singleton}, to wraz ze wzrostem liczby tworzonych obiektów, nie powinien wzrastać czas ich tworzenia. We wszystkich rozwiązaniach, za wyjątkiem \textbf{Ninject}, czasy dla 1000 operacji, są zbliżone do czasów dla 1 operacji. \textbf{Ninject} natomiast ma czasy około dwa razy większe.
+
+\subsubsection{Wyniki Resolve dla Transient}
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 1 & \\ \hline
+ & min & max & avg \\ \hline
+Autofac & 0 & 0 & 0 \\ \hline
+\textbf{NiquIoCPartial} & \textbf{1} & \textbf{1} & \textbf{1} \\ \hline
+Windsor & 1 & 2 & 1 \\ \hline
+\textbf{NiquIoCFull} & \textbf{8} & \textbf{9} & \textbf{8} \\ \hline
+Unity & 8 & 9 & 8 \\ \hline
+LightInject & 10 & 10 & 10 \\ \hline
+StructureMap & 10 & 10 & 10 \\ \hline
+Ninject & 10 & 12 & 11 \\ \hline
+SimpleInjector & 13 & 14 & 13 \\ \hline
+DryIoc & 14 & 14 & 14 \\ \hline
+Grace & 15 & 16 & 15 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 1 powtórzenia dla operacji Transient dla Przypadku testowego A}
+\label{TestCaseA_Transient1}
+\end{table}
+W tym wypadku najlepsze wyniki osiągnęły \textbf{Autofac}, \textbf{NiquIoCPartial} i \textbf{Windsor}, które uzyskały zbliżone rezultaty. Pozostałe rozwiązania uzyskały dużo słabsze, o kilka razy większe czasy.
+\\ \\
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 10 & \\ \hline
+ & min & max & avg \\ \hline
+\textbf{NiquIoCPartial} & \textbf{3} & \textbf{3} & \textbf{3} \\ \hline
+Autofac & 6 & 7 & 6 \\ \hline
+\textbf{NiquIoCFull} & \textbf{8} & \textbf{9} & \textbf{8} \\ \hline
+LightInject & 10 & 10 & 10 \\ \hline
+SimpleInjector & 13 & 14 & 14 \\ \hline
+StructureMap & 13 & 14 & 14 \\ \hline
+DryIoc & 14 & 15 & 15 \\ \hline
+Grace & 15 & 16 & 16 \\ \hline
+Unity & 16 & 17 & 16 \\ \hline
+Windsor & 16 & 21 & 16 \\ \hline
+Ninject & 88 & 95 & 90 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 10 powtórzeń dla operacji Transient dla Przypadku testowego A}
+\label{TestCaseA_Transient10}
+\end{table} 
+Najmniejszy czas uzyskał \textbf{NiquIoCPartial}, ale jest on niestety kilkukrotnie większy niż dla 1 powtórzenia. Co więcej, wszystkie najpopularniejsze rozwiązania zanotowały spory wzrost czasów. Z drugiej strony wszystkie najszybsze rozwiązania oraz \textbf{NiquIoCFull} zanotowały podobne czasy co dla 1 powtórzenia.
+\\ \\
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 100 & \\ \hline
+ & min & max & avg \\ \hline
+\textbf{NiquIoCFull} & \textbf{9} & \textbf{10} & \textbf{9} \\ \hline
+LightInject & 11 & 12 & 11 \\ \hline
+SimpleInjector & 15 & 15 & 15 \\ \hline
+DryIoc & 16 & 16 & 16 \\ \hline
+Grace & 18 & 19 & 18 \\ \hline
+\textbf{NiquIoCPartial} & \textbf{19} & \textbf{22} & \textbf{19} \\ \hline
+StructureMap & 53 & 55 & 54 \\ \hline
+Autofac & 58 & 63 & 59 \\ \hline
+Unity & 88 & 91 & 88 \\ \hline
+Windsor & 152 & 192 & 155 \\ \hline
+Ninject & 864 & 1035 & 882 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 100 powtórzeń dla operacji Transient dla Przypadku testowego A}
+\label{TestCaseA_Transient100}
+\end{table}
+Wraz ze wzrostem liczby powtórzeń coraz słabsze wyniki osiągają \textbf{NiquIoCPartial} oraz najpopularniejsze rozwiązania. Wszystkie notują spory wzrost czasów. Dla \textbf{NiquIoCFull} i najszybszych rozwiązań ten wzrost jest nieznaczny.
+\\ \\
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 1000 & \\ \hline
+ & min & max & avg \\ \hline
+\textbf{NiquIoCFull} & \textbf{18} & \textbf{19} & \textbf{18} \\ \hline
+LightInject & 19 & 20 & 19 \\ \hline
+SimpleInjector & 28 & 30 & 29 \\ \hline
+DryIoc & 29 & 30 & 29 \\ \hline
+Grace & 37 & 38 & 37 \\ \hline
+\textbf{NiquIoCPartial} & \textbf{171} & \textbf{198} & \textbf{173} \\ \hline
+StructureMap & 414 & 457 & 417 \\ \hline
+Autofac & 584 & 609 & 587 \\ \hline
+Unity & 803 & 961 & 813 \\ \hline
+Windsor & 1511 & 1799 & 1529 \\ \hline
+Ninject & 8745 & 9610 & 8934 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 1000 powtórzeń dla operacji Transient dla Przypadku testowego A}
+\label{TestCaseA_Transient1000}
+\end{table}
+Test dla 1000 powtórzeń potwierdził, że czasy dla \textbf{NiquIoCPartial} oraz najpopularniejszych rozwiązań rosną liniowo wraz ze wzrostem liczby powtórzeń. Czasy dla \textbf{NiquIoCFull} oraz najszybszych rozwiązań również wzrosły, ale zaledwie dwukrotnie w stosunku do dziesięciokrotnego wzrostu liczby powtórzeń.
+
+\subsubsection{Wyniki Resolve dla TransientSingleton}
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 1 & \\ \hline
+ & min & max & avg \\ \hline
+Autofac & 0 & 0 & 0 \\ \hline
+\textbf{NiquIoCPartial} & \textbf{1} & \textbf{1} & \textbf{1} \\ \hline
+Windsor & 1 & 2 & 1 \\ \hline
+\textbf{NiquIoCFull} & \textbf{5} & \textbf{6} & \textbf{5} \\ \hline
+Unity & 8 & 9 & 8 \\ \hline
+SimpleInjector & 9 & 9 & 9 \\ \hline
+Grace & 9 & 10 & 10 \\ \hline
+Ninject & 9 & 10 & 10 \\ \hline
+StructureMap & 9 & 10 & 10 \\ \hline
+LightInject & 14 & 15 & 14 \\ \hline
+DryIoc & 18 & 19 & 18 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 1 powtórzenia dla operacji TransientSingleton dla Przypadku testowego A}
+\label{TestCaseA_TransientSingleton1}
+\end{table}
+Dla 1 powtórzenia najmniejsze czasy uzyskały \textbf{NiquIoCPartial} oraz najpopularniejsze rozwiązania.
+\\ \\
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 10 & \\ \hline
+ & min & max & avg \\ \hline
+\textbf{NiquIoCPartial} & \textbf{2} & \textbf{3} & \textbf{2} \\ \hline
+\textbf{NiquIoCFull} & \textbf{5} & \textbf{6} & \textbf{5} \\ \hline
+Autofac & 6 & 7 & 6 \\ \hline
+SimpleInjector & 9 & 10 & 9 \\ \hline
+Grace & 10 & 10 & 10 \\ \hline
+StructureMap & 12 & 12 & 12 \\ \hline
+Windsor & 12 & 14 & 12 \\ \hline
+LightInject & 14 & 14 & 14 \\ \hline
+Unity & 14 & 15 & 14 \\ \hline
+DryIoc & 19 & 19 & 19 \\ \hline
+Ninject & 65 & 82 & 67 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 10 powtórzeń dla operacji TransientSingleton dla Przypadku testowego A}
+\label{TestCaseA_TransientSingleton10}
+\end{table}
+Gdy jest 10 powtórzeń czasy wszystkich rozwiązań wydają się być do siebie zbliżone. Wyjątkiem są tylko dwa rozwiązania: \textbf{NiquIoCPartial} osiąga wyniki trochę lepsze niż pozostałe rozwiązania, a \textbf{Ninject} trochę gorsze.
+\\ \\
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 100 & \\ \hline
+ & min & max & avg \\ \hline
+\textbf{NiquIoCFull} & \textbf{6} & \textbf{6} & \textbf{6} \\ \hline
+SimpleInjector & 10 & 11 & 10 \\ \hline
+Grace & 10 & 11 & 11 \\ \hline
+\textbf{NiquIoCPartial} & \textbf{14} & \textbf{15} & \textbf{14} \\ \hline
+LightInject & 14 & 15 & 15 \\ \hline
+DryIoc & 20 & 21 & 20 \\ \hline
+StructureMap & 35 & 40 & 36 \\ \hline
+Autofac & 53 & 62 & 54 \\ \hline
+Unity & 73 & 82 & 74 \\ \hline
+Windsor & 117 & 140 & 119 \\ \hline
+Ninject & 626 & 743 & 641 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 100 powtórzeń dla operacji TransientSingleton dla Przypadku testowego A}
+\label{TestCaseA_TransientSingleton100}
+\end{table}
+W tym teście również gdy liczba powtórzeń wzrosła do 100, to najlepsze czasy zaczęły uzyskiwać \textbf{NiquIoCFull} i najszybsze rozwiązania. \textbf{NiquIoCPartial} oraz najpopularniejsze rozwiązania zanotowały kilkukrotny wzrost czasów.
+\\ \\
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 1000 & \\ \hline
+ & min & max & avg \\ \hline
+\textbf{NiquIoCFull} & \textbf{10} & \textbf{12} & \textbf{11} \\ \hline
+SimpleInjector & 17 & 19 & 17 \\ \hline
+Grace & 18 & 19 & 18 \\ \hline
+LightInject & 20 & 21 & 20 \\ \hline
+DryIoc & 31 & 32 & 32 \\ \hline
+\textbf{NiquIoCPartial} & \textbf{120} & \textbf{123} & \textbf{121} \\ \hline
+StructureMap & 252 & 306 & 256 \\ \hline
+Autofac & 531 & 561 & 535 \\ \hline
+Unity & 659 & 753 & 663 \\ \hline
+Windsor & 1161 & 1302 & 1177 \\ \hline
+Ninject & 6297 & 7218 & 6463 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 1000 powtórzeń dla operacji TransientSingleton dla Przypadku testowego A}
+\label{TestCaseA_TransientSingleton1000}
+\end{table}
+Przy 1000 powtórzeń \textbf{NiquIoCFull} oraz wszystkie najszybsze rozwiązania uzyskały czasy o rząd wielkości mniejsze niż \textbf{NiquIoCParial} i najpopularniejsze rozwiązania.
+
+\subsubsection{Wyniki Resolve dla PerThread}
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 1 & \\ \hline
+ & min & max & avg \\ \hline
+Autofac & 0 & 0 & 0 \\ \hline
+Windsor & 0 & 0 & 0 \\ \hline
+\textbf{NiquIoCPartial} & \textbf{1} & \textbf{1} & \textbf{1} \\ \hline
+\textbf{NiquIoCFull} & \textbf{2} & \textbf{2} & \textbf{2} \\ \hline
+Ninject & 3 & 3 & 3 \\ \hline
+Grace & 4 & 4 & 4 \\ \hline
+Unity & 7 & 8 & 7 \\ \hline
+SimpleInjector & 7 & 8 & 8 \\ \hline
+StructureMap & 9 & 10 & 9 \\ \hline
+LightInject & 50 & 53 & 50 \\ \hline
+DryIoc & 71 & 73 & 71 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 1 powtórzenia dla operacji PerThread dla Przypadku testowego A}
+\label{TestCaseA_PerThread1}
+\end{table}
+Z racji tego, że wszystkie obiekty są tworzone w jednym wątku czasy powinny być zbliżone do wyników operacji resolve dla \textbf{Singleton}. Za wyjątkiem dwóch rozwiązań - \textbf{LightInject} i \textbf{DryIoc}, wszystkie pozostałe uzyskały zbliżone czasy. Te dwa rozwiązania najwyraźniej nie radzą sobie dla tego typu rejestracji.
+\\ \\
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 1000 & \\ \hline
+ & min & max & avg \\ \hline
+Autofac & 0 & 0 & 0 \\ \hline
+Windsor & 0 & 0 & 0 \\ \hline
+\textbf{NiquIoCPartial} & \textbf{1} & \textbf{1} & \textbf{1} \\ \hline
+\textbf{NiquIoCFull} & \textbf{2} & \textbf{2} & \textbf{2} \\ \hline
+Grace & 4 & 4 & 4 \\ \hline
+Ninject & 6 & 7 & 6 \\ \hline
+SimpleInjector & 8 & 8 & 8 \\ \hline
+Unity & 8 & 9 & 8 \\ \hline
+StructureMap & 10 & 10 & 10 \\ \hline
+LightInject & 50 & 52 & 51 \\ \hline
+DryIoc & 72 & 74 & 72 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 1000 powtórzeń dla operacji PerThread dla Przypadku testowego A}
+\label{TestCaseA_PerThread1000}
+\end{table}
+Podobnie jak w przypadku resolve dla \textbf{Singleton}, tutaj również wzrost liczby powtórzeń nie miał wpływu na wzrost czasu.
+
+\subsubsection{Wyniki Resolve dla FactoryMethod}
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 1 & \\ \hline
+ & min & max & avg \\ \hline
+Autofac & 0 & 0 & 0 \\ \hline
+DryIoc & 0 & 0 & 0 \\ \hline
+LightInject & 0 & 0 & 0 \\ \hline
+\textbf{NiquIoCPartial} & \textbf{0} & \textbf{0} & \textbf{0} \\ \hline
+\textbf{NiquIoCFull} & \textbf{0} & \textbf{0} & \textbf{0} \\ \hline
+SimpleInjector & 1 & 1 & 1 \\ \hline
+Unity & 1 & 1 & 1 \\ \hline
+Windsor & 1 & 1 & 1 \\ \hline
+Grace & 2 & 2 & 2 \\ \hline
+StructureMap & 7 & 7 & 7 \\ \hline
+Ninject & 8 & 10 & 9 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 1 powtórzenia dla operacji FactoryMethod dla Przypadku testowego A}
+\label{TestCaseA_FactoryMethod1}
+\end{table}
+Dla tego testu dla 1 powtórzenia wszystkie rozwiązania za wyjątkiem \textbf{StructureMap} i \textbf{Ninject} uzyskały zbliżone rezultaty. Te dwa rozwiązania osiągnęły wyniki słabsze niż reszta.
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 10 & \\ \hline
+ & min & max & avg \\ \hline
+DryIoc & 0 & 0 & 0 \\ \hline
+LightInject & 1 & 1 & 1 \\ \hline
+\textbf{NiquIoCPartial} & \textbf{1} & \textbf{1} & \textbf{1} \\ \hline
+\textbf{NiquIoCFull} & \textbf{1} & \textbf{1} & \textbf{1} \\ \hline
+SimpleInjector & 2 & 2 & 2 \\ \hline
+Grace & 3 & 5 & 3 \\ \hline
+Autofac & 5 & 8 & 6 \\ \hline
+Windsor & 10 & 11 & 10 \\ \hline
+StructureMap & 11 & 11 & 11 \\ \hline
+Unity & 14 & 15 & 14 \\ \hline
+Ninject & 53 & 60 & 55 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 10 powtórzeń dla operacji FactoryMethod dla Przypadku testowego A}
+\label{TestCaseA_FactoryMethod10}
+\end{table}
+Wraz ze wzrostem liczby powtórzeń tym razem również wszystkie najpopularniejsze rozwiązania zanotowały liniowy wzrost czasów. Oba rozwiązania przedstawione w tej pracy oraz wszystkie najszybsze rozwiązania uzyskały zbliżone wyniki.
+\\ \\
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 100 & \\ \hline
+ & min & max & avg \\ \hline
+DryIoc & 6 & 6 & 6 \\ \hline
+LightInject & 6 & 8 & 7 \\ \hline
+\textbf{NiquIoCFull} & \textbf{11} & \textbf{12} & \textbf{12} \\ \hline
+SimpleInjector & 11 & 12 & 12 \\ \hline
+\textbf{NiquIoCPartial} & \textbf{12} & \textbf{12} & \textbf{12} \\ \hline
+Grace & 12 & 13 & 12 \\ \hline
+Autofac & 49 & 57 & 50 \\ \hline
+StructureMap & 52 & 53 & 52 \\ \hline
+Windsor & 95 & 97 & 95 \\ \hline
+Unity & 141 & 168 & 143 \\ \hline
+Ninject & 521 & 597 & 531 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 100 powtórzeń dla operacji FactoryMethod dla Przypadku testowego A}
+\label{TestCaseA_FactoryMethod100}
+\end{table}
+Gdy liczba powtórzeń wzrosła do 100, to wszystkie rozwiązania zanotowały liniowy wzrost czasów.
+\\ \\
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 1000 & \\ \hline
+ & min & max & avg \\ \hline
+LightInject & 60 & 65 & 62 \\ \hline
+DryIoc & 63 & 65 & 64 \\ \hline
+SimpleInjector & 99 & 103 & 100 \\ \hline
+Grace & 103 & 107 & 104 \\ \hline
+\textbf{NiquIoCFull} & \textbf{113} & \textbf{115} & \textbf{114} \\ \hline
+\textbf{NiquIoCPartial} & \textbf{118} & \textbf{121} & \textbf{120} \\ \hline
+StructureMap & 431 & 447 & 435 \\ \hline
+Autofac & 482 & 490 & 484 \\ \hline
+Windsor & 926 & 1012 & 938 \\ \hline
+Unity & 1407 & 1532 & 1423 \\ \hline
+Ninject & 5298 & 5469 & 5339 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 1000 powtórzeń dla operacji FactoryMethod dla Przypadku testowego A}
+\label{TestCaseA_FactoryMethod1000}
+\end{table}
+Dla 1000 powtórzeń liniowy wzrost utrzymał się dla wszystkich rozwiązań. Rozwiązania zaprezentowane w tej pracy dla tego testu osiągnęły trochę słabsze wyniki niż wszystkie najszybsze rozwiązania (czasy prawie dwukrotnie słabsze niż najlepszy wśród najszybszych rozwiązań \textbf{LightInject}), ale dużo lepsze niż wszystkie najpopularniejsze rozwiązania (czasy prawie czterokrotnie mniejsze niż najlepszy wśród najpopularniejszych rozwiązań \textbf{StructureMap}).
+
+
+\subsection{Przypadek testowy B}
+\subsubsection{Opis}
+Ten test jest bardzo podobny do przypadku testowego A. Dochodzi tutaj 1 dodatkowy poziom, który wygląda trochę inaczej. W głównym obiekcie \textbf{TestB} konstruktor przyjmuje 3 parametry następujących typów: \textbf{TestBa10}, \textbf{TestBb10}, \textbf{TestBc10}. Każdy z tych 3 typów odpowiada typowi \textbf{TestA}, więc przyjmuje on w konstruktorze 10 parametrów. Dla \textbf{TestBa10} są to parametry typów od \textbf{TestBa0} do \textbf{TestBa9}, dla \textbf{TestBb10} są to parametry typów od \textbf{TestBb0} do \textbf{TestBb9}, a dla \textbf{TestBc10} są to parametry typów od \textbf{TestBc0} do \textbf{TestBc9}. Zależności tych typów wyglądają tak samo, jak dla typów z przypadku testowego A - Rys. \ref{fig:testB} przedstawia te zależności.\\
+\begin{figure}[h]
+	\begin{center}
+  		\includegraphics[width=\linewidth]{TestB.png}
+  		\caption{Graf zależności dla testu B.}
+  		\label{fig:testB}
+	\end{center}
+\end{figure}
+
+Łatwo wywnioskować, że tworząc obiekty poszczególnych typów liczba tworzonych obiektów rośnie dwukrotnie (tak jak dla testu A):
+\begin{itemize}
+	\item \textbf{TestBa0} - 1 obiekt,
+	\item \textbf{TestBa1} - 2 obiekty (obiekt typu \textbf{TestBa1} i obiekt typu \textbf{TestBa0}),
+	\item \textbf{TestBa2} - 4 obiekty (obiekt typu \textbf{TestBa2}, obiekt typu \textbf{TestBa1} - 2 obiekty, obiekt typu \textbf{TestBa0} - 1 obiekt),
+	\item \textbf{TestBa3} - 8 obiektów (obiekt typu \textbf{TestBa3}, obiekt typu \textbf{TestBa2} - 4 obiekty, obiekt typu \textbf{TestBa1} - 2 obiekty, obiekt typu \textbf{TestBa0} - 1 obiekt),
+	\item \textbf{TestBa4} - 16 obiektów,
+	\item \textbf{TestBa5} - 32 obiektów,
+	\item \textbf{TestBa6} - 64 obiektów,
+	\item \textbf{TestBa7} - 128 obiektów,
+	\item \textbf{TestBa8} - 256 obiektów,
+	\item \textbf{TestBa9} - 512 obiektów,
+	\item \textbf{TestBa10} - 1 024 obiektów,
+	\item \ldots (dla typów od \textbf{TestBb0} do \textbf{TestBb10} i od \textbf{TestBc0} do \textbf{TestBc10} sytuacja wygląda dokładnie tak samo jak dla typów od \textbf{TestBa0} do \textbf{TestBa10}),
+	\item \textbf{TestB} - 3 073 obiektów.
+\end{itemize}
+Zatem tworząc obiekt typu \textbf{TestB}, zostaje utworzony: 1 obiekt typu \textbf{TestB}, 1 obiekt typu \textbf{TestBa10}, \textbf{TestBb10} i \textbf{TestBc10}, 1 obiekt typu \textbf{TestBa9}, \textbf{TestBb9} i \textbf{TestBc9}, 2 obiekty typu \textbf{TestBa8}, \textbf{TestBb8} i \textbf{TestBc8}, 4 obiekty typu \textbf{TestBa7}, \textbf{TestBb7} i \textbf{TestBc7}, 8 obiektów typu \textbf{TestBa6}, \textbf{TestBb6} i \textbf{TestBc6}, 16 obiektów typu \textbf{TestBa5}, \textbf{TestBb5} i \textbf{TestBc5}, 32 obiektów typu \textbf{TestBa4}, \textbf{TestBb4} i \textbf{TestBc4}, 64 obiektów typu \textbf{TestBa3}, \textbf{TestBb3} i \textbf{TestBc3}, 128 obiektów typu \textbf{TestBa2}, \textbf{TestBb2} i \textbf{TestBc2}, 256 obiektów typu \textbf{TestBa1}, \textbf{TestBb1} i \textbf{TestBc1}, 512 obiektów typu \textbf{TestBa0}, \textbf{TestBb0} i \textbf{TestBc0} - co daje w sumie 3 073 obiektów.
+
+\subsubsection{Wyniki Resolve dla Singleton}
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 1 & \\ \hline
+ & min & max & avg \\ \hline
+Autofac & 0 & 0 & 0 \\ \hline
+Windsor & 0 & 0 & 0 \\ \hline
+\textbf{NiquIoCPartial} & \textbf{4} & \textbf{4} & \textbf{4} \\ \hline
+SimpleInjector & 6 & 6 & 6 \\ \hline
+LightInject & 6 & 7 & 6 \\ \hline
+DryIoc & 8 & 8 & 8 \\ \hline
+Grace & 8 & 8 & 8 \\ \hline
+\textbf{NiquIoCFull} & \textbf{8} & \textbf{9} & \textbf{8} \\ \hline
+Ninject & 9 & 10 & 9 \\ \hline
+Unity & 23 & 24 & 23 \\ \hline
+StructureMap & 32 & 33 & 33 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 1 powtórzenia dla operacji Singleton dla Przypadku testowego B}
+\label{TestCaseB_Singleton1}
+\end{table}
+Czasy dla wszystkich rozwiązań wzrosły trzykrotnie w stosunku do przypadku testowego A. \textbf{Autofac} i \textbf{Windsor} osiągnęły najlepsze wyniki, jednakże dopiero dla tego przypadku testowego ich czasy są dużo mniejsze niż pozostałych rozwiązań. Z drugiej strony wyniki dla \textbf{Unity} oraz \textbf{StructureMap} dużo bardziej odstają od reszty.
+\\ \\
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 1000 & \\ \hline
+ & min & max & avg \\ \hline
+Autofac & 0 & 0 & 0 \\ \hline
+Windsor & 0 & 0 & 0 \\ \hline
+\textbf{NiquIoCPartial} & \textbf{4} & \textbf{4} & \textbf{4} \\ \hline
+SimpleInjector & 6 & 6 & 6 \\ \hline
+LightInject & 6 & 7 & 6 \\ \hline
+Grace & 8 & 8 & 8 \\ \hline
+\textbf{NiquIoCFull} & \textbf{8} & \textbf{8} & \textbf{8} \\ \hline
+DryIoc & 8 & 9 & 8 \\ \hline
+Ninject & 12 & 13 & 12 \\ \hline
+Unity & 24 & 25 & 24 \\ \hline
+StructureMap & 33 & 34 & 33 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 1000 powtórzeń dla operacji Singleton dla Przypadku testowego B}
+\label{TestCaseB_Singleton1000}
+\end{table}
+Podobnie jak dla przypadku testowego A, tutaj również wraz ze wzrostem liczby powtórzeń nie było znaczącego wzrostu czasu dla żadnego z rozwiązań.
+
+\subsubsection{Wyniki Resolve dla Transient}
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 1 & \\ \hline
+ & min & max & avg \\ \hline
+Autofac & 2 & 2 & 2 \\ \hline
+\textbf{NiquIoCPartial} & \textbf{5} & \textbf{5} & \textbf{5} \\ \hline
+Windsor & 6 & 7 & 6 \\ \hline
+\textbf{NiquIoCFull} & \textbf{26} & \textbf{27} & \textbf{26} \\ \hline
+Unity & 28 & 29 & 28 \\ \hline
+LightInject & 31 & 33 & 32 \\ \hline
+StructureMap & 33 & 34 & 33 \\ \hline
+Ninject & 36 & 38 & 36 \\ \hline
+SimpleInjector & 40 & 41 & 40 \\ \hline
+DryIoc & 43 & 44 & 43 \\ \hline
+Grace & 50 & 59 & 51 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 1 powtórzenia dla operacji Transient dla Przypadku testowego B}
+\label{TestCaseB_Transient1}
+\end{table}
+W tym teście dla 1 powtórzenia \textbf{Autofac}, \textbf{NiquIoCPartial} oraz \textbf{Windsor} zanotowały czasy o rząd wielkości mniejsze niż pozostałe rozwiązania. Dodatkowo najpopularniejsze rozwiązania osiągnęły niższe czasy niż najszybsze rozwiązania.
+\\ \\
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 10 & \\ \hline
+ & min & max & avg \\ \hline
+\textbf{NiquIoCPartial} & \textbf{10} & \textbf{10} & \textbf{10} \\ \hline
+Autofac & 21 & 25 & 21 \\ \hline
+\textbf{NiquIoCFull} & \textbf{26} & \textbf{27} & \textbf{26} \\ \hline
+LightInject & 32 & 33 & 32 \\ \hline
+SimpleInjector & 40 & 42 & 41 \\ \hline
+DryIoc & 44 & 45 & 44 \\ \hline
+StructureMap & 45 & 46 & 45 \\ \hline
+Unity & 49 & 50 & 49 \\ \hline
+Windsor & 49 & 69 & 50 \\ \hline
+Grace & 51 & 55 & 52 \\ \hline
+Ninject & 276 & 337 & 284 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 10 powtórzeń dla operacji Transient dla Przypadku testowego B}
+\label{TestCaseB_Transient10}
+\end{table}
+Wraz ze wzrostem liczby powtórzeń wszystkie najpopularniejsze rozwiązania zanotowały wzrost około 10-krotny. \textbf{NiquIoCPartial} zanotował wzrost 2-krotny. \textbf{NiquIoCFull} oraz najszybsze rozwiązania nie zanotowały wzrostu czasów.
+\\ \\
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 100 & \\ \hline
+ & min & max & avg \\ \hline
+\textbf{NiquIoCFull} & \textbf{32} & \textbf{33} & \textbf{32} \\ \hline
+LightInject & 37 & 38 & 37 \\ \hline
+SimpleInjector & 47 & 48 & 47 \\ \hline
+DryIoc & 51 & 52 & 51 \\ \hline
+Grace & 57 & 59 & 58 \\ \hline
+\textbf{NiquIoCPartial} & \textbf{59} & \textbf{79} & \textbf{61} \\ \hline
+StructureMap & 167 & 175 & 168 \\ \hline
+Autofac & 189 & 201 & 191 \\ \hline
+Unity & 260 & 271 & 262 \\ \hline
+Windsor & 476 & 610 & 484 \\ \hline
+Ninject & 2733 & 3595 & 2790 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 100 powtórzeń dla operacji Transient dla Przypadku testowego B}
+\label{TestCaseB_Transient100}
+\end{table}
+Gdy liczba powtórzeń wzrosła do 100, \textbf{NiquIoCPartial} zanotował 5-krotny wzrost. Najpopularniejsze rozwiązania zanotowały stały, około 10-krotny wzrosty. \textbf{NiquIoCFull} oraz wszystkie najszybsze rozwiązania osiągnęły nieduży wzrost, jednakże wszystkie osiągnęły o rząd wielkości lepsze wyniki niż najpopularniejsze rozwiązania.
+\\ \\
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 1000 & \\ \hline
+ & min & max & avg \\ \hline
+\textbf{NiquIoCFull} & \textbf{66} & \textbf{68} & \textbf{66} \\ \hline
+LightInject & 70 & 73 & 71 \\ \hline
+SimpleInjector & 95 & 97 & 96 \\ \hline
+DryIoc & 97 & 100 & 98 \\ \hline
+Grace & 122 & 128 & 124 \\ \hline
+\textbf{NiquIoCPartial} & \textbf{543} & \textbf{633} & \textbf{550} \\ \hline
+StructureMap & 1333 & 1565 & 1346 \\ \hline
+Autofac & 1890 & 2044 & 1903 \\ \hline
+Unity & 2355 & 2419 & 2366 \\ \hline
+Windsor & 4726 & 5665 & 4799 \\ \hline
+Ninject & 28220 & 29976 & 28720 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 1000 powtórzeń dla operacji Transient dla Przypadku testowego B}
+\label{TestCaseB_Transient1000}
+\end{table}
+\textbf{NiquIoCFull} oraz wszystkie najszybsze rozwiązania zanotowały około 2-krotny wzrost czasów, \textbf{NiquIoCPartial} około 5-krotny, a wszystkie najpopularniejsze rozwiązania utrzymały około 10-krotny wzrost czasów.
+
+\subsubsection{Wyniki Resolve dla TransientSingleton}
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 1 & \\ \hline
+ & min & max & avg \\ \hline
+Autofac & 1 & 2 & 1 \\ \hline
+Windsor & 3 & 5 & 3 \\ \hline
+\textbf{NiquIoCPartial} & \textbf{4} & \textbf{5} & \textbf{5} \\ \hline
+\textbf{NiquIoCFull} & \textbf{16} & \textbf{16} & \textbf{16} \\ \hline
+Unity & 27 & 28 & 27 \\ \hline
+SimpleInjector & 28 & 28 & 28 \\ \hline
+Ninject & 29 & 34 & 30 \\ \hline
+Grace & 30 & 32 & 31 \\ \hline
+StructureMap & 33 & 34 & 33 \\ \hline
+LightInject & 48 & 50 & 48 \\ \hline
+DryIoc & 56 & 57 & 56 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 1 powtórzenia dla operacji TransientSingleton dla Przypadku testowego B}
+\label{TestCaseB_TransientSingleton1}
+\end{table}
+Wyniki dla tego testu są zbliżone do wyników dla \textbf{Transient}. Dla 1 powtórzenia najpopularniejsze rozwiązania osiągają lepsze wyniki niż najszybsze rozwiązania. Oba rozwiązania zaprezentowane w tej pracy posiadają czasy zbliżone do najpopularniejszy rozwiązań.
+\\ \\
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 10 & \\ \hline
+ & min & max & avg \\ \hline
+\textbf{NiquIoCPartial} & \textbf{8} & \textbf{9} & \textbf{8} \\ \hline
+\textbf{NiquIoCFull} & \textbf{16} & \textbf{17} & \textbf{16} \\ \hline
+Autofac & 18 & 20 & 18 \\ \hline
+SimpleInjector & 28 & 29 & 28 \\ \hline
+Grace & 31 & 32 & 31 \\ \hline
+Windsor & 37 & 46 & 37 \\ \hline
+StructureMap & 40 & 46 & 40 \\ \hline
+Unity & 46 & 47 & 46 \\ \hline
+LightInject & 48 & 50 & 48 \\ \hline
+DryIoc & 57 & 58 & 57 \\ \hline
+Ninject & 214 & 239 & 219 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 10 powtórzeń dla operacji TransientSingleton dla Przypadku testowego B}
+\label{TestCaseB_TransientSingleton10}
+\end{table}
+Dla 10 powtórzeń zarówno \textbf{NiquIoCPartial} jak i \textbf{NiquIoCFull} osiągnęły najmniejsze czasy. Są one jednak zbliżone do pozostały rozwiązań. Wyjątkiem jest jedynie \textbf{Ninject}, który osiągnął czasy o rząd wielkości większe niż reszta.
+\\ \\
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 100 & \\ \hline
+ & min & max & avg \\ \hline
+\textbf{NiquIoCFull} & \textbf{18} & \textbf{19} & \textbf{18} \\ \hline
+SimpleInjector & 32 & 34 & 32 \\ \hline
+Grace & 35 & 37 & 35 \\ \hline
+\textbf{NiquIoCPartial} & \textbf{41} & \textbf{57} & \textbf{42} \\ \hline
+LightInject & 51 & 53 & 51 \\ \hline
+DryIoc & 64 & 65 & 64 \\ \hline
+StructureMap & 112 & 123 & 113 \\ \hline
+Autofac & 172 & 206 & 173 \\ \hline
+Unity & 226 & 263 & 228 \\ \hline
+Windsor & 355 & 435 & 362 \\ \hline
+Ninject & 2013 & 2426 & 2063 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 100 powtórzeń dla operacji TransientSingleton dla Przypadku testowego B}
+\label{TestCaseB_TransientSingleton100}
+\end{table}
+Gdy liczba powtórzeń wzrosła do 100, \textbf{NiquIocFull} oraz najszybsze rozwiązania zanotowały niewielki wzrost czasów. Z drugiej strony \textbf{NiquIocPartial} oraz wszystkie najpopularniejsze rozwiązania zanotowały kilkukrotny wzrost.
+\\ \\
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 1000 & \\ \hline
+ & min & max & avg \\ \hline
+\textbf{NiquIoCFull} & \textbf{37} & \textbf{39} & \textbf{38} \\ \hline
+SimpleInjector & 61 & 62 & 61 \\ \hline
+Grace & 69 & 72 & 69 \\ \hline
+LightInject & 80 & 82 & 80 \\ \hline
+DryIoc & 108 & 110 & 109 \\ \hline
+\textbf{NiquIoCPartial} & \textbf{365} & \textbf{406} & \textbf{368} \\ \hline
+StructureMap & 797 & 915 & 805 \\ \hline
+Autofac & 1698 & 1832 & 1709 \\ \hline
+Unity & 2016 & 2305 & 2032 \\ \hline
+Windsor & 3543 & 4824 & 3637 \\ \hline
+Ninject & 20440 & 22891 & 20858 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 1000 powtórzeń dla operacji TransientSingleton dla Przypadku testowego B}
+\label{TestCaseB_TransientSingleton1000}
+\end{table}
+Podobnie jak dla testu dla \textbf{Transient}, \textbf{NiquIocPartial} i najpopularniejsze rozwiązania utrzymały liniowy, około 10-krotny wzrosty. Dla pozostałych rozwiązań ten wzrost był około 2-krotny.
+
+\subsubsection{Wyniki Resolve dla PerThread}
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 1 & \\ \hline
+ & min & max & avg \\ \hline
+Autofac & 0 & 0 & 0 \\ \hline
+Windsor & 0 & 0 & 0 \\ \hline
+\textbf{NiquIoCPartial} & \textbf{4} & \textbf{5} & \textbf{4} \\ \hline
+\textbf{NiquIoCFull} & \textbf{8} & \textbf{8} & \textbf{8} \\ \hline
+Ninject & 9 & 10 & 9 \\ \hline
+Grace & 13 & 13 & 13 \\ \hline
+SimpleInjector & 23 & 23 & 23 \\ \hline
+Unity & 23 & 25 & 23 \\ \hline
+StructureMap & 32 & 34 & 33 \\ \hline
+DryIoc & 246 & 250 & 247 \\ \hline
+LightInject & 409 & 419 & 412 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 1 powtórzenia dla operacji PerThread dla Przypadku testowego B}
+\label{TestCaseB_PerThread1}
+\end{table}
+Dla tego testu sytuacja wygląda identycznie jak dla przypadku testowego A - \textbf{DryIoc} oraz \textbf{LightInject} nie poradziły sobie z rejestracją \textbf{PerThread} i zanotowały czas o rząd wielkości większe niż pozostałe rozwiązania.\\
+\\
+Wyraźnie najlepsze wyniki osiągnęły \textbf{Autofac} i \textbf{Windsor}, a dalej \textbf{NiquIoCPartial} oraz \textbf{NiquIoCFull}. Czasy niedużo większe osiągnęły również \textbf{Ninject}, a także \textbf{Grace}.
+\\ \\
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 1000 & \\ \hline
+ & min & max & avg \\ \hline
+Autofac & 0 & 0 & 0 \\ \hline
+Windsor & 0 & 0 & 0 \\ \hline
+\textbf{NiquIoCPartial} & \textbf{4} & \textbf{5} & \textbf{4} \\ \hline
+\textbf{NiquIoCFull} & \textbf{8} & \textbf{8} & \textbf{8} \\ \hline
+Ninject & 12 & 13 & 13 \\ \hline
+Grace & 13 & 14 & 13 \\ \hline
+SimpleInjector & 23 & 24 & 23 \\ \hline
+Unity & 24 & 25 & 24 \\ \hline
+StructureMap & 33 & 34 & 33 \\ \hline
+DryIoc & 246 & 249 & 247 \\ \hline
+LightInject & 409 & 420 & 413 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 1000 powtórzeń dla operacji PerThread dla Przypadku testowego B}
+\label{TestCaseB_PerThread1000}
+\end{table}
+Gdy liczba powtórzeń wzrosła do 1000 żadne z rozwiązań nie zanotowało wzrostu czasów.
+
+\subsubsection{Wyniki Resolve dla FactoryMethod}
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 1 & \\ \hline
+ & min & max & avg \\ \hline
+DryIoc & 0 & 0 & 0 \\ \hline
+\textbf{NiquIoCPartial} & \textbf{0} & \textbf{0} & \textbf{0} \\ \hline
+\textbf{NiquIoCFull} & \textbf{0} & \textbf{0} & \textbf{0} \\ \hline
+Autofac & 1 & 1 & 1 \\ \hline
+LightInject & 2 & 4 & 2 \\ \hline
+SimpleInjector & 4 & 4 & 4 \\ \hline
+Windsor & 4 & 5 & 4 \\ \hline
+Unity & 4 & 6 & 4 \\ \hline
+Grace & 7 & 9 & 7 \\ \hline
+Ninject & 23 & 25 & 24 \\ \hline
+StructureMap & 25 & 25 & 25 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 1 powtórzenia dla operacji FactoryMethod dla Przypadku testowego B}
+\label{TestCaseB_FactoryMethod1}
+\end{table}
+Dla 1 powtórzenia wszystkie rozwiązania za wyjątkiem \textbf{Ninject} i \textbf{StructureMap} mają zbliżone, nieduże czasy. Te dwa rozwiązania zanotowały czasy o rząd wielkości większe niż pozostałe.
+\\
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 10 & \\ \hline
+ & min & max & avg \\ \hline
+DryIoc & 1 & 2 & 1 \\ \hline
+\textbf{NiquIoCFull} & \textbf{3} & \textbf{4} & \textbf{3} \\ \hline
+LightInject & 4 & 4 & 4 \\ \hline
+\textbf{NiquIoCPartial} & \textbf{4} & \textbf{4} & \textbf{4} \\ \hline
+SimpleInjector & 7 & 7 & 7 \\ \hline
+Grace & 10 & 10 & 10 \\ \hline
+Autofac & 16 & 17 & 16 \\ \hline
+Windsor & 33 & 36 & 33 \\ \hline
+StructureMap & 37 & 37 & 37 \\ \hline
+Unity & 44 & 45 & 44 \\ \hline
+Ninject & 166 & 182 & 170 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 10 powtórzeń dla operacji FactoryMethod dla Przypadku testowego B}
+\label{TestCaseB_FactoryMethod10}
+\end{table}
+Najszybsze rozwiązania zanotowały około 2-krotny wzrost czasów, a z kolei dla \textbf{NiquIoCPartial} oraz najpopularniejszych rozwiązań ten wzrost było około 10-krotny. \textbf{NiquIoCFull} osiągnął kilkukrotny wzrost czasów, ale poradził sobie słabiej tylko od \textbf{DryIoc}.
+\\ \\
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 100 & \\ \hline
+ & min & max & avg \\ \hline
+DryIoc & 19 & 19 & 19 \\ \hline
+LightInject & 21 & 22 & 21 \\ \hline
+\textbf{NiquIoCFull} & \textbf{35} & \textbf{37} & \textbf{35} \\ \hline
+SimpleInjector & 35 & 37 & 36 \\ \hline
+\textbf{NiquIoCPartial} & \textbf{37} & \textbf{39} & \textbf{38} \\ \hline
+Grace & 38 & 39 & 39 \\ \hline
+Autofac & 154 & 156 & 155 \\ \hline
+StructureMap & 159 & 162 & 160 \\ \hline
+Windsor & 298 & 321 & 301 \\ \hline
+Unity & 436 & 443 & 439 \\ \hline
+Ninject & 1601 & 1670 & 1622 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 100 powtórzeń dla operacji FactoryMethod dla Przypadku testowego B}
+\label{TestCaseB_FactoryMethod100}
+\end{table}
+Wraz ze wzrostem powtórzeń do 100, większość rozwiązań zanotowała około 10-krotny wzrost czasów. Wyjątkami są \textbf{LightInject}, \textbf{SimpleInjector}, \textbf{Grace} i \textbf{StructureMap}, które zanotował około 5-krotny wzrost czasów.
+\\ \\
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 1000 & \\ \hline
+ & min & max & avg \\ \hline
+LightInject & 180 & 186 & 182 \\ \hline
+DryIoc & 185 & 188 & 186 \\ \hline
+SimpleInjector & 305 & 311 & 308 \\ \hline
+Grace & 312 & 319 & 315 \\ \hline
+\textbf{NiquIoCFull} & \textbf{344} & \textbf{373} & \textbf{353} \\ \hline
+\textbf{NiquIoCPartial} & \textbf{364} & \textbf{373} & \textbf{368} \\ \hline
+StructureMap & 1347 & 1385 & 1359 \\ \hline
+Autofac & 1545 & 1573 & 1550 \\ \hline
+Windsor & 2939 & 3226 & 2971 \\ \hline
+Unity & 4355 & 4492 & 4373 \\ \hline
+Ninject & 16788 & 17602 & 16963 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 1000 powtórzeń dla operacji FactoryMethod dla Przypadku testowego B}
+\label{TestCaseB_FactoryMethod1000}
+\end{table}
+Gdy liczba powtórzeń wzrosła do 1000, wszystkie rozwiązania zanotowały około 9-krotny lub 10-krotny wzrost. Najmniejsze czasy zanotowały \textbf{LightInject} oraz \textbf{DryIoC}.
+
+
+\subsection{Przypadek testowy C}
+\subsubsection{Opis}
+Ten przypadek testowy znacząco różni się od dwóch poprzednich. Jest tutaj zdefiniowanych 26 typów. 5 z tych typów ma konstruktor bezparametrowy, a pozostałe 21 ma konstruktor z pięcioma parametrami. Typem głównym jest typ \textbf{TestC}. Obiekt tego typy w konstruktorze przyjmuje 5 obiektów, kolejno następujących typów: \textbf{TestC40}, \textbf{TestC41}, \textbf{TestC42}, \textbf{TestC43} i \textbf{TestC44}. Każdy z tych pięciu typów ma taki sam konstruktor - przyjmuje w nim 5 obiektów o typach, które w nazwie mają pierwszą cyfrę o 1 mniejszą, czyli są to obiekty typów od \textbf{TestC30} do \textbf{TestC34}. Dla tych i kolejnych typów zasada z konstruktorami wygląda tak samo. Na końcu są typy od \textbf{TestC00} do \textbf{TestC04}, które mają konstruktor bezparametrowy. Rys. \ref{fig:testC} przedstawia graf zależności typów dla tego przypadku testowego.\\
+\begin{figure}[H]
+	\begin{center}
+  		\includegraphics[height=11.5cm]{TestC.png}
+  		\caption{Graf zależności dla testu C.}
+  		\label{fig:testC}
+	\end{center}
+\end{figure}
+
+Łatwo wywnioskować, że tworząc obiekty poszczególnych typów, liczba tworzonych obiektów rośnie ponad pięciokrotnie:
+\begin{itemize}
+	\item typy od \textbf{TestC00} do \textbf{TestC04} - 1 obiekt,
+	\item typy od \textbf{TestC10} do \textbf{TestC14} - 6 obiektów (obiekt danego typu plus 5 obiektów typów od \textbf{TestC00} do \textbf{TestC04}),
+	\item typy od \textbf{TestC20} do \textbf{TestC24} - 31 obiektów (obiekt danego typu plus 5 obiektów typów od \textbf{TestC10} do \textbf{TestC14}),
+	\item typy od \textbf{TestC30} do \textbf{TestC34} - 156 obiektów,
+	\item typy od \textbf{TestC40} do \textbf{TestC44} - 781 obiektów,
+	\item \textbf{TestC} - 3 906 obiektów.
+\end{itemize}
+Zatem tworząc obiekt typu \textbf{TestC}, zostaje utworzony: 1 obiekt typu \textbf{TestC}, 5 obiektów typów od \textbf{TestC40} do \textbf{TestC44}, 25 obiektów typów od \textbf{TestC30} do \textbf{TestC34}, 125 obiektów typów od \textbf{TestC20} do \textbf{TestC24}, 625 obiektów typów od \textbf{TestC10} do \textbf{TestC14} oraz 3 125 obiektów typów od \textbf{TestC00} do \textbf{TestC04} - co daje w sumie 3 906 obiektów.
+
+\subsubsection{Wyniki Resolve dla Singleton}
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 1 & \\ \hline
+ & min & max & avg \\ \hline
+Autofac & 0 & 0 & 0 \\ \hline
+Windsor & 0 & 0 & 0 \\ \hline
+\textbf{NiquIoCPartial} & \textbf{3} & \textbf{3} & \textbf{3} \\ \hline
+LightInject & 4 & 4 & 4 \\ \hline
+SimpleInjector & 4 & 4 & 4 \\ \hline
+DryIoc & 5 & 5 & 5 \\ \hline
+Grace & 5 & 5 & 5 \\ \hline
+\textbf{NiquIoCFull} & \textbf{5} & \textbf{5} & \textbf{5} \\ \hline
+Ninject & 6 & 6 & 6 \\ \hline
+Unity & 15 & 16 & 15 \\ \hline
+StructureMap & 22 & 23 & 22 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 1 powtórzenia dla operacji Singleton dla Przypadku testowego C}
+\label{TestCaseC_Singleton1}
+\end{table}
+Najlepsze wyniki osiągnął \textbf{Autofac} i \textbf{Windsor}, a najsłabiej \textbf{Unity} oraz \textbf{StructureMap}. Pozostałe rozwiązania zanotowały zbliżone czasy.
+\\ \\
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 1000 & \\ \hline
+ & min & max & avg \\ \hline
+Autofac & 0 & 0 & 0 \\ \hline
+Windsor & 0 & 0 & 0 \\ \hline
+\textbf{NiquIoCPartial} & \textbf{3} & \textbf{3} & \textbf{3} \\ \hline
+LightInject & 4 & 4 & 4 \\ \hline
+SimpleInjector & 4 & 4 & 4 \\ \hline
+DryIoc & 5 & 5 & 5 \\ \hline
+Grace & 5 & 5 & 5 \\ \hline
+\textbf{NiquIoCFull} & \textbf{5} & \textbf{5} & \textbf{5} \\ \hline
+Ninject & 9 & 10 & 9 \\ \hline
+Unity & 16 & 17 & 16 \\ \hline
+StructureMap & 23 & 24 & 23 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 1000 powtórzeń dla operacji Singleton dla Przypadku testowego C}
+\label{TestCaseC_Singleton1000}
+\end{table}
+Dla tego przypadku testowego sytuacja dla tego testu wygląda identycznie jak dla dwóch poprzednich przypadków testowych. Wraz ze wzrostem powtórzeń, czasy pozostają na tym samym poziomie, a tabela z wynikami jest zbliżona do tabeli dla przypadku testowego A i B.
+
+\subsubsection{Wyniki Resolve dla Transient}
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 1 & \\ \hline
+ & min & max & avg \\ \hline
+Autofac & 2 & 2 & 2 \\ \hline
+\textbf{NiquIoCPartial} & \textbf{3} & \textbf{4} & \textbf{4} \\ \hline
+Windsor & 7 & 8 & 7 \\ \hline
+Unity & 18 & 19 & 19 \\ \hline
+StructureMap & 26 & 27 & 26 \\ \hline
+\textbf{NiquIoCFull} & \textbf{31} & \textbf{33} & \textbf{31} \\ \hline
+LightInject & 36 & 37 & 36 \\ \hline
+DryIoc & 39 & 41 & 39 \\ \hline
+Ninject & 38 & 42 & 39 \\ \hline
+SimpleInjector & 40 & 42 & 41 \\ \hline
+Grace & 61 & 63 & 61 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 1 powtórzenia dla operacji Transient dla Przypadku testowego C}
+\label{TestCaseC_Transient1}
+\end{table}
+Dla 1 powtórzenia najlepsze wyniki osiągają najpopularniejsze rozwiązania oraz \textbf{NiquIoCPartial}. Dalej jest \textbf{NiquIoCFull}, a za nim wszystkie najszybsze rozwiązania. Najniższe czasy osiągnęły \textbf{Autofac} i \textbf{NiquIoCPartial}.
+\\ \\
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 10 & \\ \hline
+ & min & max & avg \\ \hline
+\textbf{NiquIoCPartial} & \textbf{10} & \textbf{11} & \textbf{10 }\\ \hline
+Autofac & 23 & 25 & 24 \\ \hline
+\textbf{NiquIoCFull} & \textbf{31} & \textbf{33} & \textbf{32} \\ \hline
+LightInject & 36 & 39 & 37 \\ \hline
+DryIoc & 40 & 41 & 40 \\ \hline
+StructureMap & 40 & 42 & 40 \\ \hline
+SimpleInjector & 41 & 43 & 41 \\ \hline
+Unity & 47 & 51 & 47 \\ \hline
+Grace & 62 & 65 & 62 \\ \hline
+Windsor & 61 & 82 & 62 \\ \hline
+Ninject & 345 & 375 & 353 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 10 powtórzeń dla operacji Transient dla Przypadku testowego C}
+\label{TestCaseC_Transient10}
+\end{table}
+Tym razem również wszystkie najpopularniejsze rozwiązania zanotowały około 10-krotny wzrost, \textbf{NiquIoCPartial} około 2-krotny wzrost, a \textbf{NiquIoCFull} oraz wszystkie najszybsze rozwiązania osiągnęły podobne czasy co dla 1 powtórzenia.
+\\ \\
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 100 & \\ \hline
+ & min & max & avg \\ \hline
+\textbf{NiquIoCFull} & \textbf{38} & \textbf{41} & \textbf{38} \\ \hline
+LightInject & 43 & 49 & 44 \\ \hline
+DryIoc & 47 & 48 & 47 \\ \hline
+SimpleInjector & 49 & 51 & 49 \\ \hline
+Grace & 73 & 74 & 73 \\ \hline
+\textbf{NiquIoCPartial} & \textbf{72} & \textbf{80} & \textbf{74} \\ \hline
+StructureMap & 178 & 207 & 181 \\ \hline
+Autofac & 229 & 250 & 231 \\ \hline
+Unity & 315 & 369 & 318 \\ \hline
+Windsor & 594 & 769 & 608 \\ \hline
+Ninject & 3430 & 4043 & 3511 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 100 powtórzeń dla operacji Transient dla Przypadku testowego C}
+\label{TestCaseC_Transient100}
+\end{table}
+Pomimo że ten przypadek testowy znacząco różni się od poprzednich dwóch, to stosunek wzrostów czasów, wraz ze wzrostem powtórzeń dla tego testu wydaje się być taki sam. \textbf{NiquIoCFull} oraz najszybsze rozwiązania notują niewielki wzrost i ich czasy są na tym samym poziomie co dla 10 powtórzeń, a pozostałe rozwiązania mają wyniki około 9-10 razy większe.
+\\ \\
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 1000 & \\ \hline
+ & min & max & avg \\ \hline
+\textbf{NiquIoCFull} & \textbf{81} & \textbf{83} & \textbf{82} \\ \hline
+LightInject & 86 & 88 & 86 \\ \hline
+DryIoc & 98 & 100 & 99 \\ \hline
+SimpleInjector & 115 & 117 & 116 \\ \hline
+Grace & 153 & 163 & 155 \\ \hline
+\textbf{NiquIoCPartial} & \textbf{683} & \textbf{781} & \textbf{690} \\ \hline
+StructureMap & 1520 & 1810 & 1540 \\ \hline
+Autofac & 2274 & 2419 & 2288 \\ \hline
+Unity & 2995 & 3359 & 3015 \\ \hline
+Windsor & 5898 & 7708 & 6037 \\ \hline
+Ninject & 36072 & 42914 & 37642 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 1000 powtórzeń dla operacji Transient dla Przypadku testowego C}
+\label{TestCaseC_Transient1000}
+\end{table}
+Tendencja wzrostów się utrzymała i \textbf{NiquIoCFull} osiągnął lepsze wyniki niż wszystkie najszybsze rozwiązania, a \textbf{NiquIoCPartial} lepsze niż wszystkie najpopularniejsze rozwiązania.
+
+\subsubsection{Wyniki Resolve dla TransientSingleton}
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 1 & \\ \hline
+ & min & max & avg \\ \hline
+Autofac & 1 & 2 & 2 \\ \hline
+\textbf{NiquIoCPartial} & \textbf{3} & \textbf{3} & \textbf{3} \\ \hline
+Windsor & 3 & 3 & 3 \\ \hline
+\textbf{NiquIoCFull} & \textbf{12} & \textbf{13} & \textbf{12} \\ \hline
+Unity & 18 & 18 & 18 \\ \hline
+SimpleInjector & 21 & 22 & 21 \\ \hline
+StructureMap & 23 & 23 & 23 \\ \hline
+Grace & 23 & 24 & 23 \\ \hline
+Ninject & 25 & 30 & 26 \\ \hline
+LightInject & 52 & 54 & 52 \\ \hline
+DryIoc & 58 & 70 & 58 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 1 powtórzenia dla operacji TransientSingleton dla Przypadku testowego C}
+\label{TestCaseC_TransientSingleton1}
+\end{table}
+Dla 1 powtórzenia najlepiej radzą sobie \textbf{Autofac}, \textbf{NiquIoCPartial} i \textbf{Windsor}. Pozostałe rozwiązania zanotowały czasy od kilku, do kilkunastu razy większe. Najsłabsze wyniki osiągnęły \textbf{LightInject} oraz \textbf{DryIoc}.
+\\ \\
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 10 & \\ \hline
+ & min & max & avg \\ \hline
+\textbf{NiquIoCPartial} & \textbf{6} & \textbf{7} & \textbf{6} \\ \hline
+\textbf{NiquIoCFull} & \textbf{12} & \textbf{13} & \textbf{12} \\ \hline
+Autofac & 19 & 20 & 20 \\ \hline
+SimpleInjector & 21 & 22 & 21 \\ \hline
+Grace & 23 & 24 & 23 \\ \hline
+StructureMap & 30 & 31 & 30 \\ \hline
+Windsor & 34 & 41 & 35 \\ \hline
+Unity & 39 & 41 & 40 \\ \hline
+LightInject & 52 & 55 & 53 \\ \hline
+DryIoc & 59 & 62 & 59 \\ \hline
+Ninject & 199 & 231 & 203 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 10 powtórzeń dla operacji TransientSingleton dla Przypadku testowego C}
+\label{TestCaseC_TransientSingleton10}
+\end{table}
+Gdy jest 10 powtórzeń zarówno \textbf{NiquIoCFull} jak i wszystkie najszybsze rozwiązania nie zanotowały wzrostu czasów. \textbf{NiquIoCPartial}, \textbf{Unity} oraz \textbf{StructureMap} zanotowały wzrost około 2-krotny, a \textbf{Autofac}, \textbf{Windsor} oraz \textbf{Ninject} około 10-krotny. Mimo że dla \textbf{LightInject} i \textbf{DryIoC} czasy nie wzrosły, to i tak dla tylu powtórzeń osiągnęły one jedne z najwyższych wyników.
+\\ \\
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 100 & \\ \hline
+ & min & max & avg \\ \hline
+\textbf{NiquIoCFull} & \textbf{13} & \textbf{14} & \textbf{14} \\ \hline
+SimpleInjector & 23 & 24 & 24 \\ \hline
+Grace & 25 & 26 & 25 \\ \hline
+\textbf{NiquIoCPartial} & \textbf{38} & \textbf{46} & \textbf{39} \\ \hline
+LightInject & 55 & 57 & 56 \\ \hline
+DryIoc & 65 & 68 & 65 \\ \hline
+StructureMap & 80 & 84 & 80 \\ \hline
+Autofac & 184 & 198 & 187 \\ \hline
+Unity & 242 & 258 & 243 \\ \hline
+Windsor & 338 & 400 & 343 \\ \hline
+Ninject & 1903 & 2364 & 1951 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 100 powtórzeń dla operacji TransientSingleton dla Przypadku testowego C}
+\label{TestCaseC_TransientSingleton100}
+\end{table}
+Przy 100 powtórzeniach wzrost czasów wygląda identycznie jak dla testu \textbf{Transient} - \textbf{NiquIoCFull} oraz najszybsze rozwiązania mają niewielki, a pozostałe rozwiązania kilkukrotny. \textbf{LightInject} i \textbf{DryIoC} tym razem zanotowały czasy lepsze niż wszystkie najpopularniejsze rozwiążania, ale wciąż słabsze niż \textbf{NiquIoCPartial}.
+\\ \\
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 1000 & \\ \hline
+ & min & max & avg \\ \hline
+\textbf{NiquIoCFull} & \textbf{25} & \textbf{26} & \textbf{25} \\ \hline
+Grace & 44 & 45 & 44 \\ \hline
+SimpleInjector & 44 & 45 & 44 \\ \hline
+LightInject & 82 & 85 & 83 \\ \hline
+DryIoc & 105 & 107 & 106 \\ \hline
+\textbf{NiquIoCPartial} & \textbf{347} & \textbf{359} & \textbf{349} \\ \hline
+StructureMap & 549 & 593 & 553 \\ \hline
+Autofac & 1810 & 1898 & 1831 \\ \hline
+Unity & 2258 & 2428 & 2272 \\ \hline
+Windsor & 3368 & 4115 & 3429 \\ \hline
+Ninject & 19137 & 22595 & 19626 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 1000 powtórzeń dla operacji TransientSingleton dla Przypadku testowego C}
+\label{TestCaseC_TransientSingleton1000}
+\end{table}
+Dla 1000 powtórzeń najmniejszy czas zanotował \textbf{NiquIoCFull}, a dalej wszystkie najszybsze rozwiązania. \textbf{NiquIoCPartial} dla tego przypadku testowego również znalazł się za wszystkimi najszybszymi rozwiązaniami oraz przed wszystkimi najpopularniejszymi rozwiązaniami.
+
+\subsubsection{Wyniki Resolve dla PerThread}
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 1 & \\ \hline
+ & min & max & avg \\ \hline
+Autofac & 0 & 0 & 0 \\ \hline
+Windsor & 0 & 0 & 0 \\ \hline
+\textbf{NiquIoCPartial} & \textbf{3} & \textbf{3} & \textbf{3} \\ \hline
+\textbf{NiquIoCFull} & \textbf{5} & \textbf{5} & \textbf{5} \\ \hline
+Ninject & 6 & 7 & 6 \\ \hline
+Grace & 8 & 9 & 8 \\ \hline
+Unity & 15 & 16 & 15 \\ \hline
+SimpleInjector & 16 & 16 & 16 \\ \hline
+StructureMap & 22 & 23 & 22 \\ \hline
+DryIoc & 157 & 162 & 158 \\ \hline
+LightInject & 525 & 556 & 529 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 1 powtórzenia dla operacji PerThread dla Przypadku testowego C}
+\label{TestCaseC_PerThread1}
+\end{table}
+Dla tego przypadku testowego wyniki są podobne jak w poprzednich przypadkach testowych - najlepsze wyniki osiągnęły \textbf{Autofac} i \textbf{Windsor}, następnie dwa rozwiązania zaprezentowane w tej pracy, a dalej pozostałe rozwiązania. Najwyższe czasy uzyskały \textbf{DryIoc} oraz \textbf{LightInject}, które nie radzą sobie z rejestracją \textbf{PerThread}.
+\\ \\
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 1000 & \\ \hline
+ & min & max & avg \\ \hline
+Autofac & 0 & 0 & 0 \\ \hline
+Windsor & 0 & 0 & 0 \\ \hline
+\textbf{NiquIoCPartial} & \textbf{3} & \textbf{3} & \textbf{3} \\ \hline
+\textbf{NiquIoCFull} & \textbf{5} & \textbf{5} & \textbf{5} \\ \hline
+Grace & 8 & 9 & 8 \\ \hline
+Ninject & 9 & 10 & 9 \\ \hline
+Unity & 16 & 17 & 16 \\ \hline
+SimpleInjector & 16 & 18 & 16 \\ \hline
+StructureMap & 23 & 73 & 24 \\ \hline
+DryIoc & 158 & 161 & 158 \\ \hline
+LightInject & 525 & 550 & 529 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 1000 powtórzeń dla operacji PerThread dla Przypadku testowego C}
+\label{TestCaseC_PerThread1000}
+\end{table}
+Test dla 1000 powtórzeń pokazał, że dla żadnego rozwiązania (dla tego testu), wraz ze wzrostem liczby powtórzeń, nie wzrasta czas.
+
+\subsubsection{Wyniki Resolve dla FactoryMethod}
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 1 & \\ \hline
+ & min & max & avg \\ \hline
+DryIoc & 0 & 0 & 0 \\ \hline
+\textbf{NiquIoCPartial} & \textbf{0} & \textbf{0} & \textbf{0} \\ \hline
+\textbf{NiquIoCFull} & \textbf{0} & \textbf{0} & \textbf{0} \\ \hline
+Autofac & 2 & 2 & 2 \\ \hline
+LightInject & 2 & 2 & 2 \\ \hline
+SimpleInjector & 3 & 4 & 3 \\ \hline
+Windsor & 4 & 5 & 4 \\ \hline
+Grace & 6 & 6 & 6 \\ \hline
+Unity & 6 & 7 & 6 \\ \hline
+StructureMap & 18 & 20 & 18 \\ \hline
+Ninject & 26 & 28 & 27 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 1 powtórzenia dla operacji FactoryMethod dla Przypadku testowego C}
+\label{TestCaseC_FactoryMethod1}
+\end{table}
+Gdy jest 1 powtórzenie najlepiej radzą sobie \textbf{NiquIoCPartial}, \textbf{NiquIoCFull} oraz najszybsze rozwiązania. Najpopularniejsze rozwiązania zanotowały czasy nieznacznie (\textbf{Autofac}, \textbf{Windsor}, \textbf{Unity}) lub znacznie (\textbf{StructureMap}, \textbf{Ninject}) słabsze.
+\\ \\
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 10 & \\ \hline
+ & min & max & avg \\ \hline
+DryIoc & 2 & 2 & 2 \\ \hline
+\textbf{NiquIoCFull} & \textbf{4} & \textbf{4} & \textbf{4} \\ \hline
+LightInject & 4 & 5 & 4 \\ \hline
+\textbf{NiquIoCPartial} & \textbf{5} & \textbf{5} & \textbf{5} \\ \hline
+SimpleInjector & 7 & 7 & 7 \\ \hline
+Grace & 9 & 9 & 9 \\ \hline
+Autofac & 19 & 21 & 19 \\ \hline
+StructureMap & 34 & 35 & 34 \\ \hline
+Windsor & 38 & 41 & 39 \\ \hline
+Unity & 56 & 58 & 56 \\ \hline
+Ninject & 209 & 220 & 213 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 10 powtórzeń dla operacji FactoryMethod dla Przypadku testowego C}
+\label{TestCaseC_FactoryMethod10}
+\end{table}
+Wraz ze wzrostem liczby powtórzeń, czasy dla wszystkich rozwiązań wzrosły - dla rozwiązań najszybszych był to wzrost około 2-krotny, a dla pozostałych około 10-krotny.
+\\ \\
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 100 & \\ \hline
+ & min & max & avg \\ \hline
+DryIoc & 24 & 25 & 24 \\ \hline
+LightInject & 24 & 27 & 25 \\ \hline
+Grace & 42 & 44 & 42 \\ \hline
+\textbf{NiquIoCFull} & \textbf{42} & \textbf{45} & \textbf{43} \\ \hline
+SimpleInjector & 43 & 45 & 44 \\ \hline
+\textbf{NiquIoCPartial} & \textbf{45} & \textbf{47} & \textbf{46} \\ \hline
+StructureMap & 177 & 198 & 180 \\ \hline
+Autofac & 186 & 197 & 189 \\ \hline
+Windsor & 366 & 378 & 369 \\ \hline
+Unity & 555 & 645 & 564 \\ \hline
+Ninject & 2110 & 2474 & 2152 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 100 powtórzeń dla operacji FactoryMethod dla Przypadku testowego C}
+\label{TestCaseC_FactoryMethod100}
+\end{table}
+Gdy jest 100 powtórzeń wyraźnie wyższe czasy osiągnęły najpopularniejsze rozwiązania. Najniższe czasy zanotowały \textbf{DryIoC} oraz \textbf{LightInject}, a pozostałe rozwiązania (\textbf{Grace}, \textbf{NiquIoCFull}, \textbf{SimpleInjector} i \textbf{NiquIoCPartial}) uzyskały podobne wyniki.
+\\ \\
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 1000 & \\ \hline
+ & min & max & avg \\ \hline
+LightInject & 215 & 223 & 218 \\ \hline
+DryIoc & 232 & 236 & 234 \\ \hline
+Grace & 357 & 369 & 361 \\ \hline
+SimpleInjector & 380 & 389 & 385 \\ \hline
+\textbf{NiquIoCFull} & \textbf{419} & \textbf{440} & \textbf{424} \\ \hline
+\textbf{NiquIoCPartial} & \textbf{446} & \textbf{479} & \textbf{451} \\ \hline
+StructureMap & 1594 & 1748 & 1623 \\ \hline
+Autofac & 1867 & 1979 & 1880 \\ \hline
+Windsor & 3650 & 4077 & 3721 \\ \hline
+Unity & 5561 & 5645 & 5577 \\ \hline
+Ninject & 22141 & 23030 & 22398 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 1000 powtórzeń dla operacji FactoryMethod dla Przypadku testowego C}
+\label{TestCaseC_FactoryMethod1000}
+\end{table}
+Przy 1000 powtórzeniach wszystkie rozwiązania zanotowały liniowy, około 10-krotny wzrost. Jednakże najmniejszy przyrost czasu zanotował \textbf{LightInject} i to on osiągnął najlepszy czas.
+
+
+\subsection{Przypadek testowy D}
+\subsubsection{Opis}
+Podobnie jak przypadek testowy B jest analogiczny z przypadkiem A, tak ten przypadek, jest zbliżony do przypadku C. Jest tutaj tyle samo poziomów, co dla C, ale na każdym poziomie (poza pierwszym) obiektów jest dwa razy więcej. Zatem w tym teście mamy zdefiniowanych 51 typów. Tutaj konstruktor bezparametrowy ma 10 typów, a pozostałe 41 ma konstruktor z dziesięcioma parametrami. Typ główny to \textbf{TestD} i przyjmuje on w konstruktorze 10 obiektów, kolejno następujących typów: \textbf{TestD40}, \textbf{TestD41}, \textbf{TestD42}, \textbf{TestD43}, \textbf{TestD44}, \textbf{TestD45}, \textbf{TestD46}, \textbf{TestD47}, \textbf{TestD48}, \textbf{TestD49}. Jest więc to sytuacja niemal identyczna jak dla poprzedniego przypadku. Dla pozostałych typów jest podobnie i każdy z nich w konstruktorze przyjmuje 10 obiektów o typach z pierwszą cyfrą o 1 mniejszą (obiekty typów od \textbf{TestD40} do \textbf{TestD49}, przyjmują w konstruktorze obiekty typów od \textbf{TestD30} do \textbf{TestD39} itd.). Ostatnie 10 typów, czyli typy od \textbf{TestD00} do \textbf{TestD09}, mają konstruktor bezparametrowy. Graf zależności dla tego przypadku testowego został przedstawiony na Rys. \ref{fig:testD}.\\
+\begin{figure}[H]
+	\begin{center}
+  		\includegraphics[width=\linewidth]{TestD.png}
+  		\caption{Graf zależności dla testu D.}
+  		\label{fig:testD}
+	\end{center}
+\end{figure}
+
+Łatwo wywnioskować, że tworząc obiekty poszczególnych typów liczba tworzonych obiektów rośnie ponad dziesięciokrotnie:
+\begin{itemize}
+	\item typy od \textbf{TestD00} do \textbf{TestD09} - 1 obiekt,
+	\item typy od \textbf{TestD10} do \textbf{TestD19} - 11 obiektów (obiekt danego typu plus 10 obiektów typów od \textbf{TestD00} do \textbf{TestD09}),
+	\item typy od \textbf{TestD20} do \textbf{TestD29} - 111 obiektów (obiekt danego typu plus 10 obiektów typów od \textbf{TestD10} do \textbf{TestD19}),
+	\item typy od \textbf{TestD30} do \textbf{TestD39} - 1 111 obiektów,
+	\item typy od \textbf{TestD40} do \textbf{TestD49} - 11 111 obiektów,
+	\item \textbf{TestD} - 111 111 obiektów.
+\end{itemize}
+Zatem tworząc obiekt typu \textbf{TestD}, zostaje utworzony: 1 obiekt typu \textbf{TestD}, 10 obiektów typów od \textbf{TestD40} do \textbf{TestD49}, 100 obiektów typów od \textbf{TestD30} do \textbf{TestD39}, 1 000 obiektów typów od \textbf{TestD20} do \textbf{TestD29}, 10 000 obiektów typów od \textbf{TestD10} do \textbf{TestD19}, 100 000 obiektów typów od \textbf{TestD00} do \textbf{TestD09} - co daje w sumie 111 111 obiektów.
+
+\subsubsection{Wyniki Resolve dla Singleton}
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 1 & \\ \hline
+ & min & max & avg \\ \hline
+Autofac & 0 & 0 & 0 \\ \hline
+Windsor & 0 & 0 & 0 \\ \hline
+\textbf{NiquIoCPartial} & \textbf{8} & \textbf{9} & \textbf{9} \\ \hline
+DryIoc & 10 & 10 & 10 \\ \hline
+SimpleInjector & 11 & 12 & 11 \\ \hline
+LightInject & 14 & 14 & 14 \\ \hline
+Grace & 16 & 17 & 16 \\ \hline
+\textbf{NiquIoCFull} & \textbf{18} & \textbf{19} & \textbf{18} \\ \hline
+Ninject & 21 & 22 & 21 \\ \hline
+StructureMap & 49 & 50 & 49 \\ \hline
+Unity & 52 & 53 & 52 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 1 powtórzenia dla operacji Singleton dla Przypadku testowego D}
+\label{TestCaseD_Singleton1}
+\end{table}
+Dla tego testu tabela z wynikami bardzo przypomina tabelę dla przypadku testowego C, jednakże czasy są około 2-3 razy większe. Po raz kolejny dla rejestracji \textbf{Singleton} najlepsze wyniki osiągają \textbf{Autofac} i \textbf{Windsor}, a najsłabsze \textbf{StructureMap} i \textbf{Unity}.
+\\ \\
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 10 & \\ \hline
+ & min & max & avg \\ \hline
+Autofac & 0 & 0 & 0 \\ \hline
+Windsor & 0 & 0 & 0 \\ \hline
+\textbf{NiquIoCPartial} & \textbf{8} & \textbf{9} & \textbf{8} \\ \hline
+DryIoc & 10 & 10 & 10 \\ \hline
+SimpleInjector & 11 & 12 & 11 \\ \hline
+LightInject & 14 & 15 & 14 \\ \hline
+Grace & 16 & 17 & 16 \\ \hline
+\textbf{NiquIoCFull} & \textbf{18} & \textbf{19} & \textbf{18} \\ \hline
+Ninject & 21 & 22 & 21 \\ \hline
+StructureMap & 49 & 50 & 49 \\ \hline
+Unity & 52 & 54 & 52 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 10 powtórzeń dla operacji Singleton dla Przypadku testowego D}
+\label{TestCaseD_Singleton10}
+\end{table}
+Jak można się było spodziewać, tym razem również wzrost liczby powtórzeń nie miał wpływu na wzrost wyników.
+
+\subsubsection{Wyniki Resolve dla Transient}
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 1 & \\ \hline
+ & min & max & avg \\ \hline
+\textbf{NiquIoCPartial} & \textbf{36} & \textbf{38} & \textbf{37} \\ \hline
+StructureMap & 102 & 110 & 103 \\ \hline
+Autofac & 136 & 160 & 147 \\ \hline
+Unity & 150 & 200 & 152 \\ \hline
+SimpleInjector & 177 & 179 & 178 \\ \hline
+Windsor & 177 & 261 & 182 \\ \hline
+\textbf{NiquIoCFull} & \textbf{566} & \textbf{576} & \textbf{569} \\ \hline
+LightInject & 797 & 831 & 812 \\ \hline
+DryIoc & 979 & 996 & 982 \\ \hline
+Ninject & 1016 & 1179 & 1039 \\ \hline
+Grace & 1413 & 1472 & 1426 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 1 powtórzenia dla operacji Transient dla Przypadku testowego D}
+\label{TestCaseD_Transient1}
+\end{table}
+Test dla tego przypadku testowego pokazał dużo większe różnice czasów niż dla poprzednich przypadków testowych. Dla 1 powtórzenia wyraźniej najlepszy czas zanotował \textbf{NiquIoCPartial}, który osiągnął czas o rząd wielkości niższy niż kolejne rozwiązanie. Średnie czasy zanotowały \textbf{StructureMap}, \textbf{Autofac}, \textbf{Unity} oraz \textbf{Windsor}. Pozostałe rozwiązania razem z \textbf{NiquIoCFull} osiągnęły bardzo wysokie wyniki.
+\\ \\
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 10 & \\ \hline
+ & min & max & avg \\ \hline
+SimpleInjector & 205 & 212 & 206 \\ \hline
+\textbf{NiquIoCPartial} & \textbf{285} & \textbf{291} & \textbf{287} \\ \hline
+StructureMap & 586 & 603 & 591 \\ \hline
+\textbf{NiquIoCFull} & \textbf{619} & \textbf{661} & \textbf{631} \\ \hline
+LightInject & 841 & 878 & 853 \\ \hline
+DryIoc & 1013 & 1025 & 1015 \\ \hline
+Unity & 1073 & 1183 & 1080 \\ \hline
+Autofac & 1161 & 1279 & 1188 \\ \hline
+Grace & 1465 & 1558 & 1495 \\ \hline
+Windsor & 1797 & 2421 & 1827 \\ \hline
+Ninject & 10072 & 11599 & 10307 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 10 powtórzeń dla operacji Transient dla Przypadku testowego D}
+\label{TestCaseD_Transient10}
+\end{table}
+Wzrost liczby powtórzeń do 10 pokazał, że zarówno \textbf{NiquIoCFull} jak i prawie wszystkie najszybsze rozwiązania zanotowały niewielki wzrost. Wyjątkiem jest tutaj \textbf{DryIoC}, który osiągnął 10-krotny przyrost czasu. Jednakże bardzo wysokie wyniki już dla 1 powtórzenia spowodowały, że z najszybszy rozwiązań jedynie \textbf{SimpleInjector} ma nieduży czas. \textbf{NiquIoCPartial} pomimo 9-krotnego wzrostu czasu osiągnął drugi z najlepszych wyników. Wszystkie najpopularniejsze rozwiązania zanotowały wzrost około 10-krotny.
+
+\subsubsection{Wyniki Resolve dla TransientSingleton}
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 1 & \\ \hline
+ & min & max & avg \\ \hline
+\textbf{NiquIoCPartial} & \textbf{17} & \textbf{18} & \textbf{17} \\ \hline
+StructureMap & 60 & 69 & 61 \\ \hline
+Autofac & 77 & 84 & 78 \\ \hline
+SimpleInjector & 85 & 87 & 86 \\ \hline
+Windsor & 85 & 102 & 87 \\ \hline
+Unity & 115 & 140 & 116 \\ \hline
+\textbf{NiquIoCFull} & \textbf{144} & \textbf{151} & \textbf{145} \\ \hline
+Grace & 374 & 386 & 376 \\ \hline
+Ninject & 503 & 572 & 511 \\ \hline
+DryIoc & 905 & 922 & 910 \\ \hline
+LightInject & 1285 & 1358 & 1310 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 1 powtórzenia dla operacji TransientSingleton dla Przypadku testowego D}
+\label{TestCaseD_TransientSingleton}
+\end{table}
+Dla tego testu ponownie dla 1 powtórzenia najmniejszy czas osiągnął \textbf{NiquIoCPartial}. Z pozostałych rozwiązań, to jedynie \textbf{Grace}, \textbf{Ninject}, \textbf{DryIoC} i \textbf{LightInject} zanotowały bardzo duże wyniki.
+\\ \\
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 10 & \\ \hline
+ & min & max & avg \\ \hline
+SimpleInjector & 91 & 93 & 91 \\ \hline
+\textbf{NiquIoCPartial} & \textbf{100} & \textbf{104} & \textbf{101} \\ \hline
+\textbf{NiquIoCFull} & \textbf{151} & \textbf{159} & \textbf{152} \\ \hline
+StructureMap & 165 & 173 & 167 \\ \hline
+Grace & 381 & 396 & 383 \\ \hline
+Unity & 683 & 771 & 689 \\ \hline
+Windsor & 852 & 965 & 864 \\ \hline
+Autofac & 893 & 964 & 910 \\ \hline
+DryIoc & 936 & 983 & 942 \\ \hline
+LightInject & 1297 & 1360 & 1316 \\ \hline
+Ninject & 4732 & 5620 & 4818 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 10 powtórzeń dla operacji TransientSingleton dla Przypadku testowego D}
+\label{TestCaseD_TransientSingleton10}
+\end{table}
+Gdy liczba operacji wzrosła do 10, to jak można się było spodziewać - \textbf{NiquIoCPartial} zanotował około 5-krotny wzrost, a najpopularniejsze rozwiązania zanotowały około 10-krotny wzrost. \textbf{NiquIoCFull} oraz najszybsze rozwiązania osiągnęły czasy zbliżone do czasów dla 1 powtórzenia. Najmniejszy czas uzyskał \textbf{SimpleInjector}, a trochę większe rezultaty zanotowały \textbf{NiquIoCPartial}, \textbf{NiquIoCFull} i \textbf{StructureMap}. Pozostałe rozwiązania osiągnęły zauważalnie większe czasy - od kilku do nawet kilkunastu razy.
+
+\subsubsection{Wyniki Resolve dla PerThread}
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 1 & \\ \hline
+ & min & max & avg \\ \hline
+Autofac & 0 & 0 & 0 \\ \hline
+Windsor & 0 & 0 & 0 \\ \hline
+\textbf{NiquIoCPartial} & \textbf{8} & \textbf{9} & \textbf{9} \\ \hline
+\textbf{NiquIoCFull} & \textbf{18} & \textbf{18} & \textbf{18} \\ \hline
+Ninject & 21 & 22 & 21 \\ \hline
+Grace & 28 & 28 & 28 \\ \hline
+SimpleInjector & 46 & 48 & 46 \\ \hline
+StructureMap & 49 & 51 & 49 \\ \hline
+Unity & 52 & 53 & 52 \\ \hline
+DryIoc & 1042 & 1051 & 1045 \\ \hline
+LightInject & 762748 & 795038 & 773697 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 1 powtórzenia dla operacji PerThread dla Przypadku testowego D}
+\label{TestCaseD_PerThread1}
+\end{table}
+Wyniki dla tego testu są podobne jak w pozostałych przypadkach testowych. Jedynym wyjątkiem jest \textbf{LightInject}, który najwyraźniej nie poradził sobie z tak dużo liczbą obiektów dla tego typu rejestracji i zanotował czas o 5 rzędów wielkości większy, niż rozwiązania z najmniejszymi czasami - \textbf{Autofac}, \textbf{Windsor} i \textbf{NiquIoCPartial}.
+\\ \\
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 10 & \\ \hline
+ & min & max & avg \\ \hline
+Autofac & 0 & 0 & 0 \\ \hline
+Windsor & 0 & 0 & 0 \\ \hline
+\textbf{NiquIoCPartial} & \textbf{8} & \textbf{10} & \textbf{9} \\ \hline
+\textbf{NiquIoCFull} & \textbf{18} & \textbf{18} & \textbf{18} \\ \hline
+Ninject & 21 & 22 & 21 \\ \hline
+Grace & 28 & 28 & 28 \\ \hline
+SimpleInjector & 46 & 48 & 46 \\ \hline
+StructureMap & 49 & 51 & 49 \\ \hline
+Unity & 52 & 53 & 52 \\ \hline
+DryIoc & 1042 & 1051 & 1044 \\ \hline
+LightInject & 763101 & 781163 & 774677 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 10 powtórzeń dla operacji PerThread dla Przypadku testowego D}
+\label{TestCaseB_PerThread10}
+\end{table}
+Przy 10 powtórzeniach nic się nie zmieniło i wszystkie wyniki są zbliżone do wyników dla 1 powtórzenia.
+
+\subsubsection{Wyniki Resolve dla FactoryMethod}
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 1 & \\ \hline
+ & min & max & avg \\ \hline
+DryIoc & 9 & 10 & 10 \\ \hline
+LightInject & 12 & 13 & 12 \\ \hline
+\textbf{NiquIoCPartial} & \textbf{15} & \textbf{17} & \textbf{15} \\ \hline
+SimpleInjector & 20 & 20 & 20 \\ \hline
+\textbf{NiquIoCFull} & \textbf{20} & \textbf{21} & \textbf{20} \\ \hline
+Grace & 24 & 25 & 24 \\ \hline
+Autofac & 67 & 80 & 68 \\ \hline
+StructureMap & 90 & 93 & 91 \\ \hline
+Windsor & 127 & 136 & 129 \\ \hline
+Unity & 173 & 181 & 174 \\ \hline
+Ninject & 654 & 748 & 674 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 1 powtórzenia dla operacji FactoryMethod dla Przypadku testowego D}
+\label{TestCaseB_FactoryMethod1}
+\end{table}
+\textbf{NiquIoCPartial}, \textbf{NiquIoCFull} oraz wszystkie najszybsze rozwiązania zanotowały zbliżone wyniki. Rozwiązania najpopularniejsze osiągnęły czasy od kilku, do kilkunastu razy większe. Najlepszy wynik uzyskał \textbf{DryIoC}.
+\\ \\
+\begin{table}[H]
+\captionsetup{belowskip=0pt,aboveskip=0pt}
+\begin{center}
+\begin{small}
+	\begin{tabular}{ | l | r r r | }
+    		\hline
+Liczba & & 10 & \\ \hline
+ & min & max & avg \\ \hline
+DryIoc & 78 & 81 & 79 \\ \hline
+LightInject & 79 & 83 & 80 \\ \hline
+SimpleInjector & 128 & 131 & 129 \\ \hline
+Grace & 127 & 149 & 130 \\ \hline
+\textbf{NiquIoCPartial} & \textbf{164} & \textbf{170} & \textbf{166} \\ \hline
+\textbf{NiquIoCFull} & \textbf{185} & \textbf{191} & \textbf{188} \\ \hline
+StructureMap & 592 & 610 & 597 \\ \hline
+Autofac & 671 & 799 & 685 \\ \hline
+Windsor & 1227 & 1284 & 1238 \\ \hline
+Unity & 1744 & 1839 & 1769 \\ \hline
+Ninject & 6206 & 6515 & 6299 \\ \hline
+  	\end{tabular}
+\end{small}
+\end{center}
+\caption{Wyniki testów dla 10 powtórzeń dla operacji FactoryMethod dla Przypadku testowego D}
+\label{TestCaseB_FactoryMethod10}
+\end{table}
+Wzrost liczby powtórzeń do 10 spowodował wzrost czasów dla wszystkich rozwiązań. Najmniejszy wzrost czasów zanotowały najszybsze rozwiązania, jednak wciąż był on co najmniej 6-krotny. \textbf{NiquIoCPartial} i \textbf{NiquIoCFull} podobnie jak wszystkie najpopularniejsze rozwiązania zanotowały wzrost około 10-krotny. Jednakże nieduże czasy przy 1 powtórzeniu dla rozwiązań zaprezentowanych w tej pracy spowodowały, że mimo wszystko osiągnęły one znacząco lepsze wyniki niż wszystkie najpopularniejsze rozwiązania. Najlepsze czasy uzyskały wszystkie najszybsze rozwiązania, a najmniejsze z tych czasów osiągnęły \textbf{DryIoC} i \textbf{LightInject}.
+
+
+
+\clearpage
+\section{Podsumowanie}
+Zaproponowane rozwiązania bardzo dobrze realizują postawione we wstępie pracy cele. Dla wszystkich przypadków testowych, dla każdego z rodzaju rejestracji, jedno z przedstawionych rozwiązań osiągało najlepsze wyniki albo odbiegały one niewiele od najlepszych wyników. Zawsze któreś z przedstawionych rozwiązań było w pierwszej trójce rozwiązań z najlepszymi czasami, a czasami nawet oba. Możliwość mieszania użyć zaprezentowanych rozwiązań (w jednym projekcie można korzystać z obu rozwiązań niezależnie) sprawia, że \textbf{NiquIoC} jest najbardziej wydajną implementacją wzorca wstrzykiwania zależności dla złożonych grafów zależności.\\ 
+\\
+Dodatkowo wyniki testów pokazują, że rozwiązanie \textbf{Ninject} jest najmniej wydajne i nie zaleca się go używać przy bardzo rozbudowanych grafach. Jeśli chodzi natomiast o rozwiązanie, które osiąga dobre wyniki, to nie ma drugiego takiego (poza zaprezentowanymi w tej pracy), które zawsze dawałoby zadowalające rezultaty. \textbf{SimpleInjector} osiąga dość dobre wyniki dla testów \textbf{Singleton}, \textbf{Transient} i \textbf{TransientSingleton}, ale osiąga słabe rezultaty dla \textbf{PerThread} i \textbf{FactoryMethod}. \textbf{LightInject} z kolei jest rozwiązaniem, które wraz ze wzrostem liczby operacji ma najmniejszy wzrostu czasu. Jednakże w wielu przypadkach dość duże czasy dla małej liczby operacji powodują, że wyniki dla wielu operacji są mimo wszystko bardzo duże. Pośrednim rozwiązaniem jest natomiast \textbf{Grace}. To rozwiązanie ma zarówno nieduże wzrosty czasów jak i nieduże wyniki dla małej ilości operacji, jednak mimo wszystko są one dużo gorsze niż dla \textbf{NiquIoC}.
+
+\subsection{Kontynuacja projektu}
+Zaprezentowane rozwiązania są bardzo wydaje, ale mają swoje ograniczenia. Jednym z nich jest między innymi konieczność rejestracji wszystkich typów. Tę funkcjonalność można by rozszerzyć, aby nie trzeba było rejestrować klas. Algorytm sam rejestrowałby klasy, gdyby okazywały się potrzebne - większość z rozwiązań dostarcza taką funkcjonalność. Kolejnym rozszerzeniem mogłoby być dodanie automatycznej rejestracji wszystkich typów z danego assembly. Osobom wykorzystującym niniejsze rozwiązanie zaoszczędziłoby to sporo czasu (nie musiałyby rejestrować wszystkich typów). Dodatkowo podczas dodawania kolejnego typu do danego assembly, nie trzeba byłoby go ręcznie  rejestrować. Jeszcze jednym dodatkiem wydaje się dodanie możliwości rejestracji wielu implementacji danego interfejsu. To jest również często spotykana funkcjonalność. Na koniec warto również wspomnieć o metodzie \textbf{BuildUp} dla \textbf{NiquIoCFull} - w niniejszej pracy tego zabrakło, a to również mogłoby być jednym z kolejnych rozszerzeń.
+
+\newpage
+\listoffigures
+\listoftables
+
+\newpage
+\begin{thebibliography}{authordate1}
+\bibitem{csharp} Ian Griffiths, Matthew Adams, Jesse Liberty, C\#. Programowanie, Wydanie VI, Helion, 2012
+\bibitem{dependency_injection} Mark Seemann, Dependency Injection in .NET, Manning, 2012
+\bibitem{emit} Serge Lidin, Expert .NET 2.0 IL Assembler, Apress, 2006
+\bibitem{clean_code} Robert C. Martin, Czysty kod. Podręcznik dobrego programisty, Helion, 2014
+\bibitem{SOLID} \url{https://en.wikipedia.org/wiki/SOLID_(object-oriented_design)}
+\bibitem{IoCBenchmark} Daniel Palme, IoC Container Benchmark - Performance comparison\\
+\url{http://www.palmmedia.de/Blog/2011/8/30/ioc-container-benchmark-performance-comparison}
+\bibitem{Hiro} Philip Laureano, Introducing Hiro, the World's Fastest IOC Container, Part I: Design Diary\\
+\url{https://www.codeproject.com/Articles/35345/Introducing-Hiro-the-Worlds-Fastest-IOC-Container-.aspx}
+\end{thebibliography}
+
+\end{document}
